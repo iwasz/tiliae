@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: tiliaetesthelpers
+Description: Test helpers (i.e. domain model classes) for Tiliae.
+Requires: tiliaereflect
+Version: 0.1
+Libs: -L${libdir} -ltiliaetesthelpers
+Cflags: -I${includedir}/tiliae/base/testHelpers -I${includedir}/tiliae/base/testHelpers/src

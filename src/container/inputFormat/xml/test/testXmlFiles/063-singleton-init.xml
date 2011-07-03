@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
+        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
+<beans>
+    <bean id="place" class="Place" init-method="init" singleton="true" />   
+    <bean id="place2" class="Place" init-method="init" singleton="true" lazy-init="false"/>   
+    <bean id="place3" class="Place" init-method="init" singleton="true" lazy-init="true" />   
+</beans>

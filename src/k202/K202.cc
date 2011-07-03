@@ -1,0 +1,85 @@
+/****************************************************************************
+ *                                                                          *
+ *  Author : lukasz.iwaszkiewicz@gmail.com                                  *
+ *  ~~~~~~~~                                                                *
+ *  License : see COPYING file for details.                                 *
+ *  ~~~~~~~~~                                                               *
+ ****************************************************************************/
+
+#include <beanWrapper/BeanWrapper.h>
+#include <plugins/IBeanWrapperPlugin.h>
+#include <plugins/PropertyRWBeanWrapperPlugin.h>
+#include <plugins/GetPutMethodRWBeanWrapperPlugin.h>
+#include <plugins/ListPlugin.h>
+#include <plugins/MapPlugin.h>
+#include <plugins/MethodPlugin.h>
+
+#include "K202.h"
+#include "Script.h"
+#include "compiler/Compiler.h"
+
+namespace k202 {
+
+using namespace Wrapper;
+
+template <typename T>
+T K202::createHelper (Ptr <IExtension> ext)
+{
+        T k (new K202);
+        k->ctx.setBeanWrapper (BeanWrapper::create ());
+        k->compiler = Compiler::create ();
+        k->compiler->setExtension (ext);
+        return k;
+}
+
+Ptr <K202> K202::create (Ptr <IExtension> ext)
+{
+        return createHelper <Ptr <K202> > (ext);
+}
+
+/****************************************************************************/
+
+K202 *K202::instance ()
+{
+        static K202 *neverDelete = createHelper <K202 *> (Ptr <IExtension> ());
+        return neverDelete;
+}
+
+/****************************************************************************/
+
+Core::Variant K202::run (const std::string &sourceCode,
+        const Core::Variant &domain,
+        const Core::VariantVector &paramVector,
+        const Core::VariantMap &argsMap)
+{
+        return run (prepare (sourceCode, domain, paramVector, argsMap));
+}
+
+/****************************************************************************/
+
+Core::Variant K202::run (Ptr <Script> script,
+                         Core::Variant *domain,
+                         const Core::VariantVector &paramVector,
+                         const Core::VariantMap &argsMap)
+{
+        /*
+         * Tu w script następuje merge paramVector i argsMap z tym co już jest
+         * w script.
+         */
+        return script->run (&ctx, domain, paramVector, argsMap);
+}
+
+/****************************************************************************/
+
+Ptr <Script> K202::prepare (const std::string &sourceCode,
+                            const Core::Variant &domain,
+                            const Core::VariantVector &paramVector,
+                            const Core::VariantMap &argsMap)
+{
+        Ptr <Script> script (new Script (sourceCode, compiler->compile (sourceCode, &ctx), domain));
+        script->setParamVector (paramVector);
+        script->setArgsMap (argsMap);
+        return script;
+}
+
+}

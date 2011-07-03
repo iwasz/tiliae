@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
+        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
+<beans>
+    <import resource="../src/container/inputFormat/xml/test/testXmlFiles/060-import-01.xml"/>
+    <list id="bean1" class="StringList"/>    
+    <import resource="../src/container/inputFormat/xml/test/testXmlFiles/060-import-03.xml"/>
+</beans>

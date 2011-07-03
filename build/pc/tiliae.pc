@@ -1,0 +1,35 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: tiliae
+Description: Tiliae kit.
+Requires: libxml-2.0
+Version: 0.1
+Libs: -L${libdir} -ltiliae
+
+Cflags: \
+-I${includedir}/tiliae/core/ \
+-I${includedir}/tiliae/core/interfaces \
+-I${includedir}/tiliae/core/standardTypes \
+-I${includedir}/tiliae/core/variant \
+-I${includedir}/tiliae/core/standardTypes/adapters \
+-I${includedir}/tiliae/core/standardTypes/iterator \
+-I${includedir}/tiliae/core/src/interfaces \
+-I${includedir}/tiliae/core/src/standardTypes \
+-I${includedir}/tiliae/core/src/variant \
+-I${includedir}/tiliae/core/src/standardTypes/adapters \
+-I${includedir}/tiliae/core/standardTypes/src/iterator \
+-I${includedir}/tiliae/core/multiCast \
+-I${includedir}/tiliae/beanWrapper \
+-I${includedir}/tiliae/common \
+-I${includedir}/tiliae/container \
+-I${includedir}/tiliae/editor \
+-I${includedir}/tiliae/factory \
+-I${includedir}/tiliae/k202 \
+-I${includedir}/tiliae/reflection \
+-I${includedir}/tiliae/signal \
+-I${includedir}/tiliae/stateMachine \
+-I${includedir}/tiliae/tools \
+-I${includedir}/tiliae/xml

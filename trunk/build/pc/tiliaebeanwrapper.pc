@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: tiliaebeanwrapper
+Description: BeanWrapper for Tiliae.
+Requires: tiliaetools
+Version: 0.1
+Libs: -L${libdir} -ltiliaebeanwrapper
+Cflags: -I${includedir}/tiliae/beanWrapper

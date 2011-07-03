@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
+        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
+<beans>
+
+    <!--To jest tylko na rozruch, bean wewnętrzny jest singletonem.-->
+    <bean id="bean" class="Bar">
+        <constructor-arg><value>Test</value></constructor-arg>
+
+        <property name="city3">
+            <bean class="City" id="innerCity" singleton="true" />
+        </property>
+
+    </bean>
+
+    <!--Co się teraz w tym beanie dzieje z beanem innerCity?-->
+    <!--Powstaje druga fabryka o tym samym ID? Ten test sprawdza,-->
+    <!--czy w ogóle da się tak zdeklarować beany.-->
+    <bean id="bean2" parent="bean" />
+    
+</beans>

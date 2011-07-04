@@ -9,7 +9,6 @@
 #ifndef MISC_H_
 #define MISC_H_
 
-#include "OrderedVariantMap.h"
 #include "Exceptions.h"
 #include "Attributes.h"
 #include "id/Id.h"

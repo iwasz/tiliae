@@ -6,11 +6,10 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef MODEL_H_
-#define MODEL_H_
+#ifndef EXTENSION_H_
+#define EXTENSION_H_
 
-#include "Class.h"
-#include "Constructor.h"
-#include "Method.h"
+#include "IMachineExtension.h"
+#include "StackStateExtension.h"
 
-#endif /* MODEL_H_ */
+#	endif /* EXTENSION_H_ */

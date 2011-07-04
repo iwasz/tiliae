@@ -18,6 +18,9 @@
 #include "ProxyFactory.h"
 #include "SingletonFactory.h"
 #include "IFactory.h"
-#include "SillyFactory.h"
+#include "ChainFactory.h"
+#include "LazyFactory.h"
+#include "ReflectionFactory.h"
+#include "ScalarFactory.h"
 
 #endif /* FACTORY_H_ */

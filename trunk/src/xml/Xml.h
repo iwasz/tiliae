@@ -6,11 +6,12 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef MODEL_H_
-#define MODEL_H_
+#ifndef XML_H_
+#define XML_H_
 
-#include "Class.h"
-#include "Constructor.h"
-#include "Method.h"
+#include "IXmlReader.h"
+#include "XmlException.h"
+#include "XmlString.h"
+#include "XmlTextReader.h"
 
-#endif /* MODEL_H_ */
+#	endif /* XML_H_ */

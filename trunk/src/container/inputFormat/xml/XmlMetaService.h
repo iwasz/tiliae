@@ -87,7 +87,7 @@ class IElem;
  * - Jak w przypadku description
  * \ingroup Container
  */
-class XmlMetaService/* : public IMetaService*/ {
+class TILIAE_API XmlMetaService/* : public IMetaService*/ {
 public:
 
         __c (void)

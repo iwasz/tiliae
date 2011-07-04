@@ -15,12 +15,11 @@
  * Opis.
  */
 
-#include "IndexedEditor.h"
 #include "IEditor.h"
-#include "mappedEditor/MappedEditor.h"
+//#include "mappedEditor/MappedEditor.h"
 #include "JEditor.h"
 #include "ListToStringEditor.h"
-#include "ChainOfResponsibilityEditor.h"
+//#include "ChainOfResponsibilityEditor.h"
 #include "NoopEditor.h"
 #include "Editor.h"
 #include "ChainEditor.h"

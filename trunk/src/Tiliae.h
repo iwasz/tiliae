@@ -19,8 +19,6 @@
 #include "reflection/Reflection.h"
 #include "signal/Signal.h"
 #include "stateMachine/StateMachine.h"
-#include "testHelpers/TestHelpers.h"
-#include "tools/Tools.h"
 #include "xml/Xml.h"
 
 /**

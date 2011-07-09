@@ -42,6 +42,7 @@
 #include "../editor/LexicalEditor.h"
 #include "../editor/StringConstructorEditor.h"
 #include "../editor/ChainEditor.h"
+#include "../common/Context.h"
 
 //#define CONTAINER_PRINT_META 1
 
@@ -225,6 +226,8 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
 
 /*------2.5-iteration-*global*-singletons-----------------------------------*/
 
+                Common::Context ctx;
+
                 // Tworzymy singletony (ale tylko te globalne). Czyli nie iterujemy przez wszystko, a
                 Ptr <BeanFactoryMap> beanFactoryMap = context.getBeanFactoryMap ();
                 for (BeanFactoryMap::iterator i = beanFactoryMap->begin (); i != beanFactoryMap->end (); ++i) {
@@ -233,7 +236,11 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                         bool isLazyInit = factory->getAttributes ().getBool (LAZYINIT_ARGUMENT);
 
                         if (isSingleton && !isLazyInit) {
-                                (void)factory->create ();
+                                (void)factory->create (Core::VariantMap (), &ctx);
+
+                                if (ctx.isFatal ()) {
+                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + i->first + "]");
+                                }
                         }
                 }
         }

@@ -1646,7 +1646,7 @@ bool OCast<T>::can (Variant const &v)
     };
 }
 
-/*##########################################################################*/
+/****************************************************************************/
 
 template<typename T>
 struct OCast <T &> : public VCast <T &> {
@@ -1732,7 +1732,7 @@ bool OCast<T const &>::can (Variant const &v)
     };
 }
 
-/*## wskaźniki #############################################################*/
+/*** wskaźniki **************************************************************/
 
 template<typename T>
 struct OCast<T *> : public VCast<T *> {
@@ -1820,7 +1820,7 @@ bool OCast<T const *>::can (Variant const &v)
     };
 }
 
-/*## shared_ptr ############################################################*/
+/*** shared_ptr *************************************************************/
 
 template<typename T>
 struct OCast<boost::shared_ptr<T> > : public VCast<boost::shared_ptr<T> > {
@@ -1899,6 +1899,17 @@ struct Ret {
                         Core::is_ptr <T>::value
                         , T, typename boost::call_traits<T>::const_reference>::type type;
 
+};
+
+/*##########################################################################*/
+
+template<typename T>
+struct RCast {
+
+        typedef typename boost::mpl::if_c <boost::>
+
+        static T const &run (Variant const &v);
+        static bool can (Variant const &v);
 };
 
 /****************************************************************************/

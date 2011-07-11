@@ -259,7 +259,7 @@ Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IP
                 }
         }
 
-        fatal (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "PropertyNotGettableException for path '" + path->toString () + ".");
+        fatal (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "PropertyNotGettableException for path '" + path->toString () + "'. Input : " + input.toString () + ". Context mesage : " + ctx->getMessage ());
         return Core::Variant ();
 }
 

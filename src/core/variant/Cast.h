@@ -11,6 +11,7 @@
 
 #include <boost/type_traits/is_pointer.hpp>
 #include <boost/type_traits/is_reference.hpp>
+#include <boost/type_traits/is_base_of.hpp>
 #include <boost/call_traits.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/cast.hpp>
@@ -1882,6 +1883,43 @@ bool OCast<boost::shared_ptr<T const> >::can (Variant const &v)
     };
 }
 
+/*##########################################################################*/
+
+template<typename T>
+struct PolyHelper {
+        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <T>, VCast<T> >::type Type;
+};
+
+template<typename T>
+struct PolyHelper <T &> {
+        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <T &>, VCast<T &> >::type Type;
+};
+
+template<typename T>
+struct PolyHelper <T const &> {
+        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <T const &>, VCast<T const &> >::type Type;
+};
+
+template<typename T>
+struct PolyHelper <T *> {
+        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <T *>, VCast<T *> >::type Type;
+};
+
+template<typename T>
+struct PolyHelper <T const *> {
+        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <T const *>, VCast <T const *> >::type Type;
+};
+
+template<typename T>
+struct PolyHelper <boost::shared_ptr<T> > {
+        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <boost::shared_ptr<T> >, VCast<boost::shared_ptr<T> > >::type Type;
+};
+
+template<typename T>
+struct PolyHelper <boost::shared_ptr<T const> > {
+        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <boost::shared_ptr<T const> >, VCast<boost::shared_ptr<T const> > >::type Type;
+};
+
 } // namespace
 
 /*##########################################################################*/
@@ -1899,17 +1937,6 @@ struct Ret {
                         Core::is_ptr <T>::value
                         , T, typename boost::call_traits<T>::const_reference>::type type;
 
-};
-
-/*##########################################################################*/
-
-template<typename T>
-struct RCast {
-
-        typedef typename boost::mpl::if_c <boost::>
-
-        static T const &run (Variant const &v);
-        static bool can (Variant const &v);
 };
 
 /****************************************************************************/
@@ -1963,14 +1990,18 @@ template <typename T>
 typename Ret<T>::type
 TILIAE_API ocast (Core::Variant const &v)
 {
-       return Core::OCast <T>::run (v);
+        typedef typename Core::PolyHelper <T>::Type Cast;
+//        return Core::OCast <T>::run (v);
+        return Cast::run (v);
 }
 
 template <typename T>
 typename Ret<T>::type
 TILIAE_API ocast (Core::Variant &v)
 {
-       return Core::OCast <T>::run (v);
+        typedef typename Core::PolyHelper <T>::Type Cast;
+//        return Core::OCast <T>::run (v);
+        return Cast::run (v);
 }
 
 /*##########################################################################*/
@@ -1982,13 +2013,17 @@ TILIAE_API ocast (Core::Variant &v)
 template <typename T>
 bool TILIAE_API occast (Core::Variant const &v)
 {
-       return Core::OCast <T>::can (v);
+        typedef typename Core::PolyHelper <T>::Type Cast;
+//        return Core::OCast <T>::can (v);
+        return Cast::can (v);
 }
 
 template <typename T>
 bool TILIAE_API occast (Core::Variant &v)
 {
-       return Core::OCast <T>::can (v);
+        typedef typename Core::PolyHelper <T>::Type Cast;
+//       return Core::OCast <T>::can (v);
+       return Cast::can (v);
 }
 
 /*##########################################################################*/

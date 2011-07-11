@@ -47,7 +47,7 @@ Core::Variant AddWrapper <std::vector<T> >::call (Core::Variant const &object, C
 {
         checkArgList (args, 1);
         std::vector<T> *vec = vcast <std::vector<T> *> (object);
-        vec->push_back (vcast <T> (args->front ()));
+        vec->push_back (ocast <T> (args->front ()));
         return Core::Variant ();
 }
 
@@ -69,7 +69,7 @@ Core::Variant AddWrapper <std::list<T> >::call (Core::Variant const &object, Cor
 {
         checkArgList (args, 1);
         std::list <T> *list = vcast <std::list <T> *> (object);
-        list->push_back (vcast <T> (args->front ()));
+        list->push_back (ocast <T> (args->front ()));
         return Core::Variant ();
 }
 
@@ -89,7 +89,7 @@ Core::Variant AddWrapper <std::set <K> >::call (Core::Variant const &object, Cor
 {
         checkArgList (args, 1);
         std::set <K> *set = vcast <std::set <K> *> (object);
-        set->insert (vcast <K> (args->front ()));
+        set->insert (ocast <K> (args->front ()));
         return Core::Variant ();
 }
 

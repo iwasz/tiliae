@@ -216,6 +216,8 @@ Ptr <BeanFactoryContainer> ContainerFactory::create ()
 
 void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContainer> metaCont)
 {
+        Common::Context ctx;
+
         try {
                 context.reset ();
                 context.setBeanFactoryContainer (bfCont);
@@ -225,8 +227,6 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                 metaCont->accept (iteration2.get ());
 
 /*------2.5-iteration-*global*-singletons-----------------------------------*/
-
-                Common::Context ctx;
 
                 // Tworzymy singletony (ale tylko te globalne). Czyli nie iterujemy przez wszystko, a
                 Ptr <BeanFactoryMap> beanFactoryMap = context.getBeanFactoryMap ();
@@ -239,17 +239,17 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                                 (void)factory->create (Core::VariantMap (), &ctx);
 
                                 if (ctx.isFatal ()) {
-                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + i->first + "]");
+                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + i->first + "]. Message : " + ctx.getMessage ());
                                 }
                         }
                 }
         }
         catch (NoSuchBeanException &e) {
-                e.addMessage ("Error @ ContainerFactory::createContainer : [" + bfCont->toString () + "]. ");
+                e.addMessage ("Error @ ContainerFactory::createContainer : [" + bfCont->toString () + "]. Message : " + ctx.getMessage ());
                 throw;
         }
         catch (Core::Exception &e) {
-                e.addMessage ("Error @ ContainerFactory::createContainer : [" + bfCont->toString () + "]. ");
+                e.addMessage ("Error @ ContainerFactory::createContainer : [" + bfCont->toString () + "]. Message : " + ctx.getMessage ());
                 throw;
         }
 }

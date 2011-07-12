@@ -43,6 +43,7 @@
 #include "../editor/StringConstructorEditor.h"
 #include "../editor/ChainEditor.h"
 #include "../common/Context.h"
+#include "beanFactory/BeanFactoryContext.h"
 
 //#define CONTAINER_PRINT_META 1
 
@@ -216,7 +217,7 @@ Ptr <BeanFactoryContainer> ContainerFactory::create ()
 
 void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContainer> metaCont)
 {
-        Common::Context ctx;
+        BeanFactoryContext ctx;
 
         try {
                 context.reset ();

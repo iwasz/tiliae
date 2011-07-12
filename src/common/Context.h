@@ -31,6 +31,7 @@ class TILIAE_API Context {
 public:
 
         Context () : msgCount (0), fatal (false), error (false) {}
+        virtual ~Context () {}
 
 /*--------------------------------------------------------------------------*/
 
@@ -66,6 +67,7 @@ class TILIAE_API Context {
 public:
 
         Context () : message (0UL), fatal (false), error (false) {}
+        virtual ~Context () {}
 
 /*--------------------------------------------------------------------------*/
 

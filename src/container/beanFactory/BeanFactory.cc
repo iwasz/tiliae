@@ -11,6 +11,8 @@
 #include "metaStructure/model/meta/AbstractMeta.h"
 #include "../../core/variant/Cast.h"
 #include "../../beanWrapper/IBeanWrapper.h"
+#include "BeanFactoryContext.h"
+#include "Defs.h"
 
 namespace Container {
 
@@ -33,11 +35,24 @@ void BeanFactory::setAttributes (const Attributes &attributes)
 Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *context) const
 {
         try {
-                notifyBeforePropertiesSet ();
+                // Check nesting level.
+                BeanFactoryContext *bfc = dynamic_cast <BeanFactoryContext *> (context);
+
+                if (bfc) {
+                        bfc->incNested ();
+
+                        if (bfc->getNested () > MAX_BEAN_NESTING) {
+                                // Nie bawimy się w fatale, bo to jest tak krytyczmny bład, że trzeba przerwać działanie programu.
+                                throw TooDeepNestingException ("BeanFactory::create. Id : [" + id + "]. Too deep "
+                                      "bean nesting. Max level of nested beans is : " + boost::lexical_cast <std::string> (MAX_BEAN_NESTING));
+                        }
+                }
 
                 if ((forceSingleton || getSingleton ()) && !storedSingleton.isNone ()) {
                         return storedSingleton;
                 }
+
+                notifyBeforePropertiesSet ();
 
                 assert (factory);
                 assert (editor);
@@ -59,6 +74,10 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
 
                 output = factory->create (factoryParams, context);
 
+                if (forceSingleton || getSingleton ()) {
+                        storedSingleton = output;
+                }
+
                 if (output.isNone () || output.isNull ()) {
                         fatal (context, ContainerException, Common::UNDEFINED_ERROR, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + id + "]");
                         return Core::Variant ();
@@ -75,11 +94,14 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
                         beanWrapper->get (initMethodName, context);
                 }
 
-                if (forceSingleton || getSingleton ()) {
-                        storedSingleton = output;
+                if (bfc) {
+                        bfc->decNested ();
                 }
 
                 return output;
+        }
+        catch (TooDeepNestingException const &) {
+                throw;
         }
         catch (Core::Exception &e) {
                 fatal (context, ContainerException, Common::UNDEFINED_ERROR, "BeanFactory::create. Id : [" + id +
@@ -257,7 +279,7 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name, const Core
                 return fact->getEditor ();
          */
 
-        Common::Context context;
+        BeanFactoryContext context;
 
         Core::VariantMap::const_iterator i = this->singletons->find (name);
 

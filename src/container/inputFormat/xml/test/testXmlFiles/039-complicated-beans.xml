@@ -22,7 +22,8 @@
                 <entry key="k1">
                         <bean class="City">
                                 <property name="name" value="Pcim"/>
-                        </bean>                </entry>                
+                        </bean>                
+                </entry>                
                 <entry key="k2">
                         <map class="StringMap">
                                 <entry key="k1" value="Tokio"/>

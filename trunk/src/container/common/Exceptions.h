@@ -15,6 +15,15 @@
 namespace Container {
 
 /**
+ * Ogólnego przeznaczenia.
+ * \ingroup Container
+ */
+struct TILIAE_API ContainerException : public Core::Exception {
+        ContainerException (std::string const &m = "") : Core::Exception (m) {}
+        virtual ~ContainerException () throw () {}
+};
+
+/**
  * Podobny do WrongReferenceException, zrzucany, gdy pobieramy bean
  * o nieistniejącym ID.
  * \ingroup Container
@@ -24,15 +33,10 @@ struct TILIAE_API NoSuchBeanException : public Core::Exception {
         virtual ~NoSuchBeanException () throw () {}
 };
 
-/**
- * Ogólnego przeznaczenia.
- * \ingroup Container
- */
-struct TILIAE_API ContainerException : public Core::Exception {
-        ContainerException (std::string const &m = "") : Core::Exception (m) {}
-        virtual ~ContainerException () throw () {}
+struct TILIAE_API TooDeepNestingException : public ContainerException {
+        TooDeepNestingException (std::string const &m = "") : ContainerException (m) {}
+        virtual ~TooDeepNestingException () throw () {}
 };
-
 
 /**
  * Thrown when one wants to instantiate an uninitialized

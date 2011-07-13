@@ -85,10 +85,8 @@ BOOST_AUTO_TEST_CASE (test068RoundReferencesPrototype)
 {
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "068-round-references-prototype.xml");
 
-        BOOST_REQUIRE_THROW (vcast <Ptr <A01> > (cont->getBean ("a01")), ContainerException);
-//        vcast <Ptr <A02> > (cont->getBean ("a02"));
-
-
+        BOOST_REQUIRE_THROW (vcast <Ptr <A01> > (cont->getBean ("a01")), TooDeepNestingException);
+        BOOST_REQUIRE_THROW (vcast <Ptr <A01> > (cont->getBean ("a02")), TooDeepNestingException);
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

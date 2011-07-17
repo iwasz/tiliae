@@ -24,6 +24,7 @@ namespace Wrapper {
 class TILIAE_API GetPutMethodRWBeanWrapperPlugin : public IBeanWrapperPlugin {
 public:
 
+        GetPutMethodRWBeanWrapperPlugin (bool g = false) : greedy (g) {}
         virtual ~GetPutMethodRWBeanWrapperPlugin () {}
 
         virtual Core::Variant get (const Core::Variant &bean,
@@ -42,6 +43,17 @@ public:
                           const Core::Variant &objectToSet,
                           Common::Context *ctx,
                           Editor::IEditor *editor = NULL);
+
+        /**
+         * Tells if plugin should consume all remaining segments of given path (true) or
+         * only one segment.
+         */
+        bool isGreedy () const { return greedy; }
+        void setGreedy (bool greedy) { this->greedy = greedy; }
+
+private:
+
+        bool greedy;
 
 };
 

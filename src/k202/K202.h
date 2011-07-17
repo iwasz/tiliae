@@ -72,6 +72,11 @@ public:
                         const Core::VariantVector &paramVector = Core::VariantVector (),
                         const Core::VariantMap &argsMap = Core::VariantMap ());
 
+/*--------------------------------------------------------------------------*/
+
+        Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return ctx.getBeanWrapper (); }
+        void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> b) { ctx.setBeanWrapper (b); }
+
 private:
 
         template <typename T>

@@ -71,22 +71,29 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
 
                 Variant ret;
 
-                if (greedy) {
-                        ret = method->invoke (bean, Core::Variant (path->toString ()));
-
-                        if (!ret.isNone ()) {
-                                path->clear ();
+                try {
+                        if (greedy) {
+                                ret = method->invoke (bean, Core::Variant (path->toString ()));
+                        }
+                        else {
+                                ret = method->invoke (bean, Core::Variant (path->getFirstSegment ()));
                         }
                 }
-                else {
-                        ret = method->invoke (bean, Core::Variant (path->getFirstSegment ()));
+                catch (Core::Exception const &e) {
+                        error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
+                                        path->toString () + "'). Exception from 'get' method has been thrown : " + e.what ());
+                        return Variant ();
+                }
 
-                        if (!ret.isNone ()) {
+                if (!ret.isNone ()) {
+                        if (greedy) {
+                                path->clear ();
+                        }
+                        else {
                                 // Zdejmij token kiedy uda sie zwrocic (znalezc) wlasciwy obiekt.
                                 path->cutFirstSegment ();
                         }
                 }
-
 
                 return ret;
         }
@@ -126,27 +133,48 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
         if (method) {
 
                 VariantVector params;
-                params.push_back (Core::Variant (path->getFirstSegment ()));
+
+                if (greedy) {
+                        params.push_back (Core::Variant (path->toString ()));
+                }
+                else {
+                        params.push_back (Core::Variant (path->getFirstSegment ()));
+                }
 
 #               if 0
                 std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << path->getFirstSegment () << std::endl;
                 std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << vcast <String> (objectToSet) << std::endl;
 #endif
 
-                // Zdejmij token kiedy uda sie zwrocic (znalezc) wlasciwy obiekt.
-                path->cutFirstSegment ();
+                // Uruchomienie metody, złapanie ewentualnych wyjątków, zalogowanie ich po cichu..
+                try {
+                        // Uruchomienie edytora.
+                        if (editor) {
+                                Variant output;
+                                output.setTypeInfo (method->getType ());
+                                editor->convert (objectToSet, &output, ctx);
+                                params.push_back ((!output.isNone () ? output : objectToSet));
+                        }
+                        else {
+                                params.push_back (objectToSet);
+                        }
 
-                if (editor) {
-                        Variant output;
-                        output.setTypeInfo (method->getType ());
-                        editor->convert (objectToSet, &output, ctx);
-                        params.push_back ((!output.isNone () ? output : objectToSet));
+                        method->invoke (*bean, &params);
+                }
+                catch (Core::Exception const &e) {
+                        error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
+                                        path->toString () + "'). Exception from 'set' method has been thrown : " + e.what ());
+                        return false;
+                }
+
+                // Zdejmij token kiedy uda sie zwrocic (znalezc) wlasciwy obiekt.
+                if (greedy) {
+                        path->clear ();
                 }
                 else {
-                        params.push_back (objectToSet);
+                        path->cutFirstSegment ();
                 }
 
-                method->invoke (*bean, &params);
                 return true;
         }
 

@@ -67,17 +67,24 @@ Variant MethodPlugin::get (const Variant &bean,
         std::string property = path->getFirstSegment ();
         Ptr <Reflection::Method> method = ReflectionTools::findMethod (cls, property);
 
-        if (method) {
+        try {
+                if (method) {
 
-                if (mode & IMMEDIATE_CALL) {
-                        path->cutFirstSegment ();
-                        return method->invoke (bean);
-                }
+                        if (mode & IMMEDIATE_CALL) {
+                                path->cutFirstSegment ();
+                                return method->invoke (bean);
+                        }
 
-                if (mode & METHOD) {
-                        path->cutFirstSegment ();
-                        return Core::Variant (boost::make_shared <Handler> (bean, method));
+                        if (mode & METHOD) {
+                                path->cutFirstSegment ();
+                                return Core::Variant (boost::make_shared <Handler> (bean, method));
+                        }
                 }
+        }
+        catch (Core::Exception const &e) {
+                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
+                                path->toString () + "'). Exception from 'set' method has been thrown : " + e.what ());
+                return Variant ();
         }
 
         error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "MethodPlugin (Path : '" + path->toString () + "'. Can't find method with name '" + property + "' in class with name '" + cls->getName () + "')");

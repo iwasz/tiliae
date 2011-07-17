@@ -13,6 +13,7 @@
 #include "../k202/extension/CacheExtension.h"
 #include "../k202/K202.h"
 #include <cassert>
+#include "../beanWrapper/beanWrapper/BeanWrapper.h"
 
 using namespace Common;
 
@@ -32,7 +33,7 @@ Ptr <Machine> Machine::create (const Core::VariantMap &mp)
 {
         Ptr <Machine> m (new Machine (mp));
         Ptr <k202::CacheExtension> c = k202::CacheExtension::create ();
-        Ptr <k202::K202> k = k202::K202::create (c);
+        Ptr <k202::K202> k = k202::K202::create (Wrapper::BeanWrapper::create (), c);
         m->setK202 (k);
         m->setCache (c);
         return m;

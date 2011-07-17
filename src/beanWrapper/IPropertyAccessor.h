@@ -13,6 +13,7 @@
 #include "../core/variant/Variant.h"
 #include "../core/ApiMacro.h"
 #include "../common/Context.h"
+#include "../core/Object.h"
 
 namespace Wrapper {
 
@@ -23,7 +24,7 @@ namespace Wrapper {
  * segmentów, a obiekty mogą być dowolnymi obiektami, które
  * da się przekazać przez Core::Variant.
  */
-class TILIAE_API IPropertyAccessor {
+class TILIAE_API IPropertyAccessor : public Core::Object {
 public:
 
         virtual ~IPropertyAccessor () {}

@@ -14,6 +14,8 @@
 #include "../core/string/String.h"
 #include "Context.h"
 #include "extension/IExtension.h"
+#include "Reflection.h"
+#include "../beanWrapper/IBeanWrapper.h"
 
 namespace k202 {
 
@@ -26,13 +28,15 @@ class Compiler;
  */
 class TILIAE_API K202 {
 public:
+        __d
 
         virtual ~K202 () {}
 
         /**
          * Create new instance.
          */
-        static Ptr <K202> create (Ptr <IExtension> ext = Ptr <IExtension> ());
+        static Ptr <K202> create (Ptr <Wrapper::IBeanWrapper> b = Ptr <Wrapper::IBeanWrapper> (),
+                                  Ptr <IExtension> ext = Ptr <IExtension> ());
 
         /**
          * Return singleton one.
@@ -75,7 +79,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return ctx.getBeanWrapper (); }
-        void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> b) { ctx.setBeanWrapper (b); }
+        _s (setBeanWrapper) void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> b) { ctx.setBeanWrapper (b); }
 
 private:
 
@@ -89,6 +93,8 @@ private:
 
         Context ctx;
         Ptr <Compiler> compiler;
+
+        _e (K202)
 };
 
 }

@@ -11,6 +11,7 @@
 #include "TestHelpers.h"
 #include "../../core/variant/Variant.h"
 #include "../../core/Typedefs.h"
+#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (OperatorsTest03);
 using namespace k202;
@@ -20,7 +21,7 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testLogicNegation)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         TestRuntime <bool>::test (k202, "true", true);
         TestRuntime <bool>::test (k202, "!true", false);
@@ -45,7 +46,7 @@ BOOST_AUTO_TEST_CASE (testLogicNegation)
 
 BOOST_AUTO_TEST_CASE (testLogicAnd)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         TestRuntime <bool>::test (k202, "true && true", true);
         TestRuntime <bool>::test (k202, "true && false", false);
@@ -76,7 +77,7 @@ BOOST_AUTO_TEST_CASE (testLogicAnd)
 
 BOOST_AUTO_TEST_CASE (testLogicOr)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         TestRuntime <bool>::test (k202, "true || true", true);
         TestRuntime <bool>::test (k202, "true || false", true);
@@ -115,7 +116,7 @@ BOOST_AUTO_TEST_CASE (testLogicOr)
 BOOST_AUTO_TEST_CASE (testLogicEq)
 {
         try {
-                Ptr <K202> k202 = K202::create ();
+                Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
                 TestRuntime <bool>::test (k202, "true == true", true);
                 TestRuntime <bool>::test (k202, "true == false", false);
@@ -174,7 +175,7 @@ BOOST_AUTO_TEST_CASE (testLogicEq)
 
 BOOST_AUTO_TEST_CASE (testLogicNe)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         TestRuntime <bool>::test (k202, "true != true", false);
         TestRuntime <bool>::test (k202, "true != false", true);

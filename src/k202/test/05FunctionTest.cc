@@ -12,6 +12,7 @@
 #include "../../testHelpers/Bar.h"
 #include "../../core/variant/Variant.h"
 #include "../../core/string/String.h"
+#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (FunctionTest);
 using namespace k202;
@@ -21,7 +22,7 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testFunction)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         Bar bar = Bar (Variant ());
         Variant vv = Core::Variant (&bar);
@@ -36,11 +37,12 @@ BOOST_AUTO_TEST_CASE (testFunction)
 
         TestRuntime <bool>::test (k202, "$funcD ()", false, vv);
 }
+
 /****************************************************************************/
 
 BOOST_AUTO_TEST_CASE (testFunctionArgsMap)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         VariantMap argsMap;
         Bar bar = Bar (Variant ());

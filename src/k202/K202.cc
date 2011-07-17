@@ -22,6 +22,18 @@ namespace k202 {
 
 using namespace Wrapper;
 
+Ptr <K202> K202::create (Ptr <Wrapper::IBeanWrapper> b, Ptr <IExtension> ext)
+{
+        // Nie można użyć make_shared
+        Ptr <K202> k = Ptr <K202> (new K202);
+        k->ctx.setBeanWrapper (BeanWrapper::create ());
+        k->compiler = Compiler::create ();
+        k->compiler->setExtension (ext);
+        return k;
+}
+
+/****************************************************************************/
+
 template <typename T>
 T K202::createHelper (Ptr <IExtension> ext)
 {
@@ -31,13 +43,6 @@ T K202::createHelper (Ptr <IExtension> ext)
         k->compiler->setExtension (ext);
         return k;
 }
-
-Ptr <K202> K202::create (Ptr <IExtension> ext)
-{
-        return createHelper <Ptr <K202> > (ext);
-}
-
-/****************************************************************************/
 
 K202 *K202::instance ()
 {

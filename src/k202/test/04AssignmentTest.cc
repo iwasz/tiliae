@@ -10,6 +10,7 @@
 #include "K202.h"
 #include "TestHelpers.h"
 #include <cassert>
+#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (AssignmentTest04);
 using namespace k202;
@@ -19,7 +20,7 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testAssignment)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         VariantMap argsMap;
         Variant vv = Core::Variant (&argsMap);

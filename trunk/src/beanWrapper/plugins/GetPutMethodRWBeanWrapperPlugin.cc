@@ -69,13 +69,26 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
                 std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << "Method get ()" << std::endl;
 #endif
 
-                VariantVector params;
-                params.push_back (Core::Variant (path->getFirstSegment ()));
+                Variant ret;
 
-                // Zdejmij token kiedy uda sie zwrocic (znalezc) wlasciwy obiekt.
-                path->cutFirstSegment ();
+                if (greedy) {
+                        ret = method->invoke (bean, Core::Variant (path->toString ()));
 
-                return method->invoke (bean, &params);
+                        if (!ret.isNone ()) {
+                                path->clear ();
+                        }
+                }
+                else {
+                        ret = method->invoke (bean, Core::Variant (path->getFirstSegment ()));
+
+                        if (!ret.isNone ()) {
+                                // Zdejmij token kiedy uda sie zwrocic (znalezc) wlasciwy obiekt.
+                                path->cutFirstSegment ();
+                        }
+                }
+
+
+                return ret;
         }
 
         error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. )");

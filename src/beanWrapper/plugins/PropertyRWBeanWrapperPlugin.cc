@@ -73,7 +73,15 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
         }
 
         path->cutFirstSegment ();
-        return getter->invoke (bean);
+
+        try {
+                return getter->invoke (bean);
+        }
+        catch (Core::Exception const &e) {
+                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                path->toString () + "'). Exception from 'get' method has been thrown : " + e.what ());
+                return Variant ();
+        }
 }
 
 /****************************************************************************/
@@ -109,14 +117,23 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
 
         path->cutFirstSegment ();
 
-        if (editor) {
-                Variant output;
-                output.setTypeInfo (setter->getType ());
-                editor->convert (objectToSet, &output, ctx);
-                setter->invoke (*bean, (!output.isNone () ? output : objectToSet));
+        try {
+                if (editor) {
+                        Variant output;
+                        output.setTypeInfo (setter->getType ());
+                        editor->convert (objectToSet, &output, ctx);
+                        setter->invoke (*bean, (!output.isNone () ? output : objectToSet));
+                }
+                else {
+                        setter->invoke (*bean, objectToSet);
+                }
+
+                return true;
         }
-        else {
-                setter->invoke (*bean, objectToSet);
+        catch (Core::Exception const &e) {
+                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                path->toString () + "'). Exception from 'set' method has been thrown : " + e.what ());
+                return false;
         }
 
         return true;

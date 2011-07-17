@@ -14,6 +14,7 @@
 #include "../../testHelpers/Address.h"
 #include "../../testHelpers/City.h"
 #include "../../testHelpers/Country.h"
+#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (ContextDepTest06);
 using namespace k202;
@@ -23,7 +24,7 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testPlaceholder)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         VariantVector paramList;
         paramList.push_back (Core::Variant (6667));
@@ -45,7 +46,7 @@ BOOST_AUTO_TEST_CASE (testPlaceholder)
 
 BOOST_AUTO_TEST_CASE (testProperty)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         VariantMap argsMap;
         Address a;
@@ -60,7 +61,7 @@ BOOST_AUTO_TEST_CASE (testProperty)
 
         {
                 Ptr <CacheExtension> cache = CacheExtension::create ();
-                Ptr <K202> k202 = K202::create (cache);
+                Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create (), cache);
 
                 VariantMap argsMap;
                 Address a;
@@ -86,7 +87,7 @@ BOOST_AUTO_TEST_CASE (testProperty)
 
 BOOST_AUTO_TEST_CASE (testPropertyArgsMap)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         VariantMap argsMap;
         Address a;
@@ -103,7 +104,7 @@ BOOST_AUTO_TEST_CASE (testPropertyArgsMap)
 
 BOOST_AUTO_TEST_CASE (testPropertyDomain)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         Address a;
         a.setStreet ("Katalonska");
@@ -145,7 +146,7 @@ BOOST_AUTO_TEST_CASE (testPropertyDomain)
 
 BOOST_AUTO_TEST_CASE (testConditionalProperty)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         VariantMap argsMap;
         Address a;
@@ -170,7 +171,7 @@ BOOST_AUTO_TEST_CASE (testConditionalProperty)
 
 BOOST_AUTO_TEST_CASE (testConditionalPropertyArgsMap)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         VariantMap argsMap;
         Address a;
@@ -192,7 +193,7 @@ BOOST_AUTO_TEST_CASE (testConditionalPropertyArgsMap)
 
 BOOST_AUTO_TEST_CASE (testConditionalPropertyDomain)
 {
-        Ptr <K202> k202 = K202::create ();
+        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
 
         Address a;
         a.setStreet ("Katalonska");

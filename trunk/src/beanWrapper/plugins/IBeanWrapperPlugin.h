@@ -15,6 +15,8 @@
 #include "../../core/ApiMacro.h"
 #include "../../common/Context.h"
 #include "../../editor/IEditor.h"
+#include "Reflection.h"
+#include "../../core/Object.h"
 
 /****************************************************************************/
 
@@ -36,7 +38,7 @@ namespace Wrapper {
  *  Lancuch dziala tak, ze jesli pierwszemu pluginowi nie uda sie
  *  soelnic zadania, to przekazuje je do nastepnego plugina.
  */
-class TILIAE_API IBeanWrapperPlugin {
+class TILIAE_API IBeanWrapperPlugin : public Core::Object {
 public:
 
         virtual ~IBeanWrapperPlugin () {}
@@ -91,6 +93,7 @@ public:
 /****************************************************************************/
 
 typedef std::list <Ptr <Wrapper::IBeanWrapperPlugin> > BeanWrapperPluginList;
+_g (BeanWrapperPluginList)
 
 } // namespace
 

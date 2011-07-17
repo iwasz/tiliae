@@ -23,6 +23,7 @@ namespace Wrapper {
  */
 class TILIAE_API GetPutMethodRWBeanWrapperPlugin : public IBeanWrapperPlugin {
 public:
+        __c (void)
 
         GetPutMethodRWBeanWrapperPlugin (bool g = false) : greedy (g) {}
         virtual ~GetPutMethodRWBeanWrapperPlugin () {}
@@ -49,12 +50,13 @@ public:
          * only one segment.
          */
         bool isGreedy () const { return greedy; }
-        void setGreedy (bool greedy) { this->greedy = greedy; }
+        _m (setGreedy) void setGreedy (bool greedy) { this->greedy = greedy; }
 
 private:
 
         bool greedy;
 
+        _e (GetPutMethodRWBeanWrapperPlugin)
 };
 
 

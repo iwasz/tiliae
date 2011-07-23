@@ -161,22 +161,24 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
 /*--------------------------------------------------------------------------*/
 
         // A tu podejscie 2. Robimy to samo co wyzej, ale wariant jest inicjowany nie wskaźnikiem, a const &
-        Variant vv2 = Core::Variant (address);
+        Variant vv2 = Core::Variant (address);  // Kopia adresu tu się robi!
         beanWrapper->setWrappedObject (vv2);
         BOOST_REQUIRE (vv2.isHandle());
         Address const *pa2 = vcast <Address const *> (vv2);
 
-        BOOST_REQUIRE (pa2 == &address);
+        // To jest kopia, więc będą się różnić
+        BOOST_REQUIRE_NE (pa2, &address);
 
         BOOST_REQUIRE (pa2->getPostalCode () == "ala");
         BOOST_REQUIRE (pa2->getStreet () == "ma");
         BOOST_REQUIRE (pa2->getCity ()->getName () == "kota");
         BOOST_REQUIRE (pa2->getCountry ()->getName () == "psa");
 
-        address.setPostalCode ("asia");
-        address.setStreet ("krzyczy");
-        address.getCity ()->setName ("kiedy idzie");
-        address.getCountry()->setName ("do sklepu");
+        Address *a = vcast <Address *> (vv2);
+        a->setPostalCode ("asia");
+        a->setStreet ("krzyczy");
+        a->getCity ()->setName ("kiedy idzie");
+        a->getCountry()->setName ("do sklepu");
 
         /*
          * Nie da się pobrac wskaznika do wrapowanego obiektu!

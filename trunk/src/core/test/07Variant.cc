@@ -12,6 +12,7 @@
 #include "variant/Cast.h"
 #include "../Object.h"
 #include <boost/make_shared.hpp>
+#include "../../core/Typedefs.h"
 
 BOOST_AUTO_TEST_SUITE (Variant07);
 
@@ -305,6 +306,37 @@ BOOST_AUTO_TEST_CASE (testLCast)
                 BOOST_CHECK_EQUAL (lcast <std::string> (v), "667");
                 BOOST_CHECK_EQUAL (lcast <Core::String> (v), "667");
         }
+}
+
+VariantList func ()
+{
+        VariantList ret;
+        ret.push_back (Variant ("abc"));
+        ret.push_back (Variant ("cab"));
+        return ret;
+}
+
+struct Type {
+        int i;
+
+        ~Type () { i = 0; }
+};
+
+/**
+ * Zmienne tymczasowe
+ */
+BOOST_AUTO_TEST_CASE (testRvalue)
+{
+        Variant v = Variant (func ());
+        BOOST_REQUIRE_EQUAL (v.getType (), Variant::SMART);
+
+        {
+                Type t = {78943};
+                v = Variant (t);
+        }
+
+        Type const *tt = vcast <Type const *> (v);
+        BOOST_REQUIRE_EQUAL (tt->i, 78943);
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

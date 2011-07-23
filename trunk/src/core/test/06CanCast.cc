@@ -55,26 +55,26 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
 {
         {
                 A a (668);
-                Variant v (a); // Tworzy handler POINTER_CONST
+                Variant v (a); // Tworzy handler SMART, bo v zawiera teraz kopię a.
                 BOOST_REQUIRE (ccast <A> (v));
-                BOOST_REQUIRE (!(ccast <A *> (v)));
+                BOOST_REQUIRE (ccast <A *> (v));
                 BOOST_REQUIRE (ccast <A const *> (v));
-                BOOST_REQUIRE (!(ccast <A &> (v)));
+                BOOST_REQUIRE (ccast <A &> (v));
                 BOOST_REQUIRE (ccast <A const &> (v));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A const> > (v)));
+                BOOST_REQUIRE (ccast <shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
         }
 
         {
                 A const a (668);
-                Variant v (a); // Tworzy handler POINTER_CONST
+                Variant v (a); // Tworzy handler SMART, bo v zawiera teraz kopię a.
                 BOOST_REQUIRE (ccast <A> (v));
-                BOOST_REQUIRE (!(ccast <A *> (v)));
+                BOOST_REQUIRE (ccast <A *> (v));
                 BOOST_REQUIRE (ccast <A const *> (v));
-                BOOST_REQUIRE (!(ccast <A &> (v)));
+                BOOST_REQUIRE (ccast <A &> (v));
                 BOOST_REQUIRE (ccast <A const &> (v));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A const> > (v)));
+                BOOST_REQUIRE (ccast <shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
         }
 
         {
@@ -106,20 +106,20 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
         {
                 A a (668);
                 A &ra = a;
-                Variant v (ra); // Tworzy handler POINTER_CONST
+                Variant v (ra); // Tworzy handler SMART, bo v zawiera teraz kopię a.
                 BOOST_REQUIRE (ccast <A> (v));
-                BOOST_REQUIRE (!(ccast <A *> (v)));
+                BOOST_REQUIRE (ccast <A *> (v));
                 BOOST_REQUIRE (ccast <A const *> (v));
-                BOOST_REQUIRE (!(ccast <A &> (v)));
+                BOOST_REQUIRE (ccast <A &> (v));
                 BOOST_REQUIRE (ccast <A const &> (v));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A const> > (v)));
+                BOOST_REQUIRE (ccast <shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
         }
 
         {
                 A const a (668);
                 A const *cpa = &a;
-                Variant v (cpa); // Tworzy handler POINTER_CONST
+                Variant v (cpa); // Tworzy handler SMART, bo v zawiera teraz kopię a.
                 BOOST_REQUIRE (ccast <A> (v));
                 BOOST_REQUIRE (!(ccast <A *> (v)));
                 BOOST_REQUIRE (ccast <A const *> (v));
@@ -185,24 +185,24 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
 
         {
                 extern I &func (void);
-                Variant v (func ()); // Tworzy handler CONST_POINTER bo referencja
-                BOOST_REQUIRE (!(ccast <I *> (v)));
+                Variant v (func ()); // Tworzy handler SMART zawierający kopię wartości zwr.
+                BOOST_REQUIRE ((ccast <I *> (v)));
                 BOOST_REQUIRE (ccast <I const *> (v));
-                BOOST_REQUIRE (!(ccast <I &> (v)));
+                BOOST_REQUIRE (ccast <I &> (v));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<I> > (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE ((ccast <shared_ptr<I> > (v)));
+                BOOST_REQUIRE ((ccast <shared_ptr<I const> > (v)));
         }
 
         {
                 extern I const &func2 (void);
-                Variant v (func2 ()); // Tworzy handler CONST_POINTER bo referencja
-                BOOST_REQUIRE (!(ccast <I *> (v)));
+                Variant v (func2 ()); // Tworzy handler SMART zawierający kopię wartości zwr.
+                BOOST_REQUIRE ((ccast <I *> (v)));
                 BOOST_REQUIRE (ccast <I const *> (v));
-                BOOST_REQUIRE (!(ccast <I &> (v)));
+                BOOST_REQUIRE ((ccast <I &> (v)));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<I> > (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE ((ccast <shared_ptr<I> > (v)));
+                BOOST_REQUIRE ((ccast <shared_ptr<I const> > (v)));
         }
 
         {
@@ -235,26 +235,26 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
 {
         {
                 C a (668);
-                Variant v (a); // Tworzy handler OBJECT_CONST
+                Variant v (a); // Tworzy handler z kopią.
                 BOOST_REQUIRE ((occast <B> (v)));
-                BOOST_REQUIRE (!(occast <B *> (v)));
+                BOOST_REQUIRE ((occast <B *> (v)));
                 BOOST_REQUIRE (occast <B const *> (v));
-                BOOST_REQUIRE (!(occast <B &> (v)));
+                BOOST_REQUIRE ((occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE ((occast <shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
         }
 
         {
                 C const a (668);
-                Variant v (a); // Tworzy handler OBJECT_CONST
+                Variant v (a); // Tworzy handler z kopią.
                 BOOST_REQUIRE (occast <B> (v));
-                BOOST_REQUIRE (!(occast <B *> (v)));
+                BOOST_REQUIRE ((occast <B *> (v)));
                 BOOST_REQUIRE (occast <B const *> (v));
-                BOOST_REQUIRE (!(occast <B &> (v)));
+                BOOST_REQUIRE ((occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE ((occast <shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
         }
 
         {
@@ -286,27 +286,27 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
         {
                 C c (668);
                 C &ra = c;
-                Variant v (ra); // Tworzy handler OBJECT_CONST
+                Variant v (ra); // Tworzy handler
                 BOOST_REQUIRE ((occast <B> (v)));
-                BOOST_REQUIRE (!occast <B *> (v));
+                BOOST_REQUIRE (occast <B *> (v));
                 BOOST_REQUIRE (occast <B const *> (v));
-                BOOST_REQUIRE (!occast <B &> (v));
+                BOOST_REQUIRE (occast <B &> (v));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE ((occast <shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
         }
 
         {
                 C const c (668);
                 C const &cpa = c;
-                Variant v (cpa); // Tworzy handler OBJECT_CONST
+                Variant v (cpa); // Tworzy handler
                 BOOST_REQUIRE ((occast <B> (v)));
-                BOOST_REQUIRE (!occast <B *> (v));
+                BOOST_REQUIRE (occast <B *> (v));
                 BOOST_REQUIRE (occast <B const *> (v));
-                BOOST_REQUIRE (!occast <B &> (v));
+                BOOST_REQUIRE (occast <B &> (v));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE ((occast <shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
         }
 
         {

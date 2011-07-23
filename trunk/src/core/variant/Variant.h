@@ -11,6 +11,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/type_traits/is_convertible.hpp>
+#include <boost/make_shared.hpp>
 #include <string> // toString
 
 #include "Object.h"
@@ -522,11 +523,19 @@ private:
 
 /****************************************************************************/
 
+//template<typename S>
+//Variant::Variant (S const &p) :
+//        type ((boost::is_convertible <S *, Core::Object *>::value) ? (OBJECT_CONST) : (POINTER_CONST)),
+//        ti (&typeid (S&)),
+//        cptr (&p)
+//{
+//}
+
 template<typename S>
 Variant::Variant (S const &p) :
-        type ((boost::is_convertible <S *, Core::Object *>::value) ? (OBJECT_CONST) : (POINTER_CONST)),
+        type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)),
         ti (&typeid (S&)),
-        cptr (&p)
+        sptr (boost::make_shared <S> (p))
 {
 }
 

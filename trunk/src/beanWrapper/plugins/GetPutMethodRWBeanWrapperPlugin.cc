@@ -72,12 +72,7 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
                 Variant ret;
 
                 try {
-                        if (greedy) {
-                                ret = method->invoke (bean, Core::Variant (path->toString ()));
-                        }
-                        else {
-                                ret = method->invoke (bean, Core::Variant (path->getFirstSegment ()));
-                        }
+                        ret = method->invoke (bean, Core::Variant (path->getFirstSegment ()));
                 }
                 catch (Core::Exception const &e) {
                         error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
@@ -86,13 +81,8 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
                 }
 
                 if (!ret.isNone ()) {
-                        if (greedy) {
-                                path->clear ();
-                        }
-                        else {
-                                // Zdejmij token kiedy uda sie zwrocic (znalezc) wlasciwy obiekt.
-                                path->cutFirstSegment ();
-                        }
+                        // Zdejmij token kiedy uda sie zwrocic (znalezc) wlasciwy obiekt.
+                        path->cutFirstSegment ();
                 }
 
                 return ret;
@@ -133,13 +123,7 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
         if (method) {
 
                 VariantVector params;
-
-                if (greedy) {
-                        params.push_back (Core::Variant (path->toString ()));
-                }
-                else {
-                        params.push_back (Core::Variant (path->getFirstSegment ()));
-                }
+                params.push_back (Core::Variant (path->getFirstSegment ()));
 
 #               if 0
                 std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << path->getFirstSegment () << std::endl;
@@ -168,12 +152,7 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                 }
 
                 // Zdejmij token kiedy uda sie zwrocic (znalezc) wlasciwy obiekt.
-                if (greedy) {
-                        path->clear ();
-                }
-                else {
-                        path->cutFirstSegment ();
-                }
+                path->cutFirstSegment ();
 
                 return true;
         }

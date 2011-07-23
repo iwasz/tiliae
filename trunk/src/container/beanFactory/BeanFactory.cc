@@ -72,7 +72,17 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
                         factoryParams[CONSTRUCTOR_ARGS_KEY] = cArgsEdited;
                 }
 
+                if (context->isFatal ()) {
+                        context->addFatal ("After cArgsEditor->convert");
+                        return Core::Variant ();
+                }
+
                 output = factory->create (factoryParams, context);
+
+                if (context->isFatal ()) {
+                        context->addFatal ("After factory->create");
+                        return Core::Variant ();
+                }
 
                 if (forceSingleton || getSingleton ()) {
                         storedSingleton = output;
@@ -84,6 +94,12 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
                 }
 
                 editor->convert (input, &output, context);
+
+                if (context->isFatal ()) {
+                         context->addFatal ("After editor->convert");
+                         return Core::Variant ();
+                }
+
                 notifyAfterPropertiesSet ();
 
                 // Uruchomienie metody init-method
@@ -91,7 +107,13 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
                         std::string initMethodName = attributes.getString (INITMETHOD_ARGUMENT);
                         assert (beanWrapper);
                         beanWrapper->setWrappedObject (output);
+                        context->clear ();
                         beanWrapper->get (initMethodName, context);
+
+                        if (context->isFatal ()) {
+                                 context->addFatal ("After initMethod");
+                                 return Core::Variant ();
+                        }
                 }
 
                 if (bfc) {

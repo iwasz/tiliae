@@ -93,39 +93,6 @@ BOOST_AUTO_TEST_CASE (testComplexGetPut)
  */
 BOOST_AUTO_TEST_CASE (testGreedyGetPut)
 {
-        A a;
-
-/*--------------------------------------------------------------------------*/
-
-        Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> (Core::Variant (&a));
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-
-        Ptr <IBeanWrapperPlugin> plugin = boost::make_shared <PropertyRWBeanWrapperPlugin> ();
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <GetPutMethodRWBeanWrapperPlugin> (true);
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <MethodPlugin> (MethodPlugin::METHOD);
-        pluginList->push_back (plugin);
-
-        beanWrapper->setPluginList (pluginList);
-
-/*--------------------------------------------------------------------------*/
-
-        a.setField ("testowy");
-        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("field")), "testowy");
-        a.setField ("kupa");
-        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("name")), "kupa");
-        BOOST_REQUIRE_NO_THROW (beanWrapper->get ("init"));
-        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("pole.name")), "ala ma kota");
-}
-
-/**
- * GetPut z greedy na true.
- */
-BOOST_AUTO_TEST_CASE (testGreedyGetPutSetObject)
-{
 //        A a;
 //
 ///*--------------------------------------------------------------------------*/
@@ -146,11 +113,13 @@ BOOST_AUTO_TEST_CASE (testGreedyGetPutSetObject)
 //
 ///*--------------------------------------------------------------------------*/
 //
-//        beanWrapper->set ("field", Variant ("test01"));
-//        BOOST_REQUIRE_EQUAL (a.getField (), "test01");
-//
-//        beanWrapper->set ("pole.name", Variant ("test02"));
-//        BOOST_REQUIRE_EQUAL (a.getField (), "test02");
+//        a.setField ("testowy");
+//        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("field")), "testowy");
+//        a.setField ("kupa");
+//        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("name")), "kupa");
+//        BOOST_REQUIRE_NO_THROW (beanWrapper->get ("init"));
+//        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("pole.name")), "ala ma kota");
 }
+
 
 BOOST_AUTO_TEST_SUITE_END ();

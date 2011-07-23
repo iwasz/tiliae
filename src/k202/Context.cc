@@ -57,6 +57,7 @@ Core::Variant Context::getArg (const std::string &path, bool conditional) const
                 }
         }
 
+        bwContext.clear ();
         if (ret.isNone () && argsMap && !argsMap->empty ()) {
                 ret = bwrap->get (&mapAsVariant, path, &bwContext);
 

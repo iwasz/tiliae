@@ -37,6 +37,14 @@ public:
 
         std::string getMessage () const { return message; }
 
+        void clear ()
+        {
+                message = std::string ();
+                msgCount = 0;
+                fatal = false;
+                error = false;
+        }
+
 /*--------------------------------------------------------------------------*/
 
         /**
@@ -72,6 +80,13 @@ public:
 /*--------------------------------------------------------------------------*/
 
         std::string getMessage () const { return boost::lexical_cast <std::string> (message); }
+
+        void clear ()
+        {
+                message = 0UL;
+                fatal = false;
+                error = false;
+        }
 
 /*--------------------------------------------------------------------------*/
 

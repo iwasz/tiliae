@@ -73,7 +73,7 @@ public:
                           const Core::VariantMap &transitionScope = Core::VariantMap ());
 
         /// Tylko dla ułatwienia stosowania w kontenerze.
-        _m (runOnce) bool runOnce () { run (); return true; }
+        _m (runOnce) void runOnce () { run (); }
 
         std::string getCurrentStateName () const { return currentStateName; }
 

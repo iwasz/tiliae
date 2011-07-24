@@ -1432,6 +1432,36 @@ bool VCast<T const &>::can (Variant const &v)
 
 /*## wskaźniki #############################################################*/
 
+template <>
+struct TILIAE_API VCast<void *> {
+
+        static void *run (Variant const &v);
+        static bool can (Variant const &v);
+};
+
+template <>
+struct TILIAE_API VCast<void const *> {
+
+        static void const *run (Variant const &v);
+        static bool can (Variant const &v);
+};
+
+template <>
+struct TILIAE_API VCast<Ptr <void> > {
+
+        static Ptr <void> run (Variant const &v);
+        static bool can (Variant const &v);
+};
+
+template <>
+struct TILIAE_API VCast<Ptr <void const> > {
+
+        static Ptr <void const> run (Variant const &v);
+        static bool can (Variant const &v);
+};
+
+/****************************************************************************/
+
 template<typename T>
 struct VCast<T *> {
 

@@ -339,4 +339,42 @@ BOOST_AUTO_TEST_CASE (testRvalue)
         BOOST_REQUIRE_EQUAL (tt->i, 78943);
 }
 
+/**
+ * Na void * etc.
+ */
+BOOST_AUTO_TEST_CASE (testVoidPtr)
+{
+        std::string str = "slkjfuioewui3";
+        int i = 7908;
+        int const *pi = &i;
+        Ptr <int> si = boost::make_shared <int> (98734);
+        Ptr <int const> csi = boost::make_shared <int const> (98734);
+
+        {
+                Variant v (&str);
+                void *p = vcast <void *> (v);
+                BOOST_REQUIRE_EQUAL (p, &str);
+                void const *cp = vcast <void const *> (v);
+                BOOST_REQUIRE_EQUAL (cp, &str);
+        }
+
+        {
+                Variant v (&str);
+                void const *p = vcast <void const *> (v);
+                BOOST_REQUIRE_EQUAL (p, &str);
+        }
+
+        {
+                Variant v (pi);
+                void const *p = vcast <void const *> (v);
+                BOOST_REQUIRE_EQUAL (p, pi);
+        }
+
+        {
+                Variant v (si);
+                Ptr <void> p = vcast <Ptr <void> > (v);
+                BOOST_REQUIRE_EQUAL (p, si);
+        }
+}
+
 BOOST_AUTO_TEST_SUITE_END ();

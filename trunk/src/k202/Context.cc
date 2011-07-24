@@ -52,7 +52,7 @@ Core::Variant Context::getArg (const std::string &path, bool conditional) const
         if (domain && !domain->isNone ()) {
                 ret = bwrap.get ()->get (domain, path, &bwContext);
 
-                if (!bwContext.isFatal()) {
+                if (!bwContext.isError ()) {
                         return ret;
                 }
         }
@@ -61,7 +61,7 @@ Core::Variant Context::getArg (const std::string &path, bool conditional) const
         if (ret.isNone () && argsMap && !argsMap->empty ()) {
                 ret = bwrap->get (&mapAsVariant, path, &bwContext);
 
-                if (!bwContext.isFatal()) {
+                if (!bwContext.isError ()) {
                         return ret;
                 }
         }
@@ -101,7 +101,7 @@ void Context::setArg (const std::string &path, const Core::Variant &obj)
         if (domain && !domain->isNone ()) {
                 bwrap->set (domain, path, obj, &bwContext);
 
-                if (!bwContext.isFatal ()) {
+                if (!bwContext.isError ()) {
                         return;
                 }
         }
@@ -109,7 +109,7 @@ void Context::setArg (const std::string &path, const Core::Variant &obj)
         if (argsMap) {
                 bwrap->set (&mapAsVariant, path, obj, &bwContext);
 
-                if (!bwContext.isFatal ()) {
+                if (!bwContext.isError ()) {
                         return;
                 }
         }

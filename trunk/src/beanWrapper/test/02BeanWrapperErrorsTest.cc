@@ -74,13 +74,11 @@ BOOST_AUTO_TEST_CASE (testContext)
         Context ctx;
         bw->get ("kupaKupa", &ctx);
 
-        BOOST_REQUIRE (ctx.isFatal());
         BOOST_REQUIRE (ctx.isError());
         BOOST_REQUIRE (!ctx.getMessage().empty ());
 
         bw->set ("kupaKupa", Variant (), &ctx);
 
-        BOOST_REQUIRE (ctx.isFatal());
         BOOST_REQUIRE (ctx.isError());
         BOOST_REQUIRE (!ctx.getMessage().empty ());
 }

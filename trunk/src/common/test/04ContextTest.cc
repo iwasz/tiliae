@@ -22,10 +22,10 @@ BOOST_AUTO_TEST_CASE (testListHelper)
         Context c;
         Context *context = &c;
 
-        fatal (context, Core::Exception, UNDEFINED_ERROR, "message");
+        error (context, Core::Exception, UNDEFINED_ERROR, "message");
 
 #if defined (TILIAE_DEBUG)
-        BOOST_REQUIRE_EQUAL (c.getMessage(), "1. FATAL: message");
+        BOOST_REQUIRE_EQUAL (c.getMessage(), "message");
 #else
         BOOST_REQUIRE_EQUAL (c.getMessage(), "1");
 #endif

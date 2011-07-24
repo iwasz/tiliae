@@ -19,6 +19,7 @@
 #include "../plugins/PropertyRWBeanWrapperPlugin.h"
 #include "../plugins/GetPutMethodRWBeanWrapperPlugin.h"
 #include "../plugins/MethodPlugin.h"
+#include "../../testHelpers/City.h"
 
 /****************************************************************************/
 
@@ -121,5 +122,30 @@ BOOST_AUTO_TEST_CASE (testGreedyGetPut)
 //        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("pole.name")), "ala ma kota");
 }
 
+BOOST_AUTO_TEST_CASE (testMethodVoid)
+{
+        Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
+        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
+
+        Ptr <IBeanWrapperPlugin> plugin = boost::make_shared <PropertyRWBeanWrapperPlugin> ();
+        pluginList->push_back (plugin);
+
+        plugin = boost::make_shared <GetPutMethodRWBeanWrapperPlugin> ();
+        pluginList->push_back (plugin);
+
+        plugin = boost::make_shared <MethodPlugin> (MethodPlugin::IMMEDIATE_CALL);
+        pluginList->push_back (plugin);
+
+        beanWrapper->setPluginList (pluginList);
+
+/*--------------------------------------------------------------------------*/
+
+        City c;
+        Variant v (&c);
+        Common::Context ctx;
+
+        beanWrapper->get (&v, "init", &ctx);
+        BOOST_REQUIRE (!ctx.isError ());
+}
 
 BOOST_AUTO_TEST_SUITE_END ();

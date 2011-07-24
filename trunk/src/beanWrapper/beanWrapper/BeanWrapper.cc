@@ -47,23 +47,12 @@ Ptr<BeanWrapper> BeanWrapper::create (const Core::Variant &bean)
 
 void BeanWrapper::set (Core::Variant *bean, const std::string &path, const Core::Variant &object, Context *ctx)
 {
-        Context *tmpCtx = ctx;
-
-        if (!ctx) {
-                tmpCtx = new Context;
-        }
-
+        Context tmpCtx;
         ListPath pth (path);
-        set (bean, &pth, object, tmpCtx);
+        set (bean, &pth, object, &tmpCtx);
 
-        if (!tmpCtx->isEmpty ()) {
-                tmpCtx->addError (std::string ("In BeanWrapper::set. Path : [") + path + "], value : [" + object.toString () + "]");
-        }
-
-        if (!ctx && tmpCtx->isFatal ()) {
-                std::string msg = tmpCtx->getMessage ();
-                delete tmpCtx;
-                throw PropertyNotSettableException (msg);
+        if (tmpCtx.isError ()) {
+                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, std::string ("In BeanWrapper::set. Path : [") + path + "], value : [" + object.toString () + "]\n" + tmpCtx.getMessage ());
         }
 }
 
@@ -71,23 +60,12 @@ void BeanWrapper::set (Core::Variant *bean, const std::string &path, const Core:
 
 void BeanWrapper::add (Core::Variant *bean, const std::string &path, const Core::Variant &object, Context *ctx)
 {
-        Context *tmpCtx = ctx;
-
-        if (!ctx) {
-                tmpCtx = new Context;
-        }
-
+        Context tmpCtx;
         ListPath pth (path);
-        add (bean, &pth, object, tmpCtx);
+        add (bean, &pth, object, &tmpCtx);
 
-        if (!tmpCtx->isEmpty ()) {
-                tmpCtx->addError (std::string ("In BeanWrapper::add. Path : [") + path + "], value : [" + object.toString () + "]");
-        }
-
-        if (!ctx && tmpCtx->isFatal ()) {
-                std::string msg = tmpCtx->getMessage ();
-                delete tmpCtx;
-                throw PropertyNotSettableException (msg);
+        if (tmpCtx.isError ()) {
+                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, std::string ("In BeanWrapper::add. Path : [") + path + "], value : [" + object.toString () + "]\n" + tmpCtx.getMessage ());
         }
 }
 
@@ -95,23 +73,12 @@ void BeanWrapper::add (Core::Variant *bean, const std::string &path, const Core:
 
 Core::Variant BeanWrapper::get (const Core::Variant *bean, const std::string &path, Context *ctx) const
 {
-        Context *tmpCtx = ctx;
-
-        if (!ctx) {
-                tmpCtx = new Context;
-        }
-
+        Context tmpCtx;
         ListPath pth (path);
-        Variant ret = get (*bean, &pth, tmpCtx);
+        Variant ret = get (*bean, &pth, &tmpCtx);
 
-        if (!tmpCtx->isEmpty ()) {
-                tmpCtx->addError (std::string ("In BeanWrapper::get. Path : [") + path + "]");
-        }
-
-        if (!ctx && tmpCtx->isFatal ()) {
-                std::string msg = tmpCtx->getMessage ();
-                delete tmpCtx;
-                throw PropertyNotGettableException (msg);
+        if (tmpCtx.isError ()) {
+                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, std::string ("In BeanWrapper::get. Path : [") + path + "]\n" + tmpCtx.getMessage ());
         }
 
         return ret;
@@ -150,18 +117,25 @@ Core::Variant BeanWrapper::get (const Core::Variant &referenceObject, IPath *pat
         }
 
         if (referenceObject.isNone () || referenceObject.isNull ()) {
-                fatal (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "BeanWrapper::set : referenceObject->isNone () || referenceObject->isNull ()");
+                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "BeanWrapper::get : referenceObject->isNone () || referenceObject->isNull ()");
                 return Core::Variant ();
         }
 
         Core::Variant ret = getObjectUsingPlugins (referenceObject, path, ctx);
 
-        if (path->countSegments () && !ret.isNone ()) {
-                return get (ret, path, ctx);
+        if (path->countSegments ()) {
+                if (!ret.isNone ()) {
+                        return get (ret, path, ctx);
+                }
+                else {
+                        error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "BeanWrapper::get path->countSegments "
+                                        "() != 0 and previous segment returned NONE. referenceObject : [" + referenceObject.toString () +
+                                        "], path : [" + path->toString () + "].");
+                        return Variant ();
+                }
         }
-        else {
-                return ret;
-        }
+
+        return ret;
 }
 
 /****************************************************************************/
@@ -180,7 +154,7 @@ void BeanWrapper::set (Core::Variant *referenceObject, IPath *path, const Core::
         }
 
         if (referenceObject->isNone () || referenceObject->isNull ()) {
-                fatal (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "BeanWrapper::set : referenceObject->isNone () || referenceObject->isNull ()");
+                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "BeanWrapper::set : referenceObject->isNone () || referenceObject->isNull ()");
                 return;
         }
 
@@ -196,8 +170,8 @@ void BeanWrapper::set (Core::Variant *referenceObject, IPath *path, const Core::
 
                 ret = get (*referenceObject, &left, ctx);
 
-                if (!ctx->isEmpty ()) {
-                        ctx->addError ("Cannot set property '" + path->toString () + "'.");
+                if (ctx->isError ()) {
+                        error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "Cannot set property '" + path->toString () + "'.");
                 }
 
                 set (&ret, &right, v, ctx);
@@ -217,7 +191,7 @@ void BeanWrapper::add (Core::Variant *referenceObject, IPath *path, const Core::
 #endif
 
         if (referenceObject->isNone () || referenceObject->isNull ()) {
-                fatal (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "BeanWrapper::add : referenceObject->isNone () || referenceObject->isNull ()");
+                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "BeanWrapper::add : referenceObject->isNone () || referenceObject->isNull ()");
                 return;
         }
 
@@ -233,8 +207,8 @@ void BeanWrapper::add (Core::Variant *referenceObject, IPath *path, const Core::
 
                 ret = get (*referenceObject, &left, ctx);
 
-                if (!ctx->isEmpty ()) {
-                        ctx->addError ("Cannot add property '" + path->toString () + "'.");
+                if (ctx->isError ()) {
+                        error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "Cannot add property '" + path->toString () + "'.");
                 }
 
                 add (&ret, &right, v, ctx);
@@ -247,19 +221,28 @@ void BeanWrapper::add (Core::Variant *referenceObject, IPath *path, const Core::
 Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IPath *path, Context *ctx) const
 {
         assert (path);
-        assert (getPluginList ());
+        unsigned int errCnt = 0;
 
         // Sprobuj uzyc ktoregos pluginu aby wyciagnac obiekt
         for (BeanWrapperPluginList::const_iterator i = getPluginList ()->begin (); i != getPluginList ()->end (); i++) {
 
-                Variant bean = (*i)->get (input, path, ctx, editor.get ());
+                Common::Context tmpCtx;
+                int actualSegments = path->countSegments ();
 
-                if (!bean.isNone ()) {
+                Variant bean = (*i)->get (input, path, &tmpCtx, editor.get ());
+
+                if (!tmpCtx.isError () && path->countSegments () < actualSegments) {
                         return bean;
+                }
+                else {
+                        ++errCnt;
                 }
         }
 
-        fatal (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "PropertyNotGettableException for path '" + path->toString () + "'. Input : " + input.toString () + ". Context mesage : " + ctx->getMessage ());
+        if (errCnt >= getPluginList ()->size ()) {
+                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "Can't get property for path '" + path->toString () + "'. Input : " + input.toString ());
+        }
+
         return Core::Variant ();
 }
 
@@ -267,36 +250,36 @@ Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IP
 
 void BeanWrapper::setObjectUsingPlugins (Core::Variant *bean, IPath *path, const Core::Variant &object, Context *ctx, bool add)
 {
-        assert (getPluginList ());
         assert (bean);
         assert (path);
         std::string pathStr = path->toString ();
-
-        Context tmpCtx;
-        bool shouldThrow = false;
-        if (!ctx) {
-                ctx = &tmpCtx;
-                shouldThrow = true;
-        }
+        unsigned int errCnt = 0;
 
         // Sprobuj uzyc ktoregos pluginu aby wyciagnac obiekt
         for (BeanWrapperPluginList::const_iterator i = getPluginList ()->begin (); i != getPluginList ()->end (); ++i) {
 
                 std::string p = path->toString ();
+                Context tmpCtx;
 
                 if (add) {
-                        if ((*i)->add (bean, path, object, ctx, editor.get ())) {
+                        if ((*i)->add (bean, path, object, &tmpCtx, editor.get ())) {
                                 return;
                         }
                 }
                 else {
-                        if ((*i)->set (bean, path, object, ctx, editor.get ())) {
+                        if ((*i)->set (bean, path, object, &tmpCtx, editor.get ())) {
                                 return;
                         }
                 }
+
+                if (tmpCtx.isError ()) {
+                        ++errCnt;
+                }
         }
 
-        fatal (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "PropertyNotSettableException for path '" + pathStr + ".");
+        if (errCnt >= getPluginList ()->size ()) {
+                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "PropertyNotSettableException for path '" + pathStr + ".");
+        }
 }
 
 /****************************************************************************/

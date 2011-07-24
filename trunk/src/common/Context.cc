@@ -13,30 +13,36 @@ namespace Common {
 
 #if defined (TILIAE_DEBUG)
 
-void Context::addFatal (std::string const &errorMessage)
-{
-        fatal = true;
-        std::ostringstream str;
-
-        if (msgCount) {
-                str << "\n";
-        }
-
-        str << ++msgCount << ". FATAL: " << errorMessage;
-        message += str.str ();
-}
+//void Context::addFatal (std::string const &errorMessage)
+//{
+//        fatal = true;
+//        std::ostringstream str;
+//
+//        if (msgCount) {
+//                str << "\n";
+//        }
+//
+//        str << ++msgCount << ". FATAL: " << errorMessage;
+//        message += str.str ();
+//}
 
 void Context::addError (std::string const &errorMessage)
 {
         error = true;
-        std::ostringstream str;
+//        std::ostringstream str;
+//
+//        if (msgCount) {
+//                str << "\n";
+//        }
+//
+//        str << ++msgCount << ". ERROR: " << errorMessage;
+//        message += str.str ();
 
-        if (msgCount) {
-                str << "\n";
+        if (!message.empty ()) {
+                message += "\n";
         }
 
-        str << ++msgCount << ". ERROR: " << errorMessage;
-        message += str.str ();
+        message += errorMessage;
 }
 
 #endif

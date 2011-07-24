@@ -231,22 +231,22 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
         {
                 extern I &func (void);
                 Variant v (func ());
-                BOOST_REQUIRE_EQUAL (vcast <I const *> (v), &globalI);
+                BOOST_REQUIRE_NE (vcast <I const *> (v), &globalI); // Bo tu jest kopia
                 BOOST_REQUIRE_NO_THROW (vcast <I &> (v));
-                BOOST_REQUIRE_EQUAL (&(vcast <I const &> (v)), &globalI);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<I> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<I const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_NE (&(vcast <I const &> (v)), &globalI);
+                BOOST_REQUIRE_NO_THROW ((vcast <shared_ptr<I> > (v)));
+                BOOST_REQUIRE_NO_THROW ((vcast <shared_ptr<I const> > (v)));
         }
 
         {
                 extern I const &func2 (void);
-                Variant v (func2 ()); // Tworzy handler CONST_POINTER bo referencja
-                BOOST_REQUIRE_THROW ((vcast <I *> (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (vcast <I const *> (v), &globalI);
-                BOOST_REQUIRE_THROW ((vcast <I &> (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (&(vcast <I const &> (v)), &globalI);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<I> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<I const> > (v)), Core::VariantCastException);
+                Variant v (func2 ());
+                BOOST_REQUIRE_NO_THROW ((vcast <I *> (v)));
+                BOOST_REQUIRE_NE (vcast <I const *> (v), &globalI);
+                BOOST_REQUIRE_NO_THROW ((vcast <I &> (v)));
+                BOOST_REQUIRE_NE (&(vcast <I const &> (v)), &globalI);
+                BOOST_REQUIRE_NO_THROW ((vcast <shared_ptr<I> > (v)));
+                BOOST_REQUIRE_NO_THROW ((vcast <shared_ptr<I const> > (v)));
         }
 
         {
@@ -279,26 +279,26 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
 {
         {
                 C a (668);
-                Variant v (a); // Tworzy handler OBJECT_CONST
-                BOOST_REQUIRE_EQUAL (&(ocast <B> (v)), &a);
-                BOOST_REQUIRE_THROW ((ocast <B *> (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (ocast <B const *> (v), &a);
-                BOOST_REQUIRE_THROW ((ocast <B &> (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (&(ocast <B const &> (v)), &a);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B const> > (v)), Core::VariantCastException);
+                Variant v (a);
+                BOOST_REQUIRE_NE (&(ocast <B> (v)), &a);
+                BOOST_REQUIRE_NO_THROW ((ocast <B *> (v)));
+                BOOST_REQUIRE_NE (ocast <B const *> (v), &a);
+                BOOST_REQUIRE_NO_THROW ((ocast <B &> (v)));
+                BOOST_REQUIRE_NE (&(ocast <B const &> (v)), &a);
+                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B const> > (v)));
         }
 
         {
                 C const a (668);
                 Variant v (a); // Tworzy handler OBJECT_CONST
                 BOOST_REQUIRE_EQUAL (ocast <B> (v), C (668));
-                BOOST_REQUIRE_THROW ((ocast <B *> (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (ocast <B const *> (v), &a);
-                BOOST_REQUIRE_THROW ((ocast <B &> (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (&(ocast <B const &> (v)), &a);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_EQUAL (*(ocast <B *> (v)), C (668));
+                BOOST_REQUIRE_EQUAL (*ocast <B const *> (v), C (668));
+                BOOST_REQUIRE_NO_THROW ((ocast <B &> (v)));
+                BOOST_REQUIRE_EQUAL ((ocast <B const &> (v)), C (668));
+                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B const> > (v)));
         }
 
         {
@@ -331,26 +331,26 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 C c (668);
                 C &ra = c;
                 Variant v (ra); // Tworzy handler OBJECT_CONST
-                BOOST_REQUIRE_EQUAL (&(ocast <B> (v)), &c);
-                BOOST_REQUIRE_THROW (ocast <B *> (v), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (ocast <B const *> (v), &c);
-                BOOST_REQUIRE_THROW (ocast <B &> (v), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (&(ocast <B const &> (v)), &c);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_EQUAL ((ocast <B> (v)), c);
+                BOOST_REQUIRE_NO_THROW (ocast <B *> (v));
+                BOOST_REQUIRE_EQUAL (*ocast <B const *> (v), c);
+                BOOST_REQUIRE_NO_THROW (ocast <B &> (v));
+                BOOST_REQUIRE_EQUAL ((ocast <B const &> (v)), c);
+                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B const> > (v)));
         }
 
         {
                 C const c (668);
                 C const &cpa = c;
                 Variant v (cpa); // Tworzy handler OBJECT_CONST
-                BOOST_REQUIRE_EQUAL (&(ocast <B> (v)), &c);
-                BOOST_REQUIRE_THROW (ocast <B *> (v), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (ocast <B const *> (v), &c);
-                BOOST_REQUIRE_THROW (ocast <B &> (v), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (&(ocast <B const &> (v)), &c);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_EQUAL ((ocast <B> (v)), c);
+                BOOST_REQUIRE_NO_THROW (ocast <B *> (v));
+                BOOST_REQUIRE_EQUAL (*ocast <B const *> (v), c);
+                BOOST_REQUIRE_NO_THROW (ocast <B &> (v));
+                BOOST_REQUIRE_EQUAL ((ocast <B const &> (v)), c);
+                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B const> > (v)));
         }
 
         {

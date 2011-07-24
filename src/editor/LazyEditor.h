@@ -36,7 +36,7 @@ public:
         virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL)
         {
                 assert (factory);
-                Core::Variant vEd = factory->create ();
+                Core::Variant vEd = factory->create (Core::VariantMap (), context);
 
                 if (!occast <Ptr <IEditor> > (vEd)) {
                         error (context, EditorException, Common::UNDEFINED_ERROR, "LazyEditor::convert !occast <Ptr <IEditor> > (vEd). vEd : " + vEd.toString ());
@@ -44,8 +44,7 @@ public:
                 }
 
                 Ptr <IEditor> ed = ocast <Ptr <IEditor> > (vEd);
-                assert (ed);
-                ed->convert (input, output);
+                ed->convert (input, output, context);
         }
 
         Ptr <Factory::IFactory> getFactory () const { return factory; }

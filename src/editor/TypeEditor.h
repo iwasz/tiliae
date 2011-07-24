@@ -18,7 +18,6 @@
 
 namespace Editor {
 
-
 /**
  * Edytor umożliwiający automatyczne konwersje na podstawie typów.
  */

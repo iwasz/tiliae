@@ -30,7 +30,7 @@ enum {
 class TILIAE_API Context {
 public:
 
-        Context () : msgCount (0), fatal (false), error (false) {}
+        Context () : msgCount (0), /*fatal (false),*/ error (false) {}
         virtual ~Context () {}
 
 /*--------------------------------------------------------------------------*/
@@ -41,7 +41,7 @@ public:
         {
                 message = std::string ();
                 msgCount = 0;
-                fatal = false;
+//                fatal = false;
                 error = false;
         }
 
@@ -50,21 +50,21 @@ public:
         /**
          * Dopisuje na koniec.
          */
-        void addFatal (const std::string &errorMessage);
+//        void addFatal (const std::string &errorMessage);
         void addError (const std::string &errorMessage);
 
 /*--------------------------------------------------------------------------*/
 
-        bool isFatal () const { return fatal; }
+//        bool isFatal () const { return fatal; }
         bool isError () const { return error; }
-        bool isEmpty () const { return !fatal && !error; }
+//        bool isEmpty () const { return !fatal && !error; }
 
 private:
 
         std::string message;
         int msgCount;
 
-        bool fatal;
+//        bool fatal;
         bool error;
 
 };
@@ -124,6 +124,7 @@ private:
 
 }
 
+#if 0
 #if defined (TILIAE_DEBUG)
 
 #define fatal(context_, ExceptionClass_, errorNum_, errorMsg_) \
@@ -146,6 +147,7 @@ private:
                 throw ExceptionClass_ ((errorMsg_));           \
         }
 
+#endif
 #endif
 
 #if defined (TILIAE_DEBUG)

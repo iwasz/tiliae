@@ -67,20 +67,23 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
                         factoryParams[CLASS_NAME] = Core::Variant (attributes.getString (CLASS_ARGUMENT));
                 }
 
+                Common::Context *tmpCtx = context;
+
                 if (cArgsEditor) {
-                        cArgsEditor->convert (cArgs, &cArgsEdited, context);
+                        cArgsEditor->convert (cArgs, &cArgsEdited, tmpCtx);
                         factoryParams[CONSTRUCTOR_ARGS_KEY] = cArgsEdited;
                 }
 
-                if (context->isFatal ()) {
-                        context->addFatal ("After cArgsEditor->convert");
+                if (tmpCtx->isError ()) {
+                        error (context, ContainerException, Common::UNDEFINED_ERROR, "Constructor args editor failed. ID : " + id + "\n" + tmpCtx->getMessage ());
                         return Core::Variant ();
                 }
 
-                output = factory->create (factoryParams, context);
+                tmpCtx->clear ();
+                output = factory->create (factoryParams, tmpCtx);
 
-                if (context->isFatal ()) {
-                        context->addFatal ("After factory->create");
+                if (tmpCtx->isError ()) {
+                        error (context, ContainerException, Common::UNDEFINED_ERROR, "Factory in BeanFactory failed. ID : " + id + "\n" + tmpCtx->getMessage ());
                         return Core::Variant ();
                 }
 
@@ -89,15 +92,16 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
                 }
 
                 if (output.isNone () || output.isNull ()) {
-                        fatal (context, ContainerException, Common::UNDEFINED_ERROR, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + id + "]");
+                        error (context, ContainerException, Common::UNDEFINED_ERROR, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + id + "]");
                         return Core::Variant ();
                 }
 
-                editor->convert (input, &output, context);
+                tmpCtx->clear ();
+                editor->convert (input, &output, tmpCtx);
 
-                if (context->isFatal ()) {
-                         context->addFatal ("After editor->convert");
-                         return Core::Variant ();
+                if (tmpCtx->isError ()) {
+                        error (context, ContainerException, Common::UNDEFINED_ERROR, "Editor in BeanFactory failed. ID : " + id + "\n" + tmpCtx->getMessage ());
+                        return Core::Variant ();
                 }
 
                 notifyAfterPropertiesSet ();
@@ -107,12 +111,12 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
                         std::string initMethodName = attributes.getString (INITMETHOD_ARGUMENT);
                         assert (beanWrapper);
                         beanWrapper->setWrappedObject (output);
-                        context->clear ();
-                        beanWrapper->get (initMethodName, context);
+                        tmpCtx->clear ();
+                        beanWrapper->get (initMethodName, tmpCtx);
 
-                        if (context->isFatal ()) {
-                                 context->addFatal ("After initMethod");
-                                 return Core::Variant ();
+                        if (tmpCtx->isError ()) {
+                                error (context, ContainerException, Common::UNDEFINED_ERROR, "Invocation of init method in BeanFactory failed. ID : " + id + "\n" + tmpCtx->getMessage ());
+                                return Core::Variant ();
                         }
                 }
 
@@ -126,7 +130,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
                 throw;
         }
         catch (Core::Exception &e) {
-                fatal (context, ContainerException, Common::UNDEFINED_ERROR, "BeanFactory::create. Id : [" + id +
+                error (context, ContainerException, Common::UNDEFINED_ERROR, "BeanFactory::create. Id : [" + id +
                                 "] fullyInitialized : [" + boost::lexical_cast <std::string> (fullyInitialized) + "]. Exception caught : " +
                                 e.what ());
         }

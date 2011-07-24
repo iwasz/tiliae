@@ -239,8 +239,8 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                         if (isSingleton && !isLazyInit) {
                                 (void)factory->create (Core::VariantMap (), &ctx);
 
-                                if (ctx.isFatal ()) {
-                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + i->first + "]. Message : " + ctx.getMessage ());
+                                if (ctx.isError ()) {
+                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + i->first + "]. Message : \n" + ctx.getMessage ());
                                 }
                         }
                 }

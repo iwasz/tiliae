@@ -247,13 +247,11 @@ BOOST_AUTO_TEST_CASE (testGetPutPlugin)
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("strMap.key1")) == "value1");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("strMap.key2")) == "value2");
 
-        // A teraz sprawdz, czy gladko przejdzie jak pobierzemy cos czego nie ma. Powinien zwrocic pusty Variant.
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adrea").getTypeInfo(), PropertyNotGettableException);
+        BOOST_REQUIRE_THROW (beanWrapper->get ("adrea"), PropertyNotGettableException);
         BOOST_REQUIRE_THROW (beanWrapper->get ("adres.asg").getTypeInfo (), PropertyNotGettableException);
         BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.nam").getTypeInfo (), PropertyNotGettableException);
         BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.namea").getTypeInfo (), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.name.a").getTypeInfo (), PropertyNotGettableException);
-}
+        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.name.a").getTypeInfo (), PropertyNotGettableException);}
 
 /**
  * A to jest test tez tego plugina, co obsluguje metody get i set, ale
@@ -739,11 +737,11 @@ BOOST_AUTO_TEST_CASE (testMethodPluginMethodSegF)
 
         Context ctx;
         Variant ret = beanWrapper->get (&domain, "bar.funcA", &ctx);
-        BOOST_REQUIRE (!ctx.isFatal ());
+        BOOST_REQUIRE (!ctx.isError ());
 
         // No i na tym był SegF! Podana zła nazwa funkcji.
         ret = beanWrapper->get (&domain, "funcA", &ctx);
-        BOOST_REQUIRE (ctx.isError () || ctx.isFatal ());
+        BOOST_REQUIRE (ctx.isError ());
 }
 
 /**

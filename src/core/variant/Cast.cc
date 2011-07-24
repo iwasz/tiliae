@@ -187,6 +187,148 @@ Core::String const *VCast<Core::String const *>::run (Variant const &v)
         }
 }
 
+/****************************************************************************/
+
+void *VCast <void *>::run (Variant const &v)
+{
+        switch (v.type) {
+        case Variant::SMART:
+        case Variant::SMART_OBJECT:
+        case Variant::STRING:
+                return boost::static_pointer_cast <void> (v.sptr).get ();
+
+        case Variant::POINTER:
+        case Variant::OBJECT:
+        case Variant::STRING_POINTER:
+                return static_cast <void *> (v.ptr);
+
+        case Variant::NIL:
+                return NULL;
+
+        default:
+                throwExceptionHanle ("Can't cast non-handle Variant to void *", v, typeid (void));
+        }
+
+        exit (1); // Żeby pozbyć się warninga
+}
+
+bool VCast <void *>::can (Variant const &v)
+{
+        return v.type == Variant::SMART ||
+               v.type == Variant::POINTER ||
+               v.type == Variant::SMART_OBJECT ||
+               v.type == Variant::OBJECT ||
+               v.type == Variant::STRING ||
+               v.type == Variant::STRING_POINTER ||
+               v.type == Variant::NIL;
+}
+
+/****************************************************************************/
+
+void const *VCast <void const *>::run (Variant const &v)
+{
+        switch (v.type) {
+        case Variant::SMART:
+        case Variant::SMART_CONST:
+        case Variant::SMART_OBJECT:
+        case Variant::SMART_OBJECT_CONST:
+        case Variant::STRING:
+                return boost::static_pointer_cast <void const> (v.sptr).get ();
+
+        case Variant::POINTER:
+        case Variant::POINTER_CONST:
+        case Variant::OBJECT:
+        case Variant::OBJECT_CONST:
+        case Variant::STRING_POINTER:
+        case Variant::STRING_POINTER_CONST:
+                return static_cast <void const *> (v.ptr);
+
+        case Variant::NIL:
+                return NULL;
+
+        default:
+                throwExceptionHanle ("Can't cast non-handle Variant to void const*", v, typeid (void const));
+        }
+
+        exit (1); // Żeby pozbyć się warninga
+}
+
+bool VCast <void const *>::can (Variant const &v)
+{
+        return v.type == Variant::SMART ||
+               v.type == Variant::SMART_CONST ||
+               v.type == Variant::POINTER ||
+               v.type == Variant::POINTER_CONST ||
+               v.type == Variant::SMART_OBJECT ||
+               v.type == Variant::SMART_OBJECT_CONST ||
+               v.type == Variant::OBJECT ||
+               v.type == Variant::OBJECT_CONST ||
+               v.type == Variant::STRING ||
+               v.type == Variant::STRING_POINTER ||
+               v.type == Variant::STRING_POINTER_CONST ||
+               v.type == Variant::NIL;
+}
+
+/****************************************************************************/
+
+Ptr <void> VCast <Ptr <void> >::run (Variant const &v)
+{
+        switch (v.type) {
+        case Variant::SMART:
+        case Variant::SMART_OBJECT:
+        case Variant::STRING:
+                return boost::static_pointer_cast <void> (v.sptr);
+
+        case Variant::NIL:
+                return Ptr <void> ();
+
+        default:
+                throwExceptionHanle ("Can't cast non-handle Variant to Ptr <void>", v, typeid (Ptr <void>));
+        }
+
+        exit (1); // Żeby pozbyć się warninga
+}
+
+bool VCast <Ptr <void> >::can (Variant const &v)
+{
+        return v.type == Variant::SMART ||
+               v.type == Variant::SMART_OBJECT ||
+               v.type == Variant::STRING ||
+               v.type == Variant::NIL;
+}
+
+/****************************************************************************/
+
+Ptr <void const> VCast <Ptr <void const> >::run (Variant const &v)
+{
+        switch (v.type) {
+        case Variant::SMART:
+        case Variant::SMART_CONST:
+        case Variant::SMART_OBJECT:
+        case Variant::SMART_OBJECT_CONST:
+        case Variant::STRING:
+                return boost::static_pointer_cast <void const> (v.sptr);
+
+        case Variant::NIL:
+                return Ptr <void const> ();
+
+        default:
+                throwExceptionHanle ("Can't cast non-handle Variant to Ptr <void const> ", v, typeid (Ptr <void const> ));
+        }
+
+        exit (1); // Żeby pozbyć się warninga
+}
+
+bool VCast <Ptr <void const> >::can (Variant const &v)
+{
+        return v.type == Variant::SMART ||
+               v.type == Variant::SMART_CONST ||
+               v.type == Variant::SMART_OBJECT ||
+               v.type == Variant::SMART_OBJECT_CONST ||
+               v.type == Variant::STRING ||
+               v.type == Variant::NIL;
+}
+
 /*##########################################################################*/
 
 std::string LCast <std::string>::run (Core::Variant const &v)

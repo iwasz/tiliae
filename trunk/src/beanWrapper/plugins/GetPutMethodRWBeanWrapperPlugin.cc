@@ -94,6 +94,44 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
 
 /****************************************************************************/
 
+Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &bean,
+                                                         Common::IPath *path,
+                                                         Common::Context *ctx) const
+{
+        assert (path);
+
+        if (path->countSegments ()) {
+                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::iterator fatal. Path should be empty at this stage : (Path : '" + path->toString () + "'.");
+                return Variant ();
+        }
+
+        // Sprawdz, czy bean w ogole cos zawiera. Moze nic nie zawierac, czyli ze w mapie map nie bylo obiektu glownego.
+        if (bean.isNone ()) {
+                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::iterator (Path : '" + path->toString () + "'. bean is NONE.");
+                return Variant ();
+        }
+
+        // Kazdy nastepny element wymaga juz uzycia reflexji:
+        Ptr <Reflection::Class> cls = Reflection::Manager::classForType (bean.getTypeInfo ());
+
+        if (!cls) {
+                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::iterator (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
+                return Variant ();
+        }
+
+        // Pobiera domyślną metodę get - jeśli jest więcej niż jedna, to zachowanie jest niezdefiniowane.
+        Ptr <Reflection::Method> method = cls->getMethod ("iterator");
+
+        if (!method) {
+                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::iterator. No 'iterator' method found (Path : '" + path->toString () + "'. )");
+                return Variant ();
+        }
+
+        return method->invoke (bean);
+}
+
+/****************************************************************************/
+
 bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                                            IPath *path,
                                            const Core::Variant &objectToSet,

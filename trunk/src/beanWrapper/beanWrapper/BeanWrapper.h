@@ -64,6 +64,9 @@ public:
         virtual void add (const std::string &path, const Core::Variant &object, Common::Context *ctx = NULL);
         virtual void add (Core::Variant *bean, const std::string &path, const Core::Variant &object, Common::Context *ctx = NULL);
 
+        virtual Ptr <Core::IIterator> iterator (const std::string &path, Common::Context *ctx = NULL) const;
+        virtual Ptr <Core::IIterator> iterator (const Core::Variant *bean, const std::string &path, Common::Context *ctx = NULL) const;
+
 /*------IBeanWrapper--------------------------------------------------------*/
 
         virtual void setWrappedObject (const Core::Variant &object) { wrappedObject = object; }
@@ -96,11 +99,12 @@ protected:
         Core::Variant get (const Core::Variant &referenceObject, Common::IPath *path, Common::Context *ctx) const;
         void set (Core::Variant *referenceObject, Common::IPath *path, const Core::Variant &v, Common::Context *ctx);
         void add (Core::Variant *referenceObject, Common::IPath *path, const Core::Variant &v, Common::Context *ctx);
+        Core::Variant iterator (const Core::Variant &referenceObject, Common::IPath *path, Common::Context *ctx) const;
 
         /**
          *  Koncowe i ostateczne  pobranie wartosci tokens z beana input.
          */
-        Core::Variant getObjectUsingPlugins (const Core::Variant &input, Common::IPath *path, Common::Context *ctx) const;
+        Core::Variant getObjectUsingPlugins (const Core::Variant &input, Common::IPath *path, Common::Context *ctx, bool iter = false) const;
 
         /**
          *  Koncowe i ostateczne ustawienie wartosci property object obiektowi input.

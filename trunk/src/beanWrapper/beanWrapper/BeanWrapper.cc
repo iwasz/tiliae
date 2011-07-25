@@ -84,6 +84,20 @@ Core::Variant BeanWrapper::get (const Core::Variant *bean, const std::string &pa
         return ret;
 }
 
+/****************************************************************************/
+
+Ptr <Core::IIterator> BeanWrapper::iterator (const Core::Variant *bean, const std::string &path, Common::Context *ctx) const
+{
+        Context tmpCtx;
+        ListPath pth (path);
+        Ptr <Core::IIterator> ret = ocast <Ptr <Core::IIterator> > (iterator (*bean, &pth, &tmpCtx));
+
+        if (tmpCtx.isError ()) {
+                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, std::string ("In BeanWrapper::iterator. Path : [") + path + "]\n" + tmpCtx.getMessage ());
+        }
+
+        return ret;
+}
 
 /*##########################################################################*/
 
@@ -101,6 +115,13 @@ Core::Variant BeanWrapper::get (const std::string &k, Context *ctx) const
 
 /****************************************************************************/
 
+Ptr <Core::IIterator> BeanWrapper::iterator (const std::string &path, Common::Context *ctx) const
+{
+        return iterator (&wrappedObject, path, ctx);
+}
+
+/****************************************************************************/
+
 void BeanWrapper::add (const std::string &path, const Core::Variant &object, Context *ctx)
 {
         add (&wrappedObject, path, object, ctx);
@@ -112,13 +133,13 @@ Core::Variant BeanWrapper::get (const Core::Variant &referenceObject, IPath *pat
 {
         assert (path);
 
-        if (!path->countSegments ()) {
-                return referenceObject;
-        }
-
         if (referenceObject.isNone () || referenceObject.isNull ()) {
                 error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "BeanWrapper::get : referenceObject->isNone () || referenceObject->isNull ()");
                 return Core::Variant ();
+        }
+
+        if (!path->countSegments ()) {
+                return referenceObject;
         }
 
         Core::Variant ret = getObjectUsingPlugins (referenceObject, path, ctx);
@@ -136,6 +157,37 @@ Core::Variant BeanWrapper::get (const Core::Variant &referenceObject, IPath *pat
         }
 
         return ret;
+}
+
+/****************************************************************************/
+
+Core::Variant BeanWrapper::iterator (const Core::Variant &referenceObject, Common::IPath *path, Common::Context *ctx) const
+{
+        assert (path);
+
+        if (referenceObject.isNone () || referenceObject.isNull ()) {
+                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "BeanWrapper::iterator : referenceObject->isNone () || referenceObject->isNull ()");
+                return Core::Variant ();
+        }
+
+        if (!path->countSegments ()) {
+                Core::Variant ret = getObjectUsingPlugins (referenceObject, path, ctx, true);
+
+                if (ctx->isError ()) {
+                        error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "Cannot get iterator '" + path->toString () + "'.");
+                }
+
+                return ret;
+        }
+        else  {
+                Core::Variant ret = get (referenceObject, path, ctx);
+
+                if (ctx->isError ()) {
+                        error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "Cannot get iterator '" + path->toString () + "'.");
+                }
+
+                return iterator (ret, path, ctx);
+        }
 }
 
 /****************************************************************************/
@@ -175,7 +227,6 @@ void BeanWrapper::set (Core::Variant *referenceObject, IPath *path, const Core::
                 }
 
                 set (&ret, &right, v, ctx);
-                return;
         }
 }
 
@@ -218,7 +269,7 @@ void BeanWrapper::add (Core::Variant *referenceObject, IPath *path, const Core::
 
 /*##########################################################################*/
 
-Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IPath *path, Context *ctx) const
+Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IPath *path, Context *ctx, bool iter) const
 {
         assert (path);
         unsigned int errCnt = 0;
@@ -228,10 +279,18 @@ Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IP
 
                 Common::Context tmpCtx;
                 int actualSegments = path->countSegments ();
+                Variant bean;
 
-                Variant bean = (*i)->get (input, path, &tmpCtx, editor.get ());
+                if (iter) {
+                        bean = (*i)->iterator (input, path, &tmpCtx);
+                }
+                else {
+                        bean = (*i)->get (input, path, &tmpCtx, editor.get ());
+                }
 
-                if (!tmpCtx.isError () && path->countSegments () < actualSegments) {
+                if ((!iter && !tmpCtx.isError () && path->countSegments () < actualSegments) || // Kiedy zwykły get
+                    (iter && !bean.isNone ())                                                   // Kiedy pobieranie iteratora
+                                ) {
                         return bean;
                 }
                 else {

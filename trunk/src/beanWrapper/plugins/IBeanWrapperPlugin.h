@@ -61,6 +61,13 @@ public:
                                  Editor::IEditor *editor = NULL) const = 0;
 
         /**
+         * Gets iterator.
+         */
+        virtual Core::Variant iterator (const Core::Variant &bean,
+                                        Common::IPath *path,
+                                        Common::Context *ctx) const = 0;
+
+        /**
          *  Ustawia.
          *  \returns true Kiedy udalo sie ustawic.
          *  TODO kiedy refleksja bedzie juz poprawiona, to interfejs tej

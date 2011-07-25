@@ -14,6 +14,8 @@
 #include "../core/ApiMacro.h"
 #include "../common/Context.h"
 #include "../core/Object.h"
+#include "../core/Iterator.h"
+#include "../core/Pointer.h"
 
 namespace Wrapper {
 
@@ -49,6 +51,11 @@ public:
          * W przeciwnym wypdaku get (...).isNone () == false.
          */
         virtual Core::Variant get (const Core::Variant *bean, const std::string &path, Common::Context *ctx = NULL) const = 0;
+
+        /**
+         *
+         */
+        virtual Ptr <Core::IIterator> iterator (const Core::Variant *bean, const std::string &path, Common::Context *ctx = NULL) const = 0;
 
 };
 

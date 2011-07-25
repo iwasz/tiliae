@@ -47,6 +47,10 @@ public:
                           Common::Context *,
                           Editor::IEditor * = NULL) { return false; }
 
+        virtual Core::Variant iterator (const Core::Variant &bean,
+                                        Common::IPath *path,
+                                        Common::Context *ctx) const { return Core::Variant (); };
+
 private:
 
         Ptr <Reflection::Class> getClass (const Core::Variant &bean, const Common::IPath *path) const;

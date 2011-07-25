@@ -26,5 +26,6 @@
 #include "Typedefs.h"
 #include "variant/Cast.h"
 #include "string/String.h"
+#include "Iterator.h"
 
 #	endif /* CORE_H_ */

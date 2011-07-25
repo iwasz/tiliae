@@ -6,15 +6,9 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef REFLECTION_TTEE_WRAPPER_H_
-#define REFLECTION_TTEE_WRAPPER_H_
+#include "Iterator.h"
 
-#include "ConstructorPointer.h"
-#include "MethodWrapper.h"
-#include "SetWrapper.h"
-#include "GetWrapper.h"
-#include "AddWrapper.h"
-#include "SetterWrapper.h"
-#include "IteratorWrapper.h"
+namespace Core {
 
-#	endif /* WRAPPER_H_ */
+
+} /* namespace Core */

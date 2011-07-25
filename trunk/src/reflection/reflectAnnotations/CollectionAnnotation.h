@@ -26,6 +26,7 @@
 #include "../wrapper/AddWrapper.h"
 #include "../wrapper/GetWrapper.h"
 #include "../wrapper/SetWrapper.h"
+#include "../wrapper/IteratorWrapper.h"
 #include "../annotations/Macros.h"
 
 /*##########################################################################*/
@@ -74,13 +75,6 @@
 
 namespace Reflection {
 
-//template <typename T>
-//struct TypeInfo
-//{
-//        std::
-//        return typeid (T);
-//}
-
 template <typename>
 struct CollectionAnnotation {};
 
@@ -103,7 +97,7 @@ void CollectionAnnotation <std::vector <T> >::run (std::string const &className)
         Ptr <Constructor> constructor = boost::make_shared <Constructor> (cp);
         clazz->addConstructor (constructor);
 
-        // 3 Metody
+        // Metody
         Ptr <ICallableWrapper> w = boost::make_shared <AddWrapper <std::vector <T> > > ();
         Ptr <Method> method = boost::make_shared <Method> ("add", w);
         clazz->addMethod (method);
@@ -116,6 +110,9 @@ void CollectionAnnotation <std::vector <T> >::run (std::string const &className)
         method = boost::make_shared <Method> ("set", w);
         clazz->addMethod (method);
 
+        w = boost::make_shared <IteratorWrapper <std::vector <T> > > ();
+        method = boost::make_shared <Method> ("iterator", w);
+        clazz->addMethod (method);
 }
 
 /*##########################################################################*/
@@ -130,7 +127,6 @@ void CollectionAnnotation <std::list <T> >::run (std::string const &className)
 {
         // Sama klasa
         Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (std::list <T> &));
-//        Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (int));
         Manager::add (clazz);
 
         // Konstruktor
@@ -138,7 +134,7 @@ void CollectionAnnotation <std::list <T> >::run (std::string const &className)
         Ptr <Constructor> constructor = boost::make_shared <Constructor> (cp);
         clazz->addConstructor (constructor);
 
-        // 3 Metody
+        // Metody
         Ptr <ICallableWrapper> w = boost::make_shared <AddWrapper <std::list <T> > > ();
         Ptr <Method> method = boost::make_shared <Method> ("add", w);
         clazz->addMethod (method);
@@ -149,6 +145,10 @@ void CollectionAnnotation <std::list <T> >::run (std::string const &className)
 
         w = boost::make_shared <SetWrapper <std::list <T> > > ();
         method = boost::make_shared <Method> ("set", w);
+        clazz->addMethod (method);
+
+        w = boost::make_shared <IteratorWrapper <std::list <T> > > ();
+        method = boost::make_shared <Method> ("iterator", w);
         clazz->addMethod (method);
 }
 
@@ -164,7 +164,6 @@ void CollectionAnnotation <std::set <T> >::run (std::string const &className)
 {
         // Sama klasa
         Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (std::set <T>&));
-//        Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (int));
         Manager::add (clazz);
 
         // Konstruktor
@@ -172,13 +171,17 @@ void CollectionAnnotation <std::set <T> >::run (std::string const &className)
         Ptr <Constructor> constructor = boost::make_shared <Constructor> (cp);
         clazz->addConstructor (constructor);
 
-        // 3 Metody
+        // Metody
         Ptr <ICallableWrapper> w = boost::make_shared <AddWrapper <std::set <T> > > ();
         Ptr <Method> method = boost::make_shared <Method> ("add", w);
         clazz->addMethod (method);
 
         w = boost::make_shared <GetWrapper <std::set <T> > > ();
         method = boost::make_shared <Method> ("get", w);
+        clazz->addMethod (method);
+
+        w = boost::make_shared <IteratorWrapper <std::set <T> > > ();
+        method = boost::make_shared <Method> ("iterator", w);
         clazz->addMethod (method);
 }
 
@@ -194,7 +197,6 @@ void CollectionAnnotation <std::map <K, V> >::run (std::string const &className)
 {
         // Sama klasa
         Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (std::map <K,V>&));
-//        Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (int));
         Manager::add (clazz);
 
         // Konstruktor
@@ -202,7 +204,7 @@ void CollectionAnnotation <std::map <K, V> >::run (std::string const &className)
         Ptr <Constructor> constructor = boost::make_shared <Constructor> (cp);
         clazz->addConstructor (constructor);
 
-        // 2 Metody
+        // Metody
         Ptr <ICallableWrapper> w = boost::make_shared <SetWrapper <std::map <K, V> > > ();
         Ptr <Method> method = boost::make_shared <Method> ("set", w);
         clazz->addMethod (method);
@@ -210,7 +212,10 @@ void CollectionAnnotation <std::map <K, V> >::run (std::string const &className)
         w = boost::make_shared <GetWrapper <std::map <K, V> > > ();
         method = boost::make_shared <Method> ("get", w);
         clazz->addMethod (method);
-}
+
+        w = boost::make_shared <IteratorWrapper <std::map <K, V> > > ();
+        method = boost::make_shared <Method> ("iterator", w);
+        clazz->addMethod (method);}
 
 } // notebook
 

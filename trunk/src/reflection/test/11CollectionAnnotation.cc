@@ -15,6 +15,9 @@
 #include "../wrapper/MethodWrapper.h"
 #include "../reflectAnnotations/CollectionAnnotation.h"
 #include "../../core/Typedefs.h"
+#include "../../core/Iterator.h"
+
+using Core::IIterator;
 
 /*##########################################################################*/
 
@@ -216,6 +219,161 @@ BOOST_AUTO_TEST_CASE (testCustomCollections)
 
     cls = Manager::classForName ("CityMap");
     BOOST_REQUIRE (cls);
+}
+
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (testVectorIterator)
+{
+        Ptr <Class> cls = Manager::classForName ("StringVector");
+        BOOST_REQUIRE (cls);
+
+        Ptr <Constructor> constr = cls->getConstructor ();
+        BOOST_REQUIRE (constr);
+
+        Variant obj = constr->newInstance ();
+
+        BOOST_REQUIRE (!obj.isNone ());
+        BOOST_REQUIRE (ccast <StringVector *> (obj));
+
+        StringVector *strV = vcast <StringVector *> (obj);
+        strV->push_back ("ala");
+        strV->push_back ("MA");
+        strV->push_back ("KOTA");
+        strV->push_back ("PSA");
+
+        Ptr<Method> iterator = cls->getMethod ("iterator");
+        BOOST_REQUIRE (iterator);
+        Ptr <IIterator> i = ocast <Ptr <IIterator> > (iterator->invoke (obj));
+
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "ala");
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "MA");
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "KOTA");
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "PSA");
+        BOOST_REQUIRE (!i->hasNext ());
+}
+
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (testListIterator)
+{
+        Ptr <Class> cls = Manager::classForName ("StringList");
+        BOOST_REQUIRE (cls);
+
+        Ptr <Constructor> constr = cls->getConstructor ();
+        BOOST_REQUIRE (constr);
+
+        Variant obj = constr->newInstance ();
+
+        BOOST_REQUIRE (!obj.isNone ());
+        BOOST_REQUIRE (ccast <StringList *> (obj));
+
+        StringList *strV = vcast <StringList *> (obj);
+        strV->push_back ("ala");
+        strV->push_back ("MA");
+        strV->push_back ("KOTA");
+        strV->push_back ("PSA");
+
+        Ptr<Method> iterator = cls->getMethod ("iterator");
+        BOOST_REQUIRE (iterator);
+        Ptr <IIterator> i = ocast <Ptr <IIterator> > (iterator->invoke (obj));
+
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "ala");
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "MA");
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "KOTA");
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "PSA");
+        BOOST_REQUIRE (!i->hasNext ());
+}
+
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (testListSet)
+{
+        Ptr <Class> cls = Manager::classForName ("StringSet");
+        BOOST_REQUIRE (cls);
+
+        Ptr <Constructor> constr = cls->getConstructor ();
+        BOOST_REQUIRE (constr);
+
+        Variant obj = constr->newInstance ();
+
+        BOOST_REQUIRE (!obj.isNone ());
+        BOOST_REQUIRE (ccast <StringSet *> (obj));
+
+        StringSet *strV = vcast <StringSet *> (obj);
+        strV->insert ("ala");
+        strV->insert ("MA");
+        strV->insert ("KOTA");
+        strV->insert ("PSA");
+
+        Ptr<Method> iterator = cls->getMethod ("iterator");
+        BOOST_REQUIRE (iterator);
+        Ptr <IIterator> i = ocast <Ptr <IIterator> > (iterator->invoke (obj));
+
+        // Assume ascii
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "KOTA");
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "MA");
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "PSA");
+        BOOST_REQUIRE (i->hasNext ());
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "ala");
+        BOOST_REQUIRE (!i->hasNext ());
+}
+
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (testListMap)
+{
+        Ptr <Class> cls = Manager::classForName ("StringMap");
+        BOOST_REQUIRE (cls);
+
+        Ptr <Constructor> constr = cls->getConstructor ();
+        BOOST_REQUIRE (constr);
+
+        Variant obj = constr->newInstance ();
+
+        BOOST_REQUIRE (!obj.isNone ());
+        BOOST_REQUIRE (ccast <StringMap *> (obj));
+
+        StringMap *strV = vcast <StringMap *> (obj);
+        (*strV)["a"] = "1";
+        (*strV)["b"] = "2";
+        (*strV)["c"] = "3";
+
+        Ptr<Method> iterator = cls->getMethod ("iterator");
+        BOOST_REQUIRE (iterator);
+        Ptr <IIterator> i = ocast <Ptr <IIterator> > (iterator->invoke (obj));
+
+        BOOST_REQUIRE (i->hasNext ());
+        std::pair <std::string const, std::string> p = vcast <std::pair <std::string const, std::string> > (i->next ());
+        BOOST_REQUIRE_EQUAL (p.first, "a");
+        BOOST_REQUIRE_EQUAL (p.second, "1");
+
+        BOOST_REQUIRE (i->hasNext ());
+        std::pair <std::string const, std::string> p2 = vcast <std::pair <std::string const, std::string> > (i->next ());
+        BOOST_REQUIRE_EQUAL (p2.first, "b");
+        BOOST_REQUIRE_EQUAL (p2.second, "2");
+
+        BOOST_REQUIRE (i->hasNext ());
+        std::pair <std::string const, std::string> p3 = vcast <std::pair <std::string const, std::string> > (i->next ());
+        BOOST_REQUIRE_EQUAL (p3.first, "c");
+        BOOST_REQUIRE_EQUAL (p3.second, "3");
+
+        BOOST_REQUIRE (!i->hasNext ());
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

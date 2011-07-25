@@ -44,6 +44,10 @@ public:
                           Common::Context *ctx,
                           Editor::IEditor *editor = NULL);
 
+        virtual Core::Variant iterator (const Core::Variant &bean,
+                                        Common::IPath *path,
+                                        Common::Context *ctx) const;
+
         _e (GetPutMethodRWBeanWrapperPlugin)
 };
 

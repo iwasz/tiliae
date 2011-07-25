@@ -33,6 +33,7 @@ struct MethodPtrWrapper <T (C::*) ()> : public ICallableWrapper {
 
         typedef T (C::*MethodPtr) ();
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (void*); }
@@ -56,6 +57,7 @@ struct MethodPtrWrapper <void (C::*) ()> : public ICallableWrapper {
 
         typedef void (C::*MethodPtr) ();
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (void*); }
@@ -80,6 +82,7 @@ struct MethodPtrWrapper <T (C::*) () const> : public ICallableWrapper {
 
         typedef T (C::*MethodPtr) ()const;
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (void*); }
@@ -103,6 +106,7 @@ struct MethodPtrWrapper <void (C::*) () const> : public ICallableWrapper {
 
         typedef void (C::*MethodPtr) ()const;
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (void*); }
@@ -127,6 +131,7 @@ struct MethodPtrWrapper <T (C::*) (A1)> : public ICallableWrapper {
 
         typedef T (C::*MethodPtr) (A1);
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
@@ -151,6 +156,7 @@ struct MethodPtrWrapper <void (C::*) (A1)> : public ICallableWrapper {
 
         typedef void (C::*MethodPtr) (A1);
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);/* { throwConstMethod (); exit (1); }*/
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
@@ -176,6 +182,7 @@ struct MethodPtrWrapper <T (C::*) (A1) const> : public ICallableWrapper {
 
         typedef T (C::*MethodPtr) (A1)const;
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
@@ -200,6 +207,7 @@ struct MethodPtrWrapper <void (C::*) (A1) const> : public ICallableWrapper {
 
         typedef void (C::*MethodPtr) (A1)const;
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
@@ -225,6 +233,7 @@ struct MethodPtrWrapper <T (C::*) (A1, A2)> : public ICallableWrapper {
 
         typedef T (C::*MethodPtr) (A1, A2);
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
@@ -250,6 +259,7 @@ struct MethodPtrWrapper <void (C::*) (A1, A2)> : public ICallableWrapper {
 
         typedef void (C::*MethodPtr) (A1, A2);
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);/* { throwConstMethod (); exit (1); }*/
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
@@ -276,6 +286,7 @@ struct MethodPtrWrapper <T (C::*) (A1, A2) const> : public ICallableWrapper {
 
         typedef T (C::*MethodPtr) (A1, A2)const;
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
@@ -301,6 +312,7 @@ struct MethodPtrWrapper <void (C::*) (A1, A2) const> : public ICallableWrapper {
 
         typedef void (C::*MethodPtr) (A1, A2)const;
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
+        virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }

@@ -36,6 +36,7 @@ struct GetWrapper {};
 template <typename T>
 struct GetWrapper <std::vector<T> > : public ICallableWrapper {
 
+        virtual ~GetWrapper () {}
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T>::type); }
         unsigned int getArity () const { return 1; }
@@ -56,6 +57,7 @@ Core::Variant GetWrapper <std::vector<T> >::call (Core::Variant const &object, C
 template <typename T>
 struct GetWrapper <std::list<T> > : public ICallableWrapper {
 
+        virtual ~GetWrapper () {}
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T>::type); }
         unsigned int getArity () const { return 1; }
@@ -79,6 +81,7 @@ Core::Variant GetWrapper <std::list<T> >::call (Core::Variant const &object, Cor
 template <typename K, typename V>
 struct GetWrapper <std::map<K, V> > : public ICallableWrapper {
 
+        virtual ~GetWrapper () {}
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<V>::type); }
         unsigned int getArity () const { return 1; }
@@ -102,6 +105,7 @@ Core::Variant GetWrapper <std::map<K, V> >::call (Core::Variant const &object, C
 template <typename T>
 struct GetWrapper <std::set <T> > : public ICallableWrapper {
 
+        virtual ~GetWrapper () {}
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T>::type); }
         unsigned int getArity () const { return 1; }

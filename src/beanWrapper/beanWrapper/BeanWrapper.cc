@@ -273,13 +273,14 @@ Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IP
 {
         assert (path);
         unsigned int errCnt = 0;
+        Common::Context tmpCtx;
 
         // Sprobuj uzyc ktoregos pluginu aby wyciagnac obiekt
         for (BeanWrapperPluginList::const_iterator i = getPluginList ()->begin (); i != getPluginList ()->end (); i++) {
 
-                Common::Context tmpCtx;
                 int actualSegments = path->countSegments ();
                 Variant bean;
+                tmpCtx.clearError ();
 
                 if (iter) {
                         bean = (*i)->iterator (input, path, &tmpCtx);
@@ -289,8 +290,7 @@ Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IP
                 }
 
                 if ((!iter && !tmpCtx.isError () && path->countSegments () < actualSegments) || // Kiedy zwykły get
-                    (iter && !bean.isNone ())                                                   // Kiedy pobieranie iteratora
-                                ) {
+                    (iter && !bean.isNone ())) {                                                // Kiedy pobieranie iteratora
                         return bean;
                 }
                 else {
@@ -299,7 +299,9 @@ Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IP
         }
 
         if (errCnt >= getPluginList ()->size ()) {
-                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "Can't get property for path '" + path->toString () + "'. Input : " + input.toString ());
+                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "Can't get property for path [" +
+                                path->toString () + "]. Input : " + input.toString () + ", message : \n" +
+                                tmpCtx.getMessage ());
         }
 
         return Core::Variant ();

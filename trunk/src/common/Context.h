@@ -45,6 +45,11 @@ public:
                 error = false;
         }
 
+        /**
+         * Clears error status, leaves message intact.
+         */
+        void clearError () { error = false; }
+
 /*--------------------------------------------------------------------------*/
 
         /**

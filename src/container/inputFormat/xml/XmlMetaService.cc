@@ -89,7 +89,7 @@ void XmlMetaService::populate (const std::string &xmlFile)
                         run.clear();
                         transition.clear();
 
-                        // Optymalizacja. machine->run (&ctx) jest bardzo kosztowne, więc omijamy zbędne rozgałęzienia kodu. Zaysk ok 15%
+                        // Optymalizacja. machine->run (&ctx) jest bardzo kosztowne, więc omijamy zbędne rozgałęzienia kodu. Zysk ok 15%
                         int nodeType = xmlReader->nodeType ();
 
                         if (nodeType != XML_READER_TYPE_ELEMENT &&

@@ -6,10 +6,11 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef TRANSITION_H_
-#define TRANSITION_H_
+#ifndef STM_TRANSITION_H_
+#define STM_TRANSITION_H_
 
 #include <list>
+#include <map>
 #include "action/IAction.h"
 #include "context/MachineContext.h"
 #include "TransitionAction.h"

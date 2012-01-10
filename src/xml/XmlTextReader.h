@@ -191,7 +191,6 @@ public:
         virtual std::string xmlLang () const;
 
         virtual long byteConsumed () const; //X
-//        virtual std::string string () const;
         virtual std::string xmlVersion () const; //X
         virtual bool next () const; //X
         virtual bool hasAttributes () const; //X

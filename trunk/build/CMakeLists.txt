@@ -6,34 +6,38 @@ if(COMMAND cmake_policy)
 endif(COMMAND cmake_policy)
 
 # Separate libraries like tiliaecore, tiliaecommon etc
-SET(MULTI_LIB                0)
-SET(SINGLE_LIB               1)
+SET(MULTI_LIB                 0)
+SET(SINGLE_LIB                1)
 
 # Here we can set what to build actually (1=build, 0=do not build).
-SET(BUILD_CORE               1)
-SET(BUILD_CORE_TEST          1)
-SET(BUILD_COMMON             1)
-SET(BUILD_COMMON_TEST        1)
-SET(BUILD_REFLECTION         1)
-SET(BUILD_REFLECTION_TEST    1)
-SET(BUILD_TEST_HELPERS       1)
-SET(BUILD_FACTORY            1)
-SET(BUILD_FACTORY_TEST       1)
-SET(BUILD_EDITOR             1)
-SET(BUILD_EDITOR_TEST        1)
-SET(BUILD_BEAN_WRAPPER       1)
-SET(BUILD_BEAN_WRAPPER_TEST  1)
-SET(BUILD_K202               1)
-SET(BUILD_K202_TEST          1)
-SET(BUILD_SIGNAL             1)
-SET(BUILD_SIGNAL_TEST        1)
-SET(BUILD_STATE_MACHINE      1)
-SET(BUILD_STATE_MACHINE_TEST 1)
-SET(BUILD_XML                1)
-SET(BUILD_XML_TEST           1)
-SET(BUILD_CONTAINER          1)
-SET(BUILD_CONTAINER_TEST     1)
-SET(BUILD_DEMO               1)
+SET(BUILD_CORE                1)
+SET(BUILD_CORE_TEST           1)
+SET(BUILD_COMMON              1)
+SET(BUILD_COMMON_TEST         1)
+SET(BUILD_REFLECTION          1)
+SET(BUILD_REFLECTION_TEST     1)
+SET(BUILD_TEST_HELPERS        1)
+SET(BUILD_FACTORY             1)
+SET(BUILD_FACTORY_TEST        1)
+SET(BUILD_EDITOR              1)
+SET(BUILD_EDITOR_TEST         1)
+SET(BUILD_BEAN_WRAPPER        1)
+SET(BUILD_BEAN_WRAPPER_TEST   1)
+SET(BUILD_K202                1)
+SET(BUILD_K202_TEST           1)
+SET(BUILD_SIGNAL              1)
+SET(BUILD_SIGNAL_TEST         1)
+SET(BUILD_STATE_MACHINE       1)
+SET(BUILD_STATE_MACHINE_TEST  1)
+SET(BUILD_STATE_MACHINE2      0)
+SET(BUILD_STATE_MACHINE_TEST2 0)
+SET(BUILD_XML                 1)
+SET(BUILD_XML_TEST            1)
+SET(BUILD_CONTAINER           1)
+SET(BUILD_CONTAINER_TEST      1)
+SET(BUILD_FSM_XMI             0)
+SET(BUILD_FSM_XMI_TEST        0)
+SET(BUILD_DEMO                1)
 
 #SET (CMAKE_VERBOSE_MAKEFILE 1) 
 ADD_DEFINITIONS (-g -fvisibility=hidden -DTILIAE_DLL -Wall)
@@ -95,7 +99,6 @@ link_directories(${XML_LIBRARY_DIRS})
 ENABLE_TESTING ()
 
 SET(MULTI_LIB_SOURCES)
-
 
 ## --------------------------------------------------------
 ## Core
@@ -400,6 +403,40 @@ IF(BUILD_STATE_MACHINE)
 
 ENDIF(BUILD_STATE_MACHINE)
 ## --------------------------------------------------------
+## StateMachine
+## --------------------------------------------------------
+IF(BUILD_STATE_MACHINE2)
+
+    SET(LIB_SOURCES)
+    
+    AUX_SOURCE_DIRECTORY (../src/machine/ LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/machine/condition LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/machine/extension LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/machine/structure LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/machine/action LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/machine/context LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/machine/transition LIB_SOURCES)
+    
+    INCLUDE_DIRECTORIES (../src/machine)
+    
+    IF(SINGLE_LIB)
+        LIST (APPEND MULTI_LIB_SOURCES ${LIB_SOURCES})
+    ENDIF(SINGLE_LIB)      
+
+    IF(MULTI_LIB)
+        add_library (tiliaestatemachine SHARED ${LIB_SOURCES})
+
+        INSTALL (
+            TARGETS tiliaestatemachine 
+            DESTINATION lib 
+            PERMISSIONS
+            OWNER_READ OWNER_WRITE OWNER_EXECUTE
+            GROUP_READ GROUP_EXECUTE
+            WORLD_READ WORLD_EXECUTE)
+    ENDIF(MULTI_LIB)
+
+ENDIF()
+## --------------------------------------------------------
 ## xml
 ## --------------------------------------------------------
 IF(BUILD_XML)
@@ -474,6 +511,33 @@ IF(BUILD_CONTAINER)
     ENDIF(MULTI_LIB)
 
 ENDIF(BUILD_CONTAINER)
+
+## --------------------------------------------------------
+## UML state charts XMI parser.   
+## --------------------------------------------------------
+IF(BUILD_FSM_XMI)
+    SET(LIB_SOURCES)
+    
+    AUX_SOURCE_DIRECTORY (../src/fsmXmi LIB_SOURCES)
+    INCLUDE_DIRECTORIES (../src/fsmXmi)
+    
+    IF(SINGLE_LIB)
+        LIST (APPEND MULTI_LIB_SOURCES ${LIB_SOURCES})
+    ENDIF(SINGLE_LIB)      
+    
+    IF(MULTI_LIB)
+        add_library (tiliaefsmxmi SHARED ${LIB_SOURCES})
+
+        INSTALL (
+            TARGETS tiliaefsmxmi
+            DESTINATION lib 
+            PERMISSIONS
+            OWNER_READ OWNER_WRITE OWNER_EXECUTE
+            GROUP_READ GROUP_EXECUTE
+            WORLD_READ WORLD_EXECUTE)
+    ENDIF(MULTI_LIB)
+
+ENDIF()
 ## --------------------------------------------------------
 ## Biblioteka Tiliae - all in one.
 ## --------------------------------------------------------
@@ -499,8 +563,8 @@ IF(BUILD_CORE_TEST)
     AUX_SOURCE_DIRECTORY (../src/core/test SOURCES)
     add_executable (core_test ${SOURCES})
     
-    TARGET_LINK_LIBRARIES (core_test boost_unit_test_framework-gcc44)
-    TARGET_LINK_LIBRARIES (core_test boost_prg_exec_monitor-gcc44)
+    TARGET_LINK_LIBRARIES (core_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (core_test boost_prg_exec_monitor)
     
     #To jest programik do optymalizacji pod kątem wielkości binarek
     IF (0)
@@ -528,8 +592,8 @@ IF(BUILD_COMMON_TEST)
     
     add_executable (common_test ${TEST_SOURCES})
     
-    TARGET_LINK_LIBRARIES (common_test boost_unit_test_framework-gcc44)
-    TARGET_LINK_LIBRARIES (common_test boost_prg_exec_monitor-gcc44)
+    TARGET_LINK_LIBRARIES (common_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (common_test boost_prg_exec_monitor)
     
     IF(MULTI_LIB)
         TARGET_LINK_LIBRARIES (common_test tiliaecore)
@@ -551,8 +615,8 @@ IF(BUILD_REFLECTION_TEST)
     
     add_executable (reflection_test ${TEST_SOURCES})
     
-    TARGET_LINK_LIBRARIES (reflection_test boost_unit_test_framework-gcc44)
-    TARGET_LINK_LIBRARIES (reflection_test boost_prg_exec_monitor-gcc44)
+    TARGET_LINK_LIBRARIES (reflection_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (reflection_test boost_prg_exec_monitor)
     
     IF(MULTI_LIB)        
         TARGET_LINK_LIBRARIES (reflection_test tiliaecore)
@@ -572,7 +636,7 @@ IF(BUILD_TOOLS_TEST)
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/tools/test TEST_SOURCES)
     add_executable (tools_test ${TEST_SOURCES})  
-    TARGET_LINK_LIBRARIES (tools_test boost_prg_exec_monitor-gcc44)
+    TARGET_LINK_LIBRARIES (tools_test boost_prg_exec_monitor)
     
     IF(MULTI_LIB)
         TARGET_LINK_LIBRARIES (tools_test tiliaecore)
@@ -594,8 +658,8 @@ IF(BUILD_BEAN_WRAPPER_TEST)
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/beanWrapper/test TEST_SOURCES)
     add_executable (bwrap_test ${TEST_SOURCES})
-    TARGET_LINK_LIBRARIES (bwrap_test boost_unit_test_framework-gcc44)
-    TARGET_LINK_LIBRARIES (bwrap_test boost_prg_exec_monitor-gcc44)
+    TARGET_LINK_LIBRARIES (bwrap_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (bwrap_test boost_prg_exec_monitor)
     
     IF(MULTI_LIB)        
         TARGET_LINK_LIBRARIES (bwrap_test tiliaecore)
@@ -620,8 +684,8 @@ IF(BUILD_FACTORY_TEST)
     AUX_SOURCE_DIRECTORY (../src/factory/testHelpers TEST_SOURCES)
     
     add_executable (factory_test ${TEST_SOURCES})
-    TARGET_LINK_LIBRARIES (factory_test boost_unit_test_framework-gcc44)
-    TARGET_LINK_LIBRARIES (factory_test boost_prg_exec_monitor-gcc44)
+    TARGET_LINK_LIBRARIES (factory_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (factory_test boost_prg_exec_monitor)
     
     IF(MULTI_LIB)       
         TARGET_LINK_LIBRARIES (factory_test tiliaecore)
@@ -646,8 +710,8 @@ IF(BUILD_EDITOR_TEST)
     AUX_SOURCE_DIRECTORY (../src/editor/test TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/editor/testHelpers TEST_SOURCES)
     add_executable (editor_test ${TEST_SOURCES})
-    TARGET_LINK_LIBRARIES (editor_test boost_prg_exec_monitor-gcc44)
-    TARGET_LINK_LIBRARIES (editor_test boost_unit_test_framework-gcc44)
+    TARGET_LINK_LIBRARIES (editor_test boost_prg_exec_monitor)
+    TARGET_LINK_LIBRARIES (editor_test boost_unit_test_framework)
     
     IF(MULTI_LIB)        
         TARGET_LINK_LIBRARIES (editor_test tiliaecore)
@@ -671,8 +735,8 @@ IF(BUILD_K202_TEST)
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/k202/test TEST_SOURCES)
     add_executable (k202_test ${TEST_SOURCES})
-    TARGET_LINK_LIBRARIES (k202_test boost_unit_test_framework-gcc44)
-    TARGET_LINK_LIBRARIES (k202_test boost_prg_exec_monitor-gcc44)
+    TARGET_LINK_LIBRARIES (k202_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (k202_test boost_prg_exec_monitor)
         
     IF(MULTI_LIB)        
         TARGET_LINK_LIBRARIES (k202_test tiliaecore)
@@ -695,8 +759,8 @@ IF(BUILD_SIGNAL_TEST)
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/signal/test TEST_SOURCES)
     add_executable (signal_test ${TEST_SOURCES})
-    TARGET_LINK_LIBRARIES (signal_test boost_unit_test_framework-gcc44)
-    TARGET_LINK_LIBRARIES (signal_test boost_prg_exec_monitor-gcc44)
+    TARGET_LINK_LIBRARIES (signal_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (signal_test boost_prg_exec_monitor)
         
     IF(MULTI_LIB)        
         TARGET_LINK_LIBRARIES (signal_test tiliaecore)
@@ -720,8 +784,8 @@ IF(BUILD_STATE_MACHINE_TEST)
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/stateMachine/test TEST_SOURCES)
     add_executable (machine_test ${TEST_SOURCES})
-    TARGET_LINK_LIBRARIES (machine_test boost_unit_test_framework-gcc44)
-    TARGET_LINK_LIBRARIES (machine_test boost_prg_exec_monitor-gcc44)    
+    TARGET_LINK_LIBRARIES (machine_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (machine_test boost_prg_exec_monitor)    
     IF(MULTI_LIB)        
         TARGET_LINK_LIBRARIES (machine_test tiliaecore)
         TARGET_LINK_LIBRARIES (machine_test tiliaereflection)
@@ -739,13 +803,28 @@ IF(BUILD_STATE_MACHINE_TEST)
 
 ENDIF(BUILD_STATE_MACHINE_TEST)
 ## --------------------------------------------------------
+IF(BUILD_STATE_MACHINE_TEST2)
+
+    SET(TEST_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/machine/test TEST_SOURCES)
+    add_executable (machine_test2 ${TEST_SOURCES})
+
+    TARGET_LINK_LIBRARIES (machine_test2 boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (machine_test2 boost_prg_exec_monitor)    
+    TARGET_LINK_LIBRARIES (machine_test2 tiliae)
+    TARGET_LINK_LIBRARIES (machine_test2 ${XML_LIBRARIES})
+
+    ADD_TEST (machine_test2 machine_test2)
+
+ENDIF()
+## --------------------------------------------------------
 IF(BUILD_XML_TEST)
 
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/xml/test TEST_SOURCES)   
     add_executable (xml_test ${TEST_SOURCES})
-    TARGET_LINK_LIBRARIES (xml_test boost_unit_test_framework-gcc44)
-    TARGET_LINK_LIBRARIES (xml_test boost_prg_exec_monitor-gcc44)
+    TARGET_LINK_LIBRARIES (xml_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (xml_test boost_prg_exec_monitor)
         
     IF(MULTI_LIB)       
         TARGET_LINK_LIBRARIES (xml_test ${XML_LIBRARIES})
@@ -763,6 +842,31 @@ IF(BUILD_XML_TEST)
     ADD_TEST (xml_test xml_test)
 
 ENDIF(BUILD_XML_TEST)
+## --------------------------------------------------------
+IF(BUILD_FSM_XMI_TEST)
+
+    SET(TEST_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/fsmXmi/test TEST_SOURCES)   
+    add_executable (fsm_xmi_test ${TEST_SOURCES})
+    TARGET_LINK_LIBRARIES (fsm_xmi_test boost_unit_test_framework)
+    TARGET_LINK_LIBRARIES (fsm_xmi_test boost_prg_exec_monitor)
+        
+    IF(MULTI_LIB)       
+        TARGET_LINK_LIBRARIES (fsm_xmi_test ${XML_LIBRARIES})
+        TARGET_LINK_LIBRARIES (fsm_xmi_test tiliaecore)
+        TARGET_LINK_LIBRARIES (fsm_xmi_test tiliaereflection)
+        TARGET_LINK_LIBRARIES (fsm_xmi_test tiliaetools)
+        TARGET_LINK_LIBRARIES (fsm_xmi_test tiliaebeanwrapper)
+        TARGET_LINK_LIBRARIES (fsm_xmi_test tiliaecommon)
+        TARGET_LINK_LIBRARIES (fsm_xmi_test tiliaexml)
+    ELSE (MULTI_LIB)
+        TARGET_LINK_LIBRARIES (fsm_xmi_test tiliae)
+        TARGET_LINK_LIBRARIES (fsm_xmi_test ${XML_LIBRARIES})        
+    ENDIF(MULTI_LIB)
+
+    ADD_TEST (fsm_xmi_test fsm_xmi_test)
+
+ENDIF()
 ## container test -----------------------------------------
 IF(BUILD_CONTAINER_TEST)
 
@@ -775,7 +879,7 @@ IF(BUILD_CONTAINER_TEST)
     AUX_SOURCE_DIRECTORY (../src/editor/testHelpers TEST_SOURCES)
      
     add_executable (container_test ${TEST_SOURCES})
-    TARGET_LINK_LIBRARIES (container_test boost_unit_test_framework-gcc44)
+    TARGET_LINK_LIBRARIES (container_test boost_unit_test_framework)
 
     IF(MULTI_LIB)        
         TARGET_LINK_LIBRARIES (container_test ${XML_LIBRARIES})
@@ -821,7 +925,7 @@ IF(BUILD_DEMO)
     AUX_SOURCE_DIRECTORY (../demo/ DEMO_SOURCES)
          
     add_executable (demo ${DEMO_SOURCES})
-    TARGET_LINK_LIBRARIES (demo boost_unit_test_framework-gcc44)
+    TARGET_LINK_LIBRARIES (demo boost_unit_test_framework)
 
     IF(MULTI_LIB)        
         TARGET_LINK_LIBRARIES (demo ${XML_LIBRARIES})

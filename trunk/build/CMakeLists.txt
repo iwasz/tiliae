@@ -92,7 +92,7 @@ find_package( Boost 1.41.0 )
 include_directories(${Boost_INCLUDE_DIRS})
 
 include (FindPkgConfig)
-pkg_check_modules (XML "libxml-2.0")
+pkg_check_modules (XML REQUIRED "libxml-2.0")
 INCLUDE_DIRECTORIES (${XML_INCLUDE_DIRS})
 link_directories(${XML_LIBRARY_DIRS})
 

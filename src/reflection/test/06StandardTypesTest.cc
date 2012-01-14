@@ -7,12 +7,10 @@
  ****************************************************************************/
 
 #include <iostream>
+#include <iostream>
+#include <boost/test/unit_test.hpp>
 #include "Reflection.h"
 #include "Core.h"
-
-#include <boost/test/unit_test.hpp>
-#include <iostream>
-
 #include "variant/Cast.h"
 
 BOOST_AUTO_TEST_SUITE (StandardTypesTest);

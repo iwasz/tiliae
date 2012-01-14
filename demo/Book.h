@@ -17,18 +17,18 @@
 
 class Book : public Core::IToStringEnabled {
 public:
-        __c (void)
+        c__ (void)
 
         virtual ~Book () {}
 
         std::string const &getIsbn () const { return isbn; }
-        _m (setIsbn) void setIsbn (std::string const &s) { isbn = s; }
+        m_ (setIsbn) void setIsbn (std::string const &s) { isbn = s; }
 
         std::string const &getTitle () const { return title; }
-        _m (setTitle) void setTitle (std::string const &s) { title = s; }
+        m_ (setTitle) void setTitle (std::string const &s) { title = s; }
 
         Ptr <Author> getAuthor () const { return author; }
-        _m (setAuthor) void setAuthor (Ptr <Author> a) { author = a; }
+        m_ (setAuthor) void setAuthor (Ptr <Author> a) { author = a; }
 
         std::string toString () const { return "Book [" + getTitle () + ", " + getAuthor()->toString () + "]"; }
 
@@ -38,10 +38,10 @@ private:
         std::string isbn;
         Ptr <Author> author;
 
-        _e (Book)
+        e_ (Book)
 };
 
 typedef std::vector <Ptr <Book> > BookVector;
-_g (BookVector)
+g_ (BookVector)
 
 #	endif /* BOOK_H_ */

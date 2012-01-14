@@ -35,10 +35,10 @@ struct TILIAE_API IState : public Core::Object {
 };
 
 typedef std::list <Ptr <IState> > StateList;
-_g (StateList)
+g_ (StateList)
 
 typedef std::map <std::string, Ptr <IState> > StateMap;
-_g (StateMap)
+g_ (StateMap)
 
 } // nam
 

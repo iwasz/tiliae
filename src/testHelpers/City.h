@@ -19,24 +19,24 @@
 class TILIAE_API City {
 public:
 
-        __c (void)
+        c__ (void)
         City () {}
 
-        _c (std::string const &)
+        c_ (std::string const &)
         City (std::string const &n) : name (n) {}
 
         virtual ~City () {}
 
-        _m (init) void init () { name += "_INIT"; }
+        m_ (init) void init () { name += "_INIT"; }
 
-        _m (getName) std::string getName () const { return name; }
-        _m (setName) void setName (const std::string &name) { this->name = name; }
+        m_ (getName) std::string getName () const { return name; }
+        m_ (setName) void setName (const std::string &name) { this->name = name; }
 
 private:
 
         std::string name;
 
-        _e (City)
+        e_ (City)
 
 };
 
@@ -47,7 +47,7 @@ typedef std::list <Ptr <City> > CityList;
 _gn (CityList, "CityList")
 
 typedef std::map <std::string, Ptr <City> > CityMap;
-_g (CityMap)
+g_ (CityMap)
 
 #endif
 

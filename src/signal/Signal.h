@@ -25,20 +25,20 @@
  *
  * <pre>
  * struct QuitButton {
- *      __c (void)
+ *      c__ (void)
  *      onClicked () { sig.emit (); }
- *      _m (getSig) signal<void()> const &getSig () const { return sig; }
+ *      m_ (getSig) signal<void()> const &getSig () const { return sig; }
  *
  * private:
  *      signal<void()> sig;
- *      _e (Button)
+ *      e_ (Button)
  * };
  *
  * /// Odbiorca sygnału z guzika
  * struct Controller {
- *      __c (void)
- *      _m (quit) void quit () { exit (0); }
- *      _e (Controller)
+ *      c__ (void)
+ *      m_ (quit) void quit () { exit (0); }
+ *      e_ (Controller)
  * };
  * </pre>
  *
@@ -124,15 +124,15 @@
  *
  * <pre>
  * struct Handler {
- *        __c(void);
+ *        c__(void);
  *
  *        Handler () : onClickedListener (this, "clicked2", "$onClicked ()") {}
  *
- *        _m (onClicked) void onClicked () { ... }
+ *        m_ (onClicked) void onClicked () { ... }
  *
  *        Listener onClickedListener;
  *
- *        _e (Handler);
+ *        e_ (Handler);
  * };
  * </pre>
  *

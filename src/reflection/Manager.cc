@@ -110,12 +110,12 @@ void Manager::init ()
                         //continue;
                         /*
                          * TODO może kiedyś się to zmieni, albo już zostanie. Genralnie
-                         * chodzi o to, że beż __c na początku nie utworzy się w ogóle obiekt
+                         * chodzi o to, że beż c__ na początku nie utworzy się w ogóle obiekt
                          * Class, z którego mogą korzystać pozostałe adnotacje. Każda adnotacja
-                         * zawiera jaiieś tam informacj i każda ziwera inne. Adnotacja _m, czy _b
+                         * zawiera jaiieś tam informacj i każda ziwera inne. Adnotacja m_, czy b_
                          * nie zawiera wszystkich potrzebnych informacji do stworzenia nowego
                          * obiektu typu Class. Może uda się to zmienić? A jeśli nie to wyjebać
-                         * adnotacje __m i __b.
+                         * adnotacje m__ i b__.
                          */
                         throw AnnotationException ("No ClassAnnotation (1). You shoud use macro with double '__' as the first macro in annotated class. " + annotation->toString ());
 

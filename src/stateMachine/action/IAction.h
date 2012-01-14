@@ -27,10 +27,10 @@ public:
 };
 
 typedef std::list <Ptr <IAction> > ActionList;
-_g (ActionList)
+g_ (ActionList)
 
 typedef std::map <std::string, Ptr <IAction> > ActionMap;
-_g (ActionMap)
+g_ (ActionMap)
 
 }
 

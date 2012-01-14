@@ -22,10 +22,10 @@ namespace StateMachine {
  */
 class TILIAE_API K202Condition : public ICondition {
 public:
-        __c (void)
+        c__ (void)
         K202Condition () {}
 
-        _c (const std::string &)
+        c_ (const std::string &)
         K202Condition (const std::string &sourceCode);
 
         K202Condition (const std::string &sourceCode, Ptr <k202::K202> k202);
@@ -35,7 +35,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         std::string getCode () const;
-        _m (setCode) void setCode (const std::string &code);
+        m_ (setCode) void setCode (const std::string &code);
 
 /*--------------------------------------------------------------------------*/
 
@@ -44,7 +44,7 @@ public:
 private:
 
         Ptr <k202::Script> script;
-        _e (K202Condition)
+        e_ (K202Condition)
 };
 
 }

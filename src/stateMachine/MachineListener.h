@@ -25,7 +25,7 @@ class Machine;
  */
 class TILIAE_API MachineListener : public Signal::AbstractListener {
 public:
-        __c (void)
+        c__ (void)
 
         virtual ~MachineListener () {}
 
@@ -35,14 +35,14 @@ public:
         void setMachine (Machine *m);
 
         std::string getPath () const { return path; }
-        _m (setPath) void setPath (const std::string &path) { this->path = path; }
+        m_ (setPath) void setPath (const std::string &path) { this->path = path; }
 
 private:
 
         std::string path;
         Machine *machine;
 
-        _e (MachineListener)
+        e_ (MachineListener)
 };
 
 }

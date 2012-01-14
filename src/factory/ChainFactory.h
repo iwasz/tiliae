@@ -23,12 +23,12 @@ namespace Factory {
 class TILIAE_API ChainFactory : public IFactory {
 public:
 
-        __c (void)
+        c__ (void)
 
         virtual ~ChainFactory () {}
         virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Common::Context *context = NULL) const;
 
-        _m (setFactories) void setFactories (Factory::FactoryVector const &f) { factories = f; }
+        m_ (setFactories) void setFactories (Factory::FactoryVector const &f) { factories = f; }
         void addFactory (Ptr <Factory::IFactory> f) { factories.push_back (f); }
         Factory::FactoryVector const &getFactories () const { return factories; }
 
@@ -36,7 +36,7 @@ private:
 
         Factory::FactoryVector factories;
 
-        _e (ChainFactory)
+        e_ (ChainFactory)
 };
 
 }

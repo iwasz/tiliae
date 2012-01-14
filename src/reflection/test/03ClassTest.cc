@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (testBaseClassTest)
 namespace A {
 
         struct Testowa {
-                __e (Testowa)
+                e__ (Testowa)
         };
 
 }
@@ -61,7 +61,7 @@ namespace B {
 
         struct Testowa {
 //                __ne (B::Testowa, BTestowa)
-                __e (B::Testowa)
+                e__ (B::Testowa)
         };
 
 }
@@ -70,7 +70,7 @@ namespace C {
 
         struct Testowa {
 //                __ne (C::Testowa, CTestowa)
-                __e (C::Testowa)
+                e__ (C::Testowa)
         };
 
 }
@@ -78,9 +78,9 @@ namespace C {
 namespace D {
 
         struct Testowa {
-                __c (void)
-                _m (f) void f () {}
-                _e (D::Testowa)
+                c__ (void)
+                m_ (f) void f () {}
+                e_ (D::Testowa)
         };
 
 }
@@ -116,40 +116,40 @@ BOOST_AUTO_TEST_CASE (testTwoClasesSameName)
 namespace E {
 
         struct Testowa01 {
-                __d
-                _e (Testowa01)
+                d__
+                e_ (Testowa01)
         };
 
         struct Testowa02 {
-                __d
+                d__
                 virtual ~Testowa02 () {}
 
-                _m (f) virtual void f () = 0;
+                m_ (f) virtual void f () = 0;
 
-                _e (Testowa02)
+                e_ (Testowa02)
         };
 
         struct Testowa03 : public Testowa02 {
-                __c (void)
-                _b ("Testowa02")
+                c__ (void)
+                b_ ("Testowa02")
 
                 virtual ~Testowa03 () {}
 
                 virtual void f () {}
-                _m (g) virtual void g () {}
+                m_ (g) virtual void g () {}
 
-                _e (Testowa03)
+                e_ (Testowa03)
         };
 
         struct Testowa04 : public Testowa03 {
-                __c (void)
-                _b ("Testowa03")
+                c__ (void)
+                b_ ("Testowa03")
 
                 virtual ~Testowa04 () {}
 
-                _m (h) virtual void h () {}
+                m_ (h) virtual void h () {}
 
-                _e (Testowa04)
+                e_ (Testowa04)
         };
 
 }
@@ -223,17 +223,17 @@ namespace F {
         template <typename T>
         struct Template {
 
-                __c (void)
+                c__ (void)
 
                 virtual ~Template () {}
 
-                _m (f) virtual void f () {}
+                m_ (f) virtual void f () {}
 
         private:
 
                 T t;
 
-                _e (Template<int>)
+                e_ (Template<int>)
         };
 
 /*--------------------------------------------------------------------------*/
@@ -241,16 +241,16 @@ namespace F {
         template <typename T>
         struct Template01 {
 
-                __c (void)
+                c__ (void)
 
                 virtual ~Template01 () {}
 
-                _m (setT) void setT (const T &t) { this->t = t; }
-                _m (getT) const T &getT () const { return t; }
+                m_ (setT) void setT (const T &t) { this->t = t; }
+                m_ (getT) const T &getT () const { return t; }
 
                 T t;
 
-                _e (Template01<int>)
+                e_ (Template01<int>)
         };
 
 /*--------------------------------------------------------------------------*/
@@ -259,19 +259,19 @@ namespace F {
         template <typename T>
         struct Template02 {
 
-                __c (void)
+                c__ (void)
 
                 virtual ~Template02 () {}
 
-                _m (setT) void setT (const T &t) { this->t = t; }
-                _m (getT) const T &getT () const { return t; }
+                m_ (setT) void setT (const T &t) { this->t = t; }
+                m_ (getT) const T &getT () const { return t; }
 
                 T t;
 
-                _tb
-                _t (Template02<int>)
-                _t (Template02<double>)
-                _te
+                tb_
+                t_ (Template02<int>)
+                t_ (Template02<double>)
+                te_
         };
 #endif
 }

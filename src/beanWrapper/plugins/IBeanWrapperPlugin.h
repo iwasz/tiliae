@@ -100,7 +100,7 @@ public:
 /****************************************************************************/
 
 typedef std::list <Ptr <Wrapper::IBeanWrapperPlugin> > BeanWrapperPluginList;
-_g (BeanWrapperPluginList)
+g_ (BeanWrapperPluginList)
 
 } // namespace
 

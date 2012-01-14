@@ -23,7 +23,7 @@ namespace Wrapper {
  */
 class TILIAE_API GetPutMethodRWBeanWrapperPlugin : public IBeanWrapperPlugin {
 public:
-        __c (void)
+        c__ (void)
 
         virtual ~GetPutMethodRWBeanWrapperPlugin () {}
 
@@ -48,7 +48,7 @@ public:
                                         Common::IPath *path,
                                         Common::Context *ctx) const;
 
-        _e (GetPutMethodRWBeanWrapperPlugin)
+        e_ (GetPutMethodRWBeanWrapperPlugin)
 };
 
 

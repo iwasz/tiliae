@@ -34,7 +34,7 @@ class ICondition;
  */
 class TILIAE_API Transition {
 public:
-        __c (void)
+        c__ (void)
 
         Transition () {}
 
@@ -57,17 +57,17 @@ public:
 /*--------------------------------------------------------------------------*/
 
         std::string getToState () const { return toState; }
-        _m (setToState) void setToState (const std::string &toState) { this->toState = toState; }
+        m_ (setToState) void setToState (const std::string &toState) { this->toState = toState; }
 
-        _m (getCondition) Ptr<ICondition> getCondition () const { return condition; }
-        _m (setCondition) void setCondition (Ptr<ICondition> condition) { this->condition = condition; }
+        m_ (getCondition) Ptr<ICondition> getCondition () const { return condition; }
+        m_ (setCondition) void setCondition (Ptr<ICondition> condition) { this->condition = condition; }
 
         /**
          * Te akcje zostaną dodane do listy wyjść podczas wykonywania
          * przejścia.
          */
         ActionList getTransitionActions () const { return transitionActions; }
-        _m (setTransitionActions) void setTransitionActions (const ActionList &transitionActions) { this->transitionActions = transitionActions; }
+        m_ (setTransitionActions) void setTransitionActions (const ActionList &transitionActions) { this->transitionActions = transitionActions; }
         void addTransitionAction (Ptr <IAction> transitionAction) { transitionActions.push_back (transitionAction); }
         void removeTransitionAction (Ptr <IAction> transitionAction) { transitionActions.remove (transitionAction); }
 
@@ -77,11 +77,11 @@ private:
         Ptr <ICondition> condition;
         ActionList transitionActions;
 
-        _e (Transition)
+        e_ (Transition)
 };
 
 typedef std::list <Ptr <Transition> > TransitionList;
-_g (TransitionList)
+g_ (TransitionList)
 
 } // namespace
 

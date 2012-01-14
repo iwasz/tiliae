@@ -21,28 +21,28 @@
  */
 class Author : public Core::IToStringEnabled {
 public:
-        __c (void)
+        c__ (void)
         Author () : age (0) {}
 
-        _c (std::string const &)
+        c_ (std::string const &)
         Author (std::string const &s) : firstname (s), lastname (s), age (0) {}
 
-        _c (std::string const &, std::string const &)
+        c_ (std::string const &, std::string const &)
         Author (std::string const &f, std::string const &l) : firstname (f), lastname (l), age (0) {}
 
         virtual ~Author () {}
 
         std::string const &getFirstname () const { return firstname; }
-        _m (setFirstname) void setFirstname (std::string const &s) { firstname = s; }
+        m_ (setFirstname) void setFirstname (std::string const &s) { firstname = s; }
 
         std::string const &getLastname () const { return lastname; }
-        _m (setLastname) void setLastname (std::string const &s) { lastname = s; }
+        m_ (setLastname) void setLastname (std::string const &s) { lastname = s; }
 
         int getAge () const { return age; }
-        _m (setAge) void setAge (int i) { age = i; }
+        m_ (setAge) void setAge (int i) { age = i; }
 
         Ptr <IFilter> getFilter () const { return filter; }
-        _s (setFilter) void setFilter (Ptr <IFilter> f) { filter = f; }
+        s_ (setFilter) void setFilter (Ptr <IFilter> f) { filter = f; }
 
         std::string toString () const
         {
@@ -65,11 +65,11 @@ private:
         // It's short for boost::shared_ptr.
         Ptr <IFilter> filter;
 
-        _e (Author)
+        e_ (Author)
 };
 
 typedef std::map <std::string, Ptr <Author> > AuthorMap;
-_g (AuthorMap)
+g_ (AuthorMap)
 
 
 #	endif /* AUTHOR_H_ */

@@ -25,29 +25,29 @@ class Country;
 class TILIAE_API Address : public Place {
 public:
 
-        __c(void)
-        _b ("Place")
+        c__(void)
+        b_ ("Place")
 
         Address () : city (NULL), country (NULL) {}
         virtual ~Address () {}
 
-        _m (getStreet)          Core::String getStreet () const { return street; }
-        _m (setStreet)          void setStreet (const Core::String &street) { this->street = street; }
+        m_ (getStreet)          Core::String getStreet () const { return street; }
+        m_ (setStreet)          void setStreet (const Core::String &street) { this->street = street; }
 
-        _m (getPostalCode)      Core::String getPostalCode () const { return postalCode; }
-        _m (setPostalCode)      void setPostalCode (const Core::String &postalCode) { this->postalCode = postalCode; }
+        m_ (getPostalCode)      Core::String getPostalCode () const { return postalCode; }
+        m_ (setPostalCode)      void setPostalCode (const Core::String &postalCode) { this->postalCode = postalCode; }
 
-        _m (getCity)            City *getCity () const { return city; }
-        _m (setCity)            void setCity (City *city) { this->city = city; }
+        m_ (getCity)            City *getCity () const { return city; }
+        m_ (setCity)            void setCity (City *city) { this->city = city; }
 
-        _m (getCountry)         Country *getCountry () const { return country; }
-        _m (setCountry)         void setCountry (Country *country) { this->country = country; }
+        m_ (getCountry)         Country *getCountry () const { return country; }
+        m_ (setCountry)         void setCountry (Country *country) { this->country = country; }
 
-        _m (getString)          Core::String getString () { return string; }
-        _m (setString)          void setString (const Core::String &string) { this->string = string; }
+        m_ (getString)          Core::String getString () { return string; }
+        m_ (setString)          void setString (const Core::String &string) { this->string = string; }
 
-        _m (getProperty)        Core::Variant getProperty () const { return property; }
-        _m (setProperty)        void setProperty (const Core::Variant &p) { property = p; }
+        m_ (getProperty)        Core::Variant getProperty () const { return property; }
+        m_ (setProperty)        void setProperty (const Core::Variant &p) { property = p; }
 
 private:
 
@@ -58,12 +58,12 @@ private:
         Core::Variant property;
         Core::String string;
 
-        _e (Address)
+        e_ (Address)
 };
 
 
 typedef std::list <Ptr <Address> > AddressList;
-_g (AddressList)
+g_ (AddressList)
 
 #endif
 

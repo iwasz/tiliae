@@ -32,7 +32,7 @@ namespace StateMachine {
  */
 class TILIAE_API MachineContext : public Core::IToStringEnabled {
 public:
-        __d
+        d__
 
         enum Scope { MACHINE, RUN, TRANSITION };
 
@@ -44,10 +44,10 @@ public:
         virtual ~MachineContext () {}
 
         /// Szuka we wszystkich, zwraca pierwszy znaleziony.
-        _m (get) virtual Core::Variant get (const std::string &name) const;
+        m_ (get) virtual Core::Variant get (const std::string &name) const;
 
         /// Ustawia w transition.
-        _m (set) virtual void set (const std::string &name, const Core::Variant &object);
+        m_ (set) virtual void set (const std::string &name, const Core::Variant &object);
 
         void setMap (Scope scope, Core::VariantMap *map);
         Core::VariantMap *getMap (Scope scope);
@@ -62,7 +62,7 @@ private:
         Core::VariantMap *run;
         Core::VariantMap *transition;
 
-        _e (MachineContext)
+        e_ (MachineContext)
 };
 
 }

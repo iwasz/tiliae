@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE (test063SingletonInit)
 }
 
 typedef std::vector <int> IntVector;
-_g (IntVector)
+g_ (IntVector)
 
 /**
  *

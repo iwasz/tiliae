@@ -43,7 +43,7 @@ Tag <bean> opisuje jeden bean. Bean może być dowolnego typu (łącznie z lista
 Tagi które mogą występować w środku taga <bean> to : <property>, <constructor-arg> i <bean>.
 
 \subsubsection ContainerInputFormatProperty Wywołanie settera, czyil <property>
-Tag property równa się wywołaniu settera danego obiektu. Oczywiście setter musi mieć javowy format setNazwa i musi być dostępny z poziomu refleksji (czyli zaadnotowany za pomocą np. _m). Atrybuyu tagu to :
+Tag property równa się wywołaniu settera danego obiektu. Oczywiście setter musi mieć javowy format setNazwa i musi być dostępny z poziomu refleksji (czyli zaadnotowany za pomocą np. m_). Atrybuyu tagu to :
 
 - name : nazwa, czyli nazwa pola - tak samo jak w javie.
 - value : wartość. W tym momencie kontener napotkawszy ten atrybut stworzy obiekt typu Core::String i niestety nie dokona żadnej automatycznej konwersji. Jeśli typ ustawianego pola jest inny niż Core::String, nalezy użyć notacji z zagnieżdżonym tagiem <value type="mojTyp">, gdzie mojTyp oznacza własciwy typ.

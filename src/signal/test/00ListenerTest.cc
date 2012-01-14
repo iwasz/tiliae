@@ -20,14 +20,14 @@ BOOST_AUTO_TEST_SUITE (ListenerTest);
 
 struct Receiver2 {
 
-        __c(void);
+        c__(void);
 
         Receiver2 () : onSig3 (this, "$handler2 (3)", "/scope/sig3"),
                         onSig4 (this, "$handler2 (4)", "/sig4"),
                         iValue (0)
                         {}
 
-        _m (handler2) void handler2 (int i)
+        m_ (handler2) void handler2 (int i)
         {
                 iValue = i;
         }
@@ -35,7 +35,7 @@ struct Receiver2 {
         Listener onSig3, onSig4;
         int iValue;
 
-        _e (Receiver2);
+        e_ (Receiver2);
 };
 
 /**
@@ -78,7 +78,7 @@ struct Receiver3 {
                         clck2 (this, "2", "/scpe/clck2") {}
 
         Listener clck1, clck2;
-        __e (Receiver3);
+        e__ (Receiver3);
 };
 
 /**

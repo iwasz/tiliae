@@ -22,9 +22,9 @@ namespace Machine {
  */
 class TILIAE_API K202Condition : public ICondition {
 public:
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
         K202Condition () {}
-        c_ (const std::string &)
+        REFLECTION_CONSTRUCTOR (const std::string &)
         K202Condition (const std::string &sourceCode);
         K202Condition (const std::string &sourceCode, Ptr <k202::K202> k202);
         virtual ~K202Condition () {}
@@ -32,7 +32,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         std::string getCode () const;
-        m_ (setCode) void setCode (const std::string &code);
+        REFLECTION_METHOD (setCode) void setCode (const std::string &code);
 
 /*--------------------------------------------------------------------------*/
 
@@ -41,7 +41,7 @@ public:
 private:
 
         Ptr <k202::Script> script;
-        e_ (K202Condition)
+        REFLECTION_END (K202Condition)
 };
 
 }

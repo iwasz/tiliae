@@ -21,7 +21,7 @@ struct TILIAE_API DummyIEditor : public Editor::IEditor {
 
         void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
 
-        e__ (DummyIEditor)
+        REFLECTION_END_ (DummyIEditor)
 };
 
 #endif /* DUMMYIEDITOR_H_ */

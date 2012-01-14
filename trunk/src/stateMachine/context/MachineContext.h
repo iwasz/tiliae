@@ -44,10 +44,10 @@ public:
         virtual ~MachineContext () {}
 
         /// Szuka we wszystkich, zwraca pierwszy znaleziony.
-        m_ (get) virtual Core::Variant get (const std::string &name) const;
+        REFLECTION_METHOD (get) virtual Core::Variant get (const std::string &name) const;
 
         /// Ustawia w transition.
-        m_ (set) virtual void set (const std::string &name, const Core::Variant &object);
+        REFLECTION_METHOD (set) virtual void set (const std::string &name, const Core::Variant &object);
 
         void setMap (Scope scope, Core::VariantMap *map);
         Core::VariantMap *getMap (Scope scope);
@@ -62,7 +62,7 @@ private:
         Core::VariantMap *run;
         Core::VariantMap *transition;
 
-        e_ (MachineContext)
+        REFLECTION_END (MachineContext)
 };
 
 }

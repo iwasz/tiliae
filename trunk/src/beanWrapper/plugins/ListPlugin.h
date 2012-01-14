@@ -20,7 +20,7 @@
 //class ListPlugin : public IBeanWrapperPlugin {
 //public:
 //
-//        c__ (void)
+//        REFLECTION_CONSTRUCTOR_ (void)
 //
 //        virtual ~ListPlugin () {}
 //
@@ -33,7 +33,7 @@
 //        		const Core::Variant &objectToSet,
 //                        Context *ctx = NULL);
 //
-//        e_ (ListPlugin)
+//        REFLECTION_END (ListPlugin)
 //
 //};
 //

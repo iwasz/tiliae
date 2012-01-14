@@ -19,24 +19,24 @@
 class TILIAE_API Telephone  {
 public:
 
-        c__ (const std::string &);
+        REFLECTION_CONSTRUCTOR_ (const std::string &);
         Telephone (const std::string &n) : name (n) {}
 
-        m_ (getName) std::string getName () const { return name; }
-        m_ (setName) void setName (const std::string &name) { this->name = name; }
+        REFLECTION_METHOD (getName) std::string getName () const { return name; }
+        REFLECTION_METHOD (setName) void setName (const std::string &name) { this->name = name; }
 
 private:
 
         std::string name;
 
-        e_ (Telephone)
+        REFLECTION_END (Telephone)
 
 };
 
 /****************************************************************************/
 
 typedef std::list <Ptr <Telephone> > TelephoneList;
-g_(TelephoneList)
+REFLECTION_COLLECTION(TelephoneList)
 
 #endif
 

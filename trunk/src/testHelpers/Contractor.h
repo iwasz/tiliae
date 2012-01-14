@@ -23,7 +23,7 @@
 class TILIAE_API Contractor {
 public:
 
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
 
         Contractor () : addressList (NULL), telephoneList (NULL),
                 zyd (false), mason (false), plec (WOMAN), wiek (0)
@@ -32,29 +32,29 @@ public:
 
         virtual ~Contractor () {}
 
-        m_ (getName) Core::String getName () const { return name; }
-        m_ (setName) void setName (const Core::String &name) { this->name = name; }
+        REFLECTION_METHOD (getName) Core::String getName () const { return name; }
+        REFLECTION_METHOD (setName) void setName (const Core::String &name) { this->name = name; }
 
-        m_ (getSymbol) Core::String getSymbol () const { return symbol; }
-        m_ (setSymbol) void setSymbol (const Core::String &symbol) { this->symbol = symbol; }
+        REFLECTION_METHOD (getSymbol) Core::String getSymbol () const { return symbol; }
+        REFLECTION_METHOD (setSymbol) void setSymbol (const Core::String &symbol) { this->symbol = symbol; }
 
-        m_ (getAddressList)  AddressList *getAddressList () const { return addressList; }
-        m_ (setAddressList) void setAddressList (AddressList *addressList) { this->addressList = addressList; }
+        REFLECTION_METHOD (getAddressList)  AddressList *getAddressList () const { return addressList; }
+        REFLECTION_METHOD (setAddressList) void setAddressList (AddressList *addressList) { this->addressList = addressList; }
 
-        m_ (getTelephoneList) TelephoneList *getTelephoneList () const { return telephoneList; }
-        m_ (setTelephoneList) void setTelephoneList (TelephoneList *telephoneList) { this->telephoneList = telephoneList; }
+        REFLECTION_METHOD (getTelephoneList) TelephoneList *getTelephoneList () const { return telephoneList; }
+        REFLECTION_METHOD (setTelephoneList) void setTelephoneList (TelephoneList *telephoneList) { this->telephoneList = telephoneList; }
 
-        m_ (getZyd)  bool getZyd () const { return zyd; }
-        m_ (setZyd) void setZyd (bool zyd) { this->zyd = zyd; }
+        REFLECTION_METHOD (getZyd)  bool getZyd () const { return zyd; }
+        REFLECTION_METHOD (setZyd) void setZyd (bool zyd) { this->zyd = zyd; }
 
-        m_ (getMason) bool getMason () const { return mason; }
-        m_ (setMason) void setMason (bool mason) { this->mason = mason; }
+        REFLECTION_METHOD (getMason) bool getMason () const { return mason; }
+        REFLECTION_METHOD (setMason) void setMason (bool mason) { this->mason = mason; }
 
-        m_ (getPlec) Gender getPlec () const { return plec; }
-        m_ (setPlec) void setPlec (Gender plec) { this->plec = plec; }
+        REFLECTION_METHOD (getPlec) Gender getPlec () const { return plec; }
+        REFLECTION_METHOD (setPlec) void setPlec (Gender plec) { this->plec = plec; }
 
-        m_ (getWiek) int getWiek () const { return wiek; }
-        m_ (setWiek) void setWiek (int wiek) { this->wiek = wiek; }
+        REFLECTION_METHOD (getWiek) int getWiek () const { return wiek; }
+        REFLECTION_METHOD (setWiek) void setWiek (int wiek) { this->wiek = wiek; }
 
 private:
 
@@ -78,7 +78,7 @@ private:
 
         int wiek;
 
-        e_ (Contractor)
+        REFLECTION_END (Contractor)
 
 };
 

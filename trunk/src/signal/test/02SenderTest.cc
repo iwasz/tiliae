@@ -43,19 +43,19 @@ struct Button {
  */
 struct Handler {
 
-        c__(void);
+        REFLECTION_CONSTRUCTOR_(void);
 
         Handler () :
                 onClickedListener (this, "$onClicked ()", "clicked2"),
                 onClickedListener2 (this, "$onClicked3 ()", "clicked3"),
                 iValue (0) {}
 
-        m_ (onClicked) void onClicked ()
+        REFLECTION_METHOD (onClicked) void onClicked ()
         {
                 iValue = 778890;
         }
 
-        m_ (onClicked3) void onClicked3 ()
+        REFLECTION_METHOD (onClicked3) void onClicked3 ()
         {
                 ++iValue;
         }
@@ -63,7 +63,7 @@ struct Handler {
         Listener onClickedListener, onClickedListener2;
         int iValue;
 
-        e_ (Handler);
+        REFLECTION_END (Handler);
 };
 
 /**

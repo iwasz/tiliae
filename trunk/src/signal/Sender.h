@@ -30,7 +30,7 @@ namespace Signal {
  */
 class TILIAE_API Sender {
 public:
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
 
         Sender ();
         Sender (void *ownerObject);
@@ -45,7 +45,7 @@ public:
         Ptr<Scope> getScope () const { return scope; }
         void setScope (Ptr<Scope> scope) { this->scope = scope; }
 
-        m_ (setPath) void setPath (std::string const &s);
+        REFLECTION_METHOD (setPath) void setPath (std::string const &s);
         std::string const &getPath () const { return path; }
 
         Core::Variant emit (const Core::VariantVector &paramVector,
@@ -54,10 +54,10 @@ public:
         Core::Variant emit ();
 
         Ptr <Core::VariantVector const> getParamVector () const { return paramVector; }
-        m_ (setParamVector) void setParamVector (Ptr <Core::VariantVector> pv) { paramVector = pv; }
+        REFLECTION_METHOD (setParamVector) void setParamVector (Ptr <Core::VariantVector> pv) { paramVector = pv; }
 
         Ptr <Core::VariantMap const> getParamMap () const { return paramMap; }
-        m_ (setParamMap) void setParamMap (Ptr <Core::VariantMap> pm) { paramMap = pm; }
+        REFLECTION_METHOD (setParamMap) void setParamMap (Ptr <Core::VariantMap> pm) { paramMap = pm; }
 
 private:
 
@@ -68,7 +68,7 @@ private:
         Ptr <Core::VariantVector> paramVector;
         Ptr <Core::VariantMap> paramMap;
 
-        e_ (Sender)
+        REFLECTION_END (Sender)
 };
 
 } // nam

@@ -28,7 +28,7 @@ struct TILIAE_API CityFactory : public Factory::IFactory {
                 return Core::Variant (boost::make_shared <City> ());
         }
 
-        e__ (CityFactory)
+        REFLECTION_END_ (CityFactory)
 };
 
 #endif /* TESTFACTORIES_H_ */

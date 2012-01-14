@@ -31,7 +31,7 @@
 
 /*
  * Z powyższego utworzy się metody i doda je do obiektu Class.
- * 2. Potrzebne specjalne adnotacje - można użyć tego co już jest w f_
+ * 2. Potrzebne specjalne adnotacje - można użyć tego co już jest w REFLECTION_FACTORY
  */
 
 

@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (testBaseClassTest)
 namespace A {
 
         struct Testowa {
-                e__ (Testowa)
+                REFLECTION_END_ (Testowa)
         };
 
 }
@@ -61,7 +61,7 @@ namespace B {
 
         struct Testowa {
 //                __ne (B::Testowa, BTestowa)
-                e__ (B::Testowa)
+                REFLECTION_END_ (B::Testowa)
         };
 
 }
@@ -70,7 +70,7 @@ namespace C {
 
         struct Testowa {
 //                __ne (C::Testowa, CTestowa)
-                e__ (C::Testowa)
+                REFLECTION_END_ (C::Testowa)
         };
 
 }
@@ -78,9 +78,9 @@ namespace C {
 namespace D {
 
         struct Testowa {
-                c__ (void)
-                m_ (f) void f () {}
-                e_ (D::Testowa)
+                REFLECTION_CONSTRUCTOR_ (void)
+                REFLECTION_METHOD (f) void f () {}
+                REFLECTION_END (D::Testowa)
         };
 
 }
@@ -117,39 +117,39 @@ namespace E {
 
         struct Testowa01 {
                 d__
-                e_ (Testowa01)
+                REFLECTION_END (Testowa01)
         };
 
         struct Testowa02 {
                 d__
                 virtual ~Testowa02 () {}
 
-                m_ (f) virtual void f () = 0;
+                REFLECTION_METHOD (f) virtual void f () = 0;
 
-                e_ (Testowa02)
+                REFLECTION_END (Testowa02)
         };
 
         struct Testowa03 : public Testowa02 {
-                c__ (void)
-                b_ ("Testowa02")
+                REFLECTION_CONSTRUCTOR_ (void)
+                REFLECTION_BASE_CLASS ("Testowa02")
 
                 virtual ~Testowa03 () {}
 
                 virtual void f () {}
-                m_ (g) virtual void g () {}
+                REFLECTION_METHOD (g) virtual void g () {}
 
-                e_ (Testowa03)
+                REFLECTION_END (Testowa03)
         };
 
         struct Testowa04 : public Testowa03 {
-                c__ (void)
-                b_ ("Testowa03")
+                REFLECTION_CONSTRUCTOR_ (void)
+                REFLECTION_BASE_CLASS ("Testowa03")
 
                 virtual ~Testowa04 () {}
 
-                m_ (h) virtual void h () {}
+                REFLECTION_METHOD (h) virtual void h () {}
 
-                e_ (Testowa04)
+                REFLECTION_END (Testowa04)
         };
 
 }
@@ -223,17 +223,17 @@ namespace F {
         template <typename T>
         struct Template {
 
-                c__ (void)
+                REFLECTION_CONSTRUCTOR_ (void)
 
                 virtual ~Template () {}
 
-                m_ (f) virtual void f () {}
+                REFLECTION_METHOD (f) virtual void f () {}
 
         private:
 
                 T t;
 
-                e_ (Template<int>)
+                REFLECTION_END (Template<int>)
         };
 
 /*--------------------------------------------------------------------------*/
@@ -241,16 +241,16 @@ namespace F {
         template <typename T>
         struct Template01 {
 
-                c__ (void)
+                REFLECTION_CONSTRUCTOR_ (void)
 
                 virtual ~Template01 () {}
 
-                m_ (setT) void setT (const T &t) { this->t = t; }
-                m_ (getT) const T &getT () const { return t; }
+                REFLECTION_METHOD (setT) void setT (const T &t) { this->t = t; }
+                REFLECTION_METHOD (getT) const T &getT () const { return t; }
 
                 T t;
 
-                e_ (Template01<int>)
+                REFLECTION_END (Template01<int>)
         };
 
 /*--------------------------------------------------------------------------*/
@@ -259,19 +259,19 @@ namespace F {
         template <typename T>
         struct Template02 {
 
-                c__ (void)
+                REFLECTION_CONSTRUCTOR_ (void)
 
                 virtual ~Template02 () {}
 
-                m_ (setT) void setT (const T &t) { this->t = t; }
-                m_ (getT) const T &getT () const { return t; }
+                REFLECTION_METHOD (setT) void setT (const T &t) { this->t = t; }
+                REFLECTION_METHOD (getT) const T &getT () const { return t; }
 
                 T t;
 
-                tb_
-                t_ (Template02<int>)
-                t_ (Template02<double>)
-                te_
+                REFLECTION_TEMPLATE_BEGIN
+                REFLECTION_TEMPLATE (Template02<int>)
+                REFLECTION_TEMPLATE (Template02<double>)
+                REFLECTION_TEMPLATE_END
         };
 #endif
 }

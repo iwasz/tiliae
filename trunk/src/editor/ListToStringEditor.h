@@ -38,7 +38,7 @@ private:
         std::string delimiter;
         std::string quotation;
 
-        e__ (ListToStringEditor)
+        REFLECTION_END_ (ListToStringEditor)
 };
 
 }

@@ -33,16 +33,16 @@ using namespace Editor;
 
 class A {
 public:
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
         virtual ~A () {}
 
-        m_ (init) void init () {}
+        REFLECTION_METHOD (init) void init () {}
 
-        m_ (getField) std::string const &getField () const { return field; }
-        m_ (setField) void setField (std::string const &field) { this->field = field; }
+        REFLECTION_METHOD (getField) std::string const &getField () const { return field; }
+        REFLECTION_METHOD (setField) void setField (std::string const &field) { this->field = field; }
 
         /// Szuka we wszystkich, zwraca pierwszy znaleziony.
-        m_ (get) virtual Core::Variant get (const std::string &name) const
+        REFLECTION_METHOD (get) virtual Core::Variant get (const std::string &name) const
         {
                 if (name == "name") {
                         return Variant (field);
@@ -55,7 +55,7 @@ public:
         }
 
         /// Ustawia w transition.
-        m_ (set) virtual void set (const std::string &name, const Core::Variant &object)
+        REFLECTION_METHOD (set) virtual void set (const std::string &name, const Core::Variant &object)
         {
                 if (name == "name") {
                         field = vcast <std::string> (object);
@@ -69,7 +69,7 @@ private:
 
        std::string field;
 
-       e_ (A)
+       REFLECTION_END (A)
 };
 
 /**

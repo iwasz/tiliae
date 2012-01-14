@@ -18,20 +18,20 @@
 class TILIAE_API Note {
 public:
 
-        c__ (void);
+        REFLECTION_CONSTRUCTOR_ (void);
 
-        m_ (getTitle) Core::String getTitle () const { return title; }
-        m_ (setTitle) void setTitle (const Core::String &title) { this->title = title; }
+        REFLECTION_METHOD (getTitle) Core::String getTitle () const { return title; }
+        REFLECTION_METHOD (setTitle) void setTitle (const Core::String &title) { this->title = title; }
 
-        m_ (getBody) Core::String getBody () const { return body; }
-        m_ (setBody) void setBody (const Core::String &body) { this->body = body; }
+        REFLECTION_METHOD (getBody) Core::String getBody () const { return body; }
+        REFLECTION_METHOD (setBody) void setBody (const Core::String &body) { this->body = body; }
 
 private:
 
         Core::String title;
         Core::String body;
 
-        e_ (Note)
+        REFLECTION_END (Note)
 
 };
 

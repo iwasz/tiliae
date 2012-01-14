@@ -21,7 +21,7 @@
 //
 //struct Receiver {
 //
-//        c__(void);
+//        REFLECTION_CONSTRUCTOR_(void);
 //
 //        Receiver () : onSig3 (this, "/a/sig0", "$handler2 (%0, $test)"),
 //                        onSig4 (this, "/a/sig1", "$handler2 (%0, %1)"),
@@ -40,7 +40,7 @@
 //                onSig5.setArgsMap (map);
 //        }
 //
-//        m_ (handler2) void handler2 (int i1, int i2)
+//        REFLECTION_METHOD (handler2) void handler2 (int i1, int i2)
 //        {
 //                iValue = i1 + i2;
 //        }
@@ -50,7 +50,7 @@
 //        Listener onSig3, onSig4, onSig5, onSig6;
 //        int iValue;
 //
-//        e_ (Testowa2::Receiver);
+//        REFLECTION_END (Testowa2::Receiver);
 //};
 //
 //}

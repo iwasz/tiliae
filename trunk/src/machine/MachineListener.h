@@ -25,7 +25,7 @@
 // */
 //class TILIAE_API MachineListener : public Signal::AbstractListener {
 //public:
-//        c__ (void)
+//        REFLECTION_CONSTRUCTOR_ (void)
 //
 //        virtual ~MachineListener () {}
 //
@@ -35,14 +35,14 @@
 //        void setMachine (Machine *m);
 //
 //        std::string getPath () const { return path; }
-//        m_ (setPath) void setPath (const std::string &path) { this->path = path; }
+//        REFLECTION_METHOD (setPath) void setPath (const std::string &path) { this->path = path; }
 //
 //private:
 //
 //        std::string path;
 //        Machine *machine;
 //
-//        e_ (MachineListener)
+//        REFLECTION_END (MachineListener)
 //};
 //
 //}

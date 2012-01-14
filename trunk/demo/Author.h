@@ -21,28 +21,28 @@
  */
 class Author : public Core::IToStringEnabled {
 public:
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
         Author () : age (0) {}
 
-        c_ (std::string const &)
+        REFLECTION_CONSTRUCTOR (std::string const &)
         Author (std::string const &s) : firstname (s), lastname (s), age (0) {}
 
-        c_ (std::string const &, std::string const &)
+        REFLECTION_CONSTRUCTOR (std::string const &, std::string const &)
         Author (std::string const &f, std::string const &l) : firstname (f), lastname (l), age (0) {}
 
         virtual ~Author () {}
 
         std::string const &getFirstname () const { return firstname; }
-        m_ (setFirstname) void setFirstname (std::string const &s) { firstname = s; }
+        REFLECTION_METHOD (setFirstname) void setFirstname (std::string const &s) { firstname = s; }
 
         std::string const &getLastname () const { return lastname; }
-        m_ (setLastname) void setLastname (std::string const &s) { lastname = s; }
+        REFLECTION_METHOD (setLastname) void setLastname (std::string const &s) { lastname = s; }
 
         int getAge () const { return age; }
-        m_ (setAge) void setAge (int i) { age = i; }
+        REFLECTION_METHOD (setAge) void setAge (int i) { age = i; }
 
         Ptr <IFilter> getFilter () const { return filter; }
-        s_ (setFilter) void setFilter (Ptr <IFilter> f) { filter = f; }
+        REFLECTION_SETTER (setFilter) void setFilter (Ptr <IFilter> f) { filter = f; }
 
         std::string toString () const
         {
@@ -65,11 +65,11 @@ private:
         // It's short for boost::shared_ptr.
         Ptr <IFilter> filter;
 
-        e_ (Author)
+        REFLECTION_END (Author)
 };
 
 typedef std::map <std::string, Ptr <Author> > AuthorMap;
-g_ (AuthorMap)
+REFLECTION_COLLECTION (AuthorMap)
 
 
 #	endif /* AUTHOR_H_ */

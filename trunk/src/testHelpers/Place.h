@@ -19,19 +19,19 @@
  */
 class TILIAE_API Place : public Core::Object {
 public:
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
 
         virtual ~Place () {}
-        m_ (init) int init () { static int cnt = 0; return ++cnt; }
+        REFLECTION_METHOD (init) int init () { static int cnt = 0; return ++cnt; }
 
-        m_ (getPlace) Core::Variant getPlace () const { return place; }
-        m_ (setPlace) void setPlace (const Core::Variant &p) { place = p; }
+        REFLECTION_METHOD (getPlace) Core::Variant getPlace () const { return place; }
+        REFLECTION_METHOD (setPlace) void setPlace (const Core::Variant &p) { place = p; }
 
 private:
 
         Core::Variant place;
 
-        e_(Place)
+        REFLECTION_END(Place)
 };
 
 #endif

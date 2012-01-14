@@ -26,43 +26,43 @@
 struct X {
 
         // Konstruktor bezargumentowy.
-        c__ (void);
+        REFLECTION_CONSTRUCTOR_ (void);
 
         // Metody
-        m_(getChar)
+        REFLECTION_METHOD(getChar)
         char getChar () const { return 'a'; }
 
-        m_(setChar)
+        REFLECTION_METHOD(setChar)
         void setChar (char c) {}
 
-        m_(getInt)
+        REFLECTION_METHOD(getInt)
         int getInt () const { return 1; }
 
-        m_(setInt)
+        REFLECTION_METHOD(setInt)
         void setInt (int i) {}
 
         // Adnotacja inicjująca
-        e_(X)
+        REFLECTION_END(X)
 };
 
 typedef std::list <X *> XList;
 // TODO
-//f_ (XList);
+//REFLECTION_FACTORY (XList);
 
 typedef std::vector <X *> XVector;
 // TODO
-//f_ (XVector);
+//REFLECTION_FACTORY (XVector);
 
 typedef std::set <X *> XSet;
 // TODO
-//f_ (XSet);
+//REFLECTION_FACTORY (XSet);
 
 typedef std::stack <X *> XStack;
 // TODO
-//f_ (XStack);
+//REFLECTION_FACTORY (XStack);
 
 typedef std::map <Core::String, X *> XMap;
 // TODO
-//f_ (XMap);
+//REFLECTION_FACTORY (XMap);
 
 #endif /* XCLASS_H_ */

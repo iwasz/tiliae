@@ -79,7 +79,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return ctx.getBeanWrapper (); }
-        s_ (setBeanWrapper) void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> b) { ctx.setBeanWrapper (b); }
+        REFLECTION_SETTER (setBeanWrapper) void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> b) { ctx.setBeanWrapper (b); }
 
 private:
 
@@ -94,7 +94,7 @@ private:
         Context ctx;
         Ptr <Compiler> compiler;
 
-        e_ (K202)
+        REFLECTION_END (K202)
 };
 
 }

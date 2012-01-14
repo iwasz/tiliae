@@ -67,7 +67,7 @@ Annotations::AnnotationManager::instance ().addAnnotation                      \
 REFLECTION_CLASS_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE)
 
 
-#define REFLECTION_CLASS_ANNOTATION_BODY_PUBLIC_COMBO                      \
+#define REFLECTION_CLASS                                                   \
                                                                            \
                 ANNOTATION_METHOD_HEADER                                   \
                 REFLECTION_CLASS_ANNOTATION_BODY_PRIV }

@@ -73,7 +73,7 @@ private:
  *
  * Klasy bazowe podajemy jako stringi.
  */
-#define REFLECTION_BASE_CLASS_ANNOTATION_BODY_PUBLIC(...)                                \
+#define REFLECTION_BASE_CLASS(...)                                                       \
                                                                                          \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_BASE_CLASS_ANNOTATION_BODY_PRIV(__VA_ARGS__)
@@ -82,7 +82,7 @@ private:
  * Tak samo jak b_, ale bez wywoływania poprzedniej metody. Można użyć
  * jako pierwszą adnotację w klasie.
  */
-#define REFLECTION_BASE_CLASS_ANNOTATION_BODY_PUBLIC_COMBO(...)                                                                         \
+#define REFLECTION_BASE_CLASS_(...)                                                      \
                                                                                          \
                 ANNOTATION_METHOD_HEADER                                                 \
                 REFLECTION_BASE_CLASS_ANNOTATION_BODY_PRIV(__VA_ARGS__)

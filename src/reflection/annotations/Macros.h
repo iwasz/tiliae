@@ -162,9 +162,9 @@ namespace  {                                                                    
                 Token () {                                                                  \
 
 
-#define REFLECTION_TEMPLATE_BEGIN_ANNOTATION_BODY_PUBLIC _tb_implementation_arg(BOOST_PP_CAT(TOKEN,__COUNTER__))
+#define REFLECTION_TEMPLATE_BEGIN _tb_implementation_arg(BOOST_PP_CAT(TOKEN,__COUNTER__))
 
-#define REFLECTION_TEMPLATE_ANNOTATION_BODY_PUBLIC(NClazz)  NClazz::REFLECT_INIT_METHOD_NAME <NClazz> (BOOST_PP_STRINGIZE (NClazz));
+#define REFLECTION_TEMPLATE(NClazz)  NClazz::REFLECT_INIT_METHOD_NAME <NClazz> (BOOST_PP_STRINGIZE (NClazz));
 
 #define _te_implementation_arg(Token)                                                    \
 }                                                                                        \
@@ -173,12 +173,12 @@ namespace  {                                                                    
 namespace {                                                                              \
         static Token BOOST_PP_CAT(Token,__LINE__) (0);
 
-#define REFLECTION_TEMPLATE_END_ANNOTATION_BODY_PUBLIC _te_implementation_arg(BOOST_PP_CAT(TOKEN,BOOST_PP_DEC(BOOST_PP_DEC(__COUNTER__))))
+#define REFLECTION_TEMPLATE_END _te_implementation_arg(BOOST_PP_CAT(TOKEN,BOOST_PP_DEC(BOOST_PP_DEC(__COUNTER__))))
 
 
-#define REFLECTION_END_ANNOTATION_BODY_PUBLIC(Clazz) _e_implementation_arg(Clazz, BOOST_PP_CAT(ServiceClass,BOOST_PP_CAT(__COUNTER__, __LINE__)))
+#define REFLECTION_END(Clazz) _e_implementation_arg(Clazz, BOOST_PP_CAT(ServiceClass,BOOST_PP_CAT(__COUNTER__, __LINE__)))
 
-#define REFLECTION_END_ANNOTATION_BODY_PUBLIC_COMBO(Clazz) REFLECTION_CONSTRUCTOR_ANNOTATION_BODY_PUBLIC_COMBO(void); REFLECTION_END_ANNOTATION_BODY_PUBLIC(Clazz)
+#define REFLECTION_END_(Clazz) REFLECTION_CONSTRUCTOR_(void); REFLECTION_END(Clazz)
 
 /**
  * Implementacja dla makra ANNOTATION_RUN_ONCE_AT_STARTUP

@@ -117,12 +117,12 @@ REFLECTION_SETTER_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, method)    
  * (zamknięty w statyczną metodę) więc trzeba pamiętać, że
  * jest pewien narzut.
  */
-#define REFLECTION_METHOD_ANNOTATION_BODY_PUBLIC(method)                                 \
+#define REFLECTION_METHOD(method)                                                        \
                                                                                          \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_METHOD_ANNOTATION_BODY_PRIV(method)
 
-#define REFLECTION_METHOD_ANNOTATION_BODY_PUBLIC_COMBO(method)                           \
+#define REFLECTION_METHOD_(method)                                                       \
                                                                                          \
                 ANNOTATION_METHOD_HEADER                                                 \
                 REFLECTION_METHOD_ANNOTATION_BODY_PRIV(method)
@@ -130,32 +130,32 @@ REFLECTION_SETTER_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, method)    
 /**
  * Setter.
  */
-#define REFLECTION_SETTER_ANNOTATION_BODY_PUBLIC(method)                                 \
+#define REFLECTION_SETTER(method)                                                        \
                                                                                          \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_SETTER_ANNOTATION_BODY_PRIV(method)
 
-#define REFLECTION_SETTER_ANNOTATION_BODY_PUBLIC_COMBO(method)                           \
+#define REFLECTION_SETTER_(method)                                                       \
                                                                                          \
                 ANNOTATION_METHOD_HEADER                                                 \
                 REFLECTION_SETTER_ANNOTATION_BODY_PRIV(method)
 
-#define REFLECTION_OVERLOADED_METHOD_ANNOTATION_BODY_PUBLIC(ret,method,...)                                     \
+#define REFLECTION_OVERLOADED_METHOD(ret,method,...)                                                            \
         ANNOTATION_METHOD_HEADER_RECURENCE                                                                      \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
 }
 
-#define REFLECTION_OVERLOADED_METHOD_ANNOTATION_BODY_PUBLIC_COMBO(ret,method,...)                               \
+#define REFLECTION_OVERLOADED_METHOD_(ret,method,...)                                                           \
         ANNOTATION_METHOD_HEADER                                                                                \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
 }
 
-#define REFLECTION_OVERLOADED_CONST_METHOD_ANNOTATION_BODY_PUBLIC(ret,method,...)                                     \
+#define REFLECTION_OVERLOADED_CONST_METHOD(ret,method,...)                                                            \
         ANNOTATION_METHOD_HEADER_RECURENCE                                                                            \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
 }
 
-#define REFLECTION_OVERLOADED_CONST_METHOD_ANNOTATION_BODY_PUBLIC_COMBO(ret,method,...)                               \
+#define REFLECTION_OVERLOADED_CONST_METHOD_(ret,method,...)                                                           \
         ANNOTATION_METHOD_HEADER                                                                                      \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
 }

@@ -36,14 +36,14 @@
  * refleksji. Użycie jest na przykład takie (w pliku .h lub .cc):
  *
  * <pre>
- * _g (std::list<std::string>)
+ * g_ (std::list<std::string>)
  * </pre>
  *
  * A ładnie wygląda jak się zrobi typedef :
  *
  * <pre>
  * typedef std::list<std::string> StringList;
- * _g (StringList)
+ * g_ (StringList)
  * </pre>
  *
  * Dozwolone kolekcji, to wszystkie typy, dla których stworzyłem częściową specjalizację

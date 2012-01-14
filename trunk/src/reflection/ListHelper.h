@@ -16,7 +16,7 @@
 namespace Reflection {
 
 /**
- * Stosowane do tworzenia list w _b. Nie jest to częścią API, tylko pomocniczą
+ * Stosowane do tworzenia list w b_. Nie jest to częścią API, tylko pomocniczą
  * klasą, ale musi mieć TILIAE_API, bo makra tego używają.
  */
 struct TILIAE_API ListHelper {

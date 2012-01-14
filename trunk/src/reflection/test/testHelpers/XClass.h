@@ -26,43 +26,43 @@
 struct X {
 
         // Konstruktor bezargumentowy.
-        __c (void);
+        c__ (void);
 
         // Metody
-        _m(getChar)
+        m_(getChar)
         char getChar () const { return 'a'; }
 
-        _m(setChar)
+        m_(setChar)
         void setChar (char c) {}
 
-        _m(getInt)
+        m_(getInt)
         int getInt () const { return 1; }
 
-        _m(setInt)
+        m_(setInt)
         void setInt (int i) {}
 
         // Adnotacja inicjująca
-        _e(X)
+        e_(X)
 };
 
 typedef std::list <X *> XList;
 // TODO
-//_f (XList);
+//f_ (XList);
 
 typedef std::vector <X *> XVector;
 // TODO
-//_f (XVector);
+//f_ (XVector);
 
 typedef std::set <X *> XSet;
 // TODO
-//_f (XSet);
+//f_ (XSet);
 
 typedef std::stack <X *> XStack;
 // TODO
-//_f (XStack);
+//f_ (XStack);
 
 typedef std::map <Core::String, X *> XMap;
 // TODO
-//_f (XMap);
+//f_ (XMap);
 
 #endif /* XCLASS_H_ */

@@ -36,7 +36,7 @@ struct TILIAE_API ReflectionFactory : public Factory::IFactory {
          */
         virtual Core::Variant create (const Core::VariantMap &parameters, Common::Context *context = NULL) const;
 
-        __e (ReflectionFactory)
+        e__ (ReflectionFactory)
 };
 
 }

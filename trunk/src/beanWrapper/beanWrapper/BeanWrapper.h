@@ -28,7 +28,7 @@ namespace Wrapper {
 class TILIAE_API BeanWrapper : public IBeanWrapper, public Core::IToStringEnabled {
 public:
 
-        __c (void)
+        c__ (void)
         BeanWrapper () {}
         BeanWrapper (const Core::Variant &bean) { setWrappedObject (bean); }
 
@@ -82,7 +82,7 @@ public:
 /*------BeanWrapper-setters/getters-------------------------------------*/
 
         Ptr <BeanWrapperPluginList> getPluginList () const { return pluginList; }
-        _m (setPluginList) void setPluginList (Ptr <BeanWrapperPluginList> pluginList) { this->pluginList = pluginList; }
+        m_ (setPluginList) void setPluginList (Ptr <BeanWrapperPluginList> pluginList) { this->pluginList = pluginList; }
 
         /**
          * Opcjonalny edytor do edytowania (narazie tylko) ustawianych obiektów. Jeśli jest ustawiony,
@@ -90,7 +90,7 @@ public:
          * niektórych pluginach).
          */
         Ptr <Editor::IEditor> getEditor () const { return editor; }
-        _m (setEditor) void setEditor (Ptr <Editor::IEditor> e) { editor = e; }
+        m_ (setEditor) void setEditor (Ptr <Editor::IEditor> e) { editor = e; }
 
 protected:
 
@@ -127,7 +127,7 @@ private:
 
         Ptr <Editor::IEditor> editor;
 
-        _e (BeanWrapper)
+        e_ (BeanWrapper)
 };
 
 } // namespace

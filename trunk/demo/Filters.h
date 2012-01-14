@@ -27,7 +27,7 @@ struct BracketFilter : public IFilter {
         virtual ~BracketFilter () {}
         virtual std::string filter (std::string const &s) { return "(" + s + ")"; }
 
-        __e (BracketFilter)
+        e__ (BracketFilter)
 };
 
 /**
@@ -37,7 +37,7 @@ struct StupidFilter : public IFilter {
         virtual ~StupidFilter () {}
         virtual std::string filter (std::string const &s) { return "[[[" + s + "]]]"; }
 
-        __e (StupidFilter)
+        e__ (StupidFilter)
 };
 
 #	endif /* PRINTERS_H_ */

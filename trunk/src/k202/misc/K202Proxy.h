@@ -21,27 +21,27 @@ namespace k202 {
  */
 class TILIAE_API K202Proxy {
 public:
-        __c (void)
+        c__ (void)
 
         virtual ~K202Proxy () {}
 
-        _m (run)
+        m_ (run)
         Core::Variant run ()
         {
                 return k202::K202::instance ()->run (sourceCode, domain, paramVector, argsMap);
         }
 
         std::string getSourceCode () const { return sourceCode; }
-        _m (setSourceCode) void setSourceCode (std::string sourceCode) { this->sourceCode = sourceCode; }
+        m_ (setSourceCode) void setSourceCode (std::string sourceCode) { this->sourceCode = sourceCode; }
 
         const Core::Variant &getDomain () { return domain; }
-        _m (setDomain) void setDomain (const Core::Variant &d) { domain = d; }
+        m_ (setDomain) void setDomain (const Core::Variant &d) { domain = d; }
 
         const Core::VariantVector &getParamVector () const { return paramVector; }
-        _m (setParamVector) void setParamVector (const Core::VariantVector &paramVector) { this->paramVector = paramVector; }
+        m_ (setParamVector) void setParamVector (const Core::VariantVector &paramVector) { this->paramVector = paramVector; }
 
         const Core::VariantMap &getArgsMap () const { return argsMap; }
-        _m (setArgsMap) void setArgsMap (const Core::VariantMap &map) { argsMap = map; }
+        m_ (setArgsMap) void setArgsMap (const Core::VariantMap &map) { argsMap = map; }
 
 private:
 
@@ -50,7 +50,7 @@ private:
         Core::VariantVector paramVector;
         Core::VariantMap argsMap;
 
-        _e (K202Proxy)
+        e_ (K202Proxy)
 };
 
 }

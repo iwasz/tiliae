@@ -25,7 +25,7 @@ using namespace Signal;
  */
 struct Receiver {
 
-        __c(void);
+        c__(void);
 
         Receiver () : onClicked (this, "$onClicked1 ()", "clicked"),
                         onSig0 (this, "$handler2 (668)", "sig0"),
@@ -34,10 +34,10 @@ struct Receiver {
                         iValue (0)
                         {}
 
-        _m (onClicked1) void onClicked1 () { iValue = 667; }
-        _m (handler2) void handler2 (int i) { iValue = i; }
+        m_ (onClicked1) void onClicked1 () { iValue = 667; }
+        m_ (handler2) void handler2 (int i) { iValue = i; }
 
-        _m (handler3) int handler3 (int i, const Core::String &nam)
+        m_ (handler3) int handler3 (int i, const Core::String &nam)
         {
                 iValue = i;
                 sValue = nam;
@@ -48,7 +48,7 @@ struct Receiver {
         int iValue;
         Core::String sValue;
 
-        _e (Receiver);
+        e_ (Receiver);
 };
 
 /**

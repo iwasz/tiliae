@@ -28,7 +28,7 @@ class Compiler;
  */
 class TILIAE_API K202 {
 public:
-        __d
+        d__
 
         virtual ~K202 () {}
 
@@ -79,7 +79,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return ctx.getBeanWrapper (); }
-        _s (setBeanWrapper) void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> b) { ctx.setBeanWrapper (b); }
+        s_ (setBeanWrapper) void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> b) { ctx.setBeanWrapper (b); }
 
 private:
 
@@ -94,7 +94,7 @@ private:
         Context ctx;
         Ptr <Compiler> compiler;
 
-        _e (K202)
+        e_ (K202)
 };
 
 }

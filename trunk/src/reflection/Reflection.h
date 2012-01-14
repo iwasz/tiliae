@@ -12,61 +12,61 @@
 /**
  * \page Reflection Reflection : prosty system refleksji.
  * \section ReflectMakro Makra adnotacyjne.
- * - \b _c Konstruktor. Jako argumenty podajemy typy argumentów tego konstruktora. Na przykład
- * _c (void), _c (int, float) etc.
- * - \b __c Konstruktor jako pierwsza adnotacja w pliku. Jako argumenty podajemy typy argumentów
- * tego konstruktora. Na przykład __c (void), __c (int, float) etc.
- * - \b __d Początek klasy (abstrakcyjnej/nie dającej się konstruować, czyli nie mozliwej do
- * zaadnotowania za pomocą _c). To makro jest niezbędne jeśli chcemy adnotować metody w abstrakcyjnej
+ * - \b c_ Konstruktor. Jako argumenty podajemy typy argumentów tego konstruktora. Na przykład
+ * c_ (void), c_ (int, float) etc.
+ * - \b c__ Konstruktor jako pierwsza adnotacja w pliku. Jako argumenty podajemy typy argumentów
+ * tego konstruktora. Na przykład c__ (void), c__ (int, float) etc.
+ * - \b d__ Początek klasy (abstrakcyjnej/nie dającej się konstruować, czyli nie mozliwej do
+ * zaadnotowania za pomocą c_). To makro jest niezbędne jeśli chcemy adnotować metody w abstrakcyjnej
  * klasie. Musi występowac jako pierwsza adnotacja w klasie.
- * - \b _b Lista klas bazowych. To makro służy do informowania systemu refleksji o nadklasach danej
+ * - \b b_ Lista klas bazowych. To makro służy do informowania systemu refleksji o nadklasach danej
  * klasy. Dzięki temu makru refleksja wie, że wszystkie metody nadklas są dostępne także w tej klasie.
  * Dzięki temu nie trzeba powtarzać tych samych adnotacji metod w klasach konkretnych, a jedynie
- * zaadnotować je w klasie bazowej / interfejsie. Przykład : _b ("IWidget", "ICallable").
- * - \b __b  Lista klas bazowych - pierwsza adnotacja w klasie. Działa tak samo jak _b, ale może
+ * zaadnotować je w klasie bazowej / interfejsie. Przykład : b_ ("IWidget", "ICallable").
+ * - \b b__  Lista klas bazowych - pierwsza adnotacja w klasie. Działa tak samo jak b_, ale może
  * występowac jako pierwsze makro w klasie.
- * - \b _m Adnotacja metody. Za pomocą tego makra adnotujemy metody. Jako parametr makra podajemy tylko
- * nazwę metody. Przykład : _m (setName).
- * - \b __m Adnotacja metody - pierwsza adnotacja w klasie. Działa jak _m, ale może występowac jako
- * pierwsza adnotacja w klasie (dla tego podwójne podkreślenie ___). Przykład użycia : __m (setName).
- * - \b _s, \b __s Adnotacja settera. Jest to bardzo podobna adnotacja do _m, ale można ją stosowac tylko
- * do setterów (a konkretnie tylko do metod z jednym argumentem). Dodatkową różnicą w stosunku do _m
+ * - \b m_ Adnotacja metody. Za pomocą tego makra adnotujemy metody. Jako parametr makra podajemy tylko
+ * nazwę metody. Przykład : m_ (setName).
+ * - \b m__ Adnotacja metody - pierwsza adnotacja w klasie. Działa jak m_, ale może występowac jako
+ * pierwsza adnotacja w klasie (dla tego podwójne podkreślenie ___). Przykład użycia : m__ (setName).
+ * - \b s_, \b s__ Adnotacja settera. Jest to bardzo podobna adnotacja do m_, ale można ją stosowac tylko
+ * do setterów (a konkretnie tylko do metod z jednym argumentem). Dodatkową różnicą w stosunku do m_
  * jest polimorficzny cast ocast przy rzutowaniu argumentu z Variant na konkretny typ. To pozwala
  * ustawiać typy polimorficzne.
- * - \b _M, \b __M Adnotacja metody przeciążonej (nie const). Działa identycznie jak _m, tylko różni się sposobem
+ * - \b M_, \b M__ Adnotacja metody przeciążonej (nie const). Działa identycznie jak m_, tylko różni się sposobem
  * adnotowania. Jako argumenty tego makra podajemy typ zwracany z funkcji, jej nazwe, a następnie
  * typy jej argumentów. Dzięki temu, jeśli w klasie jest kilka metod o tej samej nazwie (przeciążonych),
- * to można je także adnotować. Z makrami _m i __m jest to niemożliwe. Przykład stosowania : _M (void, metoda, double, int).
- * - \b _Mc, \b __Mc - Adnotacja metody przeciążonej (const). Identyczne jak _M i __M, ale dla metod
+ * to można je także adnotować. Z makrami m_ i m__ jest to niemożliwe. Przykład stosowania : M_ (void, metoda, double, int).
+ * - \b Mc_, \b Mc__ - Adnotacja metody przeciążonej (const). Identyczne jak M_ i M__, ale dla metod
  * stałych (czyli z const na końcu).
  *
- * - \b _g Adnotacja kolekcji. Za pomocą tego makra można adnotować kolekcje. W tym momencie obsługiwane
+ * - \b g_ Adnotacja kolekcji. Za pomocą tego makra można adnotować kolekcje. W tym momencie obsługiwane
  * są cztery kolekcje STL : std::vector, std::list, std::set i std::map. Można rozszerzać funkcjonalność
- * makgra _g. Przykład użycia : _g (StringList), gdzie StringList to jakiś typedef. W refleksji ten typ
+ * makgra g_. Przykład użycia : g_ (StringList), gdzie StringList to jakiś typedef. W refleksji ten typ
  * będzie figurował jako "StringList".
- * - \b _gn Adnotacja kolekcji z dodatkową nazwą. Działa jak _g, tylko jako dodatkowy argument podajemy
+ * - \b _gn Adnotacja kolekcji z dodatkową nazwą. Działa jak g_, tylko jako dodatkowy argument podajemy
  * nazwę klasy pod ktorą ten typ będzie figurował w refleksji.
- * - \b _f Adnotacja typu z metodą fabryki. Ta adnotacja uruchamia po prostu statyczną metodę o nazwie
+ * - \b f_ Adnotacja typu z metodą fabryki. Ta adnotacja uruchamia po prostu statyczną metodę o nazwie
  * \b addAnnotations. Ta metoda powinna dodać właściwe obiekty do systemu refleksji.
- * - \b _fn Adnotacja typu z metodą fabryki z dodatkową nazwą.
+ * - \b fn_ Adnotacja typu z metodą fabryki z dodatkową nazwą.
  *
- * - \b _e Koniec zwykłej klasy (nie szablonu). Jako argument podajemy tą klasę. Na przykłąd _e (Klasa).
+ * - \b e_ Koniec zwykłej klasy (nie szablonu). Jako argument podajemy tą klasę. Na przykłąd e_ (Klasa).
  * Bez tego makra nic się nie doda do refleksji.
- * _ \b __e Koniec zwykłej klasy (nie szablonu) jako jedyna adnotacja w klasie. Dodaje jeden bezargumentowy
+ * _ \b e__ Koniec zwykłej klasy (nie szablonu) jako jedyna adnotacja w klasie. Dodaje jeden bezargumentowy
  * konstruktor do reflakcji dla tej klasy.
- * - \b _tb, \b _t, \b _te - Koniec szablonu klas. Przykłady poniżej.
+ * - \b tb_, \b t_, \b te_ - Koniec szablonu klas. Przykłady poniżej.
  *
  * Teraz przykłady. Na pocżatek zwykła klasa - bez żadnych szablonów.
  *
  * <pre>
  * class City {
  * public:
- *         __c (void)
+ *         c__ (void)
  *
- *         _m (init)       void init ();
- *         _m (setName)    void setName (const Core::String &name);
+ *         m_ (init)       void init ();
+ *         m_ (setName)    void setName (const Core::String &name);
  *
- *         _e (City)
+ *         e_ (City)
  * };
  * </pre>
  *
@@ -76,29 +76,29 @@
  *
  * <pre>
  * struct Interface {
- *      __d
- *      _s (setName)    virtual void setObj (ISomeObj *obj) = 0;
- *      _e (Interface)
+ *      d__
+ *      s_ (setName)    virtual void setObj (ISomeObj *obj) = 0;
+ *      e_ (Interface)
  * };
  *
  * struct Concrete : public Interface {
- *      __b ("Interface")
- *      _c (void)
- *      _e (Concrete)
+ *      b__ ("Interface")
+ *      c_ (void)
+ *      e_ (Concrete)
  * };
  * </pre>
  *
  * W powyższym przykładzie zadeklarowałem w klasie Concrete odwołanie do jej klasy bazowej, czyli
- * Interface za pomocą __b (od base-class). Dodatkowo w klasie Interface użyłem __d, co pozwala
- * dodawać klasy abstrakcyjne do refleksji. Metodę setObj zaadnotowałem za pomocą _s, co pozwoli
+ * Interface za pomocą b__ (od base-class). Dodatkowo w klasie Interface użyłem d__, co pozwala
+ * dodawać klasy abstrakcyjne do refleksji. Metodę setObj zaadnotowałem za pomocą s_, co pozwoli
  * podawać różne typy dziedziczące z ISomeObj jako argument tego settera. Dodajmy jakieś kolekcje:
  *
  * <pre>
  * typedef std::list <Ptr <Address> > AddressList;
- * _g (AddressList)
+ * g_ (AddressList)
  *
  * typedef std::map <Core::String, Ptr <Bar> > BarMap;
- * _g (BarMap)
+ * g_ (BarMap)
  * </pre>
  *
  * Na koniec dodam do refleksji 2 konkretyzacje (specjalizacje) szablonu klas:
@@ -107,25 +107,25 @@
  * template <typename T&gt;
  * struct Template02 {
  *
- *         __c (void)
+ *         c__ (void)
  *
- *         _m (setT) void setT (const T &t) { this->t = t; }
- *         _m (getT) const T &getT () const { return t; }
+ *         m_ (setT) void setT (const T &t) { this->t = t; }
+ *         m_ (getT) const T &getT () const { return t; }
  *
  *         T t;
  *
- *         _tb
- *         _t (Template02<int>)
- *         _t (Template02<double>)
- *         _te
+ *         tb_
+ *         t_ (Template02<int>)
+ *         t_ (Template02<double>)
+ *         te_
  * };
  * </pre>
  *
- * Jeśli konkretyzacja była by tylko jedna, to użyli byśmy zwykłego _e. Na przykład _e (Template02<double>).
+ * Jeśli konkretyzacja była by tylko jedna, to użyli byśmy zwykłego e_. Na przykład e_ (Template02<double>).
  *
  * \section ReflectKoszt Koszt używania refleksji.
  * Nie zmieżyłęm tego dobrze, ale wygląda na to, że przy wyłączonej optymalizacji (-O0) i na 32 bitowej
- * maszynie rozmiar binarki zwiększa się od 600B do 800B po dodaniu jednej adnotacji _m dla settera (dla
+ * maszynie rozmiar binarki zwiększa się od 600B do 800B po dodaniu jednej adnotacji m_ dla settera (dla
  * jednoargumentowej metody). Na razie sprawdziłem tylko tyle.
  *
  * \section ReflectIncomplete Refleksja i typy niekompletne
@@ -138,13 +138,13 @@
  * class Incompl; // forward declaration
  *
  * struct A {
- *      __c (void)
+ *      c__ (void)
  *
- *      _m (getI)
+ *      m_ (getI)
  *      Incompl *getI () const { return i; }
  *
  *      Incompl *i;
- *      _e (A)
+ *      e_ (A)
  * };
  * </pre>
  *
@@ -158,7 +158,7 @@
  * </pre>
  *
  * \section Jak to działa?
- * Adnotacja _e dodaje na końcu specjalną strukturę, a zaraz potem definicję statyczne zmiennej globalnej o typie tej
+ * Adnotacja e_ dodaje na końcu specjalną strukturę, a zaraz potem definicję statyczne zmiennej globalnej o typie tej
  * struktury, która jest umieszczona jeszcze w anonymous namespace. Całość wygląda mniej więcej tak:
  *
  * <pre>
@@ -217,7 +217,7 @@
  * Należy upewnić się, że klasa ma wyeksportowane symbole (makro TILIAE_API).
  *
  * o Nie ma klasy w managerze (no class found), mimo, że adnotacje są i wszystko inne wydaje się być OK.
- * Należy (z tego co pamiętam) spróbować przenieść makro _e jedną linię do dołu.
+ * Należy (z tego co pamiętam) spróbować przenieść makro e_ jedną linię do dołu.
  */
 
 #include "model/Method.h"

@@ -104,8 +104,8 @@ static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLEC
 /*--------------------------------------------------------------------------*/
 
 /**
- * Generuje nazwę dla metody uruchamiającej cały łańcuch metod adnotacyjnych (użyte gdzieź w _e).
- * Uwaga! Tutaj jest __COUNTER__ pomniejszony 0 2! Ponieważ makro _e i _tX używają __COUNTER__ 1
+ * Generuje nazwę dla metody uruchamiającej cały łańcuch metod adnotacyjnych (użyte gdzieź w e_).
+ * Uwaga! Tutaj jest __COUNTER__ pomniejszony 0 2! Ponieważ makro e_ i _tX używają __COUNTER__ 1
  * raz (czyli zwiększenie jest o 2)!
  */
 #define GEN_ANNOTATION_METHOD_TAIL_NAME BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,BOOST_PP_DEC(BOOST_PP_DEC(__COUNTER__)))
@@ -197,7 +197,7 @@ namespace {                                                                     
 
 /**
  * Adnotacja, które wykonuje podany w argumencie kod jeden raz przy uruchomieniu się programu.
- * Wykorzystana na przykład w _f
+ * Wykorzystana na przykład w f_
  */
 #define ANNOTATION_RUN_ONCE_AT_STARTUP(codeToRun)                                                                                            \
                                                                                                                                              \

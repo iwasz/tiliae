@@ -19,24 +19,24 @@
 class TILIAE_API Telephone  {
 public:
 
-        __c (const std::string &);
+        c__ (const std::string &);
         Telephone (const std::string &n) : name (n) {}
 
-        _m (getName) std::string getName () const { return name; }
-        _m (setName) void setName (const std::string &name) { this->name = name; }
+        m_ (getName) std::string getName () const { return name; }
+        m_ (setName) void setName (const std::string &name) { this->name = name; }
 
 private:
 
         std::string name;
 
-        _e (Telephone)
+        e_ (Telephone)
 
 };
 
 /****************************************************************************/
 
 typedef std::list <Ptr <Telephone> > TelephoneList;
-_g(TelephoneList)
+g_(TelephoneList)
 
 #endif
 

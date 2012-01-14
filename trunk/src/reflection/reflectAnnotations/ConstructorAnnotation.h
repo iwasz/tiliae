@@ -66,7 +66,7 @@ Annotations::AnnotationManager::instance ().addAnnotation                     \
      __VA_ARGS__>::Level1Wrapper::newConstructorPointer ()));
 
 /**
- * Makro do implementacji _c, nie używać.
+ * Makro do implementacji c_, nie używać.
  */
 #define REFLECTION_CONSTRUCTOR_ANNOTATION_BODY_PRIV(...)                                        \
 REFLECTION_CONSTRUCTOR_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, __VA_ARGS__)

@@ -20,7 +20,7 @@
 //class MapPlugin : public IBeanWrapperPlugin {
 //public:
 //
-//        __c (void)
+//        c__ (void)
 //
 //        virtual ~MapPlugin () {}
 //
@@ -33,7 +33,7 @@
 //        		const Core::Variant &objectToSet,
 //                        Context *ctx = NULL);
 //
-//        _e (MapPlugin)
+//        e_ (MapPlugin)
 //
 //};
 //

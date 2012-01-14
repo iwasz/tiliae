@@ -30,7 +30,7 @@ namespace Signal {
  */
 class TILIAE_API Sender {
 public:
-        __c (void)
+        c__ (void)
 
         Sender ();
         Sender (void *ownerObject);
@@ -45,7 +45,7 @@ public:
         Ptr<Scope> getScope () const { return scope; }
         void setScope (Ptr<Scope> scope) { this->scope = scope; }
 
-        _m (setPath) void setPath (std::string const &s);
+        m_ (setPath) void setPath (std::string const &s);
         std::string const &getPath () const { return path; }
 
         Core::Variant emit (const Core::VariantVector &paramVector,
@@ -54,10 +54,10 @@ public:
         Core::Variant emit ();
 
         Ptr <Core::VariantVector const> getParamVector () const { return paramVector; }
-        _m (setParamVector) void setParamVector (Ptr <Core::VariantVector> pv) { paramVector = pv; }
+        m_ (setParamVector) void setParamVector (Ptr <Core::VariantVector> pv) { paramVector = pv; }
 
         Ptr <Core::VariantMap const> getParamMap () const { return paramMap; }
-        _m (setParamMap) void setParamMap (Ptr <Core::VariantMap> pm) { paramMap = pm; }
+        m_ (setParamMap) void setParamMap (Ptr <Core::VariantMap> pm) { paramMap = pm; }
 
 private:
 
@@ -68,7 +68,7 @@ private:
         Ptr <Core::VariantVector> paramVector;
         Ptr <Core::VariantMap> paramMap;
 
-        _e (Sender)
+        e_ (Sender)
 };
 
 } // nam

@@ -47,10 +47,10 @@ class Transition;
  */
 class TILIAE_API Machine : public IMachinery {
 public:
-        __c (void)
+        c__ (void)
         Machine () : running (true) {}
 
-        __c (const Core::VariantMap &)
+        c__ (const Core::VariantMap &)
         Machine (const Core::VariantMap &mp);
 
         virtual ~Machine () {}
@@ -73,12 +73,12 @@ public:
                           const Core::VariantMap &transitionScope = Core::VariantMap ());
 
         /// Tylko dla ułatwienia stosowania w kontenerze.
-        _m (runOnce) void runOnce () { run (); }
+        m_ (runOnce) void runOnce () { run (); }
 
         std::string getCurrentStateName () const { return currentStateName; }
 
         std::string getInitialStateName () const { return initialStateName; }
-        _m (setInitialStateName) void setInitialStateName (const std::string &initialStateName) { this->initialStateName = initialStateName; }
+        m_ (setInitialStateName) void setInitialStateName (const std::string &initialStateName) { this->initialStateName = initialStateName; }
 
         MachineExtensionList getExtensionList () const { return extensionList; }
         void setExtensionList (const MachineExtensionList &extensionList) { this->extensionList = extensionList; }
@@ -88,7 +88,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         StateMap getStates () const { return stateMap; }
-        _m (setStates) void setStates (const StateList &states);
+        m_ (setStates) void setStates (const StateList &states);
         void addState (Ptr <IState> state);
         void addStates (const StateList &states);
         void removeState (const std::string &stateName);
@@ -113,8 +113,8 @@ public:
         Ptr <k202::CacheExtension> getCache () const { return cache; }
         void setCache (Ptr <k202::CacheExtension> c) { cache = c; }
 
-        _m (setListener) void setListener (Ptr <MachineListener> l);
-        _m (getListener) Ptr <MachineListener> getListener () const { return listener; }
+        m_ (setListener) void setListener (Ptr <MachineListener> l);
+        m_ (getListener) Ptr <MachineListener> getListener () const { return listener; }
 
 private:
 
@@ -176,7 +176,7 @@ private:
         Ptr <k202::CacheExtension> cache;
         Ptr <MachineListener> listener;
 
-        _e (Machine)
+        e_ (Machine)
 };
 
 

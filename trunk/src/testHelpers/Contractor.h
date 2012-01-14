@@ -23,7 +23,7 @@
 class TILIAE_API Contractor {
 public:
 
-        __c (void)
+        c__ (void)
 
         Contractor () : addressList (NULL), telephoneList (NULL),
                 zyd (false), mason (false), plec (WOMAN), wiek (0)
@@ -32,29 +32,29 @@ public:
 
         virtual ~Contractor () {}
 
-        _m (getName) Core::String getName () const { return name; }
-        _m (setName) void setName (const Core::String &name) { this->name = name; }
+        m_ (getName) Core::String getName () const { return name; }
+        m_ (setName) void setName (const Core::String &name) { this->name = name; }
 
-        _m (getSymbol) Core::String getSymbol () const { return symbol; }
-        _m (setSymbol) void setSymbol (const Core::String &symbol) { this->symbol = symbol; }
+        m_ (getSymbol) Core::String getSymbol () const { return symbol; }
+        m_ (setSymbol) void setSymbol (const Core::String &symbol) { this->symbol = symbol; }
 
-        _m (getAddressList)  AddressList *getAddressList () const { return addressList; }
-        _m (setAddressList) void setAddressList (AddressList *addressList) { this->addressList = addressList; }
+        m_ (getAddressList)  AddressList *getAddressList () const { return addressList; }
+        m_ (setAddressList) void setAddressList (AddressList *addressList) { this->addressList = addressList; }
 
-        _m (getTelephoneList) TelephoneList *getTelephoneList () const { return telephoneList; }
-        _m (setTelephoneList) void setTelephoneList (TelephoneList *telephoneList) { this->telephoneList = telephoneList; }
+        m_ (getTelephoneList) TelephoneList *getTelephoneList () const { return telephoneList; }
+        m_ (setTelephoneList) void setTelephoneList (TelephoneList *telephoneList) { this->telephoneList = telephoneList; }
 
-        _m (getZyd)  bool getZyd () const { return zyd; }
-        _m (setZyd) void setZyd (bool zyd) { this->zyd = zyd; }
+        m_ (getZyd)  bool getZyd () const { return zyd; }
+        m_ (setZyd) void setZyd (bool zyd) { this->zyd = zyd; }
 
-        _m (getMason) bool getMason () const { return mason; }
-        _m (setMason) void setMason (bool mason) { this->mason = mason; }
+        m_ (getMason) bool getMason () const { return mason; }
+        m_ (setMason) void setMason (bool mason) { this->mason = mason; }
 
-        _m (getPlec) Gender getPlec () const { return plec; }
-        _m (setPlec) void setPlec (Gender plec) { this->plec = plec; }
+        m_ (getPlec) Gender getPlec () const { return plec; }
+        m_ (setPlec) void setPlec (Gender plec) { this->plec = plec; }
 
-        _m (getWiek) int getWiek () const { return wiek; }
-        _m (setWiek) void setWiek (int wiek) { this->wiek = wiek; }
+        m_ (getWiek) int getWiek () const { return wiek; }
+        m_ (setWiek) void setWiek (int wiek) { this->wiek = wiek; }
 
 private:
 
@@ -78,7 +78,7 @@ private:
 
         int wiek;
 
-        _e (Contractor)
+        e_ (Contractor)
 
 };
 

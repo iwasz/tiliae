@@ -21,7 +21,7 @@
 //
 //struct Receiver {
 //
-//        __c(void);
+//        c__(void);
 //
 //        Receiver () : onSig3 (this, "/a/sig0", "$handler2 (%0, $test)"),
 //                        onSig4 (this, "/a/sig1", "$handler2 (%0, %1)"),
@@ -40,7 +40,7 @@
 //                onSig5.setArgsMap (map);
 //        }
 //
-//        _m (handler2) void handler2 (int i1, int i2)
+//        m_ (handler2) void handler2 (int i1, int i2)
 //        {
 //                iValue = i1 + i2;
 //        }
@@ -50,7 +50,7 @@
 //        Listener onSig3, onSig4, onSig5, onSig6;
 //        int iValue;
 //
-//        _e (Testowa2::Receiver);
+//        e_ (Testowa2::Receiver);
 //};
 //
 //}

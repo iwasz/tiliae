@@ -32,7 +32,7 @@ namespace StateMachine {
  */
 class TILIAE_API InputActions {
 public:
-        __c (void)
+        c__ (void)
 
         InputActions () {}
         InputActions (Ptr <ICondition> c, const ActionList &a) : condition (c), actions (a) {}
@@ -47,22 +47,22 @@ public:
 /*--------------------------------------------------------------------------*/
 
         Ptr<ICondition> getCondition () const { return condition; }
-        _m (setCondition) void setCondition (Ptr<ICondition> condition) { this->condition = condition; }
+        m_ (setCondition) void setCondition (Ptr<ICondition> condition) { this->condition = condition; }
 
         ActionList getActions () const { return actions; }
-        _m (setActions) void setActions (ActionList actions) { this->actions = actions; }
-        _m (setAction) void setAction (Ptr <IAction> a) { actions.clear(); actions.push_back (a); }
+        m_ (setActions) void setActions (ActionList actions) { this->actions = actions; }
+        m_ (setAction) void setAction (Ptr <IAction> a) { actions.clear(); actions.push_back (a); }
 
 private:
 
         Ptr <ICondition> condition;
         ActionList actions;
 
-        _e (InputActions)
+        e_ (InputActions)
 };
 
 typedef std::list <Ptr <InputActions> > InputActionsList;
-_g (InputActionsList)
+g_ (InputActionsList)
 
 } // nam
 

@@ -87,7 +87,7 @@ private:
 private:
 
         Mode mode;
-        __e (MethodPlugin)
+        e__ (MethodPlugin)
 };
 
 } // namespace

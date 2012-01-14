@@ -54,7 +54,7 @@ public:
 private:
 
         Ptr <Reflection::Class> getClass (const Core::Variant &bean, const Common::IPath *path) const;
-        __e (PropertyRWBeanWrapperPlugin)
+        e__ (PropertyRWBeanWrapperPlugin)
 };
 
 } // namespace

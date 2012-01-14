@@ -31,17 +31,17 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest14);
 class A02;
 
 struct A01 {
-        __c (void)
+        c__ (void)
         Ptr <A02> a02;
-        _m (setA02) void setA02 (Ptr <A02> a) { a02 = a; }
-        _e (A01)
+        m_ (setA02) void setA02 (Ptr <A02> a) { a02 = a; }
+        e_ (A01)
 };
 
 struct A02 {
-        __c (void)
+        c__ (void)
         Ptr <A01> a01;
-        _m (setA01) void setA01 (Ptr <A01> a) { a01 = a; }
-        _e (A02)
+        m_ (setA01) void setA01 (Ptr <A01> a) { a01 = a; }
+        e_ (A02)
 };
 
 /**

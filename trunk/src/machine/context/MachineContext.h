@@ -33,15 +33,15 @@ namespace Machine {
  */
 class TILIAE_API MachineContext : public Core::IToStringEnabled {
 public:
-        __d
+        d__
 
         virtual ~MachineContext () {}
 
         /// Szuka we wszystkich, zwraca pierwszy znaleziony.
-        _m (get) Core::Variant get (const std::string &name) const;
+        m_ (get) Core::Variant get (const std::string &name) const;
 
         /// Ustawia w transition.
-        _m (set) void set (const std::string &name, const Core::Variant &object);
+        m_ (set) void set (const std::string &name, const Core::Variant &object);
 
         void put (Core::VariantMap *m) { stack.push_back (m); }
         void pop () { stack.pop_back (); }
@@ -52,7 +52,7 @@ private:
 
         std::vector <Core::VariantMap *> stack;
 
-        _e (MachineContext)
+        e_ (MachineContext)
 };
 
 }

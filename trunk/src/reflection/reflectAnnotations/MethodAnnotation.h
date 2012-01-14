@@ -117,12 +117,12 @@ REFLECTION_SETTER_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, method)    
  * (zamknięty w statyczną metodę) więc trzeba pamiętać, że
  * jest pewien narzut.
  */
-#define _m(method)                                                                      \
+#define REFLECTION_METHOD_ANNOTATION_BODY_PUBLIC(method)                                 \
                                                                                          \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_METHOD_ANNOTATION_BODY_PRIV(method)
 
-#define __m(method)                                                                     \
+#define REFLECTION_METHOD_ANNOTATION_BODY_PUBLIC_COMBO(method)                           \
                                                                                          \
                 ANNOTATION_METHOD_HEADER                                                 \
                 REFLECTION_METHOD_ANNOTATION_BODY_PRIV(method)
@@ -130,33 +130,33 @@ REFLECTION_SETTER_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, method)    
 /**
  * Setter.
  */
-#define _s(method)                                                                      \
+#define REFLECTION_SETTER_ANNOTATION_BODY_PUBLIC(method)                                 \
                                                                                          \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_SETTER_ANNOTATION_BODY_PRIV(method)
 
-#define __s(method)                                                                     \
+#define REFLECTION_SETTER_ANNOTATION_BODY_PUBLIC_COMBO(method)                           \
                                                                                          \
                 ANNOTATION_METHOD_HEADER                                                 \
                 REFLECTION_SETTER_ANNOTATION_BODY_PRIV(method)
 
-#define _M(ret,method,...)                                                              \
-        ANNOTATION_METHOD_HEADER_RECURENCE                                              \
+#define REFLECTION_OVERLOADED_METHOD_ANNOTATION_BODY_PUBLIC(ret,method,...)                                     \
+        ANNOTATION_METHOD_HEADER_RECURENCE                                                                      \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
 }
 
-#define __M(ret,method,...)                                                              \
-        ANNOTATION_METHOD_HEADER                                              \
+#define REFLECTION_OVERLOADED_METHOD_ANNOTATION_BODY_PUBLIC_COMBO(ret,method,...)                               \
+        ANNOTATION_METHOD_HEADER                                                                                \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
 }
 
-#define _Mc(ret,method,...)                                                              \
-        ANNOTATION_METHOD_HEADER_RECURENCE                                              \
+#define REFLECTION_OVERLOADED_CONST_METHOD_ANNOTATION_BODY_PUBLIC(ret,method,...)                                     \
+        ANNOTATION_METHOD_HEADER_RECURENCE                                                                            \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
 }
 
-#define __Mc(ret,method,...)                                                              \
-        ANNOTATION_METHOD_HEADER                                              \
+#define REFLECTION_OVERLOADED_CONST_METHOD_ANNOTATION_BODY_PUBLIC_COMBO(ret,method,...)                               \
+        ANNOTATION_METHOD_HEADER                                                                                      \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
 }
 

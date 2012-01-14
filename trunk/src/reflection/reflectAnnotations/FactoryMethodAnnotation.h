@@ -18,11 +18,11 @@
  * static void addAnnotations (const Core::String &className)
  * </pre>
  */
-#define _fn(name,type)                                                                                        \
+#define REFLECTION_FACTORY_ANNOTATION_BODY_PUBLIC_WNAME(name,type)                                            \
                                                                                                               \
         ANNOTATION_RUN_ONCE_AT_STARTUP(type::addAnnotations(name);)
 
-#define _f(type)                                                                                              \
+#define REFLECTION_FACTORY_ANNOTATION_BODY_PUBLIC(type)                                                       \
                                                                                                               \
         ANNOTATION_RUN_ONCE_AT_STARTUP(type::addAnnotations(#type);)
 

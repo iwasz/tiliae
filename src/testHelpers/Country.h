@@ -21,24 +21,24 @@
 class TILIAE_API Country {
 public:
 
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
 
-        m_ (getName) Core::String getName () const { return name; }
-        m_ (setName) void setName (const Core::String &name) { this->name = name; }
+        REFLECTION_METHOD (getName) Core::String getName () const { return name; }
+        REFLECTION_METHOD (setName) void setName (const Core::String &name) { this->name = name; }
 
 private:
 
         Core::String name;
 
-        e_ (Country)
+        REFLECTION_END (Country)
 
 };
 
 typedef std::vector <Ptr <Country> > CountryVector;
-g_ (CountryVector)
+REFLECTION_COLLECTION (CountryVector)
 
 typedef std::list <Ptr <Country> > CountryList;
-g_ (CountryList)
+REFLECTION_COLLECTION (CountryList)
 
 #endif
 

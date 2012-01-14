@@ -24,10 +24,10 @@ namespace StateMachine {
  */
 class TILIAE_API K202Action : public IAction {
 public:
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
         K202Action () {}
 
-        c_ (const std::string &)
+        REFLECTION_CONSTRUCTOR (const std::string &)
         K202Action (const std::string &sourceCode);
 
         virtual ~K202Action () {}
@@ -36,7 +36,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         std::string getCode () const;
-        m_ (setCode) void setCode (const std::string &code);
+        REFLECTION_METHOD (setCode) void setCode (const std::string &code);
 
 /*--------------------------------------------------------------------------*/
 
@@ -45,7 +45,7 @@ public:
 private:
 
         Ptr <k202::Script> script;
-        e_ (K202Action)
+        REFLECTION_END (K202Action)
 };
 
 }

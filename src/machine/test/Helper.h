@@ -15,16 +15,16 @@
  * Helper structure.
  */
 struct HelperAT {
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
         HelperAT () : cnt (0) {}
 
-        m_ (inc) void inc () { cnt++; }
-        m_ (dec) void dec () { cnt--; }
-        m_ (set) void set (int i) { cnt = i; }
+        REFLECTION_METHOD (inc) void inc () { cnt++; }
+        REFLECTION_METHOD (dec) void dec () { cnt--; }
+        REFLECTION_METHOD (set) void set (int i) { cnt = i; }
 
         int cnt;
 
-        e_ (HelperAT)
+        REFLECTION_END (HelperAT)
 };
 
 #endif /* HELPER_H_ */

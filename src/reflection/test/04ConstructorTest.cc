@@ -22,7 +22,7 @@ using namespace Core;
 using namespace Reflection;
 
 /**
- * W pliku XClass jest zdefiniowana lista XList z adnotacją f_.
+ * W pliku XClass jest zdefiniowana lista XList z adnotacją REFLECTION_FACTORY.
  * Próbujemy ją zinstancjonować.
  */
 BOOST_AUTO_TEST_CASE (testConstructor)

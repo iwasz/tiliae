@@ -61,7 +61,7 @@ Annotations::AnnotationManager::instance ().addAnnotation                      \
   (new Reflection::ClassAnnotation (CLS_NAME, typeid (CLS_TYPE&)));
 
 /**
- * Makro do implementacji c_, nie używać.
+ * Makro do implementacji REFLECTION_CONSTRUCTOR, nie używać.
  */
 #define REFLECTION_CLASS_ANNOTATION_BODY_PRIV                                 \
 REFLECTION_CLASS_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE)

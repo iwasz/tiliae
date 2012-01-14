@@ -113,7 +113,7 @@ REFLECTION_SETTER_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, method)    
 
 /**
  * Definicja makra adnotacji dla MethodAnnotation - każde
- * adnotowanie metody za pomocą m_ dodaje taki kawał kodu,
+ * adnotowanie metody za pomocą REFLECTION_METHOD dodaje taki kawał kodu,
  * (zamknięty w statyczną metodę) więc trzeba pamiętać, że
  * jest pewien narzut.
  */

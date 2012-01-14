@@ -27,7 +27,7 @@ using namespace Editor;
 /****************************************************************************/
 
 typedef std::vector <int> IntVector;
-g_ (IntVector);
+REFLECTION_COLLECTION (IntVector);
 
 /**
  * Testuje IndexedEditor z ustawionym tylko jednym edytorem.

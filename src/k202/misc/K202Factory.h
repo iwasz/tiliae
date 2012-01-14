@@ -23,7 +23,7 @@ struct TILIAE_API K202Factory : public Factory::IFactory {
         virtual ~K202Factory () {}
         virtual Core::Variant create (const Core::VariantMap &parameters, Common::Context *context = NULL) const;
 
-        e__ (K202Factory)
+        REFLECTION_END_ (K202Factory)
 };
 
 }

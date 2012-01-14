@@ -25,20 +25,20 @@
  *
  * <pre>
  * struct QuitButton {
- *      c__ (void)
+ *      REFLECTION_CONSTRUCTOR_ (void)
  *      onClicked () { sig.emit (); }
- *      m_ (getSig) signal<void()> const &getSig () const { return sig; }
+ *      REFLECTION_METHOD (getSig) signal<void()> const &getSig () const { return sig; }
  *
  * private:
  *      signal<void()> sig;
- *      e_ (Button)
+ *      REFLECTION_END (Button)
  * };
  *
  * /// Odbiorca sygnału z guzika
  * struct Controller {
- *      c__ (void)
- *      m_ (quit) void quit () { exit (0); }
- *      e_ (Controller)
+ *      REFLECTION_CONSTRUCTOR_ (void)
+ *      REFLECTION_METHOD (quit) void quit () { exit (0); }
+ *      REFLECTION_END (Controller)
  * };
  * </pre>
  *
@@ -124,15 +124,15 @@
  *
  * <pre>
  * struct Handler {
- *        c__(void);
+ *        REFLECTION_CONSTRUCTOR_(void);
  *
  *        Handler () : onClickedListener (this, "clicked2", "$onClicked ()") {}
  *
- *        m_ (onClicked) void onClicked () { ... }
+ *        REFLECTION_METHOD (onClicked) void onClicked () { ... }
  *
  *        Listener onClickedListener;
  *
- *        e_ (Handler);
+ *        REFLECTION_END (Handler);
  * };
  * </pre>
  *

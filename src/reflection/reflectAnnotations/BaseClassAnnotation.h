@@ -63,13 +63,13 @@ private:
 
 /**
  * Definicja makra adnotacji dla BaseClassAnnotation - każde
- * adnotowanie metody za pomocą m_ dodaje taki kawał kodu,
+ * adnotowanie metody za pomocą REFLECTION_METHOD dodaje taki kawał kodu,
  * (zamknięty w statyczną metodę) więc trzeba pamiętać, że
  * jest pewien narzut.
  *
  * Uwaga! W jednym wywołaniu można dodać do 10 klas bazowych.
  * Jeśli klas bazowych jest więcej, to 1. coś jest nie tak z
- * Twoim designem, 2. należy użyć makra b_ kilka razy.
+ * Twoim designem, 2. należy użyć makra REFLECTION_BASE_CLASS kilka razy.
  *
  * Klasy bazowe podajemy jako stringi.
  */
@@ -79,7 +79,7 @@ private:
                 REFLECTION_BASE_CLASS_ANNOTATION_BODY_PRIV(__VA_ARGS__)
 
 /**
- * Tak samo jak b_, ale bez wywoływania poprzedniej metody. Można użyć
+ * Tak samo jak REFLECTION_BASE_CLASS, ale bez wywoływania poprzedniej metody. Można użyć
  * jako pierwszą adnotację w klasie.
  */
 #define REFLECTION_BASE_CLASS_(...)                                                      \

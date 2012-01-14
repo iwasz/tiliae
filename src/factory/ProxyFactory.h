@@ -28,7 +28,7 @@ namespace Factory {
  */
 class TILIAE_API ProxyFactory : public IFactory {
 public:
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
 
         ProxyFactory () {}
         ProxyFactory (Ptr <IFactory> f, const Core::VariantMap &p) : factory (f), params (p) {}
@@ -51,17 +51,17 @@ public:
 /*--------------------------------------------------------------------------*/
 
         Ptr<IFactory> getFactory () const { return factory; }
-        s_ (setFactory) void setFactory (Ptr<IFactory> factory) { this->factory = factory; }
+        REFLECTION_SETTER (setFactory) void setFactory (Ptr<IFactory> factory) { this->factory = factory; }
 
         Core::VariantMap getParams () const { return params; }
-        m_ (setParams) void setParams (const Core::VariantMap &params) { this->params = params; }
+        REFLECTION_METHOD (setParams) void setParams (const Core::VariantMap &params) { this->params = params; }
 
 private:
 
         Ptr <IFactory> factory;
         Core::VariantMap params;
 
-        e_ (ProxyFactory)
+        REFLECTION_END (ProxyFactory)
 };
 
 }

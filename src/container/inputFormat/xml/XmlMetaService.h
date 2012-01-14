@@ -90,7 +90,7 @@ class IElem;
 class TILIAE_API XmlMetaService/* : public IMetaService*/ {
 public:
 
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
 
         XmlMetaService ();
         virtual ~XmlMetaService () {}
@@ -118,55 +118,55 @@ public:
 
 /*-- Metody wołane przez FSM -----------------------------------------------*/
 
-        m_ (setDefaultLazyInit);
+        REFLECTION_METHOD (setDefaultLazyInit);
         void setDefaultLazyInit ();
 
-        m_ (setDefaultInitMethod);
+        REFLECTION_METHOD (setDefaultInitMethod);
         void setDefaultInitMethod ();
 
-        m_ (setDefaultMerge);
+        REFLECTION_METHOD (setDefaultMerge);
         void setDefaultMerge ();
 
-        m_ (popCurrentBean); void popCurrentBean ();
-        m_ (popCurrentMetaAndGenerateRef); void popCurrentMetaAndGenerateRef (); /// Obsługuje zagnieżdżone beany.
+        REFLECTION_METHOD (popCurrentBean); void popCurrentBean ();
+        REFLECTION_METHOD (popCurrentMetaAndGenerateRef); void popCurrentMetaAndGenerateRef (); /// Obsługuje zagnieżdżone beany.
 
 
         /// Nowy MappedMeta. Na przykład kiedy <bean> lub <map>
-        m_ (pushNewMappedMeta); void pushNewMappedMeta ();
+        REFLECTION_METHOD (pushNewMappedMeta); void pushNewMappedMeta ();
 
         /// Nowy IndexedMeta. Uruchamia się w okolicach <list>
-        m_ (pushNewIndexedMeta); void pushNewIndexedMeta ();
+        REFLECTION_METHOD (pushNewIndexedMeta); void pushNewIndexedMeta ();
 
         /// Nowy MapElem - wywoływane podzac pracy w mapach i beanach.
-        m_ (pushNewMapElem); void pushNewMapElem ();
+        REFLECTION_METHOD (pushNewMapElem); void pushNewMapElem ();
 
         /// Nowy ListElem - wywoływane podzac pracy w listach.
-        m_ (pushNewListElem); void pushNewListElem ();
+        REFLECTION_METHOD (pushNewListElem); void pushNewListElem ();
 
-        m_ (popCurrentMapElem);         void popCurrentMapElem (); /// Zdejmuje aktualnie przetwarzany MapElem.
-        m_ (popCurrentIndexedElem);     void popCurrentIndexedElem (); /// Zdejmuje aktualnie przetwarzany IndexedElem.
-        m_ (popCurrentCArg);            void popCurrentCArg (); /// Zdejmuje aktualnie przetwarzany IndexedElem i dodaje go do aktualnego meta jako cArg.
+        REFLECTION_METHOD (popCurrentMapElem);         void popCurrentMapElem (); /// Zdejmuje aktualnie przetwarzany MapElem.
+        REFLECTION_METHOD (popCurrentIndexedElem);     void popCurrentIndexedElem (); /// Zdejmuje aktualnie przetwarzany IndexedElem.
+        REFLECTION_METHOD (popCurrentCArg);            void popCurrentCArg (); /// Zdejmuje aktualnie przetwarzany IndexedElem i dodaje go do aktualnego meta jako cArg.
 
-        m_ (setCurrentMapElemKey);      void setCurrentMapElemKey (const std::string &s); /// Oczekuje, że aktualny Elem to MapElem. Ustawia mu Key.
-        m_ (setCurrentRefDataData);     void setCurrentRefDataData (const std::string &s);
+        REFLECTION_METHOD (setCurrentMapElemKey);      void setCurrentMapElemKey (const std::string &s); /// Oczekuje, że aktualny Elem to MapElem. Ustawia mu Key.
+        REFLECTION_METHOD (setCurrentRefDataData);     void setCurrentRefDataData (const std::string &s);
 
-        m_ (newValueData);              void newValueData (); /// Tworzy nowe ValueData
-        m_ (newRefData);                void newRefData (); /// Tworzy nowe RefData.
-        m_ (setCurrentValueDataType);   void setCurrentValueDataType (const std::string &s); /// Ustawia w nim type
-        m_ (setCurrentValueDataData);   void setCurrentValueDataData (const std::string &s); /// Ustawia w nim data lub tworzy zupełnie nowe z typem string.
+        REFLECTION_METHOD (newValueData);              void newValueData (); /// Tworzy nowe ValueData
+        REFLECTION_METHOD (newRefData);                void newRefData (); /// Tworzy nowe RefData.
+        REFLECTION_METHOD (setCurrentValueDataType);   void setCurrentValueDataType (const std::string &s); /// Ustawia w nim type
+        REFLECTION_METHOD (setCurrentValueDataData);   void setCurrentValueDataData (const std::string &s); /// Ustawia w nim data lub tworzy zupełnie nowe z typem string.
 
-        m_ (newNullData);       void newNullData ();                            /// Tworzy nowe NullData i ustawia do currentElem.
-        m_ (setMetaId);         void setMetaId (const std::string &id);        /// Ustawia ID w katualnym Meta.
-        m_ (setMetaClass);      void setMetaClass (const std::string &clazz);  /// Ustawia parametr class w aktualnym Meta.
-        m_ (setMetaParent);     void setMetaParent (const std::string &par);   /// Ustawia parametr 'parent' w aktualnym Meta.
-        m_ (setMetaFactory);    void setMetaFactory (const std::string &s);    /// Ustawia parametr 'factory' w aktualnym Meta.
-        m_ (setMetaEditor);     void setMetaEditor (const std::string &s);     /// Ustawia parametr 'editor' w aktualnym Meta.
-        m_ (setMetaSingleton);  void setMetaSingleton (bool b);                 /// Ustawia parametr 'singleton' w aktualnym Meta.
-        m_ (setMetaLazyInit);   void setMetaLazyInit (bool b);                  /// Ustawia parametr 'lazy-init' w aktualnym Meta.
-        m_ (setMetaScope);      void setMetaScope (const std::string &scope);  /// Ustawia parametr 'scope (singleton/prototype/bean)' w aktualnym Meta.
-        m_ (setMetaInitMethod); void setMetaInitMethod (const std::string &s); /// Ustawia parametr 'init-method' w aktualnym Meta.
-        m_ (importFile);        void importFile (const std::string &s);        /// Importuje kolejny plik.
-        //        m_ (setMetaScopeId); void setMetaScopeId (const std::string &id); /// Ustawia parametr 'scope-id' w aktualnym Meta.
+        REFLECTION_METHOD (newNullData);       void newNullData ();                            /// Tworzy nowe NullData i ustawia do currentElem.
+        REFLECTION_METHOD (setMetaId);         void setMetaId (const std::string &id);        /// Ustawia ID w katualnym Meta.
+        REFLECTION_METHOD (setMetaClass);      void setMetaClass (const std::string &clazz);  /// Ustawia parametr class w aktualnym Meta.
+        REFLECTION_METHOD (setMetaParent);     void setMetaParent (const std::string &par);   /// Ustawia parametr 'parent' w aktualnym Meta.
+        REFLECTION_METHOD (setMetaFactory);    void setMetaFactory (const std::string &s);    /// Ustawia parametr 'factory' w aktualnym Meta.
+        REFLECTION_METHOD (setMetaEditor);     void setMetaEditor (const std::string &s);     /// Ustawia parametr 'editor' w aktualnym Meta.
+        REFLECTION_METHOD (setMetaSingleton);  void setMetaSingleton (bool b);                 /// Ustawia parametr 'singleton' w aktualnym Meta.
+        REFLECTION_METHOD (setMetaLazyInit);   void setMetaLazyInit (bool b);                  /// Ustawia parametr 'lazy-init' w aktualnym Meta.
+        REFLECTION_METHOD (setMetaScope);      void setMetaScope (const std::string &scope);  /// Ustawia parametr 'scope (singleton/prototype/bean)' w aktualnym Meta.
+        REFLECTION_METHOD (setMetaInitMethod); void setMetaInitMethod (const std::string &s); /// Ustawia parametr 'init-method' w aktualnym Meta.
+        REFLECTION_METHOD (importFile);        void importFile (const std::string &s);        /// Importuje kolejny plik.
+        //        REFLECTION_METHOD (setMetaScopeId); void setMetaScopeId (const std::string &id); /// Ustawia parametr 'scope-id' w aktualnym Meta.
 
 private:
 
@@ -218,7 +218,7 @@ private:
 
         Ptr <Common::ILogger> log;
 
-        e_ (XmlMetaService);
+        REFLECTION_END (XmlMetaService);
 };
 
 } // namespace

@@ -20,7 +20,7 @@
 //class MapPlugin : public IBeanWrapperPlugin {
 //public:
 //
-//        c__ (void)
+//        REFLECTION_CONSTRUCTOR_ (void)
 //
 //        virtual ~MapPlugin () {}
 //
@@ -33,7 +33,7 @@
 //        		const Core::Variant &objectToSet,
 //                        Context *ctx = NULL);
 //
-//        e_ (MapPlugin)
+//        REFLECTION_END (MapPlugin)
 //
 //};
 //

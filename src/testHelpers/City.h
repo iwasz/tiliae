@@ -19,24 +19,24 @@
 class TILIAE_API City {
 public:
 
-        c__ (void)
+        REFLECTION_CONSTRUCTOR_ (void)
         City () {}
 
-        c_ (std::string const &)
+        REFLECTION_CONSTRUCTOR (std::string const &)
         City (std::string const &n) : name (n) {}
 
         virtual ~City () {}
 
-        m_ (init) void init () { name += "_INIT"; }
+        REFLECTION_METHOD (init) void init () { name += "_INIT"; }
 
-        m_ (getName) std::string getName () const { return name; }
-        m_ (setName) void setName (const std::string &name) { this->name = name; }
+        REFLECTION_METHOD (getName) std::string getName () const { return name; }
+        REFLECTION_METHOD (setName) void setName (const std::string &name) { this->name = name; }
 
 private:
 
         std::string name;
 
-        e_ (City)
+        REFLECTION_END (City)
 
 };
 
@@ -47,7 +47,7 @@ typedef std::list <Ptr <City> > CityList;
 _gn (CityList, "CityList")
 
 typedef std::map <std::string, Ptr <City> > CityMap;
-g_ (CityMap)
+REFLECTION_COLLECTION (CityMap)
 
 #endif
 

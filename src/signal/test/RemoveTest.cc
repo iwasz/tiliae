@@ -21,15 +21,15 @@
 //
 //struct Handler1 {
 //
-//        c__(void);
+//        REFLECTION_CONSTRUCTOR_(void);
 //
 //        Handler1 () : onClickedListener (this, "clicked2", "$onClicked1()") {}
 //
-//        m_ (onClicked1) void onClicked1 () { iValue++; }
+//        REFLECTION_METHOD (onClicked1) void onClicked1 () { iValue++; }
 //
 //        Listener onClickedListener;
 //
-//        e_ (Handler1);
+//        REFLECTION_END (Handler1);
 //};
 //
 ///**

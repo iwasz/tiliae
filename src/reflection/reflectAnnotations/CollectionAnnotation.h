@@ -49,7 +49,7 @@
  * Dozwolone kolekcji, to wszystkie typy, dla których stworzyłem częściową specjalizację
  * szablonu ClassAnotation (w tym pliku poniżej).
  */
-#define _g(type) \
+#define REFLECTION_COLLECTION_ANNOTATION_BODY_PUBLIC(type) \
         ANNOTATION_RUN_ONCE_AT_STARTUP(::Reflection::CollectionAnnotation <type >::run (#type);)
 
 /**

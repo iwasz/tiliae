@@ -223,16 +223,8 @@
 #include "model/Method.h"
 #include "model/Class.h"
 #include "model/Constructor.h"
-
 #include "annotations/Annotations.h"
-
-#include "reflectAnnotations/MethodAnnotation.h"
-#include "reflectAnnotations/ConstructorAnnotation.h"
-#include "reflectAnnotations/BaseClassAnnotation.h"
-#include "reflectAnnotations/FactoryMethodAnnotation.h"
-#include "reflectAnnotations/ClassAnnotation.h"
-#include "reflectAnnotations/CollectionAnnotation.h"
-
+#include "reflectAnnotations/ReflectAnnotations.h"
 #include "Manager.h"
 #include "Exceptions.h"
 

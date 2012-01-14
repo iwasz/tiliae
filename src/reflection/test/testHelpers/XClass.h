@@ -18,6 +18,7 @@
 #include "reflectAnnotations/MethodAnnotation.h"
 #include "reflectAnnotations/ConstructorAnnotation.h"
 #include "reflectAnnotations/FactoryMethodAnnotation.h"
+#include "reflectAnnotations/DefaultAnnotationMacros.h"
 
 /**
  *

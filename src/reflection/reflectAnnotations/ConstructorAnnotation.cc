@@ -20,7 +20,9 @@ std::string ConstructorAnnotation::toString () const
 
 std::string ConstructorAnnotation::getHash () const
 {
-        return className + boost::lexical_cast <std::string> (constructorPointer->getArity ());
+        return className +
+               boost::lexical_cast <std::string> (constructorPointer->getArity ()) +
+               constructorPointer->getType().name();
 }
 
 } // notebook

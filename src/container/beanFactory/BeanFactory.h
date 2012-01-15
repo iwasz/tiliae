@@ -14,6 +14,10 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/ordered_index.hpp>
+#include <boost/multi_index/mem_fun.hpp>
+#include <boost/multi_index/sequenced_index.hpp>
 #include "common/Exceptions.h"
 #include "common/Attributes.h"
 #include "../../core/string/String.h"
@@ -39,9 +43,10 @@ class BeanFactory;
 class MetaContainer;
 
 typedef std::list <Ptr <BeanFactory> > BeanFactoryList;
-typedef std::vector <Ptr <BeanFactory> > BeanFactoryVector;
 typedef std::stack <Ptr <BeanFactory> > BeanFactoryStack;
 typedef std::map <std::string, Ptr <BeanFactory> > BeanFactoryMap;
+
+
 
 struct ToStringHelper {
         static std::string toString (const BeanFactoryMap &bfm);
@@ -147,7 +152,25 @@ private:
 
         BeanFactory *outerBeanFactory;
         BeanFactoryMap innerBeanFactories;
+//        void *innerBeanFactories2;
 };
+
+
+///**
+// * Elementy unikalne jak w secie, ale trzyma też kolejność wstawiania elementów,
+// * co jest ważne dla Managera.
+// */
+//typedef boost::multi_index::multi_index_container<
+//        BeanFactory *,
+//        boost::multi_index::indexed_by<
+//                // Jak mapa
+//                boost::multi_index::ordered_unique<
+//                        boost::multi_index::const_mem_fun <BeanFactory, std::string, &BeanFactory::getId>
+//                >,
+//                // Jak lista
+//                boost::multi_index::sequenced<>
+//        >
+//> BeanFactoryMap2;
 
 /*##########################################################################*/
 

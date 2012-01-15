@@ -120,7 +120,7 @@ namespace E {
                 REFLECTION_END (Testowa01)
         };
 
-        struct Testowa02 {
+        struct Testowa02 : public Core::Object {
                 d__
                 virtual ~Testowa02 () {}
 
@@ -192,8 +192,13 @@ BOOST_AUTO_TEST_CASE (testVirtualClass)
                 Ptr<Method> met1 = cls->getMethod ("f", 0);
                 BOOST_REQUIRE (met1);
 
+                E::Testowa03 t;
+                BOOST_REQUIRE_NO_THROW (met1->invoke (Variant (&t)));
+
                 met1 = cls->getMethod ("g", 0);
                 BOOST_REQUIRE (met1);
+
+                BOOST_REQUIRE_NO_THROW (met1->invoke (Variant (&t)));
         }
 
 /*--------------------------------------------------------------------------*/
@@ -208,11 +213,16 @@ BOOST_AUTO_TEST_CASE (testVirtualClass)
                 Ptr<Method> met1 = cls->getMethod ("f", 0);
                 BOOST_REQUIRE (met1);
 
+                E::Testowa04 t;
+                BOOST_REQUIRE_NO_THROW (met1->invoke (Variant (&t)));
+
                 met1 = cls->getMethod ("g", 0);
                 BOOST_REQUIRE (met1);
+                BOOST_REQUIRE_NO_THROW (met1->invoke (Variant (&t)));
 
                 met1 = cls->getMethod ("h", 0);
                 BOOST_REQUIRE (met1);
+                BOOST_REQUIRE_NO_THROW (met1->invoke (Variant (&t)));
         }
 }
 

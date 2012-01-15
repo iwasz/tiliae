@@ -47,7 +47,7 @@ Core::Variant SetterPtrWrapper <T (C::*) (A1)>::call (Core::Variant const &objec
 {
         checkArgList (args, 1);
         Core::VariantVector::iterator i = args->begin ();
-        return Core::Variant ((vcast <C*> (object)->*ptr) (ocast <A1> (*i)));
+        return Core::Variant ((ocast <C*> (object)->*ptr) (ocast <A1> (*i)));
 }
 
 /****************************************************************************/
@@ -71,7 +71,7 @@ Core::Variant SetterPtrWrapper <void (C::*) (A1)>::call (Core::Variant const &ob
 {
         checkArgList (args, 1);
         Core::VariantVector::iterator i = args->begin ();
-        (vcast <C*> (object)->*ptr) (ocast <A1> (*i));
+        (ocast <C*> (object)->*ptr) (ocast <A1> (*i));
         return Core::Variant ();
 }
 
@@ -96,7 +96,7 @@ Core::Variant SetterPtrWrapper <T (C::*) (A1) const>::call (Core::Variant const 
 {
         checkArgList (args, 1);
         Core::VariantVector::iterator i = args->begin ();
-        return Core::Variant ((vcast <C const *> (object)->*ptr) (ocast <A1> (*i)));
+        return Core::Variant ((ocast <C const *> (object)->*ptr) (ocast <A1> (*i)));
 }
 
 /****************************************************************************/
@@ -120,7 +120,7 @@ Core::Variant SetterPtrWrapper <void (C::*) (A1) const>::call (Core::Variant con
 {
         checkArgList (args, 1);
         Core::VariantVector::iterator i = args->begin ();
-        (vcast <C const *> (object)->*ptr) (ocast <A1> (*i));
+        (ocast <C const *> (object)->*ptr) (ocast <A1> (*i));
         return Core::Variant ();
 }
 

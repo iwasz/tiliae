@@ -47,7 +47,7 @@ bool BeanFactoryInitService::onMetaEnd (IMeta *meta)
         stack.pop ();
 
         if (stack.empty ()) {
-                getBVFContext ()->getBeanFactoryMap()->operator[] (meta->getId ()) = beanFactory;
+                getBVFContext ()->getBeanFactoryMap()->insert (beanFactory);
         }
         else {
                 Ptr <BeanFactory> parent = getBVFContext ()->getCurrentBF ();

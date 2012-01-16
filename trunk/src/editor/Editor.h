@@ -25,5 +25,6 @@
 #include "ChainEditor.h"
 #include "FactoryEditor.h"
 #include "ChainEditor.h"
+#include "StreamEditor.h"
 
 #endif /* EDITOR_H_ */

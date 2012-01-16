@@ -13,6 +13,7 @@
 #include "../LexicalEditor.h"
 #include "../StringConstructorEditor.h"
 #include "../../testHelpers/City.h"
+#include "../StreamEditor.h"
 
 /****************************************************************************/
 
@@ -61,6 +62,23 @@ BOOST_AUTO_TEST_CASE (testStringConstruct)
         city = vcast <Ptr <City> > (out);
         BOOST_REQUIRE (city);
         BOOST_REQUIRE_EQUAL (city->getName (), "Warszawa");
+}
+
+/****************************************************************************/
+
+BOOST_AUTO_TEST_CASE (testStreamEditor)
+{
+        Ptr <StreamEditor<std::string, unsigned int> > editor = boost::make_shared <StreamEditor<std::string, unsigned int> > ();
+
+        Variant out;
+        editor->convert (Variant ("123"), &out);
+        BOOST_REQUIRE_EQUAL (vcast <unsigned int> (out), 123);
+
+        editor->convert (Variant ("0xabc"), &out);
+        BOOST_REQUIRE_EQUAL (vcast <unsigned int> (out), 2748);
+
+        editor->convert (Variant ("0xFF"), &out);
+        BOOST_REQUIRE_EQUAL (vcast <unsigned int> (out), 255);
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

@@ -208,7 +208,7 @@ Ptr <BeanFactoryContainer> ContainerFactory::create ()
 {
         Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> ();
         container->setSingletons (singletons);
-        Ptr <BeanFactoryMap> map (new BeanFactoryMap);
+        Ptr <BeanFactoryMap> map = boost::make_shared <BeanFactoryMap> ();
         container->setBeanFactoryMap (map);
         return container;
 }
@@ -231,8 +231,11 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
 
                 // Tworzymy singletony (ale tylko te globalne). Czyli nie iterujemy przez wszystko, a
                 Ptr <BeanFactoryMap> beanFactoryMap = context.getBeanFactoryMap ();
-                for (BeanFactoryMap::iterator i = beanFactoryMap->begin (); i != beanFactoryMap->end (); ++i) {
-                        Ptr <BeanFactory> factory = i->second;
+                for (BeanFactoryMap::nth_index <1>::type::iterator i = beanFactoryMap->get<1> ().begin ();
+                     i  != beanFactoryMap->get<1> (). end ();
+                     ++i) {
+
+                        Ptr <BeanFactory> factory = *i;
                         bool isSingleton = (static_cast <IMeta::Scope> (factory->getAttributes ().getInt (SCOPE_ARGUMENT)) == IMeta::SINGLETON);
                         bool isLazyInit = factory->getAttributes ().getBool (LAZYINIT_ARGUMENT);
 
@@ -240,7 +243,7 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                                 (void)factory->create (Core::VariantMap (), &ctx);
 
                                 if (ctx.isError ()) {
-                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + i->first + "]. Message : \n" + ctx.getMessage ());
+                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + (*i)->getId () + "]. Message : \n" + ctx.getMessage ());
                                 }
                         }
                 }

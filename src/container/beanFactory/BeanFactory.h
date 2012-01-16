@@ -38,20 +38,7 @@ class LazyEditor;
 }
 
 namespace Container {
-
-class BeanFactory;
 class MetaContainer;
-
-typedef std::list <Ptr <BeanFactory> > BeanFactoryList;
-typedef std::stack <Ptr <BeanFactory> > BeanFactoryStack;
-typedef std::map <std::string, Ptr <BeanFactory> > BeanFactoryMap;
-
-
-
-struct ToStringHelper {
-        static std::string toString (const BeanFactoryMap &bfm);
-        static std::string toString (const BeanFactoryList &bfl);
-};
 
 /**
  * Główny i najważniejszy element kontenera IoC (Container), który
@@ -62,8 +49,8 @@ struct ToStringHelper {
 class TILIAE_API BeanFactory : public Factory::IFactory, public Core::IToStringEnabled {
 public:
 
-        BeanFactory () : fullyInitialized (false), forceSingleton (false), outerBeanFactory (NULL) {}
-        virtual ~BeanFactory () {}
+        BeanFactory ();
+        virtual ~BeanFactory ();
 
         /**
          * Parametry to singletony, ktore sa opcjonalne.
@@ -151,26 +138,32 @@ private:
         Ptr <Wrapper::IBeanWrapper> beanWrapper;
 
         BeanFactory *outerBeanFactory;
-        BeanFactoryMap innerBeanFactories;
-//        void *innerBeanFactories2;
+//        BeanFactoryMap innerBeanFactories;
+        void *innerBeanFactories;
 };
 
+typedef std::list <Ptr <BeanFactory> > BeanFactoryList;
+typedef std::stack <Ptr <BeanFactory> > BeanFactoryStack;
 
-///**
-// * Elementy unikalne jak w secie, ale trzyma też kolejność wstawiania elementów,
-// * co jest ważne dla Managera.
-// */
-//typedef boost::multi_index::multi_index_container<
-//        BeanFactory *,
-//        boost::multi_index::indexed_by<
-//                // Jak mapa
-//                boost::multi_index::ordered_unique<
-//                        boost::multi_index::const_mem_fun <BeanFactory, std::string, &BeanFactory::getId>
-//                >,
-//                // Jak lista
-//                boost::multi_index::sequenced<>
-//        >
-//> BeanFactoryMap2;
+/**
+ * Mapa, która trzyma kolejność elementów.
+ */
+typedef boost::multi_index::multi_index_container<
+        Ptr <BeanFactory>,
+        boost::multi_index::indexed_by<
+                // Jak mapa
+                boost::multi_index::ordered_non_unique<
+                        boost::multi_index::const_mem_fun <BeanFactory, std::string, &BeanFactory::getId>
+                >,
+                // Jak lista
+                boost::multi_index::sequenced<>
+        >
+> BeanFactoryMap;
+
+struct ToStringHelper {
+        static std::string toString (const BeanFactoryMap &bfm);
+        static std::string toString (const BeanFactoryList &bfl);
+};
 
 /*##########################################################################*/
 

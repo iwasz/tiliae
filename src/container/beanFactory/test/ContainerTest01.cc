@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 /*--------------------------------------------------------------------------*/
 
         Variant v;
-        Ptr <BeanFactory> bf = bm->operator [] ("aska0");
+        Ptr <BeanFactory> bf = *(bm->get<0>().find ("aska0"));
         BOOST_CHECK (bf);
 
         v = bf->getInput();
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 
 /*--------------------------------------------------------------------------*/
 
-        bf = bm->operator [] ("aska");
+        bf = *(bm->get<0>().find ("aska"));
         BOOST_CHECK (bf);
         v = bf->getInput();
         BOOST_CHECK (ccast <OrderedVariantMap *> (v));
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 
 /*--------------------------------------------------------------------------*/
 
-        bf = bm->operator [] ("aska2");
+        bf = *(bm->get<0>().find ("aska2"));
         BOOST_CHECK (bf);
         v = bf->getInput();
         BOOST_CHECK (ccast <OrderedVariantMap *> (v));
@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 
 /*--------------------------------------------------------------------------*/
 
-        bf = bm->operator [] ("aska3");
+        bf = *(bm->get<0>().find ("aska3"));
         BOOST_CHECK (bf);
         v = bf->getInput();
         BOOST_CHECK (ccast <OrderedVariantMap *> (v));

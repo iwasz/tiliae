@@ -44,6 +44,7 @@
 #include "../editor/ChainEditor.h"
 #include "../common/Context.h"
 #include "beanFactory/BeanFactoryContext.h"
+#include "../editor/StreamEditor.h"
 
 //#define CONTAINER_PRINT_META 1
 
@@ -176,10 +177,15 @@ Ptr <Wrapper::BeanWrapper> ContainerFactory::createBeanWrapper ()
         editor->setEqType (noop);
         editor->setNullType (noop);
 
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int), boost::make_shared <Editor::LexicalEditor <std::string, int> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int), boost::make_shared <Editor::StreamEditor <std::string, int> > ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), boost::make_shared <Editor::LexicalEditor <std::string, double> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (float), boost::make_shared <Editor::LexicalEditor <std::string, double> > ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char), boost::make_shared <Editor::LexicalEditor <std::string, char> > ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool), boost::make_shared <Editor::LexicalEditor <std::string, bool> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned int), boost::make_shared <Editor::StreamEditor <std::string, unsigned int> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned char), boost::make_shared <Editor::StreamEditor <std::string, unsigned char> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (long), boost::make_shared <Editor::StreamEditor <std::string, long> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned long), boost::make_shared <Editor::StreamEditor <std::string, unsigned long> > ()));
 
 //        Te konwersje działają, ale są niezbyt praktyczne.
 //        editor->addType (Editor::TypeEditor::Type (typeid (double), typeid (std::string), boost::make_shared <Editor::LexicalEditor <double, std::string> > ()));

@@ -242,6 +242,11 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                      ++i) {
 
                         Ptr <BeanFactory> factory = *i;
+
+#if 1
+                        std::cout << factory->getId () << std::endl;
+#endif
+
                         bool isSingleton = (static_cast <IMeta::Scope> (factory->getAttributes ().getInt (SCOPE_ARGUMENT)) == IMeta::SINGLETON);
                         bool isLazyInit = factory->getAttributes ().getBool (LAZYINIT_ARGUMENT);
 

@@ -10,9 +10,13 @@
 #include "../src/container/beanFactory/BeanFactory.h"
 #include "../src/container/ContainerFactory.h"
 #include "Book.h"
+#include "../src/container/metaStructure/model/meta/MappedMeta.h"
+#include "../src/container/metaStructure/model/meta/IndexedMeta.h"
 
 using namespace Container;
 using namespace std;
+
+#define printSize(a) std::cout << #a "=" << sizeof(a) << std::endl;
 
 /**
  *
@@ -20,6 +24,21 @@ using namespace std;
 
 int main (int argc, char **argv)
 {
+        BeanFactory *table = new BeanFactory[1000];
+        delete [] table;
+
+        printSize (BeanFactory);
+        printSize (std::string);
+        printSize (Core::Variant);
+        printSize (Ptr <Editor::IEditor>);
+        printSize (Attributes);
+        printSize (int);
+        printSize (int *);
+        printSize (Container::MappedMeta);
+        printSize (Container::IndexedMeta);
+
+
+#if 0
         Ptr <BeanFactoryContainer> container = XmlContainerFactory::createContainer ("../demo/main.xml");
         Ptr <BookVector> v = vcast <Ptr <BookVector> > (container->getBean ("books"));
 
@@ -38,6 +57,7 @@ int main (int argc, char **argv)
         for (AuthorMap::const_iterator i = a->begin (); i != a->end (); ++i) {
                 std::cout << i->first << ", " << i->second->toString () << std::endl;
         }
+#endif
 }
 
 

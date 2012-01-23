@@ -18,7 +18,7 @@
 #include "../core/Typedefs.h"
 #include "../core/ApiMacro.h"
 #include "../core/Pointer.h"
-#include "../common/Context.h"
+#include "../core/Context.h"
 
 namespace Factory {
 
@@ -53,7 +53,7 @@ namespace Factory {
 struct TILIAE_API IFactory : public Core::Object {
 
         virtual ~IFactory () {}
-        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Common::Context *context = NULL) const = 0;
+        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::Context *context = NULL) const = 0;
 
 };
 

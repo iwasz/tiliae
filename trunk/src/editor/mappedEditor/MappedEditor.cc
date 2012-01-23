@@ -59,7 +59,7 @@ void MappedEditor::convert (const Core::Variant &input,
  * Mamy gwarancje ze input i outpu sa OK. Odpowiednie asercje
  * wykonuje nadklasa.
  */
-void MappedEditor::edit (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void MappedEditor::edit (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         ASSERT (output, "");
         ASSERT (mapping, "");

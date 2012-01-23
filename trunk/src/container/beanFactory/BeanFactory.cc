@@ -47,7 +47,7 @@ void BeanFactory::setAttributes (const Attributes &attributes)
 
 /****************************************************************************/
 
-Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *context) const
+Core::Variant BeanFactory::create (const Core::VariantMap &, Core::Context *context) const
 {
         try {
                 // Check nesting level.
@@ -82,7 +82,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Common::Context *co
                         factoryParams[CLASS_NAME] = Core::Variant (attributes.getString (CLASS_ARGUMENT));
                 }
 
-                Common::Context *tmpCtx = context;
+                Core::Context *tmpCtx = context;
 
                 if (cArgsEditor) {
                         cArgsEditor->convert (cArgs, &cArgsEdited, tmpCtx);

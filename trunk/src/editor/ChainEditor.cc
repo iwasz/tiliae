@@ -10,20 +10,19 @@
 
 namespace Editor {
 
-void ChainEditor::convert (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void ChainEditor::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
-        Common::Context tmpCtx;
         unsigned int errCnt = 0;
 
         for (EditorList::const_iterator i = editors.begin (); i != editors.end (); ++i) {
 
-                (*i)->convert (input, output, &tmpCtx);
+                (*i)->convert (input, output, context);
 
                 // Udalo sie skonwertowac
-                if (output && !output->isNone ())
+                if (output && !output->isNone ()) {
                         return;
-
-                if (tmpCtx.isError ()) {
+                }
+                else {
                         ++errCnt;
                 }
         }

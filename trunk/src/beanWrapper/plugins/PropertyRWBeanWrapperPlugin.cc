@@ -14,7 +14,7 @@
 #include "../../reflection/model/Method.h"
 #include "../../reflection/ReflectionTools.h"
 #include "../../core/Typedefs.h"
-#include "../../common/Context.h"
+#include "../../core/Context.h"
 #include "../../beanWrapper/IBeanWrapper.h"
 
 /****************************************************************************/
@@ -22,9 +22,10 @@
 namespace Wrapper {
 using Core::StringList;
 using Core::Variant;
-using namespace Common;
-using Reflection::ReflectionTools;
+using Core::Context;
 using Core::VariantVector;
+using Reflection::ReflectionTools;
+using namespace Common;
 
 /****************************************************************************/
 

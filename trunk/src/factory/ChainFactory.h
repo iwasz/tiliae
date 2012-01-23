@@ -26,7 +26,7 @@ public:
         REFLECTION_CONSTRUCTOR_ (void)
 
         virtual ~ChainFactory () {}
-        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Common::Context *context = NULL) const;
+        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::Context *context = NULL) const;
 
         REFLECTION_METHOD (setFactories) void setFactories (Factory::FactoryVector const &f) { factories = f; }
         void addFactory (Ptr <Factory::IFactory> f) { factories.push_back (f); }

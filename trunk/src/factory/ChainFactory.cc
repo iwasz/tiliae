@@ -10,21 +10,18 @@
 
 namespace Factory {
 
-Core::Variant ChainFactory::create (const Core::VariantMap &parameters, Common::Context *context) const
+Core::Variant ChainFactory::create (const Core::VariantMap &parameters, Core::Context *context) const
 {
         Core::Variant result;
-        Common::Context tmpCtx;
         unsigned int errCnt = 0;
 
         for (FactoryVector::const_iterator i = factories.begin (); i != factories.end (); ++i) {
-                tmpCtx.clear ();
-                result = (*i)->create (parameters, &tmpCtx);
+                result = (*i)->create (parameters, context);
 
                 if (!result.isNone ()) {
                         return result;
                 }
-
-                if (tmpCtx.isError ()) {
+                else {
                         ++errCnt;
                 }
         }

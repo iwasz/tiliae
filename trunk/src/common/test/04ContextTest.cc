@@ -8,13 +8,13 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include "../../common/Context.h"
+#include "../../core/Context.h"
 #include "../../core/Exception.h"
 
 
 BOOST_AUTO_TEST_SUITE (ContextTest);
 
-using namespace Common;
+using namespace Core;
 
 
 BOOST_AUTO_TEST_CASE (testListHelper)

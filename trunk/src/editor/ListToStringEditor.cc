@@ -16,7 +16,7 @@
 namespace Editor {
 using namespace Core;
 
-void ListToStringEditor::edit (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void ListToStringEditor::edit (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         // TODO Szczerze mówiąc, nie wiem czemu to ma być VariantList, ale inaczej test testBeanWithCustomEditor nie przechodzi
         VariantList const *in = vcast <VariantList const *> (input);

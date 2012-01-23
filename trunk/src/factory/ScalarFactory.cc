@@ -163,7 +163,7 @@ Variant convertValue <bool> (bool classArgs,
 
 /****************************************************************************/
 
-Core::Variant ScalarFactory::create (const VariantMap &parameters, Common::Context *context) const
+Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::Context *context) const
 {
         VariantMap::const_iterator it = parameters.find (ReflectionFactory::CLASS_NAME);
         assert (it != parameters.end ());

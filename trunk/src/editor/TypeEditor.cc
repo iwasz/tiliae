@@ -11,7 +11,7 @@
 
 namespace Editor {
 
-void TypeEditor::convert (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void TypeEditor::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         // Znajdź odpowiedni do typów edytor.
         std::type_info const &inputType = input.getTypeInfo ();

@@ -30,7 +30,7 @@ struct TILIAE_API NoopEditor : public IEditor {
 
         static Ptr <NoopEditor> create (bool c = true) { return Ptr <NoopEditor> (new NoopEditor (c)); }
 
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL)
+        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL)
         {
                 if (copy) {
                         assert (output);

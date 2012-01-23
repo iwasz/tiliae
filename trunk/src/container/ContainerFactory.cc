@@ -42,7 +42,7 @@
 #include "../editor/LexicalEditor.h"
 #include "../editor/StringConstructorEditor.h"
 #include "../editor/ChainEditor.h"
-#include "../common/Context.h"
+#include "../core/Context.h"
 #include "beanFactory/BeanFactoryContext.h"
 #include "../editor/StreamEditor.h"
 
@@ -229,7 +229,6 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                 context.reset ();
                 context.setBeanFactoryContainer (bfCont);
                 context.setBeanFactoryMap (bfCont->getBeanFactoryMap ());
-
                 metaCont->accept (iteration1.get ());
                 metaCont->accept (iteration2.get ());
 
@@ -243,10 +242,6 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
 
                         Ptr <BeanFactory> factory = *i;
 
-#if 1
-                        std::cout << factory->getId () << std::endl;
-#endif
-
                         bool isSingleton = (static_cast <IMeta::Scope> (factory->getAttributes ().getInt (SCOPE_ARGUMENT)) == IMeta::SINGLETON);
                         bool isLazyInit = factory->getAttributes ().getBool (LAZYINIT_ARGUMENT);
 
@@ -254,7 +249,7 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                                 (void)factory->create (Core::VariantMap (), &ctx);
 
                                 if (ctx.isError ()) {
-                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + (*i)->getId () + "]. Message : \n" + ctx.getMessage ());
+                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + (*i)->getId () + "].");
                                 }
                         }
                 }
@@ -264,7 +259,7 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                 throw;
         }
         catch (Core::Exception &e) {
-                e.addMessage ("Error @ ContainerFactory::createContainer : [" + bfCont->toString () + "]. Message : " + ctx.getMessage ());
+                e.addMessage ("Error @ ContainerFactory::createContainer : [" + bfCont->toString () + "]. Message : " /*+ ctx.getMessage ()*/);
                 throw;
         }
 }

@@ -24,7 +24,7 @@ struct StringToMegatonEditor : public Editor::JEditor {
 
         virtual ~StringToMegatonEditor () {}
 
-        virtual void edit (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL)
+        virtual void edit (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL)
         {
                 // Sprawdzanie typow parametrow.
                 assert (ccast <Core::String> (input));

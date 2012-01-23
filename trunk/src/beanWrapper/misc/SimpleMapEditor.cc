@@ -23,7 +23,7 @@ Ptr<IEditor> SimpleMapEditor::getEditor (const std::string& name) const
 
 /****************************************************************************/
 
-void SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         assert (editors);
         assert (beanWrapper);

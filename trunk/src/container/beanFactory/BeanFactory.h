@@ -56,7 +56,7 @@ public:
          * Parametry to singletony, ktore sa opcjonalne.
          */
         virtual Core::Variant create (const Core::VariantMap &singletons = Core::VariantMap (),
-                                      Common::Context *context = NULL) const;
+                                      Core::Context *context = NULL) const;
 
 /*--------------------------------------------------------------------------*/
 

@@ -44,7 +44,7 @@ Core::Variant Context::getParam (unsigned int idx) const
 
 Core::Variant Context::getArg (const std::string &path, bool conditional) const
 {
-        using Common::Context;
+        using Core::Context;
 
         Context bwContext;
         Core::Variant ret;
@@ -95,7 +95,7 @@ Core::Variant Context::getArg (const std::string &path, bool conditional) const
 
 void Context::setArg (const std::string &path, const Core::Variant &obj)
 {
-        using Common::Context;
+        using Core::Context;
         Context bwContext;
 
         if (domain && !domain->isNone ()) {

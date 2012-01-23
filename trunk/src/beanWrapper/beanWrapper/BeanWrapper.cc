@@ -15,7 +15,7 @@
 #include "plugins/GetPutMethodRWBeanWrapperPlugin.h"
 #include "plugins/MethodPlugin.h"
 #include "../../core/Exception.h"
-#include "../../common/Context.h"
+#include "../../core/Context.h"
 
 /****************************************************************************/
 
@@ -23,6 +23,7 @@ namespace Wrapper {
 using Core::Variant;
 using Core::VariantList;
 using Core::StringList;
+using Core::Context;
 using namespace Common;
 
 Ptr<BeanWrapper> BeanWrapper::create (const Core::Variant &bean)
@@ -86,7 +87,7 @@ Core::Variant BeanWrapper::get (const Core::Variant *bean, const std::string &pa
 
 /****************************************************************************/
 
-Ptr <Core::IIterator> BeanWrapper::iterator (const Core::Variant *bean, const std::string &path, Common::Context *ctx) const
+Ptr <Core::IIterator> BeanWrapper::iterator (const Core::Variant *bean, const std::string &path, Core::Context *ctx) const
 {
         Context tmpCtx;
         ListPath pth (path);
@@ -115,7 +116,7 @@ Core::Variant BeanWrapper::get (const std::string &k, Context *ctx) const
 
 /****************************************************************************/
 
-Ptr <Core::IIterator> BeanWrapper::iterator (const std::string &path, Common::Context *ctx) const
+Ptr <Core::IIterator> BeanWrapper::iterator (const std::string &path, Core::Context *ctx) const
 {
         return iterator (&wrappedObject, path, ctx);
 }
@@ -161,7 +162,7 @@ Core::Variant BeanWrapper::get (const Core::Variant &referenceObject, IPath *pat
 
 /****************************************************************************/
 
-Core::Variant BeanWrapper::iterator (const Core::Variant &referenceObject, Common::IPath *path, Common::Context *ctx) const
+Core::Variant BeanWrapper::iterator (const Core::Variant &referenceObject, Common::IPath *path, Core::Context *ctx) const
 {
         assert (path);
 
@@ -273,7 +274,7 @@ Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IP
 {
         assert (path);
         unsigned int errCnt = 0;
-        Common::Context tmpCtx;
+        Core::Context tmpCtx;
 
         // Sprobuj uzyc ktoregos pluginu aby wyciagnac obiekt
         for (BeanWrapperPluginList::const_iterator i = getPluginList ()->begin (); i != getPluginList ()->end (); i++) {

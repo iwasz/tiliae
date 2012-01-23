@@ -11,7 +11,7 @@
 #include "IPropertyAccessor.h"
 #include "path/Path.h"
 #include "../../reflection/Manager.h"
-#include "../../common/Context.h"
+#include "../../core/Context.h"
 #include "../../beanWrapper/IBeanWrapper.h"
 
 /****************************************************************************/
@@ -24,6 +24,7 @@ using Reflection::ClassList;
 using Core::StringList;
 using Core::Variant;
 using Core::VariantVector;
+using Core::Context;
 using namespace Common;
 
 /****************************************************************************/
@@ -96,7 +97,7 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
 
 Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &bean,
                                                          Common::IPath *path,
-                                                         Common::Context *ctx) const
+                                                         Core::Context *ctx) const
 {
         assert (path);
 
@@ -204,7 +205,7 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
 bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
                                            IPath *path,
                                            const Core::Variant &objectToSet,
-                                           Common::Context *ctx,
+                                           Core::Context *ctx,
                                            Editor::IEditor *editor)
 {
         assert (bean);

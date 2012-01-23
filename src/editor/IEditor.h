@@ -18,7 +18,7 @@
 #include "../core/Pointer.h"
 #include "../core/Exception.h"
 #include "../core/ApiMacro.h"
-#include "../common/Context.h"
+#include "../core/Context.h"
 
 namespace Editor {
 
@@ -45,7 +45,7 @@ public:
          *  (taki, ktorego getType () == Variant::NONE). Chyba, ze blad jest zupelnie
          *  krytyczny.
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL) = 0;
+        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL) = 0;
 
 };
 

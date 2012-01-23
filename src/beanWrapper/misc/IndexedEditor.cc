@@ -30,7 +30,7 @@ Ptr <IEditor> IndexedEditor::getEditor (int index) const
 
 /****************************************************************************/
 
-void IndexedEditor::edit (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void IndexedEditor::edit (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         assert (editors);
         assert (beanWrapper);

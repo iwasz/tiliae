@@ -25,7 +25,7 @@ class TILIAE_API TypeEditor : public IEditor {
 public:
 
         virtual ~TypeEditor () {}
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
 
         /**
          * Edytor używany w przypadku kiedy typy warianta input i output są

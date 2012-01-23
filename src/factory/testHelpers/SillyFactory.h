@@ -43,7 +43,7 @@ public:
         SillyFactory (const Core::Variant &orig) : original (orig) {}
         virtual ~SillyFactory () {}
 
-        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Common::Context *context = NULL) const
+        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::Context *context = NULL) const
         {
                 return original;
         }

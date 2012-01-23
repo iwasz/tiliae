@@ -25,7 +25,7 @@ public:
         ListToStringEditor () : delimiter (","), quotation ("\"") {}
         ListToStringEditor (const std::string &d, const std::string &q) : delimiter (d), quotation (q) {}
 
-        virtual void edit (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
+        virtual void edit (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
 
         std::string getDelimiter () const { return delimiter; }
         void setDelimiter (const std::string &delimiter) { this->delimiter = delimiter; }

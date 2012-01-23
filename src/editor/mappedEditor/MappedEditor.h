@@ -53,7 +53,7 @@ struct MappedEditor : public JEditor {
         /**
          * Ta metoda sila rzeczy musi konwertowac caly obiekt (wszystkie sciezki).
          */
-        virtual void edit (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
+        virtual void edit (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
 
         /**
          * To jest wariant metody konvert, ktorej podajemy sciezke in i sciezke

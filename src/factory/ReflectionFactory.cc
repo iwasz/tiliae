@@ -14,7 +14,7 @@
 #include "../reflection/model/Constructor.h"
 #include "../reflection/model/Class.h"
 #include "../reflection/Manager.h"
-#include "../common/Context.h"
+#include "../core/Context.h"
 
 namespace Factory {
 using namespace Core;
@@ -24,7 +24,7 @@ const char *ReflectionFactory::CONSTRUCTOR_ARGS = "constructor-args";
 
 /****************************************************************************/
 
-Core::Variant ReflectionFactory::create (const VariantMap &parameters, Common::Context *context) const
+Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::Context *context) const
 {
         VariantMap::const_iterator i = parameters.find (CLASS_NAME);
         assert (i != parameters.end ());

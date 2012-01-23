@@ -22,7 +22,7 @@ struct DummyJEditor : public Editor::JEditor {
         DummyJEditor () : left ("["), right ("]") {}
         DummyJEditor (const std::string &l, const std::string &r) : left (l), right (r) {}
 
-        virtual void edit (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
+        virtual void edit (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
 
         std::string getLeft () const { return left; }
         void setLeft (const std::string &left) { this->left = left; }

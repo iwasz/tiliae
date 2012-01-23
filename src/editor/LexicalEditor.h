@@ -30,11 +30,11 @@ public:
          * @param input Konwertowalny na Core::String.
          * @param output Wskaźnik do dowolnego wariantu (może być isNone ()).
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
 };
 
 template <typename From, typename To>
-void LexicalEditor <From, To>::convert (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void LexicalEditor <From, To>::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         assert (output);
 
@@ -56,7 +56,7 @@ class TILIAE_API LexicalEditor <std::string, bool> : public IEditor {
 public:
 
         virtual ~LexicalEditor () {}
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
 
 };
 
@@ -65,7 +65,7 @@ class TILIAE_API LexicalEditor <Core::String, bool> : public IEditor {
 public:
 
         virtual ~LexicalEditor () {}
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
 
 };
 

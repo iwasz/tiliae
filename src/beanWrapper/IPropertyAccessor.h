@@ -12,10 +12,10 @@
 #include "../core/string/String.h"
 #include "../core/variant/Variant.h"
 #include "../core/ApiMacro.h"
-#include "../common/Context.h"
 #include "../core/Object.h"
 #include "../core/Iterator.h"
 #include "../core/Pointer.h"
+#include "../core/Context.h"
 
 namespace Wrapper {
 
@@ -37,12 +37,12 @@ public:
          * - Stringiem wskazujacym na jakies property beana, czy element mapy, czy innego obiektu.
          * - Indeksem listy.
          */
-        virtual void set (Core::Variant *bean, const std::string &path, const Core::Variant &object, Common::Context *ctx = NULL) = 0;
+        virtual void set (Core::Variant *bean, const std::string &path, const Core::Variant &object, Core::Context *ctx = NULL) = 0;
 
         /**
          * Dodawanie elementów do kolekcji sekwencyjnych takich jak lista, czy wektor.
          */
-        virtual void add (Core::Variant *bean, const std::string &path, const Core::Variant &object, Common::Context *ctx = NULL) = 0;
+        virtual void add (Core::Variant *bean, const std::string &path, const Core::Variant &object, Core::Context *ctx = NULL) = 0;
 
         /**
          * Metoda pobierająca element z BeanWrapper. Zwraca
@@ -50,12 +50,12 @@ public:
          * elementu z danej ścieżki (to dotyczy też ścieżki "").
          * W przeciwnym wypdaku get (...).isNone () == false.
          */
-        virtual Core::Variant get (const Core::Variant *bean, const std::string &path, Common::Context *ctx = NULL) const = 0;
+        virtual Core::Variant get (const Core::Variant *bean, const std::string &path, Core::Context *ctx = NULL) const = 0;
 
         /**
          *
          */
-        virtual Ptr <Core::IIterator> iterator (const Core::Variant *bean, const std::string &path, Common::Context *ctx = NULL) const = 0;
+        virtual Ptr <Core::IIterator> iterator (const Core::Variant *bean, const std::string &path, Core::Context *ctx = NULL) const = 0;
 
 };
 

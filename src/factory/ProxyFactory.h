@@ -36,7 +36,7 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Common::Context *context = NULL) const
+        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::Context *context = NULL) const
         {
                 Core::VariantMap tmp = params;
                 std::copy (parameters.begin (), parameters.end (), std::inserter (tmp, tmp.end ()));

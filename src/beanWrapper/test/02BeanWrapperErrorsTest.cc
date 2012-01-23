@@ -15,7 +15,7 @@
 #include "../../testHelpers/Address.h"
 #include "../../core/variant/Variant.h"
 #include "../plugins/PropertyRWBeanWrapperPlugin.h"
-#include "../../common/Context.h"
+#include "../../core/Context.h"
 
 /****************************************************************************/
 

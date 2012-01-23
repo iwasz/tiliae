@@ -22,7 +22,7 @@ class TILIAE_API StringConstructorEditor : public IEditor {
 public:
 
         virtual ~StringConstructorEditor () {}
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
 
 };
 

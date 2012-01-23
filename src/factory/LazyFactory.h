@@ -35,7 +35,7 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Common::Context *context = NULL) const
+        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::Context *context = NULL) const
         {
                 assert (factory);
                 Core::Variant vFac = factory->create (Core::VariantMap (), context);

@@ -14,7 +14,7 @@
 #include "plugins/IBeanWrapperPlugin.h"
 #include "../../core/Pointer.h"
 #include "../../core/ApiMacro.h"
-#include "../../common/Context.h"
+#include "../../core/Context.h"
 #include "../../editor/IEditor.h"
 #include "Reflection.h"
 
@@ -48,8 +48,8 @@ public:
          * property, a wrapowany obiektjest none lub nie null. Czyli
          * gdy object.isNone () || object.isNull ().
          */
-        virtual void set (const std::string &path, const Core::Variant &object, Common::Context *ctx = NULL);
-        virtual void set (Core::Variant *bean, const std::string &path, const Core::Variant &object, Common::Context *ctx = NULL);
+        virtual void set (const std::string &path, const Core::Variant &object, Core::Context *ctx = NULL);
+        virtual void set (Core::Variant *bean, const std::string &path, const Core::Variant &object, Core::Context *ctx = NULL);
 
         /**
          * Zwraca pole (property), lub cały obiekt, jeśli ścieżka to "".
@@ -58,14 +58,14 @@ public:
          * gdy object.isNone () || object.isNull ().
          * TODO test, czy faktycznie zrzuca!
          */
-        virtual Core::Variant get (const std::string &path, Common::Context *ctx = NULL) const;
-        virtual Core::Variant get (const Core::Variant *bean, const std::string &path, Common::Context *ctx = NULL) const;
+        virtual Core::Variant get (const std::string &path, Core::Context *ctx = NULL) const;
+        virtual Core::Variant get (const Core::Variant *bean, const std::string &path, Core::Context *ctx = NULL) const;
 
-        virtual void add (const std::string &path, const Core::Variant &object, Common::Context *ctx = NULL);
-        virtual void add (Core::Variant *bean, const std::string &path, const Core::Variant &object, Common::Context *ctx = NULL);
+        virtual void add (const std::string &path, const Core::Variant &object, Core::Context *ctx = NULL);
+        virtual void add (Core::Variant *bean, const std::string &path, const Core::Variant &object, Core::Context *ctx = NULL);
 
-        virtual Ptr <Core::IIterator> iterator (const std::string &path, Common::Context *ctx = NULL) const;
-        virtual Ptr <Core::IIterator> iterator (const Core::Variant *bean, const std::string &path, Common::Context *ctx = NULL) const;
+        virtual Ptr <Core::IIterator> iterator (const std::string &path, Core::Context *ctx = NULL) const;
+        virtual Ptr <Core::IIterator> iterator (const Core::Variant *bean, const std::string &path, Core::Context *ctx = NULL) const;
 
 /*------IBeanWrapper--------------------------------------------------------*/
 
@@ -96,20 +96,20 @@ protected:
 
 /*------Helper-methods------------------------------------------------------*/
 
-        Core::Variant get (const Core::Variant &referenceObject, Common::IPath *path, Common::Context *ctx) const;
-        void set (Core::Variant *referenceObject, Common::IPath *path, const Core::Variant &v, Common::Context *ctx);
-        void add (Core::Variant *referenceObject, Common::IPath *path, const Core::Variant &v, Common::Context *ctx);
-        Core::Variant iterator (const Core::Variant &referenceObject, Common::IPath *path, Common::Context *ctx) const;
+        Core::Variant get (const Core::Variant &referenceObject, Common::IPath *path, Core::Context *ctx) const;
+        void set (Core::Variant *referenceObject, Common::IPath *path, const Core::Variant &v, Core::Context *ctx);
+        void add (Core::Variant *referenceObject, Common::IPath *path, const Core::Variant &v, Core::Context *ctx);
+        Core::Variant iterator (const Core::Variant &referenceObject, Common::IPath *path, Core::Context *ctx) const;
 
         /**
          *  Koncowe i ostateczne  pobranie wartosci tokens z beana input.
          */
-        Core::Variant getObjectUsingPlugins (const Core::Variant &input, Common::IPath *path, Common::Context *ctx, bool iter = false) const;
+        Core::Variant getObjectUsingPlugins (const Core::Variant &input, Common::IPath *path, Core::Context *ctx, bool iter = false) const;
 
         /**
          *  Koncowe i ostateczne ustawienie wartosci property object obiektowi input.
          */
-        void setObjectUsingPlugins (Core::Variant *bean, Common::IPath *path, const Core::Variant &object, Common::Context *ctx, bool add = false);
+        void setObjectUsingPlugins (Core::Variant *bean, Common::IPath *path, const Core::Variant &object, Core::Context *ctx, bool add = false);
 
 /*--------------------------------------------------------------------------*/
 

@@ -15,7 +15,7 @@
 using namespace Core;
 using Editor::EditorException;
 
-void DummyIEditor::convert (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void DummyIEditor::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         /*
          * Input nie moż być pustym wariantem. Output nie

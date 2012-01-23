@@ -15,16 +15,16 @@
 #include "../../reflection/Manager.h"
 #include "../../reflection/ReflectionTools.h"
 #include "../../beanWrapper/IBeanWrapper.h"
-#include "../../common/Context.h"
+#include "../../core/Context.h"
 
 /****************************************************************************/
 
 namespace Wrapper {
 using Core::StringList;
 using Core::Variant;
-
-using namespace Common;
+using Core::Context;
 using Reflection::ReflectionTools;
+using namespace Common;
 
 /****************************************************************************/
 

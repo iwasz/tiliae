@@ -12,7 +12,7 @@
 #include "../../core/string/String.h"
 #include "../../core/variant/Variant.h"
 
-void DummyJEditor::edit (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void DummyJEditor::edit (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
 //        assert (ccast <Core::String> (input));
 //        assert (output);

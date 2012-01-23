@@ -9,14 +9,14 @@
 #ifndef BEANFACTORYCONTEXT_H_
 #define BEANFACTORYCONTEXT_H_
 
-#include "../../common/Context.h"
+#include "../../core/Context.h"
 
 namespace Container {
 
 /**
  * Kontekst z dodatkowymi ficzerami dla BeanFactory.
  */
-class BeanFactoryContext : public Common::Context {
+class BeanFactoryContext : public Core::Context {
 public:
 
         BeanFactoryContext () : nested (0) {}

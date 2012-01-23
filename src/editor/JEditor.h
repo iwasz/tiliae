@@ -42,7 +42,7 @@ public:
          * dodatkowa funkcjonalnosc w tej metodzie, powinien uzyc
          * zwyklego IEditor.
          */
-        void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL)
+        void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL)
         {
                 if (input.isNone () || input.isNull ()) {
                         error (context, EditorException, Common::UNDEFINED_ERROR, "Input argument must not be none variant (!isNone ()) and must not be null variant (!isNull ()).");
@@ -65,7 +65,7 @@ public:
         /**
          * Chce, zeby to byla inna nazwa niz convert - ma sie odrozniac, zeby bylo wiadomo co sie dzieje.
          */
-        virtual void edit (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL) = 0;
+        virtual void edit (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL) = 0;
 };
 
 }

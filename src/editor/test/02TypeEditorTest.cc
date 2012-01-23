@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE (testStringConstruct)
         Ptr <City> city;
         Variant out (city);
 
-        Common::Context ctx;
+        Core::Context ctx;
         editor->convert (Variant ("Warszawa"), &out, &ctx);
 
         std::cerr << ctx.getMessage () << std::endl;

@@ -47,7 +47,7 @@ public:
          * sie jak zwykly edytor, czyli jedynie wywola wewnetrzny
          * edytor..
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL)
+        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL)
         {
                 assert (output);
                 assert (factory);

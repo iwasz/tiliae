@@ -10,7 +10,7 @@
 
 namespace Editor {
 
-void LexicalEditor <std::string, bool>::convert (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void LexicalEditor <std::string, bool>::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         assert (output);
 
@@ -26,7 +26,7 @@ void LexicalEditor <std::string, bool>::convert (const Core::Variant &input, Cor
 
 /****************************************************************************/
 
-void LexicalEditor <Core::String, bool>::convert (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void LexicalEditor <Core::String, bool>::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         assert (output);
 

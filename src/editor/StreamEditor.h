@@ -27,11 +27,11 @@ public:
          * @param input Konwertowalny na Core::String.
          * @param output Wskaźnik do dowolnego wariantu (może być isNone ()).
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Common::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
 };
 
 template <typename From, typename To>
-void StreamEditor <From, To>::convert (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void StreamEditor <From, To>::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         assert (output);
 

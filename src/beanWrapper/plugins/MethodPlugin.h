@@ -61,24 +61,24 @@ public:
 
         virtual Core::Variant get (const Core::Variant &bean,
                                 Common::IPath *path,
-                                Common::Context *ctx = NULL,
+                                Core::Context *ctx = NULL,
                                 Editor::IEditor *editor = NULL) const;
 
         virtual bool set (Core::Variant *bean,
         		Common::IPath *path,
         		const Core::Variant &objectToSet,
-        		Common::Context *ctx = NULL,
+        		Core::Context *ctx = NULL,
         		Editor::IEditor *editor = NULL);
 
         virtual bool add (Core::Variant *,
                           Common::IPath *path,
                           const Core::Variant &,
-                          Common::Context *,
+                          Core::Context *,
                           Editor::IEditor * = NULL) { return false; }
 
         virtual Core::Variant iterator (const Core::Variant &bean,
                                         Common::IPath *path,
-                                        Common::Context *ctx) const { return Core::Variant (); };
+                                        Core::Context *ctx) const { return Core::Variant (); };
 
 private:
 

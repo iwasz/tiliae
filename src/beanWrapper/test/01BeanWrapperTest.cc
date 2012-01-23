@@ -27,7 +27,7 @@
 #include "../plugins/MethodPlugin.h"
 #include "../../testHelpers/Bar.h"
 #include "../../testHelpers/Foo.h"
-#include "../../common/Context.h"
+#include "../../core/Context.h"
 
 /****************************************************************************/
 

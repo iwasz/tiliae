@@ -14,7 +14,7 @@
 namespace Editor {
 using namespace Reflection;
 
-void StringConstructorEditor::convert (const Core::Variant &input, Core::Variant *output, Common::Context *context)
+void StringConstructorEditor::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
 {
         if (input.isNone ()) {
                 error (context, EditorException, Common::UNDEFINED_ERROR, "StringConstructorEditor::convert input.isNone ()");

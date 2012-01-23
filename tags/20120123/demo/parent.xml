@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+
+    <bean id="bracketFilter" class="BracketFilter" singleton="true" />
+    <bean id="stupidFilter" class="StupidFilter" scope="singleton" />
+
+    <bean id="basicAuthor" class="Author" abstract="true">
+        <property name="firstname" value="Bjarne" />
+        <property name="lastname" value="Stroustrup" />
+    </bean>
+
+    <map id="authorMap2" class="AuthorMap">
+        <entry key="a1">
+            <bean parent="basicAuthor">
+                <property name="filter" ref="bracketFilter" />                
+                <property name="firstname" value="Zbigniew" />
+                <property name="age" value="123" />
+            </bean>
+        </entry>
+        
+        <entry key="a2">
+            <bean parent="basicAuthor">
+                <property name="filter" ref="stupidFilter" />                
+            </bean>
+        </entry>
+
+        <entry key="a3">
+            <bean parent="basicAuthor">
+                <property name="filter" ref="bracketFilter" />                
+            </bean>   
+        </entry>     
+    </map>
+
+</beans>

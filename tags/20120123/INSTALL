@@ -1,0 +1,28 @@
+* Build and install
+I have never tried to compile the whole thing under other operating system than Linux (particularly Ubuntu). Under Linux, the thing goes as follows:
+
+1. Install cmake build system:
+#apt-get install cmake
+
+2. Install required libraries (i.e. their development versions). That would be boost >= 1.41 and libxml2:
+#apt-get install libxml2-dev libboost-dev
+
+(I personally prefer to use the newest libboost compiled from sources).
+
+3. Compile and install :
+$cd tiliae/build
+$cmake .
+$make
+# go make some coffee here, or add -j switch to make
+
+And optionally : 
+#make install
+
+* How to use.
+As for now, there is almost no documentation except some comments in source files, but majority of them is in Polish, 
+so they are of no use for most of you. I'll try to update it to English, and maybe make some nice tutorial. Also there 
+are quite many unit tests which are also good source of examples. Most descriptive (and advanced) tests are located in 
+tiliae/base/container/inputFormat/xml/test.
+
+* Feel free to email me : iwasz [at] tiliae [dot] eu
+

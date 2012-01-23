@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
+        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
+<beans>
+        <bean id="mojBean" class="Foo">
+                <property name="field0">
+                        <value type="String">value0</value>
+                </property>
+
+                <property name="field1">
+                        <value type="text">value1</value>
+                </property>
+
+                <property name="field2">
+                        <value type="int">6678</value>
+                </property>
+
+                <property name="field3">
+                        <value type="double">12.34</value>
+                </property>
+
+                <property name="field4">
+                        <value type="char">g</value>
+                </property>
+
+                <property name="field5">
+                        <value type="bool">true</value>
+                </property>
+
+                <property name="field6">
+                        <null/>
+                </property>
+        </bean>
+</beans>

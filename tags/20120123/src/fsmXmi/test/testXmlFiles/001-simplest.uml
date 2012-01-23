@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_F9ICYMZ0EeCbZdUUfhptVg" name="model">
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_F9MT0MZ0EeCbZdUUfhptVg" name="StateMachine0">
+    <region xmi:id="_F9MT0cZ0EeCbZdUUfhptVg" name="Region0">
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_NUeDYMZ0EeCbZdUUfhptVg" name="Initial0"/>
+      <subvertex xmi:type="uml:State" xmi:id="_NwZxcMZ0EeCbZdUUfhptVg" name="State0"/>
+      <subvertex xmi:type="uml:FinalState" xmi:id="_OOQLEMZ0EeCbZdUUfhptVg" name="FinalState0"/>
+      <transition xmi:id="_PRrW8MZ0EeCbZdUUfhptVg" name="Transition0" source="_NUeDYMZ0EeCbZdUUfhptVg" target="_NwZxcMZ0EeCbZdUUfhptVg"/>
+      <transition xmi:id="_P01uYMZ0EeCbZdUUfhptVg" name="Transition1" source="_NwZxcMZ0EeCbZdUUfhptVg" target="_OOQLEMZ0EeCbZdUUfhptVg"/>
+    </region>
+  </packagedElement>
+</uml:Model>

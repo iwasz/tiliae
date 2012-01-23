@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: tiliaexml
+Description: XML support for Tiliae.
+Requires: tiliaebeanwrapper libxml-2.0
+Version: 0.1
+Libs: -L${libdir} -ltiliaexml
+Cflags: -I${includedir}/tiliae/xml

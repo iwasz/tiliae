@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+
+    <import resource="../demo/include.xml" />
+    <import resource="../demo/parent.xml" />
+    <import resource="../demo/huge.xml" />
+
+    <list id="books" class="BookVector">
+        <bean class="Book">
+            <property name="title" value="Piekni 20letni" />
+            <property name="isbn" value="12354435435" />
+            <property name="author">
+                <bean class="Author">
+                    <property name="firstname" value="Marek" />
+                    <property name="lastname" value="Hlasko" />
+                </bean>
+            </property>
+        </bean>
+
+        <bean class="Book">
+            <property name="title" value="Z glowy" />
+            <property name="isbn" value="8903244234" />
+            <property name="author">
+                <bean class="Author">
+                    <property name="firstname" value="Janusz" />
+                    <property name="lastname" value="Glowacki" />
+                </bean>
+            </property>
+        </bean>
+
+        <bean class="Book">
+            <property name="title" value="Ansi C" />
+            <property name="isbn" value="8903244234" />
+            <property name="author" value="K+R"/>
+        </bean>
+
+        <bean class="Book">
+            <property name="title" value="Design Patterns" />
+            <property name="isbn" value="8903244234" />
+            <property name="author">
+                <bean class="Author">
+                    <constructor-arg>
+                        <value>GoF</value>
+                    </constructor-arg>
+                    <constructor-arg>
+                        <value>BlahBlah</value>
+                    </constructor-arg>
+                </bean>
+            </property>
+        </bean>
+    </list>
+
+</beans>

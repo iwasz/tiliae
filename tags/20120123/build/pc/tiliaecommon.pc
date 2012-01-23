@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: tiliaecommon
+Description: Tiliae.
+Requires: tiliaecore
+Version: 0.1
+Libs: -L${libdir} -ltiliaecommon
+Cflags: -I${includedir}/tiliae/common

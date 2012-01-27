@@ -1645,13 +1645,13 @@ T const &OCast<T>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return *(boost::polymorphic_downcast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
+                return *(boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
 
         case Variant::OBJECT:
-                return *(boost::polymorphic_downcast <T *> (static_cast<Object *> (v.ptr)));
+                return *(boost::polymorphic_cast <T *> (static_cast<Object *> (v.ptr)));
 
         case Variant::OBJECT_CONST:
-                return *(boost::polymorphic_downcast <T const *> (static_cast<Object const *> (v.cptr)));
+                return *(boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.cptr)));
 
         default:
                 return VCast<T>::run (v);
@@ -1691,10 +1691,10 @@ T &OCast<T &>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::SMART_OBJECT:
-                return *(boost::polymorphic_downcast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
+                return *(boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
 
         case Variant::OBJECT:
-                return *(boost::polymorphic_downcast <T *> (static_cast<Object *> (v.ptr)));
+                return *(boost::polymorphic_cast <T *> (static_cast<Object *> (v.ptr)));
 
         default:
                 return VCast<T &>::run (v);
@@ -1731,13 +1731,13 @@ T const &OCast<T const &>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return *(boost::polymorphic_downcast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ()));
+                return *(boost::polymorphic_cast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ()));
 
         case Variant::OBJECT:
-                return *(boost::polymorphic_downcast <T const *> (static_cast<Object const *> (v.ptr)));
+                return *(boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.ptr)));
 
         case Variant::OBJECT_CONST:
-                return *(boost::polymorphic_downcast <T const *> (static_cast<Object const *> (v.cptr)));
+                return *(boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.cptr)));
 
         default:
                 return VCast<T const &>::run (v);
@@ -1777,10 +1777,10 @@ T *OCast <T *>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::SMART_OBJECT:
-                return boost::polymorphic_downcast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
+                return boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
 
         case Variant::OBJECT:
-                return boost::polymorphic_downcast <T *> (static_cast<Object *> (v.ptr));
+                return boost::polymorphic_cast <T *> (static_cast<Object *> (v.ptr));
 
         default:
                 return VCast<T *>::run (v);
@@ -1818,13 +1818,13 @@ T const *OCast <T const *>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return boost::polymorphic_downcast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ());
+                return boost::polymorphic_cast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ());
 
         case Variant::OBJECT:
-                return boost::polymorphic_downcast <T const *> (static_cast<Object const *> (v.ptr));
+                return boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.ptr));
 
         case Variant::OBJECT_CONST:
-                return boost::polymorphic_downcast <T const *> (static_cast<Object const *> (v.cptr));
+                return boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.cptr));
 
         default:
                 return VCast<T const *>::run (v);

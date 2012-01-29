@@ -30,11 +30,11 @@ public:
          * @param input Konwertowalny na Core::String.
          * @param output Wskaźnik do dowolnego wariantu (może być isNone ()).
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL);
 };
 
 template <typename From, typename To>
-void LexicalEditor <From, To>::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
+void LexicalEditor <From, To>::convert (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
 {
         assert (output);
 
@@ -42,11 +42,14 @@ void LexicalEditor <From, To>::convert (const Core::Variant &input, Core::Varian
                 *output = Core::Variant (boost::lexical_cast <To> (vcast <From> (input)));
         }
         catch (std::exception const &e) {
-                error (context, EditorException, Common::UNDEFINED_ERROR, std::string ("LexicalEditor <") + typeid (From).name () +
+                dcError (context, std::string ("LexicalEditor <") + typeid (From).name () +
                                 std::string (", ") + typeid (To).name () + ">::convert. Exception : " +
                                 e.what () + std::string (". Input variant : ") + input.toString () +
                                 ", output variant : " + output->toString ());
+                setError (error);
         }
+
+        clearError (error);
 }
 
 /*##########################################################################*/
@@ -56,7 +59,7 @@ class TILIAE_API LexicalEditor <std::string, bool> : public IEditor {
 public:
 
         virtual ~LexicalEditor () {}
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL);
 
 };
 
@@ -65,7 +68,7 @@ class TILIAE_API LexicalEditor <Core::String, bool> : public IEditor {
 public:
 
         virtual ~LexicalEditor () {}
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL);
 
 };
 

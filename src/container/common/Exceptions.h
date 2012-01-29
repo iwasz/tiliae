@@ -20,6 +20,7 @@ namespace Container {
  */
 struct TILIAE_API ContainerException : public Core::Exception {
         ContainerException (std::string const &m = "") : Core::Exception (m) {}
+        ContainerException (Core::DebugContext const &db, std::string const &s = "") : Core::Exception (db, s) {}
         virtual ~ContainerException () throw () {}
 };
 

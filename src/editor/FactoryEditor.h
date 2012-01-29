@@ -47,20 +47,7 @@ public:
          * sie jak zwykly edytor, czyli jedynie wywola wewnetrzny
          * edytor..
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL)
-        {
-                assert (output);
-                assert (factory);
-
-                if (output->isNone () || output->isNull ()) {
-                        // Stworz output fabryką.
-                        *output = factory->create (factoryParams, context);
-                }
-
-                // Konwertuj.
-                assert (editor);
-                editor->convert (input, output, context);
-        }
+        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL);
 
         Ptr <Factory::IFactory> getFactory () const { return factory; }
         void setFactory (Ptr <Factory::IFactory> factory) { this->factory = factory; }

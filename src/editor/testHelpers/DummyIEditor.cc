@@ -15,19 +15,21 @@
 using namespace Core;
 using Editor::EditorException;
 
-void DummyIEditor::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
+void DummyIEditor::convert (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
 {
         /*
          * Input nie moż być pustym wariantem. Output nie
          * może być pustym wskaźnikiem.
          */
         if (input.isNone ()) {
-                error (context, EditorException, Common::UNDEFINED_ERROR, "DummyIEditor::convert input is NONE");
+                dcError (context, "DummyIEditor::convert input is NONE");
+                setError (error);
                 return;
         }
 
         if (!output) {
-                error (context, EditorException, Common::UNDEFINED_ERROR, "DummyIEditor::convert !output");
+                dcError (context, "DummyIEditor::convert !output");
+                setError (error);
                 return;
         }
 
@@ -36,7 +38,8 @@ void DummyIEditor::convert (const Core::Variant &input, Core::Variant *output, C
          * Output też.
          */
         if (!ccast <std::string> (input)) {
-                error (context, EditorException, Common::UNDEFINED_ERROR, "DummyIEditor::convert can't cast input to std::string.");
+                dcError (context, "DummyIEditor::convert can't cast input to std::string.");
+                setError (error);
                 return;
         }
 
@@ -67,7 +70,8 @@ void DummyIEditor::convert (const Core::Variant &input, Core::Variant *output, C
         if (!ccast <std::string &> (*output) &&
             !ccast <std::string *> (*output)) {
 
-                error (context, EditorException, Common::UNDEFINED_ERROR, "DummyIEditor::convert can't cast output to std::string.");
+                dcError (context, "DummyIEditor::convert can't cast output to std::string.");
+                setError (error);
                 return;
         }
 
@@ -87,4 +91,5 @@ void DummyIEditor::convert (const Core::Variant &input, Core::Variant *output, C
 
         std::string *s = vcast <std::string *> (*output);
         *s = "(" + strIn + ")";
+        clearError (error);
 }

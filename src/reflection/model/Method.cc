@@ -1,7 +1,8 @@
 /****************************************************************************
  *                                                                          *
  *  Author : lukasz.iwaszkiewicz@gmail.com                                  *
- *  ~~~~~~~~                                                                *
+ *  ~~~~~~~~                                                              //                return true;
+ *    *
  *  License : see COPYING file for details.                                 *
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
@@ -53,7 +54,7 @@ Core::Variant Method::invoke (Core::Variant const  &o, Core::Variant const &arg)
     }
     catch (Core::Exception &e) {
             e.addMessage ("In Method::invoke. Method name : [" + name + "]");
-            throw;
+            throw e;
     }
 }
 

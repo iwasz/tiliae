@@ -163,7 +163,7 @@ Variant convertValue <bool> (bool classArgs,
 
 /****************************************************************************/
 
-Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::Context *context) const
+Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugContext *context) const
 {
         VariantMap::const_iterator it = parameters.find (ReflectionFactory::CLASS_NAME);
         assert (it != parameters.end ());
@@ -180,7 +180,7 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::Context
         }
 
         if (classArgs && classArgs->size () != 1) {
-                error (context, FactoryException, Common::UNDEFINED_ERROR, "ScalarFactory requires 1 constructor argument or NULL argVector. You provided : " + boost::lexical_cast <std::string> (classArgs->size ()));
+                dcError (context, "ScalarFactory requires 1 constructor argument or NULL argVector. You provided : " + boost::lexical_cast <std::string> (classArgs->size ()));
                 return Core::Variant ();
         }
 
@@ -290,7 +290,7 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::Context
                         break;
 
                 default:
-                        error (context, FactoryException, Common::UNDEFINED_ERROR, "ScalarFactory wrong argument type. Simple scalar type expected. You provided : " + arg1.toString ());
+                        dcError (context, "ScalarFactory wrong argument type. Simple scalar type expected. You provided : " + arg1.toString ());
                         return Core::Variant ();
                 }
 

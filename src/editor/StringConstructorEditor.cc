@@ -14,15 +14,17 @@
 namespace Editor {
 using namespace Reflection;
 
-void StringConstructorEditor::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
+void StringConstructorEditor::convert (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
 {
         if (input.isNone ()) {
-                error (context, EditorException, Common::UNDEFINED_ERROR, "StringConstructorEditor::convert input.isNone ()");
+                dcError (context, "StringConstructorEditor::convert input.isNone ()");
+                setError (error);
                 return;
         }
 
         if (!ccast <std::string> (input)) {
-                error (context, EditorException, Common::UNDEFINED_ERROR, "StringConstructorEditor::convert !ccast <std::string> (input)");
+                dcError (context, "StringConstructorEditor::convert !ccast <std::string> (input)");
+                setError (error);
                 return;
         }
 
@@ -35,18 +37,28 @@ void StringConstructorEditor::convert (const Core::Variant &input, Core::Variant
 #endif
 
         if (!cls) {
-                error (context, EditorException, Common::UNDEFINED_ERROR, "StringConstructorEditor::convert no class for type_info : [" + std::string (outputType.name ()) + "]");
+                dcError (context, "StringConstructorEditor::convert no class for type_info : [" + std::string (outputType.name ()) + "]");
+                setError (error);
                 return;
         }
 
         Ptr <Constructor> ctr = cls->getConstructor (typeid (std::string const));
 
         if (!ctr) {
-                error (context, EditorException, Common::UNDEFINED_ERROR, "StringConstructorEditor::convert no constructor (std::string const &) for class : [" + cls->getName () + "]");
+                dcError (context, "StringConstructorEditor::convert no constructor (std::string const &) for class : [" + cls->getName () + "]");
+                setError (error);
                 return;
         }
 
-        *output = ctr->newInstance (input);
+        try {
+                *output = ctr->newInstance (input);
+        }
+        catch (std::exception const &e) {
+                dcError (context, std::string ("StringConstructorEditor::convert : constructor hast thrown an exception : ") + e.what ());
+                setError (error);
+        }
+
+        clearError (error);
 }
 
 }

@@ -36,10 +36,14 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::Context *context = NULL) const
+        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::DebugContext *context = NULL) const
         {
                 if (cache.isNone ()) {
-                        assert (factory);
+                        if (!factory) {
+                                dcError (context, "SingletonFactory : factory == NULL!");
+                                return Core::Variant ();
+                        }
+
                         cache = factory->create (parameters, context);
                 }
 

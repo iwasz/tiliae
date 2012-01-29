@@ -14,7 +14,7 @@
 #include "../reflection/model/Constructor.h"
 #include "../reflection/model/Class.h"
 #include "../reflection/Manager.h"
-#include "../core/Context.h"
+#include "../core/DebugContext.h"
 
 namespace Factory {
 using namespace Core;
@@ -24,7 +24,7 @@ const char *ReflectionFactory::CONSTRUCTOR_ARGS = "constructor-args";
 
 /****************************************************************************/
 
-Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::Context *context) const
+Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::DebugContext *context) const
 {
         VariantMap::const_iterator i = parameters.find (CLASS_NAME);
         assert (i != parameters.end ());
@@ -41,7 +41,7 @@ Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::Con
         Ptr <Reflection::Class> cls = Reflection::Manager::classForName (className);
 
         if (!cls) {
-                error (context, FactoryException, Common::UNDEFINED_ERROR, "ReflectionFactory::create : Can't find class with name [" + className + "] with reflection.");
+                dcError (context, "ReflectionFactory::create : Can't find class with name [" + className + "] with reflection.");
                 return Variant ();
         }
 
@@ -52,7 +52,7 @@ Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::Con
         constructor = cls->getConstructor ((classArgs) ? (classArgs->size ()) : (0));
 
         if (!constructor) {
-                error (context, FactoryException, Common::UNDEFINED_ERROR, "ReflectionFactory::create : Can't get constructor for class " + className);
+                dcError (context, "ReflectionFactory::create : Can't get constructor for class " + className);
                 return Variant ();
         }
 
@@ -67,7 +67,7 @@ Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::Con
 
         }
         catch (Exception const &e) {
-                error (context, FactoryException, Common::UNDEFINED_ERROR, "ReflectionFactory::create : Exception during execution of constructor of class " + className + ". Exception message : " + e.what ());
+                dcError (context, "ReflectionFactory::create : Exception during execution of constructor of class " + className + ". Exception message : " + e.what ());
                 return Variant ();
         }
 }

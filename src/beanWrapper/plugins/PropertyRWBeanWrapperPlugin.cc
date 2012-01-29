@@ -14,7 +14,7 @@
 #include "../../reflection/model/Method.h"
 #include "../../reflection/ReflectionTools.h"
 #include "../../core/Typedefs.h"
-#include "../../core/Context.h"
+#include "../../core/DebugContext.h"
 #include "../../beanWrapper/IBeanWrapper.h"
 
 /****************************************************************************/
@@ -22,7 +22,7 @@
 namespace Wrapper {
 using Core::StringList;
 using Core::Variant;
-using Core::Context;
+using Core::DebugContext;
 using Core::VariantVector;
 using Reflection::ReflectionTools;
 using namespace Common;
@@ -43,7 +43,8 @@ Ptr <Reflection::Class> PropertyRWBeanWrapperPlugin::getClass (const Variant &be
 
 Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
                                         IPath *path,
-                                        Context *ctx,
+                                        bool *error,
+                                        DebugContext *ctx,
                                         Editor::IEditor *) const
 {
         assert (path);
@@ -60,7 +61,8 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
 #endif
 
         if (!cls) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
+                setError (error);
                 return Variant ();
         }
 
@@ -69,18 +71,21 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
         Ptr <Reflection::Method> getter = ReflectionTools::findGetter (cls, property);
 
         if (!getter) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Class '" + cls->getName () + "' does not have getter for property with name '" + property + "').");
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Class '" + cls->getName () + "' does not have getter for property with name '" + property + "').");
+                setError (error);
                 return Variant ();
         }
 
         path->cutFirstSegment ();
 
         try {
+                clearError (error);
                 return getter->invoke (bean);
         }
         catch (Core::Exception const &e) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "PropertyRWBeanWrapperPlugin (Path : '" +
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
                                 path->toString () + "'). Exception from 'get' method has been thrown : " + e.what ());
+                setError (error);
                 return Variant ();
         }
 }
@@ -90,7 +95,7 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
 bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
                                        IPath *path,
                                        const Core::Variant &objectToSet,
-                                       Context *ctx,
+                                       DebugContext *ctx,
                                        Editor::IEditor *editor)
 {
 #if 0
@@ -103,7 +108,7 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
         Ptr <Reflection::Class> cls = getClass (*bean, path);
 
         if (!cls) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean->getTypeInfo ().name ()) + ")");
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean->getTypeInfo ().name ()) + ")");
                 return false;
         }
 
@@ -112,7 +117,7 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
         Ptr <Reflection::Method> setter = ReflectionTools::findSetter (cls, property);
 
         if (!setter) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Class '" + cls->getName () + "' does not have setter for property with name '" + property + "').");
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Class '" + cls->getName () + "' does not have setter for property with name '" + property + "').");
         	return false;
         }
 
@@ -122,18 +127,30 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
                 if (editor) {
                         Variant output;
                         output.setTypeInfo (setter->getType ());
-                        editor->convert (objectToSet, &output, ctx);
+
+                        bool err;
+                        editor->convert (objectToSet, &output, &err, ctx);
+
+                        if (err) {
+                                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
+                                return false;
+                        }
+
                         setter->invoke (*bean, (!output.isNone () ? output : objectToSet));
                 }
                 else {
                         setter->invoke (*bean, objectToSet);
                 }
-
-                return true;
         }
         catch (Core::Exception const &e) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "PropertyRWBeanWrapperPlugin (Path : '" +
-                                path->toString () + "'). Exception from 'set' method has been thrown : " + e.what ());
+                ctx->addContext (e.getContext ());
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                path->toString () + "'). Exception from 'set' method has been thrown.");
+                return false;
+        }
+        catch (std::exception const &e) {
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                path->toString () + "'). Exception from 'set' method has been thrown : " + e.what () + ".");
                 return false;
         }
 

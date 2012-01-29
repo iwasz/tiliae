@@ -42,30 +42,33 @@ public:
          * dodatkowa funkcjonalnosc w tej metodzie, powinien uzyc
          * zwyklego IEditor.
          */
-        void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL)
+        void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL)
         {
                 if (input.isNone () || input.isNull ()) {
-                        error (context, EditorException, Common::UNDEFINED_ERROR, "Input argument must not be none variant (!isNone ()) and must not be null variant (!isNull ()).");
+                        dcError (context, "Input argument must not be none variant (!isNone ()) and must not be null variant (!isNull ()).");
+                        setError (error);
                 	return;
                 }
 
                 if (!output) {
-                        error (context, EditorException, Common::UNDEFINED_ERROR, "Output argument must not be NULL (output != NULL).");
+                        dcError (context, "Output argument must not be NULL (output != NULL).");
+                        setError (error);
                         return;
                 }
 
                 if (output->isNone () || output->isNull ()) {
-                        error (context, EditorException, Common::UNDEFINED_ERROR, "Output argument must not be none variant (!isNone ()) and must not be null variant (!isNull ()).");
+                        dcError (context, "Output argument must not be none variant (!isNone ()) and must not be null variant (!isNull ()).");
+                        setError (error);
                         return;
                 }
 
-                edit (input, output, context);
+                edit (input, output, error, context);
         }
 
         /**
          * Chce, zeby to byla inna nazwa niz convert - ma sie odrozniac, zeby bylo wiadomo co sie dzieje.
          */
-        virtual void edit (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL) = 0;
+        virtual void edit (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL) = 0;
 };
 
 }

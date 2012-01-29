@@ -29,24 +29,26 @@ public:
 
         virtual Core::Variant get (const Core::Variant &bean,
                                    Common::IPath *path,
-                                   Core::Context *ctx = NULL,
+                                   bool *error,
+                                   Core::DebugContext *ctx = NULL,
                                    Editor::IEditor *editor = NULL) const;
 
         virtual bool set (Core::Variant *bean,
                           Common::IPath *path,
                           const Core::Variant &objectToSet,
-                          Core::Context *ctx = NULL,
+                          Core::DebugContext *ctx = NULL,
                           Editor::IEditor *editor = NULL);
 
         virtual bool add (Core::Variant *bean,
                           Common::IPath *path,
                           const Core::Variant &objectToSet,
-                          Core::Context *ctx,
+                          Core::DebugContext *ctx,
                           Editor::IEditor *editor = NULL);
 
         virtual Core::Variant iterator (const Core::Variant &bean,
                                         Common::IPath *path,
-                                        Core::Context *ctx) const;
+                                        bool *error,
+                                        Core::DebugContext *ctx) const;
 
         REFLECTION_END (GetPutMethodRWBeanWrapperPlugin)
 };

@@ -15,7 +15,7 @@
 #include "../../testHelpers/Address.h"
 #include "../../core/variant/Variant.h"
 #include "../plugins/PropertyRWBeanWrapperPlugin.h"
-#include "../../core/Context.h"
+#include "../../core/DebugContext.h"
 
 /****************************************************************************/
 
@@ -51,8 +51,12 @@ BOOST_AUTO_TEST_CASE (testExceptions)
         Address *pa = vcast <Address *> (vv);
         BOOST_REQUIRE_EQUAL (pa, &address);
 
-        BOOST_REQUIRE_THROW ((bw->get ("kupaKupa")), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW ((bw->set ("kupaKupa", Core::Variant (123))), PropertyNotSettableException);
+        bool err;
+        bw->get ("kupaKupa", &err);
+        BOOST_REQUIRE_EQUAL (err, true);
+
+        bool success = bw->set ("kupaKupa", Core::Variant (123));
+        BOOST_REQUIRE_EQUAL (success, false);
 }
 
 /****************************************************************************/
@@ -71,15 +75,16 @@ BOOST_AUTO_TEST_CASE (testContext)
         Address *pa = vcast <Address *> (vv);
         BOOST_REQUIRE_EQUAL (pa, &address);
 
-        Context ctx;
-        bw->get ("kupaKupa", &ctx);
+        DebugContext ctx;
+        bool err;
+        bw->get ("kupaKupa", &err, &ctx);
 
-        BOOST_REQUIRE (ctx.isError());
+        BOOST_REQUIRE (err);
         BOOST_REQUIRE (!ctx.getMessage().empty ());
 
-        bw->set ("kupaKupa", Variant (), &ctx);
+        bool success = bw->set ("kupaKupa", Variant (), &ctx);
 
-        BOOST_REQUIRE (ctx.isError());
+        BOOST_REQUIRE (!success);
         BOOST_REQUIRE (!ctx.getMessage().empty ());
 }
 

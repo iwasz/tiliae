@@ -23,7 +23,7 @@ Ptr<IEditor> SimpleMapEditor::getEditor (const std::string& name) const
 
 /****************************************************************************/
 
-void SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, Core::Context *context)
+void SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
 {
         assert (editors);
         assert (beanWrapper);
@@ -52,12 +52,21 @@ void SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, C
 
                 Variant outputV;
                 assert (editor);
-                editor->convert (i->second, &outputV, context);
+                bool err;
+                editor->convert (i->second, &outputV, &err, context);
 
-//                        TODO Działa tylko jeśli się poda kopię outputu lub ustawi setWrappedObject (co też robi kopię). CZEMU?!
-//                        beanWrapper->setWrappedObject (*output);
+                if (err) {
+                        setError (error);
+                        dcError (context, "SimpleMapEditor : editor failed [" + i->first + "].")
+                        return;
+                }
+
                 Variant v = *output;
-                beanWrapper->set (&v, i->first, outputV);
+                if (!beanWrapper->set (&v, i->first, outputV, context)) {
+                        setError (error);
+                        dcError (context, "SimpleMapEditor : beanWrapper set failed [" + i->first + "].")
+                        return;
+                }
         }
 
 }

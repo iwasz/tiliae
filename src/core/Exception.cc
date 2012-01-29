@@ -6,34 +6,39 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-//#include <sstream>
 #include "Exception.h"
 
 namespace Core {
 
-Exception::Exception (std::string const &s) : message (s)
+Exception::Exception (std::string const &s)
 {
-//        if (s.empty ()) {
-//                msgCount = 0;
-//        }
-//        else {
-//                message = "1. " + s;
-//                msgCount = 1;
-//        }
+        ctx.addMessage (s);
 }
 
-void Exception::setMessage (std::string const &m)
+/****************************************************************************/
+
+Exception::Exception (DebugContext const &db, std::string const &s)
 {
-        message += /*"1. " +*/ m;
-//        msgCount = 1;
+        ctx.addContext (db);
+
+        if (s != "") {
+                ctx.addMessage (s);
+        }
 }
+
+/****************************************************************************/
 
 void Exception::addMessage (std::string const &m)
 {
-//        std::ostringstream str;
-//        str << "\n" << ++msgCount << ". " << m;
-//        message += str.str ();
-        message += m + "\n";
+        ctx.addMessage (m);
 }
+
+/****************************************************************************/
+
+void Exception::addContext (DebugContext const &dc)
+{
+        ctx.addContext (dc);
+}
+
 
 }

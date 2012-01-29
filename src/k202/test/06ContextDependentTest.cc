@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE (testPropertyDomain)
 
         TestRuntime <String>::test (k202, "$street", "Katalonska", v);
         TestRuntime <String>::test (k202, "${postalCode}", "05-500", v);
-        TestRuntime <Address *>::test (k202, "${}", &a, v);
+        TestRuntime <Address *>::test (k202, "${this}", &a, v);
 
         StringList vec;
         vec.push_back ("kupa");
@@ -202,7 +202,7 @@ BOOST_AUTO_TEST_CASE (testConditionalPropertyDomain)
 
         TestRuntime <String>::test (k202, "$!street", "Katalonska", v);
         TestRuntime <String>::test (k202, "$!postalCode", "05-500", v);
-        TestRuntime <Address *>::test (k202, "$!{}", &a, v);
+        TestRuntime <Address *>::test (k202, "$!this", &a, v);
 
         StringList vec;
         vec.push_back ("kupa");

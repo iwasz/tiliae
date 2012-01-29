@@ -11,19 +11,16 @@
 
 namespace Editor {
 
-void TypeEditor::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
+void TypeEditor::convert (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
 {
         // Znajdź odpowiedni do typów edytor.
         std::type_info const &inputType = input.getTypeInfo ();
         std::type_info const &outputType = output->getTypeInfo ();
 
-        if (input.isNull ()) {
-                getEqType ()->convert (input, output, context);
-        }
-
         // Jeżeli typy się nie różnią, to użyj standardowego w edytora.
-        if (inputType == outputType) {
-                getEqType ()->convert (input, output, context);
+        if (inputType == outputType || input.isNull ()) {
+                getEqType ()->convert (input, output, error, context);
+                clearError (error);
                 return;
         }
 
@@ -32,8 +29,12 @@ void TypeEditor::convert (const Core::Variant &input, Core::Variant *output, Cor
 
         // Użyj go i daj wynik.
         if (i != container.end ()) {
-                i->editor->convert (input, output, context);
+                i->editor->convert (input, output, error, context);
+                clearError (error);
         }
+
+        // Nie powiodło się.
+        setError (error);
 }
 
 }

@@ -24,7 +24,7 @@ class TILIAE_API ChainEditor : public IEditor  {
 public:
 
         virtual ~ChainEditor () {}
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL);
+        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL);
 
         EditorList const &getEditors () const { return editors; }
         void setEditors (EditorList const &e) { this->editors = e; }

@@ -54,14 +54,16 @@ BOOST_AUTO_TEST_CASE (testStringConstruct)
         Ptr <City> city;
         Variant out (city);
 
-        Core::Context ctx;
-        editor->convert (Variant ("Warszawa"), &out, &ctx);
+        Core::DebugContext ctx;
+        bool error;
+        editor->convert (Variant ("Warszawa"), &out, &error, &ctx);
 
         std::cerr << ctx.getMessage () << std::endl;
 
         city = vcast <Ptr <City> > (out);
         BOOST_REQUIRE (city);
         BOOST_REQUIRE_EQUAL (city->getName (), "Warszawa");
+        BOOST_REQUIRE_EQUAL (error, false);
 }
 
 /****************************************************************************/

@@ -15,7 +15,7 @@
 #include "../../testHelpers/Address.h"
 #include "../../core/variant/Variant.h"
 #include "../plugins/PropertyRWBeanWrapperPlugin.h"
-#include "../../core/Context.h"
+#include "../../core/DebugContext.h"
 #include "../../editor/LexicalEditor.h"
 #include "../../editor/TypeEditor.h"
 #include "../../editor/NoopEditor.h"

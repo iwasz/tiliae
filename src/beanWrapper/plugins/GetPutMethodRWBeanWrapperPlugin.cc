@@ -11,7 +11,7 @@
 #include "IPropertyAccessor.h"
 #include "path/Path.h"
 #include "../../reflection/Manager.h"
-#include "../../core/Context.h"
+#include "../../core/DebugContext.h"
 #include "../../beanWrapper/IBeanWrapper.h"
 
 /****************************************************************************/
@@ -24,14 +24,15 @@ using Reflection::ClassList;
 using Core::StringList;
 using Core::Variant;
 using Core::VariantVector;
-using Core::Context;
+using Core::DebugContext;
 using namespace Common;
 
 /****************************************************************************/
 
 Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
                                               IPath *path,
-                                              Context *ctx,
+                                              bool *error,
+                                              DebugContext *ctx,
                                               Editor::IEditor *editor) const
 {
         assert (path);
@@ -43,8 +44,9 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
 #endif
 
         // Sprawdz, czy bean w ogole cos zawiera. Moze nic nie zawierac, czyli ze w mapie map nie bylo obiektu glownego.
-        if (!path->countSegments () || bean.isNone ()) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Condition : !path->countSegments () || bean.isNone () || can_cast <IPropertyAccessor *> (bean) failed.')");
+        if (/*!path->countSegments () || */bean.isNone ()) {
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Condition : !path->countSegments () || bean.isNone () || can_cast <IPropertyAccessor *> (bean) failed.')");
+                setError (error);
                 return Variant ();
         }
 
@@ -52,7 +54,8 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
         Ptr <Reflection::Class> cls = Reflection::Manager::classForType (bean.getTypeInfo ());
 
         if (!cls) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
+                setError (error);
                 return Variant ();
         }
 
@@ -76,8 +79,9 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
                         ret = method->invoke (bean, Core::Variant (path->getFirstSegment ()));
                 }
                 catch (Core::Exception const &e) {
-                        error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
+                        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
                                         path->toString () + "'). Exception from 'get' method has been thrown : " + e.what ());
+                        setError (error);
                         return Variant ();
                 }
 
@@ -86,10 +90,12 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
                         path->cutFirstSegment ();
                 }
 
+                clearError (error);
                 return ret;
         }
 
-        error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. )");
+        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. )");
+        setError (error);
         return Variant ();
 }
 
@@ -97,18 +103,21 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
 
 Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &bean,
                                                          Common::IPath *path,
-                                                         Core::Context *ctx) const
+                                                         bool *error,
+                                                         Core::DebugContext *ctx) const
 {
         assert (path);
 
         if (path->countSegments ()) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::iterator fatal. Path should be empty at this stage : (Path : '" + path->toString () + "'.");
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin::iterator fatal. Path should be empty at this stage : (Path : '" + path->toString () + "'.");
+                setError (error);
                 return Variant ();
         }
 
         // Sprawdz, czy bean w ogole cos zawiera. Moze nic nie zawierac, czyli ze w mapie map nie bylo obiektu glownego.
         if (bean.isNone ()) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::iterator (Path : '" + path->toString () + "'. bean is NONE.");
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin::iterator (Path : '" + path->toString () + "'. bean is NONE.");
+                setError (error);
                 return Variant ();
         }
 
@@ -116,7 +125,8 @@ Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &be
         Ptr <Reflection::Class> cls = Reflection::Manager::classForType (bean.getTypeInfo ());
 
         if (!cls) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::iterator (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin::iterator (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
+                setError (error);
                 return Variant ();
         }
 
@@ -124,11 +134,21 @@ Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &be
         Ptr <Reflection::Method> method = cls->getMethod ("iterator");
 
         if (!method) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::iterator. No 'iterator' method found (Path : '" + path->toString () + "'. )");
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin::iterator. No 'iterator' method found (Path : '" + path->toString () + "'. )");
+                setError (error);
                 return Variant ();
         }
 
-        return method->invoke (bean);
+        try {
+                clearError (error);
+                return method->invoke (bean);
+        }
+        catch (std::exception const &e) {
+                dcError (ctx, std::string ("GetPutMethodRWBeanWrapperPlugin::iterator. Exception during method call : ") + e.what ());
+                setError (error);
+        }
+
+        return Core::Variant ();
 }
 
 /****************************************************************************/
@@ -136,15 +156,15 @@ Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &be
 bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                                            IPath *path,
                                            const Core::Variant &objectToSet,
-                                           Context *ctx,
+                                           DebugContext *ctx,
                                            Editor::IEditor *editor)
 {
         assert (path);
         assert (bean);
 
         // Sprawdz, czy bean w ogole cos zawiera. Moze nic nie zawierac, czyli ze w mapie map nie bylo obiektu glownego.
-        if (!path->countSegments () || bean->isNone ()) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Condition : !path->countSegments () || bean->getType () == Core::NONE || can_cast <IPropertyAccessor *> (*bean) failed.')");
+        if (/*!path->countSegments () || */bean->isNone ()) {
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Condition : bean->getType () == Core::NONE || can_cast <IPropertyAccessor *> (*bean) failed.')");
                 return false;
         }
 
@@ -152,7 +172,7 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
         Ptr <Reflection::Class> cls = Reflection::Manager::classForType (bean->getTypeInfo ());
 
         if (!cls) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Failed to get Class objest instance for type_info : " + std::string (bean->getTypeInfo ().name ()));
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Failed to get Class objest instance for type_info : " + std::string (bean->getTypeInfo ().name ()));
                 return false;
         }
 
@@ -175,7 +195,14 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                         if (editor) {
                                 Variant output;
                                 output.setTypeInfo (method->getType ());
-                                editor->convert (objectToSet, &output, ctx);
+                                bool err;
+                                editor->convert (objectToSet, &output, &err, ctx);
+
+                                if (err) {
+                                        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
+                                        return false;
+                                }
+
                                 params.push_back ((!output.isNone () ? output : objectToSet));
                         }
                         else {
@@ -185,7 +212,7 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                         method->invoke (*bean, &params);
                 }
                 catch (Core::Exception const &e) {
-                        error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
+                        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
                                         path->toString () + "'). Exception from 'set' method has been thrown : " + e.what ());
                         return false;
                 }
@@ -196,7 +223,7 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                 return true;
         }
 
-        error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Failed to get method 'set' for class '" + cls->getName () + "'");
+        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Failed to get method 'set' for class '" + cls->getName () + "'");
         return false;
 }
 
@@ -205,7 +232,7 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
 bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
                                            IPath *path,
                                            const Core::Variant &objectToSet,
-                                           Core::Context *ctx,
+                                           Core::DebugContext *ctx,
                                            Editor::IEditor *editor)
 {
         assert (bean);
@@ -213,12 +240,12 @@ bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
 
         // Sprawdz, czy bean w ogole cos zawiera. Moze nic nie zawierac, czyli ze w mapie map nie bylo obiektu glownego.
         if (bean->isNone ()) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::add : path : '" + path->toString () + "'. bean->isNone ()");
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin::add : path : '" + path->toString () + "'. bean->isNone ()");
                 return false;
         }
 
         if (path->countSegments () != 0) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::add : path : '" + path->toString () + "'. path->countSegments () != 0");
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin::add : path : '" + path->toString () + "'. path->countSegments () != 0");
                 return false;
         }
 
@@ -226,7 +253,7 @@ bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
         Ptr <Reflection::Class> cls = Reflection::Manager::classForType (bean->getTypeInfo ());
 
         if (!cls) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Failed to get Class objest instance for type_info : " + std::string (bean->getTypeInfo ().name ()));
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Failed to get Class objest instance for type_info : " + std::string (bean->getTypeInfo ().name ()));
                 return false;
         }
 
@@ -243,7 +270,15 @@ bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
                 if (editor) {
                         Variant output;
                         output.setTypeInfo (method->getType ());
-                        editor->convert (objectToSet, &output, ctx);
+
+                        bool err;
+                        editor->convert (objectToSet, &output, &err, ctx);
+
+                        if (err) {
+                                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
+                                return false;
+                        }
+
                         method->invoke (*bean, output);
                 }
                 else {
@@ -253,7 +288,7 @@ bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
                 return true;
         }
 
-        error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin::add (Path : '" + path->toString () + "'. Failed to get method 'add' for class '" + cls->getName () + "'");
+        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin::add (Path : '" + path->toString () + "'. Failed to get method 'add' for class '" + cls->getName () + "'");
         return false;
 }
 

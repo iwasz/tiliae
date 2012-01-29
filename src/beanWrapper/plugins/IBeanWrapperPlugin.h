@@ -16,7 +16,7 @@
 #include "../../editor/IEditor.h"
 #include "Reflection.h"
 #include "../../core/Object.h"
-#include "../../core/Context.h"
+#include "../../core/DebugContext.h"
 
 /****************************************************************************/
 
@@ -57,7 +57,8 @@ public:
          */
         virtual Core::Variant get (const Core::Variant &bean,
                                  Common::IPath *path,
-                                 Core::Context *ctx,
+                                 bool *error,
+                                 Core::DebugContext *ctx,
                                  Editor::IEditor *editor = NULL) const = 0;
 
         /**
@@ -65,7 +66,8 @@ public:
          */
         virtual Core::Variant iterator (const Core::Variant &bean,
                                         Common::IPath *path,
-                                        Core::Context *ctx) const = 0;
+                                        bool *error,
+                                        Core::DebugContext *ctx) const = 0;
 
         /**
          *  Ustawia.
@@ -84,7 +86,7 @@ public:
         virtual bool set (Core::Variant *bean,
         		Common::IPath *path,
         		const Core::Variant &objectToSet,
-        		Core::Context *ctx,
+        		Core::DebugContext *ctx,
         		Editor::IEditor *editor = NULL) = 0;
 
         /**
@@ -93,7 +95,7 @@ public:
         virtual bool add (Core::Variant *bean,
                           Common::IPath *path,
                           const Core::Variant &objectToSet,
-                          Core::Context *ctx,
+                          Core::DebugContext *ctx,
                           Editor::IEditor *editor = NULL) = 0;
 };
 

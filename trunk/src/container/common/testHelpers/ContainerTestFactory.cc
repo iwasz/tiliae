@@ -24,25 +24,14 @@ Ptr <Container::BeanFactoryContainer> ContainerTestFactory::container;
 
 Ptr <BeanFactoryContainer> ContainerTestFactory::getContainer (const std::string &xmlFilePath)
 {
-//        try {
-                if (!container) {
-                        container = cf.create ();
-                }
+        if (!container) {
+                container = cf.create ();
+        }
 
-                container->reset ();
-                cf.fill (container, xmlFilePath);
-                return container;
-//        }
-//        catch (const Core::Exception &e) {
-//                std::cerr << "Error @ ContainerFactory::createContainer : [" << e.getMessage() << "]. ";
-//
-//                if (container) {
-//                        std::cerr << container->toString ();
-//                }
-//
-//                std::cerr << std::endl;
-//                throw;
-//        }
+        container->reset ();
+        cf.fill (container, xmlFilePath);
+        return container;
+
 }
 
 /*

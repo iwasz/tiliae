@@ -44,24 +44,22 @@ Core::Variant Context::getParam (unsigned int idx) const
 
 Core::Variant Context::getArg (const std::string &path, bool conditional) const
 {
-        using Core::Context;
-
-        Context bwContext;
+        Core::DebugContext bwContext;
+        bool err;
         Core::Variant ret;
 
         if (domain && !domain->isNone ()) {
-                ret = bwrap.get ()->get (domain, path, &bwContext);
+                ret = bwrap.get ()->get (domain, path, &err, &bwContext);
 
-                if (!bwContext.isError ()) {
+                if (!err) {
                         return ret;
                 }
         }
 
-        bwContext.clear ();
         if (ret.isNone () && argsMap && !argsMap->empty ()) {
-                ret = bwrap->get (&mapAsVariant, path, &bwContext);
+                ret = bwrap->get (&mapAsVariant, path, &err, &bwContext);
 
-                if (!bwContext.isError ()) {
+                if (!err) {
                         return ret;
                 }
         }
@@ -86,7 +84,7 @@ Core::Variant Context::getArg (const std::string &path, bool conditional) const
         }
         else {
                 RuntimeException e ("RuntimeException : [" + path + "] property getter requested, but none found.");
-                e.addMessage (bwContext.getMessage ());
+                e.addContext (bwContext);
                 throw e;
         }
 }
@@ -95,30 +93,29 @@ Core::Variant Context::getArg (const std::string &path, bool conditional) const
 
 void Context::setArg (const std::string &path, const Core::Variant &obj)
 {
-        using Core::Context;
-        Context bwContext;
+        Core::DebugContext bwContext;
 
         if (domain && !domain->isNone ()) {
-                bwrap->set (domain, path, obj, &bwContext);
-
-                if (!bwContext.isError ()) {
+                if (bwrap->set (domain, path, obj, &bwContext)) {
                         return;
                 }
         }
 
         if (argsMap) {
-                bwrap->set (&mapAsVariant, path, obj, &bwContext);
-
-                if (!bwContext.isError ()) {
+                if (bwrap->set (&mapAsVariant, path, obj, &bwContext)) {
                         return;
                 }
         }
 
         if ((!domain || domain->isNone ()) && (!argsMap || argsMap->empty ())) {
-                throw RuntimeException ("RuntimeException : [" + path + "] property requested, but both domain and argsMap are NULL.");
+                RuntimeException e ("RuntimeException : [" + path + "] property requested, but both domain and argsMap are NULL.");
+                e.addContext (bwContext);
+                throw e;
         }
 
-        throw RuntimeException ("RuntimeException : [" + path + "] property setter requested, but none found.");
+        RuntimeException e ("RuntimeException : [" + path + "] property setter requested, but none found.");
+        e.addContext (bwContext);
+        throw e;
 }
 
 /****************************************************************************/

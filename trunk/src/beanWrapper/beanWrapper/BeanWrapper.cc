@@ -15,7 +15,7 @@
 #include "plugins/GetPutMethodRWBeanWrapperPlugin.h"
 #include "plugins/MethodPlugin.h"
 #include "../../core/Exception.h"
-#include "../../core/Context.h"
+#include "../../core/DebugContext.h"
 
 /****************************************************************************/
 
@@ -23,7 +23,7 @@ namespace Wrapper {
 using Core::Variant;
 using Core::VariantList;
 using Core::StringList;
-using Core::Context;
+using Core::DebugContext;
 using namespace Common;
 
 Ptr<BeanWrapper> BeanWrapper::create (const Core::Variant &bean)
@@ -46,154 +46,181 @@ Ptr<BeanWrapper> BeanWrapper::create (const Core::Variant &bean)
 
 /*##########################################################################*/
 
-void BeanWrapper::set (Core::Variant *bean, const std::string &path, const Core::Variant &object, Context *ctx)
+bool BeanWrapper::set (Core::Variant *bean, const std::string &path, const Core::Variant &object, DebugContext *ctx)
 {
-        Context tmpCtx;
         ListPath pth (path);
-        set (bean, &pth, object, &tmpCtx);
 
-        if (tmpCtx.isError ()) {
-                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, std::string ("In BeanWrapper::set. Path : [") + path + "], value : [" + object.toString () + "]\n" + tmpCtx.getMessage ());
+        if (!set (bean, &pth, object, ctx)) {
+                dcError (ctx, std::string ("In BeanWrapper::set. Path : [") + path + "], value : [" + object.toString () + "].");
+                return false;
         }
+
+        return true;
 }
 
 /****************************************************************************/
 
-void BeanWrapper::add (Core::Variant *bean, const std::string &path, const Core::Variant &object, Context *ctx)
+bool BeanWrapper::add (Core::Variant *bean, const std::string &path, const Core::Variant &object, DebugContext *ctx)
 {
-        Context tmpCtx;
         ListPath pth (path);
-        add (bean, &pth, object, &tmpCtx);
 
-        if (tmpCtx.isError ()) {
-                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, std::string ("In BeanWrapper::add. Path : [") + path + "], value : [" + object.toString () + "]\n" + tmpCtx.getMessage ());
+        if (!add (bean, &pth, object, ctx)) {
+                dcError (ctx, std::string ("In BeanWrapper::add. Path : [") + path + "], value : [" + object.toString () + "].");
+                return false;
         }
+
+        return true;
 }
 
 /****************************************************************************/
 
-Core::Variant BeanWrapper::get (const Core::Variant *bean, const std::string &path, Context *ctx) const
+Core::Variant BeanWrapper::get (const Core::Variant *bean, const std::string &path, bool *error, DebugContext *ctx) const
 {
-        Context tmpCtx;
         ListPath pth (path);
-        Variant ret = get (*bean, &pth, &tmpCtx);
+        bool err;
+        Variant ret = get (*bean, &pth, &err, ctx);
 
-        if (tmpCtx.isError ()) {
-                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, std::string ("In BeanWrapper::get. Path : [") + path + "]\n" + tmpCtx.getMessage ());
+        if (err) {
+                dcError (ctx, std::string ("In BeanWrapper::get. Path : [") + path + "].");
+                setError (error);
+                return Core::Variant ();
         }
 
+        clearError (error);
         return ret;
 }
 
 /****************************************************************************/
 
-Ptr <Core::IIterator> BeanWrapper::iterator (const Core::Variant *bean, const std::string &path, Core::Context *ctx) const
+Ptr <Core::IIterator> BeanWrapper::iterator (const Core::Variant *bean, const std::string &path, bool *error, Core::DebugContext *ctx) const
 {
-        Context tmpCtx;
         ListPath pth (path);
-        Ptr <Core::IIterator> ret = ocast <Ptr <Core::IIterator> > (iterator (*bean, &pth, &tmpCtx));
+        bool err;
+        Ptr <Core::IIterator> ret = ocast <Ptr <Core::IIterator> > (iterator (*bean, &pth, &err, ctx));
 
-        if (tmpCtx.isError ()) {
-                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, std::string ("In BeanWrapper::iterator. Path : [") + path + "]\n" + tmpCtx.getMessage ());
+        if (err) {
+                dcError (ctx, std::string ("In BeanWrapper::iterator. Path : [") + path + "].");
+                setError (error);
+                return Ptr <Core::IIterator> ();
         }
 
+        clearError (error);
         return ret;
 }
 
 /*##########################################################################*/
 
-void BeanWrapper::set (const std::string &path, const Core::Variant &object, Context *ctx)
+bool BeanWrapper::set (const std::string &path, const Core::Variant &object, DebugContext *ctx)
 {
-        set (&wrappedObject, path, object, ctx);
+        return set (&wrappedObject, path, object, ctx);
 }
 
 /****************************************************************************/
 
-Core::Variant BeanWrapper::get (const std::string &k, Context *ctx) const
+Core::Variant BeanWrapper::get (const std::string &k, bool *error, DebugContext *ctx) const
 {
-        return get (&wrappedObject, k, ctx);
+        return get (&wrappedObject, k, error, ctx);
 }
 
 /****************************************************************************/
 
-Ptr <Core::IIterator> BeanWrapper::iterator (const std::string &path, Core::Context *ctx) const
+Ptr <Core::IIterator> BeanWrapper::iterator (const std::string &path, bool *error, Core::DebugContext *ctx) const
 {
-        return iterator (&wrappedObject, path, ctx);
+        return iterator (&wrappedObject, path, error, ctx);
 }
 
 /****************************************************************************/
 
-void BeanWrapper::add (const std::string &path, const Core::Variant &object, Context *ctx)
+bool BeanWrapper::add (const std::string &path, const Core::Variant &object, DebugContext *ctx)
 {
-        add (&wrappedObject, path, object, ctx);
+        return add (&wrappedObject, path, object, ctx);
 }
 
 /*##########################################################################*/
 
-Core::Variant BeanWrapper::get (const Core::Variant &referenceObject, IPath *path, Context *ctx) const
+Core::Variant BeanWrapper::get (const Core::Variant &referenceObject, IPath *path, bool *error, DebugContext *ctx) const
 {
         assert (path);
 
         if (referenceObject.isNone () || referenceObject.isNull ()) {
-                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "BeanWrapper::get : referenceObject->isNone () || referenceObject->isNull ()");
+                dcError (ctx, "BeanWrapper::get : referenceObject->isNone () || referenceObject->isNull ().");
+                setError (error);
                 return Core::Variant ();
         }
 
-        if (!path->countSegments ()) {
+        if (path->countSegments () == 1 && path->getFirstSegment() == "this") {
+                clearError (error);
                 return referenceObject;
         }
 
-        Core::Variant ret = getObjectUsingPlugins (referenceObject, path, ctx);
+        bool err;
+        Core::Variant ret = getObjectUsingPlugins (referenceObject, path, &err, ctx);
+
+        if (err) {
+                setError (error);
+                dcError (ctx, "BeanWrapper::get : error in getObjectUsingPlugins.")
+                return Core::Variant ();
+        }
 
         if (path->countSegments ()) {
                 if (!ret.isNone ()) {
-                        return get (ret, path, ctx);
+                        return get (ret, path, error, ctx);
                 }
                 else {
-                        error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "BeanWrapper::get path->countSegments "
+                        dcError (ctx, "BeanWrapper::get path->countSegments "
                                         "() != 0 and previous segment returned NONE. referenceObject : [" + referenceObject.toString () +
                                         "], path : [" + path->toString () + "].");
+                        setError (error);
                         return Variant ();
                 }
         }
 
+        clearError (error);
         return ret;
 }
 
 /****************************************************************************/
 
-Core::Variant BeanWrapper::iterator (const Core::Variant &referenceObject, Common::IPath *path, Core::Context *ctx) const
+Core::Variant BeanWrapper::iterator (const Core::Variant &referenceObject, Common::IPath *path, bool *error, Core::DebugContext *ctx) const
 {
         assert (path);
 
         if (referenceObject.isNone () || referenceObject.isNull ()) {
-                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "BeanWrapper::iterator : referenceObject->isNone () || referenceObject->isNull ()");
+                dcError (ctx, "BeanWrapper::iterator : referenceObject->isNone () || referenceObject->isNull ().");
+                setError(error);
                 return Core::Variant ();
         }
 
-        if (!path->countSegments ()) {
-                Core::Variant ret = getObjectUsingPlugins (referenceObject, path, ctx, true);
+        bool err;
+        if (!path->countSegments () || (path->countSegments() == 1 && path->getFirstSegment () == "this")) {
+                path->clear ();
+                Core::Variant ret = getObjectUsingPlugins (referenceObject, path, &err, ctx, true);
 
-                if (ctx->isError ()) {
-                        error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "Cannot get iterator '" + path->toString () + "'.");
+                if (err) {
+                        dcError (ctx, "Cannot get iterator '" + path->toString () + "'.");
+                        setError (error);
+                        return Core::Variant ();
                 }
 
+                clearError (error);
                 return ret;
         }
         else  {
-                Core::Variant ret = get (referenceObject, path, ctx);
+                Core::Variant ret = get (referenceObject, path, &err, ctx);
 
-                if (ctx->isError ()) {
-                        error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "Cannot get iterator '" + path->toString () + "'.");
+                if (err) {
+                        dcError (ctx, "Cannot get iterator '" + path->toString () + "'.");
+                        setError (error);
+                        return Core::Variant ();
                 }
 
-                return iterator (ret, path, ctx);
+                return iterator (ret, path, error, ctx);
         }
 }
 
 /****************************************************************************/
 
-void BeanWrapper::set (Core::Variant *referenceObject, IPath *path, const Core::Variant &v, Context *ctx)
+bool BeanWrapper::set (Core::Variant *referenceObject, IPath *path, const Core::Variant &v, DebugContext *ctx)
 {
         assert (path);
         assert (referenceObject);
@@ -202,38 +229,42 @@ void BeanWrapper::set (Core::Variant *referenceObject, IPath *path, const Core::
         std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << referenceObject->getTypeInfo ()->name () << ", " << path->toString () << std::endl;
 #endif
 
-        if (!path->countSegments ()) {
+        if (path->countSegments () == 1 && path->getFirstSegment() == "this") {
                 *referenceObject = v;
+                return true;
         }
 
         if (referenceObject->isNone () || referenceObject->isNull ()) {
-                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "BeanWrapper::set : referenceObject->isNone () || referenceObject->isNull ()");
-                return;
+                dcError (ctx, "BeanWrapper::set : referenceObject->isNone () || referenceObject->isNull ()");
+                return false;
         }
 
-        if (path->countSegments () == 1) {
-                setObjectUsingPlugins (referenceObject, path, v, ctx);
-                return;
+        if (path->countSegments () == 1 || path->countSegments () == 0) {
+                return setObjectUsingPlugins (referenceObject, path, v, ctx);
         }
 
         if (path->countSegments () > 1) {
                 ListPath left = path->getAllButLastSegment ();
                 ListPath right = path->getLastSegment ();
                 Core::Variant ret;
+                bool err;
 
-                ret = get (*referenceObject, &left, ctx);
+                ret = get (*referenceObject, &left, &err, ctx);
 
-                if (ctx->isError ()) {
-                        error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "Cannot set property '" + path->toString () + "'.");
+                if (err) {
+                        dcError (ctx, "Cannot set property '" + path->toString () + "'.");
+                        return false;
                 }
 
-                set (&ret, &right, v, ctx);
+                return set (&ret, &right, v, ctx);
         }
+
+        return false;
 }
 
 /****************************************************************************/
 
-void BeanWrapper::add (Core::Variant *referenceObject, IPath *path, const Core::Variant &v, Context *ctx)
+bool BeanWrapper::add (Core::Variant *referenceObject, IPath *path, const Core::Variant &v, DebugContext *ctx)
 {
         assert (path);
         assert (referenceObject);
@@ -243,105 +274,110 @@ void BeanWrapper::add (Core::Variant *referenceObject, IPath *path, const Core::
 #endif
 
         if (referenceObject->isNone () || referenceObject->isNull ()) {
-                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "BeanWrapper::add : referenceObject->isNone () || referenceObject->isNull ()");
-                return;
+                dcError (ctx, "BeanWrapper::add : referenceObject->isNone () || referenceObject->isNull ()");
+                return false;
         }
 
-        if (path->countSegments () == 0) {
-                setObjectUsingPlugins (referenceObject, path, v, ctx, true);
-                return;
+        if (path->countSegments () == 0 || (path->countSegments () == 1 && path->getFirstSegment () == "this")) {
+                path->clear ();
+                return setObjectUsingPlugins (referenceObject, path, v, ctx, true);
         }
 
         if (path->countSegments () > 0) {
                 ListPath left = path->getAllButLastSegment ();
                 ListPath right = path->getLastSegment ();
                 Core::Variant ret;
+                bool err;
 
-                ret = get (*referenceObject, &left, ctx);
+                ret = get (*referenceObject, &left, &err, ctx);
 
-                if (ctx->isError ()) {
-                        error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "Cannot add property '" + path->toString () + "'.");
+                if (err) {
+                        dcError (ctx, "Cannot add property '" + path->toString () + "'.");
+                        return false;
                 }
 
-                add (&ret, &right, v, ctx);
-                return;
+                return add (&ret, &right, v, ctx);;
         }
+
+        return false;
 }
 
 /*##########################################################################*/
 
-Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IPath *path, Context *ctx, bool iter) const
+Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IPath *path, bool *error, DebugContext *ctx, bool iter) const
 {
         assert (path);
-        unsigned int errCnt = 0;
-        Core::Context tmpCtx;
+        dcBegin (ctx);
+
+        if (!pluginList || pluginList->empty ()) {
+                dcError (ctx, "BeanWrapper::getObjectUsingPlugins : pluginList is NULL");
+                setError (error);
+                return Core::Variant ();
+        }
 
         // Sprobuj uzyc ktoregos pluginu aby wyciagnac obiekt
         for (BeanWrapperPluginList::const_iterator i = getPluginList ()->begin (); i != getPluginList ()->end (); i++) {
 
-                int actualSegments = path->countSegments ();
                 Variant bean;
-                tmpCtx.clearError ();
+                bool err;
 
                 if (iter) {
-                        bean = (*i)->iterator (input, path, &tmpCtx);
+                        bean = (*i)->iterator (input, path, &err, ctx);
                 }
                 else {
-                        bean = (*i)->get (input, path, &tmpCtx, editor.get ());
+                        bean = (*i)->get (input, path, &err, ctx, editor.get ());
                 }
 
-                if ((!iter && !tmpCtx.isError () && path->countSegments () < actualSegments) || // Kiedy zwykły get
-                    (iter && !bean.isNone ())) {                                                // Kiedy pobieranie iteratora
+                if ((!iter && !err) ||                  // Kiedy zwykły get
+                    (iter && !bean.isNone ())) {        // Kiedy pobieranie iteratora
+                        clearError (error);
+                        dcRollback (ctx);
                         return bean;
                 }
-                else {
-                        ++errCnt;
-                }
         }
 
-        if (errCnt >= getPluginList ()->size ()) {
-                error (ctx, PropertyNotGettableException, Common::UNDEFINED_ERROR, "Can't get property for path [" +
-                                path->toString () + "]. Input : " + input.toString () + ", message : \n" +
-                                tmpCtx.getMessage ());
-        }
+        dcError (ctx, "Can't get property for path [" + path->toString () + "]. Input : " + input.toString () + ".");
+        dcCommit (ctx);
+        setError(error);
 
         return Core::Variant ();
 }
 
 /****************************************************************************/
 
-void BeanWrapper::setObjectUsingPlugins (Core::Variant *bean, IPath *path, const Core::Variant &object, Context *ctx, bool add)
+bool BeanWrapper::setObjectUsingPlugins (Core::Variant *bean, IPath *path, const Core::Variant &object, DebugContext *ctx, bool add)
 {
         assert (bean);
         assert (path);
         std::string pathStr = path->toString ();
-        unsigned int errCnt = 0;
+
+        if (!pluginList || pluginList->empty ()) {
+                dcError (ctx, "BeanWrapper::setObjectUsingPlugins : pluginList is NULL");
+                return false;
+        }
+
+        dcBegin (ctx);
 
         // Sprobuj uzyc ktoregos pluginu aby wyciagnac obiekt
         for (BeanWrapperPluginList::const_iterator i = getPluginList ()->begin (); i != getPluginList ()->end (); ++i) {
 
-                std::string p = path->toString ();
-                Context tmpCtx;
-
                 if (add) {
-                        if ((*i)->add (bean, path, object, &tmpCtx, editor.get ())) {
-                                return;
+                        if ((*i)->add (bean, path, object, ctx, editor.get ())) {
+                                dcRollback (ctx);
+                                return true;
                         }
                 }
                 else {
-                        if ((*i)->set (bean, path, object, &tmpCtx, editor.get ())) {
-                                return;
+                        if ((*i)->set (bean, path, object, ctx, editor.get ())) {
+                                dcRollback (ctx);
+                                return true;
                         }
                 }
-
-                if (tmpCtx.isError ()) {
-                        ++errCnt;
-                }
         }
 
-        if (errCnt >= getPluginList ()->size ()) {
-                error (ctx, PropertyNotSettableException, Common::UNDEFINED_ERROR, "PropertyNotSettableException for path '" + pathStr + ".");
-        }
+        dcError (ctx, "PropertyNotSettableException for path '" + pathStr + "'.");
+        dcCommit (ctx);
+        return false;
 }
 
 /****************************************************************************/

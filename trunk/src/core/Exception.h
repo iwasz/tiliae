@@ -12,6 +12,7 @@
 #include <exception>
 #include <string>
 #include "ApiMacro.h"
+#include "../core/DebugContext.h"
 
 namespace Core {
 
@@ -26,29 +27,29 @@ public:
          * Inicjuje wyjątek napisem.
          */
         Exception (std::string const &s = "");
+        Exception (DebugContext const &db, std::string const &s = "");
         virtual ~Exception () throw () {}
-
-        /**
-         * Czyści stos wiadomości i ustawia m jako pierwszą wiadomość.
-         */
-        void setMessage (std::string const &m);
 
         /**
          * Dodaje wiadomość na stos.
          */
         void addMessage (std::string const &m);
+        void addContext (DebugContext const &dc);
+
+        const char* what() const throw () { return "Core::Exception. Use getMessage for more info"; }
 
         /**
          * Zwraca stos wiadomości w postaci napisu rozdzielonego znakami
          * nowej linii. Każda wiadomość jest poprzedzona swoim numerkiem
          * porządkowym.
          */
-        const char* what() const throw () { return message.c_str (); }
+        std::string getMessage () const { return ctx.getMessage (); }
+        DebugContext const &getContext () const { return ctx; }
 
 private:
 
-        std::string message;
-        int msgCount;
+        DebugContext ctx;
+
 };
 
 }

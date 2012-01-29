@@ -30,7 +30,7 @@ Ptr <IEditor> IndexedEditor::getEditor (int index) const
 
 /****************************************************************************/
 
-void IndexedEditor::edit (const Core::Variant &input, Core::Variant *output, Core::Context *context)
+void IndexedEditor::edit (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
 {
         assert (editors);
         assert (beanWrapper);
@@ -55,8 +55,20 @@ void IndexedEditor::edit (const Core::Variant &input, Core::Variant *output, Cor
                         continue;
                 }
 
-                editor->convert (*in, &v, context);
-                beanWrapper->add (output, "", v, context);
+                bool err = false;
+                editor->convert (*in, &v, &err, context);
+
+                if (err) {
+                        dcError (context, std::string ("IndexedEditor failed. cnt = ") + boost::lexical_cast <std::string> (cnt));
+                        setError (error);
+                        return;
+                }
+
+                if (!beanWrapper->add (output, "", v, context)) {
+                        dcError (context, std::string ("IndexedEditor failed (beanWrapper->add failed). cnt = ") + boost::lexical_cast <std::string> (cnt));
+                        setError (error);
+                        return;
+                }
         }
 }
 

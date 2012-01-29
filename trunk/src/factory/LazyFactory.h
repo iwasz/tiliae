@@ -35,14 +35,14 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::Context *context = NULL) const
+        virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::DebugContext *context = NULL) const
         {
                 assert (factory);
                 Core::Variant vFac = factory->create (Core::VariantMap (), context);
                 Ptr <IFactory> fac = ocast <Ptr <IFactory> > (vFac);
 
                 if (!fac) {
-                        error (context, FactoryException, Common::UNDEFINED_ERROR, "LazyFactory cam't create factory");
+                        dcError (context, "LazyFactory cam't create factory");
                         return Core::Variant ();
                 }
 

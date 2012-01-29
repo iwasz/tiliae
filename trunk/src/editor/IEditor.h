@@ -18,7 +18,7 @@
 #include "../core/Pointer.h"
 #include "../core/Exception.h"
 #include "../core/ApiMacro.h"
-#include "../core/Context.h"
+#include "../core/DebugContext.h"
 
 namespace Editor {
 
@@ -45,9 +45,19 @@ public:
          *  (taki, ktorego getType () == Variant::NONE). Chyba, ze blad jest zupelnie
          *  krytyczny.
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL) = 0;
+        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL) = 0;
 
 };
+
+#define setError(error)        \
+        if (error) {           \
+                *error = true; \
+        }
+
+#define clearError(error)        \
+        if (error) {             \
+                *error = false;  \
+        }
 
 typedef std::list <Ptr <IEditor> > EditorList;
 typedef std::vector <Ptr <IEditor> > EditorVector;

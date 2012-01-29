@@ -42,7 +42,7 @@
 #include "../editor/LexicalEditor.h"
 #include "../editor/StringConstructorEditor.h"
 #include "../editor/ChainEditor.h"
-#include "../core/Context.h"
+#include "../core/DebugContext.h"
 #include "beanFactory/BeanFactoryContext.h"
 #include "../editor/StreamEditor.h"
 
@@ -246,20 +246,20 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                         bool isLazyInit = factory->getAttributes ().getBool (LAZYINIT_ARGUMENT);
 
                         if (isSingleton && !isLazyInit) {
-                                (void)factory->create (Core::VariantMap (), &ctx);
+                                Core::Variant v = factory->create (Core::VariantMap (), &ctx);
 
-                                if (ctx.isError ()) {
-                                        throw ContainerException ("ContainerFactory::fill : error creating singleton [" + (*i)->getId () + "].");
+                                if (v.isNone ()) {
+                                        throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + (*i)->getId () + "].");
                                 }
                         }
                 }
         }
         catch (NoSuchBeanException &e) {
-                e.addMessage ("Error @ ContainerFactory::createContainer : [" + bfCont->toString () + "]. Message : " + ctx.getMessage ());
+                e.addMessage ("ContainerFactory::createContainer : [" + bfCont->toString () + "].");
                 throw;
         }
         catch (Core::Exception &e) {
-                e.addMessage ("Error @ ContainerFactory::createContainer : [" + bfCont->toString () + "]. Message : " /*+ ctx.getMessage ()*/);
+                e.addMessage ("ContainerFactory::createContainer : [" + bfCont->toString () + "].");
                 throw;
         }
 }

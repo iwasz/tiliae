@@ -24,7 +24,7 @@ struct StringToMegatonEditor : public Editor::JEditor {
 
         virtual ~StringToMegatonEditor () {}
 
-        virtual void edit (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL)
+        virtual void edit (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL)
         {
                 // Sprawdzanie typow parametrow.
                 assert (ccast <Core::String> (input));
@@ -36,6 +36,7 @@ struct StringToMegatonEditor : public Editor::JEditor {
                 MegaTon *mt = vcast <MegaTon *> (*output);
 
                 mt->setHeavyProperty (inStr);
+                clearError (error);
         }
 
 };

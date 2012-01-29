@@ -16,7 +16,7 @@
 
 namespace k202 {
 
-Core::Variant K202Factory::create (const Core::VariantMap &parameters, Core::Context *context) const
+Core::Variant K202Factory::create (const Core::VariantMap &parameters, Core::DebugContext *context) const
 {
         return Core::Variant (K202::create ());
 }

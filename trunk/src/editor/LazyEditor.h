@@ -33,18 +33,19 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual void convert (const Core::Variant &input, Core::Variant *output, Core::Context *context = NULL)
+        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL)
         {
                 assert (factory);
                 Core::Variant vEd = factory->create (Core::VariantMap (), context);
 
                 if (!occast <Ptr <IEditor> > (vEd)) {
-                        error (context, EditorException, Common::UNDEFINED_ERROR, "LazyEditor::convert !occast <Ptr <IEditor> > (vEd). vEd : " + vEd.toString ());
+                        dcError (context, "LazyEditor::convert !occast <Ptr <IEditor> > (vEd). vEd : " + vEd.toString ());
+                        setError (error);
                         return;
                 }
 
                 Ptr <IEditor> ed = ocast <Ptr <IEditor> > (vEd);
-                ed->convert (input, output, context);
+                ed->convert (input, output, error, context);
         }
 
         Ptr <Factory::IFactory> getFactory () const { return factory; }

@@ -142,10 +142,11 @@ BOOST_AUTO_TEST_CASE (testMethodVoid)
 
         City c;
         Variant v (&c);
-        Core::Context ctx;
+        Core::DebugContext ctx;
 
-        beanWrapper->get (&v, "init", &ctx);
-        BOOST_REQUIRE (!ctx.isError ());
+        bool err;
+        beanWrapper->get (&v, "init", &err, &ctx);
+        BOOST_REQUIRE (!err);
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

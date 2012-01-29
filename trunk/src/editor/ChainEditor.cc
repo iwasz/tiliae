@@ -10,26 +10,26 @@
 
 namespace Editor {
 
-void ChainEditor::convert (const Core::Variant &input, Core::Variant *output, Core::Context *context)
+void ChainEditor::convert (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
 {
-        unsigned int errCnt = 0;
+        dcBegin (context);
 
         for (EditorList::const_iterator i = editors.begin (); i != editors.end (); ++i) {
 
-                (*i)->convert (input, output, context);
+                bool err;
+                (*i)->convert (input, output, &err, context);
 
                 // Udalo sie skonwertowac
-                if (output && !output->isNone ()) {
+                if (!err || (output && !output->isNone ())) {
+                        dcRollback (context);
+                        clearError (error);
                         return;
-                }
-                else {
-                        ++errCnt;
                 }
         }
 
-        if (errCnt >= editors.size ()) {
-                error (context, EditorException, UNDEFINED_ERROR, "ChainEditor::convert : none of child editors has succeeded.");
-        }
+        dcError (context, "ChainEditor::convert : none of child editors has succeeded.");
+        dcCommit (context);
+        setError (error);
 }
 
 }

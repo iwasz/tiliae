@@ -47,7 +47,7 @@ void BeanFactory::setAttributes (const Attributes &attributes)
 
 /****************************************************************************/
 
-Core::Variant BeanFactory::create (const Core::VariantMap &, Core::Context *context) const
+Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext *context) const
 {
         try {
                 // Check nesting level.
@@ -82,23 +82,28 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::Context *cont
                         factoryParams[CLASS_NAME] = Core::Variant (attributes.getString (CLASS_ARGUMENT));
                 }
 
-                Core::Context *tmpCtx = context;
+                bool err = false;
+                dcBegin (context);
 
                 if (cArgsEditor) {
-                        cArgsEditor->convert (cArgs, &cArgsEdited, tmpCtx);
+                        cArgsEditor->convert (cArgs, &cArgsEdited, &err, context);
                         factoryParams[CONSTRUCTOR_ARGS_KEY] = cArgsEdited;
                 }
 
-                if (tmpCtx->isError ()) {
-                        error (context, ContainerException, Common::UNDEFINED_ERROR, "Constructor args editor failed. ID : " + id + "\n" + tmpCtx->getMessage ());
+                if (err) {
+                        dcCommit (context);
+                        dcError (context, "Constructor args editor failed. ID : " + id);
                         return Core::Variant ();
                 }
 
-                tmpCtx->clear ();
-                output = factory->create (factoryParams, tmpCtx);
+                dcRollback (context);
+                dcBegin (context);
 
-                if (tmpCtx->isError ()) {
-                        error (context, ContainerException, Common::UNDEFINED_ERROR, "Factory in BeanFactory failed. ID : " + id + "\n" + tmpCtx->getMessage ());
+                output = factory->create (factoryParams, context);
+
+                if (output.isNone ()) {
+                        dcCommit (context);
+                        dcError (context,  "Factory in BeanFactory failed. ID : " + id);
                         return Core::Variant ();
                 }
 
@@ -106,18 +111,25 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::Context *cont
                         storedSingleton = output;
                 }
 
-                if (output.isNone () || output.isNull ()) {
-                        error (context, ContainerException, Common::UNDEFINED_ERROR, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + id + "]");
+                if (output.isNull ()) {
+                        dcCommit (context);
+                        dcError (context, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + id + "]");
                         return Core::Variant ();
                 }
 
-                tmpCtx->clear ();
-                editor->convert (input, &output, tmpCtx);
+                dcRollback (context);
+                dcBegin (context);
 
-                if (tmpCtx->isError ()) {
-                        error (context, ContainerException, Common::UNDEFINED_ERROR, "Editor in BeanFactory failed. ID : " + id + "\n" + tmpCtx->getMessage ());
+                editor->convert (input, &output, &err, context);
+
+                if (err) {
+                        dcCommit (context);
+                        dcError (context, "Editor in BeanFactory failed. ID : " + id);
                         return Core::Variant ();
                 }
+
+                dcRollback (context);
+                dcBegin (context);
 
                 notifyAfterPropertiesSet ();
 
@@ -126,11 +138,11 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::Context *cont
                         std::string initMethodName = attributes.getString (INITMETHOD_ARGUMENT);
                         assert (beanWrapper);
                         beanWrapper->setWrappedObject (output);
-                        tmpCtx->clear ();
-                        beanWrapper->get (initMethodName, tmpCtx);
+                        beanWrapper->get (initMethodName, &err, context);
 
-                        if (tmpCtx->isError ()) {
-                                error (context, ContainerException, Common::UNDEFINED_ERROR, "Invocation of init method in BeanFactory failed. ID : " + id + "\n" + tmpCtx->getMessage ());
+                        if (err) {
+                                dcCommit (context);
+                                dcError (context, "Invocation of init method in BeanFactory failed. ID : " + id);
                                 return Core::Variant ();
                         }
                 }
@@ -139,13 +151,16 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::Context *cont
                         bfc->decNested ();
                 }
 
+                dcRollback (context);
                 return output;
         }
-        catch (TooDeepNestingException const &) {
+        catch (TooDeepNestingException &e) {
+                e.addContext (*context);
                 throw;
         }
         catch (Core::Exception &e) {
-                error (context, ContainerException, Common::UNDEFINED_ERROR, "BeanFactory::create. Id : [" + id +
+                dcCommit (context);
+                dcError (context, "BeanFactory::create. Id : [" + id +
                                 "] fullyInitialized : [" + boost::lexical_cast <std::string> (fullyInitialized) + "]. Exception caught : " +
                                 e.what ());
         }
@@ -353,11 +368,11 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name, const Core
                 ret = fact->create (singletons, &context);
         }
         else {
-                throw ContainerException ("BeanFactoryContainer::getBean : can't find definition of bean [" + name + "].");
+                throw ContainerException (context, "BeanFactoryContainer::getBean : can't find definition of bean [" + name + "].");
         }
 
         if (ret.isNone ()) {
-                throw ContainerException ("BeanFactoryContainer::getBean : " + context.getMessage ());
+                throw ContainerException (context, "BeanFactoryContainer::getBean" );
         }
 
         return ret;

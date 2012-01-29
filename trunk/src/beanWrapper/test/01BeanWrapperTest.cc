@@ -27,7 +27,7 @@
 #include "../plugins/MethodPlugin.h"
 #include "../../testHelpers/Bar.h"
 #include "../../testHelpers/Foo.h"
-#include "../../core/Context.h"
+#include "../../core/DebugContext.h"
 
 /****************************************************************************/
 
@@ -55,21 +55,16 @@ BOOST_AUTO_TEST_CASE (testSinglePlugin)
 
         Variant i = Core::Variant (666);
         // To jest to samo co beanWrapper->setWrappedObject
-        beanWrapper->set ("", i);
+        beanWrapper->set ("this", i);
         // To jest to samo co beanWrapper->getWrappedObject
-        Variant j = beanWrapper->get ("");
+        Variant j = beanWrapper->get ("this");
         int ii = vcast <int> (j);
         BOOST_REQUIRE_EQUAL (ii, 666);
 
-//        Z tego wrappera nie mozna nic pobierac po ściezkach, bo nie ma pluginow
-//        j = beanWrapper->get ("number");
-//        BOOST_REQUIRE (j.getType () == Core::NONE);
-//        BOOST_REQUIRE (vcast <int> (beanWrapper->getWrappedObject ()) == 666);
-
         // A teraz zmieniamy obiekt warpowany!
         Variant s = Core::Variant (String ("ala ma kota"));
-        beanWrapper->set ("", s);
-        Variant t = beanWrapper->get ("");
+        beanWrapper->set ("this", s);
+        Variant t = beanWrapper->get ("this");
         String S = vcast <String> (t);
         BOOST_REQUIRE_EQUAL (S, "ala ma kota");
 
@@ -121,7 +116,7 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
         Address *pa = vcast <Address *> (vv);
         BOOST_REQUIRE_EQUAL (pa, &address);
 
-        BOOST_REQUIRE (!beanWrapper->get ("").isNone ());
+//        BOOST_REQUIRE (!beanWrapper->get ("").isNone ());
         BOOST_REQUIRE (!beanWrapper->get ("postalCode").isNone ());
         BOOST_REQUIRE (vcast <String> (beanWrapper->get ("postalCode")) == "02-673");
         BOOST_REQUIRE (vcast <String> (beanWrapper->get ("street")) == "katalonska");
@@ -139,11 +134,17 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
         BOOST_REQUIRE (address.getCountry ()->getName () == "psa");
 
         // Czy zrzuci wyjątek kiedy pobieramy coś czego nie ma?
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adrea"), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.asg"), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.nam"), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.namea"), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.name.a"), PropertyNotGettableException);
+        bool err;
+        beanWrapper->get ("adrea", &err);
+        BOOST_REQUIRE_EQUAL(err, true);
+        beanWrapper->get ("adres.asg", &err);
+        BOOST_REQUIRE_EQUAL(err, true);
+        beanWrapper->get ("adres.city.nam", &err);
+        BOOST_REQUIRE_EQUAL(err, true);
+        beanWrapper->get ("adres.city.namea", &err);
+        BOOST_REQUIRE_EQUAL(err, true);
+        beanWrapper->get ("adres.city.name.a", &err);
+        BOOST_REQUIRE_EQUAL(err, true);
 
         // Na tych 3ech sie wywalaja asercje w srodu i niech sobie robia co chca.
 //        BOOST_REQUIRE (beanWrapper->get ("...aslkaslij..").getType () == Core::NONE);
@@ -152,11 +153,17 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
         /*
          * Set może zrzucić i getException i setException!
          */
-        BOOST_REQUIRE_THROW  (beanWrapper->set ("adres.postalCode", Core::Variant (String ("ala"))), Wrapper::BeanWrapperException);
-        BOOST_REQUIRE_THROW  (beanWrapper->set ("adres.street", Core::Variant (String ("ma"))), Wrapper::BeanWrapperException);
-        BOOST_REQUIRE_THROW  (beanWrapper->set ("adres.city.name", Core::Variant (String ("kota"))), Wrapper::BeanWrapperException);
-        BOOST_REQUIRE_THROW  (beanWrapper->set ("adres.country.name", Core::Variant (String ("psa"))), Wrapper::BeanWrapperException);
-        BOOST_REQUIRE_THROW  (beanWrapper->set ("adres.country.aname", Core::Variant (String ("psa"))), Wrapper::BeanWrapperException);
+        bool ret;
+        ret = beanWrapper->set ("adres.postalCode", Core::Variant (String ("ala")));
+        BOOST_REQUIRE_EQUAL(ret, false);
+        ret = beanWrapper->set ("adres.street", Core::Variant (String ("ma")));
+        BOOST_REQUIRE_EQUAL(ret, false);
+        ret = beanWrapper->set ("adres.city.name", Core::Variant (String ("kota")));
+        BOOST_REQUIRE_EQUAL(ret, false);
+        ret = beanWrapper->set ("adres.country.name", Core::Variant (String ("psa")));
+        BOOST_REQUIRE_EQUAL(ret, false);
+        ret = beanWrapper->set ("adres.country.aname", Core::Variant (String ("psa")));
+        BOOST_REQUIRE_EQUAL(ret, false);
 
 /*--------------------------------------------------------------------------*/
 
@@ -240,18 +247,24 @@ BOOST_AUTO_TEST_CASE (testGetPutPlugin)
         vMap["strMap"] = Core::Variant (stringMap);
         vMap["a"] = Core::Variant (String ("aa"));
 
-        // To samo co setWrappedObject
-        beanWrapper->set ("", Core::Variant (vMap));
+        beanWrapper->setWrappedObject (Core::Variant (vMap));
 
         BOOST_REQUIRE (vcast <String> (beanWrapper->get ("a")) == "aa");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("strMap.key1")) == "value1");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("strMap.key2")) == "value2");
 
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adrea"), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.asg").getTypeInfo (), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.nam").getTypeInfo (), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.namea").getTypeInfo (), PropertyNotGettableException);
-        BOOST_REQUIRE_THROW (beanWrapper->get ("adres.city.name.a").getTypeInfo (), PropertyNotGettableException);}
+        bool err;
+        beanWrapper->get ("adrea", &err);
+        BOOST_REQUIRE_EQUAL (err, true);
+        beanWrapper->get ("adres.asg", &err).getTypeInfo ();
+        BOOST_REQUIRE_EQUAL (err, true);
+        beanWrapper->get ("adres.city.nam", &err).getTypeInfo ();
+        BOOST_REQUIRE_EQUAL (err, true);
+        beanWrapper->get ("adres.city.namea", &err).getTypeInfo ();
+        BOOST_REQUIRE_EQUAL (err, true);
+        beanWrapper->get ("adres.city.name.a", &err).getTypeInfo ();
+        BOOST_REQUIRE_EQUAL (err, true);
+}
 
 /**
  * A to jest test tez tego plugina, co obsluguje metody get i set, ale
@@ -273,7 +286,7 @@ BOOST_AUTO_TEST_CASE (testGetPutPlugin2)
         VariantMap vMap;
         vMap["sMap"] = Core::Variant (&stringMap);
 
-        beanWrapper->set ("", Core::Variant (&vMap));
+        beanWrapper->setWrappedObject (Core::Variant (&vMap));
 
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key1")) == "value1");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key2")) == "value2");
@@ -298,7 +311,7 @@ BOOST_AUTO_TEST_CASE (testGetPutPlugin2)
         VariantMap vMap2;
         vMap2["vMap1"] = Core::Variant (&vMap1);
 
-        beanWrapper->set ("", Core::Variant (&vMap2));
+        beanWrapper->setWrappedObject (Core::Variant (&vMap2));
 
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("vMap1.vMap.sMap.key1")) == "kupa");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("vMap1.vMap.sMap.key2")) == "miekkaKupa");
@@ -549,7 +562,7 @@ BOOST_AUTO_TEST_CASE (testListPlugin)
         vList3.push_back (Core::Variant (&vList2));
 
         // To samo co setWrappedObject
-        beanWrapper.set ("", Core::Variant (&vList3));
+        beanWrapper.setWrappedObject (Core::Variant (&vList3));
 
         BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper.get ("3.2.1.0")), "value0");
 
@@ -660,7 +673,7 @@ BOOST_AUTO_TEST_CASE (testMethodPlugin)
         Address *pa = vcast <Address *> (vv);
         BOOST_REQUIRE (pa == &address);
 
-        BOOST_REQUIRE (!beanWrapper.get ("").isNone ());
+//        BOOST_REQUIRE (!beanWrapper.get ("").isNone ());
 //        BOOST_REQUIRE (beanWrapper->get ("postalCode").getType () != Core::NONE);
         BOOST_REQUIRE (vcast <String> (beanWrapper.get ("getPostalCode")) == "02-673");
         BOOST_REQUIRE (vcast <String> (beanWrapper.get ("getStreet")) == "katalonska");
@@ -698,7 +711,7 @@ BOOST_AUTO_TEST_CASE (testMethodPluginMethodMode)
         Address *pa = vcast <Address *> (vv);
         BOOST_REQUIRE (pa == &address);
 
-        BOOST_REQUIRE (!beanWrapper.get ("").isNone ());
+//        BOOST_REQUIRE (!beanWrapper.get ("").isNone ());
         Variant ret = beanWrapper.get ("getPostalCode");
         Ptr <Handler> handler = vcast <Ptr <Handler> > (ret);
         BOOST_REQUIRE (vcast <String> (handler->invoke ()) == "02-673");
@@ -735,13 +748,14 @@ BOOST_AUTO_TEST_CASE (testMethodPluginMethodSegF)
         argsMap["bar"] = Core::Variant (&bar);
         Variant domain = Core::Variant (&argsMap);
 
-        Context ctx;
-        Variant ret = beanWrapper->get (&domain, "bar.funcA", &ctx);
-        BOOST_REQUIRE (!ctx.isError ());
+        DebugContext ctx;
+        bool err;
+        Variant ret = beanWrapper->get (&domain, "bar.funcA", &err, &ctx);
+        BOOST_REQUIRE (!err);
 
         // No i na tym był SegF! Podana zła nazwa funkcji.
-        ret = beanWrapper->get (&domain, "funcA", &ctx);
-        BOOST_REQUIRE (ctx.isError ());
+        ret = beanWrapper->get (&domain, "funcA", &err, &ctx);
+        BOOST_REQUIRE (err);
 }
 
 /**
@@ -771,6 +785,44 @@ BOOST_AUTO_TEST_CASE (testAbstractObjects)
         }
 
         BOOST_REQUIRE (0);
+}
+
+/**
+ * Testuje zachowanie kiedy podajemy pustą ścieżkę. Zmieniłem zachowanie się BW w takim przypadku,
+ * bo okazało się, że przecież zdarza się, że chcemy ustawić mapie obiekt z pustym kluczem!
+ */
+BOOST_AUTO_TEST_CASE (testEmptyPath)
+{
+        Ptr <BeanWrapper> beanWrapper = BeanWrapper::create ();
+
+        StringMap map;
+        beanWrapper->setWrappedObject (Variant (&map));
+        beanWrapper->set ("", Variant ("Franusiek"));
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("")), "Franusiek");
+
+        StringVector vec;
+        beanWrapper->setWrappedObject (Variant (&vec));
+        Variant wo = beanWrapper->getWrappedObject ();
+        BOOST_REQUIRE_EQUAL (&vec, vcast <StringVector *> (wo));
+
+        beanWrapper->add ("", Variant ("Franek"));
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("0")), "Franek");
+
+        Ptr <Core::IIterator> iter = beanWrapper->iterator ("");
+        std::string ret = vcast <std::string> (iter->next ());
+        BOOST_REQUIRE_EQUAL (ret, "Franek");
+
+        vec.clear ();
+        beanWrapper->add ("this", Variant ("Franek i mama Asia"));
+
+        wo = beanWrapper->getWrappedObject ();
+        BOOST_REQUIRE_EQUAL (&vec, vcast <StringVector *> (wo));
+        BOOST_REQUIRE_EQUAL (vec.size (), 1);
+        BOOST_REQUIRE_EQUAL (vec.front (), "Franek i mama Asia");
+
+        Ptr <Core::IIterator> iter2 = beanWrapper->iterator ("this");
+        ret = vcast <std::string> (iter2->next ());
+        BOOST_REQUIRE_EQUAL (ret, "Franek i mama Asia");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

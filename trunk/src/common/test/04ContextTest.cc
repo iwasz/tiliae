@@ -8,7 +8,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include "../../core/Context.h"
+#include "../../core/DebugContext.h"
 #include "../../core/Exception.h"
 
 
@@ -19,10 +19,10 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testListHelper)
 {
-        Context c;
-        Context *context = &c;
+        DebugContext c;
+        DebugContext *context = &c;
 
-        error (context, Core::Exception, UNDEFINED_ERROR, "message");
+        dcError (context, "message");
 
 #if defined (TILIAE_DEBUG)
         BOOST_REQUIRE_EQUAL (c.getMessage(), "message");

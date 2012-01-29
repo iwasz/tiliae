@@ -15,14 +15,14 @@
 #include "../../reflection/Manager.h"
 #include "../../reflection/ReflectionTools.h"
 #include "../../beanWrapper/IBeanWrapper.h"
-#include "../../core/Context.h"
+#include "../../core/DebugContext.h"
 
 /****************************************************************************/
 
 namespace Wrapper {
 using Core::StringList;
 using Core::Variant;
-using Core::Context;
+using Core::DebugContext;
 using Reflection::ReflectionTools;
 using namespace Common;
 
@@ -42,7 +42,8 @@ Ptr <Reflection::Class> MethodPlugin::getClass (const Variant &bean, const IPath
 
 Variant MethodPlugin::get (const Variant &bean,
                         IPath *path,
-                        Context *ctx,
+                        bool *error,
+                        DebugContext *ctx,
                         Editor::IEditor *editor) const
 {
         assert (path);
@@ -59,7 +60,8 @@ Variant MethodPlugin::get (const Variant &bean,
 #endif
 
         if (!cls) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "MethodPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
+                dcError (ctx, "MethodPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
+                setError (error);
                 return Variant ();
         }
 
@@ -69,6 +71,8 @@ Variant MethodPlugin::get (const Variant &bean,
 
         try {
                 if (method) {
+
+                        clearError (error);
 
                         if (mode & IMMEDIATE_CALL) {
                                 path->cutFirstSegment ();
@@ -82,12 +86,14 @@ Variant MethodPlugin::get (const Variant &bean,
                 }
         }
         catch (Core::Exception const &e) {
-                error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
+                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
                                 path->toString () + "'). Exception from 'set' method has been thrown : " + e.what ());
+                setError (error);
                 return Variant ();
         }
 
-        error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "MethodPlugin (Path : '" + path->toString () + "'. Can't find method with name '" + property + "' in class with name '" + cls->getName () + "')");
+        dcError (ctx, "MethodPlugin (Path : '" + path->toString () + "'. Can't find method with name '" + property + "' in class with name '" + cls->getName () + "')");
+        setError (error);
         return Variant ();
 }
 
@@ -96,10 +102,10 @@ Variant MethodPlugin::get (const Variant &bean,
 bool MethodPlugin::set (Core::Variant *bean,
                         IPath *path,
                         const Core::Variant &objectToSet,
-                        Context *ctx,
+                        DebugContext *ctx,
                         Editor::IEditor *editor)
 {
-        error (ctx, BeanWrapperException, Common::UNDEFINED_ERROR, "MethodPlugin (Path : '" + path->toString () + "'. Unsupported operation; Only 'get' works.");
+        dcError (ctx, "MethodPlugin (Path : '" + path->toString () + "'. Unsupported operation; Only 'get' works.");
         return false;
 }
 

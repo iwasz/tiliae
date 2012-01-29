@@ -16,6 +16,7 @@
 #include "../../reflection/ReflectionTools.h"
 #include "../../beanWrapper/IBeanWrapper.h"
 #include "../../core/DebugContext.h"
+#include "../beanWrapper/BeanWrapper.h"
 
 /****************************************************************************/
 

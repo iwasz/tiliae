@@ -13,6 +13,7 @@
 #include "../../reflection/Manager.h"
 #include "../../core/DebugContext.h"
 #include "../../beanWrapper/IBeanWrapper.h"
+#include "../beanWrapper/BeanWrapper.h"
 
 /****************************************************************************/
 
@@ -195,10 +196,8 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                         if (editor) {
                                 Variant output;
                                 output.setTypeInfo (method->getType ());
-                                bool err;
-                                editor->convert (objectToSet, &output, &err, ctx);
 
-                                if (err) {
+                                if (!editor->convert (objectToSet, &output, ctx)) {
                                         dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
                                         return false;
                                 }
@@ -271,10 +270,7 @@ bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
                         Variant output;
                         output.setTypeInfo (method->getType ());
 
-                        bool err;
-                        editor->convert (objectToSet, &output, &err, ctx);
-
-                        if (err) {
+                        if (!editor->convert (objectToSet, &output, ctx)) {
                                 dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
                                 return false;
                         }

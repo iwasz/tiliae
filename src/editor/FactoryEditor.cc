@@ -10,18 +10,16 @@
 
 namespace Editor {
 
-void FactoryEditor::convert (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
+bool FactoryEditor::convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
         if (!output) {
                 dcError (context, "FactoryEditor : !output");
-                setError (error);
-                return;
+                return false;
         }
 
         if (!factory) {
                 dcError (context, "FactoryEditor : !factory");
-                setError (error);
-                return;
+                return false;
         }
 
         if (output->isNone () || output->isNull ()) {
@@ -32,11 +30,10 @@ void FactoryEditor::convert (const Core::Variant &input, Core::Variant *output, 
         // Konwertuj.
         if (!editor) {
                 dcError (context, "FactoryEditor : !editor");
-                setError (error);
-                return;
+                return false;
         }
 
-        editor->convert (input, output, error, context);
+        return editor->convert (input, output, context);
 }
 
 }

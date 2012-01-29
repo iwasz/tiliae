@@ -52,7 +52,7 @@ struct TILIAE_API IndexedEditor : public JEditor {
 
 /*--------------------------------------------------------------------------*/
 
-        virtual void edit (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL);
+        virtual bool edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 
 /*--------------------------------------------------------------------------*/
 

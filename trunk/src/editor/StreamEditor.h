@@ -27,11 +27,11 @@ public:
          * @param input Konwertowalny na Core::String.
          * @param output Wskaźnik do dowolnego wariantu (może być isNone ()).
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL);
+        virtual bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 };
 
 template <typename From, typename To>
-void StreamEditor <From, To>::convert (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
+bool StreamEditor <From, To>::convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
         assert (output);
 
@@ -57,10 +57,10 @@ void StreamEditor <From, To>::convert (const Core::Variant &input, Core::Variant
                                 std::string (", ") + typeid (To).name () + ">::convert. Exception : " +
                                 e.what () + std::string (". Input variant : ") + input.toString () +
                                 ", output variant : " + output->toString ());
-                setError (error);
+                return false;
         }
 
-        clearError (error);
+        return true;
 }
 
 }

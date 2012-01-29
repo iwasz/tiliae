@@ -86,14 +86,13 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                 dcBegin (context);
 
                 if (cArgsEditor) {
-                        cArgsEditor->convert (cArgs, &cArgsEdited, &err, context);
-                        factoryParams[CONSTRUCTOR_ARGS_KEY] = cArgsEdited;
-                }
+                        if (!cArgsEditor->convert (cArgs, &cArgsEdited, context)) {
+                                dcCommit (context);
+                                dcError (context, "Constructor args editor failed. ID : " + id);
+                                return Core::Variant ();
+                        }
 
-                if (err) {
-                        dcCommit (context);
-                        dcError (context, "Constructor args editor failed. ID : " + id);
-                        return Core::Variant ();
+                        factoryParams[CONSTRUCTOR_ARGS_KEY] = cArgsEdited;
                 }
 
                 dcRollback (context);
@@ -120,9 +119,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                 dcRollback (context);
                 dcBegin (context);
 
-                editor->convert (input, &output, &err, context);
-
-                if (err) {
+                if (!editor->convert (input, &output, context)) {
                         dcCommit (context);
                         dcError (context, "Editor in BeanFactory failed. ID : " + id);
                         return Core::Variant ();

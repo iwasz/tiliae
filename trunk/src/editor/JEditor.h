@@ -42,33 +42,30 @@ public:
          * dodatkowa funkcjonalnosc w tej metodzie, powinien uzyc
          * zwyklego IEditor.
          */
-        void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL)
+        bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL)
         {
                 if (input.isNone () || input.isNull ()) {
                         dcError (context, "Input argument must not be none variant (!isNone ()) and must not be null variant (!isNull ()).");
-                        setError (error);
-                	return;
+                	return false;
                 }
 
                 if (!output) {
                         dcError (context, "Output argument must not be NULL (output != NULL).");
-                        setError (error);
-                        return;
+                        return false;
                 }
 
                 if (output->isNone () || output->isNull ()) {
                         dcError (context, "Output argument must not be none variant (!isNone ()) and must not be null variant (!isNull ()).");
-                        setError (error);
-                        return;
+                        return false;
                 }
 
-                edit (input, output, error, context);
+                return edit (input, output, context);
         }
 
         /**
          * Chce, zeby to byla inna nazwa niz convert - ma sie odrozniac, zeby bylo wiadomo co sie dzieje.
          */
-        virtual void edit (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL) = 0;
+        virtual bool edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL) = 0;
 };
 
 }

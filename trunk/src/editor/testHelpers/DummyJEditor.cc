@@ -12,7 +12,7 @@
 #include "../../core/string/String.h"
 #include "../../core/variant/Variant.h"
 
-void DummyJEditor::edit (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
+bool DummyJEditor::edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
 //        assert (ccast <Core::String> (input));
 //        assert (output);
@@ -64,5 +64,5 @@ void DummyJEditor::edit (const Core::Variant &input, Core::Variant *output, bool
         Core::String *outStr = vcast <Core::String *> (*output);
 
         *outStr = getLeft () + inStr + getRight ();
-        clearError (error);
+        return true;
 }

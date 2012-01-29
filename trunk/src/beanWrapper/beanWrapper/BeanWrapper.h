@@ -130,6 +130,18 @@ private:
         REFLECTION_END (BeanWrapper)
 };
 
+/****************************************************************************/
+
+#define setError(error)        \
+        if (error) {           \
+                *error = true; \
+        }
+
+#define clearError(error)        \
+        if (error) {             \
+                *error = false;  \
+        }
+
 } // namespace
 
 #endif

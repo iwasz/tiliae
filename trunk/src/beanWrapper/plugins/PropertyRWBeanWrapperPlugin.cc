@@ -16,6 +16,7 @@
 #include "../../core/Typedefs.h"
 #include "../../core/DebugContext.h"
 #include "../../beanWrapper/IBeanWrapper.h"
+#include "../beanWrapper/BeanWrapper.h"
 
 /****************************************************************************/
 
@@ -128,10 +129,7 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
                         Variant output;
                         output.setTypeInfo (setter->getType ());
 
-                        bool err;
-                        editor->convert (objectToSet, &output, &err, ctx);
-
-                        if (err) {
+                        if (!editor->convert (objectToSet, &output, ctx)) {
                                 dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
                                 return false;
                         }

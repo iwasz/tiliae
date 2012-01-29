@@ -47,7 +47,7 @@ public:
          * sie jak zwykly edytor, czyli jedynie wywola wewnetrzny
          * edytor..
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL);
+        virtual bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 
         Ptr <Factory::IFactory> getFactory () const { return factory; }
         void setFactory (Ptr <Factory::IFactory> factory) { this->factory = factory; }

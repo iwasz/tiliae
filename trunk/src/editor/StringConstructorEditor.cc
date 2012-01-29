@@ -14,18 +14,16 @@
 namespace Editor {
 using namespace Reflection;
 
-void StringConstructorEditor::convert (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
+bool StringConstructorEditor::convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
         if (input.isNone ()) {
                 dcError (context, "StringConstructorEditor::convert input.isNone ()");
-                setError (error);
-                return;
+                return false;
         }
 
         if (!ccast <std::string> (input)) {
                 dcError (context, "StringConstructorEditor::convert !ccast <std::string> (input)");
-                setError (error);
-                return;
+                return false;
         }
 
         std::type_info const &outputType = output->getTypeInfo ();
@@ -38,16 +36,14 @@ void StringConstructorEditor::convert (const Core::Variant &input, Core::Variant
 
         if (!cls) {
                 dcError (context, "StringConstructorEditor::convert no class for type_info : [" + std::string (outputType.name ()) + "]");
-                setError (error);
-                return;
+                return false;
         }
 
         Ptr <Constructor> ctr = cls->getConstructor (typeid (std::string const));
 
         if (!ctr) {
                 dcError (context, "StringConstructorEditor::convert no constructor (std::string const &) for class : [" + cls->getName () + "]");
-                setError (error);
-                return;
+                return false;
         }
 
         try {
@@ -55,10 +51,10 @@ void StringConstructorEditor::convert (const Core::Variant &input, Core::Variant
         }
         catch (std::exception const &e) {
                 dcError (context, std::string ("StringConstructorEditor::convert : constructor hast thrown an exception : ") + e.what ());
-                setError (error);
+                return false;
         }
 
-        clearError (error);
+        return true;
 }
 
 }

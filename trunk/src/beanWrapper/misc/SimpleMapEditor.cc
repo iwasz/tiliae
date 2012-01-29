@@ -23,7 +23,7 @@ Ptr<IEditor> SimpleMapEditor::getEditor (const std::string& name) const
 
 /****************************************************************************/
 
-void SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, bool *error, Core::DebugContext *context)
+bool SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
         assert (editors);
         assert (beanWrapper);
@@ -52,23 +52,20 @@ void SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, b
 
                 Variant outputV;
                 assert (editor);
-                bool err;
-                editor->convert (i->second, &outputV, &err, context);
 
-                if (err) {
-                        setError (error);
+                if (!editor->convert (i->second, &outputV, context)) {
                         dcError (context, "SimpleMapEditor : editor failed [" + i->first + "].")
-                        return;
+                        return false;
                 }
 
                 Variant v = *output;
                 if (!beanWrapper->set (&v, i->first, outputV, context)) {
-                        setError (error);
                         dcError (context, "SimpleMapEditor : beanWrapper set failed [" + i->first + "].")
-                        return;
+                        return false;
                 }
         }
 
+        return true;
 }
 
 }

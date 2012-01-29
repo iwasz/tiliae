@@ -45,19 +45,9 @@ public:
          *  (taki, ktorego getType () == Variant::NONE). Chyba, ze blad jest zupelnie
          *  krytyczny.
          */
-        virtual void convert (const Core::Variant &input, Core::Variant *output, bool *error = NULL, Core::DebugContext *context = NULL) = 0;
+        virtual bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL) = 0;
 
 };
-
-#define setError(error)        \
-        if (error) {           \
-                *error = true; \
-        }
-
-#define clearError(error)        \
-        if (error) {             \
-                *error = false;  \
-        }
 
 typedef std::list <Ptr <IEditor> > EditorList;
 typedef std::vector <Ptr <IEditor> > EditorVector;

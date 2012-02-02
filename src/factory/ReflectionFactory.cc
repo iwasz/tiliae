@@ -67,6 +67,11 @@ Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::Deb
 
         }
         catch (Exception const &e) {
+                context->addContext (e.getContext ());
+                dcError (context, "ReflectionFactory::create : Exception during execution of constructor of class " + className);
+                return Variant ();
+        }
+        catch (std::exception const &e) {
                 dcError (context, "ReflectionFactory::create : Exception during execution of constructor of class " + className + ". Exception message : " + e.what ());
                 return Variant ();
         }

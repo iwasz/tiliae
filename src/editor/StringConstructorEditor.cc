@@ -49,6 +49,11 @@ bool StringConstructorEditor::convert (const Core::Variant &input, Core::Variant
         try {
                 *output = ctr->newInstance (input);
         }
+        catch (Core::Exception const &e) {
+        		context->addContext (e.getContext());
+                dcError (context, std::string ("StringConstructorEditor::convert : constructor hast thrown an exception."));
+                return false;
+        }
         catch (std::exception const &e) {
                 dcError (context, std::string ("StringConstructorEditor::convert : constructor hast thrown an exception : ") + e.what ());
                 return false;

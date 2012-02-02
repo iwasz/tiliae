@@ -80,6 +80,12 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
                         ret = method->invoke (bean, Core::Variant (path->getFirstSegment ()));
                 }
                 catch (Core::Exception const &e) {
+                        ctx->addContext (e.getContext ());
+                        dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                        path->toString () + "'). Exception from 'get' method has been thrown.");
+                        return Variant ();
+                }
+                catch (std::exception const &e) {
                         dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
                                         path->toString () + "'). Exception from 'get' method has been thrown : " + e.what ());
                         setError (error);
@@ -143,6 +149,11 @@ Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &be
         try {
                 clearError (error);
                 return method->invoke (bean);
+        }
+        catch (Core::Exception const &e) {
+                ctx->addContext (e.getContext ());
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                path->toString () + "'). Exception from 'get' method has been thrown.");
         }
         catch (std::exception const &e) {
                 dcError (ctx, std::string ("GetPutMethodRWBeanWrapperPlugin::iterator. Exception during method call : ") + e.what ());
@@ -211,6 +222,12 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                         method->invoke (*bean, &params);
                 }
                 catch (Core::Exception const &e) {
+                        ctx->addContext (e.getContext ());
+                        dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                        path->toString () + "'). Exception from 'get' method has been thrown.");
+                        return false;
+                }
+                catch (std::exception const &e) {
                         dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
                                         path->toString () + "'). Exception from 'set' method has been thrown : " + e.what ());
                         return false;
@@ -266,19 +283,32 @@ bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
                 std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << vcast <String> (objectToSet) << std::endl;
 #endif
 
-                if (editor) {
-                        Variant output;
-                        output.setTypeInfo (method->getType ());
+                try {
+					if (editor) {
+							Variant output;
+							output.setTypeInfo (method->getType ());
 
-                        if (!editor->convert (objectToSet, &output, ctx)) {
-                                dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
-                                return false;
-                        }
+							if (!editor->convert (objectToSet, &output, ctx)) {
+									dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
+									return false;
+							}
 
-                        method->invoke (*bean, output);
+							method->invoke (*bean, output);
+					}
+					else {
+							method->invoke (*bean, objectToSet);
+					}
                 }
-                else {
-                        method->invoke (*bean, objectToSet);
+                catch (Core::Exception const &e) {
+                        ctx->addContext (e.getContext ());
+                        dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                        path->toString () + "'). Exception from 'get' method has been thrown.");
+                        return false;
+                }
+                catch (std::exception const &e) {
+                        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
+                                        path->toString () + "'). Exception from 'set' method has been thrown : " + e.what ());
+                        return false;
                 }
 
                 return true;

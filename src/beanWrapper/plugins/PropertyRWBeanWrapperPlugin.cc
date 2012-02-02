@@ -84,6 +84,12 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
                 return getter->invoke (bean);
         }
         catch (Core::Exception const &e) {
+                ctx->addContext (e.getContext ());
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                path->toString () + "'). Exception from 'get' method has been thrown.");
+                return Variant ();
+        }
+        catch (std::exception const &e) {
                 dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
                                 path->toString () + "'). Exception from 'get' method has been thrown : " + e.what ());
                 setError (error);
@@ -129,12 +135,20 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
                         Variant output;
                         output.setTypeInfo (setter->getType ());
 
+                        dcBegin (ctx);
+
                         if (!editor->convert (objectToSet, &output, ctx)) {
                                 dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
                                 return false;
                         }
 
                         setter->invoke (*bean, (!output.isNone () ? output : objectToSet));
+
+                        /*
+                         * Rolbakujemy dopiero tu, bo tu wiemy, ze invoke nie zrzuciło wyjatku. Edytor mógł przecierz
+                         * skonwertować input na coś bezsensownego i wtedy chcemy wiedziec co to było.
+                         */
+                        dcRollback (ctx);
                 }
                 else {
                         setter->invoke (*bean, objectToSet);

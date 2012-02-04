@@ -768,23 +768,15 @@ BOOST_AUTO_TEST_CASE (testAbstractObjects)
 
         Ptr <BeanWrapper> beanWrapper = BeanWrapper::create (Core::Variant (&foo));
 
-        try {
-                /*
-                 * Z poniższym wywołaniem był problem, ponieważ warian zawierający wskaźnik do
-                 * Place dawał type_info dotyczące typu Place * (typ wskaźnika), a nie typu
-                 * Address * (faktyczny typ obiektu wskazywanego).
-                 */
-                BOOST_REQUIRE (vcast <String> (beanWrapper->get ("place.street")) == "testowy01");
+        /*
+         * Z poniższym wywołaniem był problem, ponieważ warian zawierający wskaźnik do
+         * Place dawał type_info dotyczące typu Place * (typ wskaźnika), a nie typu
+         * Address * (faktyczny typ obiektu wskazywanego).
+         */
+        BOOST_REQUIRE_EQUAL (vcast <String> (beanWrapper->get ("place.street")), "testowy01");
 
-                // Place2 jest typu Ptr <Place> a wskazuje na obiekt typu Address.
-                BOOST_REQUIRE (vcast <String> (beanWrapper->get ("place2.street")) == "test02-66");
-        }
-        catch (const Core::Exception &e) {
-//                std::cerr << e.what () << std::endl;
-                return;
-        }
-
-        BOOST_REQUIRE (0);
+        // Place2 jest typu Ptr <Place> a wskazuje na obiekt typu Address.
+        BOOST_REQUIRE_EQUAL (vcast <String> (beanWrapper->get ("place2.street")), "test02-66");
 }
 
 /**

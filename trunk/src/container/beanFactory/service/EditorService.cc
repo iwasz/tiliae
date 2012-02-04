@@ -30,16 +30,16 @@ using namespace Core;
 void EditorService::init (Core::VariantMap *singletons)
 {
         Core::Variant v = (*singletons)[DEFAULT_MAPPED_EDITOR_NAME];
-        defaultMappedEditor = vcast <Ptr <Editor::IEditor> > (v);
+        defaultMappedEditor = ocast <Ptr <Editor::IEditor> > (v);
 
         v = (*singletons)[NOOP_EDITOR_NAME];
-        noopEditor = vcast <Ptr <Editor::IEditor> > (v);
+        noopEditor = ocast <Ptr <Editor::IEditor> > (v);
 
         v = (*singletons)[NOOP_NO_COPY_EDITOR_NAME];
-        noopNoCopyEditor = vcast <Ptr <Editor::IEditor> > (v);
+        noopNoCopyEditor = ocast <Ptr <Editor::IEditor> > (v);
 
         v = (*singletons)[BEAN_WRAPPER_W_CONVERSION];
-        defaultBeanWrapper = vcast <Ptr <Wrapper::BeanWrapper> > (v);
+        defaultBeanWrapper = ocast <Ptr <Wrapper::BeanWrapper> > (v);
 }
 
 /**

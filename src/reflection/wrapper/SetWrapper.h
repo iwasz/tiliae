@@ -101,7 +101,7 @@ Core::Variant SetWrapper <std::map<K, V> >::call (Core::Variant const &object, C
         std::map <K, V> *map = vcast <std::map <K, V> *> (object);
         Core::VariantVector::iterator k = args->begin ();
         Core::VariantVector::iterator v = k + 1;
-        map->operator[] (lcast <K> (*k)) = vcast <V> (*v);
+        map->operator[] (lcast <K> (*k)) = ocast <V> (*v);
         return Core::Variant ();
 }
 

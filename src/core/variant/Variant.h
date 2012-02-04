@@ -534,7 +534,7 @@ private:
 template<typename S>
 Variant::Variant (S const &p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)),
-        ti (&typeid (S&)),
+        ti (&typeid (p)),
         sptr (boost::make_shared <S> (p))
 {
 }
@@ -544,7 +544,7 @@ Variant::Variant (S const &p) :
 template<typename S>
 Variant::Variant (S *p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (OBJECT) : (POINTER)),
-        ti (&typeid (S)),
+        ti ((p) ? (&typeid (*p)) : (&typeid (S))),
         ptr (p)
 {
 }
@@ -554,7 +554,7 @@ Variant::Variant (S *p) :
 template<typename S>
 Variant::Variant (S const *p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (OBJECT_CONST) : (POINTER_CONST)),
-        ti (&typeid (S)),
+        ti ((p) ? (&typeid (*p)) : (&typeid (S))),
         cptr (p)
 {
 }
@@ -564,7 +564,7 @@ Variant::Variant (S const *p) :
 template<typename S>
 Variant::Variant (boost::shared_ptr<S> const &p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)),
-        ti (&typeid (S)),
+        ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
         sptr (p)
 {
 }
@@ -574,7 +574,7 @@ Variant::Variant (boost::shared_ptr<S> const &p) :
 template<typename S>
 Variant::Variant (boost::shared_ptr<S const> const &p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT_CONST) : (SMART_CONST)),
-        ti (&typeid (S)),
+        ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
         sptr (boost::const_pointer_cast <S> (p))
 {
 }

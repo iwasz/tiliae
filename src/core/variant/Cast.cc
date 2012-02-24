@@ -25,6 +25,20 @@ void throwExceptionHanle (const char *type, Variant const &v, std::type_info con
                         std::string (". Variant info : ") + v.toString () + ".");
 }
 
+void throwExceptionOcast (Variant const &v, std::type_info const &t, void const *ptr)
+{
+        std::string req = t.name ();
+        std::string act = (ptr) ? (typeid (* static_cast <Core::Object const *> (ptr)).name ()) : ("NULL");
+        throw VariantCastException (std::string ("Wrong ocast. Requested type : [") + req + "], from type : [" + act + "], variant info : " + v.toString () + ".");
+}
+
+void throwExceptionOcast (Variant const &v, std::type_info const &t, void *ptr)
+{
+        std::string req = t.name ();
+        std::string act = (ptr) ? (typeid (* static_cast <Core::Object *> (ptr)).name ()) : ("NULL");
+        throw VariantCastException (std::string ("Wrong ocast. Requested type : [") + req + "], from type : [" + act + "], variant info : " + v.toString () + ".");
+}
+
 /****************************************************************************/
 
 std::string const &VCast<std::string>::run (Variant const &v)

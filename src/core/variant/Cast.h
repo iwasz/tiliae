@@ -40,6 +40,8 @@ public:
 
 extern TILIAE_API void throwExceptionValue (const char *type, const char *TYPE, Variant const &v);
 extern TILIAE_API void throwExceptionHanle (const char *type, Variant const &v, std::type_info const &actual);
+extern TILIAE_API void throwExceptionOcast (Variant const &v, std::type_info const &t, void const *ptr);
+extern TILIAE_API void throwExceptionOcast (Variant const &v, std::type_info const &t, void *ptr);
 
 /*##########################################################################*/
 
@@ -1645,13 +1647,28 @@ T const &OCast<T>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return *(boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
+                try {
+                        return *(boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), v.sptr.get ());
+                }
 
         case Variant::OBJECT:
-                return *(boost::polymorphic_cast <T *> (static_cast<Object *> (v.ptr)));
+                try {
+                        return *(boost::polymorphic_cast <T *> (static_cast<Object *> (v.ptr)));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), v.ptr);
+                }
 
         case Variant::OBJECT_CONST:
-                return *(boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.cptr)));
+                try {
+                        return *(boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.cptr)));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), v.cptr);
+                }
 
         default:
                 return VCast<T>::run (v);
@@ -1691,10 +1708,20 @@ T &OCast<T &>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::SMART_OBJECT:
-                return *(boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
+                try {
+                        return *(boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), v.sptr.get ());
+                }
 
         case Variant::OBJECT:
-                return *(boost::polymorphic_cast <T *> (static_cast<Object *> (v.ptr)));
+                try {
+                        return *(boost::polymorphic_cast <T *> (static_cast<Object *> (v.ptr)));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), v.ptr);
+                }
 
         default:
                 return VCast<T &>::run (v);
@@ -1731,13 +1758,28 @@ T const &OCast<T const &>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return *(boost::polymorphic_cast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ()));
+                try {
+                        return *(boost::polymorphic_cast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ()));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), const_cast <void const *> (v.sptr.get ()));
+                }
 
         case Variant::OBJECT:
-                return *(boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.ptr)));
+                try {
+                        return *(boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.ptr)));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), const_cast <void const *> (v.ptr));
+                }
 
         case Variant::OBJECT_CONST:
-                return *(boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.cptr)));
+                try {
+                        return *(boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.cptr)));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), v.cptr);
+                }
 
         default:
                 return VCast<T const &>::run (v);
@@ -1777,10 +1819,20 @@ T *OCast <T *>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::SMART_OBJECT:
-                return boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
+                try {
+                        return boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), v.sptr.get ());
+                }
 
         case Variant::OBJECT:
-                return boost::polymorphic_cast <T *> (static_cast<Object *> (v.ptr));
+                try {
+                        return boost::polymorphic_cast <T *> (static_cast<Object *> (v.ptr));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), v.ptr);
+                }
 
         default:
                 return VCast<T *>::run (v);
@@ -1791,16 +1843,16 @@ T *OCast <T *>::run (Variant const &v)
 template<typename T>
 bool OCast<T *>::can (Variant const &v)
 {
-	switch (v.type) {
-     case Variant::SMART_OBJECT:
+        switch (v.type) {
+        case Variant::SMART_OBJECT:
              return dynamic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
 
-     case Variant::OBJECT:
+        case Variant::OBJECT:
              return dynamic_cast <T *> (static_cast<Object *> (v.ptr));
 
-     default:
+        default:
              return VCast<T *>::can (v);
-     };
+        };
 }
 
 /****************************************************************************/
@@ -1818,13 +1870,28 @@ T const *OCast <T const *>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return boost::polymorphic_cast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ());
+                try {
+                        return boost::polymorphic_cast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ());
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), const_cast <void const *> (v.sptr.get ()));
+                }
 
         case Variant::OBJECT:
-                return boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.ptr));
+                try {
+                        return boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.ptr));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), const_cast <void const *> (v.ptr));
+                }
 
         case Variant::OBJECT_CONST:
-                return boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.cptr));
+                try {
+                        return boost::polymorphic_cast <T const *> (static_cast<Object const *> (v.cptr));
+                }
+                catch (std::exception const &e) {
+                        throwExceptionOcast (v, typeid (T&), v.cptr);
+                }
 
         default:
                 return VCast<T const *>::run (v);

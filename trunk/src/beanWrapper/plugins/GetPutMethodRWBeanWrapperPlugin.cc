@@ -83,6 +83,7 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
                         ctx->addContext (e.getContext ());
                         dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
                                         path->toString () + "'). Exception from 'get' method has been thrown.");
+                        setError (error);
                         return Variant ();
                 }
                 catch (std::exception const &e) {
@@ -154,6 +155,7 @@ Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &be
                 ctx->addContext (e.getContext ());
                 dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
                                 path->toString () + "'). Exception from 'get' method has been thrown.");
+                setError (error);
         }
         catch (std::exception const &e) {
                 dcError (ctx, std::string ("GetPutMethodRWBeanWrapperPlugin::iterator. Exception during method call : ") + e.what ());

@@ -82,145 +82,145 @@ class String;
  * dynamic_cast (jednak działa trochę inaczej).
  *
  * <TABLE>
- * 	<TR>
- * 	        <TD></TD>
- * 		<TD>vcast&lt;T&gt;</TD>
- * 		<TD>
- * 			vcast&lt;T&amp;&gt;
- * 		</TD>
- * 		<TD>
- * 			vcast&lt;T const&amp;&gt;
- * 		</TD>
- * 		<TD>
- * 			vcast&lt;T*&gt;
- * 		</TD>
- * 		<TD>
- * 			vcast&lt;T const *&gt;
- * 		</TD>
- * 		<TD>
- * 			vcast&lt;shared_ptr&lt;T&gt; &gt;
- * 		</TD>
- * 		<TD>
- * 			vcast&lt;shared_ptr&lt;T const&gt; &gt;
- * 		</TD>
- * 	</TR>
- * 	<TR>
- * 		<TD>
- * 			Variant (T const &amp;)
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 	</TR>
- * 	<TR>
- * 		<TD>
- * 			Variant (T *)
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 	</TR>
- * 	<TR>
- * 		<TD>
- * 			Variant (T const *)
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 	</TR>
- * 	<TR>
- * 		<TD>
- * 			Variant (shared_ptr &lt;T&gt;)
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 	</TR>
- * 	<TR>
- * 		<TD>
- * 			Variant (shared_ptr &lt;T const&gt;)
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 		<TD>
- * 		</TD>
- * 		<TD>
- * 			v
- * 		</TD>
- * 	</TR>
+ *      <TR>
+ *              <TD></TD>
+ *              <TD>vcast&lt;T&gt;</TD>
+ *              <TD>
+ *                      vcast&lt;T&amp;&gt;
+ *              </TD>
+ *              <TD>
+ *                      vcast&lt;T const&amp;&gt;
+ *              </TD>
+ *              <TD>
+ *                      vcast&lt;T*&gt;
+ *              </TD>
+ *              <TD>
+ *                      vcast&lt;T const *&gt;
+ *              </TD>
+ *              <TD>
+ *                      vcast&lt;shared_ptr&lt;T&gt; &gt;
+ *              </TD>
+ *              <TD>
+ *                      vcast&lt;shared_ptr&lt;T const&gt; &gt;
+ *              </TD>
+ *      </TR>
+ *      <TR>
+ *              <TD>
+ *                      Variant (T const &amp;)
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *      </TR>
+ *      <TR>
+ *              <TD>
+ *                      Variant (T *)
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *      </TR>
+ *      <TR>
+ *              <TD>
+ *                      Variant (T const *)
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *      </TR>
+ *      <TR>
+ *              <TD>
+ *                      Variant (shared_ptr &lt;T&gt;)
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *      </TR>
+ *      <TR>
+ *              <TD>
+ *                      Variant (shared_ptr &lt;T const&gt;)
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *              <TD>
+ *              </TD>
+ *              <TD>
+ *                      v
+ *              </TD>
+ *      </TR>
  * </TABLE>
  *
  * gdy v.getType () ma jedną z poniższych warości:
@@ -535,7 +535,7 @@ template<typename S>
 Variant::Variant (S const &p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)),
         ti (&typeid (p)),
-        sptr (boost::make_shared <S> (p))
+        sptr ((boost::is_convertible <S *, Core::Object *>::value) ? (boost::make_shared <Core::Object> (p)) : (boost::make_shared <S> (p)))
 {
 }
 
@@ -545,7 +545,7 @@ template<typename S>
 Variant::Variant (S *p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (OBJECT) : (POINTER)),
         ti ((p) ? (&typeid (*p)) : (&typeid (S))),
-        ptr (p)
+        ptr ((boost::is_convertible <S *, Core::Object *>::value) ? (static_cast <Core::Object *> (p)) : (p))
 {
 }
 
@@ -555,7 +555,7 @@ template<typename S>
 Variant::Variant (S const *p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (OBJECT_CONST) : (POINTER_CONST)),
         ti ((p) ? (&typeid (*p)) : (&typeid (S))),
-        cptr (p)
+        cptr ((boost::is_convertible <S *, Core::Object *>::value) ? (static_cast <Core::Object *> (p)) : (p))
 {
 }
 
@@ -565,7 +565,7 @@ template<typename S>
 Variant::Variant (boost::shared_ptr<S> const &p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)),
         ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
-        sptr (p)
+        sptr ((boost::is_convertible <S *, Core::Object *>::value) ? (boost::reinterpret_pointer_cast <Core::Object> (p)) : (p))
 {
 }
 
@@ -575,7 +575,7 @@ template<typename S>
 Variant::Variant (boost::shared_ptr<S const> const &p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT_CONST) : (SMART_CONST)),
         ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
-        sptr (boost::const_pointer_cast <S> (p))
+        sptr ((boost::is_convertible <S *, Core::Object *>::value) ? (boost::static_pointer_cast <Core::Object> (boost::const_pointer_cast <S> (p))) : (boost::const_pointer_cast <S> (p)))
 {
 }
 
@@ -583,4 +583,4 @@ extern TILIAE_API std::ostream &operator << (std::ostream &s, Core::Variant cons
 
 } // namespace
 
-#	endif /* VARIANT_H_ */
+#       endif /* VARIANT_H_ */

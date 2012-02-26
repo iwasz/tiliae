@@ -87,6 +87,7 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
                 ctx->addContext (e.getContext ());
                 dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
                                 path->toString () + "'). Exception from 'get' method has been thrown.");
+                setError (error);
                 return Variant ();
         }
         catch (std::exception const &e) {

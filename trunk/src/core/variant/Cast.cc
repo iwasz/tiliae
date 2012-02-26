@@ -27,15 +27,17 @@ void throwExceptionHanle (const char *type, Variant const &v, std::type_info con
 
 void throwExceptionOcast (Variant const &v, std::type_info const &t, void const *ptr)
 {
-        std::string req = t.name ();
-        std::string act = (ptr) ? (typeid (* static_cast <Core::Object const *> (ptr)).name ()) : ("NULL");
+        std::string req = std::string (t.name ()) + " [" + boost::lexical_cast <std::string> (&t) + "]";
+        std::type_info const &t2 = typeid (* static_cast <Core::Object const *> (ptr));
+        std::string act = (ptr) ? (std::string (t2.name ()) + " [" + boost::lexical_cast <std::string> (&t2) + "]") : ("NULL");
         throw VariantCastException (std::string ("Wrong ocast. Requested type : [") + req + "], from type : [" + act + "], variant info : " + v.toString () + ".");
 }
 
 void throwExceptionOcast (Variant const &v, std::type_info const &t, void *ptr)
 {
-        std::string req = t.name ();
-        std::string act = (ptr) ? (typeid (* static_cast <Core::Object *> (ptr)).name ()) : ("NULL");
+        std::string req = std::string (t.name ()) + " [" + boost::lexical_cast <std::string> (&t) + "]";
+        std::type_info const &t2 = typeid (* static_cast <Core::Object *> (ptr));
+        std::string act = (ptr) ? (std::string (t2.name ()) + " [" + boost::lexical_cast <std::string> (&t2) + "]") : ("NULL");
         throw VariantCastException (std::string ("Wrong ocast. Requested type : [") + req + "], from type : [" + act + "], variant info : " + v.toString () + ".");
 }
 

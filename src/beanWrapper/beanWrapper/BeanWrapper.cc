@@ -252,7 +252,7 @@ bool BeanWrapper::set (Core::Variant *referenceObject, IPath *path, const Core::
                 ret = get (*referenceObject, &left, &err, ctx);
 
                 if (err) {
-                        dcError (ctx, "Cannot set property '" + path->toString () + "'.");
+                        dcError (ctx, "Cannot set property (can't get left). '" + path->getAllButLastSegment () + "^" + path->getLastSegment () + "'.");
                         return false;
                 }
 

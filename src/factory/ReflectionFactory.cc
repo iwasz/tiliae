@@ -27,7 +27,12 @@ const char *ReflectionFactory::CONSTRUCTOR_ARGS = "constructor-args";
 Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::DebugContext *context) const
 {
         VariantMap::const_iterator i = parameters.find (CLASS_NAME);
-        assert (i != parameters.end ());
+
+        if (i == parameters.end ()) {
+                dcError (context, "ReflectionFactory has no CLASS_NAME");
+                return Core::Variant ();
+        }
+
         std::string const &className = vcast <std::string const &> (i->second);
 
         i = parameters.find (CONSTRUCTOR_ARGS);

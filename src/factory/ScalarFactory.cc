@@ -166,7 +166,11 @@ Variant convertValue <bool> (bool classArgs,
 Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugContext *context) const
 {
         VariantMap::const_iterator it = parameters.find (ReflectionFactory::CLASS_NAME);
-        assert (it != parameters.end ());
+
+        if (it == parameters.end ()) {
+                dcError (context, "ScalarFactory has no CLASS_NAME");
+                return Core::Variant ();
+        }
 
         // Nazwa klasy.
         std::string const &className = vcast <std::string const &> (it->second);

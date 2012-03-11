@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
+<beans>
+        <bean id="a_main" parent="y_par">
+            <property name="name" value="Krakow"/>                    
+        </bean>
+
+        <bean id="x_par" class="City" scope="singleton">
+            <property name="name" value="Warszawa"/>
+        </bean> 
+
+        <bean id="y_par" parent="x_par"/>
+</beans>

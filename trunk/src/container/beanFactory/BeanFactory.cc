@@ -39,10 +39,10 @@ BeanFactory::~BeanFactory ()
 
 /****************************************************************************/
 
-void BeanFactory::setAttributes (const Attributes &attributes)
+void BeanFactory::setAttributes (Ptr <Attributes> attributes)
 {
         this->attributes = attributes;
-        id = attributes.getString (ID_ARGUMENT);
+        id = attributes->getString (ID_ARGUMENT, false);
 }
 
 /****************************************************************************/
@@ -78,8 +78,8 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                 Core::Variant cArgsEdited = Core::Variant (&list);
 
                 // Trzeba sprawdzić, bo inaczej może się zamazać argument class (patrz test 24 myMap - class ustawione przez proxy).
-                if (attributes.containsKey (CLASS_ARGUMENT)) {
-                        factoryParams[CLASS_NAME] = Core::Variant (attributes.getString (CLASS_ARGUMENT));
+                if (attributes->containsKey (CLASS_ARGUMENT)) {
+                        factoryParams[CLASS_NAME] = Core::Variant (attributes->getString (CLASS_ARGUMENT));
                 }
 
                 bool err = false;
@@ -131,8 +131,8 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                 notifyAfterPropertiesSet ();
 
                 // Uruchomienie metody init-method
-                if (attributes.containsKey (INITMETHOD_ARGUMENT)) {
-                        std::string initMethodName = attributes.getString (INITMETHOD_ARGUMENT);
+                if (attributes->containsKey (INITMETHOD_ARGUMENT)) {
+                        std::string initMethodName = attributes->getString (INITMETHOD_ARGUMENT);
                         assert (beanWrapper);
                         beanWrapper->setWrappedObject (output);
                         beanWrapper->get (initMethodName, &err, context);
@@ -169,14 +169,14 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
 bool BeanFactory::getSingleton () const
 {
-        return (static_cast <IMeta::Scope> (attributes.getInt (SCOPE_ARGUMENT)) == IMeta::SINGLETON);
+        return (static_cast <IMeta::Scope> (attributes->getInt (SCOPE_ARGUMENT)) == IMeta::SINGLETON);
 }
 
 /****************************************************************************/
 
 void BeanFactory::onBeforePropertiesSet (BeanFactory const *notifier) const
 {
-        if (static_cast <IMeta::Scope> (attributes.getInt (SCOPE_ARGUMENT)) == IMeta::BEAN) {
+        if (static_cast <IMeta::Scope> (attributes->getInt (SCOPE_ARGUMENT)) == IMeta::BEAN) {
                 forceSingleton = true;
         }
 }
@@ -185,7 +185,7 @@ void BeanFactory::onBeforePropertiesSet (BeanFactory const *notifier) const
 
 void BeanFactory::onAfterPropertiesSet (BeanFactory const *notifier) const
 {
-        if (static_cast <IMeta::Scope> (attributes.getInt (SCOPE_ARGUMENT)) == IMeta::BEAN) {
+        if (static_cast <IMeta::Scope> (attributes->getInt (SCOPE_ARGUMENT)) == IMeta::BEAN) {
                 forceSingleton = false;
 
                 if (!getSingleton ()) {
@@ -229,7 +229,7 @@ std::string BeanFactory::toString () const
         std::string ret = "BeanFactory (";
         bool comma = false;
 
-        if (attributes.containsKey (ID_ARGUMENT)) {
+        if (attributes->containsKey (ID_ARGUMENT, false)) {
                 ret += "id=" + id;
                 comma = true;
         }

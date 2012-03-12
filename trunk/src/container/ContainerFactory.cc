@@ -242,8 +242,8 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
 
                         Ptr <BeanFactory> factory = *i;
 
-                        bool isSingleton = (static_cast <IMeta::Scope> (factory->getAttributes ().getInt (SCOPE_ARGUMENT)) == IMeta::SINGLETON);
-                        bool isLazyInit = factory->getAttributes ().getBool (LAZYINIT_ARGUMENT);
+                        bool isSingleton = (static_cast <IMeta::Scope> (factory->getIntAttribute (SCOPE_ARGUMENT)) == IMeta::SINGLETON);
+                        bool isLazyInit = factory->getBoolAttribute (LAZYINIT_ARGUMENT);
 
                         if (isSingleton && !isLazyInit) {
                                 Core::Variant v = factory->create (Core::VariantMap (), &ctx);

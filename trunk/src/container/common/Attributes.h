@@ -26,24 +26,28 @@ class TILIAE_API Attributes {
 public:
 
         void setString (const std::string &key, const std::string &value);
-        std::string getString (const std::string &key) const;
+        std::string getString (const std::string &key, bool getFromParent = true) const;
 
         void setInt (const std::string &key, int value);
-        int getInt (const std::string &key) const;
+        int getInt (const std::string &key, bool getFromParent = true) const;
 
         void setBool (const std::string &key, bool value);
-        bool getBool (const std::string &key) const;
+        bool getBool (const std::string &key, bool getFromParent = true) const;
 
         void addAttributes (const Attributes &a);
         void removeAttributes (const Core::StringList &l);
         void removeAttribute (const std::string &key);
-        bool containsKey (const std::string &key) const;
+        bool containsKey (const std::string &key, bool getFromParent = true) const;
+
+        void setParentAttributes (Ptr <Attributes const> a) { parent = a; }
 
 private:
 
-        Core::StringMap strMap;
         typedef std::map <std::string, int> IntMap;
+
+        Core::StringMap strMap;
         IntMap intMap;
+        Ptr <Attributes const> parent;
 };
 
 }

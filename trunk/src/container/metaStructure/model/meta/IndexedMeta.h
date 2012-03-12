@@ -25,9 +25,8 @@ public:
 
         virtual ~IndexedMeta () {}
 
-        ListElemList getFields () const { return fields; }
+        ListElemList getFields () const;
         void setFields (const ListElemList &fields) { this->fields = fields; }
-
         void addFields (const ListElemList &fields);
         void addField (Ptr <ListElem> field) { this->fields.push_back (field); }
 

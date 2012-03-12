@@ -84,8 +84,10 @@ public:
         Ptr<Editor::IEditor> getCArgsEditor () const { return cArgsEditor; }
         void setCArgsEditor (Ptr<Editor::IEditor> cArgsEditor) { this->cArgsEditor = cArgsEditor; }
 
-        const Attributes &getAttributes () const { return attributes; }
-        void setAttributes (const Attributes &attributes);
+        void setAttributes (Ptr <Attributes> attributes);
+        std::string getStringAttribute (const std::string &key, bool getFromParent = true) const { return attributes->getString (key, getFromParent); }
+        int getIntAttribute (const std::string &key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
+        bool getBoolAttribute (const std::string &key, bool getFromParent = true) const { return attributes->getBool (key, getFromParent); }
 
         const Core::Variant &getInput () const { return input; }
         void setInput (const Core::Variant &input) { this->input = input; }
@@ -130,15 +132,14 @@ private:
         Core::Variant input;
         Core::Variant cArgs;
         mutable Core::Variant storedSingleton;
-        Attributes attributes;
 
+        Ptr <Attributes> attributes;
         Ptr <Editor::IEditor> cArgsEditor;
         Ptr <Editor::IEditor> editor;
         Ptr <Factory::IFactory> factory;
         Ptr <Wrapper::IBeanWrapper> beanWrapper;
 
         BeanFactory *outerBeanFactory;
-//        BeanFactoryMap innerBeanFactories;
         void *innerBeanFactories;
 };
 

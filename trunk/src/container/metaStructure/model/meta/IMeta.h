@@ -44,22 +44,14 @@ struct TILIAE_API IMeta {
 
         /**
          * Ozwierciedla relacje rodzic-potomek. W XML zaimplementowane
-         * przez atrybuty parent i copyOf.
+         * przez atrybuty parent.
          */
-        // TODO Przez referencję.
         virtual ListElemList getConstructorArgs () const = 0;
         virtual void setConstructorArgs (const ListElemList &constructorArgs) = 0;
         virtual void addConstructorArgs (const ListElemList &constructorArgs) = 0;
         virtual void addConstructorArg (Ptr <ListElem> elem) = 0;
 
-//        virtual Core::VariantMap const &getMetaInfo () const = 0;
-//        virtual void setMetaInfo (const Core::VariantMap &metaInfo) = 0;
-//        virtual void addMetaInfos (const Core::VariantMap &metaInfo) = 0;
-//        virtual void addMetaInfo (const std::string &key, const Core::Variant &metaInfo) = 0;
-
-        virtual const Attributes &getAttributes () const = 0;
-        virtual void setAttributes (const Attributes &attributes) = 0;
-        virtual void addAttributes (const Attributes &attributes) = 0;
+        virtual Ptr <Attributes> getAttributes () = 0;
 
 /*--------------------------------------------------------------------------*/
 
@@ -68,9 +60,6 @@ struct TILIAE_API IMeta {
 
         virtual bool getLazyInit () const = 0;
         virtual void setLazyInit (bool lazyInit) = 0;
-
-//        virtual bool getSingleton () const = 0;
-//        virtual void setSingleton (bool singleton) = 0;
 
         virtual Scope getScope () const = 0;
         virtual void setScope (Scope s) = 0;
@@ -96,9 +85,6 @@ struct TILIAE_API IMeta {
         virtual std::string getEditor () const = 0;
         virtual void setEditor (const std::string &editor) = 0;
 
-//        virtual std::string getDescription () const = 0;
-//        virtual void setDescription (const std::string &description) = 0;
-
 /*--------------------------------------------------------------------------*/
 
         /// Pobiera z getInnerMetas i z outer beans.
@@ -110,6 +96,9 @@ struct TILIAE_API IMeta {
 
         virtual IMeta *getOuterMeta () const = 0;
         virtual void setOuterMeta (IMeta *m) = 0;
+
+        virtual IMeta *getParentMeta () = 0;
+        virtual void setParentMeta (IMeta *m) = 0;
 
 /*-- attribute markers -----------------------------------------------------*/
 

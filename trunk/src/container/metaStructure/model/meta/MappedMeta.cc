@@ -13,10 +13,16 @@ namespace Container {
 
 Ptr <MapElem> MappedMeta::getField (const std::string &key)
 {
-        foreach (Ptr <MapElem> e, fields) {
-                if (e->getKey () == key) {
-                        return e;
-                }
+        MapElemMap::iterator i = fields.find (key);
+
+        if (i != fields.end ()) {
+                return i->second;
+        }
+
+        if (parent) {
+                MappedMeta *mappedParent = dynamic_cast <MappedMeta *> (parent);
+                assert (mappedParent);
+                return mappedParent->getField (key);
         }
 
         return Ptr <MapElem> ();
@@ -24,47 +30,32 @@ Ptr <MapElem> MappedMeta::getField (const std::string &key)
 
 /****************************************************************************/
 
-void MappedMeta::removeField (const std::string &key)
+void MappedMeta::addField (Ptr <MapElem> field)
 {
-        MapElemList::iterator j;
-        for (MapElemList::iterator i = fields.begin (); i != fields.end ();) {
-                Ptr <MapElem> el = *i;
-                j = i++;
-
-                if (el->getKey () == key) {
-                         fields.erase (j);
-                }
-        }
+        fields[field->getKey ()] = field;
 }
 
 /****************************************************************************/
 
-// TODO Implementacja 4 poniższych metod jest testowa!
-
-void MappedMeta::addField (Ptr <MapElem> field)
+MapElemList MappedMeta::getFieldsAsList () const
 {
-        removeField (field->getKey ());
-        fields.push_back (field);
-}
+        MapElemMap tmp;
 
-void MappedMeta::addFields (const MapElemList &fields)
-{
-        foreach (Ptr <MapElem> e, fields) {
-                addField (e);
+        if (parent) {
+                MappedMeta *mappedParent = dynamic_cast <MappedMeta *> (parent);
+                assert (mappedParent);
+                tmp = mappedParent->getFields ();
         }
-}
 
-void MappedMeta::addFieldFront (Ptr <MapElem> field)
-{
-        removeField (field->getKey ());
-        fields.push_front (field);
-}
+        std::copy (fields.begin (), fields.end (), std::inserter (tmp, tmp.end ()));
 
-void MappedMeta::addFieldsFront (const MapElemList &fields)
-{
-        foreach (Ptr <MapElem> e, fields) {
-                addFieldFront (e);
+        MapElemList ret;
+
+        for (MapElemMap::const_iterator i = tmp.begin (); i != tmp.end (); ++i) {
+                ret.push_back (i->second);
         }
+
+        return ret;
 }
 
 } // nam

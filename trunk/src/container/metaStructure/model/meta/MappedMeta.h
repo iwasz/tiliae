@@ -26,21 +26,12 @@ public:
 
         virtual ~MappedMeta () {}
 
-        const MapElemList &getFieldsAsList () const { return fields; }
-        void setFields (const MapElemList &fields) { this->fields = fields; }
-
-        // TODO To jest tymczasowy interfejs, trzeba zorbić porządek z tymi metodami.
+        MapElemList getFieldsAsList () const;
+        MapElemMap const &getFields () const { return fields; }
         void addField (Ptr <MapElem> field);
-        void addFields (const MapElemList &fields);
-        void addFieldFront (Ptr <MapElem> field);
-        void addFieldsFront (const MapElemList &fields);
-        void clearFields () { fields.clear (); }
 
         /// O(N)
         Ptr <MapElem> getField (const std::string &key);
-
-        /// O(N)
-        void removeField (const std::string &key);
 
 /*--------------------------------------------------------------------------*/
 
@@ -48,7 +39,7 @@ public:
 
 private:
 
-        MapElemList fields;
+        MapElemMap fields;
 
 };
 

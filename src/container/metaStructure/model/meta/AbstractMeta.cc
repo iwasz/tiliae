@@ -27,14 +27,6 @@ const char *SCOPE_ARGUMENT = "scope";
 
 /*##########################################################################*/
 
-//Core::Variant AbstractMeta::getMetaInfo (const std::string &key)
-//{
-//        Core::VariantMap::iterator i = metaInfo.find (key.getBody());
-//        return (i == metaInfo.end ()) ? (Core::Variant ()) : (i->second);
-//}
-
-/****************************************************************************/
-
 void AbstractMeta::addInnerMeta (Ptr <IMeta> m)
 {
         m->setOuterMeta (this);
@@ -70,9 +62,22 @@ void AbstractMeta::addConstructorArgs (const ListElemList &constructorArgs)
 
 /****************************************************************************/
 
-void AbstractMeta::addAttributes (const Attributes &attributes)
+//void AbstractMeta::addAttributes (const Attributes &attributes)
+//{
+//        this->attributes.addAttributes (attributes);
+//}
+
+/****************************************************************************/
+
+ListElemList AbstractMeta::getConstructorArgs () const
 {
-        this->attributes.addAttributes (attributes);
+        if (parent) {
+                ListElemList ret = parent->getConstructorArgs ();
+                std::copy (constructorArgs.begin (), constructorArgs.end (), std::back_inserter (ret));
+                return ret;
+        }
+
+        return constructorArgs;
 }
 
 }

@@ -39,55 +39,47 @@ public:
 
         virtual ~AbstractMeta () {}
 
-        ListElemList getConstructorArgs () const { return constructorArgs; }
+        ListElemList getConstructorArgs () const;
         void setConstructorArgs (const ListElemList &constructorArgs) { this->constructorArgs = constructorArgs; }
         void addConstructorArgs (const ListElemList &constructorArgs);
         void addConstructorArg (Ptr <ListElem> elem) { this->constructorArgs.push_back (elem); }
 
-//        Core::VariantMap const &getMetaInfo () const { return metaInfo; }
-//        void setMetaInfo (const Core::VariantMap &metaInfo) { this->metaInfo = metaInfo; }
-//        void addMetaInfos (const Core::VariantMap &metaInfo);
-//        void addMetaInfo (const std::string &key, const Core::Variant &metaInfo) { this->metaInfo[key.getBody()] = metaInfo; }
-//        Core::Variant getMetaInfo (const std::string &key);
+/*-- attribute markers -----------------------------------------------------*/
 
-        const Attributes &getAttributes () const { return attributes; }
-        void setAttributes (const Attributes &attributes) { this->attributes = attributes; }
-        void addAttributes (const Attributes &attributes);
+        Ptr <Attributes> getAttributes () { return attributes; }
+        bool containsAttribute (const std::string &key) const { return attributes->containsKey (key); }
 
 /*--------------------------------------------------------------------------*/
 
-        bool getAbstract () const { return attributes.getBool (ABSTRACT_ARGUMENT); }
-        void setAbstract (bool abstract) { attributes.setBool (ABSTRACT_ARGUMENT, abstract); }
+        bool getAbstract () const { return attributes->getBool (ABSTRACT_ARGUMENT); }
+        void setAbstract (bool abstract) { attributes->setBool (ABSTRACT_ARGUMENT, abstract); }
 
-        bool getLazyInit () const { return attributes.getBool (LAZYINIT_ARGUMENT); }
-        void setLazyInit (bool lazyInit) { attributes.setBool (LAZYINIT_ARGUMENT, lazyInit); }
+        bool getLazyInit () const { return attributes->getBool (LAZYINIT_ARGUMENT); }
+        void setLazyInit (bool lazyInit) { attributes->setBool (LAZYINIT_ARGUMENT, lazyInit); }
 
-        Scope getScope () const { return static_cast <Scope> (attributes.getInt (SCOPE_ARGUMENT)); }
-        void setScope (Scope s) { attributes.setInt (SCOPE_ARGUMENT, s); }
+        Scope getScope () const { return static_cast <Scope> (attributes->getInt (SCOPE_ARGUMENT)); }
+        void setScope (Scope s) { attributes->setInt (SCOPE_ARGUMENT, s); }
 
-        std::string getId () const { return attributes.getString (ID_ARGUMENT); }
-        void setId (const std::string &id) { attributes.setString (ID_ARGUMENT, id); }
+        std::string getId () const { return attributes->getString (ID_ARGUMENT, false); }
+        void setId (const std::string &id) { attributes->setString (ID_ARGUMENT, id); }
 
-        std::string getClass () const { return attributes.getString (CLASS_ARGUMENT); }
-        void setClass (const std::string &clazz) { attributes.setString (CLASS_ARGUMENT, clazz); }
+        std::string getClass () const { return attributes->getString (CLASS_ARGUMENT); }
+        void setClass (const std::string &clazz) { attributes->setString (CLASS_ARGUMENT, clazz); }
 
-        std::string getParent () const { return attributes.getString (PARENT_ARGUMENT); }
-        void setParent (const std::string &parent) { attributes.setString (PARENT_ARGUMENT, parent); }
+        std::string getParent () const { return attributes->getString (PARENT_ARGUMENT, false); }
+        void setParent (const std::string &parent) { attributes->setString (PARENT_ARGUMENT, parent); }
 
-        std::string getDependsOn () const { return attributes.getString (DEPENDSON_ARGUMENT); }
-        void setDependsOn (const std::string &dependsOn) { attributes.setString (DEPENDSON_ARGUMENT, dependsOn); }
+        std::string getDependsOn () const { return attributes->getString (DEPENDSON_ARGUMENT); }
+        void setDependsOn (const std::string &dependsOn) { attributes->setString (DEPENDSON_ARGUMENT, dependsOn); }
 
-        std::string getInitMethod () const { return attributes.getString (INITMETHOD_ARGUMENT); }
-        void setInitMethod (const std::string &initMethod) { attributes.setString (INITMETHOD_ARGUMENT, initMethod); }
+        std::string getInitMethod () const { return attributes->getString (INITMETHOD_ARGUMENT); }
+        void setInitMethod (const std::string &initMethod) { attributes->setString (INITMETHOD_ARGUMENT, initMethod); }
 
-        std::string getFactory () const { return attributes.getString (FACTORY_ARGUMENT); }
-        void setFactory (const std::string &factory) { attributes.setString (FACTORY_ARGUMENT, factory); }
+        std::string getFactory () const { return attributes->getString (FACTORY_ARGUMENT); }
+        void setFactory (const std::string &factory) { attributes->setString (FACTORY_ARGUMENT, factory); }
 
-        std::string getEditor () const { return attributes.getString (EDITOR_ARGUMENT); }
-        void setEditor (const std::string &editor) { attributes.setString (EDITOR_ARGUMENT, editor); }
-
-//        std::string getDescription () const { return attributes.getBool (ABSTRACT_ARGUMENT); }
-//        void setDescription (const std::string &description) { attributes.set (DESCRIPTION_ARGUMENT, Core::Variant (description)); }
+        std::string getEditor () const { return attributes->getString (EDITOR_ARGUMENT); }
+        void setEditor (const std::string &editor) { attributes->setString (EDITOR_ARGUMENT, editor); }
 
 /*--------------------------------------------------------------------------*/
 
@@ -101,21 +93,23 @@ public:
         IMeta *getOuterMeta () const { return outerMeta; }
         void setOuterMeta (IMeta *m) { outerMeta = m; }
 
-/*-- attribute markers -----------------------------------------------------*/
-
-        bool containsAttribute (const std::string &key) const { return attributes.containsKey (key); }
+        IMeta *getParentMeta () { return parent; }
+        void setParentMeta (IMeta *m) { parent = m; attributes->setParentAttributes (m->getAttributes ()); }
 
 protected:
 
-        AbstractMeta () : scope (IMeta::PROTOTYPE), outerMeta (NULL) {}
-        AbstractMeta (const AbstractMeta &) {}
+        AbstractMeta () : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ()), outerMeta (NULL) {}
+        AbstractMeta (const AbstractMeta &) : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ()), outerMeta (NULL) {}
+
+protected:
+
+        IMeta *parent;
 
 private:
 
         Scope scope;
         ListElemList constructorArgs;
-        Core::VariantMap metaInfo;
-        Attributes attributes;
+        Ptr <Attributes> attributes;
         MetaMap innerMetas;
         IMeta *outerMeta;
 };

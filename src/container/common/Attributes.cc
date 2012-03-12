@@ -17,12 +17,16 @@ void Attributes::setString (const std::string &key, const std::string &value)
 
 /****************************************************************************/
 
-std::string Attributes::getString (const std::string &key) const
+std::string Attributes::getString (const std::string &key, bool getFromParent) const
 {
         Core::StringMap::const_iterator i = strMap.find (key);
 
         if (i != strMap.end ()) {
                 return i->second;
+        }
+
+        if (getFromParent && parent) {
+                return parent->getString (key);
         }
 
         return "";
@@ -37,11 +41,15 @@ void Attributes::setInt (const std::string &key, int value)
 
 /****************************************************************************/
 
-int Attributes::getInt (const std::string &key) const
+int Attributes::getInt (const std::string &key, bool getFromParent) const
 {
         IntMap::const_iterator i = intMap.find (key);
         if (i != intMap.end ()) {
                 return i->second;
+        }
+
+        if (getFromParent && parent) {
+                return parent->getInt (key);
         }
 
         return 0;
@@ -56,11 +64,15 @@ void Attributes::setBool (const std::string &key, bool value)
 
 /****************************************************************************/
 
-bool Attributes::getBool (const std::string &key) const
+bool Attributes::getBool (const std::string &key, bool getFromParent) const
 {
         IntMap::const_iterator i = intMap.find (key);
         if (i != intMap.end ()) {
                 return i->second;
+        }
+
+        if (getFromParent && parent) {
+                return parent->getBool (key);
         }
 
         return false;
@@ -105,9 +117,15 @@ void Attributes::removeAttributes (const Core::StringList &l)
 
 /****************************************************************************/
 
-bool Attributes::containsKey (const std::string &key) const
+bool Attributes::containsKey (const std::string &key, bool getFromParent) const
 {
-        return strMap.find (key) != strMap.end () || intMap.find (key) != intMap.end ();
+        bool foundInParent = false;
+
+        if (getFromParent && parent) {
+                foundInParent = parent->containsKey (key);
+        }
+
+        return strMap.find (key) != strMap.end () || intMap.find (key) != intMap.end () || foundInParent;
 }
 
 

@@ -16,6 +16,26 @@ namespace Container {
 
 using namespace Core;
 
+bool ParentService::onMetaBegin (IMeta *child)
+{
+        if (!child->containsAttribute (PARENT_ARGUMENT)) {
+                return NULL;
+        }
+
+        std::string parentName = child->getParent ();
+        MetaContainer *container = getContext ()->getMetaContainer ();
+        Ptr <IMeta> parent = container->get (parentName);
+
+        if (!parent) {
+                throw NoSuchBeanException ("NoSuchBeanException @ ParentService::onMeta id=" + parentName);
+        }
+
+        child->setParentMeta (parent.get ());
+        return true;
+}
+
+/****************************************************************************/
+
 // Kopiuje tylko atrybuty, meta-info i constructor-args.
 IMeta *ParentService::onMeta (IMeta *child)
 {
@@ -32,7 +52,7 @@ IMeta *ParentService::onMeta (IMeta *child)
         }
 
         // TODO oznacz child jako "załatwiony", żeby nie był obsłużony jeszcze raz.
-        copyData (parent.get (), child);
+//        copyData (parent.get (), child);
         return parent.get ();
 }
 
@@ -45,16 +65,16 @@ bool ParentService::onMappedMetaBegin (MappedMeta *data)
         if (!source) {
                 return false;
         }
-
-        // Kopiuj pola
-        MappedMeta *dynSource = dynamic_cast <MappedMeta *> (source);
-        assert (dynSource);
-
-        // TODO zrobić to w miejscu, to znaczy jakąćMetode addFront czy cos.
-        MapElemList tmp = data->getFieldsAsList ();
-        data->clearFields ();
-        data->addFields (dynSource->getFieldsAsList ());
-        data->addFields (tmp);
+//
+//        // Kopiuj pola
+//        MappedMeta *dynSource = dynamic_cast <MappedMeta *> (source);
+//        assert (dynSource);
+//
+//        // TODO zrobić to w miejscu, to znaczy jakąćMetode addFront czy cos.
+//        MapElemList tmp = data->getFieldsAsList ();
+//        data->clearFields ();
+//        data->addFields (dynSource->getFieldsAsList ());
+//        data->addFields (tmp);
 
 #if 0
         std::cerr << data->getId() << " " << source->getInnerMetas().containsKey ("ID_0") << std::endl;
@@ -69,15 +89,15 @@ bool ParentService::onMappedMetaBegin (MappedMeta *data)
 
 bool ParentService::onIndexedMetaBegin (IndexedMeta *data)
 {
-        IMeta *source = onMeta (data);
-
-        if (!source) {
-                return false;
-        }
-
-        IndexedMeta *dynSource = dynamic_cast <IndexedMeta *> (source);
-        assert (dynSource);
-        data->addFields (dynSource->getFields ());
+//        IMeta *source = onMeta (data);
+//
+//        if (!source) {
+//                return false;
+//        }
+//
+//        IndexedMeta *dynSource = dynamic_cast <IndexedMeta *> (source);
+//        assert (dynSource);
+//        data->addFields (dynSource->getFields ());
         return true;
 }
 
@@ -88,34 +108,24 @@ void ParentService::copyData (IMeta *parent, IMeta *child)
         assert (parent);
         assert (child);
 
-        copyAttributes (parent, child);
-//        copyMetaInfo (parent, child);
-        copyConstructorArgs (parent, child);
+//        copyAttributes (parent, child);
+//        copyConstructorArgs (parent, child);
 }
 
 /****************************************************************************/
 
-void ParentService::copyAttributes (IMeta *parent, IMeta *child)
-{
-        assert (parent);
-        assert (child);
-        Attributes tmp = parent->getAttributes ();
-
-        // Nie chcemy kopiowac id i parent
-        tmp.removeAttribute (ID_ARGUMENT);
-        tmp.removeAttribute (PARENT_ARGUMENT);
-
-        // Skopiuj (prawie) wszystkie elementy z attributes z parent
-        child->addAttributes (tmp);
-}
-
-/****************************************************************************/
-
-//void ParentService::copyMetaInfo (IMeta *parent, IMeta *child)
+//void ParentService::copyAttributes (IMeta *parent, IMeta *child)
 //{
 //        assert (parent);
 //        assert (child);
-//        child->addMetaInfos (parent->getMetaInfo ());
+//        Attributes tmp = parent->getAttributes ();
+//
+//        // Nie chcemy kopiowac id i parent
+//        tmp.removeAttribute (ID_ARGUMENT);
+//        tmp.removeAttribute (PARENT_ARGUMENT);
+//
+//        // Skopiuj (prawie) wszystkie elementy z attributes z parent
+//        child->addAttributes (tmp);
 //}
 
 /****************************************************************************/

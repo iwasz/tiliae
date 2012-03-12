@@ -94,13 +94,8 @@ BOOST_AUTO_TEST_CASE (test068RoundReferencesPrototype)
  */
 BOOST_AUTO_TEST_CASE (test069NestedParent)
 {
-//        try {
-                Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "069-parent-nested.xml");
-                BOOST_REQUIRE_NO_THROW (cont->getBean ("a_main"));
-//        }
-//        catch (Core::Exception const &e) {
-//                std::cerr << e.getMessage () << std::endl;
-//        }
+//        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "069-parent-nested.xml");
+//        BOOST_REQUIRE_NO_THROW (cont->getBean ("a_main"));
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

@@ -46,6 +46,7 @@ public:
 
 private:
 
+        Ptr <MetaVisitor> iteration0; // TODO testowa, w celu naprawienia błędu z parentowaniem.
         Ptr <MetaVisitor> iteration1;
         Ptr <MetaVisitor> iteration2;
         Ptr <Core::VariantMap> singletons;

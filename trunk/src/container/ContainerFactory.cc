@@ -55,14 +55,21 @@ ContainerFactory::ContainerFactory ()
 {
         try {
 
+                iteration0 = MetaVisitor::create ();
+                iteration0->setContext (&context);
+
+                Ptr <IMetaService> service = ParentService::create ();
+                service->setContext (&context);
+                iteration0->addService (service);
+
 /*------1st-iteration-------------------------------------------------------*/
 
                 iteration1 = MetaVisitor::create ();
                 iteration1->setContext (&context);
 
-                Ptr <IMetaService> service = ParentService::create ();
-                service->setContext (&context);
-                iteration1->addService (service);
+//                Ptr <IMetaService> service = ParentService::create ();
+//                service->setContext (&context);
+//                iteration1->addService (service);
 
                 Ptr <Wrapper::BeanWrapper> beanWrapper = createBeanWrapper ();
 
@@ -229,6 +236,7 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
                 context.reset ();
                 context.setBeanFactoryContainer (bfCont);
                 context.setBeanFactoryMap (bfCont->getBeanFactoryMap ());
+                metaCont->accept (iteration0.get ());
                 metaCont->accept (iteration1.get ());
                 metaCont->accept (iteration2.get ());
 

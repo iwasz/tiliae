@@ -29,18 +29,7 @@ public:
         virtual ~ParentService () {}
         static Ptr <ParentService> create () { return Ptr <ParentService> (new ParentService); }
 
-        virtual bool onMappedMetaBegin (MappedMeta *data);
-        virtual bool onIndexedMetaBegin (IndexedMeta *data);
         virtual bool onMetaBegin (IMeta *data);
-
-protected:
-
-        virtual IMeta *onMeta (IMeta *data);
-
-        virtual void copyData (IMeta *parent, IMeta *child);
-//        virtual void copyAttributes (IMeta *parent, IMeta *child);
-//        virtual void copyMetaInfo (IMeta *parent, IMeta *child);
-        virtual void copyConstructorArgs (IMeta *parent, IMeta *child);
 
 };
 

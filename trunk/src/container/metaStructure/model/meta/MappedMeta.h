@@ -27,11 +27,13 @@ public:
         virtual ~MappedMeta () {}
 
         MapElemList getFieldsAsList () const;
-        MapElemMap const &getFields () const { return fields; }
         void addField (Ptr <MapElem> field);
 
         /// O(N)
         Ptr <MapElem> getField (const std::string &key);
+
+        /// O(N)
+        void removeField (const std::string &key);
 
 /*--------------------------------------------------------------------------*/
 
@@ -39,7 +41,7 @@ public:
 
 private:
 
-        MapElemMap fields;
+        MapElemList fields;
 
 };
 

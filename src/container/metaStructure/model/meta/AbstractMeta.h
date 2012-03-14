@@ -83,23 +83,23 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <IMeta> get (const std::string &key) const;
+//        Ptr <IMeta> get (const std::string &key) const;
 
-        const MetaMap &getInnerMetas () const { return innerMetas; }
+        MetaMap getInnerMetas () const;
         void setInnerMetas (const MetaMap &m) { innerMetas = m; }
         void addInnerMeta (Ptr <IMeta> m);
         void addInnerMetaList (const MetaMap &m);
 
-        IMeta *getOuterMeta () const { return outerMeta; }
-        void setOuterMeta (IMeta *m) { outerMeta = m; }
+//        IMeta *getOuterMeta () const { return outerMeta; }
+//        void setOuterMeta (IMeta *m) { outerMeta = m; }
 
         IMeta *getParentMeta () { return parent; }
         void setParentMeta (IMeta *m) { parent = m; attributes->setParentAttributes (m->getAttributes ()); }
 
 protected:
 
-        AbstractMeta () : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ()), outerMeta (NULL) {}
-        AbstractMeta (const AbstractMeta &) : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ()), outerMeta (NULL) {}
+        AbstractMeta () : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ())/*, outerMeta (NULL)*/ {}
+        AbstractMeta (const AbstractMeta &) : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ())/*, outerMeta (NULL)*/ {}
 
 protected:
 
@@ -111,7 +111,7 @@ private:
         ListElemList constructorArgs;
         Ptr <Attributes> attributes;
         MetaMap innerMetas;
-        IMeta *outerMeta;
+//        IMeta *outerMeta;
 };
 
 }

@@ -3,11 +3,15 @@
         "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
         <bean id="a_main" parent="y_par">
-            <property name="name" value="Krakow"/>                    
+            <property name="city.name" value="Krakow"/>                    
         </bean>
 
-        <bean id="x_par" class="City" scope="singleton">
-            <property name="name" value="Warszawa"/>
+        <bean id="x_par" class="Foo" scope="singleton">
+            <property name="city">
+                <bean class="City">
+                        <property name="name" value="Warszawa"/>
+                </bean>
+            </property>
         </bean> 
 
         <bean id="y_par" parent="x_par"/>

@@ -29,22 +29,30 @@ const char *SCOPE_ARGUMENT = "scope";
 
 void AbstractMeta::addInnerMeta (Ptr <IMeta> m)
 {
-        m->setOuterMeta (this);
+//        m->setOuterMeta (this);
         innerMetas[m->getId ()] = m;
 }
 
 /****************************************************************************/
 
-Ptr <IMeta> AbstractMeta::get (const std::string &key) const
-{
-        MetaMap::const_iterator i = innerMetas.find (key);
-
-        if (i == innerMetas.end () && getOuterMeta ()) {
-                return getOuterMeta ()->get (key);
-        }
-
-        return (i == innerMetas.end ()) ? (Ptr <IMeta> ()) : (i->second);
-}
+//Ptr <IMeta> AbstractMeta::get (const std::string &key) const
+//{
+////        MetaMap::const_iterator i = innerMetas.find (key);
+////
+////        if (i == innerMetas.end () && getOuterMeta ()) {
+////                return getOuterMeta ()->get (key);
+////        }
+////
+////        if  (i != innerMetas.end ()) {
+////                return i->second;
+////        }
+////
+////        if (parent) {
+////                return parent->get (key);
+////        }
+//
+//        return Ptr <IMeta> ();
+//}
 
 /****************************************************************************/
 
@@ -62,13 +70,6 @@ void AbstractMeta::addConstructorArgs (const ListElemList &constructorArgs)
 
 /****************************************************************************/
 
-//void AbstractMeta::addAttributes (const Attributes &attributes)
-//{
-//        this->attributes.addAttributes (attributes);
-//}
-
-/****************************************************************************/
-
 ListElemList AbstractMeta::getConstructorArgs () const
 {
         if (parent) {
@@ -78,6 +79,28 @@ ListElemList AbstractMeta::getConstructorArgs () const
         }
 
         return constructorArgs;
+}
+
+/****************************************************************************/
+
+MetaMap AbstractMeta::getInnerMetas () const
+{
+        if (parent) {
+                MetaMap ret = parent->getInnerMetas ();
+                std::copy (innerMetas.begin (), innerMetas.end (), std::inserter (ret, ret.end ()));
+
+#if 0
+                std::cerr << getId () << ", parent == true, inner.size () == " << ret.size () << std::endl;
+#endif
+
+                return ret;
+        }
+
+#if 0
+        std::cerr << getId () << ", parent == false, inner.size () == " << innerMetas.size () << std::endl;
+#endif
+
+        return innerMetas;
 }
 
 }

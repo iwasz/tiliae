@@ -88,14 +88,15 @@ struct TILIAE_API IMeta {
 /*--------------------------------------------------------------------------*/
 
         /// Pobiera z getInnerMetas i z outer beans.
-        virtual Ptr <IMeta> get (const std::string &key) const = 0;
+//        virtual Ptr <IMeta> get (const std::string &key) const = 0;
 
-        virtual const MetaMap &getInnerMetas () const = 0;
+        virtual MetaMap getInnerMetas () const = 0;
         virtual void setInnerMetas (const MetaMap &m) = 0;
         virtual void addInnerMeta (Ptr <IMeta> m) = 0;
+        virtual void addInnerMetaList (const MetaMap &m) = 0;
 
-        virtual IMeta *getOuterMeta () const = 0;
-        virtual void setOuterMeta (IMeta *m) = 0;
+//        virtual IMeta *getOuterMeta () const = 0;
+//        virtual void setOuterMeta (IMeta *m) = 0;
 
         virtual IMeta *getParentMeta () = 0;
         virtual void setParentMeta (IMeta *m) = 0;

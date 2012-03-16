@@ -96,6 +96,10 @@ pkg_check_modules (XML REQUIRED "libxml-2.0")
 INCLUDE_DIRECTORIES (${XML_INCLUDE_DIRS})
 link_directories(${XML_LIBRARY_DIRS})
 
+pkg_check_modules (MXML REQUIRED "mxml")
+INCLUDE_DIRECTORIES (${MXML_INCLUDE_DIRS})
+link_directories(${MXML_LIBRARY_DIRS})
+
 ENABLE_TESTING ()
 
 SET(MULTI_LIB_SOURCES)
@@ -483,6 +487,7 @@ IF(BUILD_CONTAINER)
 
     AUX_SOURCE_DIRECTORY (../src/container/inputFormat LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/container/inputFormat/xml/ LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/container/inputFormat/mxml/ LIB_SOURCES)
 
     AUX_SOURCE_DIRECTORY (../src/container/metaStructure LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/container/metaStructure/interface LIB_SOURCES)
@@ -544,6 +549,7 @@ ENDIF()
 
 IF(SINGLE_LIB)
     add_library (tiliae SHARED ${MULTI_LIB_SOURCES})
+    TARGET_LINK_LIBRARIES (tiliae ${MXML_LIBRARIES})
 
     INSTALL (
         TARGETS tiliae
@@ -875,6 +881,7 @@ IF(BUILD_CONTAINER_TEST)
     AUX_SOURCE_DIRECTORY (../src/container/common/test TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/container/common/testHelpers TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/container/inputFormat/xml/test TEST_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/container/inputFormat/mxml/test TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/container/metaStructure/test TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/editor/testHelpers TEST_SOURCES)
      

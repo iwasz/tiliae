@@ -3,6 +3,6 @@
         "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
         <bean id="city" class="City">
-                <property name="name" value="Warszawa"/>
+                <property name="name" value="Warszawa">1</property>
         </bean>
 </beans>

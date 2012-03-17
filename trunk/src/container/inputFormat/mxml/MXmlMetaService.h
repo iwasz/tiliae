@@ -13,11 +13,12 @@
 #include "ApiMacro.h"
 
 namespace Container {
+class MetaContainer;
 
 class TILIAE_API MXmlMetaService {
 public:
 
-        void parse (std::string const &path);
+        MetaContainer *parse (std::string const &path, MetaContainer *container) const;
 
 };
 

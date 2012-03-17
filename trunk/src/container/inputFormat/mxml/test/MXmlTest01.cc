@@ -30,8 +30,13 @@ BOOST_AUTO_TEST_SUITE (MXmlTest01);
  */
 BOOST_AUTO_TEST_CASE (test001SimplestBean)
 {
-        MXmlMetaService mService;
-        mService.parse (PATH + "001-simplest-bean.xml");
+        try {
+                MXmlMetaService mService;
+                mService.parse (PATH + "001-simplest-bean.xml", NULL);
+        }
+        catch (Core::Exception const &e) {
+                std::cerr << e.getMessage () << std::endl;
+        }
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

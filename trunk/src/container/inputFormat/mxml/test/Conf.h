@@ -9,6 +9,6 @@
 #ifndef CONF_H_
 #define CONF_H_
 
-const std::string PATH = "../src/container/inputFormat/xml/test/testXmlFiles/";
+const std::string PATH = "../src/container/inputFormat/mxml/test/testXmlFiles/";
 
 #endif /* CONF_H_ */

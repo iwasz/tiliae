@@ -36,7 +36,7 @@ public:
         void addMessage (std::string const &m);
         void addContext (DebugContext const &dc);
 
-        const char* what() const throw () { return "Core::Exception. Use getMessage for more info"; }
+        const char* what() const throw ();
 
         /**
          * Zwraca stos wiadomości w postaci napisu rozdzielonego znakami
@@ -49,6 +49,7 @@ public:
 private:
 
         DebugContext ctx;
+        static std::string whatCopy;
 
 };
 

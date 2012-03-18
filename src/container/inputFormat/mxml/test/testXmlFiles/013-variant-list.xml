@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
+<beans>
+        <list id="mojaLista" class="VariantVector">
+            <value>value01</value>
+            <value type="String">value02</value>
+            <value type="text">value03</value>
+    		<value type="int">6670</value>
+    		<value type="double">12.34</value>
+    		<value type="char">g</value>
+    		<value type="bool">yes</value>
+    		<null/>
+        </list>
+</beans>

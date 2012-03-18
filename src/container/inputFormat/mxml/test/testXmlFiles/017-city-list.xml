@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
+        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
+<beans>
+
+        <bean id="zcity01" class="City">
+                <property name="name" value="Tokio"/>
+        </bean>
+
+        <bean id="zcity02" class="City">
+                <property name="name" value="Kraków"/>
+        </bean>
+
+        <bean id="zcity03" class="City">
+                <property name="name" value="Warszawa"/>
+        </bean>
+
+        <bean id="zcity04" class="City">
+                <property name="name" value="Oszlo"/>
+        </bean>
+
+    	<list id="miasta" class="CityList">
+            <ref bean="zcity01" />
+            <ref bean="zcity02" />
+            <ref bean="zcity03" />
+            <ref bean="zcity04" />
+<!--            <ref bean="zcity04" />-->
+            <null/>
+    	</list>
+</beans>

@@ -26,8 +26,6 @@ public:
 
         virtual ~MappedMeta () {}
 
-        Type getType () const { return MAPPED; }
-
         MapElemList getFieldsAsList () const;
         void addField (Ptr <MapElem> field);
 

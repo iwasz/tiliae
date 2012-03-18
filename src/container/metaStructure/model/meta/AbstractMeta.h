@@ -39,6 +39,9 @@ public:
 
         virtual ~AbstractMeta () {}
 
+        enum Type { INDEXED, MAPPED };
+        virtual Type getType () const = 0;
+
         ListElemList getConstructorArgs () const;
         void setConstructorArgs (const ListElemList &constructorArgs) { this->constructorArgs = constructorArgs; }
         void addConstructorArgs (const ListElemList &constructorArgs);

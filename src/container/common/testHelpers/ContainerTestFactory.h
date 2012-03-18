@@ -53,7 +53,7 @@ struct ContainerTestFactory {
         static Ptr <Container::MetaContainer> createMetaStructure25 ();
         static Ptr <Container::MetaContainer> createMetaStructure26 ();
 
-        static Container::XmlContainerFactory cf;
+        static Container::ContainerFactory cf;
         static Ptr <Container::BeanFactoryContainer> container;
 
 };

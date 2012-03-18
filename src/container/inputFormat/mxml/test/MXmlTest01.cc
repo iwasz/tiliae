@@ -14,6 +14,9 @@
 #include <TestHelpers.h>
 #include "../MXmlMetaService.h"
 #include "Conf.h"
+#include "../../../ContainerFactory.h"
+#include "../../../metaStructure/model/MetaContainer.h"
+#include "../../../beanFactory/BeanFactory.h"
 
 /****************************************************************************/
 
@@ -31,8 +34,17 @@ BOOST_AUTO_TEST_SUITE (MXmlTest01);
 BOOST_AUTO_TEST_CASE (test001SimplestBean)
 {
         try {
+                Ptr <MetaContainer> metaContainer = boost::make_shared <MetaContainer> ();
                 MXmlMetaService mService;
-                mService.parse (PATH + "001-simplest-bean.xml", NULL);
+                mService.parse (PATH + "001-simplest-bean.xml", metaContainer.get ());
+
+//                std::cout << metaContainer->getMetaMap ().size () << std::endl;
+
+                Ptr <BeanFactoryContainer> beanContainer = ContainerFactory::createContainer (metaContainer);
+                Variant v = beanContainer->getBean ("city");
+
+                BOOST_REQUIRE (!v.isNone ());
+
         }
         catch (Core::Exception const &e) {
                 std::cerr << e.getMessage () << std::endl;

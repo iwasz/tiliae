@@ -10,6 +10,8 @@
 
 namespace Core {
 
+std::string Exception::whatCopy;
+
 Exception::Exception (std::string const &s)
 {
         ctx.addMessage (s);
@@ -40,5 +42,12 @@ void Exception::addContext (DebugContext const &dc)
         ctx.addContext (dc);
 }
 
+/****************************************************************************/
+
+const char* Exception::what() const throw ()
+{
+        whatCopy = getMessage ();
+        return whatCopy.c_str ();
+}
 
 }

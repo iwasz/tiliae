@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
+        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
+<beans>
+
+        <bean id="stringInBracket" class="DummyIEditor"/>
+
+        <!-- Różne sposoby dodawania kluczy do mapy. -->
+        <map id="mojaMapa" class="StringMap">
+                <entry key="k0">
+                        <value type="stringInBracket">value1</value>
+                </entry>
+
+                <entry key="k1">
+                        <value type="stringInBracket">value2</value>
+                </entry>
+
+                <entry key="k2">
+                        <value type="stringInBracket">value3</value>
+                </entry>
+        </map>
+</beans>

@@ -13,6 +13,9 @@
 #include "../../metaStructure/model/MetaContainer.h"
 #include "../../metaStructure/model/meta/MappedMeta.h"
 #include "../../metaStructure/model/meta/IndexedMeta.h"
+#include "../../metaStructure/model/data/RefData.h"
+#include "../../metaStructure/model/data/ValueData.h"
+#include "../../../core/Pointer.h"
 
 namespace Container {
 
@@ -22,20 +25,48 @@ namespace Container {
 class Impl {
 public:
 
+        Impl (MetaContainer *c) : metaContainer (c) {}
+
         void onOpenElement (mxml_node_t *node);
         void onCloseElement (mxml_node_t *node);
 
         void onOpenBean (mxml_node_t *node);
+        void onCloseBean (mxml_node_t *node);
+
+        void onOpenList (mxml_node_t *node);
+        void onCloseList (mxml_node_t *node);
+
+        void onOpenMap (mxml_node_t *node);
+        void onCloseMap (mxml_node_t *node);
+
         void onOpenProperty (mxml_node_t *node);
+        void onCloseProperty (mxml_node_t *node);
+
+        void onOpenCArg (mxml_node_t *node);
+        void onCloseCArg (mxml_node_t *node);
+
+        void onRefOpen (mxml_node_t *node);
+        void onValueOpen (mxml_node_t *node);
+
+        void onData (mxml_node_t *node);
 
 /****************************************************************************/
 
         MappedMeta *pushNewMappedMeta ();
         IndexedMeta *pushNewIndexedMeta ();
         void fillMetaArguments (mxml_node_t *node, IMeta *meta);
+        void popCurrentMeta ();
 
         MapElem *pushNewMapElem ();
         ListElem *pushNewListElem ();
+
+        Ptr <AbstractMeta> getCurrentMeta () const;
+        Ptr <MappedMeta> getCurrentMappedMeta () const;
+        Ptr <IndexedMeta> getCurrentIndexedMeta () const;
+
+        Ptr <AbstractElem> getCurrentElem () const;
+        Ptr <MapElem> getCurrentMapElem () const;
+        Ptr <ListElem> getCurrentListElem () const;
 
 private:
 
@@ -44,6 +75,9 @@ private:
 
         /// Pamięć podręczna obiektów MetaElem (odzwierciadlających property beanów, elementy list i map).
         MetaElemStack metaElemStack;
+
+        // Ten konteneru zuzupełniamy.
+        MetaContainer *metaContainer;
 };
 
 /****************************************************************************/
@@ -54,43 +88,35 @@ void saxHandler (mxml_node_t *node, mxml_sax_event_t event, void *data)
 
         mxml_type_t type = mxmlGetType (node);
 
-        switch (type) {
-        case MXML_ELEMENT:
-                std::cerr << "MXML_ELEMENT ";
-                break;
-
-        case MXML_INTEGER:
-                std::cerr << "MXML_INTEGER ";
-                break;
-
-        case MXML_OPAQUE:
-                std::cerr << "MXML_OPAQUE ";
-                break;
-
-        case MXML_REAL:
-                std::cerr << "MXML_REAL ";
-                break;
-
-        case MXML_TEXT:
-                std::cerr << "MXML_TEXT ";
-                break;
-
-        default:
-                break;
-        }
+//        switch (type) {
+//        case MXML_ELEMENT:
+//                std::cerr << "MXML_ELEMENT ";
+//                break;
+//
+//        case MXML_INTEGER:
+//                std::cerr << "MXML_INTEGER ";
+//                break;
+//
+//        case MXML_OPAQUE:
+//                std::cerr << "MXML_OPAQUE ";
+//                break;
+//
+//        case MXML_REAL:
+//                std::cerr << "MXML_REAL ";
+//                break;
+//
+//        case MXML_TEXT:
+//                std::cerr << "MXML_TEXT ";
+//                break;
+//
+//        default:
+//                break;
+//        }
 
         switch (event) {
         case MXML_SAX_CDATA:
-                {
-//                        char const *data = mxmlGetCDATA (node);
-                        std::cerr << "MXML_SAX_CDATA" << std::endl;
-                }
-                break;
-
         case MXML_SAX_DATA:
-                {
-                        std::cerr << "MXML_SAX_DATA" << std::endl;
-                }
+                impl->onData (node);
                 break;
 
         case MXML_SAX_ELEMENT_CLOSE:
@@ -101,22 +127,6 @@ void saxHandler (mxml_node_t *node, mxml_sax_event_t event, void *data)
                 break;
 
         case MXML_SAX_ELEMENT_OPEN:
-//                {
-//                        char const *name = mxmlGetElement (node);
-//                        std::cerr << "Elem open : " << name << std::endl;
-//
-//                        if (type == MXML_ELEMENT) {
-//
-//                                int numAttrs = node->value.element.num_attrs;
-//                                std::cerr << " Name : " << node->value.element.name << ", numAtrs = " << numAttrs << std::endl;
-//
-//                                for (int i = 0; i < numAttrs; ++i) {
-//                                        mxml_attr_t attr = node->value.element.attrs[i];
-//
-//                                        std::cerr << " Attr name=" << attr.name << ", value=" << attr.value << std::endl;
-//                                }
-//                        }
-//                }
 
                 if (type == MXML_ELEMENT) {
                         impl->onOpenElement (node);
@@ -133,7 +143,7 @@ void saxHandler (mxml_node_t *node, mxml_sax_event_t event, void *data)
 
 MetaContainer *MXmlMetaService::parse (std::string const &path, MetaContainer *container) const
 {
-        Impl impl;
+        Impl impl (container);
         FILE *fp;
 
         fp = fopen (path.c_str (), "r");
@@ -162,10 +172,10 @@ void Impl::onOpenElement (mxml_node_t *node)
                 onOpenBean (node);
         }
         else if (!strcmp (name, "list")) {
-//                onOpenList (node);
+                onOpenList (node);
         }
         else if (!strcmp (name, "map")) {
-
+                onOpenMap (node);
         }
         else if (!strcmp (name, "import")) {
 
@@ -177,22 +187,57 @@ void Impl::onOpenElement (mxml_node_t *node)
                 onOpenProperty (node);
         }
         else if (!strcmp (name, "constructor-arg") || !strcmp (name, "carg")) {
+                onOpenCArg (node);
+        }
+        else if (!strcmp (name, "ref")) {
+                onRefOpen (node);
+        }
+        else if (!strcmp (name, "value")) {
+                onValueOpen (node);
+        }
+        else if (!strcmp (name, "null")) {
 
         }
-//        else if (!strcmp (name, "")) {
-//
-//        }
+        else if (!strcmp (name, "entry")) {
+
+        }
+        else if (!strcmp (name, "key")) {
+
+        }
         else {
                 throw XmlMetaServiceException ("Impl::onOpenElement : unknow tag name : " + std::string (name));
         }
-
 }
 
 /****************************************************************************/
 
 void Impl::onCloseElement (mxml_node_t *node)
 {
+        char const *name = mxmlGetElement (node);
 
+        if (!strcmp (name, "beans")) {
+        }
+        else if (!strcmp (name, "bean")) {
+                onCloseBean (node);
+        }
+//        else if (!strcmp (name, "list")) {
+////                onOpenList (node);
+//        }
+//        else if (!strcmp (name, "map")) {
+//
+//        }
+//        else if (!strcmp (name, "import")) {
+//
+//        }
+//        else if (!strcmp (name, "alias")) {
+//
+//        }
+        else if (!strcmp (name, "property")) {
+                onCloseProperty (node);
+        }
+//        else if (!strcmp (name, "constructor-arg") || !strcmp (name, "carg")) {
+//
+//        }
 }
 
 /****************************************************************************/
@@ -259,6 +304,13 @@ void Impl::onOpenBean (mxml_node_t *node)
 
 /****************************************************************************/
 
+void Impl::onCloseBean (mxml_node_t *node)
+{
+        popCurrentMeta ();
+}
+
+/****************************************************************************/
+
 void Impl::onOpenProperty (mxml_node_t *node)
 {
         MapElem *elem = pushNewMapElem ();
@@ -266,9 +318,143 @@ void Impl::onOpenProperty (mxml_node_t *node)
         char const *argVal = NULL;
 
         if ((argVal = mxmlElementGetAttr (node, "value"))) {
-                meta->setId (argVal);
+                elem->setData (ValueData::create (argVal));
         }
 
+        if ((argVal = mxmlElementGetAttr (node, "ref"))) {
+                elem->setData (RefData::create (argVal));
+        }
+
+        if ((argVal = mxmlElementGetAttr (node, "name"))) {
+                elem->setKey (argVal);
+        }
+}
+
+/****************************************************************************/
+
+void Impl::onCloseProperty (mxml_node_t *node)
+{
+        // 1. Pobierz aktualny Meta
+        Ptr <MappedMeta> meta = getCurrentMappedMeta ();
+
+        // 2. Pobierz aktualny (juz gotowy) metaElem
+        Ptr <MapElem> elem = getCurrentMapElem ();
+
+        // 3. Zdejmij go.
+        metaElemStack.pop ();
+
+        // 4. Dodaj go.
+        meta->addField (elem);
+}
+
+/****************************************************************************/
+
+void Impl::onOpenList (mxml_node_t *node)
+{
+        IndexedMeta *meta = pushNewIndexedMeta ();
+        fillMetaArguments (node, meta);
+}
+
+/****************************************************************************/
+
+void Impl::onCloseList (mxml_node_t *node)
+{
+        popCurrentMeta ();
+}
+
+/****************************************************************************/
+
+void Impl::onOpenMap (mxml_node_t *node)
+{
+        MappedMeta *meta = pushNewMappedMeta ();
+        fillMetaArguments (node, meta);
+}
+
+/****************************************************************************/
+
+void Impl::onCloseMap (mxml_node_t *node)
+{
+        popCurrentMeta ();
+}
+
+/****************************************************************************/
+
+void Impl::onOpenCArg (mxml_node_t *node)
+{
+
+}
+
+/****************************************************************************/
+
+void Impl::onCloseCArg (mxml_node_t *node)
+{
+
+}
+
+/****************************************************************************/
+
+void Impl::onRefOpen (mxml_node_t *node)
+{
+
+}
+
+/****************************************************************************/
+
+void Impl::onValueOpen (mxml_node_t *node)
+{
+        Ptr <AbstractElem> elem = getCurrentElem ();
+        Ptr <ValueData> valueData = ValueData::create ();
+        elem->setData (valueData);
+
+        char const *argVal = NULL;
+
+        if ((argVal = mxmlElementGetAttr (node, "type"))) {
+                valueData->setType (argVal);
+        }
+}
+
+/****************************************************************************/
+
+void Impl::onData (mxml_node_t *node)
+{
+        Ptr <AbstractElem> elem = getCurrentElem ();
+
+        Ptr<IData> data = elem->getData ();
+        Ptr<ValueData> valueData;
+
+        if (!(valueData = boost::dynamic_pointer_cast <ValueData> (data))) {
+             return;
+        }
+
+        mxml_type_t type = mxmlGetType (node);
+
+        switch (type) {
+        case MXML_TEXT:
+                {
+                        int whitespace;
+                        char const *text = mxmlGetText (node, &whitespace);
+                        valueData->setData (text);
+                }
+                break;
+
+        case MXML_OPAQUE:
+                {
+                        char const *opaque = mxmlGetOpaque (node);
+                        valueData->setData (opaque);
+                }
+                break;
+
+//        case MXML_INTEGER:
+//                std::cerr << mxmlGetInteger (node);
+//                break;
+//
+//        case MXML_REAL:
+//                double d = mxmlGetReal (node);
+//                break;
+
+        default:
+                break;
+        }
 }
 
 /****************************************************************************/
@@ -305,6 +491,130 @@ ListElem *Impl::pushNewListElem ()
         Ptr <ListElem> e = ListElem::create ();
         metaElemStack.push (e);
         return e.get ();
+}
+
+/****************************************************************************/
+
+Ptr <AbstractMeta> Impl::getCurrentMeta () const
+{
+        if (!metaStack.size ()) {
+                throw XmlMetaServiceException ("Impl::getCurrentMeta : metaStack is empty.");
+        }
+
+        Ptr <IMeta> meta = metaStack.top ();
+
+        if (!meta) {
+                throw XmlMetaServiceException ("Impl::getCurrentMeta : current meta is null.");
+        }
+
+        return boost::static_pointer_cast <AbstractMeta> (meta);
+}
+
+/****************************************************************************/
+
+Ptr <MappedMeta> Impl::getCurrentMappedMeta () const
+{
+        Ptr <MappedMeta> meta = boost::dynamic_pointer_cast <MappedMeta> (getCurrentMeta ());
+
+        if (!meta) {
+                throw XmlMetaServiceException ("Impl::getCurrentMappedMeta : Can't cast to MappedMeta.");
+        }
+
+        return meta;
+}
+
+/****************************************************************************/
+
+Ptr <IndexedMeta> Impl::getCurrentIndexedMeta () const
+{
+        Ptr <IndexedMeta> meta = boost::dynamic_pointer_cast <IndexedMeta> (getCurrentMeta ());
+
+        if (!meta) {
+                throw XmlMetaServiceException ("Impl::getCurrentIndexedMeta : Can't cast to IndexedMeta.");
+        }
+
+        return meta;
+}
+
+/****************************************************************************/
+
+Ptr <AbstractElem> Impl::getCurrentElem () const
+{
+        if (!metaElemStack.size ()) {
+                throw XmlMetaServiceException ("Impl::getCurrentElem : metaElemStack is empty.");
+        }
+
+        Ptr <IElem> elem = metaElemStack.top ();
+
+        if (!elem) {
+                throw XmlMetaServiceException ("Impl::getCurrentElem : Current metaElem is null.");
+        }
+
+        return boost::static_pointer_cast <AbstractElem> (elem);
+}
+
+///****************************************************************************/
+//
+//Ptr <AbstractElem> XmlMetaService::getCurrentAbstractElem () const
+//{
+//        // TODO możnaby się pozbyć tego kastowania jakoś.
+//        Ptr <AbstractElem> m = dynamic_pointer_cast <AbstractElem> (getCurrentElem ());
+//
+//        if (!m) {
+//                throw XmlMetaServiceException ("Can't cast to AbstractElem.");
+//        }
+//
+//        return m;
+//}
+
+/****************************************************************************/
+
+Ptr <MapElem> Impl::getCurrentMapElem () const
+{
+        Ptr <MapElem> m = boost::dynamic_pointer_cast <MapElem> (getCurrentElem ());
+
+        if (!m) {
+                throw XmlMetaServiceException ("Impl::getCurrentMapElem : Can't cast to MapElem.");
+        }
+
+        return m;
+}
+
+/****************************************************************************/
+
+Ptr <ListElem> Impl::getCurrentListElem () const
+{
+        Ptr <ListElem> m = boost::dynamic_pointer_cast <ListElem> (getCurrentElem ());
+
+        if (!m) {
+                throw XmlMetaServiceException ("Impl::getCurrentListElem : Can't cast to ListElem.");
+        }
+
+        return m;
+}
+
+/****************************************************************************/
+
+void Impl::popCurrentMeta ()
+{
+        // 1. Pobierz
+        Ptr <IMeta> meta = getCurrentMeta ();
+
+        // 2. Zdejmij.
+        metaStack.pop ();
+
+#if 0
+        std::cerr << "[" << meta->getId () << "], " << meta->getScope () << std::endl;
+#endif
+
+        // 3. Umiesc ten gotowy meta w kontenerze lub w outermeta (jeśli zagnieżdżenie).
+        if (!metaStack.empty ()) {
+                Ptr <IMeta> outer = getCurrentMeta ();
+                outer->addInnerMeta (meta);
+        }
+        else {
+                metaContainer->add (meta);
+        }
 }
 
 } /* namespace Container */

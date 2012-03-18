@@ -11,13 +11,14 @@
 #include "ContainerFactory.h"
 #include "beanFactory/BeanFactory.h"
 #include <boost/make_shared.hpp>
+#include "../../inputFormat/mxml/MXmlMetaService.h"
 
 using namespace Container;
 using namespace Core;
 
 /****************************************************************************/
 
-Container::XmlContainerFactory ContainerTestFactory::cf;
+Container::ContainerFactory ContainerTestFactory::cf;
 Ptr <Container::BeanFactoryContainer> ContainerTestFactory::container;
 
 /****************************************************************************/
@@ -29,7 +30,11 @@ Ptr <BeanFactoryContainer> ContainerTestFactory::getContainer (const std::string
         }
 
         container->reset ();
-        cf.fill (container, xmlFilePath);
+
+        Ptr <MetaContainer> metaContainer = boost::make_shared <MetaContainer> ();
+        MXmlMetaService mService;
+        mService.parse (xmlFilePath, metaContainer.get ());
+        cf.fill (container, metaContainer);
         return container;
 
 }

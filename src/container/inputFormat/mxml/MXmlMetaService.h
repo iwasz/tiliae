@@ -11,14 +11,21 @@
 
 #include <string>
 #include "ApiMacro.h"
+#include "Pointer.h"
 
 namespace Container {
 class MetaContainer;
 
+/**
+ * Składnia springo-podobna.
+ */
 class TILIAE_API MXmlMetaService {
 public:
 
-        MetaContainer *parse (std::string const &path, MetaContainer *container) const;
+        /**
+         * Tworzy strukture meta-obiektów na podstawie definicji w pliku XML.
+         */
+        static Ptr <MetaContainer> parseFile (std::string const &path, Ptr <MetaContainer> container = Ptr <MetaContainer> ());
 
 };
 

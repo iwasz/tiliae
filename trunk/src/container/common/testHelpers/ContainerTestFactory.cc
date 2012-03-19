@@ -25,18 +25,7 @@ Ptr <Container::BeanFactoryContainer> ContainerTestFactory::container;
 
 Ptr <BeanFactoryContainer> ContainerTestFactory::getContainer (const std::string &xmlFilePath)
 {
-        if (!container) {
-                container = cf.create ();
-        }
-
-        container->reset ();
-
-        Ptr <MetaContainer> metaContainer = boost::make_shared <MetaContainer> ();
-        MXmlMetaService mService;
-        mService.parse (xmlFilePath, metaContainer.get ());
-        cf.fill (container, metaContainer);
-        return container;
-
+        return ContainerFactory::createContainer (MXmlMetaService::parseFile (xmlFilePath));
 }
 
 /*

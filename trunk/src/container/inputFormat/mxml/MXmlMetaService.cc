@@ -150,9 +150,13 @@ void saxHandler (mxml_node_t *node, mxml_sax_event_t event, void *data)
 
 /****************************************************************************/
 
-MetaContainer *MXmlMetaService::parse (std::string const &path, MetaContainer *container) const
+Ptr <MetaContainer> MXmlMetaService::parseFile (std::string const &path, Ptr <MetaContainer> container)
 {
-        Impl impl (container);
+        if (!container) {
+                container = boost::make_shared <MetaContainer> ();
+        }
+
+        Impl impl (container.get ());
         FILE *fp;
 
         fp = fopen (path.c_str (), "r");
@@ -169,7 +173,7 @@ MetaContainer *MXmlMetaService::parse (std::string const &path, MetaContainer *c
         while (!impl.imports.empty ()) {
                 std::string path = impl.imports.front ();
                 impl.imports.pop ();
-                parse (path, container);
+                parseFile (path, container);
         }
 
         return container;

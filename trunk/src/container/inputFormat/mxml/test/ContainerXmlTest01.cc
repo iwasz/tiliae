@@ -33,8 +33,7 @@ BOOST_AUTO_TEST_CASE (test001SimplestBeanFirst)
 {
         try {
                 Ptr <MetaContainer> metaContainer = boost::make_shared <MetaContainer> ();
-                MXmlMetaService mService;
-                mService.parse (PATH + "001-simplest-bean.xml", metaContainer.get ());
+                MXmlMetaService::parseFile (PATH + "001-simplest-bean.xml", metaContainer);
 
                 Ptr <BeanFactoryContainer> beanContainer = ContainerFactory::createContainer (metaContainer);
                 Variant v = beanContainer->getBean ("city");

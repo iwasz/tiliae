@@ -32,15 +32,17 @@ class TILIAE_API ContainerFactory {
 public:
 
         ContainerFactory ();
-        virtual ~ContainerFactory () {}
-
-        Ptr <BeanFactoryContainer> create ();
-        void fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContainer> metaCont);
 
         /**
          * Tworzy kontener, czyli główny obiekt kontenera (klasy Container).
          */
         static Ptr <BeanFactoryContainer> createContainer (Ptr <MetaContainer> metaCont);
+
+protected:
+
+        Ptr <BeanFactoryContainer> create ();
+        void fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContainer> metaCont);
+
         static Ptr <Wrapper::BeanWrapper> createBeanWrapper ();
         static Ptr <Core::VariantMap> createSingletons ();
 

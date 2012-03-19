@@ -28,7 +28,7 @@
         </property>
 
         <property name="sourceCode">
-            <value>$a == 'Test2'</value>
+            <value><![CDATA[$a == 'Test2']]></value>
         </property>
     </bean>
 
@@ -48,7 +48,7 @@
         </property>
 
         <property name="sourceCode">
-            <value>$a == 'Test34'</value>
+            <value><![CDATA[$a == 'Test34']]></value>
         </property>
     </bean>
 

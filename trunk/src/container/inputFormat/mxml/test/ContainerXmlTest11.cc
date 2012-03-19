@@ -17,6 +17,7 @@
 #include "metaStructure/model/MetaStructure.h"
 #include "common/testHelpers/ContainerTestFactory.h"
 #include "Conf.h"
+#include "../MXmlMetaService.h"
 
 /****************************************************************************/
 
@@ -116,79 +117,79 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
 /****************************************************************************/
 
-//        TODO odkomentować
+        Ptr <MetaContainer> mc = boost::make_shared <MetaContainer> ();
+        MXmlMetaService mService;
+        mService.parse (PATH + "053-bean-scope-first-tests.xml", mc.get ());
 
-//        Ptr <MetaContainer> mc = ContainerTestFactory::cf.parseXml (PATH + "053-bean-scope-first-tests.xml");
-//
-//        BOOST_CHECK (mc->getMetaMap ().size () == 8);
-//        Ptr <IMeta> meta = mc->get ("bean2");
-//
-//        MetaMap innerM = meta->getInnerMetas ();
-//        BOOST_CHECK (innerM.size () == 1);
-//
-//        BOOST_CHECK (innerM.find ("innerCity2") != innerM.end ());
-//
-//        Ptr <IMeta>in = innerM["innerCity2"];
-//        BOOST_CHECK (in);
-//
-///****************************************************************************/
-//
-//        v = cont->getBean ("listaBean1");
-//        BOOST_CHECK (!v.isNone ());
-//        BOOST_CHECK (ccast <Ptr <BarList> > (v));
-//
-//        Ptr <BeanFactory> bf = cont->getBeanFactory ("bean2");
-//        BOOST_CHECK (bf);
-//        bf = bf->getInnerBeanFactory("innerCity2");
-//        BOOST_CHECK (bf);
-//
-//        barList = vcast <Ptr <BarList> > (v);
-//
-//        BOOST_CHECK (barList->size () == 2);
-//
-//        i = barList->begin ();
-//        bar1 = *i++;
-//        bar2 = *i;
-//
-//        BOOST_CHECK (bar1 != bar2);
-//
-//        BOOST_CHECK (bar1->getCity());
-//        BOOST_CHECK (bar1->getCity3());
-//
-//        BOOST_CHECK (bar2->getCity());
-//        BOOST_CHECK (bar2->getCity3());
-//
-//        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-//        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
-//
-//        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
-//
-///****************************************************************************/
-//
-//        v = cont->getBean ("listaBean2");
-//        BOOST_CHECK (!v.isNone ());
-//        BOOST_CHECK (ccast <Ptr <BarList > > (v));
-//
-//        barList = vcast <Ptr <BarList> > (v);
-//
-//        BOOST_CHECK (barList->size () == 2);
-//
-//        i = barList->begin ();
-//        bar1 = *i++;
-//        bar2 = *i;
-//
-//        BOOST_CHECK (bar1 != bar2);
-//
-//        BOOST_CHECK (bar1->getCity());
-//        BOOST_CHECK (bar1->getCity3());
-//
-//        BOOST_CHECK (bar2->getCity());
-//        BOOST_CHECK (bar2->getCity3());
-//
-//        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-//        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
-//
-//        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
+        BOOST_CHECK (mc->getMetaMap ().size () == 8);
+        Ptr <IMeta> meta = mc->get ("bean2");
+
+        MetaMap innerM = meta->getInnerMetas ();
+        BOOST_CHECK (innerM.size () == 1);
+
+        BOOST_CHECK (innerM.find ("innerCity2") != innerM.end ());
+
+        Ptr <IMeta>in = innerM["innerCity2"];
+        BOOST_CHECK (in);
+
+/****************************************************************************/
+
+        v = cont->getBean ("listaBean1");
+        BOOST_CHECK (!v.isNone ());
+        BOOST_CHECK (ccast <Ptr <BarList> > (v));
+
+        Ptr <BeanFactory> bf = cont->getBeanFactory ("bean2");
+        BOOST_CHECK (bf);
+        bf = bf->getInnerBeanFactory("innerCity2");
+        BOOST_CHECK (bf);
+
+        barList = vcast <Ptr <BarList> > (v);
+
+        BOOST_CHECK (barList->size () == 2);
+
+        i = barList->begin ();
+        bar1 = *i++;
+        bar2 = *i;
+
+        BOOST_CHECK (bar1 != bar2);
+
+        BOOST_CHECK (bar1->getCity());
+        BOOST_CHECK (bar1->getCity3());
+
+        BOOST_CHECK (bar2->getCity());
+        BOOST_CHECK (bar2->getCity3());
+
+        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
+        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+
+        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
+
+/****************************************************************************/
+
+        v = cont->getBean ("listaBean2");
+        BOOST_CHECK (!v.isNone ());
+        BOOST_CHECK (ccast <Ptr <BarList > > (v));
+
+        barList = vcast <Ptr <BarList> > (v);
+
+        BOOST_CHECK (barList->size () == 2);
+
+        i = barList->begin ();
+        bar1 = *i++;
+        bar2 = *i;
+
+        BOOST_CHECK (bar1 != bar2);
+
+        BOOST_CHECK (bar1->getCity());
+        BOOST_CHECK (bar1->getCity3());
+
+        BOOST_CHECK (bar2->getCity());
+        BOOST_CHECK (bar2->getCity3());
+
+        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
+        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+
+        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
 }
 
 /**

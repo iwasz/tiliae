@@ -21,6 +21,7 @@ extern const char *SIMPLE_ID_GENERATOR_PREFIX;
  * Generuje ID o postaci <PREFIX><NUM>, gdzie <PREFIX> to jakis
  * ustalony napis, a <NUM>, to kolejna liczba naturalna od 0.
  * \ingroup Container
+ * TODO To będzie do usunięcia, kiedy MXML będzie działać. Tam używamy zwykłej metody.
  */
 struct SimpleIdGenerator : public IIdGenerator {
 

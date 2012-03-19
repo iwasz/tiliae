@@ -83,18 +83,20 @@ BOOST_AUTO_TEST_CASE (test044PropertyInMap)
         BOOST_CHECK (map);
 
         BOOST_CHECK (map->find ("klucz0") != map->end ());
-        BOOST_CHECK (map->find ("klucz1") == map->end ());
-        BOOST_CHECK (map->size () == 1);
+        BOOST_CHECK (map->find ("klucz1") != map->end ());
+        BOOST_CHECK_EQUAL (map->size (), 2);
 
 /*--------------------------------------------------------------------------*/
 
-        vB = cont->getBean ("mojaMapa2");
-        BOOST_CHECK (ccast <StringMap *> (vB));
+//        W MXML to już zrzuca wyjątek
 
-        map = vcast <StringMap *> (vB);
-        BOOST_CHECK (map);
-
-        BOOST_CHECK (map->size () == 0);
+//        vB = cont->getBean ("mojaMapa2");
+//        BOOST_CHECK (ccast <StringMap *> (vB));
+//
+//        map = vcast <StringMap *> (vB);
+//        BOOST_CHECK (map);
+//
+//        BOOST_CHECK (map->size () == 0);
 }
 
 /**

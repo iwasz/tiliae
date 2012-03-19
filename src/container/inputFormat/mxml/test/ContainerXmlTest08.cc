@@ -116,10 +116,10 @@ BOOST_AUTO_TEST_CASE (test039ComplicatedBeans)
         BOOST_CHECK (map->size () == 3);
 
         v = cont->getBean ("myList");
-        BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <VariantList *> (v));
+        BOOST_REQUIRE (!v.isNone ());
+        BOOST_REQUIRE (ccast <VariantList *> (v));
         VariantList *list = vcast <VariantList *> (v);
-        BOOST_CHECK (list->size () == 3);
+        BOOST_REQUIRE_EQUAL (list->size (), 3);
 
         v = cont->getBean ("myBean");
         BOOST_CHECK (!v.isNone ());

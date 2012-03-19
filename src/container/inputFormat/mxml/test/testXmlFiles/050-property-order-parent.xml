@@ -35,8 +35,7 @@
         </property>
 
         <property name="sourceCode">
-<!--            <value>${b.c.d} == 'Test34'</value>-->
-            <value>${b.d} == 'Test34'</value>
+            <value><![CDATA[${b.d} == 'Test34']]></value>
         </property>
     </bean>
 </beans>

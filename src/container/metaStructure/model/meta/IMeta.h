@@ -41,6 +41,9 @@ struct TILIAE_API IMeta {
          * Scopes.
          */
         enum Scope { PROTOTYPE, BEAN, SINGLETON };
+        enum Type { MAPPED, INDEXED };
+
+        virtual Type getType () const = 0;
 
         /**
          * Ozwierciedla relacje rodzic-potomek. W XML zaimplementowane

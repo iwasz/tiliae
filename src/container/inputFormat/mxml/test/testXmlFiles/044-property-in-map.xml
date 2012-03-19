@@ -13,8 +13,10 @@
         </map>
 
         <!-- Wadliwa mapa bez entry. -->
-        <map id="mojaMapa2" class="StringMap">
-                <key><value>klucz0</value></key>
-                <ref bean="mojaMapa" />
-        </map>
+        <!-- W MXML to już zrzuca wyjątek -->
+        
+<!--         <map id="mojaMapa2" class="StringMap"> -->
+<!--                 <key><value>klucz0</value></key> -->
+<!--                 <ref bean="mojaMapa" /> -->
+<!--         </map> -->
 </beans>

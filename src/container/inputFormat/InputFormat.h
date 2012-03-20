@@ -9,6 +9,7 @@
 #ifndef INPUTFORMAT_H_
 #define INPUTFORMAT_H_
 
-#include "xml/Xml.h"
+//#include "xml/Xml.h"
+#include "mxml/MXmlMetaService.h"
 
 #	endif /* INPUTFORMAT_H_ */

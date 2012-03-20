@@ -12,7 +12,7 @@
 #include <Pointer.h>
 #include "ContainerFactory.h"
 
-using Container::XmlContainerFactory;
+//using Container::XmlContainerFactory;
 
 namespace Container {
 class MetaContainer;

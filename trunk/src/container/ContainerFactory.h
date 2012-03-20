@@ -57,46 +57,6 @@ private:
         BeanFactoryVisitorContext context;
 };
 
-///*##########################################################################*/
-//
-///**
-// * Fabryka tworząca kontener. Tworzy kontener, który z kolei tworzy
-// * obiekty na podstawie meta-informacji. Potradi przetworzyć opis XML
-// * na meta-strukturę, tak więc w jednym kroku potrafi stworzyć kontener
-// * z XML.
-// * \ingroup Container
-// */
-//class TILIAE_API XmlContainerFactory : public ContainerFactory {
-//public:
-//
-//        XmlContainerFactory ();
-//        virtual ~XmlContainerFactory () {}
-//
-//        /**
-//         * Tworzy kontener z pliku XML. Beany pobieramy z kontenera, który jest
-//         * zwracany przez tą statyczną metodę. Jako drugi argumen podajemy już wcześniej
-//         * utworzony kontener, który pełnić będzie rolę rodzica dla tego nowego. Dzięki
-//         * temu można w tym nowym korzystać z beanów zawartych w tym starym (ale nie na
-//         * odwrót). Działa to trochę jak <import>.
-//         *
-//         * \param storeMetaContainer Oznacza czy utworzony BeanFactoryContainer ma pamiętać
-//         * wskaźnik do swojego MetaContainer. Jeśli pamięta, to umożliwia to linkowanie innych
-//         * kontenerów.
-//         */
-//        static Ptr <BeanFactoryContainer> createContainer (const std::string &xmlFilePath,
-//                        bool storeMetaContainer = false,
-//                        Ptr <BeanFactoryContainer> linkedParent = Ptr <BeanFactoryContainer> ());
-//
-///*--------------------------------------------------------------------------*/
-//
-//        Ptr <MetaContainer> parseXml (const std::string &xmlFilePath);
-//        void fill (Ptr <BeanFactoryContainer> bfCont, const std::string &xmlFilePath);
-//
-//private:
-//
-//        Ptr <XmlMetaService> metaService;
-//};
-
 } // ContainerFactory
 
 #endif /* CONTAINERFACTORY_H_ */

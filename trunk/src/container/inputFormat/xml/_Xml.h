@@ -50,7 +50,7 @@ Tag property równa się wywołaniu settera danego obiektu. Oczywiście setter m
 - ref : wartością tego tagu musi być ID istniejącego beana (w tym lub zlinkowanym kontenerze).
 */
 
-#include "XmlMetaService.h"
-#include "XmlMetaServiceFactory.h"
+//#include "XmlMetaService.h"
+//#include "XmlMetaServiceFactory.h"
 
 #	endif /* XML_H_ */

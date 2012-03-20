@@ -20,8 +20,6 @@
 #include "beanFactory/service/EditorService.h"
 #include "Defs.h"
 #include "ContainerFactory.h"
-#include "inputFormat/xml/XmlMetaService.h"
-#include "inputFormat/xml/XmlMetaServiceFactory.h"
 #include "beanFactory/service/BeanFactoryService.h"
 #include "beanFactory/service/BeanFactoryInitService.h"
 #include "beanFactory/service/MappedValueService.h"
@@ -274,57 +272,15 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
 
 /****************************************************************************/
 
-Ptr <BeanFactoryContainer> ContainerFactory::createContainer (Ptr <MetaContainer> metaCont)
+Ptr <BeanFactoryContainer> ContainerFactory::createContainer (Ptr <MetaContainer> metaCont,
+                bool storeMetaContainer,
+                Ptr <BeanFactoryContainer> linkedParent)
 {
         ContainerFactory cf;
-        Ptr <BeanFactoryContainer> container = cf.create ();
-        cf.fill (container, metaCont);
-        return container;
-}
-
-/*##########################################################################*/
-
-XmlContainerFactory::XmlContainerFactory () : ContainerFactory ()
-{
-        metaService = XmlMetaServiceFactory::createXmlMetaServiceFactory ();
-}
-
-/****************************************************************************/
-
-Ptr <MetaContainer> XmlContainerFactory::parseXml (const std::string &xmlFilePath)
-{
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
-        assert (metaService);
-        metaService->reset ();
-        metaService->setMetaContainer (metaCont);
-        metaService->populate (xmlFilePath);
-        return metaCont;
-}
-
-/****************************************************************************/
-
-void XmlContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, const std::string &xmlFilePath)
-{
-        Ptr <MetaContainer> metaCont = parseXml (xmlFilePath);
-        ContainerFactory::fill (bfCont, metaCont);
-}
-
-/****************************************************************************/
-
-Ptr <BeanFactoryContainer> XmlContainerFactory::createContainer (const std::string &xmlFilePath,
-                                                                 bool storeMetaContainer,
-                                                                 Ptr <BeanFactoryContainer> linkedParent)
-{
-        XmlContainerFactory cf;
         Ptr <BeanFactoryContainer> container = cf.create ();
 
         if (linkedParent) {
                 container->setLinked (linkedParent);
-        }
-
-        Ptr <MetaContainer> metaCont = cf.parseXml (xmlFilePath);
-
-        if (linkedParent) {
                 metaCont->setLinked (linkedParent->getMetaContainer ());
         }
 
@@ -332,8 +288,62 @@ Ptr <BeanFactoryContainer> XmlContainerFactory::createContainer (const std::stri
                 container->setMetaContainer (metaCont);
         }
 
-        cf.ContainerFactory::fill (container, metaCont);
+        cf.fill (container, metaCont);
         return container;
 }
+
+///*##########################################################################*/
+//
+//XmlContainerFactory::XmlContainerFactory () : ContainerFactory ()
+//{
+//        metaService = XmlMetaServiceFactory::createXmlMetaServiceFactory ();
+//}
+//
+///****************************************************************************/
+//
+//Ptr <MetaContainer> XmlContainerFactory::parseXml (const std::string &xmlFilePath)
+//{
+//        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+//        assert (metaService);
+//        metaService->reset ();
+//        metaService->setMetaContainer (metaCont);
+//        metaService->populate (xmlFilePath);
+//        return metaCont;
+//}
+//
+///****************************************************************************/
+//
+//void XmlContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, const std::string &xmlFilePath)
+//{
+//        Ptr <MetaContainer> metaCont = parseXml (xmlFilePath);
+//        ContainerFactory::fill (bfCont, metaCont);
+//}
+//
+///****************************************************************************/
+//
+//Ptr <BeanFactoryContainer> XmlContainerFactory::createContainer (const std::string &xmlFilePath,
+//                                                                 bool storeMetaContainer,
+//                                                                 Ptr <BeanFactoryContainer> linkedParent)
+//{
+//        XmlContainerFactory cf;
+//        Ptr <BeanFactoryContainer> container = cf.create ();
+//
+//        if (linkedParent) {
+//                container->setLinked (linkedParent);
+//        }
+//
+//        Ptr <MetaContainer> metaCont = cf.parseXml (xmlFilePath);
+//
+//        if (linkedParent) {
+//                metaCont->setLinked (linkedParent->getMetaContainer ());
+//        }
+//
+//        if (storeMetaContainer) {
+//                container->setMetaContainer (metaCont);
+//        }
+//
+//        cf.ContainerFactory::fill (container, metaCont);
+//        return container;
+//}
 
 }

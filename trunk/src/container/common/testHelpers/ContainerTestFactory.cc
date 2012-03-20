@@ -30,10 +30,6 @@ Ptr <BeanFactoryContainer> ContainerTestFactory::getContainer (const std::string
 
 /*
  * TODO Zrobić test kiedy parent jest Mapped, a child Indexed etc.
- * TODO Mergowanie jest b. ograniczone. W Springu jest tak, ze kolekcje
- * merguja sie nawet jesli nie maja ustawionego przodka. Wystarczy, ze
- * sa propertisami jakiegos beana, ktory ma.
- * TODO Wiecej testów. Jak na razie jest tylko 1.
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure01 ()
 {

@@ -23,9 +23,9 @@ namespace Container {
 class TILIAE_API MetaContainer {
 public:
 
-        static Ptr <MetaContainer> create () { return Ptr <MetaContainer> (new MetaContainer ()); }
+        ~MetaContainer ();
 
-        Ptr <IMeta> get (const std::string &key) const;
+        IMeta *get (const std::string &key) const;
 
         /**
          * Zdecydowałem sie na taki interfejs poniewaz kazdy
@@ -36,7 +36,7 @@ public:
          * TODO Wyjątek, jesli Meta o danym ID juz istnieje -
          * w tym miejscu, czyli najwczesniej!
          */
-        void add (Ptr <IMeta> val);
+        void add (IMeta *val);
 
         void accept (IContainerVisitor *visitor) { visitor->visit (this); }
 
@@ -44,7 +44,7 @@ public:
          * Pobiera wskaźnik do mapy obiektów Meta. Uwaga, ta mapa
          * nie jest alokowana dynamicznie.
          */
-        const MetaMap &getMetaMap () const { return metaMap; }
+        MetaMap const &getMetaMap () const { return metaMap; }
 
         Ptr <MetaContainer const> getLinked () const { return linked; }
         void setLinked (Ptr <MetaContainer const> l) { linked = l; }

@@ -78,8 +78,8 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
          * pola swojego rodzica.
          */
 
-        Ptr <IMeta> syn = metaCont->get ("aska0");
-        MappedMeta *mSyn = dynamic_cast <MappedMeta *> (syn.get ());
+        IMeta *syn = metaCont->get ("aska0");
+        MappedMeta *mSyn = dynamic_cast <MappedMeta *> (syn);
         BOOST_CHECK (mSyn);
 
         BOOST_CHECK (mSyn->getField ("field0"));

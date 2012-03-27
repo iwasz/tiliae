@@ -26,7 +26,7 @@ void MetaVisitor::visit (MetaContainer *container)
         }
 
         foreach (MetaMap::value_type p, container->getMetaMap ()) {
-                Ptr <IMeta> meta = p.second;
+                IMeta *meta = p.second;
                 meta->accept (this);
         }
 }
@@ -100,7 +100,7 @@ void MetaVisitor::visitInnerMeta (AbstractMeta *data)
         ctx->incDepth ();
 
         foreach (MetaMap::value_type p, data->getInnerMetas ()) {
-                Ptr <IMeta> meta = p.second;
+                IMeta *meta = p.second;
                 meta->accept (this);
         }
 
@@ -150,12 +150,12 @@ void MetaVisitor::visit (RefData *data)
         }
 }
 
-void MetaVisitor::visit (IdRefData *data)
-{
-        foreach (Ptr <IMetaService> service, services) {
-                service->onIdRefData (data);
-        }
-}
+//void MetaVisitor::visit (IdRefData *data)
+//{
+//        foreach (Ptr <IMetaService> service, services) {
+//                service->onIdRefData (data);
+//        }
+//}
 
 /****************************************************************************/
 

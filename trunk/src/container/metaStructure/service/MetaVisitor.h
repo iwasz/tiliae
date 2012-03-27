@@ -50,7 +50,7 @@ public:
         void visit (ValueData *data);
         void visit (NullData *data);
         void visit (RefData *data);
-        void visit (IdRefData *data);
+//        void visit (IdRefData *data);
 
         void reset ();
 

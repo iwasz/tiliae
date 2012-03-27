@@ -35,22 +35,22 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
 {
 /*------Meta struktura------------------------------------------------------*/
 
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
-        Ptr <MappedMeta> meta = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta = new MappedMeta ();
         meta->setId ("a_main");
         meta->setScope (IMeta::SINGLETON);
         meta->setParent ("y_par");
         metaCont->add (meta);
 
-        meta = boost::make_shared <MappedMeta> ();
+        meta = new MappedMeta ();
         meta->setId ("x_parent");
         meta->setClass ("City");
         meta->setScope (IMeta::SINGLETON);
         meta->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         metaCont->add (meta);
 
-        meta = boost::make_shared <MappedMeta> ();
+        meta = new MappedMeta ();
         meta->setId ("y_par");
         meta->setScope (IMeta::SINGLETON);
         meta->setParent ("x_parent");

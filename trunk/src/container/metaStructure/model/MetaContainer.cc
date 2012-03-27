@@ -11,14 +11,23 @@
 
 namespace Container {
 
-void MetaContainer::add (Ptr <IMeta> val)
+MetaContainer::~MetaContainer ()
+{
+        for (MetaMap::iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
+                delete i->second;
+        }
+}
+
+/****************************************************************************/
+
+void MetaContainer::add (IMeta *val)
 {
         metaMap[val->getId ()] = val;
 }
 
 /****************************************************************************/
 
-Ptr <IMeta> MetaContainer::get (const std::string &key) const
+IMeta *MetaContainer::get (const std::string &key) const
 {
         MetaMap::const_iterator i;
         if ((i = metaMap.find (key)) != metaMap.end ()) {
@@ -32,7 +41,7 @@ Ptr <IMeta> MetaContainer::get (const std::string &key) const
                 return getLinked ()->get (key);
         }
 
-        return Ptr <IMeta> ();
+        return NULL;
 }
 
 }

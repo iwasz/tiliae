@@ -37,11 +37,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure01 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> parent = boost::make_shared <MappedMeta> ();
+        MappedMeta *parent = new MappedMeta ();
 
         Ptr <MapElem> elem1 = MapElem::create ("field1", ValueData::create ("value1", "String"));
 //        elem1->addAttribute ("description", "To jest property bardzo ważne.");
@@ -68,7 +68,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure01 ()
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         elem1 = MapElem::create ("field3", ValueData::create ("value3", "String"));
 //        elem1->addAttribute ("meta", "YYY");
@@ -96,33 +96,33 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure02 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> parent = boost::make_shared <MappedMeta> ();
+        MappedMeta *parent = new MappedMeta ();
         parent->setId ("ojciec");
         parent->setAbstract (true);
         metaCont->add (parent);
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
         child->setId ("syn");
         child->setParent ("ojciec");
         metaCont->add (child);
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> meta = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta = new MappedMeta ();
         meta->setId ("aska");
         metaCont->add (meta);
 
-        Ptr <IndexedMeta> meta1 = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *meta1 = new IndexedMeta ();
         meta1->setId ("aska2");
         metaCont->add (meta1);
 
-        Ptr <IndexedMeta> meta2 = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *meta2 = new IndexedMeta ();
         meta2->setId ("aska3");
         metaCont->add (meta2);
 
@@ -137,11 +137,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure03 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addField (MapElem::create ("field0", ValueData::create ("value0", "String")));
         child->addField (MapElem::create ("field1", ValueData::create ("value1", "text")));
@@ -166,11 +166,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure04 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <IndexedMeta> child = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *child = new IndexedMeta ();
 
         child->addField (ListElem::create (ValueData::create ("value0", "String")));
         child->addField (ListElem::create (ValueData::create ("value1", "text")));
@@ -193,35 +193,35 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure04 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure05 ()
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
-        Ptr <MappedMeta> meta00 = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta00 = new MappedMeta ();
         meta00->setId ("askaParent");
         meta00->setClass ("City");
         meta00->addField (MapElem::create ("field00", ValueData::create ("value00", "String")));
         metaCont->add (meta00);
 
-        Ptr <MappedMeta> meta0 = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta0 = new MappedMeta ();
         meta0->setId ("aska0");
         meta0->addField (MapElem::create ("field0", ValueData::create ("value0", "String")));
         meta0->setParent ("askaParent");
         metaCont->add (meta0);
 
-        Ptr <MappedMeta> meta = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta = new MappedMeta ();
         meta->setId ("aska");
         meta->setClass ("Note");
         meta->addField (MapElem::create ("field1", RefData::create ("aska0")));
         meta->addField (MapElem::create ("field11", ValueData::create ("value11", "String")));
         metaCont->add (meta);
 
-        Ptr <MappedMeta> meta1 = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta1 = new MappedMeta ();
         meta1->setId ("aska2");
         meta1->setClass ("Country");
         meta1->addField (MapElem::create ("field2", RefData::create ("aska")));
         meta1->addField (MapElem::create ("field22", ValueData::create ("value22", "String")));
         metaCont->add (meta1);
 
-        Ptr <MappedMeta> meta2 = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta2 = new MappedMeta ();
         meta2->setId ("aska3");
         meta2->setClass ("Address");
         meta2->addField (MapElem::create ("field3", RefData::create ("aska2")));
@@ -239,11 +239,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure06 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <IndexedMeta> child = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *child = new IndexedMeta ();
 
         child->addField (ListElem::create (ValueData::create ("value0", "String")));
         child->addField (ListElem::create (ValueData::create ("value1", "text")));
@@ -258,7 +258,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure06 ()
 
 /*--------------------------------------------------------------------------*/
 
-        child = boost::make_shared <IndexedMeta> ();
+        child = new IndexedMeta ();
 
         child->addField (ListElem::create (ValueData::create ("value0", "String")));
         child->addField (ListElem::create (RefData::create ("syn")));
@@ -268,7 +268,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure06 ()
 
 /*--------------------------------------------------------------------------*/
 
-        child = boost::make_shared <IndexedMeta> ();
+        child = new IndexedMeta ();
 
         child->addField (ListElem::create (ValueData::create ("value0", "String")));
         child->addField (ListElem::create (RefData::create ("ociec")));
@@ -289,11 +289,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure07 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addField (MapElem::create ("field0", ValueData::create ("value0", "String")));
         child->addField (MapElem::create ("field1", ValueData::create ("value1", "text")));
@@ -327,17 +327,15 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure08 ()
          * Modyfikujemy bean mojBean stworzony w metodzie createMetaStructure07
          */
 
-        Ptr <IMeta> m = metaCont->get ("mojBean");
-//        std::tr1::shared_ptr
-//        std::tr1::shared_ptr <IMeta> =
-        Ptr <MappedMeta> meta = dynamic_pointer_cast <MappedMeta> (m);
+        IMeta *m = metaCont->get ("mojBean");
+        MappedMeta *meta = dynamic_cast <MappedMeta *> (m);
         meta->addField (MapElem::create ("city", RefData::create ("city")));
 
         /*
          * Tworzymy ten city, który jest używany przez mojBean
          */
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         child->setId ("city");
         child->setClass ("City");
@@ -355,11 +353,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure09 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addField (MapElem::create ("field0", ValueData::create ("value0", "String")));
         child->addField (MapElem::create ("field1", ValueData::create ("value1", "text")));
@@ -383,11 +381,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure10 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addField (MapElem::create ("field0", ValueData::create ("value0", "String")));
         child->addField (MapElem::create ("field1", ValueData::create ("value1", "text")));
@@ -414,11 +412,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure11 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <IndexedMeta> child = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *child = new IndexedMeta ();
 
         child->addField (ListElem::create (ValueData::create ("value0", "String")));
         child->addField (ListElem::create (ValueData::create ("value1", "String")));
@@ -443,11 +441,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure12 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <IndexedMeta> child = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *child = new IndexedMeta ();
 
         child->addField (ListElem::create (ValueData::create ("value0", "String")));
         child->addField (ListElem::create (ValueData::create ("value1", "text")));
@@ -474,23 +472,23 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure13 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Polska", "String")));
         child->setId ("country1");
         child->setClass ("Country");
         metaCont->add (child);
 
-        child = boost::make_shared <MappedMeta> ();
+        child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Jamajka", "String")));
         child->setId ("country2");
         child->setClass ("Country");
         metaCont->add (child);
 
-        child = boost::make_shared <MappedMeta> ();
+        child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Wolny Tybet", "String")));
         child->setId ("country3");
         child->setClass ("Country");
@@ -498,7 +496,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure13 ()
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <IndexedMeta> meta = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *meta = new IndexedMeta ();
         meta->addField (ListElem::create (RefData::create ("country1")));
         meta->addField (ListElem::create (RefData::create ("country2")));
         meta->addField (ListElem::create (RefData::create ("country3")));
@@ -519,23 +517,23 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure14 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         child->setId ("city1");
         child->setClass ("City");
         metaCont->add (child);
 
-        child = boost::make_shared <MappedMeta> ();
+        child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Krakow", "String")));
         child->setId ("city2");
         child->setClass ("City");
         metaCont->add (child);
 
-        child = boost::make_shared <MappedMeta> ();
+        child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Piaseczno", "String")));
         child->setId ("city3");
         child->setClass ("City");
@@ -543,7 +541,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure14 ()
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> meta = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta = new MappedMeta ();
         meta->addField (MapElem::create ("field0", RefData::create ("city1")));
         meta->addField (MapElem::create ("field1", RefData::create ("city2")));
         meta->addField (MapElem::create ("field2", RefData::create ("city3")));
@@ -565,11 +563,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure15 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addConstructorArg (ListElem::create (ValueData::create ("value2", "String")));
         child->addConstructorArg (ListElem::create (ValueData::create ("value3", "text")));
@@ -592,11 +590,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure15 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure16 ()
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addConstructorArg (ListElem::create (ValueData::create ("value2", "String")));
         child->addConstructorArg (ListElem::create (ValueData::create ("value3", "text")));
@@ -610,7 +608,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure16 ()
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child1 = boost::make_shared <MappedMeta> ();
+        MappedMeta *child1 = new MappedMeta ();
         child1->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         child1->setId ("city");
         child1->setClass ("City");
@@ -634,15 +632,15 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure17 ()
          * Modyfikujemy bean mojBean stworzony w metodzie createMetaStructure07
          */
 
-        Ptr <IMeta> m = metaCont->get ("mojBean");
-        Ptr <MappedMeta> meta = dynamic_pointer_cast <MappedMeta> (m);
+        IMeta *m = metaCont->get ("mojBean");
+        MappedMeta *meta = dynamic_cast <MappedMeta *> (m);
         meta->addField (MapElem::create ("city", RefData::create ("ncity")));
 
         /*
          * Tworzymy ten city, który jest używany przez mojBean
          */
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
 
         /*
@@ -669,23 +667,23 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure18 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         child->setId ("ncity1");
         child->setClass ("City");
         metaCont->add (child);
 
-        child = boost::make_shared <MappedMeta> ();
+        child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Krakow", "String")));
         child->setId ("ncity2");
         child->setClass ("City");
         metaCont->add (child);
 
-        child = boost::make_shared <MappedMeta> ();
+        child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Piaseczno", "String")));
         child->setId ("ncity3");
         child->setClass ("City");
@@ -693,7 +691,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure18 ()
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> meta = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta = new MappedMeta ();
         meta->addField (MapElem::create ("field0", RefData::create ("ncity1")));
         meta->addField (MapElem::create ("field1", RefData::create ("ncity2")));
         meta->addField (MapElem::create ("field2", RefData::create ("ncity3")));
@@ -714,23 +712,23 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure19 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Polska", "String")));
         child->setId ("ncountry1");
         child->setClass ("Country");
         metaCont->add (child);
 
-        child = boost::make_shared <MappedMeta> ();
+        child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Jamajka", "String")));
         child->setId ("ncountry2");
         child->setClass ("Country");
         metaCont->add (child);
 
-        child = boost::make_shared <MappedMeta> ();
+        child = new MappedMeta ();
         child->addField (MapElem::create ("name", ValueData::create ("Wolny Tybet", "String")));
         child->setId ("ncountry3");
         child->setClass ("Country");
@@ -738,7 +736,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure19 ()
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <IndexedMeta> meta = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *meta = new IndexedMeta ();
         meta->addField (ListElem::create (RefData::create ("ncountry1")));
         meta->addField (ListElem::create (RefData::create ("ncountry2")));
         meta->addField (ListElem::create (RefData::create ("ncountry3")));
@@ -757,11 +755,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure19 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addConstructorArg (ListElem::create (ValueData::create ("value2", "String")));
         child->addConstructorArg (ListElem::create (ValueData::create ("value3", "text")));
@@ -774,7 +772,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child1 = boost::make_shared <MappedMeta> ();
+        MappedMeta *child1 = new MappedMeta ();
         child1->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         child1->setId ("ncity");
         child1->setClass ("City");
@@ -789,11 +787,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure21 ()
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addField (MapElem::create ("field0", ValueData::create ("value0", "String")));
         child->addField (MapElem::create ("field1", ValueData::create ("value1", "text")));
@@ -821,11 +819,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure22 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         child->setId ("mojBean");
@@ -842,9 +840,9 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure22 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
-        Ptr <MappedMeta> meta00 = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta00 = new MappedMeta ();
         meta00->setId ("mainBean");
         meta00->setClass ("Bar");
         meta00->addConstructorArg (ListElem::create (ValueData::create ("value2", "String")));
@@ -852,14 +850,14 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
         meta00->addField (MapElem::create ("city3", RefData::create ("city")));
         metaCont->add (meta00);
 
-        Ptr <MappedMeta> meta0 = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta0 = new MappedMeta ();
         meta0->setId ("city");
         meta0->setClass ("City");
         meta0->setScope (IMeta::BEAN);
         meta0->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         meta00->addInnerMeta (meta0);
 
-        Ptr <MappedMeta> meta = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta = new MappedMeta ();
         meta->setId ("list");
         meta->setClass ("BarMap");
         meta->addField (MapElem::create ("key01", RefData::create ("mainBean")));
@@ -874,11 +872,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure24 ()
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*------Level0-meta-globalne------------------------------------------------*/
 
-        Ptr <MappedMeta> meta00 = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta00 = new MappedMeta ();
         meta00->setId ("city100");
         meta00->setClass ("City");
         meta00->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
@@ -886,24 +884,24 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure24 ()
 
 /*------Level1-inner-mata-city100-------------------------------------------*/
 
-                Ptr <MappedMeta> meta01 = boost::make_shared <MappedMeta> ();
+                MappedMeta *meta01 = new MappedMeta ();
                 meta01->setId ("city110");
                 meta01->setClass ("City");
                 meta01->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
                 meta00->addInnerMeta (meta01);
 
                         // Taka sama nazwa!
-                        Ptr <MappedMeta> meta02 = boost::make_shared <MappedMeta> ();
+                        MappedMeta *meta02 = new MappedMeta ();
                         meta02->setId ("cityA");
                         meta02->setClass ("City");
                         meta01->addInnerMeta (meta02);
 
-                        meta02 = boost::make_shared <MappedMeta> ();
+                        meta02 = new MappedMeta ();
                         meta02->setId ("cityB");
                         meta02->setClass ("City");
                         meta01->addInnerMeta (meta02);
 
-                meta01 = boost::make_shared <MappedMeta> ();
+                meta01 = new MappedMeta ();
                 meta01->setId ("city120");
                 meta01->setClass ("City");
                 meta01->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
@@ -911,26 +909,26 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure24 ()
 
 /*------Level2-inner-meta-city110-i-city120---------------------------------*/
 
-                        meta02 = boost::make_shared <MappedMeta> ();
+                        meta02 = new MappedMeta ();
                         meta02->setId ("cityA");
                         meta02->setClass ("City");
                         meta01->addInnerMeta (meta02);
 
-                        meta02 = boost::make_shared <MappedMeta> ();
+                        meta02 = new MappedMeta ();
                         meta02->setId ("cityB");
                         meta02->setClass ("City");
                         meta01->addInnerMeta (meta02);
 
 /*--------------------------------------------------------------------------*/
 
-        meta00 = boost::make_shared <MappedMeta> ();
+        meta00 = new MappedMeta ();
         meta00->setId ("city200");
         meta00->setClass ("City");
         metaCont->add (meta00);
 
 /*--------------------------------------------------------------------------*/
 
-                meta01 = boost::make_shared <MappedMeta> ();
+                meta01 = new MappedMeta ();
                 meta01->setId ("city110");
                 meta01->setClass ("City");
                 meta00->addInnerMeta (meta01);
@@ -948,11 +946,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure25 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
         child->addField (MapElem::create ("field0", ValueData::create ("value0", "String")));
         child->addField (MapElem::create ("field1", ValueData::create ("value1", "text")));
         child->addField (MapElem::create ("field2", ValueData::create ("6667", "int")));
@@ -966,13 +964,13 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure25 ()
         child->setClass ("VariantMap");
         child->setId ("syn");
 
-        Ptr <MappedMeta> meta00 = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta00 = new MappedMeta ();
         meta00->setId ("city100");
         meta00->setClass ("City");
         meta00->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         metaCont->add (meta00);
 
-        meta00 = boost::make_shared <MappedMeta> ();
+        meta00 = new MappedMeta ();
         meta00->setId ("city200");
         meta00->setClass ("City");
         meta00->addField (MapElem::create ("name", ValueData::create ("Wilno", "String")));
@@ -990,11 +988,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <IndexedMeta> child = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *child = new IndexedMeta ();
 
         child->addField (ListElem::create (ValueData::create ("value0", "String")));
         child->addField (ListElem::create (ValueData::create ("value1", "text")));
@@ -1008,13 +1006,13 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
         child->setId ("syn");
         metaCont->add (child);
 
-        Ptr <MappedMeta> meta00 = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta00 = new MappedMeta ();
         meta00->setId ("city100");
         meta00->setClass ("City");
         meta00->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         metaCont->add (meta00);
 
-        meta00 = boost::make_shared <MappedMeta> ();
+        meta00 = new MappedMeta ();
         meta00->setId ("city200");
         meta00->setClass ("City");
         meta00->addField (MapElem::create ("name", ValueData::create ("Wilno", "String")));

@@ -36,7 +36,7 @@ public:
                 return Ptr <MapElem> (new MapElem (d, a));
         }
 
-        static Ptr <MapElem> create (const std::string &key, Ptr<IData> data, const Core::StringMap &attributes = Core::StringMap ());
+        static Ptr <MapElem> create (const std::string &key, Ptr<IData> data/*, const Core::StringMap &attributes = Core::StringMap ()*/);
 
 /*--------------------------------------------------------------------------*/
 

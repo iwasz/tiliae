@@ -13,6 +13,9 @@
 #include "../src/container/metaStructure/model/meta/MappedMeta.h"
 #include "../src/container/metaStructure/model/meta/IndexedMeta.h"
 #include "../src/container/inputFormat/mxml/MXmlMetaService.h"
+#include "../src/container/metaStructure/model/data/RefData.h"
+#include "../src/container/metaStructure/model/data/ValueData.h"
+#include "../src/container/metaStructure/model/data/NullData.h"
 
 using namespace Container;
 using namespace std;
@@ -30,6 +33,8 @@ int main (int argc, char **argv)
 
         printSize (BeanFactory);
         printSize (std::string);
+        printSize (Core::StringMap);
+        printSize (Core::StringVector);
         printSize (Core::Variant);
         printSize (Ptr <Editor::IEditor>);
         printSize (std::auto_ptr <Editor::IEditor>);
@@ -37,9 +42,15 @@ int main (int argc, char **argv)
         printSize (int);
         printSize (bool);
         printSize (int *);
+
         printSize (Container::MappedMeta);
         printSize (Container::IndexedMeta);
-
+        printSize (Container::AbstractElem);
+        printSize (Container::MapElem);
+        printSize (Container::ListElem);
+        printSize (Container::RefData);
+        printSize (Container::ValueData);
+        printSize (Container::NullData);
 
 #if 1
         Ptr <BeanFactoryContainer> container = ContainerFactory::createContainer (MXmlMetaService::parseFile ("../demo/main.xml"));

@@ -33,8 +33,8 @@ struct TILIAE_API IElem {
 
         virtual Ptr <IData> getData () const = 0;
 
-        virtual Core::StringMap const &getAttributes () const = 0;
-        virtual std::string const &getAttribute (const std::string &key) const = 0;
+//        virtual Core::StringMap const &getAttributes () const = 0;
+//        virtual std::string const &getAttribute (const std::string &key) const = 0;
 
         virtual void accept (IElemVisitor *visitor) = 0;
 };

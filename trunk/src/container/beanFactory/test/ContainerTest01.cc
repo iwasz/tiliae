@@ -116,9 +116,9 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         BOOST_CHECK (bf);
 
         v = bf->getInput();
-        BOOST_CHECK (ccast <OrderedVariantMap *> (v));
+        BOOST_CHECK (ccast <OrderedVariantMap const *> (v));
 
-        OrderedVariantMap *aska0 = vcast <OrderedVariantMap *> (v);
+        OrderedVariantMap const*aska0 = vcast <OrderedVariantMap const *> (v);
 
         BOOST_CHECK (aska0->size ());
         BOOST_CHECK (aska0->containsKey ("field0"));
@@ -130,9 +130,9 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         bf = *(bm->get<0>().find ("aska"));
         BOOST_CHECK (bf);
         v = bf->getInput();
-        BOOST_CHECK (ccast <OrderedVariantMap *> (v));
+        BOOST_CHECK (ccast <OrderedVariantMap const *> (v));
 
-        OrderedVariantMap *aska = vcast <OrderedVariantMap *> (v);
+        OrderedVariantMap const *aska = vcast <OrderedVariantMap const *> (v);
 
         BOOST_CHECK (aska->containsKey ("field11"));
         BOOST_CHECK (ccast <Core::String> (aska->get ("field11")));
@@ -145,9 +145,9 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         bf = *(bm->get<0>().find ("aska2"));
         BOOST_CHECK (bf);
         v = bf->getInput();
-        BOOST_CHECK (ccast <OrderedVariantMap *> (v));
+        BOOST_CHECK (ccast <OrderedVariantMap const *> (v));
 
-        OrderedVariantMap *aska2 = vcast <OrderedVariantMap *> (v);
+        OrderedVariantMap const *aska2 = vcast <OrderedVariantMap const *> (v);
 
         BOOST_CHECK (aska2->containsKey ("field22"));
         BOOST_CHECK (ccast <Core::String> (aska2->get ("field22")));
@@ -160,9 +160,9 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         bf = *(bm->get<0>().find ("aska3"));
         BOOST_CHECK (bf);
         v = bf->getInput();
-        BOOST_CHECK (ccast <OrderedVariantMap *> (v));
+        BOOST_CHECK (ccast <OrderedVariantMap const *> (v));
 
-        OrderedVariantMap *aska3 = vcast <OrderedVariantMap *> (v);
+        OrderedVariantMap const *aska3 = vcast <OrderedVariantMap const *> (v);
 
         BOOST_CHECK (aska3->containsKey ("field33"));
         BOOST_CHECK (ccast <Core::String> (aska3->get ("field33")));

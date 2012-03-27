@@ -17,7 +17,7 @@ void Attributes::setString (const std::string &key, const std::string &value)
 
 /****************************************************************************/
 
-std::string Attributes::getString (const std::string &key, bool getFromParent) const
+std::string const &Attributes::getString (const std::string &key, bool getFromParent) const
 {
         Core::StringMap::const_iterator i = strMap.find (key);
 
@@ -29,7 +29,8 @@ std::string Attributes::getString (const std::string &key, bool getFromParent) c
                 return parent->getString (key);
         }
 
-        return "";
+        static std::string empty;
+        return empty;
 }
 
 /****************************************************************************/

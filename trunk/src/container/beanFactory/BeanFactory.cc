@@ -6,8 +6,13 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include <boost/lexical_cast.hpp>
 #include "BeanFactory.h"
+
+#include <boost/lexical_cast.hpp>
+#include <boost/multi_index_container.hpp>
+#include <boost/multi_index/ordered_index.hpp>
+#include <boost/multi_index/mem_fun.hpp>
+#include <boost/multi_index/sequenced_index.hpp>
 #include "metaStructure/model/meta/AbstractMeta.h"
 #include "../../core/variant/Cast.h"
 #include "../../beanWrapper/IBeanWrapper.h"
@@ -16,25 +21,50 @@
 
 namespace Container {
 
-/****************************************************************************/
-
 // Takie same nazwy jak w ReflectionFactory, jednak aktualna fabryka może być innego typu.
 static const char *CONSTRUCTOR_ARGS_KEY = "constructor-args";
 static const char *CLASS_NAME = "class";
 
 /****************************************************************************/
 
-BeanFactory::BeanFactory () : fullyInitialized (false), forceSingleton (false), outerBeanFactory (NULL)
+BeanFactory::BeanFactory () :
+        flags (0x00),
+        id (NULL),
+        cArgs (NULL),
+        cArgsEditor (NULL),
+        editor (NULL),
+        factory (NULL),
+        outerBeanFactory (NULL),
+        innerBeanFactories (NULL)
 {
-        innerBeanFactories = new BeanFactoryMap ();
 }
 
 /****************************************************************************/
 
 BeanFactory::~BeanFactory ()
 {
-        BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
-        delete map;
+        if (innerBeanFactories) {
+                BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
+                delete map;
+        }
+
+        delete cArgs;
+        delete cArgsEditor;
+
+        if (flags & INPUT_MAP) {
+                delete inputMap;
+        }
+        else if (flags & INPUT_LIST) {
+                delete inputList;
+        }
+
+        if (flags & DELETE_FACTORY) {
+                delete factory;
+        }
+
+        if (flags & DELETE_EDITOR) {
+                delete editor;
+        }
 }
 
 /****************************************************************************/
@@ -42,7 +72,7 @@ BeanFactory::~BeanFactory ()
 void BeanFactory::setAttributes (Ptr <Attributes> attributes)
 {
         this->attributes = attributes;
-        id = attributes->getString (ID_ARGUMENT, false);
+        id = &(attributes->getString (ID_ARGUMENT, false));
 }
 
 /****************************************************************************/
@@ -58,12 +88,12 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                         if (bfc->getNested () > MAX_BEAN_NESTING) {
                                 // Nie bawimy się w fatale, bo to jest tak krytyczmny bład, że trzeba przerwać działanie programu.
-                                throw TooDeepNestingException ("BeanFactory::create. Id : [" + id + "]. Too deep "
+                                throw TooDeepNestingException ("BeanFactory::create. Id : [" + *id + "]. Too deep "
                                       "bean nesting. Max level of nested beans is : " + boost::lexical_cast <std::string> (MAX_BEAN_NESTING));
                         }
                 }
 
-                if ((forceSingleton || getSingleton ()) && !storedSingleton.isNone ()) {
+                if ((flags & FORCE_SINGLETON || getSingleton ()) && !storedSingleton.isNone ()) {
                         return storedSingleton;
                 }
 
@@ -86,9 +116,9 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                 dcBegin (context);
 
                 if (cArgsEditor) {
-                        if (!cArgsEditor->convert (cArgs, &cArgsEdited, context)) {
+                        if (!cArgsEditor->convert (Core::Variant (cArgs), &cArgsEdited, context)) {
                                 dcCommit (context);
-                                dcError (context, "Constructor args editor failed. ID : " + id);
+                                dcError (context, "Constructor args editor failed. ID : " + *id);
                                 return Core::Variant ();
                         }
 
@@ -102,26 +132,26 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 if (output.isNone ()) {
                         dcCommit (context);
-                        dcError (context,  "Factory in BeanFactory failed. ID : " + id);
+                        dcError (context,  "Factory in BeanFactory failed. ID : " + *id);
                         return Core::Variant ();
                 }
 
-                if (forceSingleton || getSingleton ()) {
+                if (flags & FORCE_SINGLETON || getSingleton ()) {
                         storedSingleton = output;
                 }
 
                 if (output.isNull ()) {
                         dcCommit (context);
-                        dcError (context, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + id + "]");
+                        dcError (context, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + *id + "]");
                         return Core::Variant ();
                 }
 
                 dcRollback (context);
                 dcBegin (context);
 
-                if (!editor->convert (input, &output, context)) {
+                if (!editor->convert (getInput (), &output, context)) {
                         dcCommit (context);
-                        dcError (context, "Editor in BeanFactory failed. ID : " + id);
+                        dcError (context, "Editor in BeanFactory failed. ID : " + *id);
                         return Core::Variant ();
                 }
 
@@ -139,7 +169,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                         if (err) {
                                 dcCommit (context);
-                                dcError (context, "Invocation of init method in BeanFactory failed. ID : " + id);
+                                dcError (context, "Invocation of init method in BeanFactory failed. ID : " + *id);
                                 return Core::Variant ();
                         }
                 }
@@ -157,8 +187,8 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
         }
         catch (Core::Exception &e) {
                 dcCommit (context);
-                dcError (context, "BeanFactory::create. Id : [" + id +
-                                "] fullyInitialized : [" + boost::lexical_cast <std::string> (fullyInitialized) + "]. Exception caught : " +
+                dcError (context, "BeanFactory::create. Id : [" + *id +
+                                "] fullyInitialized : [" + boost::lexical_cast <std::string> (flags & FULLY_INITIALIZED) + "]. Exception caught : " +
                                 e.what ());
         }
 
@@ -177,7 +207,7 @@ bool BeanFactory::getSingleton () const
 void BeanFactory::onBeforePropertiesSet (BeanFactory const *notifier) const
 {
         if (static_cast <IMeta::Scope> (attributes->getInt (SCOPE_ARGUMENT)) == IMeta::BEAN) {
-                forceSingleton = true;
+                flags |= FORCE_SINGLETON;
         }
 }
 
@@ -186,7 +216,7 @@ void BeanFactory::onBeforePropertiesSet (BeanFactory const *notifier) const
 void BeanFactory::onAfterPropertiesSet (BeanFactory const *notifier) const
 {
         if (static_cast <IMeta::Scope> (attributes->getInt (SCOPE_ARGUMENT)) == IMeta::BEAN) {
-                forceSingleton = false;
+                flags &= ~FORCE_SINGLETON;
 
                 if (!getSingleton ()) {
                         storedSingleton = Core::Variant ();
@@ -198,13 +228,16 @@ void BeanFactory::onAfterPropertiesSet (BeanFactory const *notifier) const
 
 void BeanFactory::notifyAfterPropertiesSet () const
 {
-        BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
+        if (innerBeanFactories) {
 
-        for (BeanFactoryMap::nth_index <1>::type::iterator i = map->get<1> ().begin ();
-             i  != map->get<1> (). end ();
-             ++i) {
+                BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
 
-                (*i)->onAfterPropertiesSet (this);
+                for (BeanFactoryMap::nth_index <1>::type::iterator i = map->get<1> ().begin ();
+                     i  != map->get<1> (). end ();
+                     ++i) {
+
+                        (*i)->onAfterPropertiesSet (this);
+                }
         }
 }
 
@@ -212,13 +245,16 @@ void BeanFactory::notifyAfterPropertiesSet () const
 
 void BeanFactory::notifyBeforePropertiesSet () const
 {
-        BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
+        if (innerBeanFactories) {
 
-        for (BeanFactoryMap::nth_index <1>::type::iterator i = map->get<1> ().begin ();
-             i  != map->get<1> (). end ();
-             ++i) {
+                BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
 
-                (*i)->onBeforePropertiesSet (this);
+                for (BeanFactoryMap::nth_index <1>::type::iterator i = map->get<1> ().begin ();
+                     i  != map->get<1> (). end ();
+                     ++i) {
+
+                        (*i)->onBeforePropertiesSet (this);
+                }
         }
 }
 
@@ -230,13 +266,13 @@ std::string BeanFactory::toString () const
         bool comma = false;
 
         if (attributes->containsKey (ID_ARGUMENT, false)) {
-                ret += "id=" + id;
+                ret += "id=" + *id;
                 comma = true;
         }
 
         BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
 
-        if (!map->empty ()) {
+        if (map && !map->empty ()) {
                 if (comma) { ret += ", "; }
                 ret += "inner=" + ToStringHelper::toString (*map);
         }
@@ -249,6 +285,10 @@ std::string BeanFactory::toString () const
 
 void BeanFactory::addInnerBeanFactory (Ptr <BeanFactory> bf)
 {
+        if (!innerBeanFactories) {
+                innerBeanFactories = new BeanFactoryMap ();
+        }
+
         BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
         map->insert (bf);
         bf->setOuterBeanFactory (this);
@@ -258,12 +298,15 @@ void BeanFactory::addInnerBeanFactory (Ptr <BeanFactory> bf)
 
 Ptr <BeanFactory> BeanFactory::getInnerBeanFactory (const std::string &id) const
 {
-        BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
+        if (innerBeanFactories) {
 
-        BeanFactoryMap::nth_index <0>::type::iterator i = map->get<0> ().find (id);
+                BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
 
-        if (i != map->get<0> ().end ()) {
-                return *i;
+                BeanFactoryMap::nth_index <0>::type::iterator i = map->get<0> ().find (id);
+
+                if (i != map->get<0> ().end ()) {
+                        return *i;
+                }
         }
 
         if (getOuterBeanFactory ()) {
@@ -271,6 +314,20 @@ Ptr <BeanFactory> BeanFactory::getInnerBeanFactory (const std::string &id) const
         }
 
         return Ptr <BeanFactory> ();
+}
+
+/****************************************************************************/
+
+Core::Variant BeanFactory::getInput () const
+{
+        if (flags & INPUT_LIST) {
+                return Core::Variant (inputList);
+        }
+        else if (flags & INPUT_MAP) {
+                return Core::Variant (inputMap);
+        }
+
+        return Core::Variant ();
 }
 
 /*##########################################################################*/

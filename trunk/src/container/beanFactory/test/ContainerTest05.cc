@@ -79,10 +79,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
         Ptr <BeanFactory> bf = cont->getBeanFactory ("mojBean");
         BOOST_CHECK (bf);
 
-        Core::Variant cArgs = bf->getCArgs ();
-        BOOST_CHECK (!cArgs.isNone ());
-        BOOST_CHECK (ccast <Ptr <Core::VariantList> > (cArgs));
-        Ptr <Core::VariantList> vl = vcast <Ptr <Core::VariantList> > (cArgs);
+        Core::VariantList const *vl = bf->getCArgs ();
 
         BOOST_CHECK (!vl->empty ());
         BOOST_CHECK (vl->size () == 3);
@@ -92,9 +89,9 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
         BOOST_CHECK (vcast <std::string> (*i++) == "value3");
 //        BOOST_CHECK (vcast <int> (vl->get (2)) == 6667);
 
-        Ptr<IEditor> cargsEditor = bf->getCArgsEditor ();
+        IEditor *cargsEditor = bf->getCArgsEditor ();
         BOOST_CHECK (cargsEditor);
-        Ptr<Editor::IndexedEditor> idxEd = dynamic_pointer_cast <Editor::IndexedEditor> (cargsEditor);
+        Editor::IndexedEditor *idxEd = dynamic_cast <Editor::IndexedEditor *> (cargsEditor);
         BOOST_CHECK (idxEd);
         BOOST_CHECK (idxEd->getEditor (2));
 

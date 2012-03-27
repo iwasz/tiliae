@@ -44,11 +44,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
         Ptr <BeanFactory> bf = cont->getBeanFactory ("mojBean");
         BOOST_CHECK (bf);
 
-        Core::Variant cArgs = bf->getCArgs ();
-        BOOST_CHECK (!cArgs.isNone ());
-        BOOST_CHECK (ccast <Ptr <Core::VariantList> > (cArgs));
-        // TODO Sprawdzić czemu tu jest lista a nie wariant.
-        Ptr <Core::VariantList> vl = vcast <Ptr <Core::VariantList> > (cArgs);
+        Core::VariantList const *vl = bf->getCArgs ();
 
         BOOST_CHECK (!vl->empty ());
         BOOST_CHECK (vl->size () == 7);
@@ -62,7 +58,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
         BOOST_CHECK (vcast <bool> (*i++) == true);
         BOOST_CHECK ((*i++).isNull ());
 
-        Ptr<IEditor> cargsEditor = bf->getCArgsEditor ();
+        IEditor *cargsEditor = bf->getCArgsEditor ();
         BOOST_CHECK (cargsEditor);
 
 /****************************************************************************/

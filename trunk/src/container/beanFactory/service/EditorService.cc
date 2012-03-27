@@ -57,12 +57,12 @@ bool EditorService::onMappedMetaBegin (MappedMeta *meta)
         currentFieldName.clear ();
 
         std::string customEditorName = meta->getEditor ();
-        Ptr <Editor::IEditor> editor;
+        Editor::IEditor *editor = NULL;
 
         if (!customEditorName.empty ()) {
                 Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
                 Ptr <BeanFactory> fact = container->getBeanFactory (customEditorName, beanFactory);
-                editor = boost::make_shared <Editor::LazyEditor> (fact);
+                editor = new Editor::LazyEditor (fact);
         }
         else {
                 editor = currentEditor = createMappedEditor ();
@@ -72,7 +72,7 @@ bool EditorService::onMappedMetaBegin (MappedMeta *meta)
                 throw BeanNotFullyInitializedException ("Can't create editor for BeanFactory. Bean id : (" + meta->getId () + "), editor name : (" + meta->getEditor () + ").");
         }
 
-        beanFactory->setEditor (editor);
+        beanFactory->setEditor (editor, true);
         return true;
 }
 
@@ -81,9 +81,9 @@ bool EditorService::onMappedMetaBegin (MappedMeta *meta)
  * Editor::SimpleMapEditor, która jest potem przypisywana na pole BeanFactory::setEditor.
  * Taki edytor ustawia potem pola nowoutworzonego beana.
  */
-Ptr <Editor::SimpleMapEditor> EditorService::createMappedEditor ()
+Editor::SimpleMapEditor *EditorService::createMappedEditor ()
 {
-        Ptr <Editor::SimpleMapEditor> editor = boost::make_shared <Editor::SimpleMapEditor> ();
+        Editor::SimpleMapEditor *editor = new Editor::SimpleMapEditor ();
         editor->setDefaultEditor (noopEditor);
         editor->setBeanWrapper (defaultBeanWrapper);
         return editor;
@@ -94,7 +94,7 @@ Ptr <Editor::SimpleMapEditor> EditorService::createMappedEditor ()
  */
 void EditorService::onConstructorArgsBegin (IMeta *data)
 {
-        currentEditor.reset ();
+        currentEditor = NULL;
         currentFieldName.clear ();
 }
 
@@ -103,7 +103,7 @@ void EditorService::onConstructorArgsBegin (IMeta *data)
  */
 void EditorService::onConstructorArgsEnd (IMeta *data)
 {
-        currentEditor.reset ();
+        currentEditor = NULL;
         currentFieldName.clear ();
 }
 

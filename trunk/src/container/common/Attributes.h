@@ -26,7 +26,7 @@ class TILIAE_API Attributes {
 public:
 
         void setString (const std::string &key, const std::string &value);
-        std::string getString (const std::string &key, bool getFromParent = true) const;
+        std::string const &getString (const std::string &key, bool getFromParent = true) const;
 
         void setInt (const std::string &key, int value);
         int getInt (const std::string &key, bool getFromParent = true) const;

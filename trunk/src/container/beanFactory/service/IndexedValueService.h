@@ -27,7 +27,7 @@ class ValueServiceHelper;
 class IndexedValueService : public BeanFactoryService {
 public:
 
-        IndexedValueService () : currIndexedMeta (NULL), currListElem (NULL) {}
+        IndexedValueService () : inputList (NULL), cargList (NULL), currIndexedMeta (NULL), currListElem (NULL) {}
         virtual ~IndexedValueService () {}
         static Ptr <IndexedValueService> create () { return Ptr <IndexedValueService> (new IndexedValueService); }
 
@@ -48,8 +48,8 @@ public:
 
 private:
 
-        Ptr <Core::VariantList> inputList;
-        Ptr <Core::VariantList> cargList;
+        Core::VariantList *inputList;
+        Core::VariantList *cargList;
 
         Ptr<ValueServiceHelper> helper;
 

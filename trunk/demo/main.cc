@@ -12,6 +12,7 @@
 #include "Book.h"
 #include "../src/container/metaStructure/model/meta/MappedMeta.h"
 #include "../src/container/metaStructure/model/meta/IndexedMeta.h"
+#include "../src/container/inputFormat/mxml/MXmlMetaService.h"
 
 using namespace Container;
 using namespace std;
@@ -31,15 +32,17 @@ int main (int argc, char **argv)
         printSize (std::string);
         printSize (Core::Variant);
         printSize (Ptr <Editor::IEditor>);
+        printSize (std::auto_ptr <Editor::IEditor>);
         printSize (Attributes);
         printSize (int);
+        printSize (bool);
         printSize (int *);
         printSize (Container::MappedMeta);
         printSize (Container::IndexedMeta);
 
 
-#if 0
-        Ptr <BeanFactoryContainer> container = XmlContainerFactory::createContainer ("../demo/main.xml");
+#if 1
+        Ptr <BeanFactoryContainer> container = ContainerFactory::createContainer (MXmlMetaService::parseFile ("../demo/main.xml"));
         Ptr <BookVector> v = vcast <Ptr <BookVector> > (container->getBean ("books"));
 
         BOOST_FOREACH (Ptr <Book> b, *v) {

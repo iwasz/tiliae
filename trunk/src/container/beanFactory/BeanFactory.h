@@ -28,6 +28,7 @@
 #include "../../factory/IFactory.h"
 #include "../../editor/IEditor.h"
 #include "../../core/ApiMacro.h"
+#include "../../common/collection/OrderedVariantMap.h"
 
 namespace Wrapper {
 class IBeanWrapper;
@@ -39,6 +40,7 @@ class LazyEditor;
 
 namespace Container {
 class MetaContainer;
+class BeanFactoryImpl;
 
 /**
  * Główny i najważniejszy element kontenera IoC (Container), który
@@ -64,39 +66,44 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        std::string getId () const { return id; }
+        std::string const &getId () const { return *id; }
 
         /**
          * Pobiera fabrykę, która tworzy fizycznego beana. Najczęściej będzie to
          * fabryka typu ReflectionFacotory, lub lepiej ReflexionFactory w ProxyFactory.
          */
-        Ptr <Factory::IFactory> getFactory () const { return factory; }
-        void setFactory (Ptr <Factory::IFactory> factory) { this->factory = factory; }
+        Factory::IFactory *getFactory () const { return factory; }
+        void setFactory (Factory::IFactory *factory, bool autoDelete = false) { this->factory = factory; if (autoDelete) { flags |= DELETE_FACTORY; } else { flags &= ~DELETE_FACTORY; } }
 
         /**
          * Pobiera edytor, który edytuje obiekt tymczasowy tempObject na beana.
          * Bean wcześniej jest tworzony przez fabryke factory. Najlepiej ustawić
          * tu ProxyEditor.
          */
-        Ptr <Editor::IEditor> getEditor () const { return editor; }
-        void setEditor (Ptr <Editor::IEditor> editor) { this->editor = editor; }
+        Editor::IEditor *getEditor () const { return editor; }
+        void setEditor (Editor::IEditor *editor, bool autoDelete = false) { this->editor = editor; if (autoDelete) { flags |= DELETE_EDITOR; } else { flags &= ~DELETE_EDITOR; } }
 
-        Ptr<Editor::IEditor> getCArgsEditor () const { return cArgsEditor; }
-        void setCArgsEditor (Ptr<Editor::IEditor> cArgsEditor) { this->cArgsEditor = cArgsEditor; }
+        Editor::IEditor *getCArgsEditor () const { return cArgsEditor; }
+        void setCArgsEditor (Editor::IEditor *cArgsEditor) { this->cArgsEditor = cArgsEditor; }
 
         void setAttributes (Ptr <Attributes> attributes);
         std::string getStringAttribute (const std::string &key, bool getFromParent = true) const { return attributes->getString (key, getFromParent); }
         int getIntAttribute (const std::string &key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
         bool getBoolAttribute (const std::string &key, bool getFromParent = true) const { return attributes->getBool (key, getFromParent); }
 
-        const Core::Variant &getInput () const { return input; }
-        void setInput (const Core::Variant &input) { this->input = input; }
+        Core::VariantList const *getInputList () const { return inputList; }
+        void setInputList (Core::VariantList const *input) { this->inputList = input; flags |= INPUT_LIST; flags &= ~INPUT_MAP; }
 
-        const Core::Variant &getCArgs () const { return cArgs; }
-        void setCArgs (const Core::Variant &cArgs) { this->cArgs = cArgs; }
+        Common::OrderedVariantMap const *getInputMap () const { return inputMap; }
+        void setInputMap (Common::OrderedVariantMap const *input) { this->inputMap = input; flags |= INPUT_MAP; flags &= ~INPUT_LIST; }
 
-        bool getFullyInitialized() const { return fullyInitialized; }
-        void setFullyInitialized(bool fullyInitialized) { this->fullyInitialized = fullyInitialized; }
+        Core::Variant getInput () const;
+
+        Core::VariantList const *getCArgs () const { return cArgs; }
+        void setCArgs (Core::VariantList const *cArgs) { this->cArgs = cArgs; }
+
+        bool getFullyInitialized() const { return flags & FULLY_INITIALIZED; }
+        void setFullyInitialized (bool fullyInitialized) { if (fullyInitialized) { flags |= FULLY_INITIALIZED; } else { flags &= ~FULLY_INITIALIZED; } }
 
         Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return beanWrapper; }
         void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> bw) { beanWrapper = bw; }
@@ -112,6 +119,15 @@ public:
         void onBeforePropertiesSet (BeanFactory const *notifier) const;
         void onAfterPropertiesSet (BeanFactory const *notifier) const;
 
+        enum Flags {
+                FULLY_INITIALIZED = 0x01,
+                FORCE_SINGLETON = 0x02,
+                INPUT_LIST = 0x04,
+                INPUT_MAP = 0x08,
+                DELETE_FACTORY = 0x10,
+                DELETE_EDITOR = 0x20
+        };
+
 private:
 
         void notifyBeforePropertiesSet () const;
@@ -119,24 +135,27 @@ private:
 
 /*--------------------------------------------------------------------------*/
 
-private:
-
         bool getSingleton () const;
 
 private:
 
-        bool fullyInitialized;
-        mutable bool forceSingleton;
+        mutable unsigned int flags;
 
-        std::string id;
-        Core::Variant input;
-        Core::Variant cArgs;
+        std::string const *id;
+
+        union {
+                Core::VariantList const *inputList;
+                Common::OrderedVariantMap const *inputMap;
+        };
+
+        Core::VariantList const *cArgs;
+
         mutable Core::Variant storedSingleton;
 
         Ptr <Attributes> attributes;
-        Ptr <Editor::IEditor> cArgsEditor;
-        Ptr <Editor::IEditor> editor;
-        Ptr <Factory::IFactory> factory;
+        Editor::IEditor *cArgsEditor;
+        Editor::IEditor *editor;
+        Factory::IFactory *factory;
         Ptr <Wrapper::IBeanWrapper> beanWrapper;
 
         BeanFactory *outerBeanFactory;
@@ -154,7 +173,7 @@ typedef boost::multi_index::multi_index_container<
         boost::multi_index::indexed_by<
                 // Jak mapa
                 boost::multi_index::ordered_non_unique<
-                        boost::multi_index::const_mem_fun <BeanFactory, std::string, &BeanFactory::getId>
+                        boost::multi_index::const_mem_fun <BeanFactory, std::string const &, &BeanFactory::getId>
                 >,
                 // Jak lista
                 boost::multi_index::sequenced<>

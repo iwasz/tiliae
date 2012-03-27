@@ -20,7 +20,7 @@ bool BeanStackUpdateService::onMetaBegin (IMeta *data)
                 return false;
         }
 
-        std::string id = data->getId ();
+        std::string const &id = data->getId ();
         BeanFactoryStack &stack = getBVFContext ()->getStack();
         Ptr <BeanFactory> beanFactory;
 

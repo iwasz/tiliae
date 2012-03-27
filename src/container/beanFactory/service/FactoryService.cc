@@ -39,22 +39,23 @@ bool FactoryService::onMetaBegin (IMeta *data)
         assert (beanFactory);
 
         std::string customFactoryName = data->getFactory ();
-        Ptr <Factory::IFactory> factory;
+        Factory::IFactory *factory = NULL;
 
         if (!customFactoryName.empty ()) {
                 Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
                 Ptr <BeanFactory> fact = container->getBeanFactory (customFactoryName, beanFactory);
-                factory = boost::make_shared <Factory::LazyFactory> (fact);
+                factory = new Factory::LazyFactory (fact);
+                beanFactory->setFactory (factory, true);
         }
         else {
-                factory = defaultFactory;
+                factory = defaultFactory.get ();
+                beanFactory->setFactory (factory, false);
         }
 
         if (!factory) {
                 throw BeanNotFullyInitializedException ("Can't create factory BeanFactory. Bean id : (" + data->getId () + "), factory name : (" + data->getFactory () + ").");
         }
 
-        beanFactory->setFactory (factory);
         return true;
 }
 

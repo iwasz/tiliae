@@ -47,19 +47,22 @@ bool ListEditorService::onIndexedMetaBegin (IndexedMeta *meta)
         currentFieldIdx = -1;
 
         std::string customEditorName = meta->getEditor ();
-        Ptr <Editor::IEditor> editor;
+        Editor::IEditor *editor = NULL;
 
         if (!customEditorName.empty ()) {
                 Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
                 Ptr <BeanFactory> fact = container->getBeanFactory (customEditorName, beanFactory);
-                editor = boost::make_shared <Editor::LazyEditor> (fact);
+                editor = new Editor::LazyEditor (fact);
+                beanFactory->setEditor (editor, true);
         }
         else if (meta->getFields ().empty ()) {
-                editor = noopNoCopyEditor;
-                currentEditor.reset ();
+                editor = noopNoCopyEditor.get ();
+                currentEditor = NULL;
+                beanFactory->setEditor (editor, false);
         }
         else {
                 editor = currentEditor = createIndexedEditor ();
+                beanFactory->setEditor (editor, true);
         }
 
         if (!editor) {
@@ -67,7 +70,6 @@ bool ListEditorService::onIndexedMetaBegin (IndexedMeta *meta)
                         meta->getId () + "), editor name : (" + meta->getEditor () + ").");
         }
 
-        beanFactory->setEditor (editor);
         return true;
 }
 
@@ -84,7 +86,7 @@ void ListEditorService::onConstructorArgsBegin (IMeta *data)
         assert (beanFactory);
         currentFieldIdx = -1;
 
-        Ptr <Editor::IndexedEditor> editor = boost::make_shared <Editor::IndexedEditor> ();
+        Editor::IndexedEditor *editor = new Editor::IndexedEditor ();
         editor->setDefaultEditor (defaultIndexedEditor);
         editor->setBeanWrapper (cArgsBeanWrapper);
 
@@ -96,15 +98,15 @@ void ListEditorService::onConstructorArgsBegin (IMeta *data)
 
 void ListEditorService::onConstructorArgsEnd (IMeta *data)
 {
-        currentEditor.reset ();
+        currentEditor = NULL;
         currentFieldIdx = -1;
 }
 
 /****************************************************************************/
 
-Ptr <Editor::IndexedEditor> ListEditorService::createIndexedEditor ()
+Editor::IndexedEditor *ListEditorService::createIndexedEditor ()
 {
-        Ptr <Editor::IndexedEditor> editor = boost::make_shared <Editor::IndexedEditor> ();
+        Editor::IndexedEditor *editor = new Editor::IndexedEditor ();
         editor->setDefaultEditor (defaultIndexedEditor);
         editor->setBeanWrapper (defaultBeanWrapper);
         return editor;

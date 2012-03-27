@@ -19,12 +19,11 @@ bool IndexedValueService::onIndexedMetaBegin (IndexedMeta *data)
                 return true;
         }
 
-//        currIndexedMeta = data;
-        inputList = Ptr <Core::VariantList> (new Core::VariantList ());
-        cargList.reset ();
+        inputList = new Core::VariantList ();
+        cargList = NULL;
 
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
-        beanFactory->setInput (Core::Variant (inputList));
+        beanFactory->setInputList (inputList);
         return true;
 }
 
@@ -36,11 +35,11 @@ void IndexedValueService::onConstructorArgsBegin (IMeta *data)
                 return;
         }
 
-        inputList.reset ();
-        cargList = Ptr <Core::VariantList> (new Core::VariantList ());
+        inputList = NULL;
+        cargList = new Core::VariantList ();
 
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
-        beanFactory->setCArgs (Core::Variant (cargList));
+        beanFactory->setCArgs (cargList);
 }
 
 /****************************************************************************/
@@ -49,8 +48,8 @@ void IndexedValueService::onConstructorArgsEnd (IMeta *data)
 {
         currIndexedMeta = NULL;
         currListElem = NULL;
-        inputList.reset ();
-        cargList.reset ();
+        inputList = NULL;
+        cargList = NULL;
 }
 
 /****************************************************************************/

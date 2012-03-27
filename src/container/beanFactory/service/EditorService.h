@@ -37,6 +37,7 @@ namespace Container {
 class EditorService : public BeanFactoryService {
 public:
 
+        EditorService () : currentEditor (NULL) {}
         virtual ~EditorService () {}
         static Ptr <EditorService> create () { return Ptr <EditorService> (new EditorService); }
         void init (Core::VariantMap *singletons);
@@ -52,12 +53,12 @@ public:
 
 private:
 
-        Ptr <Editor::SimpleMapEditor> createMappedEditor ();
+        Editor::SimpleMapEditor *createMappedEditor ();
 
 private:
 
         // Current mappedEditor / state variables
-        Ptr <Editor::SimpleMapEditor> currentEditor;
+        Editor::SimpleMapEditor *currentEditor;
         std::string currentFieldName;
 
         // Singletons

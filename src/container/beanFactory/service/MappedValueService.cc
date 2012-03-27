@@ -22,9 +22,9 @@ bool MappedValueService::onMappedMetaBegin (MappedMeta *data)
         }
 
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
-        inputMap = boost::make_shared <Common::OrderedVariantMap> ();
+        inputMap = new Common::OrderedVariantMap ();
         currMappedMeta = data;
-        beanFactory->setInput (Core::Variant (inputMap));
+        beanFactory->setInputMap (inputMap);
         return true;
 }
 
@@ -41,7 +41,7 @@ void MappedValueService::onConstructorArgsEnd (IMeta *data)
 {
         currMappedMeta = NULL;
         currMapElem = NULL;
-        inputMap.reset ();
+        inputMap = NULL;
 }
 
 /****************************************************************************/

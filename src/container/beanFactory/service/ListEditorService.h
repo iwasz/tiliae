@@ -33,7 +33,7 @@ class RefData;
 class ListEditorService : public BeanFactoryService {
 public:
 
-        ListEditorService () : currentFieldIdx (-1) {}
+        ListEditorService () : currentEditor (NULL), currentFieldIdx (-1) {}
         virtual ~ListEditorService () {}
         static Ptr <ListEditorService> create () { return Ptr <ListEditorService> (new ListEditorService); }
         void init (Core::VariantMap *singletons);
@@ -49,12 +49,12 @@ public:
 
 private:
 
-        Ptr <Editor::IndexedEditor> createIndexedEditor ();
+        Editor::IndexedEditor *createIndexedEditor ();
 
 private:
 
         // Current mappedEditor / state variables
-        Ptr <Editor::IndexedEditor> currentEditor;
+        Editor::IndexedEditor *currentEditor;
         int currentFieldIdx;
 
         // Singletons

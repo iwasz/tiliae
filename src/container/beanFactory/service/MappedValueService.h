@@ -30,7 +30,7 @@ class RefData;
 class MappedValueService : public BeanFactoryService {
 public:
 
-        MappedValueService () : currMappedMeta (NULL), currMapElem (NULL) {}
+        MappedValueService () : inputMap (NULL), currMappedMeta (NULL), currMapElem (NULL) {}
         virtual ~MappedValueService () {}
         static Ptr <MappedValueService> create () { return Ptr <MappedValueService> (new MappedValueService); }
 
@@ -50,7 +50,7 @@ public:
 
 private:
 
-        Ptr <Common::OrderedVariantMap> inputMap;
+        Common::OrderedVariantMap *inputMap;
         Ptr<ValueServiceHelper> helper;
 
         MappedMeta *currMappedMeta;

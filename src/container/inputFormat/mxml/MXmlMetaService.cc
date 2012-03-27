@@ -66,10 +66,10 @@ struct Impl {
         MappedMeta *pushNewMappedMeta ();
         IndexedMeta *pushNewIndexedMeta ();
         void fillMetaArguments (mxml_node_t *node, IMeta *meta);
-        Ptr <IMeta> popCurrentMeta ();
-        Ptr <AbstractMeta> getCurrentMeta () const;
-        Ptr <MappedMeta> getCurrentMappedMeta () const;
-        Ptr <IndexedMeta> getCurrentIndexedMeta () const;
+        IMeta *popCurrentMeta ();
+        AbstractMeta *getCurrentMeta () const;
+        MappedMeta *getCurrentMappedMeta () const;
+        IndexedMeta *getCurrentIndexedMeta () const;
 
         Ptr <MapElem> pushNewMapElem ();
         void popCurrentMapElem ();
@@ -409,7 +409,7 @@ void Impl::onOpenCArg (mxml_node_t *node)
 
 void Impl::onCloseCArg (mxml_node_t *node)
 {
-        Ptr <IMeta> meta = getCurrentMeta ();
+        IMeta *meta = getCurrentMeta ();
         Ptr <ListElem> elem = getCurrentListElem ();
         metaElemStack.pop ();
         meta->addConstructorArg (elem);
@@ -456,7 +456,7 @@ void Impl::onOpenRef (mxml_node_t *node)
         }
 
         if (getPrevTag () == "list") {
-                Ptr <IndexedMeta> meta = getCurrentIndexedMeta ();
+                IndexedMeta *meta = getCurrentIndexedMeta ();
                 Ptr <ListElem> elem = ListElem::create (refData);
                 meta->addField (elem);
         }
@@ -516,7 +516,7 @@ void Impl::onOpenNull (mxml_node_t *node)
         Ptr <AbstractElem> elem;
 
         if (getPrevTag () == "list") {
-                Ptr <IndexedMeta> meta = getCurrentIndexedMeta ();
+                IndexedMeta *meta = getCurrentIndexedMeta ();
                 Ptr <ListElem> elem = ListElem::create (NullData::create ());
                 meta->addField (elem);
         }
@@ -635,18 +635,18 @@ void Impl::onData (mxml_node_t *node)
 
 MappedMeta *Impl::pushNewMappedMeta ()
 {
-        Ptr <MappedMeta> meta = boost::make_shared <MappedMeta> ();
+        MappedMeta *meta = new MappedMeta ();
         metaStack.push (meta);
-        return meta.get ();
+        return meta;
 }
 
 /****************************************************************************/
 
 IndexedMeta *Impl::pushNewIndexedMeta ()
 {
-        Ptr <IndexedMeta> meta = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *meta = new IndexedMeta ();
         metaStack.push (meta);
-        return meta.get ();
+        return meta;
 }
 
 /****************************************************************************/
@@ -671,7 +671,7 @@ Ptr <ListElem> Impl::pushNewListElem ()
 
 void Impl::popCurrentMapElem ()
 {
-        Ptr <MappedMeta> meta =  getCurrentMappedMeta ();
+        MappedMeta *meta =  getCurrentMappedMeta ();
         Ptr <MapElem> elem = getCurrentMapElem ();
         metaElemStack.pop ();
         meta->addField (elem);
@@ -681,7 +681,7 @@ void Impl::popCurrentMapElem ()
 
 void Impl::popCurrentListElem ()
 {
-        Ptr <IndexedMeta> meta = getCurrentIndexedMeta ();
+        IndexedMeta *meta = getCurrentIndexedMeta ();
         Ptr <ListElem> elem = getCurrentListElem ();
         metaElemStack.pop ();
         meta->addField (elem);
@@ -689,26 +689,26 @@ void Impl::popCurrentListElem ()
 
 /****************************************************************************/
 
-Ptr <AbstractMeta> Impl::getCurrentMeta () const
+AbstractMeta *Impl::getCurrentMeta () const
 {
         if (!metaStack.size ()) {
                 throw XmlMetaServiceException ("Impl::getCurrentMeta : metaStack is empty.");
         }
 
-        Ptr <IMeta> meta = metaStack.top ();
+        IMeta *meta = metaStack.top ();
 
         if (!meta) {
                 throw XmlMetaServiceException ("Impl::getCurrentMeta : current meta is null.");
         }
 
-        return boost::static_pointer_cast <AbstractMeta> (meta);
+        return static_cast <AbstractMeta *> (meta);
 }
 
 /****************************************************************************/
 
-Ptr <MappedMeta> Impl::getCurrentMappedMeta () const
+MappedMeta *Impl::getCurrentMappedMeta () const
 {
-        Ptr <MappedMeta> meta = boost::dynamic_pointer_cast <MappedMeta> (getCurrentMeta ());
+        MappedMeta *meta = dynamic_cast <MappedMeta *> (getCurrentMeta ());
 
         if (!meta) {
                 throw XmlMetaServiceException ("Impl::getCurrentMappedMeta : Can't cast to MappedMeta.");
@@ -719,9 +719,9 @@ Ptr <MappedMeta> Impl::getCurrentMappedMeta () const
 
 /****************************************************************************/
 
-Ptr <IndexedMeta> Impl::getCurrentIndexedMeta () const
+IndexedMeta *Impl::getCurrentIndexedMeta () const
 {
-        Ptr <IndexedMeta> meta = boost::dynamic_pointer_cast <IndexedMeta> (getCurrentMeta ());
+        IndexedMeta *meta = dynamic_cast <IndexedMeta *> (getCurrentMeta ());
 
         if (!meta) {
                 throw XmlMetaServiceException ("Impl::getCurrentIndexedMeta : Can't cast to IndexedMeta.");
@@ -787,10 +787,10 @@ Ptr <ListElem> Impl::getCurrentListElem () const
 
 /****************************************************************************/
 
-Ptr <IMeta> Impl::popCurrentMeta ()
+IMeta *Impl::popCurrentMeta ()
 {
         // 1. Pobierz
-        Ptr <IMeta> meta = getCurrentMeta ();
+        IMeta *meta = getCurrentMeta ();
 
         // 2. Zdejmij.
         metaStack.pop ();
@@ -801,13 +801,13 @@ Ptr <IMeta> Impl::popCurrentMeta ()
 
         // 3. Umiesc ten gotowy meta w kontenerze lub w outermeta (jeśli zagnieżdżenie).
         if (!metaStack.empty ()) {
-                Ptr <AbstractMeta> outerMeta = getCurrentMeta ();
+                AbstractMeta *outerMeta = getCurrentMeta ();
 
                 std::string id;
 
                 if ((id = meta->getId ()).empty ()) {
                         // Generujemy też referencję do zagnieżdzonego beana.
-                        id = generateId (meta.get ());
+                        id = generateId (meta);
                         meta->setId (id);
                 }
 
@@ -825,7 +825,7 @@ Ptr <IMeta> Impl::popCurrentMeta ()
                 }
                 else {
                         Ptr <ListElem> elem = ListElem::create (RefData::create (id));
-                        Ptr <IndexedMeta> idxMeta = boost::static_pointer_cast <IndexedMeta> (outerMeta);
+                        IndexedMeta *idxMeta = static_cast <IndexedMeta *> (outerMeta);
                         idxMeta->addField (elem);
                 }
         }

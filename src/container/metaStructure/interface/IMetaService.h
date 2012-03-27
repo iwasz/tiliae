@@ -17,7 +17,7 @@ namespace Container {
 class ValueData;
 class NullData;
 class RefData;
-class IdRefData;
+//class IdRefData;
 
 struct ListElem;
 struct MapElem;
@@ -60,7 +60,7 @@ struct IMetaService {
         virtual void onValueData (ValueData *data) = 0;
         virtual void onNullData (NullData *data) = 0;
         virtual void onRefData (RefData *data) = 0;
-        virtual void onIdRefData (IdRefData *data) = 0;
+//        virtual void onIdRefData (IdRefData *data) = 0;
 
         /*virtual void reset () = 0;*/
         virtual void setContext (VisitorContext *) = 0;

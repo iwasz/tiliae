@@ -23,8 +23,8 @@ class Attributes;
 
 typedef std::pair <std::string, Ptr <IMeta> > MetaPair;
 typedef std::list <Ptr <IMeta> > MetaList;
-typedef std::map <std::string, Ptr <IMeta> > MetaMap;
-typedef std::stack <Ptr <IMeta> > MetaStack;
+typedef std::map <std::string, IMeta *> MetaMap;
+typedef std::stack <IMeta *> MetaStack;
 typedef std::stack <Ptr <IElem> > MetaElemStack;
 
 /**
@@ -90,16 +90,10 @@ struct TILIAE_API IMeta {
 
 /*--------------------------------------------------------------------------*/
 
-        /// Pobiera z getInnerMetas i z outer beans.
-//        virtual Ptr <IMeta> get (const std::string &key) const = 0;
-
         virtual MetaMap getInnerMetas () const = 0;
         virtual void setInnerMetas (const MetaMap &m) = 0;
-        virtual void addInnerMeta (Ptr <IMeta> m) = 0;
+        virtual void addInnerMeta (IMeta *m) = 0;
         virtual void addInnerMetaList (const MetaMap &m) = 0;
-
-//        virtual IMeta *getOuterMeta () const = 0;
-//        virtual void setOuterMeta (IMeta *m) = 0;
 
         virtual IMeta *getParentMeta () = 0;
         virtual void setParentMeta (IMeta *m) = 0;

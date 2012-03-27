@@ -117,9 +117,9 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
  */
 BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addField (MapElem::create ("field0", ValueData::create ("value0", "bracketType")));
         child->addField (MapElem::create ("field1", ValueData::create ("value1", "bracketType")));
@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        child = boost::make_shared <MappedMeta> ();
+        child = new MappedMeta ();
         //child->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         child->setId ("bracketType");
         child->setClass ("DummyIEditor");
@@ -176,11 +176,11 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
  */
 BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <IndexedMeta> child = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *child = new IndexedMeta ();
 
         child->addField (ListElem::create (ValueData::create ("value0", "string")));
         child->addField (ListElem::create (ValueData::create ("value1", "string")));
@@ -195,7 +195,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child2 = boost::make_shared <MappedMeta> ();
+        MappedMeta *child2 = new MappedMeta ();
         child2->setId ("editor");
         child2->setClass ("ListToStringEditor");
 

@@ -38,7 +38,6 @@ struct PrintMetaService : public AbstractMetaService {
         void onValueData (ValueData *data);
         void onNullData (NullData *data);
         void onRefData (RefData *data);
-        void onIdRefData (IdRefData *data);
 
     /*--------------------------------------------------------------------------*/
 

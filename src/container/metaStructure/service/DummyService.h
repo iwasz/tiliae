@@ -38,7 +38,7 @@ struct DummyMetaService : public AbstractMetaService {
         virtual void onValueData (ValueData *data) {}
         virtual void onNullData (NullData *data) {}
         virtual void onRefData (RefData *data) {}
-        virtual void onIdRefData (IdRefData *data) {}
+//        virtual void onIdRefData (IdRefData *data) {}
 };
 
 } // nam

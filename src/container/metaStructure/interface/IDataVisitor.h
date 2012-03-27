@@ -14,7 +14,7 @@ namespace Container {
 class ValueData;
 class NullData;
 class RefData;
-class IdRefData;
+//class IdRefData;
 
 struct ListElem;
 struct MapElem;
@@ -42,7 +42,7 @@ struct IDataVisitor {
         virtual void visit (ValueData *data) = 0;
         virtual void visit (NullData *data) = 0;
         virtual void visit (RefData *data) = 0;
-        virtual void visit (IdRefData *data) = 0;
+//        virtual void visit (IdRefData *data) = 0;
 };
 
 /**

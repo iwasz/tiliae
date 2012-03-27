@@ -32,11 +32,11 @@ BOOST_AUTO_TEST_SUITE (ContainerTest06);
  */
 BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
 
         child->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
         child->setId ("mojBean");
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <MappedMeta> child2 = boost::make_shared <MappedMeta> ();
+        MappedMeta *child2 = new MappedMeta ();
         child2->setId ("nfactory");
         child2->setClass ("CityFactory");
 
@@ -149,14 +149,14 @@ BOOST_AUTO_TEST_CASE (testInitMethod)
  */
 BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
 {
-        Ptr <MetaContainer> metaCont = MetaContainer::create ();
+        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
-        Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
+        MappedMeta *child = new MappedMeta ();
         child->setId ("mojaMapa");
         child->setClass ("VariantMap");
         metaCont->add (child);
 
-        Ptr <IndexedMeta> child2 = boost::make_shared <IndexedMeta> ();
+        IndexedMeta *child2 = new IndexedMeta ();
         child2->setId ("mojaLista");
         child2->setClass ("VariantList");
         metaCont->add (child2);

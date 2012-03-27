@@ -108,14 +108,4 @@ void PrintMetaService::onRefData (RefData *data)
         }
 }
 
-void PrintMetaService::onIdRefData (IdRefData *data)
-{
-        if (!buffer) {
-                std::cerr << getContext ()->getDepth() << "IdRefData (" << data->getData() << ")" <<std::endl;
-        }
-        else {
-                *buffer += getContext ()->getDepth() + "IdRefData (" + data->getData() + ")\n";
-        }
-}
-
 }

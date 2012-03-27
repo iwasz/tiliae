@@ -37,12 +37,12 @@ extern TILIAE_API const char *SCOPE_ARGUMENT;
 class TILIAE_API AbstractMeta : public IMeta {
 public:
 
-        virtual ~AbstractMeta () {}
+        virtual ~AbstractMeta ();
 
         ListElemList getConstructorArgs () const;
-        void setConstructorArgs (const ListElemList &constructorArgs) { this->constructorArgs = constructorArgs; }
+        void setConstructorArgs (const ListElemList &constructorArgs);
         void addConstructorArgs (const ListElemList &constructorArgs);
-        void addConstructorArg (Ptr <ListElem> elem) { this->constructorArgs.push_back (elem); }
+        void addConstructorArg (Ptr <ListElem> elem);
 
 /*-- attribute markers -----------------------------------------------------*/
 
@@ -83,23 +83,23 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-//        Ptr <IMeta> get (const std::string &key) const;
-
         MetaMap getInnerMetas () const;
-        void setInnerMetas (const MetaMap &m) { innerMetas = m; }
-        void addInnerMeta (Ptr <IMeta> m);
+        void setInnerMetas (const MetaMap &m);
+        void addInnerMeta (IMeta *m);
         void addInnerMetaList (const MetaMap &m);
-
-//        IMeta *getOuterMeta () const { return outerMeta; }
-//        void setOuterMeta (IMeta *m) { outerMeta = m; }
 
         IMeta *getParentMeta () { return parent; }
         void setParentMeta (IMeta *m) { parent = m; attributes->setParentAttributes (m->getAttributes ()); }
 
 protected:
 
-        AbstractMeta () : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ())/*, outerMeta (NULL)*/ {}
-        AbstractMeta (const AbstractMeta &) : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ())/*, outerMeta (NULL)*/ {}
+        AbstractMeta () : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ()), constructorArgs (NULL), innerMetas (NULL) {}
+        AbstractMeta (const AbstractMeta &) : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ()), constructorArgs (NULL), innerMetas (NULL) {}
+
+private:
+
+        void initConstructorArgs ();
+        void initInnerMetas ();
 
 protected:
 
@@ -108,10 +108,10 @@ protected:
 private:
 
         Scope scope;
-        ListElemList constructorArgs;
         Ptr <Attributes> attributes;
-        MetaMap innerMetas;
-//        IMeta *outerMeta;
+        ListElemList *constructorArgs;
+        MetaMap *innerMetas;
+
 };
 
 }

@@ -24,13 +24,13 @@ bool ParentService::onMetaBegin (IMeta *child)
 
         std::string parentName = child->getParent ();
         MetaContainer *container = getContext ()->getMetaContainer ();
-        Ptr <IMeta> parent = container->get (parentName);
+        IMeta *parent = container->get (parentName);
 
         if (!parent) {
                 throw NoSuchBeanException ("NoSuchBeanException @ ParentService::onMeta id=" + parentName);
         }
 
-        child->setParentMeta (parent.get ());
+        child->setParentMeta (parent);
         return true;
 }
 

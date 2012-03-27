@@ -44,11 +44,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure01 ()
         Ptr <MappedMeta> parent = boost::make_shared <MappedMeta> ();
 
         Ptr <MapElem> elem1 = MapElem::create ("field1", ValueData::create ("value1", "String"));
-        elem1->addAttribute ("description", "To jest property bardzo ważne.");
+//        elem1->addAttribute ("description", "To jest property bardzo ważne.");
         parent->addField (elem1);
 
         elem1 = MapElem::create ("field2", ValueData::create ("value2", "String"));
-        elem1->addAttribute ("meta", "XXX");
+//        elem1->addAttribute ("meta", "XXX");
         parent->addField (elem1);
 
         parent->setId ("ojciec");
@@ -71,11 +71,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure01 ()
         Ptr <MappedMeta> child = boost::make_shared <MappedMeta> ();
 
         elem1 = MapElem::create ("field3", ValueData::create ("value3", "String"));
-        elem1->addAttribute ("meta", "YYY");
+//        elem1->addAttribute ("meta", "YYY");
         child->addField (elem1);
 
         elem1 = MapElem::create ("field4", ValueData::create ("value4", "String"));
-        elem1->addAttribute ("meta", "ZZZ");
+//        elem1->addAttribute ("meta", "ZZZ");
         child->addField (elem1);
 
         child->setId ("syn");

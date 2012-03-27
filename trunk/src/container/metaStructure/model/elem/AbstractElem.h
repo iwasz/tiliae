@@ -31,21 +31,21 @@ public:
         Ptr<IData> getData () const { return data; }
         void setData (Ptr<IData> data) { this->data = data; }
 
-        Core::StringMap const &getAttributes () const { return attributes; }
-        void setAttributes (const Core::StringMap &attributes) { this->attributes = attributes; }
-        void addAttribute (const std::string &key, const std::string &attribute) { this->attributes[key] = attribute; }
-        std::string const &getAttribute (const std::string &key) const;
+//        Core::StringMap const &getAttributes () const { return attributes; }
+//        void setAttributes (const Core::StringMap &attributes) { this->attributes = attributes; }
+//        void addAttribute (const std::string &key, const std::string &attribute) { this->attributes[key] = attribute; }
+//        std::string const &getAttribute (const std::string &key) const;
 
 protected:
 
         AbstractElem () {}
         AbstractElem (const AbstractElem &) {}
-        AbstractElem (Ptr <IData> d, const Core::StringMap &a) : data (d), attributes (a) {}
+        AbstractElem (Ptr <IData> d, const Core::StringMap &a) : data (d)/*, attributes (a)*/ {}
 
 private:
 
         Ptr <IData> data;
-        Core::StringMap attributes;
+//        Core::StringMap attributes;
 
 };
 

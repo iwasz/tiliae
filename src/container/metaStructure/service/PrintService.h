@@ -33,11 +33,9 @@ struct PrintMetaService : public AbstractMetaService {
         bool onIndexedMetaEnd (IndexedMeta *data) { return true; }
         void onConstructorArgsBegin (IMeta *data) {}
         void onConstructorArgsEnd (IMeta *data) {}
-        void onListElem (ListElem *data);
-        void onMapElem (MapElem *data);
-        void onValueData (ValueData *data);
-        void onNullData (NullData *data);
-        void onRefData (RefData *data);
+        void onValueData (std::string const &key, ValueData *data);
+        void onNullData (std::string const &key, NullData *data);
+        void onRefData (std::string const &key, RefData *data);
 
     /*--------------------------------------------------------------------------*/
 

@@ -30,9 +30,9 @@ bool MappedValueService::onMappedMetaBegin (MappedMeta *data)
 
 /****************************************************************************/
 
-void MappedValueService::onMapElem (MapElem *data)
+void MappedValueService::onConstructorArgsBegin (IMeta *data)
 {
-        currMapElem = data;
+        currMappedMeta = NULL;
 }
 
 /****************************************************************************/
@@ -40,45 +40,44 @@ void MappedValueService::onMapElem (MapElem *data)
 void MappedValueService::onConstructorArgsEnd (IMeta *data)
 {
         currMappedMeta = NULL;
-        currMapElem = NULL;
         inputMap = NULL;
 }
 
 /****************************************************************************/
 
-void MappedValueService::onValueData (ValueData *data)
+void MappedValueService::onValueData (std::string const &key, ValueData *data)
 {
-        if (!currMappedMeta || !currMapElem) {
+        if (!currMappedMeta) {
                 return;
         }
 
         Variant ret = helper->create (data->getType (), data->getData ());
-        inputMap->set (currMapElem->getKey (), ret);
+        inputMap->set (key, ret);
 }
 
 /****************************************************************************/
 
-void MappedValueService::onRefData (RefData *data)
+void MappedValueService::onRefData (std::string const &key, RefData *data)
 {
-        if (!currMappedMeta || !currMapElem) {
+        if (!currMappedMeta) {
                 return;
         }
 
-        inputMap->set (currMapElem->getKey (), Core::Variant ());
+        inputMap->set (key, Core::Variant ());
 }
 
 /****************************************************************************/
 
-void MappedValueService::onNullData (NullData *data)
+void MappedValueService::onNullData (std::string const &key, NullData *data)
 {
-        if (!currMappedMeta || !currMapElem) {
+        if (!currMappedMeta) {
                 return;
         }
 
         Core::Variant v;
         v.setNull ();
 
-        inputMap->set (currMapElem->getKey (), v);
+        inputMap->set (key, v);
 }
 
 }

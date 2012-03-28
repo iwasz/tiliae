@@ -213,10 +213,17 @@ BOOST_AUTO_TEST_CASE (test055MapMetaOverwrite)
         vB = k202->run ();
         BOOST_CHECK (vcast <bool> (vB) == true);
 
+        vB = cont->getBean ("parentMap");
+        BOOST_CHECK_EQUAL (vcast <StringMap *> (vB)->operator[] ("a"), "Test2");
+
+
         vB = cont->getBean ("testTool2");
         k202 = vcast <k202::K202Proxy *> (vB);
         vB = k202->run ();
         BOOST_CHECK (vcast <bool> (vB) == true);
+
+        vB = cont->getBean ("childMap");
+        BOOST_CHECK_EQUAL (vcast <StringMap *> (vB)->operator[] ("a"), "Test34");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

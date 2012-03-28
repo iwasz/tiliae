@@ -17,10 +17,6 @@ namespace Container {
 class ValueData;
 class NullData;
 class RefData;
-//class IdRefData;
-
-struct ListElem;
-struct MapElem;
 
 struct MappedMeta;
 struct IndexedMeta;
@@ -55,14 +51,10 @@ struct IMetaService {
         virtual void onConstructorArgsBegin (IMeta *data) = 0;
         virtual void onConstructorArgsEnd (IMeta *data) = 0;
 
-        virtual void onListElem (ListElem *data) = 0;
-        virtual void onMapElem (MapElem *data) = 0;
-        virtual void onValueData (ValueData *data) = 0;
-        virtual void onNullData (NullData *data) = 0;
-        virtual void onRefData (RefData *data) = 0;
-//        virtual void onIdRefData (IdRefData *data) = 0;
+        virtual void onValueData (std::string const &key, ValueData *data) = 0;
+        virtual void onNullData (std::string const &key, NullData *data) = 0;
+        virtual void onRefData (std::string const &key, RefData *data) = 0;
 
-        /*virtual void reset () = 0;*/
         virtual void setContext (VisitorContext *) = 0;
         virtual VisitorContext *getContext () const = 0;
 };

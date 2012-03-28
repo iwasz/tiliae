@@ -16,6 +16,7 @@
 #include "metaStructure/interface/IDataVisitor.h"
 #include "../../../../core/Pointer.h"
 #include "../../../../core/ApiMacro.h"
+#include "../data/IData.h"
 
 namespace Container {
 struct IMeta;
@@ -25,7 +26,7 @@ typedef std::pair <std::string, Ptr <IMeta> > MetaPair;
 typedef std::list <Ptr <IMeta> > MetaList;
 typedef std::map <std::string, IMeta *> MetaMap;
 typedef std::stack <IMeta *> MetaStack;
-typedef std::stack <Ptr <IElem> > MetaElemStack;
+//typedef std::stack <Ptr <IElem> > MetaElemStack;
 
 /**
  * Obiekty tej klasy stoją w opozycji do obiektów typu IData. To
@@ -49,10 +50,10 @@ struct TILIAE_API IMeta {
          * Ozwierciedla relacje rodzic-potomek. W XML zaimplementowane
          * przez atrybuty parent.
          */
-        virtual ListElemList getConstructorArgs () const = 0;
-        virtual void setConstructorArgs (const ListElemList &constructorArgs) = 0;
-        virtual void addConstructorArgs (const ListElemList &constructorArgs) = 0;
-        virtual void addConstructorArg (Ptr <ListElem> elem) = 0;
+        virtual DataVector getConstructorArgs () const = 0;
+//        virtual void setConstructorArgs (const ListElemList &constructorArgs) = 0;
+//        virtual void addConstructorArgs (const ListElemList &constructorArgs) = 0;
+        virtual void addConstructorArg (IData *elem) = 0;
 
         virtual Ptr <Attributes> getAttributes () = 0;
 

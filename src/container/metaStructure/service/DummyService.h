@@ -33,12 +33,9 @@ struct DummyMetaService : public AbstractMetaService {
         virtual bool onIndexedMetaEnd (IndexedMeta *data) { return true; }
         virtual void onConstructorArgsBegin (IMeta *data) {}
         virtual void onConstructorArgsEnd (IMeta *data) {}
-        virtual void onListElem (ListElem *data) {}
-        virtual void onMapElem (MapElem *data) {}
-        virtual void onValueData (ValueData *data) {}
-        virtual void onNullData (NullData *data) {}
-        virtual void onRefData (RefData *data) {}
-//        virtual void onIdRefData (IdRefData *data) {}
+        virtual void onValueData (std::string const &key, ValueData *data) {}
+        virtual void onNullData (std::string const &key, NullData *data) {}
+        virtual void onRefData (std::string const &key, RefData *data) {}
 };
 
 } // nam

@@ -12,19 +12,26 @@
 
 namespace Container {
 
-void IndexedMeta::addFields (const ListElemList &fields)
+IndexedMeta::~IndexedMeta ()
 {
-        std::copy (fields.begin (), fields.end (), std::back_inserter (this->fields));
+        for (DataVector::iterator i = fields.begin (); i != fields.end (); ++i) {
+                delete *i;
+        }
 }
+
+//void IndexedMeta::addFields (const ListElemList &fields)
+//{
+//        std::copy (fields.begin (), fields.end (), std::back_inserter (this->fields));
+//}
 
 /****************************************************************************/
 
-ListElemList IndexedMeta::getFields () const
+DataVector IndexedMeta::getFields () const
 {
         if (parent) {
                 IndexedMeta *indexedParent = dynamic_cast <IndexedMeta *> (parent);
                 assert (indexedParent);
-                ListElemList ret = indexedParent->getFields ();
+                DataVector ret = indexedParent->getFields ();
                 std::copy (fields.begin (), fields.end (), std::back_inserter (ret));
                 return ret;
         }

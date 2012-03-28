@@ -83,12 +83,10 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         BOOST_CHECK (mSyn);
 
         BOOST_CHECK (mSyn->getField ("field0"));
-        BOOST_CHECK (mSyn->getField ("field0")->getData ());
-        BOOST_CHECK (mSyn->getField ("field0")->getData ()->getData () == "value0");
+        BOOST_CHECK (mSyn->getField ("field0")->getData () == "value0");
 
         BOOST_CHECK (mSyn->getField ("field00"));
-        BOOST_CHECK (mSyn->getField ("field00")->getData ());
-        BOOST_CHECK (mSyn->getField ("field00")->getData ()->getData () == "value00");
+        BOOST_CHECK (mSyn->getField ("field00")->getData () == "value00");
 
         /*
          * Udało się z parentowaniem, teraz bierzemy sie za temporaryMap i

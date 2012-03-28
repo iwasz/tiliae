@@ -30,18 +30,19 @@ class RefData;
 class MappedValueService : public BeanFactoryService {
 public:
 
-        MappedValueService () : inputMap (NULL), currMappedMeta (NULL), currMapElem (NULL) {}
+        MappedValueService () : inputMap (NULL), currMappedMeta (NULL)/*, currMapElem (NULL)*/ {}
         virtual ~MappedValueService () {}
         static Ptr <MappedValueService> create () { return Ptr <MappedValueService> (new MappedValueService); }
 
 /*--------------------------------------------------------------------------*/
 
         virtual bool onMappedMetaBegin (MappedMeta *data);
+        virtual void onConstructorArgsBegin (IMeta *data);
         virtual void onConstructorArgsEnd (IMeta *data);
-        virtual void onMapElem (MapElem *data);
-        virtual void onValueData (ValueData *data);
-        virtual void onRefData (RefData *data);
-        virtual void onNullData (NullData *data);
+//        virtual void onMapElem (MapElem *data);
+        virtual void onValueData (std::string const &key, ValueData *data);
+        virtual void onRefData (std::string const &key, RefData *data);
+        virtual void onNullData (std::string const &key, NullData *data);
 
 /*--------------------------------------------------------------------------*/
 
@@ -54,7 +55,7 @@ private:
         Ptr<ValueServiceHelper> helper;
 
         MappedMeta *currMappedMeta;
-        MapElem *currMapElem;
+//        MapElem *currMapElem;
 
 };
 

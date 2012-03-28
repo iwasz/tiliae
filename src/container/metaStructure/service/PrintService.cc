@@ -58,27 +58,7 @@ bool PrintMetaService::onIndexedMetaBegin (IndexedMeta *data)
         return true;
 }
 
-void PrintMetaService::onListElem (ListElem *data)
-{
-        if (!buffer) {
-                std::cerr << getContext ()->getDepth() << "ListElem" <<std::endl;
-        }
-        else {
-                *buffer += getContext ()->getDepth() + "ListElem\n";
-        }
-}
-
-void PrintMetaService::onMapElem (MapElem *data)
-{
-        if (!buffer) {
-                std::cerr << getContext ()->getDepth() << "MapElem" <<std::endl;
-        }
-        else {
-                *buffer += getContext ()->getDepth() + "MapElem\n";
-        }
-}
-
-void PrintMetaService::onValueData (ValueData *data)
+void PrintMetaService::onValueData (std::string const &key, ValueData *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "ValueData (" << data->getData() << ")" <<std::endl;
@@ -88,7 +68,7 @@ void PrintMetaService::onValueData (ValueData *data)
         }
 }
 
-void PrintMetaService::onNullData (NullData *data)
+void PrintMetaService::onNullData (std::string const &key, NullData *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "NullData" <<std::endl;
@@ -98,7 +78,7 @@ void PrintMetaService::onNullData (NullData *data)
         }
 }
 
-void PrintMetaService::onRefData (RefData *data)
+void PrintMetaService::onRefData (std::string const &key, RefData *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "RefData (" << data->getData() << ")" <<std::endl;

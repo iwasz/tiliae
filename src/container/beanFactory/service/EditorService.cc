@@ -54,7 +54,7 @@ bool EditorService::onMappedMetaBegin (MappedMeta *meta)
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
         assert (beanFactory);
-        currentFieldName.clear ();
+//        currentFieldName.clear ();
 
         std::string customEditorName = meta->getEditor ();
         Editor::IEditor *editor = NULL;
@@ -95,7 +95,7 @@ Editor::SimpleMapEditor *EditorService::createMappedEditor ()
 void EditorService::onConstructorArgsBegin (IMeta *data)
 {
         currentEditor = NULL;
-        currentFieldName.clear ();
+//        currentFieldName.clear ();
 }
 
 /**
@@ -104,7 +104,7 @@ void EditorService::onConstructorArgsBegin (IMeta *data)
 void EditorService::onConstructorArgsEnd (IMeta *data)
 {
         currentEditor = NULL;
-        currentFieldName.clear ();
+//        currentFieldName.clear ();
 }
 
 /**
@@ -112,10 +112,10 @@ void EditorService::onConstructorArgsEnd (IMeta *data)
  * pola pod jakim wartość tego elementu ma być ustawiona. Czyli przekładając to na
  * XML, zapamiętywany jest <property name="key" ... /> do późniejszego użycia.
  */
-void EditorService::onMapElem (MapElem *data)
-{
-        currentFieldName = data->getKey ();
-}
+//void EditorService::onMapElem (MapElem *data)
+//{
+//        currentFieldName = data->getKey ();
+//}
 
 /**
  * Tu jest obsługiwana sytuacja, kiedy ktoś poda typ wartości (<value type="xxx">), który
@@ -124,7 +124,7 @@ void EditorService::onMapElem (MapElem *data)
  * Czyli <b>musi sie dać skastować</b> do Editor::IEditor.
  * TODO Zdublowany kod (chyba chodzi o IndexedEditorService).
  */
-void EditorService::onValueData (ValueData *data)
+void EditorService::onValueData (std::string const &key, ValueData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest bark pól do edycji
         if (!currentEditor) {
@@ -155,8 +155,8 @@ void EditorService::onValueData (ValueData *data)
         }
 
         Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::LazyEditor> (beanFactory);
-        currentEditor->setEditor (currentFieldName, tmpEditor);
-        currentFieldName.clear ();
+        currentEditor->setEditor (key, tmpEditor);
+//        currentFieldName.clear ();
 }
 
 /**
@@ -166,7 +166,7 @@ void EditorService::onValueData (ValueData *data)
  * ustawiany do głownego edytora (SimpleMapEditora w tym przypadku).
  * TODO zdublowany kod!
  */
-void EditorService::onRefData (RefData *data)
+void EditorService::onRefData (std::string const &key, RefData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest brak pól do edycji
         if (!currentEditor) {
@@ -183,8 +183,8 @@ void EditorService::onRefData (RefData *data)
 
         Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::FactoryEditor> (noopNoCopyEditor, beanFactory);
 //        assert (currentEditor, "!currentEditor in EditorService::onValueData. This should be set in EditorService::onMappedMetaBegin.");
-        currentEditor->setEditor (currentFieldName, tmpEditor);
-        currentFieldName.clear ();
+        currentEditor->setEditor (key, tmpEditor);
+//        currentFieldName.clear ();
 }
 
 }

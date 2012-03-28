@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 
         MappedMeta *child = new MappedMeta ();
 
-        child->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
+        child->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
         child->setId ("mojBean");
 //        Nie ma ustawionego class!
 //        child->setClass ("String");

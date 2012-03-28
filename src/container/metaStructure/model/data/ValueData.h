@@ -22,12 +22,9 @@ class TILIAE_API ValueData : public IData {
 public:
 
         ValueData () {}
+        ValueData (const std::string &d) : data (d) {}
         ValueData (const std::string &d, const std::string &t) : data (d), type (t) {}
         virtual ~ValueData () {}
-
-        static Ptr <ValueData> create (const std::string &d = std::string (), const std::string &t = std::string ()) {
-                return Ptr <ValueData> (new ValueData (d, t));
-        }
 
         std::string const &getData () const { return data; }
         void setData (const std::string &data) { this->data = data; }
@@ -37,7 +34,7 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        void accept (IDataVisitor *visitor) { visitor->visit (this); }
+        void accept (std::string const &key, IDataVisitor *visitor) { visitor->visit (key, this); }
 
 private:
 

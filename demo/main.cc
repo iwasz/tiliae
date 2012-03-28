@@ -45,9 +45,6 @@ int main (int argc, char **argv)
 
         printSize (Container::MappedMeta);
         printSize (Container::IndexedMeta);
-        printSize (Container::AbstractElem);
-        printSize (Container::MapElem);
-        printSize (Container::ListElem);
         printSize (Container::RefData);
         printSize (Container::ValueData);
         printSize (Container::NullData);

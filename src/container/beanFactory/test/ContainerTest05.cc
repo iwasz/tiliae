@@ -121,13 +121,13 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 
         MappedMeta *child = new MappedMeta ();
 
-        child->addField (MapElem::create ("field0", ValueData::create ("value0", "bracketType")));
-        child->addField (MapElem::create ("field1", ValueData::create ("value1", "bracketType")));
-        child->addField (MapElem::create ("field2", ValueData::create ("6667", "int")));
-        child->addField (MapElem::create ("field3", ValueData::create ("123.45", "double")));
-        child->addField (MapElem::create ("field4", ValueData::create ("f", "char")));
-        child->addField (MapElem::create ("field5", ValueData::create ("true", "bool")));
-        child->addField (MapElem::create ("field6", NullData::create ()));
+        child->addField (DataKey ("field0", new ValueData ("value0", "bracketType")));
+        child->addField (DataKey ("field1", new ValueData ("value1", "bracketType")));
+        child->addField (DataKey ("field2", new ValueData ("6667", "int")));
+        child->addField (DataKey ("field3", new ValueData ("123.45", "double")));
+        child->addField (DataKey ("field4", new ValueData ("f", "char")));
+        child->addField (DataKey ("field5", new ValueData ("true", "bool")));
+        child->addField (DataKey ("field6", new NullData ()));
 
         child->setId ("mojBean");
         child->setClass ("Foo");
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 /*--------------------------------------------------------------------------*/
 
         child = new MappedMeta ();
-        //child->addField (MapElem::create ("name", ValueData::create ("Warszawa", "String")));
+        //child->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
         child->setId ("bracketType");
         child->setClass ("DummyIEditor");
         metaCont->add (child);
@@ -182,11 +182,11 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 
         IndexedMeta *child = new IndexedMeta ();
 
-        child->addField (ListElem::create (ValueData::create ("value0", "string")));
-        child->addField (ListElem::create (ValueData::create ("value1", "string")));
-        child->addField (ListElem::create (ValueData::create ("value2", "string")));
-        child->addField (ListElem::create (ValueData::create ("value3", "string")));
-        child->addField (ListElem::create (ValueData::create ("value4", "string")));
+        child->addField (new ValueData ("value0", "string"));
+        child->addField (new ValueData ("value1", "string"));
+        child->addField (new ValueData ("value2", "string"));
+        child->addField (new ValueData ("value3", "string"));
+        child->addField (new ValueData ("value4", "string"));
         child->setId ("mojBean");
         child->setClass ("string");
         child->setEditor ("editor");

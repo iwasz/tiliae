@@ -63,7 +63,15 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
 
 /****************************************************************************/
 
-        Variant v = cont->getBean ("mojBean");
+        Variant v;
+
+        try {
+                v = cont->getBean ("mojBean");
+        }
+        catch (Core::Exception const &e) {
+                std::cerr << e.getMessage () << std::endl;
+        }
+
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Bar *> (v));
 

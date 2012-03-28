@@ -11,6 +11,7 @@
 
 #include "AbstractMeta.h"
 #include "../../../../core/ApiMacro.h"
+#include "../data/IData.h"
 
 namespace Container {
 
@@ -23,20 +24,18 @@ namespace Container {
 class TILIAE_API IndexedMeta : public AbstractMeta {
 public:
 
-        virtual ~IndexedMeta () {}
+        virtual ~IndexedMeta ();
 
         Type getType () const { return INDEXED; }
 
-        ListElemList getFields () const;
-        void setFields (const ListElemList &fields) { this->fields = fields; }
-        void addFields (const ListElemList &fields);
-        void addField (Ptr <ListElem> field) { this->fields.push_back (field); }
+        DataVector getFields () const;
+        void addField (IData *field) { this->fields.push_back (field); }
 
         void accept (IMetaVisitor *visitor) { visitor->visit (this); }
 
 private:
 
-        ListElemList fields;
+        DataVector fields;
 };
 
 }

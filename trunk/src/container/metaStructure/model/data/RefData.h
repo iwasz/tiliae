@@ -9,7 +9,7 @@
 #ifndef REFDATA_H_
 #define REFDATA_H_
 
-#include "AbstractRef.h"
+#include "IData.h"
 #include "../../../../core/ApiMacro.h"
 
 namespace Container {
@@ -18,17 +18,21 @@ namespace Container {
  * Implementuje ref-y.
  * \ingroup Container
  */
-struct TILIAE_API RefData : public AbstractRef {
+struct TILIAE_API RefData : public IData {
 
-        RefData () : AbstractRef () {}
-        RefData (const std::string &d, Target t) : AbstractRef (d, t) {}
+        RefData () : IData () {}
+        RefData (const std::string &d) : data (d) {}
         virtual ~RefData () {}
 
-        static Ptr <RefData> create (const std::string &d = std::string (), Target t = AbstractRef::BEAN) {
-                return Ptr <RefData> (new RefData (d, t));
-        }
+        std::string const &getData () const { return data; }
+        void setData (const std::string &data) { this->data = data; }
 
-        void accept (IDataVisitor *visitor) { visitor->visit (this); }
+        void accept (std::string const &key, IDataVisitor *visitor) { visitor->visit (key, this); }
+
+private:
+
+        std::string data;
+
 };
 
 }

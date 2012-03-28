@@ -27,7 +27,7 @@ namespace Container {
  */
 class MetaVisitor : public IContainerVisitor,
                 public IMetaVisitor,
-                public IElemVisitor,
+//                public IElemVisitor,
                 public IDataVisitor {
 public:
 
@@ -44,12 +44,12 @@ public:
         void visit (MappedMeta *data);
         void visit (IndexedMeta *data);
 
-        void visit (ListElem *data);
-        void visit (MapElem *data);
+//        void visit (ListElem *data);
+//        void visit (MapElem *data);
 
-        void visit (ValueData *data);
-        void visit (NullData *data);
-        void visit (RefData *data);
+        void visit (std::string const &key, ValueData *data);
+        void visit (std::string const &key, NullData *data);
+        void visit (std::string const &key, RefData *data);
 //        void visit (IdRefData *data);
 
         void reset ();

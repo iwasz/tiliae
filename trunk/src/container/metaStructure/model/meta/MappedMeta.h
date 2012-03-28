@@ -12,6 +12,7 @@
 #include "AbstractMeta.h"
 #include "../elem/MapElem.h"
 #include "../../../../core/ApiMacro.h"
+#include "../data/IData.h"
 
 namespace Container {
 
@@ -24,18 +25,13 @@ namespace Container {
 class TILIAE_API MappedMeta : public AbstractMeta {
 public:
 
-        virtual ~MappedMeta () {}
+        virtual ~MappedMeta ();
 
         Type getType () const { return MAPPED; }
 
-        MapElemList getFieldsAsList () const;
-        void addField (Ptr <MapElem> field);
-
-        /// O(N)
-        Ptr <MapElem> getField (const std::string &key);
-
-        /// O(N)
-        void removeField (const std::string &key);
+        DataMap getFields () const;
+        void addField (DataKey const &dataKey);
+        IData *getField (const std::string &key);
 
 /*--------------------------------------------------------------------------*/
 
@@ -43,8 +39,7 @@ public:
 
 private:
 
-        MapElemList fields;
-
+        DataMap fields;
 };
 
 } // nam

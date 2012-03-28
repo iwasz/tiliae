@@ -29,6 +29,12 @@ const char *SCOPE_ARGUMENT = "scope";
 
 AbstractMeta::~AbstractMeta ()
 {
+        if (constructorArgs) {
+                for (DataVector::iterator i = constructorArgs->begin (); i != constructorArgs->end (); ++i) {
+                        delete *i;
+                }
+        }
+
         delete constructorArgs;
         delete innerMetas;
 }
@@ -38,7 +44,7 @@ AbstractMeta::~AbstractMeta ()
 void AbstractMeta::initConstructorArgs ()
 {
         if (!constructorArgs) {
-                constructorArgs = new ListElemList;
+                constructorArgs = new DataVector;
         }
 }
 
@@ -77,23 +83,23 @@ void AbstractMeta::addInnerMetaList (const MetaMap &m)
 
 /****************************************************************************/
 
-void AbstractMeta::addConstructorArgs (const ListElemList &constructorArgs)
-{
-        initConstructorArgs ();
-        std::copy (constructorArgs.begin (), constructorArgs.end (), std::back_inserter (*this->constructorArgs));
-}
+//void AbstractMeta::addConstructorArgs (const ListElemList &constructorArgs)
+//{
+//        initConstructorArgs ();
+//        std::copy (constructorArgs.begin (), constructorArgs.end (), std::back_inserter (*this->constructorArgs));
+//}
+//
+///****************************************************************************/
+//
+//void AbstractMeta::setConstructorArgs (const ListElemList &constructorArgs)
+//{
+//        initConstructorArgs ();
+//        *this->constructorArgs = constructorArgs;
+//}
 
 /****************************************************************************/
 
-void AbstractMeta::setConstructorArgs (const ListElemList &constructorArgs)
-{
-        initConstructorArgs ();
-        *this->constructorArgs = constructorArgs;
-}
-
-/****************************************************************************/
-
-void AbstractMeta::addConstructorArg (Ptr <ListElem> elem)
+void AbstractMeta::addConstructorArg (IData *elem)
 {
         initConstructorArgs ();
         constructorArgs->push_back (elem);
@@ -101,10 +107,10 @@ void AbstractMeta::addConstructorArg (Ptr <ListElem> elem)
 
 /****************************************************************************/
 
-ListElemList AbstractMeta::getConstructorArgs () const
+DataVector AbstractMeta::getConstructorArgs () const
 {
         if (parent) {
-                ListElemList ret = parent->getConstructorArgs ();
+                DataVector ret = parent->getConstructorArgs ();
 
                 if (constructorArgs) {
                         std::copy (constructorArgs->begin (), constructorArgs->end (), std::back_inserter (ret));
@@ -117,7 +123,7 @@ ListElemList AbstractMeta::getConstructorArgs () const
                 return *constructorArgs;
         }
 
-        return ListElemList ();
+        return DataVector ();
 }
 
 /****************************************************************************/

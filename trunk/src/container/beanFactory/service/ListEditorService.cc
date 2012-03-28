@@ -115,15 +115,15 @@ Editor::IndexedEditor *ListEditorService::createIndexedEditor ()
 
 /****************************************************************************/
 
-void ListEditorService::onListElem (ListElem *data)
-{
-        currentFieldIdx++;
-}
+//void ListEditorService::onListElem (ListElem *data)
+//{
+//        currentFieldIdx++;
+//}
 
 /****************************************************************************/
 
 // TODO Zdublowny kod!
-void ListEditorService::onValueData (ValueData *data)
+void ListEditorService::onValueData (std::string const &key, ValueData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest bark pól do edycji
         if (!currentEditor) {
@@ -144,7 +144,7 @@ void ListEditorService::onValueData (ValueData *data)
                 type == "string" ||
                 type == "String" ||
                 type == "text") {
-//                currentFieldIdx++;
+                currentFieldIdx++;
                 return;
         }
 
@@ -156,13 +156,13 @@ void ListEditorService::onValueData (ValueData *data)
         }
 
         Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::LazyEditor> (beanFactory);
-        currentEditor->setEditor (currentFieldIdx, tmpEditor);
+        currentEditor->setEditor (++currentFieldIdx, tmpEditor);
 }
 
 /****************************************************************************/
 
 // TODO Zdublowny kod!
-void ListEditorService::onRefData (RefData *data)
+void ListEditorService::onRefData (std::string const &key, RefData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest bark pól do edycji
         if (!currentEditor) {
@@ -179,7 +179,7 @@ void ListEditorService::onRefData (RefData *data)
         }
 
         Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::FactoryEditor> (noopNoCopyEditor, beanFactory);
-        currentEditor->setEditor (currentFieldIdx, tmpEditor);
+        currentEditor->setEditor (++currentFieldIdx, tmpEditor);
 }
 
 }

@@ -43,9 +43,9 @@ public:
         virtual bool onIndexedMetaBegin (IndexedMeta *data);
         virtual void onConstructorArgsBegin (IMeta *data);
         virtual void onConstructorArgsEnd (IMeta *data);
-        virtual void onListElem (ListElem *data);
-        virtual void onValueData (ValueData *data);
-        virtual void onRefData (RefData *data);
+//        virtual void onListElem (ListElem *data);
+        virtual void onValueData (std::string const &key, ValueData *data);
+        virtual void onRefData (std::string const &key, RefData *data);
 
 private:
 

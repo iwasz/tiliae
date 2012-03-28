@@ -41,9 +41,8 @@ BOOST_AUTO_TEST_CASE (testCreateData)
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <RefData> data2 = boost::make_shared <RefData> ("someBean", AbstractRef::LOCAL);
+        Ptr <RefData> data2 = boost::make_shared <RefData> ("someBean");
         BOOST_CHECK (data2->getData () == "someBean");
-        BOOST_CHECK (data2->getTarget () == AbstractRef::LOCAL);
 
 /*--------------------------------------------------------------------------*/
 

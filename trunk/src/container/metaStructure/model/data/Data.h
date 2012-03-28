@@ -6,12 +6,10 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef DATA_H_
-#define DATA_H_
+#ifndef TILIAE_DATA_H_
+#define TILIAE_DATA_H_
 
-#include "AbstractRef.h"
 #include "IData.h"
-#include "IdRefData.h"
 #include "NullData.h"
 #include "RefData.h"
 #include "ValueData.h"

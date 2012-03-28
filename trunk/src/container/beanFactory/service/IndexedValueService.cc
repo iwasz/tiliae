@@ -46,26 +46,26 @@ void IndexedValueService::onConstructorArgsBegin (IMeta *data)
 
 void IndexedValueService::onConstructorArgsEnd (IMeta *data)
 {
-        currIndexedMeta = NULL;
-        currListElem = NULL;
+//        currIndexedMeta = NULL;
+//        currListElem = NULL;
         inputList = NULL;
         cargList = NULL;
 }
 
 /****************************************************************************/
 
-void IndexedValueService::onListElem (ListElem *data)
-{
-        currListElem = data;
-}
+//void IndexedValueService::onListElem (ListElem *data)
+//{
+//        currListElem = data;
+//}
 
 /****************************************************************************/
 
-void IndexedValueService::onValueData (ValueData *data)
+void IndexedValueService::onValueData (std::string const &, ValueData *data)
 {
-        if (/*!currIndexedMeta || */!currListElem) {
-                return;
-        }
+//        if (/*!currIndexedMeta || */!currListElem) {
+//                return;
+//        }
 
         Variant ret = helper->create (data->getType (), data->getData ());
 
@@ -79,7 +79,7 @@ void IndexedValueService::onValueData (ValueData *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onRefData (RefData *data)
+void IndexedValueService::onRefData (std::string const &, RefData *data)
 {
 //        if (!currIndexedMeta) {
 //                return true;
@@ -95,11 +95,11 @@ void IndexedValueService::onRefData (RefData *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onNullData (NullData *data)
+void IndexedValueService::onNullData (std::string const &, NullData *data)
 {
-        if (/*!currIndexedMeta || */!currListElem) {
-                return;
-        }
+//        if (/*!currIndexedMeta || */!currListElem) {
+//                return;
+//        }
 
         Core::Variant v;
         v.setNull ();

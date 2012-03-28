@@ -24,12 +24,8 @@ struct TILIAE_API NullData : public IData {
 
         virtual ~NullData () {}
 
-        static Ptr <NullData> create () {
-                return Ptr <NullData> (new NullData ());
-        }
-
         std::string const &getData () const { static std::string s ("<NULL>"); return s; }
-        void accept (IDataVisitor *visitor) { visitor->visit (this); }
+        void accept (std::string const &key, IDataVisitor *visitor) { visitor->visit (key, this); }
 };
 
 }

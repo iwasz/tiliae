@@ -39,10 +39,10 @@ public:
 
         virtual ~AbstractMeta ();
 
-        ListElemList getConstructorArgs () const;
-        void setConstructorArgs (const ListElemList &constructorArgs);
-        void addConstructorArgs (const ListElemList &constructorArgs);
-        void addConstructorArg (Ptr <ListElem> elem);
+        DataVector getConstructorArgs () const;
+//        void setConstructorArgs (const ListElemList &constructorArgs);
+//        void addConstructorArgs (const ListElemList &constructorArgs);
+        void addConstructorArg (IData *elem);
 
 /*-- attribute markers -----------------------------------------------------*/
 
@@ -109,7 +109,7 @@ private:
 
         Scope scope;
         Ptr <Attributes> attributes;
-        ListElemList *constructorArgs;
+        DataVector *constructorArgs;
         MetaMap *innerMetas;
 
 };

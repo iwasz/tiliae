@@ -9,6 +9,8 @@
 #ifndef IDATAVISITOR_H_
 #define IDATAVISITOR_H_
 
+#include <string>
+
 namespace Container {
 
 class ValueData;
@@ -16,8 +18,8 @@ class NullData;
 class RefData;
 //class IdRefData;
 
-struct ListElem;
-struct MapElem;
+//struct ListElem;
+//struct MapElem;
 
 struct MappedMeta;
 struct IndexedMeta;
@@ -39,22 +41,22 @@ struct AbstractMeta;
 struct IDataVisitor {
 
         virtual ~IDataVisitor () {}
-        virtual void visit (ValueData *data) = 0;
-        virtual void visit (NullData *data) = 0;
-        virtual void visit (RefData *data) = 0;
+        virtual void visit (std::string const &key, ValueData *data) = 0;
+        virtual void visit (std::string const &key, NullData *data) = 0;
+        virtual void visit (std::string const &key, RefData *data) = 0;
 //        virtual void visit (IdRefData *data) = 0;
 };
 
-/**
- * Implementacja paternu Visitor. Ten visitor będzie odwiedzał
- * obiekty typu IElem.
- * \ingroup Container
- */
-struct IElemVisitor {
-        virtual ~IElemVisitor () {}
-        virtual void visit (ListElem *data) = 0;
-        virtual void visit (MapElem *data) = 0;
-};
+///**
+// * Implementacja paternu Visitor. Ten visitor będzie odwiedzał
+// * obiekty typu IElem.
+// * \ingroup Container
+// */
+//struct IElemVisitor {
+//        virtual ~IElemVisitor () {}
+//        virtual void visit (ListElem *data) = 0;
+//        virtual void visit (MapElem *data) = 0;
+//};
 
 /**
  * Implementacja paternu Visitor. Ten visitor będzie odwiedzał

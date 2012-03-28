@@ -5,7 +5,7 @@
     <bean id="bracketFilter" class="BracketFilter" singleton="true" />
     <bean id="stupidFilter" class="StupidFilter" scope="singleton" />
 
-    <bean id="basicAuthor" class="Author" abstract="true">
+    <bean id="basicAuthor" class="Author" singleton="true" abstract="true">
         <property name="firstname" value="Bjarne" />
         <property name="lastname" value="Stroustrup" />
     </bean>

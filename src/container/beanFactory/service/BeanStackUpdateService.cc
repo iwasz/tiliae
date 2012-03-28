@@ -38,8 +38,14 @@ bool BeanStackUpdateService::onMetaBegin (IMeta *data)
         return true;
 }
 
+/****************************************************************************/
+
 bool BeanStackUpdateService::onMetaEnd (IMeta *data)
 {
+        if (data->getAbstract()) {
+                return false;
+        }
+
         BeanFactoryStack &stack = getBVFContext ()->getStack();
         assert (!stack.empty ());
         stack.pop ();

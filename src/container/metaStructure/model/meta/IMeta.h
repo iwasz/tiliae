@@ -12,7 +12,6 @@
 #include <map>
 #include <list>
 #include <stack>
-#include "../elem/ListElem.h"
 #include "metaStructure/interface/IDataVisitor.h"
 #include "../../../../core/Pointer.h"
 #include "../../../../core/ApiMacro.h"

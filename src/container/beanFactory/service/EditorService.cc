@@ -53,8 +53,11 @@ bool EditorService::onMappedMetaBegin (MappedMeta *meta)
 {
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
-        assert (beanFactory);
-//        currentFieldName.clear ();
+
+        if (!beanFactory) {
+                // Gdy abstract
+                return false;
+        }
 
         std::string customEditorName = meta->getEditor ();
         Editor::IEditor *editor = NULL;
@@ -134,6 +137,11 @@ void EditorService::onValueData (std::string const &key, ValueData *data)
         std::string type = data->getType ();
         Ptr <BeanFactory> current = getBVFContext ()->getCurrentBF ();
 
+        if (!current) {
+                // Gdy abstract
+                return;
+        }
+
         // TODO Z tym stringami to trzeba jakoś sprytniej wymyślić.
         if (type == "" ||
                 type == "int" ||
@@ -174,6 +182,11 @@ void EditorService::onRefData (std::string const &key, RefData *data)
         }
 
         Ptr <BeanFactory> current = getBVFContext ()->getCurrentBF ();
+
+        if (!current) {
+                return;
+        }
+
         Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
         Ptr <BeanFactory> beanFactory = container->getBeanFactory (data->getData (), current);
 

@@ -36,7 +36,11 @@ bool FactoryService::onMetaBegin (IMeta *data)
 {
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
-        assert (beanFactory);
+
+        if (!beanFactory) {
+                // Gdy abstract
+                return false;
+        }
 
         std::string customFactoryName = data->getFactory ();
         Factory::IFactory *factory = NULL;

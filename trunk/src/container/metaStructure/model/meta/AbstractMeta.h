@@ -11,7 +11,6 @@
 
 #include "IMeta.h"
 #include "common/Attributes.h"
-#include "../elem/ListElem.h"
 #include "../../../../core/Typedefs.h"
 #include "../../../../core/ApiMacro.h"
 
@@ -51,7 +50,7 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        bool getAbstract () const { return attributes->getBool (ABSTRACT_ARGUMENT); }
+        bool getAbstract () const { return attributes->getBool (ABSTRACT_ARGUMENT, false); }
         void setAbstract (bool abstract) { attributes->setBool (ABSTRACT_ARGUMENT, abstract); }
 
         bool getLazyInit () const { return attributes->getBool (LAZYINIT_ARGUMENT); }

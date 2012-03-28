@@ -43,7 +43,12 @@ bool ListEditorService::onIndexedMetaBegin (IndexedMeta *meta)
 {
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
-        assert (beanFactory);
+
+        if (!beanFactory) {
+                // Gdy abstract
+                return false;
+        }
+
         currentFieldIdx = -1;
 
         std::string customEditorName = meta->getEditor ();
@@ -83,7 +88,12 @@ void ListEditorService::onConstructorArgsBegin (IMeta *data)
         }
 
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
-        assert (beanFactory);
+
+        if (!beanFactory) {
+                // Gdy abstract
+                return;
+        }
+
         currentFieldIdx = -1;
 
         Editor::IndexedEditor *editor = new Editor::IndexedEditor ();
@@ -133,6 +143,11 @@ void ListEditorService::onValueData (std::string const &key, ValueData *data)
         std::string type = data->getType ();
         Ptr <BeanFactory> current = getBVFContext ()->getCurrentBF ();
 
+        if (!current) {
+                // Gdy abstract
+                return;
+        }
+
         // TODO Z tym stringami to trzeba jakoś sprytinej wymyślić.
         // TODO To nie może tak być.
         if (type == "" ||
@@ -170,6 +185,12 @@ void ListEditorService::onRefData (std::string const &key, RefData *data)
         }
 
         Ptr <BeanFactory> current = getBVFContext ()->getCurrentBF ();
+
+        if (!current) {
+                // Gdy abstract
+                return;
+        }
+
         Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
         Ptr <BeanFactory> beanFactory = container->getBeanFactory (data->getData (), current);
 

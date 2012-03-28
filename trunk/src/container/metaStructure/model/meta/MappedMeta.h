@@ -10,7 +10,6 @@
 #define MAPPEDMETA_H_
 
 #include "AbstractMeta.h"
-#include "../elem/MapElem.h"
 #include "../../../../core/ApiMacro.h"
 #include "../data/IData.h"
 

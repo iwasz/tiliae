@@ -11,7 +11,6 @@
 
 #include "data/Data.h"
 #include "meta/Meta.h"
-#include "elem/Elem.h"
 #include "MetaContainer.h"
 
 #endif /* METASTRUCTURE_H_ */

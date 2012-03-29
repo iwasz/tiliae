@@ -90,8 +90,8 @@ public:
 
 protected:
 
-        AbstractMeta () : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ()), constructorArgs (NULL), innerMetas (NULL) {}
-        AbstractMeta (const AbstractMeta &) : parent (NULL), scope (IMeta::PROTOTYPE), attributes (boost::make_shared <Attributes> ()), constructorArgs (NULL), innerMetas (NULL) {}
+        AbstractMeta () : parent (NULL), scope (IMeta::SINGLETON), attributes (boost::make_shared <Attributes> ()), constructorArgs (NULL), innerMetas (NULL) {}
+        AbstractMeta (const AbstractMeta &) : parent (NULL), scope (IMeta::SINGLETON), attributes (boost::make_shared <Attributes> ()), constructorArgs (NULL), innerMetas (NULL) {}
 
 private:
 

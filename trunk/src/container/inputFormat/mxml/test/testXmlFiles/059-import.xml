@@ -4,5 +4,5 @@
 <beans>
     <list id="bean1" class="StringList"/>    
     <!-- Ścieżka relatywna do CWD programu, a program jest w build -->
-    <import resource="../src/container/inputFormat/xml/test/testXmlFiles/059-import-01.xml"/>
+    <import resource="../src/container/inputFormat/mxml/test/testXmlFiles/059-import-01.xml"/>
 </beans>

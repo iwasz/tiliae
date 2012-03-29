@@ -25,28 +25,43 @@ namespace Container {
 class TILIAE_API Attributes {
 public:
 
-        void setString (const std::string &key, const std::string &value);
-        std::string const &getString (const std::string &key, bool getFromParent = true) const;
+        enum AttributeName {
+                ABSTRACT_ARGUMENT,
+                LAZYINIT_ARGUMENT,
+                ID_ARGUMENT,
+                CLASS_ARGUMENT,
+                PARENT_ARGUMENT,
+                DEPENDSON_ARGUMENT,
+                INITMETHOD_ARGUMENT,
+                FACTORY_ARGUMENT,
+                EDITOR_ARGUMENT,
+                DESCRIPTION_ARGUMENT,
+                OUTER_ARGUMENT,
+                SCOPE_ARGUMENT,
+        };
 
-        void setInt (const std::string &key, int value);
-        int getInt (const std::string &key, bool getFromParent = true) const;
+        void setString (AttributeName key, const std::string &value);
+        std::string const &getString (AttributeName key, bool getFromParent = true) const;
 
-        void setBool (const std::string &key, bool value);
-        bool getBool (const std::string &key, bool getFromParent = true) const;
+        void setInt (AttributeName key, int value);
+        int getInt (AttributeName key, bool getFromParent = true) const;
 
-        void addAttributes (const Attributes &a);
-        void removeAttributes (const Core::StringList &l);
-        void removeAttribute (const std::string &key);
-        bool containsKey (const std::string &key, bool getFromParent = true) const;
+        void setBool (AttributeName key, bool value);
+        bool getBool (AttributeName key, bool getFromParent = true) const;
+
+//        void addAttributes (const Attributes &a);
+        void removeAttribute (AttributeName key);
+        bool containsKey (AttributeName key, bool getFromParent = true) const;
 
         void setParentAttributes (Ptr <Attributes const> a) { parent = a; }
 
 private:
 
-        typedef std::map <std::string, int> IntMap;
+        typedef std::map <unsigned char, int> AttribIntMap;
+        typedef std::map <unsigned char, std::string> AttribStrMap;
 
-        Core::StringMap strMap;
-        IntMap intMap;
+        AttribStrMap strMap;
+        AttribIntMap intMap;
         Ptr <Attributes const> parent;
 };
 

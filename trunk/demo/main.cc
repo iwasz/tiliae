@@ -49,6 +49,11 @@ int main (int argc, char **argv)
         printSize (Container::ValueData);
         printSize (Container::NullData);
 
+        enum En { A, B, C };
+
+        printSize (En);
+        printSize (unsigned char);
+
 #if 1
         Ptr <BeanFactoryContainer> container = ContainerFactory::createContainer (MXmlMetaService::parseFile ("../demo/main.xml"));
         Ptr <BookVector> v = vcast <Ptr <BookVector> > (container->getBean ("books"));

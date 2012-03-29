@@ -12,18 +12,18 @@
 
 namespace Container {
 
-const char *ABSTRACT_ARGUMENT = "abstract";
-const char *LAZYINIT_ARGUMENT = "lazyInit";
-const char *ID_ARGUMENT = "id";
-const char *CLASS_ARGUMENT = "class";
-const char *PARENT_ARGUMENT = "parent";
-const char *DEPENDSON_ARGUMENT = "dependsOn";
-const char *INITMETHOD_ARGUMENT = "initMethod";
-const char *FACTORY_ARGUMENT = "factory";
-const char *EDITOR_ARGUMENT = "editor";
-const char *DESCRIPTION_ARGUMENT = "description";
-const char *OUTER_ARGUMENT = "outer";
-const char *SCOPE_ARGUMENT = "scope";
+//const char *ABSTRACT_ARGUMENT = "abstract";
+//const char *LAZYINIT_ARGUMENT = "lazyInit";
+//const char *ID_ARGUMENT = "id";
+//const char *CLASS_ARGUMENT = "c";
+//const char *PARENT_ARGUMENT = "parent";
+//const char *DEPENDSON_ARGUMENT = "dependsOn";
+//const char *INITMETHOD_ARGUMENT = "initMethod";
+//const char *FACTORY_ARGUMENT = "factory";
+//const char *EDITOR_ARGUMENT = "editor";
+//const char *DESCRIPTION_ARGUMENT = "description";
+//const char *OUTER_ARGUMENT = "outer";
+//const char *SCOPE_ARGUMENT = "scope";
 
 /*##########################################################################*/
 

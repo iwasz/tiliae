@@ -87,9 +87,9 @@ public:
         void setCArgsEditor (Editor::IEditor *cArgsEditor) { this->cArgsEditor = cArgsEditor; }
 
         void setAttributes (Ptr <Attributes> attributes);
-        std::string getStringAttribute (const std::string &key, bool getFromParent = true) const { return attributes->getString (key, getFromParent); }
-        int getIntAttribute (const std::string &key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
-        bool getBoolAttribute (const std::string &key, bool getFromParent = true) const { return attributes->getBool (key, getFromParent); }
+        std::string getStringAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getString (key, getFromParent); }
+        int getIntAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
+        bool getBoolAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getBool (key, getFromParent); }
 
         Core::VariantList const *getInputList () const { return inputList; }
         void setInputList (Core::VariantList const *input) { this->inputList = input; flags |= INPUT_LIST; flags &= ~INPUT_MAP; }

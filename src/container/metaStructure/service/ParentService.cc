@@ -11,6 +11,7 @@
 #include "common/Exceptions.h"
 #include "../../../core/string/String.h"
 #include <cassert>
+#include "../../common/Attributes.h"
 
 namespace Container {
 
@@ -18,7 +19,7 @@ using namespace Core;
 
 bool ParentService::onMetaBegin (IMeta *child)
 {
-        if (!child->containsAttribute (PARENT_ARGUMENT)) {
+        if (!child->containsAttribute (Attributes::PARENT_ARGUMENT)) {
                 return NULL;
         }
 

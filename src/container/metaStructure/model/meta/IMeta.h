@@ -16,6 +16,7 @@
 #include "../../../../core/Pointer.h"
 #include "../../../../core/ApiMacro.h"
 #include "../data/IData.h"
+#include "../../../common/Attributes.h"
 
 namespace Container {
 struct IMeta;
@@ -100,7 +101,7 @@ struct TILIAE_API IMeta {
 
 /*-- attribute markers -----------------------------------------------------*/
 
-        virtual bool containsAttribute (const std::string &key) const = 0;
+        virtual bool containsAttribute (Attributes::AttributeName key) const = 0;
 
 /*--------------------------------------------------------------------------*/
 

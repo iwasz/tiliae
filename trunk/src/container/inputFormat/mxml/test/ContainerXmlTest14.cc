@@ -108,4 +108,26 @@ BOOST_AUTO_TEST_CASE (test069NestedParent)
         BOOST_REQUIRE (!exception);
 }
 
+/**
+ * Testuje, czy domyślnie tworzone są singletony (jak się w XML nie poda parametru singleton="true").
+ */
+BOOST_AUTO_TEST_CASE (test070DefaultSingleton)
+{
+        bool exception = false;
+
+        try {
+                Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "001-simplest-bean.xml");
+                Core::Variant v1 = cont->getBean ("city");
+                Core::Variant v2 = cont->getBean ("city");
+
+                BOOST_REQUIRE_EQUAL (vcast <Ptr <City> > (v1), vcast <Ptr <City> > (v2));
+        }
+        catch (Core::Exception const &e) {
+                std::cerr << e.getMessage () << std::endl;
+                exception = true;
+        }
+
+        BOOST_REQUIRE (!exception);
+}
+
 BOOST_AUTO_TEST_SUITE_END ();

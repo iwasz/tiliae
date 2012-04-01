@@ -59,41 +59,41 @@ struct TILIAE_API is_ptr : public boost::integral_constant<bool, (__is_Ptr_helpe
 
 /*--------------------------------------------------------------------------*/
 
-template <typename _T, typename>
+template <typename T, typename>
 struct __remove_Ptr_helper{
-        typedef _T type;
+        typedef T type;
 };
 
-template <typename _T, typename _U>
-struct __remove_Ptr_helper <_T, Ptr <_U> > {
-        typedef _U type;
+template <typename T, typename U>
+struct __remove_Ptr_helper <T, Ptr <U> > {
+        typedef U type;
 };
 
 /// remove_pointer
-template <typename _T>
-struct TILIAE_API remove_ptr : public __remove_Ptr_helper<_T, typename boost::remove_cv <_T>::type>
+template <typename T>
+struct TILIAE_API remove_ptr : public __remove_Ptr_helper<T, typename boost::remove_cv <T>::type>
 { };
 
 /*--------------------------------------------------------------------------*/
 
-template <typename _T, typename>
+template <typename T, typename>
 struct __remove_Ptrs_helper{
-        typedef _T type;
+        typedef T type;
 };
 
-template <typename _T, typename _U>
-struct __remove_Ptrs_helper <_T, Ptr <_U> > {
-        typedef _U type;
+template <typename T, typename U>
+struct __remove_Ptrs_helper <T, Ptr <U> > {
+        typedef U type;
 };
 
-template <typename _T, typename _U>
-struct __remove_Ptrs_helper <_T, _U*> {
-        typedef _U type;
+template <typename T, typename U>
+struct __remove_Ptrs_helper <T, U*> {
+        typedef U type;
 };
 
 /// rmove_ptr + remove_pointer
-template <typename _T>
-struct TILIAE_API remove_ptrs : public __remove_Ptrs_helper<_T, typename boost::remove_cv <_T>::type>
+template <typename T>
+struct TILIAE_API remove_ptrs : public __remove_Ptrs_helper<T, typename boost::remove_cv <T>::type>
 { };
 
 /*--------------------------------------------------------------------------*/

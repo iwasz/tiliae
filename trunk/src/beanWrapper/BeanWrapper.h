@@ -14,7 +14,6 @@
  * Opis.
  */
 
-#include "Context.h"
 #include "IBeanWrapper.h"
 #include "IPropertyAccessor.h"
 #include "beanWrapper/BeanWrapper.h"

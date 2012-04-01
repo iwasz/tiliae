@@ -14,8 +14,6 @@
 #include "../../core/variant/Variant.h"
 #include <boost/lexical_cast.hpp>
 
-using boost::detail::lexical_cast;
-
 namespace k202 {
 
 template <typename T>

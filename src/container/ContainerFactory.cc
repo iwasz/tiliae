@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <Pointer.h>
-#include <TestHelpers.h>
 #include <NoopEditor.h>
 
 #include "metaStructure/model/MetaStructure.h"

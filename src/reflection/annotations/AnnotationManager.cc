@@ -10,8 +10,6 @@
 #include <boost/lexical_cast.hpp>
 #include "AnnotationManager.h"
 
-using boost::detail::lexical_cast;
-
 namespace Annotations {
 
 std::string AnnotationManager::toString () const

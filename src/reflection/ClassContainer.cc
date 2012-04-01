@@ -10,8 +10,6 @@
 #include <boost/lexical_cast.hpp>
 #include "ClassContainer.h"
 
-using boost::detail::lexical_cast;
-
 namespace Reflection {
 using namespace Core;
 

@@ -35,7 +35,7 @@ INSTALL (
 
 INSTALL (
     DIRECTORY "${PROJECT_SOURCE_DIR}/pc/"
-    DESTINATION "/usr/lib/pkgconfig"
+    DESTINATION "lib/pkgconfig"
     FILES_MATCHING PATTERN "*.pc"
     PATTERN "*.svn*" EXCLUDE)
 

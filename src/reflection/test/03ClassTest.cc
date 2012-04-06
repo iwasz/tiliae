@@ -265,7 +265,7 @@ namespace F {
 
 /*--------------------------------------------------------------------------*/
 
-#if 1
+#if 0
         template <typename T>
         struct Template02 {
 
@@ -286,7 +286,7 @@ namespace F {
 #endif
 }
 
-#if 1
+#if 0
 /**
  *
  */

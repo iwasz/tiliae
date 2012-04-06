@@ -69,7 +69,7 @@ Annotations::AnnotationManager::instance ().addAnnotation                     \
  * Makro do implementacji REFLECTION_CONSTRUCTOR, nie używać.
  */
 #define REFLECTION_CONSTRUCTOR_ANNOTATION_BODY_PRIV(...)                                        \
-REFLECTION_CONSTRUCTOR_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, __VA_ARGS__)
+REFLECTION_CONSTRUCTOR_ANNOTATION(REFLECT_CLASS_NAME, CLASS, __VA_ARGS__)
 
 /**
  * Definicja makra adnotacji dla ConstructorAnnotation. Zadziała jednakowoż

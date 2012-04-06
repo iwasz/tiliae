@@ -12,6 +12,7 @@
 #include <iostream> // Wywalić
 #include <boost/preprocessor.hpp> // TODO Zamienić na pojedyncze hedery
 #include <boost/current_function.hpp>
+#include "ApiMacro.h"
 
 /**
  * TODO Czy da się w klasie użyć jakiegoś magicznego makra w stylu __CLASS__,
@@ -77,11 +78,10 @@
 
 #define ANNOTATION_METHOD_HEADER_ARG_RECURENCE(n)                                                    \
                                                                                                      \
-template <typename REFLECT_CLAZZ_TYPE>                                                               \
-static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLECT_CLASS_NAME)        \
+TILIAE_LOCAL static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLECT_CLASS_NAME)        \
 {                                                                                                    \
       /*std::cerr <<     REFLECT_CLASS_NAME << std::endl; */                                         \
-        BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,BOOST_PP_DEC(n)) <REFLECT_CLAZZ_TYPE> (REFLECT_CLASS_NAME) ;
+        BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,BOOST_PP_DEC(n)) (REFLECT_CLASS_NAME) ;
 
 /**
  * Generuje nagłówek metody adnotacyjnej (znajduje się na początku [każdego?] makra z jednym _)
@@ -92,8 +92,7 @@ static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLEC
 
 #define ANNOTATION_METHOD_HEADER_ARG(n)                                                          \
                                                                                                  \
-template <typename REFLECT_CLAZZ_TYPE>                                                           \
-static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLECT_CLASS_NAME)    \
+TILIAE_LOCAL static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLECT_CLASS_NAME)    \
 {
 
 /**
@@ -118,11 +117,10 @@ static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLEC
 #define _e_implementation_arg(NClazz, Token)                                                  \
                                                                                               \
        public:                                                                                \
-                                                                                              \
-       template <typename REFLECT_CLAZZ_TYPE>                                                 \
+       typedef NClazz CLASS;                                                                 \
        static void REFLECT_INIT_METHOD_NAME (const char *REFLECT_CLASS_NAME)                  \
        {                                                                                      \
-               GEN_ANNOTATION_METHOD_TAIL_NAME <REFLECT_CLAZZ_TYPE> (REFLECT_CLASS_NAME);     \
+               GEN_ANNOTATION_METHOD_TAIL_NAME (REFLECT_CLASS_NAME);     \
        }                                                                                      \
                                                                                               \
 }; /* Koniec klasy */                                                                         \
@@ -134,7 +132,7 @@ static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLEC
                 }                                                                             \
                                                                                               \
                 Token ()                                                                      \
-                { NClazz::REFLECT_INIT_METHOD_NAME <NClazz> (BOOST_PP_STRINGIZE (NClazz));    \
+                { NClazz::REFLECT_INIT_METHOD_NAME (BOOST_PP_STRINGIZE (NClazz));    \
                 /*std::cerr << "Token() : " << BOOST_PP_STRINGIZE (NClazz) << std::endl;*/ }    \
         };                                                                                    \
                                                                                               \
@@ -146,11 +144,10 @@ namespace  {                                                                    
 #define _tb_implementation_arg(Token)                                                       \
                                                                                             \
        public:                                                                              \
-                                                                                            \
-       template <typename REFLECT_CLAZZ_TYPE>                                               \
+       typedef REFLECT_CLAZZ_TYPE CLASS;                                                                                     \
        static void REFLECT_INIT_METHOD_NAME (const char *REFLECT_CLASS_NAME)                \
        {                                                                                    \
-               GEN_ANNOTATION_METHOD_TAIL_NAME <REFLECT_CLAZZ_TYPE> (REFLECT_CLASS_NAME);   \
+               GEN_ANNOTATION_METHOD_TAIL_NAME <CLASS> (REFLECT_CLASS_NAME);   \
        }                                                                                    \
                                                                                             \
 }; /* Koniec klasy */                                                                       \

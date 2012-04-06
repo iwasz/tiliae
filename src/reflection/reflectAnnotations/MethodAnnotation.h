@@ -101,14 +101,14 @@ Annotations::AnnotationManager::instance ().addAnnotation                       
  * Implementacyjne, nie używać.
  */
 #define REFLECTION_METHOD_ANNOTATION_BODY_PRIV(method)                                  \
-REFLECTION_METHOD_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, method)           \
+REFLECTION_METHOD_ANNOTATION(REFLECT_CLASS_NAME, CLASS, method)           \
 }
 
 /**
  * Impl settera./
  */
 #define REFLECTION_SETTER_ANNOTATION_BODY_PRIV(method)                                  \
-REFLECTION_SETTER_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, method)           \
+REFLECTION_SETTER_ANNOTATION(REFLECT_CLASS_NAME, CLASS, method)           \
 }
 
 /**
@@ -142,22 +142,22 @@ REFLECTION_SETTER_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, method)    
 
 #define REFLECTION_OVERLOADED_METHOD(ret,method,...)                                                            \
         ANNOTATION_METHOD_HEADER_RECURENCE                                                                      \
-        REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
+        REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, CLASS, ret, method, __VA_ARGS__) \
 }
 
 #define REFLECTION_OVERLOADED_METHOD_(ret,method,...)                                                           \
         ANNOTATION_METHOD_HEADER                                                                                \
-        REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
+        REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, CLASS, ret, method, __VA_ARGS__) \
 }
 
 #define REFLECTION_OVERLOADED_CONST_METHOD(ret,method,...)                                                            \
         ANNOTATION_METHOD_HEADER_RECURENCE                                                                            \
-        REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
+        REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, CLASS, ret, method, __VA_ARGS__) \
 }
 
 #define REFLECTION_OVERLOADED_CONST_METHOD_(ret,method,...)                                                           \
         ANNOTATION_METHOD_HEADER                                                                                      \
-        REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE, ret, method, __VA_ARGS__) \
+        REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, CLASS, ret, method, __VA_ARGS__) \
 }
 
 #endif /* METHODANNOTATION_H_ */

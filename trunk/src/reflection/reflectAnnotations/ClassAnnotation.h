@@ -64,7 +64,7 @@ Annotations::AnnotationManager::instance ().addAnnotation                      \
  * Makro do implementacji REFLECTION_CONSTRUCTOR, nie używać.
  */
 #define REFLECTION_CLASS_ANNOTATION_BODY_PRIV                                 \
-REFLECTION_CLASS_ANNOTATION(REFLECT_CLASS_NAME, REFLECT_CLAZZ_TYPE)
+REFLECTION_CLASS_ANNOTATION(REFLECT_CLASS_NAME, CLASS)
 
 
 #define REFLECTION_CLASS                                                   \

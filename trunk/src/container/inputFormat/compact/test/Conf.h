@@ -6,10 +6,9 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef INPUTFORMAT_H_
-#define INPUTFORMAT_H_
+#ifndef COMPACT_CONF_H_
+#define COMPACT_CONF_H_
 
-#include "mxml/MXmlMetaService.h"
-#include "compact/CompactMetaService.h"
+const std::string PATH = "../src/container/inputFormat/compact/test/testXmlFiles/";
 
-#	endif /* INPUTFORMAT_H_ */
+#endif /* CONF_H_ */

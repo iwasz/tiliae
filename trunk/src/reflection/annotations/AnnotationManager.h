@@ -23,11 +23,7 @@ namespace Annotations {
 class TILIAE_API AnnotationManager : public Core::IToStringEnabled {
 public:
 
-        static AnnotationManager &instance ()
-        {
-                static AnnotationManager *neverDelete = new AnnotationManager ();
-                return *neverDelete;
-        }
+        static AnnotationManager &instance ();
 
         /**
          * Dodaje adnotacje do managera. Uwaga : nie ma zabezpieczenia przed wielokrotnym
@@ -36,7 +32,6 @@ public:
         bool addAnnotation (IAnnotation *a)
         {
                 annotationList.insert (a);
-//                annotationList.push_back (a);
                 return true;
         }
 

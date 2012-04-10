@@ -21,6 +21,9 @@ SET (BUILD_CONTAINER           1)
 SET (BUILD_DEMO                0)
 SET (BUILD_TESTS               1)
 
+#SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 
+#SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
+
 SET (CMAKE_VERBOSE_MAKEFILE 0) 
 ADD_DEFINITIONS (-g -fvisibility=hidden -DTILIAE_DLL -Wall)
 ADD_DEFINITIONS (-DTILIAE_DEBUG)
@@ -197,6 +200,7 @@ IF(BUILD_CONTAINER)
 
     AUX_SOURCE_DIRECTORY (../src/container/inputFormat LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/container/inputFormat/mxml/ LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/container/inputFormat/compact/ LIB_SOURCES)
 
     AUX_SOURCE_DIRECTORY (../src/container/metaStructure LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/container/metaStructure/interface LIB_SOURCES)

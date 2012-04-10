@@ -6,10 +6,21 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef INPUTFORMAT_H_
-#define INPUTFORMAT_H_
+#ifndef COMPACTMETASERVICE_H_
+#define COMPACTMETASERVICE_H_
 
-#include "mxml/MXmlMetaService.h"
-#include "compact/CompactMetaService.h"
+#include <string>
+#include "ApiMacro.h"
+#include "Pointer.h"
 
-#	endif /* INPUTFORMAT_H_ */
+namespace Container {
+class MetaContainer;
+
+struct TILIAE_API CompactMetaService {
+
+        static Ptr <MetaContainer> parseFile (std::string const &path, Ptr <MetaContainer> container = Ptr <MetaContainer> ());
+
+};
+
+} /* namespace Container */
+#endif /* COMPACTMETASERVICE_H_ */

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <queue>
 #include <boost/lexical_cast.hpp>
-#include "MXmlMetaService.h"
+#include "CompactMetaService.h"
 #include "../../../core/Pointer.h"
 #include "../../common/Exceptions.h"
 #include "../../metaStructure/model/MetaContainer.h"
@@ -773,7 +773,7 @@ IMeta *Impl::popCurrentMeta ()
 
 /****************************************************************************/
 
-Ptr <MetaContainer> MXmlMetaService::parseFile (std::string const &path, Ptr <MetaContainer> container)
+Ptr <MetaContainer> CompactMetaService::parseFile (std::string const &path, Ptr <MetaContainer> container)
 {
         if (!container) {
                 container = boost::make_shared <MetaContainer> ();

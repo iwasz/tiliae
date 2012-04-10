@@ -12,6 +12,14 @@
 
 namespace Annotations {
 
+AnnotationManager &AnnotationManager::instance ()
+{
+        static AnnotationManager *neverDelete = new AnnotationManager ();
+        return *neverDelete;
+}
+
+/****************************************************************************/
+
 std::string AnnotationManager::toString () const
 {
         std::string ret = std::string ("AnnotationManager (noOfAnnotations:") +

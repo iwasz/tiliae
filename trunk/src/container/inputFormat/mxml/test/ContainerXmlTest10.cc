@@ -11,7 +11,6 @@
 #include <iostream>
 #include <Pointer.h>
 #include <TestHelpers.h>
-#include <misc/K202Proxy.h>
 
 #include "ContainerFactory.h"
 #include "metaStructure/model/MetaStructure.h"
@@ -101,20 +100,25 @@ BOOST_AUTO_TEST_CASE (test050PropertyOrderParent)
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "050-property-order-parent.xml");
 
         Variant vB = cont->getBean ("parentMap");
-        BOOST_CHECK (ccast <VariantMap *> (vB));
+        BOOST_REQUIRE (ccast <VariantMap *> (vB));
 
         vB = cont->getBean ("childMap");
-        BOOST_CHECK (ccast <VariantMap *> (vB));
+        BOOST_REQUIRE (ccast <VariantMap *> (vB));
 
-        vB = cont->getBean ("testTool");
-        BOOST_CHECK (ccast <k202::K202Proxy *> (vB));
-        k202::K202Proxy *k202 = vcast <k202::K202Proxy *> (vB);
+        VariantMap *m1 = vcast <VariantMap *> (vB);
+        VariantMap *m2 = vcast <VariantMap *> (m1->operator [] ("b"));
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (m2->operator []("c")), "Test34");
 
-        BOOST_CHECK (k202);
-        vB = k202->run ();
 
-        BOOST_CHECK (ccast <bool> (vB));
-        BOOST_CHECK (vcast <bool> (vB) == true);
+//        vB = cont->getBean ("testTool");
+//        BOOST_CHECK (ccast <k202::K202Proxy *> (vB));
+//        k202::K202Proxy *k202 = vcast <k202::K202Proxy *> (vB);
+//
+//        BOOST_CHECK (k202);
+//        vB = k202->run ();
+//
+//        BOOST_CHECK (ccast <bool> (vB));
+//        BOOST_CHECK (vcast <bool> (vB) == true);
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

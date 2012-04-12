@@ -154,28 +154,28 @@ void Impl::onOpenElement (mxml_node_t *node)
 
         tagStack.push_back (name);
 
-        if (!strcmp (name, "bean")) {
-                onOpenBean (node);
-        }
-        else if (!strcmp (name, "property")) {
+//        if (!strcmp (name, "bean")) {
+//                onOpenBean (node);
+//        }
+        if (!strcmp (name, "property")) {
                 onOpenProperty (node);
         }
         else if (!strcmp (name, "entry")) {
                 onOpenEntry (node);
         }
-        else if (!strcmp (name, "list")) {
-                onOpenList (node);
-        }
-        else if (!strcmp (name, "map")) {
-                onOpenMap (node);
-        }
+//        else if (!strcmp (name, "list")) {
+//                onOpenList (node);
+//        }
+//        else if (!strcmp (name, "map")) {
+//                onOpenMap (node);
+//        }
         else if (!strcmp (name, "import")) {
                 onOpenImport (node);
         }
-        else if (!strcmp (name, "alias")) {
-
-        }
-        else if (!strcmp (name, "constructor-arg") || !strcmp (name, "carg")) {
+//        else if (!strcmp (name, "alias")) {
+//
+//        }
+        else if (!strcmp (name, "carg")) {
                 onOpenCArg (node);
         }
         else if (!strcmp (name, "ref")) {
@@ -190,7 +190,7 @@ void Impl::onOpenElement (mxml_node_t *node)
         else if (!strcmp (name, "beans") || !strcmp (name, "key")) {
         }
         else {
-                throw XmlMetaServiceException ("Impl::onOpenElement : unknow tag name : " + std::string (name));
+                onOpenBean (node);
         }
 }
 
@@ -231,18 +231,19 @@ void Impl::onCloseElement (mxml_node_t *node)
 void Impl::fillMetaArguments (mxml_node_t *node, IMeta *meta)
 {
         char const *argVal = NULL;
+        char const *name = mxmlGetElement (node);
 
         if ((argVal = mxmlElementGetAttr (node, "id"))) {
                 meta->setId (argVal);
         }
 
-        if ((argVal = mxmlElementGetAttr (node, "class"))) {
-                meta->setClass (argVal);
-        }
-
-        if ((argVal = mxmlElementGetAttr (node, "parent"))) {
-                meta->setParent (argVal);
-        }
+//        if ((argVal = mxmlElementGetAttr (node, "class"))) {
+//                meta->setClass (argVal);
+//        }
+//
+//        if ((argVal = mxmlElementGetAttr (node, "parent"))) {
+//                meta->setParent (argVal);
+//        }
 
         if ((argVal = mxmlElementGetAttr (node, "singleton"))) {
                 meta->setScope ((!strcmp (argVal, "true")) ? (IMeta::SINGLETON) : (IMeta::PROTOTYPE));

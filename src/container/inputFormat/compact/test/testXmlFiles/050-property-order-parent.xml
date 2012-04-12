@@ -24,17 +24,18 @@
 
     <!--Takie hocki klocki też działają -->
     <bean id="childMap" parent="parentMap">
+<!--        <property name="b.c.d" value="Test34" />-->
         <property name="b.d" value="Test34" />
     </bean>
 
     <!--Tester -->
-<!--     <bean id="testTool" class="K202Proxy"> -->
-<!--         <property name="domain"> -->
-<!--             <ref bean="childMap" /> -->
-<!--         </property> -->
+    <bean id="testTool" class="K202Proxy">
+        <property name="domain">
+            <ref bean="childMap" />
+        </property>
 
-<!--         <property name="sourceCode"> -->
-<!--             <value><![CDATA[${b.d} == 'Test34']]></value> -->
-<!--         </property> -->
-<!--     </bean> -->
+        <property name="sourceCode">
+            <value><![CDATA[${b.d} == 'Test34']]></value>
+        </property>
+    </bean>
 </beans>

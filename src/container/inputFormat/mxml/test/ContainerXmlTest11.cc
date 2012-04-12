@@ -11,7 +11,6 @@
 #include <iostream>
 #include <Pointer.h>
 #include <TestHelpers.h>
-#include <misc/K202Proxy.h>
 
 #include "ContainerFactory.h"
 #include "metaStructure/model/MetaStructure.h"
@@ -23,7 +22,6 @@
 
 using namespace Core;
 using namespace Container;
-using namespace k202;
 
 /****************************************************************************/
 
@@ -209,18 +207,18 @@ BOOST_AUTO_TEST_CASE (test055MapMetaOverwrite)
 {
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "055-map-meta-overwrite.xml");
         Variant vB = cont->getBean ("testTool1");
-        k202::K202Proxy *k202 = vcast <k202::K202Proxy *> (vB);
-        vB = k202->run ();
-        BOOST_CHECK (vcast <bool> (vB) == true);
+//        k202::K202Proxy *k202 = vcast <k202::K202Proxy *> (vB);
+//        vB = k202->run ();
+//        BOOST_CHECK (vcast <bool> (vB) == true);
 
         vB = cont->getBean ("parentMap");
         BOOST_CHECK_EQUAL (vcast <StringMap *> (vB)->operator[] ("a"), "Test2");
 
 
-        vB = cont->getBean ("testTool2");
-        k202 = vcast <k202::K202Proxy *> (vB);
-        vB = k202->run ();
-        BOOST_CHECK (vcast <bool> (vB) == true);
+//        vB = cont->getBean ("testTool2");
+//        k202 = vcast <k202::K202Proxy *> (vB);
+//        vB = k202->run ();
+//        BOOST_CHECK (vcast <bool> (vB) == true);
 
         vB = cont->getBean ("childMap");
         BOOST_CHECK_EQUAL (vcast <StringMap *> (vB)->operator[] ("a"), "Test34");

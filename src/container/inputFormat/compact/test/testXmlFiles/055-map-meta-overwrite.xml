@@ -22,15 +22,15 @@
 
 
     <!--Tester -->
-<!--     <bean id="testTool1" class="K202Proxy"> -->
-<!--         <property name="domain"> -->
-<!--             <ref bean="parentMap" /> -->
-<!--         </property> -->
+    <bean id="testTool1" class="K202Proxy">
+        <property name="domain">
+            <ref bean="parentMap" />
+        </property>
 
-<!--         <property name="sourceCode"> -->
-<!--             <value><![CDATA[$a == 'Test2']]></value> -->
-<!--         </property> -->
-<!--     </bean> -->
+        <property name="sourceCode">
+            <value><![CDATA[$a == 'Test2']]></value>
+        </property>
+    </bean>
 
 
 
@@ -42,15 +42,15 @@
 
 
     <!--Tester -->
-<!--     <bean id="testTool2" class="K202Proxy"> -->
-<!--         <property name="domain"> -->
-<!--             <ref bean="childMap" /> -->
-<!--         </property> -->
+    <bean id="testTool2" class="K202Proxy">
+        <property name="domain">
+            <ref bean="childMap" />
+        </property>
 
-<!--         <property name="sourceCode"> -->
-<!--             <value><![CDATA[$a == 'Test34']]></value> -->
-<!--         </property> -->
-<!--     </bean> -->
+        <property name="sourceCode">
+            <value><![CDATA[$a == 'Test34']]></value>
+        </property>
+    </bean>
 
 
 </beans>

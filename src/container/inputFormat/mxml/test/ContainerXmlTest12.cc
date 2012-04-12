@@ -11,7 +11,6 @@
 #include <iostream>
 #include <Pointer.h>
 #include <TestHelpers.h>
-#include <misc/K202Proxy.h>
 
 #include "ContainerFactory.h"
 #include "metaStructure/model/MetaStructure.h"
@@ -22,7 +21,6 @@
 
 using namespace Core;
 using namespace Container;
-using namespace k202;
 
 /****************************************************************************/
 

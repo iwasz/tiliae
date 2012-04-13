@@ -11,13 +11,13 @@
 
 #include <iostream>
 #include <Pointer.h>
-#include <TestHelpers.h>
 
 #include "ContainerFactory.h"
 #include "metaStructure/model/MetaStructure.h"
 #include "common/testHelpers/ContainerTestFactory.h"
 #include "../CompactMetaService.h"
 #include "Conf.h"
+#include "../../../../testHelpers/City.h"
 
 /****************************************************************************/
 
@@ -41,5 +41,23 @@ BOOST_AUTO_TEST_CASE (test001SimplestBeanFirst)
                 std::cerr << e.getMessage () << std::endl;
         }
 }
+
+BOOST_AUTO_TEST_CASE (test001SimplestBean)
+{
+        Ptr <BeanFactoryContainer> beanContainer = ContainerFactory::createContainer (CompactMetaService::parseFile (PATH + "002-simplest-bean-value-string.xml"));
+
+        Ptr <City> c = vcast <Ptr <City> > (beanContainer->getBean ("city1"));
+        BOOST_REQUIRE_EQUAL (c->getName (), "Warszawa");
+
+        c = vcast <Ptr <City> > (beanContainer->getBean ("city2"));
+        BOOST_REQUIRE_EQUAL (c->getName (), "Kraków");
+
+        c = vcast <Ptr <City> > (beanContainer->getBean ("city3"));
+        BOOST_REQUIRE_EQUAL (c->getName (), "Tokio");
+//
+//        c = vcast <Ptr <City> > (beanContainer->getBean ("city4"));
+//        BOOST_REQUIRE_EQUAL (c->getName (), "Paris");
+}
+
 
 BOOST_AUTO_TEST_SUITE_END ();

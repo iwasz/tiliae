@@ -20,6 +20,7 @@
 #include "../../metaStructure/model/data/ValueData.h"
 #include "../../metaStructure/model/data/NullData.h"
 #include "../../metaStructure/model/data/IData.h"
+#include "../../../reflection/Manager.h"
 
 namespace Container {
 
@@ -44,8 +45,8 @@ struct Impl {
         void onOpenMap (mxml_node_t *node);
         void onCloseMap (mxml_node_t *node);
 
-        void onOpenProperty (mxml_node_t *node);
-        void onCloseProperty (mxml_node_t *node);
+        void onOpenSet (mxml_node_t *node);
+//        void onCloseSet (mxml_node_t *node);
 
         void onOpenEntry (mxml_node_t *node);
 
@@ -90,6 +91,11 @@ struct Impl {
 
 
         std::string generateId (IMeta *m) const { return m->getClass() + "_" + boost::lexical_cast <std::string> (singetinNumber++); }
+
+        /**
+         * Sprawdza, czy podana nazwa jest nazwąklasy odnajdywalną w reflekcji, czy nie.
+         */
+        bool checkIfClass (std::string const &name) const;
 
         /// Tu odkładają się nazwy kolejnych (zagnieżdżonych tagów).
         Core::StringVector tagStack;
@@ -157,12 +163,12 @@ void Impl::onOpenElement (mxml_node_t *node)
 //        if (!strcmp (name, "bean")) {
 //                onOpenBean (node);
 //        }
-        if (!strcmp (name, "property")) {
-                onOpenProperty (node);
+        if (!strcmp (name, "set")) {
+                onOpenSet (node);
         }
-        else if (!strcmp (name, "entry")) {
-                onOpenEntry (node);
-        }
+//        else if (!strcmp (name, "entry")) {
+//                onOpenEntry (node);
+//        }
 //        else if (!strcmp (name, "list")) {
 //                onOpenList (node);
 //        }
@@ -200,27 +206,28 @@ void Impl::onCloseElement (mxml_node_t *node)
 {
         char const *name = mxmlGetElement (node);
 
-        if (!strcmp (name, "bean")) {
-                onCloseBean (node);
+        if (!strcmp (name, "set")) {
+//                onCloseSet (node);
         }
-        else if (!strcmp (name, "property") || !strcmp (name, "entry")) {
-                // Entry i property działa tak samo.
-                onCloseProperty (node);
-        }
-        else if (!strcmp (name, "map")) {
-                onCloseMap (node);
-        }
-        else if (!strcmp (name, "list")) {
-                onCloseList (node);
-        }
+//        else if (!strcmp (name, "map")) {
+//                onCloseMap (node);
+//        }
+//        else if (!strcmp (name, "list")) {
+//                onCloseList (node);
+//        }
         else if (!strcmp (name, "value")) {
                 onCloseValue (node);
         }
         else if (!strcmp (name, "ref")) {
                 onCloseRef (node);
         }
-        else if (!strcmp (name, "constructor-arg") || !strcmp (name, "carg")) {
+        else if (!strcmp (name, "carg")) {
                 onCloseCArg (node);
+        }
+        else if (!strcmp (name, "beans")) {
+        }
+        else {
+                onCloseBean (node);
         }
 
         tagStack.pop_back ();
@@ -230,59 +237,78 @@ void Impl::onCloseElement (mxml_node_t *node)
 
 void Impl::fillMetaArguments (mxml_node_t *node, IMeta *meta)
 {
-        char const *argVal = NULL;
-        char const *name = mxmlGetElement (node);
+        std::string name = mxmlGetElement (node);
 
-        if ((argVal = mxmlElementGetAttr (node, "id"))) {
-                meta->setId (argVal);
+        if (checkIfClass (name)) {
+                meta->setClass (name);
+        }
+        else {
+                meta->setParent (name);
         }
 
-//        if ((argVal = mxmlElementGetAttr (node, "class"))) {
-//                meta->setClass (argVal);
-//        }
-//
-//        if ((argVal = mxmlElementGetAttr (node, "parent"))) {
-//                meta->setParent (argVal);
-//        }
+        mxml_attr_t *attr = node->value.element.attrs;
+        for (int i = 0; i < node->value.element.num_attrs; ++i) {
+                mxml_attr_t *cur = attr + i;
+                std::string name = cur->name;
+                std::string value = cur->value;
 
-        if ((argVal = mxmlElementGetAttr (node, "singleton"))) {
-                meta->setScope ((!strcmp (argVal, "true")) ? (IMeta::SINGLETON) : (IMeta::PROTOTYPE));
-        }
+#if 0
+                std::cerr << name << ", " << value << std::endl;
+#endif
 
-        if ((argVal = mxmlElementGetAttr (node, "scope"))) {
-                if (!strcmp (argVal, "singleton")) {
-                        meta->setScope (IMeta::SINGLETON);
+                // Standardowe atrybuty:
+                if (name == "id") {
+                        meta->setId (value);
                 }
-                else if (!strcmp (argVal, "prototype")) {
-                        meta->setScope (IMeta::PROTOTYPE);
+                else if (name == "singleton") {
+                        meta->setScope ((value == "true") ? (IMeta::SINGLETON) : (IMeta::PROTOTYPE));
                 }
-                else if (!strcmp (argVal, "bean")) {
-                        meta->setScope (IMeta::BEAN);
+                else if (name == "scope") {
+                        if (value == "singleton") {
+                                meta->setScope (IMeta::SINGLETON);
+                        }
+                        else if (value == "prototype") {
+                                meta->setScope (IMeta::PROTOTYPE);
+                        }
+                        else if (value == "bean") {
+                                meta->setScope (IMeta::BEAN);
+                        }
+                        else {
+                                throw XmlMetaServiceException ("Impl::onOpenBean : wrong value for argument 'scope'. Correct values are : 'singleton', 'prototype' and 'bean'. You provided : " + std::string (value));
+                        }
                 }
+                else if (name == "lazy-init") {
+                        meta->setLazyInit (value == "true");
+                }
+                else if (name == "init-method") {
+                        meta->setInitMethod (value);
+                }
+                else if (name == "editor") {
+                        meta->setEditor (value);
+                }
+                else if (name == "factory") {
+                        meta->setFactory (value);
+                }
+                else if (name == "abstract") {
+                        meta->setAbstract (value == "true");
+                }
+                // Property
                 else {
-                        throw XmlMetaServiceException ("Impl::onOpenBean : wrong value for argument 'scope'. Correct values are : 'singleton', 'prototype' and 'bean'. You provided : " + std::string (argVal));
+                        DataKey dk;
+                        dk.key = name;
+
+                        if (!value.empty () && value[0] == '@') {
+                                dk.data = new RefData (value);
+                        }
+                        else {
+                                dk.data = new ValueData (value);
+                        }
+
+                        MappedMeta *meta =  getCurrentMappedMeta ();
+                        meta->addField (dk);
                 }
         }
 
-        if ((argVal = mxmlElementGetAttr (node, "lazy-init"))) {
-                meta->setLazyInit (!strcmp (argVal, "true"));
-        }
-
-        if ((argVal = mxmlElementGetAttr (node, "init-method"))) {
-                meta->setInitMethod (argVal);
-        }
-
-        if ((argVal = mxmlElementGetAttr (node, "editor"))) {
-                meta->setEditor (argVal);
-        }
-
-        if ((argVal = mxmlElementGetAttr (node, "factory"))) {
-                meta->setFactory (argVal);
-        }
-
-        if ((argVal = mxmlElementGetAttr (node, "abstract"))) {
-                meta->setAbstract (!strcmp (argVal, "true"));
-        }
 }
 
 /****************************************************************************/
@@ -302,22 +328,25 @@ void Impl::onCloseBean (mxml_node_t *node)
 
 /****************************************************************************/
 
-void Impl::onOpenProperty (mxml_node_t *node)
+void Impl::onOpenSet (mxml_node_t *node)
 {
-        DataKey &elem = pushNewDataKey ();
+        mxml_attr_t *attr = node->value.element.attrs;
+        for (int i = 0; i < node->value.element.num_attrs; ++i) {
+                mxml_attr_t *cur = attr + i;
+                std::string value = cur->value;
 
-        char const *argVal = NULL;
+                DataKey dk;
+                dk.key = cur->name;
 
-        if ((argVal = mxmlElementGetAttr (node, "value"))) {
-                elem.data = new ValueData (argVal);
-        }
+                if (!value.empty () && value[0] == '@') {
+                        dk.data = new RefData (value);
+                }
+                else {
+                        dk.data = new ValueData (value);
+                }
 
-        if ((argVal = mxmlElementGetAttr (node, "ref"))) {
-                elem.data = new RefData (argVal);
-        }
-
-        if ((argVal = mxmlElementGetAttr (node, "name"))) {
-                elem.key = argVal;
+                MappedMeta *meta =  getCurrentMappedMeta ();
+                meta->addField (dk);
         }
 }
 
@@ -344,10 +373,10 @@ void Impl::onOpenEntry (mxml_node_t *node)
 
 /****************************************************************************/
 
-void Impl::onCloseProperty (mxml_node_t *node)
-{
-        popCurrentDataKeyAddToMapped ();
-}
+//void Impl::onCloseSet (mxml_node_t *node)
+//{
+////        popCurrentDataKeyAddToMapped ();
+//}
 
 /****************************************************************************/
 
@@ -770,7 +799,15 @@ IMeta *Impl::popCurrentMeta ()
         return meta;
 }
 
+/****************************************************************************/
+
+bool Impl::checkIfClass (std::string const &name) const
+{
+        return static_cast <bool> (Reflection::Manager::classForName (name));
 }
+
+
+} // namespace {
 
 /****************************************************************************/
 

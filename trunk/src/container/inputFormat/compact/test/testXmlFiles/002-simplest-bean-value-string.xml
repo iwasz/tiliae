@@ -10,7 +10,7 @@
         </City>
 
         <!-- 3 -->
-        <City id="city4">
+        <City id="city3">
                 <value set="name" type="String">Paris</value>
         </City>
 

@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-        <!-- This City -->
-        <bean id="thisCity" class="City">
-                <property name="name" value="Tokio"/>
-        </bean>
+  <City id="thisCity" name="Tokio" />
 
-        <!-- Use thisCity -->
-        <bean id="kinkreet" class="Foo">
-                <property name="field0">
-                        <value type="String">value01</value>
-                </property>
+  <Foo id="kinkreet0" field0="value01" field1="value02" city="@thisCity" />
 
-                <property name="field1">
-                        <value type="text">value02</value>
-                </property>
+  <Foo id="kinkreet1" field0="value01" field1="value02">
+        <set city="@thisCity"/>
+  </Foo>
 
-                <property name="city">
-                        <ref bean="thisCity"/>
-                </property>
-        </bean>
+  <Foo id="kinkreet2" field0="value01" field1="value02">
+        <ref set="city" bean="thisCity" />
+  </Foo>
+  
 </beans>

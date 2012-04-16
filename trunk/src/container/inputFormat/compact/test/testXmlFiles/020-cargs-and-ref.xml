@@ -7,16 +7,16 @@
         </bean>
 
         <bean id="mojBean" class="Bar">
-                <constructor-arg>
+                <carg>
                         <value type="String">value0</value>
-                </constructor-arg>
+                </carg>
 
-                <constructor-arg>
+                <carg>
                         <value type="text">value1</value>
-                </constructor-arg>
+                </carg>
 
-                <constructor-arg>
+                <carg>
                         <ref bean="zcity"/>
-                </constructor-arg>
+                </carg>
         </bean>
 </beans>

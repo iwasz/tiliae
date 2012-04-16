@@ -1,34 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-        <bean id="zcity01" class="City">
-                <property name="name" value="Tokio"/>
-        </bean>
+  <City id="zcity01" name="Tokio" />
+  <City id="zcity02" name="Kraków" />
+  <City id="zcity03" name="Warszawa" />
+  <City id="zcity04" name="Oszlo" />
 
-        <bean id="zcity02" class="City">
-                <property name="name" value="Kraków"/>
-        </bean>
+  <CityMap id="mojaMapa" city01="@zcity01" city02="@zcity02">
+    <set city03="@zcity03" />
+    <ref set="city04" bean="zcity04" />
+  </CityMap>
 
-        <bean id="zcity03" class="City">
-                <property name="name" value="Warszawa"/>
-        </bean>
-
-        <bean id="zcity04" class="City">
-                <property name="name" value="Oszlo"/>
-        </bean>
-
-        <map id="mojaMapa" class="CityMap">
-                <entry key="city01">
-                        <ref bean="zcity01"/>
-                </entry>
-
-                <entry key="city02">
-                        <ref bean="zcity02"/>
-                </entry>
-
-                <entry key="city03" ref="zcity03"/>
-                <entry key="city04" ref="zcity04"/>
-        </map>
 </beans>

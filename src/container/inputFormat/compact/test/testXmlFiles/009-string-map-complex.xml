@@ -1,28 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
         <!-- Różne sposoby dodawania kluczy do mapy. -->
-        <map id="mojaMapa" class="StringMap">
-                <entry>
-                        <key>klucz0</key>
-                        <value>wartość0</value>
-                </entry>
-
-                <entry>
-                        <key>klucz1</key>
-                        <value type="String">value1</value>
-                </entry>
-
-                <entry>
-                        <key>klucz2</key>
-                        <value type="text">value2</value>
-                </entry>
-
-                <entry key="klucz3">
-                        <value>value3</value>
-                </entry>
-
-                <entry key="klucz4" value="value4" />
-        </map>
+        <StringMap id="mojaMapa" klucz0="wartość0">
+                <value set="klucz1" type="String">value1</value>
+                <value set="klucz2" type="text">value2</value>
+                <value set="klucz3">value3</value>
+                <set klucz4="value4" />
+        </StringMap>
 </beans>

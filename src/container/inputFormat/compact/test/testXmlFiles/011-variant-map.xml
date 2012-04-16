@@ -1,32 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <map id="mojaMapa" class="VariantMap">
-                <entry key="field0">
-                        <value>value0</value>
-                </entry>
 
-                <entry key="field1" value="value1"/>
-
-                <entry key="field2">
-                        <value type="int">6670</value>
-                </entry>
-
-                <entry key="field3">
-                        <value type="double">12.34</value>
-                </entry>
-
-                <entry key="field4">
-                        <value type="char">g</value>
-                </entry>
-
-                <entry key="field5">
-                        <value type="bool">yes</value>
-                </entry>
-
-                <entry key="field6">
-                        <null/>
-                </entry>
-        </map>
+  <VariantMap id="mojaMapa" field0="value0" field1="value1">
+    <value set="field2" type="int">6670</value>
+    <value set="field3" type="double">12.34</value>
+    <value set="field4" type="char">g</value>
+    <value set="field5" type="bool">yes</value>
+    <null set="field6" />
+  </VariantMap>
+        
 </beans>

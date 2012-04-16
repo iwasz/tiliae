@@ -53,10 +53,7 @@ BOOST_AUTO_TEST_CASE (test001SimplestBean)
         BOOST_REQUIRE_EQUAL (c->getName (), "Kraków");
 
         c = vcast <Ptr <City> > (beanContainer->getBean ("city3"));
-        BOOST_REQUIRE_EQUAL (c->getName (), "Tokio");
-//
-//        c = vcast <Ptr <City> > (beanContainer->getBean ("city4"));
-//        BOOST_REQUIRE_EQUAL (c->getName (), "Paris");
+        BOOST_REQUIRE_EQUAL (c->getName (), "Paris");
 }
 
 

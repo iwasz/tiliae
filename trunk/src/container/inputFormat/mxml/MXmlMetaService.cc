@@ -21,6 +21,10 @@
 #include "../../metaStructure/model/data/NullData.h"
 #include "../../metaStructure/model/data/IData.h"
 
+#ifdef ANDROID
+#include <android/asset_manager.h>
+#endif
+
 namespace Container {
 
 namespace {
@@ -801,5 +805,49 @@ Ptr <MetaContainer> MXmlMetaService::parseFile (std::string const &path, Ptr <Me
 
         return container;
 }
+
+/****************************************************************************/
+
+#ifdef ANDROID
+Ptr <MetaContainer> MXmlMetaService::parseAndroidAsset (AAssetManager *assetManager, std::string const &path, Ptr <MetaContainer> container)
+{
+        if (!container) {
+                container = boost::make_shared <MetaContainer> ();
+        }
+
+        Impl impl (container.get ());
+
+        AAsset *asset = AAssetManager_open (assetManager, path.c_str (), AASSET_MODE_UNKNOWN);
+
+        if (!asset) {
+                throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not open resource. Path : [" + path + "]");
+        }
+
+        int bytesRead;
+        char buffer[BUFSIZ];
+        std::string xml;
+
+        while ((bytesRead = AAsset_read (asset, buffer, BUFSIZ))) {
+
+                if (bytesRead < 0) {
+                        throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not read from resource. Path : [" + path + "]");
+                }
+
+                xml += buffer;
+        }
+
+        AAsset_close (asset);
+
+        mxmlSAXLoadString (NULL, xml.c_str (), MXML_TEXT_CALLBACK, saxHandler, &impl);
+
+        while (!impl.imports.empty ()) {
+                std::string path = impl.imports.front ();
+                impl.imports.pop ();
+                parseFile (path, container);
+        }
+
+        return container;
+}
+#endif
 
 } /* namespace Container */

@@ -13,6 +13,10 @@
 #include "ApiMacro.h"
 #include "Pointer.h"
 
+#ifdef ANDROID
+struct AAssetManager;
+#endif
+
 namespace Container {
 class MetaContainer;
 
@@ -26,6 +30,10 @@ public:
          * Tworzy strukture meta-obiektów na podstawie definicji w pliku XML.
          */
         static Ptr <MetaContainer> parseFile (std::string const &path, Ptr <MetaContainer> container = Ptr <MetaContainer> ());
+
+#ifdef ANDROID
+        static Ptr <MetaContainer> parseAndroidAsset (AAssetManager *assetManager, std::string const &path, Ptr <MetaContainer> container = Ptr <MetaContainer> ());
+#endif
 
 };
 

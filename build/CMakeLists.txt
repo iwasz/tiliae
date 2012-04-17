@@ -19,7 +19,7 @@ SET (BUILD_SIGNAL              0)
 SET (BUILD_STATE_MACHINE       0)
 SET (BUILD_CONTAINER           1)
 SET (BUILD_DEMO                0)
-SET (BUILD_TESTS               1)
+SET (BUILD_TESTS               0)
 
 #SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
@@ -218,7 +218,12 @@ ENDIF(BUILD_CONTAINER)
 ## Biblioteka Tiliae - all in one.
 ## --------------------------------------------------------
 
-add_library (tiliae SHARED ${LIB_SOURCES})
+if (ANDROID)
+    add_library (tiliae STATIC ${LIB_SOURCES})
+else ()
+    add_library (tiliae SHARED ${LIB_SOURCES})
+endif ()
+
 TARGET_LINK_LIBRARIES (tiliae ${MXML_LIBRARIES})
 
 INSTALL (

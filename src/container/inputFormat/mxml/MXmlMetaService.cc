@@ -23,6 +23,7 @@
 
 #ifdef ANDROID
 #include <android/asset_manager.h>
+#include <android/log.h>
 #endif
 
 namespace Container {
@@ -827,23 +828,33 @@ Ptr <MetaContainer> MXmlMetaService::parseAndroidAsset (AAssetManager *assetMana
         char buffer[BUFSIZ];
         std::string xml;
 
-        while ((bytesRead = AAsset_read (asset, buffer, BUFSIZ))) {
+        while ((bytesRead = AAsset_read (asset, buffer, BUFSIZ - 1))) {
 
                 if (bytesRead < 0) {
                         throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not read from resource. Path : [" + path + "]");
                 }
+
+                buffer[bytesRead] = '\0';
+
+#if 0
+        __android_log_print(ANDROID_LOG_INFO, "bajka", "bytes read...");
+#endif
 
                 xml += buffer;
         }
 
         AAsset_close (asset);
 
+#if 0
+        __android_log_print(ANDROID_LOG_INFO, "bajka", xml.c_str());
+#endif
+
         mxmlSAXLoadString (NULL, xml.c_str (), MXML_TEXT_CALLBACK, saxHandler, &impl);
 
         while (!impl.imports.empty ()) {
                 std::string path = impl.imports.front ();
                 impl.imports.pop ();
-                parseFile (path, container);
+                parseAndroidAsset (assetManager, path, container);
         }
 
         return container;

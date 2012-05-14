@@ -42,6 +42,11 @@ INSTALL (
     FILES_MATCHING PATTERN "*.pc"
     PATTERN "*.svn*" EXCLUDE)
 
+if (UNIX)
+    SET (CMAKE_INSTALL_PREFIX "/home/iwasz/local") 
+    SET (CMAKE_PREFIX_PATH "/home/iwasz/local")
+endif()
+
 SET(Boost_ADDITIONAL_VERSIONS "1.41" "1.41.0")
 find_package (Boost 1.41.0)
 include_directories(${Boost_INCLUDE_DIRS})

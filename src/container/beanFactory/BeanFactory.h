@@ -29,6 +29,7 @@
 #include "../../editor/IEditor.h"
 #include "../../core/ApiMacro.h"
 #include "../../common/collection/OrderedVariantMap.h"
+#include "StringFactoryMethodEditor.h"
 
 namespace Wrapper {
 class IBeanWrapper;
@@ -193,6 +194,7 @@ struct ToStringHelper {
 class TILIAE_API BeanFactoryContainer : public Core::IToStringEnabled {
 public:
 
+        BeanFactoryContainer () : conversionMethodEditor (NULL) {}
         virtual std::string toString () const;
 
 /*--------------------------------------------------------------------------*/
@@ -234,12 +236,17 @@ public:
         Ptr <MetaContainer const> getMetaContainer () const { return metaContainer; }
         void setMetaContainer (Ptr <MetaContainer const> m) { metaContainer = m; }
 
+        void addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function);
+
+        friend class ContainerFactory;
+
 private:
 
         Ptr <BeanFactoryMap> factoryMap;
         Ptr <Core::VariantMap> singletons;
         Ptr <BeanFactoryContainer const> linked;
         Ptr <MetaContainer const> metaContainer;
+        Editor::StringFactoryMethodEditor *conversionMethodEditor;
 
 };
 

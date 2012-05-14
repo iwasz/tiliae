@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (test034MapInList)
 
         VariantVector *list = vcast <VariantVector *> (v);
 
-        BOOST_CHECK_EQUAL (list->size (), 3);
+        BOOST_CHECK_EQUAL (list->size (), 3U);
 
         BOOST_CHECK_EQUAL (vcast <std::string> (list->operator[] (0)), "value01");
         BOOST_CHECK_EQUAL (vcast <std::string> (list->operator[] (1)), "value02");
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE (test034MapInList)
         BOOST_CHECK (ccast <StringMap *> (list->operator[] (2)));
         StringMap *map = vcast <StringMap *> (list->operator[] (2));
 
-        BOOST_CHECK_EQUAL (map->size (), 3);
+        BOOST_CHECK_EQUAL (map->size (), 3U);
         BOOST_CHECK_EQUAL (map->operator[] ("k1"), "Tokio");
         BOOST_CHECK_EQUAL (map->operator[] ("k2"), "Warsaw");
         BOOST_CHECK_EQUAL (map->operator[] ("k3"), "Piaseczno");

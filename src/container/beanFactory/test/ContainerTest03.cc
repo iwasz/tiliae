@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE (testCreateVariantMap)
 /****************************************************************************/
 
         BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 1);
+        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 1U);
 
 /****************************************************************************/
 
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (testCreateVariantMap)
 
         VariantMap *map = vcast <VariantMap *> (v);
 
-        BOOST_CHECK_EQUAL (map->size (), 7);
+        BOOST_CHECK_EQUAL (map->size (), 7U);
 
         BOOST_CHECK (vcast <Core::String> (map->operator[] ("field0")) == "value0");
         BOOST_CHECK (vcast <std::string> (map->operator[] ("field1")) == "value1");

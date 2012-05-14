@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE (test061LinkedContainers)
 
         Ptr <StringList> list = vcast <Ptr <StringList> > (cont2->getBean ("bean2"));
         BOOST_CHECK (list);
-        BOOST_CHECK_EQUAL (list->size (), 1);
+        BOOST_CHECK_EQUAL (list->size (), 1U);
 }
 
 /**
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE (test064ListWithConversion)
 
         IntVector *list = vcast <IntVector *> (v);
 
-        BOOST_CHECK_EQUAL (list->size (), 4);
+        BOOST_CHECK_EQUAL (list->size (), 4U);
 
         BOOST_CHECK_EQUAL (list->operator[] (0), 123);
         BOOST_CHECK_EQUAL (list->operator[] (1), 234);

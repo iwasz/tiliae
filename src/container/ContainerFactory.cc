@@ -42,6 +42,9 @@
 #include "../core/DebugContext.h"
 #include "beanFactory/BeanFactoryContext.h"
 #include "../editor/StreamEditor.h"
+#include "../editor/StringFactoryMethodEditor.h"
+
+using Editor::StringFactoryMethodEditor;
 
 //#define CONTAINER_PRINT_META 1
 
@@ -191,9 +194,6 @@ Ptr <Wrapper::BeanWrapper> ContainerFactory::createBeanWrapper ()
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (long), boost::make_shared <Editor::StreamEditor <std::string, long> > ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned long), boost::make_shared <Editor::StreamEditor <std::string, unsigned long> > ()));
 
-//        Te konwersje działają, ale są niezbyt praktyczne.
-//        editor->addType (Editor::TypeEditor::Type (typeid (double), typeid (std::string), boost::make_shared <Editor::LexicalEditor <double, std::string> > ()));
-
         // Core::String <-> std::string
         editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), boost::make_shared <Editor::LexicalEditor <Core::String, std::string> > ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), boost::make_shared <Editor::LexicalEditor <std::string, Core::String> > ()));
@@ -201,9 +201,13 @@ Ptr <Wrapper::BeanWrapper> ContainerFactory::createBeanWrapper ()
         // StringCon.
         Ptr <Editor::StringConstructorEditor> strCon = boost::make_shared <Editor::StringConstructorEditor> ();
 
+        conversionMethodEditor = boost::make_shared <Editor::StringFactoryMethodEditor> ();
+
         Ptr <Editor::ChainEditor> chain = boost::make_shared <Editor::ChainEditor> ();
+
         chain->addEditor (editor);
         chain->addEditor (strCon);
+        chain->addEditor (conversionMethodEditor);
         chain->addEditor (noop);
 
 /*--------------------------------------------------------------------------*/
@@ -276,7 +280,17 @@ Ptr <BeanFactoryContainer> ContainerFactory::createContainer (Ptr <MetaContainer
                 Ptr <BeanFactoryContainer> linkedParent)
 {
         ContainerFactory cf;
+        Ptr <BeanFactoryContainer> container = cf.createEmptyContainer (metaCont, storeMetaContainer, linkedParent, cf);
+        cf.fill (container, metaCont);
+        return container;
+}
+
+Ptr <BeanFactoryContainer> ContainerFactory::createEmptyContainer (Ptr <MetaContainer> metaCont,
+                bool storeMetaContainer,
+                Ptr <BeanFactoryContainer> linkedParent, ContainerFactory &cf)
+{
         Ptr <BeanFactoryContainer> container = cf.create ();
+        container->conversionMethodEditor = cf.conversionMethodEditor.get ();
 
         if (linkedParent) {
                 container->setLinked (linkedParent);
@@ -287,7 +301,6 @@ Ptr <BeanFactoryContainer> ContainerFactory::createContainer (Ptr <MetaContainer
                 container->setMetaContainer (metaCont);
         }
 
-        cf.fill (container, metaCont);
         return container;
 }
 

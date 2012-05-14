@@ -15,7 +15,7 @@
 #include <boost/multi_index/sequenced_index.hpp>
 #include "metaStructure/model/meta/AbstractMeta.h"
 #include "../../core/variant/Cast.h"
-#include "../../beanWrapper/IBeanWrapper.h"
+#include "IBeanWrapper.h"
 #include "BeanFactoryContext.h"
 #include "Defs.h"
 
@@ -470,6 +470,14 @@ Ptr <BeanFactory> BeanFactoryContainer::getBeanFactory (const std::string &id, P
         }
 
         return ret;
+}
+
+/****************************************************************************/
+
+void BeanFactoryContainer::addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function)
+{
+        assert (conversionMethodEditor);
+        conversionMethodEditor->addConversion (type, function);
 }
 
 }

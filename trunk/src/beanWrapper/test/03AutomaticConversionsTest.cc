@@ -22,6 +22,7 @@
 #include "../../testHelpers/Foo.h"
 #include "../../editor/ChainEditor.h"
 #include "../../editor/StringConstructorEditor.h"
+#include "../../editor/StringFactoryMethodEditor.h"
 
 using Editor::ChainEditor;
 
@@ -147,7 +148,7 @@ BOOST_AUTO_TEST_CASE (testComplex_Map)
         bw->set ("city02", Variant ("Kraków"));
         bw->set ("city03", Variant ("Poznań"));
 
-        BOOST_REQUIRE_EQUAL (cityMap.size (), 3);
+        BOOST_REQUIRE_EQUAL (cityMap.size (), 3U);
         BOOST_REQUIRE_EQUAL (cityMap["city01"]->getName (), "Warszawa");
         BOOST_REQUIRE_EQUAL (cityMap["city02"]->getName (), "Kraków");
         BOOST_REQUIRE_EQUAL (cityMap["city03"]->getName (), "Poznań");
@@ -166,7 +167,7 @@ BOOST_AUTO_TEST_CASE (testListWithBeanWrapper)
         bw->add (&v, "", Variant ("gadzio"));
         bw->add (&v, "", Variant ("tmarc"));
 
-        BOOST_REQUIRE_EQUAL (vector.size (), 4);
+        BOOST_REQUIRE_EQUAL (vector.size (), 4U);
         BOOST_REQUIRE_EQUAL (vector[0], "iwasz");
         BOOST_REQUIRE_EQUAL (vector[1], "asia");
         BOOST_REQUIRE_EQUAL (vector[2], "gadzio");
@@ -213,10 +214,47 @@ BOOST_AUTO_TEST_CASE (testComplex_Vector)
         bw->add ("", Variant ("Kraków"));
         bw->add ("", Variant ("Poznań"));
 
-        BOOST_REQUIRE_EQUAL (cityVector.size (), 3);
+        BOOST_REQUIRE_EQUAL (cityVector.size (), 3U);
         BOOST_REQUIRE_EQUAL (cityVector[0]->getName (), "Warszawa");
         BOOST_REQUIRE_EQUAL (cityVector[1]->getName (), "Kraków");
         BOOST_REQUIRE_EQUAL (cityVector[2]->getName (), "Poznań");
+}
+
+/****************************************************************************/
+
+static Core::Variant convertStringToInt (std::string const &input)
+{
+        return Core::Variant (boost::lexical_cast <int> (input));
+}
+
+static Core::Variant convertStringToCity (std::string const &input)
+{
+        return Core::Variant (boost::make_shared <City> (input));
+}
+
+BOOST_AUTO_TEST_CASE (testWithConversionFuinctions)
+{
+        Ptr <BeanWrapper> bw = BeanWrapper::create ();
+
+        /*--------------------------------------------------------------------------*/
+
+        Ptr <StringFactoryMethodEditor> editor = boost::make_shared <StringFactoryMethodEditor> ();
+        editor->addConversion (typeid (int), convertStringToInt);
+        editor->addConversion (typeid (City), convertStringToCity);
+
+        /*--------------------------------------------------------------------------*/
+
+        bw->setEditor (editor);
+
+        Foo foo;
+        bw->setWrappedObject (Variant (&foo));
+
+        bw->set ("field2", Variant ("123"));
+        bw->set ("city", Variant ("Warszawa"));
+
+        BOOST_REQUIRE_EQUAL (foo.getField2 (), 123);
+        BOOST_REQUIRE (foo.getCity ());
+        BOOST_REQUIRE_EQUAL (foo.getCity ()->getName (), "Warszawa");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

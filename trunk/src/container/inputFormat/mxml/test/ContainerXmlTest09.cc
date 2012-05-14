@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE (test044PropertyInMap)
 
         BOOST_CHECK (map->find ("klucz0") != map->end ());
         BOOST_CHECK (map->find ("klucz1") != map->end ());
-        BOOST_CHECK_EQUAL (map->size (), 2);
+        BOOST_CHECK_EQUAL (map->size (), 2U);
 
 /*--------------------------------------------------------------------------*/
 

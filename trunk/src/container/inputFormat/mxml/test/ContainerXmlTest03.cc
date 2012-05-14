@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE (test012StringList)
 
         StringVector *list = vcast <StringVector *> (v);
 
-        BOOST_REQUIRE_EQUAL (list->size (), 5);
+        BOOST_REQUIRE_EQUAL (list->size (), 5U);
 
         BOOST_CHECK_EQUAL (list->operator[] (0), "value01");
         BOOST_CHECK_EQUAL (list->operator[] (1), "value02");

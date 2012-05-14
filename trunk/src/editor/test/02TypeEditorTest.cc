@@ -14,6 +14,7 @@
 #include "../StringConstructorEditor.h"
 #include "../../testHelpers/City.h"
 #include "../StreamEditor.h"
+#include "../StringFactoryMethodEditor.h"
 
 /****************************************************************************/
 
@@ -72,13 +73,51 @@ BOOST_AUTO_TEST_CASE (testStreamEditor)
 
         Variant out;
         editor->convert (Variant ("123"), &out);
-        BOOST_REQUIRE_EQUAL (vcast <unsigned int> (out), 123);
+        BOOST_REQUIRE_EQUAL (vcast <unsigned int> (out), 123u);
 
         editor->convert (Variant ("0xabc"), &out);
-        BOOST_REQUIRE_EQUAL (vcast <unsigned int> (out), 2748);
+        BOOST_REQUIRE_EQUAL (vcast <unsigned int> (out), 2748u);
 
         editor->convert (Variant ("0xFF"), &out);
-        BOOST_REQUIRE_EQUAL (vcast <unsigned int> (out), 255);
+        BOOST_REQUIRE_EQUAL (vcast <unsigned int> (out), 255u);
+}
+
+/****************************************************************************/
+
+static Core::Variant convertStringToInt (std::string const &input)
+{
+        return Core::Variant (boost::lexical_cast <int> (input));
+}
+
+struct City2 {
+        City2 (std::string const &n) : name (n) {}
+        std::string name;
+};
+
+static Core::Variant convertStringToCity (std::string const &input)
+{
+        return Core::Variant (boost::make_shared <City2> (input));
+}
+
+BOOST_AUTO_TEST_CASE (testConversionFunctionEditor)
+{
+        StringFactoryMethodEditor editor;
+        editor.addConversion (typeid (int), convertStringToInt);
+        editor.addConversion (typeid (City2), convertStringToCity);
+
+        {
+                Ptr <City2> city;
+                Variant out (city);
+                editor.convert (Variant ("Warszawa"), &out);
+                BOOST_REQUIRE_EQUAL (vcast <City2 *> (out)->name, "Warszawa");
+        }
+
+        {
+                int i;
+                Variant out (i);
+                editor.convert (Variant ("12345"), &out);
+                BOOST_REQUIRE_EQUAL (vcast <int> (out), 12345);
+        }
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

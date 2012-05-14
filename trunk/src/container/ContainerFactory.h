@@ -18,6 +18,10 @@ namespace Wrapper {
 class BeanWrapper;
 }
 
+namespace Editor {
+class StringFactoryMethodEditor;
+}
+
 namespace Container {
 class MetaContainer;
 class MetaVisitor;
@@ -40,13 +44,18 @@ public:
                         bool storeMetaContainer = false,
                         Ptr <BeanFactoryContainer> linkedParent = Ptr <BeanFactoryContainer> ());
 
+        static Ptr <BeanFactoryContainer> createEmptyContainer (Ptr <MetaContainer> metaCont,
+                        bool storeMetaContainer,
+                        Ptr <BeanFactoryContainer> linkedParent, ContainerFactory &cf);
+
+        void fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContainer> metaCont);
+
 protected:
 
         Ptr <BeanFactoryContainer> create ();
-        void fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContainer> metaCont);
 
-        static Ptr <Wrapper::BeanWrapper> createBeanWrapper ();
-        static Ptr <Core::VariantMap> createSingletons ();
+        Ptr <Wrapper::BeanWrapper> createBeanWrapper ();
+        Ptr <Core::VariantMap> createSingletons ();
 
 private:
 
@@ -54,6 +63,7 @@ private:
         Ptr <MetaVisitor> iteration1;
         Ptr <MetaVisitor> iteration2;
         Ptr <Core::VariantMap> singletons;
+        Ptr <Editor::StringFactoryMethodEditor> conversionMethodEditor;
         BeanFactoryVisitorContext context;
 };
 

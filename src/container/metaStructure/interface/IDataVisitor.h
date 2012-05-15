@@ -24,7 +24,7 @@ class RefData;
 struct MappedMeta;
 struct IndexedMeta;
 
-struct MetaContainer;
+class MetaContainer;
 
 struct IMeta;
 struct AbstractMeta;

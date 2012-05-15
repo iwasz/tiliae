@@ -186,7 +186,7 @@ Ptr <Wrapper::BeanWrapper> ContainerFactory::createBeanWrapper ()
 
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int), boost::make_shared <Editor::StreamEditor <std::string, int> > ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), boost::make_shared <Editor::LexicalEditor <std::string, double> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (float), boost::make_shared <Editor::LexicalEditor <std::string, double> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (float), boost::make_shared <Editor::LexicalEditor <std::string, float> > ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char), boost::make_shared <Editor::LexicalEditor <std::string, char> > ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool), boost::make_shared <Editor::LexicalEditor <std::string, bool> > ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned int), boost::make_shared <Editor::StreamEditor <std::string, unsigned int> > ()));

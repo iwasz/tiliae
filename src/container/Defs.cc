@@ -56,6 +56,8 @@ const char *BEAN_WRAPPER_SIMPLE = "beanWrapperSimple";
 const char *DEFAULT_VALUE_TYPE = "text";
 
 
+const char *REFERENCE_TO_CONTAINER_ITSELF = "#container";
+
 }
 
 #endif /* ICONTAINER_H_ */

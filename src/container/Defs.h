@@ -22,6 +22,8 @@ extern const char *BEAN_WRAPPER_SIMPLE;
 extern const char *DEFAULT_VALUE_TYPE;
 const unsigned int MAX_BEAN_NESTING = 1000;
 
+extern const char *REFERENCE_TO_CONTAINER_ITSELF;
+
 }
 
 #endif /* ICONTAINER_H_ */

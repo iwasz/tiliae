@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+        <bean id="a" class="A03" singleton="true">
+            <property name="cont" ref="#container"/>
+        </bean>
+</beans>

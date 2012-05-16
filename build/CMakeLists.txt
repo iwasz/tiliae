@@ -19,7 +19,7 @@ SET (BUILD_SIGNAL              0)
 SET (BUILD_STATE_MACHINE       0)
 SET (BUILD_CONTAINER           1)
 SET (BUILD_DEMO                0)
-SET (BUILD_TESTS               0)
+SET (BUILD_TESTS               1)
 
 #SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
@@ -28,6 +28,10 @@ SET (CMAKE_VERBOSE_MAKEFILE 0)
 ADD_DEFINITIONS (-g -fvisibility=hidden -DTILIAE_DLL -Wall)
 ADD_DEFINITIONS (-DTILIAE_DEBUG)
 ADD_DEFINITIONS (-O0)
+ADD_DEFINITIONS (-ffunction-sections -fdata-sections)
+
+SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
+SET (CMAKE_EXE_LINKER_FLAGS "-Wl,--no-undefined")
 
 INSTALL (
     DIRECTORY "${PROJECT_SOURCE_DIR}/../src/"

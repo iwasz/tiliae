@@ -18,6 +18,7 @@
 #include "../../../editor/FactoryEditor.h"
 #include "../../../beanWrapper/beanWrapper/BeanWrapper.h"
 #include "../../../beanWrapper/misc/SimpleMapEditor.h"
+#include "../../../factory/testHelpers/SillyFactory.h"
 
 namespace Container {
 using namespace Core;
@@ -98,7 +99,6 @@ Editor::SimpleMapEditor *EditorService::createMappedEditor ()
 void EditorService::onConstructorArgsBegin (IMeta *data)
 {
         currentEditor = NULL;
-//        currentFieldName.clear ();
 }
 
 /**
@@ -107,18 +107,7 @@ void EditorService::onConstructorArgsBegin (IMeta *data)
 void EditorService::onConstructorArgsEnd (IMeta *data)
 {
         currentEditor = NULL;
-//        currentFieldName.clear ();
 }
-
-/**
- * Z wejściowego obiektu typu MapElem pobierany jest tylko klucz, czyli nazwa
- * pola pod jakim wartość tego elementu ma być ustawiona. Czyli przekładając to na
- * XML, zapamiętywany jest <property name="key" ... /> do późniejszego użycia.
- */
-//void EditorService::onMapElem (MapElem *data)
-//{
-//        currentFieldName = data->getKey ();
-//}
 
 /**
  * Tu jest obsługiwana sytuacja, kiedy ktoś poda typ wartości (<value type="xxx">), który
@@ -188,16 +177,37 @@ void EditorService::onRefData (std::string const &key, RefData *data)
         }
 
         Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
-        Ptr <BeanFactory> beanFactory = container->getBeanFactory (data->getData (), current);
 
-        if (!beanFactory) {
+        std::string referenceName = data->getData ();
+        Ptr <Factory::IFactory> factory;
+
+        // Specjalne referencje
+        if (referenceName == REFERENCE_TO_CONTAINER_ITSELF) {
+                factory = boost::make_shared <Factory::SillyFactory> (Core::Variant (container));
+        }
+
+        // Zwykłe beany zdefiniowane w XML
+        else {
+                factory = container->getBeanFactory (referenceName, current);
+        }
+
+        // Singletony w mapie singletons.
+        if (!factory) {
+                Ptr <Core::VariantMap> singletons = container->getSingletons ();
+                Core::VariantMap::const_iterator i = singletons->find (referenceName);
+
+                if (i != singletons->end ()) {
+                        factory = boost::make_shared <Factory::SillyFactory> (i->second);
+                }
+        }
+
+        if (!factory) {
                 throw BeanNotFullyInitializedException ("Can't resolve reference (" + data->getData () + ").");
         }
 
-        Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::FactoryEditor> (noopNoCopyEditor, beanFactory);
-//        assert (currentEditor, "!currentEditor in EditorService::onValueData. This should be set in EditorService::onMappedMetaBegin.");
+        Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::FactoryEditor> (noopNoCopyEditor, factory);
         currentEditor->setEditor (key, tmpEditor);
-//        currentFieldName.clear ();
+
 }
 
 }

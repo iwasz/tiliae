@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+  <Bar id="mojBean">
+    <carg>
+      <value type="String">value0</value>
+    </carg>
+
+    <carg>
+      <value type="text">value1</value>
+    </carg>
+
+    <carg>
+      <value type="int">6678</value>
+    </carg>
+
+    <carg>
+      <value type="double">12.34</value>
+    </carg>
+
+    <carg>
+      <value type="char">g</value>
+    </carg>
+
+    <carg>
+      <value type="bool">true</value>
+    </carg>
+
+    <carg>
+      <null />
+    </carg>
+  </Bar>
+</beans>

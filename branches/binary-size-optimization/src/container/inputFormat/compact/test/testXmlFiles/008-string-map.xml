@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+    <StringMap id="mojaMapa" klucz0="wartość0" klucz1="value1" klucz2="value2"/>
+
+    <StringMap id="mojaMapa"2 ">
+        <set klucz0="wartość0" klucz1="value1" klucz2="value2 />
+    </StringMap>
+</beans>

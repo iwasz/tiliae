@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+  <City id="zcity01" name="Tokio" />
+  <City id="zcity02" name="Kraków" />
+  <City id="zcity03" name="Warszawa" />
+  <City id="zcity04" name="Oszlo" />
+
+  <CityMap id="mojaMapa" city01="@zcity01" city02="@zcity02">
+    <set city03="@zcity03" />
+    <ref set="city04" bean="zcity04" />
+  </CityMap>
+
+</beans>

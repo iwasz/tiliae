@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+        <!-- 1 -->
+        <City id="city1" name="Warszawa" />
+
+        <!-- 2 -->
+        <City id="city2">
+                <set name="Kraków" />
+        </City>
+
+        <!-- 3 -->
+        <City id="city3">
+                <value set="name" type="String">Paris</value>
+        </City>
+
+</beans>

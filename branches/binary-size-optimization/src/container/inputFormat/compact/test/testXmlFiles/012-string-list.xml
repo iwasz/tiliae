@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+  <StringVector id="mojaLista">
+    <value>value01</value>
+    <value>value02</value>
+    <value>value03</value>
+    <value>value04</value>
+    <value>value05</value>
+  </StringVector>
+
+  <StringVector id="mojaLista">
+    <value>value01</value>
+    <value type="string">value02</value>
+    <value add="">value03</value>
+  </StringVector>
+
+</beans>

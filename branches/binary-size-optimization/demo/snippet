@@ -1,0 +1,8 @@
+    <bean id="authorXYZ" class="Author" singleton="true">
+        <property name="firstname" value="Ian" />
+        <property name="lastname">
+            <value type="text">Anderson</value>
+        </property>
+        <property name="age" value="45" />
+    </bean>
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
+        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
+<beans>
+    <!-- To jest dummy, nieważny -->
+    <bean id="bean4" class="Address">
+        <property name="street" value="Ulica4" />
+        <property name="postalCode" value="KodPocztowy4" />
+    </bean>
+
+    <!-- No i tu test. Dziedziczymy z bean1, którego (jak widać) nie ma w tym pliku. -->
+    <bean id="bean2" parent="bean1">
+        <property name="String" value="Napis" />
+    </bean>
+</beans>

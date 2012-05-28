@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans>
+
+    <bean id="author01" class="Author">
+        <constructor-arg>
+            <value>Firstname</value>
+        </constructor-arg>
+        <constructor-arg>
+            <value>Lastname</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="author02" class="Author">
+        <constructor-arg>
+            <value type="string">Test</value>
+        </constructor-arg>
+        <constructor-arg>
+            <!-- Automatic conversions doesn't work in constructor yet... -->
+            <value type="text">Testowy</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="author03" class="Author">
+        <property name="firstname" value="Ian" />
+        <property name="lastname">
+            <value type="text">Anderson</value>
+        </property>
+        <!-- But in setter injection they does. Here std::string value is converted to int. -->
+        <property name="age" value="45" />        
+    </bean>
+
+    <map id="authorMap" class="AuthorMap">
+        <entry key="a1" ref="author01" />
+        <entry key="a2" ref="author02" />
+        <entry key="a3" ref="author03" />
+    </map>
+
+</beans>

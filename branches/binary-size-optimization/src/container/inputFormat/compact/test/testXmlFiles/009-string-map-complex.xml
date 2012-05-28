@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+        <!-- Różne sposoby dodawania kluczy do mapy. -->
+        <StringMap id="mojaMapa" klucz0="wartość0">
+                <value set="klucz1" type="String">value1</value>
+                <value set="klucz2" type="text">value2</value>
+                <value set="klucz3">value3</value>
+                <set klucz4="value4" />
+        </StringMap>
+</beans>

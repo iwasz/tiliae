@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+  <VariantMap id="mojaMapa" field0="value0" field1="value1">
+    <value set="field2" type="int">6670</value>
+    <value set="field3" type="double">12.34</value>
+    <value set="field4" type="char">g</value>
+    <value set="field5" type="bool">yes</value>
+    <null set="field6" />
+  </VariantMap>
+        
+</beans>

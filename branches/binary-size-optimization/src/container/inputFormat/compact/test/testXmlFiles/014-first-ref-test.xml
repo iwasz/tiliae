@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+  <City id="thisCity" name="Tokio" />
+  <Foo id="kinkreet" field0="value01" field1="value02" city="@thisCity" />
+
+</beans>

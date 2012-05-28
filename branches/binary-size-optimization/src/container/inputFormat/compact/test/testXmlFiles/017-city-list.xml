@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+  <City id="zcity01" name="Tokio" />
+  <City id="zcity02" name="Kraków" />
+  <City id="zcity03" name="Warszawa" />
+  <City id="zcity04" name="Oszlo" />
+
+    	<CityList id="miasta">
+            <ref bean="zcity01" />
+            <ref bean="zcity02" />
+            <ref bean="zcity03" />
+            <ref bean="zcity04" />
+            <null/>
+    	</CityList>
+</beans>

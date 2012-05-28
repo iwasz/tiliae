@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+  <City id="thisCity" name="Tokio" />
+
+  <Foo id="kinkreet0" field0="value01" field1="value02" city="@thisCity" />
+
+  <Foo id="kinkreet1" field0="value01" field1="value02">
+        <set city="@thisCity"/>
+  </Foo>
+
+  <Foo id="kinkreet2" field0="value01" field1="value02">
+        <ref set="city" bean="thisCity" />
+  </Foo>
+  
+</beans>

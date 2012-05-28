@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+        <!-- Dodaje 2 nowe singletony do kontenera (do mapy singletons). -->
+        <bean class="Source" singleton="true" init-method="init">
+                <property name="cont" ref="#container"/>
+        </bean>
+
+        <!-- Uzywa tych 2 singletonów. -->
+        <bean id="map" class="StringMap" singleton="true">
+                <entry key="ex1" ref="external1"/>
+                <entry key="ex2" ref="external2"/>
+        </bean>
+</beans>

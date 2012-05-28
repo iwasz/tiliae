@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+        <bean id="map" class="StringMap" singleton="true">
+                <entry key="ex1" ref="external1"/>
+                <entry key="ex2" ref="external2"/>
+        </bean>
+</beans>

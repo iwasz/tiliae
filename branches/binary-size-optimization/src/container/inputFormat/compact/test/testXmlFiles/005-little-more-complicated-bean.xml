@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+        <Foo id="mojBean" field0="value0" field1="value1" field2="6678" field3="12.34" field4="g" field5="true">
+                <null set="field6"/>
+        </Foo>
+</beans>

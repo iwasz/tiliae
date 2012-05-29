@@ -52,7 +52,7 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
         }
 
         // Kazdy nastepny element wymaga juz uzycia reflexji:
-        Ptr <Reflection::Class> cls = Reflection::Manager::classForType (bean.getTypeInfo ());
+        Reflection::Class *cls = Reflection::Manager::classForType (bean.getTypeInfo ());
 
         if (!cls) {
                 dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
@@ -61,7 +61,7 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
         }
 
         // Pobiera domyślną metodę get - jeśli jest więcej niż jedna, to zachowanie jest niezdefiniowane.
-        Ptr <Reflection::Method> method = cls->getMethod ("get");
+        Reflection::Method *method = cls->getMethod ("get");
 
 #if 0
         std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << *path << ", " <<
@@ -130,7 +130,7 @@ Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &be
         }
 
         // Kazdy nastepny element wymaga juz uzycia reflexji:
-        Ptr <Reflection::Class> cls = Reflection::Manager::classForType (bean.getTypeInfo ());
+        Reflection::Class *cls = Reflection::Manager::classForType (bean.getTypeInfo ());
 
         if (!cls) {
                 dcError (ctx, "GetPutMethodRWBeanWrapperPlugin::iterator (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean.getTypeInfo ().name ()) + ")");
@@ -139,7 +139,7 @@ Core::Variant GetPutMethodRWBeanWrapperPlugin::iterator (const Core::Variant &be
         }
 
         // Pobiera domyślną metodę get - jeśli jest więcej niż jedna, to zachowanie jest niezdefiniowane.
-        Ptr <Reflection::Method> method = cls->getMethod ("iterator");
+        Reflection::Method *method = cls->getMethod ("iterator");
 
         if (!method) {
                 dcError (ctx, "GetPutMethodRWBeanWrapperPlugin::iterator. No 'iterator' method found (Path : '" + path->toString () + "'. )");
@@ -183,7 +183,7 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
         }
 
         // Kazdy nastepny element wymaga juz uzycia reflexji:
-        Ptr <Reflection::Class> cls = Reflection::Manager::classForType (bean->getTypeInfo ());
+        Reflection::Class *cls = Reflection::Manager::classForType (bean->getTypeInfo ());
 
         if (!cls) {
                 dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Failed to get Class objest instance for type_info : " + std::string (bean->getTypeInfo ().name ()));
@@ -191,7 +191,7 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
         }
 
         // Znajdz metode set - domyślną. Jeśli jest więcej niż jedna, to zachowanie niezdefiniowane...
-        Ptr <Reflection::Method> method = cls->getMethod ("set");
+        Reflection::Method *method = cls->getMethod ("set");
 
         if (method) {
 
@@ -268,7 +268,7 @@ bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
         }
 
         // Kazdy nastepny element wymaga juz uzycia reflexji:
-        Ptr <Reflection::Class> cls = Reflection::Manager::classForType (bean->getTypeInfo ());
+        Reflection::Class *cls = Reflection::Manager::classForType (bean->getTypeInfo ());
 
         if (!cls) {
                 dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Failed to get Class objest instance for type_info : " + std::string (bean->getTypeInfo ().name ()));
@@ -276,7 +276,7 @@ bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
         }
 
         // Znajdz metode add - domyślną. Jeśli jest więcej niż jedna, to zachowanie niezdefiniowane...
-        Ptr <Reflection::Method> method = cls->getMethod ("add");
+        Reflection::Method *method = cls->getMethod ("add");
 
         if (method) {
 

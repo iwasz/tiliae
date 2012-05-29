@@ -29,11 +29,11 @@ using namespace Common;
 
 /****************************************************************************/
 
-Ptr <Reflection::Class> MethodPlugin::getClass (const Variant &bean, const IPath *path) const
+Reflection::Class *MethodPlugin::getClass (const Variant &bean, const IPath *path) const
 {
         // Sprawdz, czy bean w ogole cos zawiera. Moze nic nie zawierac, czyli ze w mapie map nie bylo obiektu glownego.
         if (!path->countSegments () || bean.isNone ())
-                return Ptr <Reflection::Class> ();
+                return NULL;
 
         // Kazdy nastepny element wymaga juz uzycia reflexji:
         return Reflection::Manager::classForType (bean.getTypeInfo ());
@@ -54,7 +54,7 @@ Variant MethodPlugin::get (const Variant &bean,
                 << path << ", path.countSegments = " << path->countSegments () << std::endl;
 #endif
 
-        Ptr <Reflection::Class> cls = getClass (bean, path);
+        Reflection::Class *cls = getClass (bean, path);
 
 #       if 0
         std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << (unsigned long int)cls << std::endl;
@@ -68,7 +68,7 @@ Variant MethodPlugin::get (const Variant &bean,
 
         // Znajdz nazwe metody i metode.
         std::string property = path->getFirstSegment ();
-        Ptr <Reflection::Method> method = ReflectionTools::findMethod (cls, property);
+        Reflection::Method *method = ReflectionTools::findMethod (cls, property);
 
         try {
                 if (method) {

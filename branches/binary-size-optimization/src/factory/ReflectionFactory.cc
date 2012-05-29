@@ -36,14 +36,14 @@ Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::Deb
         std::string const &className = vcast <std::string const &> (i->second);
 
         i = parameters.find (CONSTRUCTOR_ARGS);
-        Ptr <Reflection::Constructor> constructor;
+        Reflection::Constructor *constructor = NULL;
         Core::VariantVector *classArgs = 0;
 
         if (i != parameters.end ()) {
                 classArgs = vcast <Core::VariantVector *> (i->second);
         }
 
-        Ptr <Reflection::Class> cls = Reflection::Manager::classForName (className);
+        Reflection::Class *cls = Reflection::Manager::classForName (className);
 
         if (!cls) {
                 dcError (context, "ReflectionFactory::create : Can't find class with name [" + className + "] with reflection.");

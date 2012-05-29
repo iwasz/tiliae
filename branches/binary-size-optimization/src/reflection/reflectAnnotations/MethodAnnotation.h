@@ -29,13 +29,13 @@ public:
 
         MethodAnnotation (const std::string &c,
                           const std::string &m,
-                          Ptr <ICallableWrapper> cal) : callableWrapper (cal), className (c), methodName (m) {}
+                          ICallableWrapper *cal) : callableWrapper (cal), className (c), methodName (m) {}
 
         virtual ~MethodAnnotation () {}
 
         std::string getMethodName () const { return methodName; }
         std::string getClassName () const { return className; }
-        Ptr<ICallableWrapper> getCallableWrapper () const { return this->callableWrapper; }
+        ICallableWrapper *getCallableWrapper () const { return this->callableWrapper; }
 
         virtual Core::Variant accept (IReflectionVisitor *vis, const Core::Variant &arg = Core::Variant ()) { return vis->visit (this, arg);}
 
@@ -45,7 +45,7 @@ public:
 
 private:
 
-        Ptr <ICallableWrapper> callableWrapper;
+        ICallableWrapper *callableWrapper;
         std::string className;
         std::string methodName;
 };

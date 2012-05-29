@@ -43,6 +43,13 @@ Manager::Manager () : initialized (false), classContainer (new ClassContainer ()
 
 /****************************************************************************/
 
+Manager::~Manager ()
+{
+        delete classContainer;
+}
+
+/****************************************************************************/
+
 std::string Manager::toString () const
 {
         return std::string ("Manager (ClassContainer:") + classContainer->toString() + ")";
@@ -136,14 +143,14 @@ void Manager::init ()
                 v = annotation->accept (constructorVisitor.get ());
 
                 if (!v.isNone ()) {
-                        clazz->addConstructor (vcast <Ptr <Constructor> > (v));
+                        clazz->addConstructor (vcast <Constructor *> (v));
                 }
 
                 // Adnotacja dotyczy metody, stworzyć obiekt Method, dodać do Class.
                 v = annotation->accept (methodVisitor.get ());
 
                 if (!v.isNone ()) {
-                        clazz->addMethod (vcast <Ptr <Method> > (v));
+                        clazz->addMethod (vcast <Method *> (v));
                 }
 
                 // Adnotacja dotyczy baseClass;
@@ -246,7 +253,7 @@ void Manager::addStandardTypes ()
 
 /****************************************************************************/
 
-Ptr<Class> Manager::classForName (const std::string &className)
+Class *Manager::classForName (const std::string &className)
 {
         Manager::init (); // Run only once.
         return classForNameImpl (className);
@@ -254,14 +261,14 @@ Ptr<Class> Manager::classForName (const std::string &className)
 
 /****************************************************************************/
 
-Ptr<Class> Manager::classForNameImpl (const std::string &className)
+Class *Manager::classForNameImpl (const std::string &className)
 {
         return Manager::instance ().classContainer->get (className);
 }
 
 /****************************************************************************/
 
-Ptr<Class> Manager::classForType (std::type_info const &t)
+Class *Manager::classForType (std::type_info const &t)
 {
         Manager::init (); // Run only once.
         return Manager::instance ().classContainer->get (t);
@@ -269,7 +276,7 @@ Ptr<Class> Manager::classForType (std::type_info const &t)
 
 /****************************************************************************/
 
-void Manager::add (Ptr <Class> c)
+void Manager::add (Class *c)
 {
         Manager::instance ().classContainer->add (c);
 }

@@ -27,7 +27,7 @@
 namespace Reflection {
 
 typedef boost::multi_index::multi_index_container<
-        Ptr<Class>, // Element type
+        Class *, // Element type
 
         boost::multi_index::indexed_by<
                 boost::multi_index::ordered_unique< // Dodać funkcję haszującą, albo coś i hash_unique
@@ -44,16 +44,16 @@ struct ClassContainer : public IClassContainer {
 
         virtual ~ClassContainer () {}
 
-        Ptr<Class> get (const std::string &className) const;
-        Ptr<Class> get (std::type_info const &t) const;
+        Class *get (const std::string &className) const;
+        Class *get (std::type_info const &t) const;
 
-        void add (Ptr<Class> clazz);
+        void add (Class *clazz);
         std::string toString () const;
 
 private:
 
         Multi body;
-        typedef std::map <std::type_info const *, Ptr <Class> > TypeMap;
+        typedef std::map <std::type_info const *, Class *> TypeMap;
         TypeMap typeMap;
 };
 

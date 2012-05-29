@@ -14,9 +14,21 @@
 #include "../../core/Typedefs.h"
 #include "../Exceptions.h"
 
+namespace Reflection {
 using namespace Core;
 
-namespace Reflection {
+Class::~Class ()
+{
+        for (MethodList::iterator i = methodList.begin (); i != methodList.end (); ++i) {
+                delete *i;
+        }
+
+        for (ConstructorList::iterator i = constructorList.begin (); i != constructorList.end (); ++i) {
+                delete *i;
+        }
+}
+
+/****************************************************************************/
 
 void Class::initBaseClasses ()
 {
@@ -25,7 +37,7 @@ void Class::initBaseClasses ()
         }
 
         foreach (std::string name, baseClassNames) {
-                Ptr <Class> c = Manager::classForName (name);
+                Class *c = Manager::classForName (name);
 
                 if (!c) {
                         throw NoSuchBaseClassException (name);
@@ -73,7 +85,7 @@ const MethodList &Class::getMethodList () const
 
 /****************************************************************************/
 
-Ptr <Method> Class::getMethod (const std::string &s, std::type_info const &ti) const
+Method *Class::getMethod (const std::string &s, std::type_info const &ti) const
 {
         (const_cast <Class *> (this))->initWithCheck ();
 
@@ -84,19 +96,19 @@ Ptr <Method> Class::getMethod (const std::string &s, std::type_info const &ti) c
         }
 
         for (ClassList::const_iterator i = baseClassList.begin (); i != baseClassList.end (); ++i) {
-            Ptr <Method> m = (*i)->getMethod (name, ti);
+            Method *m = (*i)->getMethod (name, ti);
 
             if (m) {
                     return m;
             }
         }
 
-        return Ptr <Method> ();
+        return NULL;
 }
 
 /****************************************************************************/
 
-Ptr<Method> Class::getMethod (const std::string &name, int arity) const
+Method *Class::getMethod (const std::string &name, int arity) const
 {
         (const_cast <Class *> (this))->initWithCheck ();
 
@@ -107,41 +119,41 @@ Ptr<Method> Class::getMethod (const std::string &name, int arity) const
         }
 
         for (ClassList::const_iterator i = baseClassList.begin (); i != baseClassList.end (); ++i) {
-            Ptr <Method> m = (*i)->getMethod (name, arity);
+            Method *m = (*i)->getMethod (name, arity);
 
             if (m) {
                     return m;
             }
         }
 
-        return Ptr <Method> ();
+        return NULL;
 }
 
 /****************************************************************************/
 
-Ptr<Constructor> Class::getConstructor (std::type_info const &type) const
+Constructor *Class::getConstructor (std::type_info const &type) const
 {
         // Jeśli podano jednak jakieś typy, t dopasuj
-        foreach (Ptr<Constructor> ctr, constructorList) {
-                if (ctr->getType () == type) {
-                        return ctr;
+        for (ConstructorList::const_iterator i = constructorList.begin (); i != constructorList.end (); ++i) {
+                if ((*i)->getType () == type) {
+                        return *i;
                 }
         }
 
-        return Ptr<Constructor> ();
+        return NULL;
 }
 
 /****************************************************************************/
 
-Ptr<Constructor> Class::getConstructor (unsigned int noOfArgs) const
+Constructor *Class::getConstructor (unsigned int noOfArgs) const
 {
-        foreach (Ptr<Constructor> ctr, constructorList) {
-                if (ctr->getArity () == noOfArgs) {
-                        return ctr;
+        for (ConstructorList::const_iterator i = constructorList.begin (); i != constructorList.end (); ++i) {
+                if ((*i)->getArity () == noOfArgs) {
+                        return *i;
                 }
         }
 
-        return Ptr<Constructor> ();
+        return NULL;
 }
 
 /****************************************************************************/

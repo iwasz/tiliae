@@ -40,7 +40,7 @@ Core::Variant ClassVisitor::visit (ConstructorAnnotation *a, const Core::Variant
 
 Core::Variant ClassVisitor::visit (ClassAnnotation *a, const Core::Variant &arg)
 {
-        Ptr <Class> clazz = findClass (a->getClassName ());
+        Class *clazz = findClass (a->getClassName ());
 
         if (!clazz) {
                 clazz = createClass (a->getClassName (), a->getType ());
@@ -63,7 +63,7 @@ Core::Variant ClassVisitor::visit (ClassAnnotation *a, const Core::Variant &arg)
 
 /****************************************************************************/
 
-Ptr <Reflection::Class> ClassVisitor::findClass (const std::string &className) const
+Class *ClassVisitor::findClass (const std::string &className) const
 {
         // Dla każdej adnotacji pobrać nazwę klasy
         if (cache && className == cache->getName ()) {
@@ -71,10 +71,10 @@ Ptr <Reflection::Class> ClassVisitor::findClass (const std::string &className) c
         }
 
         // 3. Odszukać klasę po nazwie w kontenerze klas, jeśli nie ma, stworzyć.
-        Ptr <Class> clazz = Manager::classForNameImpl (className);
+        Class *clazz = Manager::classForNameImpl (className);
 
         if (!clazz) {
-                return Ptr <Class> ();
+                return NULL;
         }
 
         return clazz;
@@ -82,9 +82,9 @@ Ptr <Reflection::Class> ClassVisitor::findClass (const std::string &className) c
 
 /****************************************************************************/
 
-Ptr <Reflection::Class> ClassVisitor::createClass (const std::string &className, std::type_info const &classType)
+Class *ClassVisitor::createClass (const std::string &className, std::type_info const &classType)
 {
-        Ptr <Class> clazz = boost::make_shared <Class> (className, classType);
+        Class *clazz = new Class (className, classType);
         Manager::add (clazz);
         cache = clazz;
         return clazz;

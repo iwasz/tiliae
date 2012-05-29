@@ -18,7 +18,7 @@ using Core::Variant;
 
 /****************************************************************************/
 
-Ptr <Method> ReflectionTools::findGetter (Ptr <Class> cls, const std::string &name)
+Method *ReflectionTools::findGetter (Class *cls, const std::string &name)
 {
         assert (cls);
 
@@ -28,13 +28,12 @@ Ptr <Method> ReflectionTools::findGetter (Ptr <Class> cls, const std::string &na
         std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << methodName << std::endl;
 #endif
 
-        Ptr <Method> getter = cls->getMethod (methodName);
-        return getter;
+        return cls->getMethod (methodName);
 }
 
 /****************************************************************************/
 
-Ptr <Method> ReflectionTools::findMethod (Ptr <Class> cls, const std::string &name)
+Method *ReflectionTools::findMethod (Class *cls, const std::string &name)
 {
         assert (cls);
 
@@ -56,7 +55,7 @@ std::string ReflectionTools::getGetterName (const std::string &fieldName)
 
 /****************************************************************************/
 
-Ptr <Method> ReflectionTools::findSetter (Ptr <Class> cls,  const std::string &name)
+Method *ReflectionTools::findSetter (Class *cls,  const std::string &name)
 {
         assert (cls);
 
@@ -67,9 +66,7 @@ Ptr <Method> ReflectionTools::findSetter (Ptr <Class> cls,  const std::string &n
 #endif
 
         // TODO Tu powinno być sprawdzenie argumentu, albo chociaż 1 zamiast tego 0. Ale nie działa.
-        Ptr <Method> setter = cls->getMethod (methodName);
-
-        return setter;
+        return cls->getMethod (methodName);
 }
 
 /****************************************************************************/
@@ -95,7 +92,7 @@ std::string ReflectionTools::getFieldName (const std::string &getterOrSetterName
 
 /****************************************************************************/
 // TODO test zrobic, nie wiadomo, czy dobrze dziala na stringu UTF8
-MethodList ReflectionTools::getMethodsWithPrefix (Ptr <Class> cls, const std::string &prefix)
+MethodList ReflectionTools::getMethodsWithPrefix (Class *cls, const std::string &prefix)
 {
         assert (cls);
 
@@ -106,7 +103,7 @@ MethodList ReflectionTools::getMethodsWithPrefix (Ptr <Class> cls, const std::st
 
         for (MethodList::const_iterator i = allMethods.begin (); i != allMethods.end (); i++) {
 
-                Ptr <Method> method = *i;
+                Method *method = *i;
                 std::string methodName = method->getName ();
 
                 if (methodName.size () >= prefixLen + 1 &&
@@ -123,14 +120,14 @@ MethodList ReflectionTools::getMethodsWithPrefix (Ptr <Class> cls, const std::st
 
 /****************************************************************************/
 
-MethodList ReflectionTools::getGetters (Ptr <Class> cls)
+MethodList ReflectionTools::getGetters (Class *cls)
 {
         return getMethodsWithPrefix (cls, "get");
 }
 
 /****************************************************************************/
 
-MethodList ReflectionTools::getSetters (Ptr <Class> cls)
+MethodList ReflectionTools::getSetters (Class *cls)
 {
         return getMethodsWithPrefix (cls, "set");
 }

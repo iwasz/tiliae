@@ -27,6 +27,7 @@ class Class;
 class ClassVisitor : public IReflectionVisitor {
 public:
 
+        ClassVisitor () : cache (NULL) {}
         virtual ~ClassVisitor () {}
 
         virtual Core::Variant visit (BaseClassAnnotation *a, const Core::Variant &arg);
@@ -36,12 +37,12 @@ public:
 
 private:
 
-        Ptr <Class> findClass (const std::string &className) const;
-        Ptr <Class> createClass (const std::string &className, std::type_info const &classType);
+        Class *findClass (const std::string &className) const;
+        Class *createClass (const std::string &className, std::type_info const &classType);
 
 private:
 
-        Ptr <Class> cache;
+        Class *cache;
 };
 
 }

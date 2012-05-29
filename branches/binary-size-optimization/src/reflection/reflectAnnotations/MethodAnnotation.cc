@@ -14,7 +14,7 @@ namespace Reflection {
 std::string MethodAnnotation::toString () const
 {
         return "MethodAnnotation (className:'" + className + "', methodName:'" + methodName + "', callableWrapper:'" +
-                className + boost::lexical_cast <std::string> (((unsigned long int)callableWrapper.get ())) + "')";
+                className + boost::lexical_cast <std::string> (((unsigned long int)callableWrapper)) + "')";
 }
 
 }

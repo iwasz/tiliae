@@ -25,8 +25,8 @@ namespace Reflection {
 
 class Class;
 
-/// Lista klas.
-typedef std::list <Ptr <Class> > ClassList;
+/// TODO std:vector
+typedef std::list <Class *> ClassList;
 
 /**
  *
@@ -39,7 +39,7 @@ public:
                 type (t),
                 initialized (false) {}
 
-        virtual ~Class () {}
+        virtual ~Class ();
 
         std::string getName () const { return name; }
         void setName (const std::string &n) { name = n; }
@@ -48,16 +48,16 @@ public:
         void addBaseClassNames (const Core::StringList &names);
 
         const ConstructorList &getConstructorList() const { return constructorList; }
-        Ptr<Constructor> getConstructor (std::type_info const &type) const;
-        Ptr<Constructor> getConstructor (unsigned int noOfArgs = 0) const;
+        Constructor *getConstructor (std::type_info const &type) const;
+        Constructor *getConstructor (unsigned int noOfArgs = 0) const;
         void setConstructorList (const ConstructorList &constructorList) { this->constructorList = constructorList; }
-        void addConstructor (Ptr<Constructor> constructor) { this->constructorList.push_back (constructor); }
+        void addConstructor (Constructor *constructor) { this->constructorList.push_back (constructor); }
 
         const MethodList &getMethodList() const;
-        Ptr<Method> getMethod (const std::string &name, std::type_info const &ti) const;
-        Ptr<Method> getMethod (const std::string &name, int noOfArgs = -1) const;
+        Method *getMethod (const std::string &name, std::type_info const &ti) const;
+        Method *getMethod (const std::string &name, int noOfArgs = -1) const;
         void setMethodList (const MethodList &methodList) { this->methodList = methodList; }
-        void addMethod (Ptr <Method> method) { this->methodList.push_back (method); }
+        void addMethod (Method *method) { this->methodList.push_back (method); }
 
         /// Zwraca pierwszy element types, czyli typ "podstawowy" - nie wskaźnik.
         std::type_info const &getType () const { return type; }

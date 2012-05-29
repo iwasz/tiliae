@@ -26,6 +26,8 @@ class Class;
 class TILIAE_API Manager : public Core::IToStringEnabled {
 public:
 
+        ~Manager ();
+
         /**
          * Służy do pobierania obiektu managera.
          * @return Obiekt managera, singleton, inicjowany przy pierwszym wywołaniu.
@@ -43,19 +45,19 @@ public:
          * Gets a Class object for a given name. Returns empty pointer
          * if no class is found.
          */
-        static Ptr<Class> classForName (const std::string &className);
+        static Class *classForName (const std::string &className);
 
         /**
          * Gets a Class object for a given type_info object. Returns
          * empty pointer if no class is found.
          */
-        static Ptr<Class> classForType (std::type_info const &t);
+        static Class *classForType (std::type_info const &t);
 
         /**
          * Adds a Class object to Manager. Does not check whether this
          * class allready inside.
          */
-        static void add (Ptr <Class> c);
+        static void add (Class *c);
 
         /**
          * Zwraca informację, czy manager jest zainicjowany (użycie
@@ -77,7 +79,7 @@ private:
         Manager ();
         Manager (const Manager &) {}
 
-        static Ptr<Class> classForNameImpl (const std::string &className);
+        static Class *classForNameImpl (const std::string &className);
 
         /**
          * Dodaje do managera typy z Core (String, StirngList etc).
@@ -89,7 +91,7 @@ private:
 private:
 
         bool initialized;
-        Ptr <IClassContainer> classContainer;
+        IClassContainer *classContainer;
 
 };
 

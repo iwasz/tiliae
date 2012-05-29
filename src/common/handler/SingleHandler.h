@@ -40,7 +40,7 @@ private:
 };
 
 typedef std::list <SingleHandler *> SingleHandlerList;
-typedef std::map <std::string, Ptr <SingleHandler> > SingleHandlerMap;
+typedef std::map <std::string, SingleHandler *> SingleHandlerMap;
 
 }
 

@@ -15,12 +15,12 @@ using namespace Core;
 
 /****************************************************************************/
 
-Ptr<Class> ClassContainer::get (const std::string &className) const
+Class *ClassContainer::get (const std::string &className) const
 {
         Multi::nth_index<0>::type::iterator i = body.find (className);
 
         if (i == body.end ()) {
-                return Ptr<Class> ();
+                return NULL;
         }
 
         return *i;
@@ -28,15 +28,15 @@ Ptr<Class> ClassContainer::get (const std::string &className) const
 
 /****************************************************************************/
 
-Ptr<Class> ClassContainer::get (std::type_info const &t) const
+Class *ClassContainer::get (std::type_info const &t) const
 {
         TypeMap::const_iterator i = typeMap.find (&t);
-        return (i == typeMap.end ()) ? (Ptr <Class> ()) : (i->second);
+        return (i == typeMap.end ()) ? (NULL) : (i->second);
 }
 
 /****************************************************************************/
 
-void ClassContainer::add (Ptr<Class> clazz)
+void ClassContainer::add (Class *clazz)
 {
 #if 0
         Multi::nth_index<0>::type::iterator i = body.find (clazz->getName ());
@@ -61,7 +61,7 @@ std::string ClassContainer::toString () const
 
         while (i != body.end ()) {
 
-                Ptr <Class> cls = *i;
+                Class *cls = *i;
                 ret += cls->toString ();
 
                 if (++i != body.end ()) {

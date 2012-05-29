@@ -11,7 +11,6 @@
 
 #include <list>
 #include <map>
-#include <boost/make_shared.hpp>
 
 #include "../Tools.h"
 #include "../../core/variant/Variant.h"
@@ -307,8 +306,8 @@ Core::Variant ConstructorPointer10<K, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10>
 struct ConstructorPointerWrapper {
 
-        static Ptr <IConstructorPointer> newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer10 <K, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer10 <K, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> ();
         }
 
 };
@@ -316,8 +315,8 @@ struct ConstructorPointerWrapper {
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9>
 struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, T6, T7, T8, T9, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer09 <K, T1, T2, T3, T4, T5, T6, T7, T8, T9> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer09 <K, T1, T2, T3, T4, T5, T6, T7, T8, T9> ();
         }
 
 };
@@ -325,8 +324,8 @@ struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, T6, T7, T8, T9, void> {
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
 struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, T6, T7, T8, void, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer08 <K, T1, T2, T3, T4, T5, T6, T7, T8> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer08 <K, T1, T2, T3, T4, T5, T6, T7, T8> ();
         }
 
 };
@@ -334,8 +333,8 @@ struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, T6, T7, T8, void, void>
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6, class T7>
 struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, T6, T7, void, void, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer07 <K, T1, T2, T3, T4, T5, T6, T7> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer07 <K, T1, T2, T3, T4, T5, T6, T7> ();
         }
 
 };
@@ -343,8 +342,8 @@ struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, T6, T7, void, void, voi
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6>
 struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, T6, void, void, void, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer06 <K, T1, T2, T3, T4, T5, T6> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer06 <K, T1, T2, T3, T4, T5, T6> ();
         }
 
 };
@@ -352,8 +351,8 @@ struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, T6, void, void, void, v
 template <class K, class T1, class T2, class T3, class T4, class T5>
 struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, void, void, void, void, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer05 <K, T1, T2, T3, T4, T5> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer05 <K, T1, T2, T3, T4, T5> ();
         }
 
 };
@@ -361,8 +360,8 @@ struct ConstructorPointerWrapper <K, T1, T2, T3, T4, T5, void, void, void, void,
 template <class K, class T1, class T2, class T3, class T4>
 struct ConstructorPointerWrapper <K, T1, T2, T3, T4, void, void, void, void, void, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer04 <K, T1, T2, T3, T4> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer04 <K, T1, T2, T3, T4> ();
         }
 
 };
@@ -370,8 +369,8 @@ struct ConstructorPointerWrapper <K, T1, T2, T3, T4, void, void, void, void, voi
 template <class K, class T1, class T2, class T3>
 struct ConstructorPointerWrapper <K, T1, T2, T3, void, void, void, void, void, void, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer03 <K, T1, T2, T3> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer03 <K, T1, T2, T3> ();
         }
 
 };
@@ -379,8 +378,8 @@ struct ConstructorPointerWrapper <K, T1, T2, T3, void, void, void, void, void, v
 template <class K, class T1, class T2>
 struct ConstructorPointerWrapper <K, T1, T2, void, void, void, void, void, void, void, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer02 <K, T1, T2> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer02 <K, T1, T2> ();
         }
 
 };
@@ -388,8 +387,8 @@ struct ConstructorPointerWrapper <K, T1, T2, void, void, void, void, void, void,
 template <class K, class T1>
 struct ConstructorPointerWrapper <K, T1, void, void, void, void, void, void, void, void, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer01 <K, T1> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer01 <K, T1> ();
         }
 
 };
@@ -397,8 +396,8 @@ struct ConstructorPointerWrapper <K, T1, void, void, void, void, void, void, voi
 template <class K>
 struct ConstructorPointerWrapper <K, void, void, void, void, void, void, void, void, void, void> {
 
-        static Ptr <IConstructorPointer>newConstructorPointer () {
-                return boost::make_shared <ConstructorPointer00 <K> > ();
+        static IConstructorPointer *newConstructorPointer () {
+                return new ConstructorPointer00 <K> ();
         }
 
 };

@@ -28,7 +28,7 @@ bool StringConstructorEditor::convert (const Core::Variant &input, Core::Variant
 
         std::type_info const &outputType = output->getTypeInfo ();
 
-        Ptr <Class> cls = Manager::classForType (outputType);
+        Reflection::Class *cls = Manager::classForType (outputType);
 
 #if 0
         std::cerr << outputType.name () << std::endl;
@@ -39,7 +39,7 @@ bool StringConstructorEditor::convert (const Core::Variant &input, Core::Variant
                 return false;
         }
 
-        Ptr <Constructor> ctr = cls->getConstructor (typeid (std::string const));
+        Constructor *ctr = cls->getConstructor (typeid (std::string const));
 
         if (!ctr) {
                 dcError (context, "StringConstructorEditor::convert no constructor (std::string const &) for class : [" + cls->getName () + "]");
@@ -50,7 +50,7 @@ bool StringConstructorEditor::convert (const Core::Variant &input, Core::Variant
                 *output = ctr->newInstance (input);
         }
         catch (Core::Exception const &e) {
-        		context->addContext (e.getContext());
+                context->addContext (e.getContext());
                 dcError (context, std::string ("StringConstructorEditor::convert : constructor hast thrown an exception."));
                 return false;
         }

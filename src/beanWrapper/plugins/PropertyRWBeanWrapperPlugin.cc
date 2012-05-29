@@ -30,11 +30,11 @@ using namespace Common;
 
 /****************************************************************************/
 
-Ptr <Reflection::Class> PropertyRWBeanWrapperPlugin::getClass (const Variant &bean, const IPath *path) const
+Reflection::Class *PropertyRWBeanWrapperPlugin::getClass (const Variant &bean, const IPath *path) const
 {
         // Sprawdz, czy bean w ogole cos zawiera. Moze nic nie zawierac, czyli ze w mapie map nie bylo obiektu glownego.
         if (!path->countSegments () || bean.isNone ())
-                return Ptr <Reflection::Class> ();
+                return NULL;
 
         // Kazdy nastepny element wymaga juz uzycia reflexji:
         return Reflection::Manager::classForType (bean.getTypeInfo ());
@@ -55,7 +55,7 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
                 << path << ", path.countSegments = " << path->countSegments () << std::endl;
 #endif
 
-        Ptr <Reflection::Class> cls = getClass (bean, path);
+        Reflection::Class *cls = getClass (bean, path);
 
 #       if 0
         std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << (unsigned long int)cls << std::endl;
@@ -69,7 +69,7 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
 
         // Znajdz getter:
         std::string property = path->getFirstSegment ();
-        Ptr <Reflection::Method> getter = ReflectionTools::findGetter (cls, property);
+        Reflection::Method *getter = ReflectionTools::findGetter (cls, property);
 
         if (!getter) {
                 dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Class '" + cls->getName () + "' does not have getter for property with name '" + property + "').");
@@ -113,7 +113,7 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
 
         assert (path);
 
-        Ptr <Reflection::Class> cls = getClass (*bean, path);
+        Reflection::Class *cls = getClass (*bean, path);
 
         if (!cls) {
                 dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean->getTypeInfo ().name ()) + ")");
@@ -122,7 +122,7 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
 
         // Znajdz getter:
         std::string property = path->getFirstSegment ();
-        Ptr <Reflection::Method> setter = ReflectionTools::findSetter (cls, property);
+        Reflection::Method *setter = ReflectionTools::findSetter (cls, property);
 
         if (!setter) {
                 dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Class '" + cls->getName () + "' does not have setter for property with name '" + property + "').");

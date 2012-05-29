@@ -89,29 +89,29 @@ template <typename T>
 void CollectionAnnotation <std::vector <T> >::run (std::string const &className)
 {
         // Sama klasa
-        Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (std::vector <T>&));
+        Class *clazz = new Class (className, typeid (std::vector <T>&));
         Manager::add (clazz);
 
         // Konstruktor
-        Ptr <IConstructorPointer> cp = Reflection::ConstructorPointerWrapper2 <std::vector <T>, void>::Level1Wrapper::newConstructorPointer ();
-        Ptr <Constructor> constructor = boost::make_shared <Constructor> (cp);
+        IConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <std::vector <T>, void>::Level1Wrapper::newConstructorPointer ();
+        Constructor *constructor = new Constructor (cp);
         clazz->addConstructor (constructor);
 
         // Metody
-        Ptr <ICallableWrapper> w = boost::make_shared <AddWrapper <std::vector <T> > > ();
-        Ptr <Method> method = boost::make_shared <Method> ("add", w);
+        ICallableWrapper *w = new AddWrapper <std::vector <T> > ();
+        Method *method = new Method ("add", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <GetWrapper <std::vector <T> > > ();
-        method = boost::make_shared <Method> ("get", w);
+        w = new GetWrapper <std::vector <T> > ();
+        method = new Method ("get", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <SetWrapper <std::vector <T> > > ();
-        method = boost::make_shared <Method> ("set", w);
+        w = new SetWrapper <std::vector <T> > ();
+        method = new Method ("set", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <IteratorWrapper <std::vector <T> > > ();
-        method = boost::make_shared <Method> ("iterator", w);
+        w = new IteratorWrapper <std::vector <T> > ();
+        method = new Method ("iterator", w);
         clazz->addMethod (method);
 }
 
@@ -126,29 +126,29 @@ template <typename T>
 void CollectionAnnotation <std::list <T> >::run (std::string const &className)
 {
         // Sama klasa
-        Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (std::list <T> &));
+        Class *clazz = new Class (className, typeid (std::list <T> &));
         Manager::add (clazz);
 
         // Konstruktor
-        Ptr <IConstructorPointer> cp = Reflection::ConstructorPointerWrapper2 <std::list <T>, void>::Level1Wrapper::newConstructorPointer ();
-        Ptr <Constructor> constructor = boost::make_shared <Constructor> (cp);
+        IConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <std::list <T>, void>::Level1Wrapper::newConstructorPointer ();
+        Constructor *constructor = new Constructor (cp);
         clazz->addConstructor (constructor);
 
         // Metody
-        Ptr <ICallableWrapper> w = boost::make_shared <AddWrapper <std::list <T> > > ();
-        Ptr <Method> method = boost::make_shared <Method> ("add", w);
+        ICallableWrapper *w = new AddWrapper <std::list <T> > ();
+        Method *method = new Method ("add", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <GetWrapper <std::list <T> > > ();
-        method = boost::make_shared <Method> ("get", w);
+        w = new GetWrapper <std::list <T> > ();
+        method = new Method ("get", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <SetWrapper <std::list <T> > > ();
-        method = boost::make_shared <Method> ("set", w);
+        w = new SetWrapper <std::list <T> > ();
+        method = new Method ("set", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <IteratorWrapper <std::list <T> > > ();
-        method = boost::make_shared <Method> ("iterator", w);
+        w = new IteratorWrapper <std::list <T> > ();
+        method = new Method ("iterator", w);
         clazz->addMethod (method);
 }
 
@@ -163,25 +163,25 @@ template <typename T>
 void CollectionAnnotation <std::set <T> >::run (std::string const &className)
 {
         // Sama klasa
-        Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (std::set <T>&));
+        Class *clazz = new Class (className, typeid (std::set <T>&));
         Manager::add (clazz);
 
         // Konstruktor
-        Ptr <IConstructorPointer> cp = Reflection::ConstructorPointerWrapper2 <std::set <T>, void>::Level1Wrapper::newConstructorPointer ();
-        Ptr <Constructor> constructor = boost::make_shared <Constructor> (cp);
+        IConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <std::set <T>, void>::Level1Wrapper::newConstructorPointer ();
+        Constructor *constructor = new Constructor (cp);
         clazz->addConstructor (constructor);
 
         // Metody
-        Ptr <ICallableWrapper> w = boost::make_shared <AddWrapper <std::set <T> > > ();
-        Ptr <Method> method = boost::make_shared <Method> ("add", w);
+        ICallableWrapper *w = new AddWrapper <std::set <T> > ();
+        Method *method = new Method ("add", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <GetWrapper <std::set <T> > > ();
-        method = boost::make_shared <Method> ("get", w);
+        w = new GetWrapper <std::set <T> > ();
+        method = new Method ("get", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <IteratorWrapper <std::set <T> > > ();
-        method = boost::make_shared <Method> ("iterator", w);
+        w = new IteratorWrapper <std::set <T> > ();
+        method = new Method ("iterator", w);
         clazz->addMethod (method);
 }
 
@@ -196,25 +196,25 @@ template <typename K, typename V>
 void CollectionAnnotation <std::map <K, V> >::run (std::string const &className)
 {
         // Sama klasa
-        Ptr<Class> clazz = boost::make_shared <Class> (className, typeid (std::map <K,V>&));
+        Class *clazz = new Class (className, typeid (std::map <K,V>&));
         Manager::add (clazz);
 
         // Konstruktor
-        Ptr <IConstructorPointer> cp = Reflection::ConstructorPointerWrapper2 <std::map <K, V>, void>::Level1Wrapper::newConstructorPointer ();
-        Ptr <Constructor> constructor = boost::make_shared <Constructor> (cp);
+        IConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <std::map <K, V>, void>::Level1Wrapper::newConstructorPointer ();
+        Constructor *constructor = new Constructor (cp);
         clazz->addConstructor (constructor);
 
         // Metody
-        Ptr <ICallableWrapper> w = boost::make_shared <SetWrapper <std::map <K, V> > > ();
-        Ptr <Method> method = boost::make_shared <Method> ("set", w);
+        ICallableWrapper *w = new SetWrapper <std::map <K, V> > ();
+        Method *method = new Method ("set", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <GetWrapper <std::map <K, V> > > ();
-        method = boost::make_shared <Method> ("get", w);
+        w = new GetWrapper <std::map <K, V> > ();
+        method = new Method ("get", w);
         clazz->addMethod (method);
 
-        w = boost::make_shared <IteratorWrapper <std::map <K, V> > > ();
-        method = boost::make_shared <Method> ("iterator", w);
+        w = new IteratorWrapper <std::map <K, V> > ();
+        method = new Method ("iterator", w);
         clazz->addMethod (method);}
 
 } // notebook

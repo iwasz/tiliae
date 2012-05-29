@@ -27,16 +27,11 @@ namespace Reflection {
 class TILIAE_API Method : public Core::IToStringEnabled {
 public:
 
-        Method (const std::string &n,
-                const Ptr <ICallableWrapper> &c) : name (n), callableWrapper (c) {}
-
-        virtual ~Method () {}
+        Method (const std::string &n, ICallableWrapper *c) : name (n), callableWrapper (c) {}
+        virtual ~Method () { delete callableWrapper; }
 
         std::string getName () const { return this->name; }
         void setName (const std::string &name) { this->name = name; }
-
-        Ptr<ICallableWrapper> getCallableWrapper () const { return this->callableWrapper; }
-        void setCallableWrapper (Ptr<ICallableWrapper> callableWrapper) { this->callableWrapper = callableWrapper; }
 
         std::type_info const &getType () const { return callableWrapper->getType (); }
         int getArity () const { return callableWrapper->getArity (); }
@@ -54,11 +49,12 @@ public:
 private:
 
         std::string name;
-        Ptr <ICallableWrapper> callableWrapper;
+        ICallableWrapper *callableWrapper;
 
 };
 
-typedef std::list <Ptr <Method> > MethodList;
+// TODO vector
+typedef std::list <Method *> MethodList;
 
 }
 

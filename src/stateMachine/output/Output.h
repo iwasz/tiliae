@@ -63,7 +63,7 @@ public:
         void setActions (const Common::ZeroHandlerMap &actions) { this->actions = actions; }
         Common::ZeroHandlerMap getActions () const { return actions; }
 
-        void addAction (const std::string &name, Ptr <Common::ZeroHandler> action) { actions[name] = action; }
+        void addAction (const std::string &name, Common::ZeroHandler *action) { actions[name] = action; }
         void removeAction (const std::string &name);
 
 private:

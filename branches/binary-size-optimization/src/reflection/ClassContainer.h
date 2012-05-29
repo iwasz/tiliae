@@ -42,7 +42,7 @@ Multi;
  */
 struct ClassContainer : public IClassContainer {
 
-        virtual ~ClassContainer () {}
+        virtual ~ClassContainer ();
 
         Class *get (const std::string &className) const;
         Class *get (std::type_info const &t) const;

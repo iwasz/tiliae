@@ -15,6 +15,15 @@ using namespace Core;
 
 /****************************************************************************/
 
+ClassContainer::~ClassContainer ()
+{
+        for (Multi::nth_index<0>::type::iterator i = body.begin (); i != body.end (); ++i) {
+                delete *i;
+        }
+}
+
+/****************************************************************************/
+
 Class *ClassContainer::get (const std::string &className) const
 {
         Multi::nth_index<0>::type::iterator i = body.find (className);

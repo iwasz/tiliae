@@ -51,7 +51,7 @@ public:
         Core::Variant invoke (Core::VariantVector *list)
         {
                 Tools::checkArgList (list, 0);
-                return Core::Variant (Ptr <K> (new K));
+                return Core::Variant (new K);
         }
 
         std::type_info const &getType () const { return typeid (void *); }
@@ -74,7 +74,7 @@ Core::Variant ConstructorPointer01<K, T1>::invoke (Core::VariantVector *list)
         Tools::checkArgList (list, 1);
         Core::VariantVector::iterator i = list->begin ();
         T1 t1 = vcast <T1> (*i);
-        return Core::Variant (Ptr <K> (new K (t1)));
+        return Core::Variant (new K (t1));
 }
 
 /*##########################################################################*/
@@ -94,7 +94,7 @@ Core::Variant ConstructorPointer02<K, T1, T2>::invoke (Core::VariantVector *list
         Core::VariantVector::iterator i = list->begin ();
         T1 t1 = vcast <T1> (*i++);
         T2 t2 = vcast <T2> (*i);
-        return Core::Variant (Ptr <K> (new K (t1, t2)));
+        return Core::Variant (new K (t1, t2));
 }
 
 /*##########################################################################*/
@@ -116,7 +116,7 @@ Core::Variant ConstructorPointer03<K, T1, T2, T3>::invoke (Core::VariantVector *
         T1 t1 = vcast <T1> (*i++);
         T2 t2 = vcast <T2> (*i++);
         T3 t3 = vcast <T3> (*i);
-        return Core::Variant (Ptr <K> (new K (t1, t2, t3)));
+        return Core::Variant (new K (t1, t2, t3));
 }
 
 /*##########################################################################*/
@@ -139,7 +139,7 @@ Core::Variant ConstructorPointer04<K, T1, T2, T3, T4>::invoke (Core::VariantVect
         T2 t2 = vcast <T2> (*i++);
         T3 t3 = vcast <T3> (*i++);
         T4 t4 = vcast <T4> (*i);
-        return Core::Variant (Ptr <K> (new K (t1, t2, t3, t4)));
+        return Core::Variant (new K (t1, t2, t3, t4));
 }
 
 /*##########################################################################*/
@@ -163,7 +163,7 @@ Core::Variant ConstructorPointer05<K, T1, T2, T3, T4, T5>::invoke (Core::Variant
         T3 t3 = vcast <T3> (*i++);
         T4 t4 = vcast <T4> (*i++);
         T5 t5 = vcast <T5> (*i);
-        return Core::Variant (Ptr <K> (new K (t1, t2, t3, t4, t5)));
+        return Core::Variant (new K (t1, t2, t3, t4, t5));
 }
 
 /*##########################################################################*/
@@ -188,7 +188,7 @@ Core::Variant ConstructorPointer06<K, T1, T2, T3, T4, T5, T6>::invoke (Core::Var
         T4 t4 = vcast <T4> (*i++);
         T5 t5 = vcast <T5> (*i++);
         T6 t6 = vcast <T6> (*i);
-        return Core::Variant (Ptr <K> (new K (t1, t2, t3, t4, t5, t6)));
+        return Core::Variant (new K (t1, t2, t3, t4, t5, t6));
 }
 
 /*##########################################################################*/
@@ -214,7 +214,7 @@ Core::Variant ConstructorPointer07<K, T1, T2, T3, T4, T5, T6, T7>::invoke (Core:
         T5 t5 = vcast <T5> (*i++);
         T6 t6 = vcast <T6> (*i++);
         T7 t7 = vcast <T7> (*i);
-        return Core::Variant (Ptr <K> (new K (t1, t2, t3, t4, t5, t6, t7)));
+        return Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7));
 }
 
 /*##########################################################################*/
@@ -241,7 +241,7 @@ Core::Variant ConstructorPointer08<K, T1, T2, T3, T4, T5, T6, T7, T8>::invoke (C
         T6 t6 = vcast <T6> (*i++);
         T7 t7 = vcast <T7> (*i++);
         T8 t8 = vcast <T8> (*i);
-        return Core::Variant (Ptr <K> (new K (t1, t2, t3, t4, t5, t6, t7, t8)));
+        return Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7, t8));
 }
 
 /*##########################################################################*/
@@ -269,7 +269,7 @@ Core::Variant ConstructorPointer09<K, T1, T2, T3, T4, T5, T6, T7, T8, T9>::invok
         T7 t7 = vcast <T7> (*i++);
         T8 t8 = vcast <T8> (*i++);
         T9 t9 = vcast <T9> (*i);
-        return Core::Variant (Ptr <K> (new K (t1, t2, t3, t4, t5, t6, t7, t8, t9)));
+        return Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7, t8, t9));
 }
 
 /*##########################################################################*/
@@ -298,7 +298,7 @@ Core::Variant ConstructorPointer10<K, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::
         T8 t8 = vcast <T8> (*i++);
         T9 t9 = vcast <T9> (*i++);
         T10 t10 = vcast <T10> (*i);
-        return Core::Variant (Ptr <K> (new K (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10)));
+        return Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10));
 }
 
 /*##########################################################################*/

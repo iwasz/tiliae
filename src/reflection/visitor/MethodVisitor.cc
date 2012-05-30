@@ -18,8 +18,7 @@ using namespace Core;
 
 Core::Variant MethodVisitor::visit (MethodAnnotation *a, const Core::Variant &arg)
 {
-        Ptr <Method> method = boost::make_shared <Method> (a->getMethodName (), a->getCallableWrapper ());
-        return Variant (method);
+        return Variant (new Method (a->getMethodName (), a->getCallableWrapper ()));
 }
 
 }

@@ -26,22 +26,24 @@ using Core::StringList;
 using Core::DebugContext;
 using namespace Common;
 
-Ptr<BeanWrapper> BeanWrapper::create (const Core::Variant &bean)
+BeanWrapper *BeanWrapper::create (const Core::Variant &bean)
 {
-        Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> (bean);
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-
-        Ptr <IBeanWrapperPlugin> plugin = boost::make_shared <PropertyRWBeanWrapperPlugin> ();
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <GetPutMethodRWBeanWrapperPlugin> ();
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <MethodPlugin> (MethodPlugin::METHOD);
-        pluginList->push_back (plugin);
-
-        beanWrapper->setPluginList (pluginList);
+        BeanWrapper *beanWrapper = new BeanWrapper (bean);
+        beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::METHOD));
         return beanWrapper;
+}
+
+/****************************************************************************/
+
+BeanWrapper::~BeanWrapper ()
+{
+        for (BeanWrapperPluginVector::iterator i = pluginList.begin (); i != pluginList.end (); ++i) {
+                delete *i;
+        }
+
+        delete editor;
 }
 
 /*##########################################################################*/
@@ -309,14 +311,14 @@ Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IP
         assert (path);
         dcBegin (ctx);
 
-        if (!pluginList || pluginList->empty ()) {
+        if (pluginList.empty ()) {
                 dcError (ctx, "BeanWrapper::getObjectUsingPlugins : pluginList is NULL");
                 setError (error);
                 return Core::Variant ();
         }
 
         // Sprobuj uzyc ktoregos pluginu aby wyciagnac obiekt
-        for (BeanWrapperPluginList::const_iterator i = getPluginList ()->begin (); i != getPluginList ()->end (); i++) {
+        for (BeanWrapperPluginVector::const_iterator i = pluginList.begin (); i != pluginList.end (); ++i) {
 
                 Variant bean;
                 bool err;
@@ -325,7 +327,7 @@ Core::Variant BeanWrapper::getObjectUsingPlugins (const Core::Variant &input, IP
                         bean = (*i)->iterator (input, path, &err, ctx);
                 }
                 else {
-                        bean = (*i)->get (input, path, &err, ctx, editor.get ());
+                        bean = (*i)->get (input, path, &err, ctx, editor);
                 }
 
                 if ((!iter && !err) ||                  // Kiedy zwykły get
@@ -351,7 +353,7 @@ bool BeanWrapper::setObjectUsingPlugins (Core::Variant *bean, IPath *path, const
         assert (path);
         std::string pathStr = path->toString ();
 
-        if (!pluginList || pluginList->empty ()) {
+        if (pluginList.empty ()) {
                 dcError (ctx, "BeanWrapper::setObjectUsingPlugins : pluginList is NULL");
                 return false;
         }
@@ -359,16 +361,16 @@ bool BeanWrapper::setObjectUsingPlugins (Core::Variant *bean, IPath *path, const
         dcBegin (ctx);
 
         // Sprobuj uzyc ktoregos pluginu aby wyciagnac obiekt
-        for (BeanWrapperPluginList::const_iterator i = getPluginList ()->begin (); i != getPluginList ()->end (); ++i) {
+        for (BeanWrapperPluginVector::const_iterator i = pluginList.begin (); i != pluginList.end (); ++i) {
 
                 if (add) {
-                        if ((*i)->add (bean, path, object, ctx, editor.get ())) {
+                        if ((*i)->add (bean, path, object, ctx, editor)) {
                                 dcRollback (ctx);
                                 return true;
                         }
                 }
                 else {
-                        if ((*i)->set (bean, path, object, ctx, editor.get ())) {
+                        if ((*i)->set (bean, path, object, ctx, editor)) {
                                 dcRollback (ctx);
                                 return true;
                         }

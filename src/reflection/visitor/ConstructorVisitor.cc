@@ -20,8 +20,7 @@ namespace Reflection {
 
 Core::Variant ConstructorVisitor::visit (ConstructorAnnotation *a, const Core::Variant &arg)
 {
-        Ptr <Constructor> constructor = boost::make_shared <Constructor> (a->getConstructorPointer());
-        return Variant (constructor);
+        return Variant (new Constructor (a->getConstructorPointer()));
 }
 
 }

@@ -137,8 +137,8 @@ Ptr <Core::VariantMap> ContainerFactory::createSingletons ()
 {
         Ptr <Core::VariantMap> map = boost::make_shared <Core::VariantMap> ();
 
-        Ptr <Editor::IEditor> noop = Editor::NoopEditor::create ();
-        Ptr <Editor::IEditor> noopNoCopy = Editor::NoopEditor::create (false);
+        Ptr <Editor::IEditor> noop = boost::make_shared <Editor::NoopEditor> ();
+        Ptr <Editor::IEditor> noopNoCopy = boost::make_shared <Editor::NoopEditor> (false);
 
         map->operator[] (DEFAULT_MAPPED_EDITOR_NAME) = Core::Variant (noop);
         map->operator[] (DEFAULT_INDEXED_EDITOR_NAME) = Core::Variant (noop);
@@ -166,21 +166,14 @@ Ptr <Wrapper::BeanWrapper> ContainerFactory::createBeanWrapper ()
         Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
         Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
 
-        Ptr <IBeanWrapperPlugin> plugin = boost::make_shared <PropertyRWBeanWrapperPlugin> ();
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <GetPutMethodRWBeanWrapperPlugin> ();
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <MethodPlugin> (MethodPlugin::IMMEDIATE_CALL);
-        pluginList->push_back (plugin);
-
-        beanWrapper->setPluginList (pluginList);
+        beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::IMMEDIATE_CALL));
 
 /*--------------------------------------------------------------------------*/
 
         Ptr <Editor::TypeEditor> editor = boost::make_shared <Editor::TypeEditor> ();
-        Ptr <Editor::IEditor> noop = Editor::NoopEditor::create ();
+        Ptr <Editor::IEditor> noop = boost::make_shared <Editor::NoopEditor> ();
         editor->setEqType (noop);
         editor->setNullType (noop);
 
@@ -203,7 +196,7 @@ Ptr <Wrapper::BeanWrapper> ContainerFactory::createBeanWrapper ()
 
         conversionMethodEditor = boost::make_shared <Editor::StringFactoryMethodEditor> ();
 
-        Ptr <Editor::ChainEditor> chain = boost::make_shared <Editor::ChainEditor> ();
+        Editor::ChainEditor *chain = new Editor::ChainEditor ();
 
         chain->addEditor (editor);
         chain->addEditor (strCon);

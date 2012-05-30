@@ -79,10 +79,10 @@ void Manager::init ()
 
         addStandardTypes ();
 
-        Ptr <ClassVisitor> classVisitor (new ClassVisitor);
-        Ptr <ConstructorVisitor> constructorVisitor (new ConstructorVisitor);
-        Ptr <MethodVisitor> methodVisitor (new MethodVisitor);
-        Ptr <BaseClassVisitor> baseClassVisitor (new BaseClassVisitor);
+        ClassVisitor classVisitor;
+        ConstructorVisitor constructorVisitor;
+        MethodVisitor methodVisitor;
+        BaseClassVisitor baseClassVisitor;
 
         // 1. Przeiterować po AnnotationManagerze
         const AnnotationList &annotationList = AnnotationManager::instance ().getAnnotationList ();
@@ -110,7 +110,7 @@ void Manager::init ()
                  * jeśli już jest stworzona. ClassVisitor ma cache, więc
                  * nie odpytuje Managera za każdym razem.
                  */
-                Variant v = annotation->accept (classVisitor.get ());
+                Variant v = annotation->accept (&classVisitor);
 
                 // Jakaś adnotacja bez klasy (w przyszłości).
                 if (v.isNone ()) {
@@ -130,7 +130,7 @@ void Manager::init ()
 //                        continue;
                 }
 
-                Ptr <Class> clazz = vcast <Ptr <Class> > (v);
+                Class *clazz = vcast <Class *> (v);
 
                 // Jakaś adnotacja bez klasy (w przyszłości).
                 if (!clazz) {
@@ -140,21 +140,21 @@ void Manager::init ()
 
                 // Mając obiekt Class jeśli:
                 // Adnotacja dotyczy konstruktora, stworzyć obiekt Constructor, dodać do Class.
-                v = annotation->accept (constructorVisitor.get ());
+                v = annotation->accept (&constructorVisitor);
 
                 if (!v.isNone ()) {
                         clazz->addConstructor (vcast <Constructor *> (v));
                 }
 
                 // Adnotacja dotyczy metody, stworzyć obiekt Method, dodać do Class.
-                v = annotation->accept (methodVisitor.get ());
+                v = annotation->accept (&methodVisitor);
 
                 if (!v.isNone ()) {
                         clazz->addMethod (vcast <Method *> (v));
                 }
 
                 // Adnotacja dotyczy baseClass;
-                v = annotation->accept (baseClassVisitor.get ());
+                v = annotation->accept (&baseClassVisitor);
 
                 if (!v.isNone ()) {
                         clazz->addBaseClassNames (vcast <StringList> (v));

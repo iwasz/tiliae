@@ -28,17 +28,15 @@ namespace Wrapper {
 class TILIAE_API BeanWrapper : public IBeanWrapper, public Core::IToStringEnabled {
 public:
 
-        REFLECTION_CONSTRUCTOR_ (void)
         BeanWrapper () {}
         BeanWrapper (const Core::Variant &bean) { setWrappedObject (bean); }
-
-        virtual ~BeanWrapper () {}
+        virtual ~BeanWrapper ();
 
         /**
          * Pomocnicza, tworzy typową konfigurację BeanWrappera (z typowym zestawem
          * pluginów).
          */
-        static Ptr <BeanWrapper> create (const Core::Variant &bean = Core::Variant ());
+        static BeanWrapper *create (const Core::Variant &bean = Core::Variant ());
 
 /*------IPropertyAccessor---------------------------------------------------------*/
 
@@ -81,16 +79,15 @@ public:
 
 /*------BeanWrapper-setters/getters-------------------------------------*/
 
-        Ptr <BeanWrapperPluginList> getPluginList () const { return pluginList; }
-        REFLECTION_METHOD (setPluginList) void setPluginList (Ptr <BeanWrapperPluginList> pluginList) { this->pluginList = pluginList; }
+        void addPlugin (IBeanWrapperPlugin *plugin) { pluginList.push_back (plugin); }
 
         /**
          * Opcjonalny edytor do edytowania (narazie tylko) ustawianych obiektów. Jeśli jest ustawiony,
          * to kazdy ustawiany za pomocą set obiekt jest przepuszczany przez ten edytor (przynajmniej w
          * niektórych pluginach).
          */
-        Ptr <Editor::IEditor> getEditor () const { return editor; }
-        REFLECTION_METHOD (setEditor) void setEditor (Ptr <Editor::IEditor> e) { editor = e; }
+        Editor::IEditor *getEditor () const { return editor; }
+        void setEditor (Editor::IEditor *e) { editor = e; }
 
 protected:
 
@@ -123,11 +120,8 @@ private:
         /**
          *  Strategia do wyciagania obiektow.
          */
-        Ptr <BeanWrapperPluginList> pluginList;
-
-        Ptr <Editor::IEditor> editor;
-
-        REFLECTION_END (BeanWrapper)
+        BeanWrapperPluginVector pluginList;
+        Editor::IEditor *editor;
 };
 
 /****************************************************************************/

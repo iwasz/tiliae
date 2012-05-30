@@ -10,6 +10,7 @@
 #define IBEANWRAPPERPLUGIN_481011_H
 
 #include <list>
+#include <vector>
 #include "path/IPath.h"
 #include "../../core/Pointer.h"
 #include "../../core/ApiMacro.h"
@@ -101,8 +102,8 @@ public:
 
 /****************************************************************************/
 
-typedef std::list <Ptr <Wrapper::IBeanWrapperPlugin> > BeanWrapperPluginList;
-REFLECTION_COLLECTION (BeanWrapperPluginList)
+typedef std::list <IBeanWrapperPlugin *> BeanWrapperPluginList;
+typedef std::vector <IBeanWrapperPlugin *> BeanWrapperPluginVector;
 
 } // namespace
 

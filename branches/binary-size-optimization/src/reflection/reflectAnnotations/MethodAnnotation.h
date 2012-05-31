@@ -33,8 +33,8 @@ public:
 
         virtual ~MethodAnnotation () {}
 
-        std::string getMethodName () const { return methodName; }
-        std::string getClassName () const { return className; }
+        std::string const &getMethodName () const { return methodName; }
+        std::string const &getClassName () const { return className; }
         ICallableWrapper *getCallableWrapper () const { return this->callableWrapper; }
 
         virtual Core::Variant accept (IReflectionVisitor *vis, const Core::Variant &arg = Core::Variant ()) { return vis->visit (this, arg);}
@@ -56,46 +56,29 @@ private:
  * Makro ogólnego przeznaczenia.
  */
 #define REFLECTION_METHOD_ANNOTATION(CLS_NAME, CLS_TYPE, method)        \
-                                                                         \
-Annotations::AnnotationManager::instance ().addAnnotation                \
-  (new Reflection::MethodAnnotation (CLS_NAME,                           \
-        #method,                                                         \
-		Reflection::createMethodWrapper (&CLS_TYPE::method)));
+                Annotations::AnnotationManager::addMethodAnnotation (CLS_NAME, #method, Reflection::createMethodWrapper (&CLS_TYPE::method));
+
 
 /**
  * Impl.settera.
  */
 #define REFLECTION_SETTER_ANNOTATION(CLS_NAME, CLS_TYPE, method)        \
-                                                                         \
-Annotations::AnnotationManager::instance ().addAnnotation                \
-  (new Reflection::MethodAnnotation (CLS_NAME,                           \
-        #method,                                                         \
-		Reflection::createSetterWrapper (&CLS_TYPE::method)));
-
+                Annotations::AnnotationManager::addMethodAnnotation (CLS_NAME, #method, Reflection::createSetterWrapper (&CLS_TYPE::method));
 
 /**
  * Makro jak REFLECTION_METHOD_ANNOTATION, ale umożliwia dodawanie
  * metod przeciążonych (nie const).
  */
 #define REFLECTION_METHOD_ANNOTATION_OVERLOAD(CLS_NAME, CLS_TYPE, RET, method, ...)        \
-                                                                                            \
-Annotations::AnnotationManager::instance ().addAnnotation                                   \
-  (new Reflection::MethodAnnotation (CLS_NAME,                                              \
-        #method,                                                                            \
-        Reflection::createMethodWrapper ( \
-             static_cast <RET (CLS_TYPE::*)(__VA_ARGS__)> (&CLS_TYPE::method))));
+                Annotations::AnnotationManager::addMethodAnnotation (CLS_NAME, #method, Reflection::createMethodWrapper (static_cast <RET (CLS_TYPE::*)(__VA_ARGS__)> (&CLS_TYPE::method)));
+
 
 /**
  * Makro jak REFLECTION_METHOD_ANNOTATION, ale umożliwia dodawanie
  * metod przeciążonych (const).
  */
 #define REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(CLS_NAME, CLS_TYPE, RET, method, ...)        \
-                                                                                            \
-Annotations::AnnotationManager::instance ().addAnnotation                                   \
-  (new Reflection::MethodAnnotation (CLS_NAME,                                              \
-        #method,                                                                            \
-        Reflection::createMethodWrapper ( \
-             static_cast <RET (CLS_TYPE::*)(__VA_ARGS__) const> (&CLS_TYPE::method))));
+                Annotations::AnnotationManager::addMethodAnnotation (CLS_NAME, #method, Reflection::createMethodWrapper (static_cast <RET (CLS_TYPE::*)(__VA_ARGS__) const> (&CLS_TYPE::method)));
 
 /**
  * Implementacyjne, nie używać.

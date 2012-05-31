@@ -13,6 +13,10 @@
 #include "IAnnotation.h"
 #include "../../core/ApiMacro.h"
 
+namespace Reflection {
+struct ICallableWrapper;
+}
+
 namespace Annotations {
 
 /**
@@ -34,6 +38,8 @@ public:
                 annotationList.insert (a);
                 return true;
         }
+
+        static void addMethodAnnotation (std::string const &clsName, std::string const &methName, Reflection::ICallableWrapper *wrapper);
 
         /**
          *

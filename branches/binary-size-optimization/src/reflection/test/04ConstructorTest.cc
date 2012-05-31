@@ -32,10 +32,10 @@ BOOST_AUTO_TEST_CASE (testConstructor)
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <Class> cls = Manager::classForName ("Bar");
+        Class *cls = Manager::classForName ("Bar");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr;
+        Constructor *constr = NULL;
 
 /*--------------------------------------------------------------------------*/
 

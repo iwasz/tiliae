@@ -9,6 +9,8 @@
 #include <iostream>
 #include <boost/lexical_cast.hpp>
 #include "AnnotationManager.h"
+#include "../wrapper/ICallableWrapper.h"
+#include "../reflectAnnotations/MethodAnnotation.h"
 
 namespace Annotations {
 
@@ -39,6 +41,13 @@ std::string AnnotationManager::toString () const
         }
 
         return ret + ")";
+}
+
+/****************************************************************************/
+
+void AnnotationManager::addMethodAnnotation (std::string const &clsName, std::string const &methName, Reflection::ICallableWrapper *wrapper)
+{
+        instance ().annotationList.insert (new Reflection::MethodAnnotation (clsName, methName, wrapper));
 }
 
 }

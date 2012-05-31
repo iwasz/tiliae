@@ -28,14 +28,14 @@ using namespace Reflection;
  */
 BOOST_AUTO_TEST_CASE (testGetMethod)
 {
-        Ptr<Class> cls = Manager::classForName ("Address");
+        Class *cls = Manager::classForName ("Address");
         BOOST_REQUIRE (cls);
         BOOST_REQUIRE_EQUAL (cls->getName (), "Address");
 
         BOOST_REQUIRE_EQUAL (12, cls->getMethodList ().size ());
 
-        Ptr<Method> met1 = cls->getMethod ("getStreet", 0);
-        Ptr<Method> met2 = cls->getMethod ("getPostalCode", 0);
+        Method *met1 = cls->getMethod ("getStreet", 0);
+        Method *met2 = cls->getMethod ("getPostalCode", 0);
 
         BOOST_REQUIRE (met1);
         BOOST_REQUIRE (met2);
@@ -67,12 +67,12 @@ BOOST_AUTO_TEST_CASE (testGetMethod)
  */
 BOOST_AUTO_TEST_CASE (testInvokeMethodOnHandleVariant)
 {
-        Ptr<Class> cls = Manager::classForName ("Address");
+        Class *cls = Manager::classForName ("Address");
         BOOST_REQUIRE (cls);
         BOOST_REQUIRE_EQUAL (cls->getName (), "Address");
 
-        Ptr<Method> met1 = cls->getMethod ("setStreet");
-        Ptr<Method> met2 = cls->getMethod ("setPostalCode");
+        Method *met1 = cls->getMethod ("setStreet");
+        Method *met2 = cls->getMethod ("setPostalCode");
 
         BOOST_REQUIRE (met1);
         BOOST_REQUIRE (met2);
@@ -105,12 +105,12 @@ BOOST_AUTO_TEST_CASE (testInvokeMethodOnHandleVariant)
  */
 BOOST_AUTO_TEST_CASE (testInvokeMethodOnVariantCreatedFromVal)
 {
-        Ptr<Class> cls = Manager::classForName ("Address");
+        Class *cls = Manager::classForName ("Address");
         BOOST_REQUIRE (cls);
         BOOST_REQUIRE_EQUAL (cls->getName (), "Address");
 
-        Ptr<Method> met1 = cls->getMethod ("setStreet", 1);
-        Ptr<Method> met2 = cls->getMethod ("setPostalCode", 1);
+        Method *met1 = cls->getMethod ("setStreet", 1);
+        Method *met2 = cls->getMethod ("setPostalCode", 1);
 
         BOOST_REQUIRE (met1);
         BOOST_REQUIRE (met2);
@@ -150,12 +150,12 @@ BOOST_AUTO_TEST_CASE (testInvokeMethodOnVariantCreatedFromVal)
  */
 BOOST_AUTO_TEST_CASE (testInvokeMethodNonConstVariant)
 {
-        Ptr<Class> cls = Manager::classForName ("Address");
+        Class *cls = Manager::classForName ("Address");
         BOOST_REQUIRE (cls);
         BOOST_REQUIRE_EQUAL (cls->getName (), "Address");
 
-        Ptr<Method> met1 = cls->getMethod ("setString", 1);
-        Ptr<Method> met2 = cls->getMethod ("setPostalCode", 1);
+        Method *met1 = cls->getMethod ("setString", 1);
+        Method *met2 = cls->getMethod ("setPostalCode", 1);
 
         BOOST_REQUIRE (met1);
         BOOST_REQUIRE (met2);
@@ -187,11 +187,11 @@ BOOST_AUTO_TEST_CASE (testInvokeMethodNonConstVariant)
  */
 BOOST_AUTO_TEST_CASE (testInvokeMethodWithVariantArg)
 {
-        Ptr<Class> cls = Manager::classForName ("Address");
+        Class *cls = Manager::classForName ("Address");
         BOOST_REQUIRE (cls);
         BOOST_REQUIRE_EQUAL (cls->getName (), "Address");
 
-        Ptr<Method> met1 = cls->getMethod ("setProperty", 1);
+        Method *met1 = cls->getMethod ("setProperty", 1);
         BOOST_REQUIRE (met1);
 
         Address a;
@@ -214,32 +214,32 @@ BOOST_AUTO_TEST_CASE (testInvokeMethodWithVariantArg)
 BOOST_AUTO_TEST_CASE (testInheritedMethods)
 {
         {
-                Ptr<Class> cls = Manager::classForName ("Address");
+                Class *cls = Manager::classForName ("Address");
                 BOOST_REQUIRE (cls);
                 BOOST_REQUIRE_EQUAL (cls->getName (), "Address");
 
                 // To jest metoda zaadnotowana w Address
-                Ptr<Method> met1 = cls->getMethod ("setProperty", 1);
+                Method *met1 = cls->getMethod ("setProperty", 1);
                 BOOST_REQUIRE (met1);
         }
 
         {
-                Ptr<Class> cls = Manager::classForName ("Place");
+                Class *cls = Manager::classForName ("Place");
                 BOOST_REQUIRE (cls);
                 BOOST_REQUIRE_EQUAL (cls->getName (), "Place");
 
                 // To jest metoda zaadnotowana w Place
-                Ptr<Method> met1 = cls->getMethod ("setPlace", 1);
+                Method *met1 = cls->getMethod ("setPlace", 1);
                 BOOST_REQUIRE (met1);
         }
 
         {
-                Ptr<Class> cls = Manager::classForName ("Address");
+                Class *cls = Manager::classForName ("Address");
                 BOOST_REQUIRE (cls);
                 BOOST_REQUIRE_EQUAL (cls->getName (), "Address");
 
                 // To jest metoda zaadnotowana w Place, ale wyciągana przez addres, który ją dziedziczy
-                Ptr<Method> met1 = cls->getMethod ("setPlace", 1);
+                Method *met1 = cls->getMethod ("setPlace", 1);
                 BOOST_REQUIRE (met1);
 
                 met1 = cls->getMethod ("setProperty", 1);

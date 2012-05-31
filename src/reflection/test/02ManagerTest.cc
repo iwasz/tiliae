@@ -27,7 +27,7 @@ using namespace Reflection;
  */
 BOOST_AUTO_TEST_CASE (testGetClassForName)
 {
-        Ptr<Class> cls = Manager::classForName ("Address");
+        Class *cls = Manager::classForName ("Address");
         BOOST_REQUIRE (cls);
 }
 
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE (testGetClassForName)
 BOOST_AUTO_TEST_CASE (testGetClassForTypeInfo)
 {
         const std::type_info *ty = &typeid (Address);
-        Ptr<Class> cls = Manager::classForType (*ty);
+        Class *cls = Manager::classForType (*ty);
         BOOST_REQUIRE (cls);
 
         const std::type_info *ty1 = &typeid (Address &);
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (testGetClassForTypeInfo)
 
 BOOST_AUTO_TEST_CASE (testClassProperClass)
 {
-        Ptr<Class> cls = Manager::classForName ("Address");
+        Class *cls = Manager::classForName ("Address");
         BOOST_REQUIRE (cls);
         BOOST_REQUIRE_EQUAL (cls->getName (), "Address");
 }

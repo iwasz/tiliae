@@ -10,7 +10,9 @@
 #include <boost/lexical_cast.hpp>
 #include "AnnotationManager.h"
 #include "../wrapper/ICallableWrapper.h"
+#include "../wrapper/FieldWrapper.h"
 #include "../reflectAnnotations/MethodAnnotation.h"
+#include "../reflectAnnotations/FieldAnnotation.h"
 
 namespace Annotations {
 
@@ -48,6 +50,13 @@ std::string AnnotationManager::toString () const
 void AnnotationManager::addMethodAnnotation (std::string const &clsName, std::string const &methName, Reflection::ICallableWrapper *wrapper)
 {
         instance ().annotationList.insert (new Reflection::MethodAnnotation (clsName, methName, wrapper));
+}
+
+/****************************************************************************/
+
+void AnnotationManager::addFieldAnnotation (std::string const &clsName, std::string const &fieldName, Reflection::IFieldWrapper *wrapper)
+{
+        instance ().annotationList.insert (new Reflection::FieldAnnotation (clsName, fieldName, wrapper));
 }
 
 }

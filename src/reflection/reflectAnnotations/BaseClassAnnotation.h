@@ -31,7 +31,7 @@ public:
         std::string const &getClassName () const { return className; }
         Core::StringList const &getBaseClassList () const { return baseClassList; }
 
-        virtual Core::Variant accept (IReflectionVisitor *vis, const Core::Variant &arg = Core::Variant ()) { return vis->visit (this, arg);}
+        virtual Core::Variant accept (IReflectionVisitor *vis, Class *cls = NULL) { return vis->visit (this, cls);}
 
         virtual std::string toString () const;
 

@@ -23,7 +23,8 @@ namespace Wrapper {
 
 /**
  *  Plugin, ktory potrafi odczytywac i ustawiac za pomoca refleksji
- *  pola obiektow.
+ *  pola obiektow. Najpierw zprawdza, czy jest w klasie Field o danej
+ *  nazwie, a jesli nie ma, szuka setterów i getterów.
  */
 class TILIAE_API PropertyRWBeanWrapperPlugin : public IBeanWrapperPlugin {
 public:

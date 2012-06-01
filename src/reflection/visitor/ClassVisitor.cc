@@ -12,33 +12,41 @@
 #include "reflectAnnotations/ConstructorAnnotation.h"
 #include "reflectAnnotations/MethodAnnotation.h"
 #include "reflectAnnotations/ClassAnnotation.h"
+#include "reflectAnnotations/FieldAnnotation.h"
 #include "model/Class.h"
 
 namespace Reflection {
 using namespace Core;
 
-Core::Variant ClassVisitor::visit (BaseClassAnnotation *a, const Core::Variant &)
+Core::Variant ClassVisitor::visit (BaseClassAnnotation *a, Class *cls)
 {
         return Core::Variant (findClass (a->getClassName ()));
 }
 
 /****************************************************************************/
 
-Core::Variant ClassVisitor::visit (MethodAnnotation *a, const Core::Variant &arg)
+Core::Variant ClassVisitor::visit (MethodAnnotation *a, Class *cls)
 {
         return Core::Variant (findClass (a->getClassName ()));
 }
 
 /****************************************************************************/
 
-Core::Variant ClassVisitor::visit (ConstructorAnnotation *a, const Core::Variant &arg)
+Core::Variant ClassVisitor::visit (FieldAnnotation *a, Class *cls)
 {
         return Core::Variant (findClass (a->getClassName ()));
 }
 
 /****************************************************************************/
 
-Core::Variant ClassVisitor::visit (ClassAnnotation *a, const Core::Variant &arg)
+Core::Variant ClassVisitor::visit (ConstructorAnnotation *a, Class *cls)
+{
+        return Core::Variant (findClass (a->getClassName ()));
+}
+
+/****************************************************************************/
+
+Core::Variant ClassVisitor::visit (ClassAnnotation *a, Class *cls)
 {
         Class *clazz = findClass (a->getClassName ());
 
@@ -57,8 +65,6 @@ Core::Variant ClassVisitor::visit (ClassAnnotation *a, const Core::Variant &arg)
         }
 
         return Core::Variant (clazz);
-//        // Zwrócenie pustego warianta oznacza, że dana klasa już znajduje się w managerze.
-//        return Core::Variant ();
 }
 
 /****************************************************************************/

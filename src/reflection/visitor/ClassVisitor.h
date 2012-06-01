@@ -30,10 +30,11 @@ public:
         ClassVisitor () : cache (NULL) {}
         virtual ~ClassVisitor () {}
 
-        virtual Core::Variant visit (BaseClassAnnotation *a, const Core::Variant &arg);
-        virtual Core::Variant visit (MethodAnnotation *a, const Core::Variant &arg);
-        virtual Core::Variant visit (ConstructorAnnotation *a, const Core::Variant &arg);
-        virtual Core::Variant visit (ClassAnnotation *a, const Core::Variant &arg);
+        virtual Core::Variant visit (BaseClassAnnotation *a, Class *cls);
+        virtual Core::Variant visit (MethodAnnotation *a, Class *cls);
+        virtual Core::Variant visit (ConstructorAnnotation *a, Class *cls);
+        virtual Core::Variant visit (ClassAnnotation *a, Class *cls);
+        virtual Core::Variant visit (FieldAnnotation *a, Class *cls);
 
 private:
 

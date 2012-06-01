@@ -15,6 +15,7 @@
 
 namespace Reflection {
 struct ICallableWrapper;
+struct IFieldWrapper;
 }
 
 namespace Annotations {
@@ -40,6 +41,7 @@ public:
         }
 
         static void addMethodAnnotation (std::string const &clsName, std::string const &methName, Reflection::ICallableWrapper *wrapper);
+        static void addFieldAnnotation (std::string const &clsName, std::string const &fieldName, Reflection::IFieldWrapper *wrapper);
 
         /**
          *

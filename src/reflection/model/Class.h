@@ -18,6 +18,7 @@
 #include "../../core/Pointer.h"
 #include "../../core/Typedefs.h"
 #include "../../core/ApiMacro.h"
+#include "../model/Field.h"
 
 /****************************************************************************/
 
@@ -59,6 +60,9 @@ public:
         void setMethodList (const MethodList &methodList) { this->methodList = methodList; }
         void addMethod (Method *method) { this->methodList.push_back (method); }
 
+        void addField (Field *field) { fields[field->getName ()] = field; }
+        Field *getField (std::string const &name) const;
+
         /// Zwraca pierwszy element types, czyli typ "podstawowy" - nie wskaźnik.
         std::type_info const &getType () const { return type; }
 
@@ -98,6 +102,7 @@ private:
         ConstructorList constructorList;
         Core::StringList baseClassNames;
         ClassList baseClassList;
+        FieldMap fields;
         std::type_info const &type;
         bool initialized;
 

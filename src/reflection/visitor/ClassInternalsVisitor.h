@@ -16,17 +16,19 @@ namespace Reflection {
 class Class;
 
 /**
- *
+ * Wizytujący tworzączy metod, pola, i inne składniki obiektu Class. Za usuwanie ich z pamieci
+ * jest odpowiedzialny sam obiekt Class.
  */
-class MethodVisitor : public IReflectionVisitor {
+class ClassInternalsVisitor : public IReflectionVisitor {
 public:
 
-        virtual ~MethodVisitor () {}
+        virtual ~ClassInternalsVisitor () {}
 
-        virtual Core::Variant visit (BaseClassAnnotation *a, const Core::Variant &arg) { return Core::Variant (); }
-        virtual Core::Variant visit (MethodAnnotation *a, const Core::Variant &arg);
-        virtual Core::Variant visit (ConstructorAnnotation *a, const Core::Variant &arg)  { return Core::Variant (); }
-        virtual Core::Variant visit (ClassAnnotation *a, const Core::Variant &arg) { return Core::Variant (); }
+        virtual Core::Variant visit (BaseClassAnnotation *a, Class *cls);
+        virtual Core::Variant visit (MethodAnnotation *a, Class *cls);
+        virtual Core::Variant visit (FieldAnnotation *a, Class *cls);
+        virtual Core::Variant visit (ConstructorAnnotation *a, Class *cls);
+        virtual Core::Variant visit (ClassAnnotation *a, Class *cls) { return Core::Variant (); }
 
 };
 

@@ -16,9 +16,12 @@
 #include <stack>
 #include "annotations/Annotations.h"
 #include "reflectAnnotations/MethodAnnotation.h"
+#include "reflectAnnotations/FieldAnnotation.h"
 #include "reflectAnnotations/ConstructorAnnotation.h"
 #include "reflectAnnotations/FactoryMethodAnnotation.h"
 #include "reflectAnnotations/DefaultAnnotationMacros.h"
+
+struct X0 {};
 
 /**
  *
@@ -27,6 +30,8 @@ struct X {
 
         // Konstruktor bezargumentowy.
         REFLECTION_CONSTRUCTOR_ (void);
+        X () : d (1.2), s ("franio") {}
+
 
         // Metody
         REFLECTION_METHOD(getChar)
@@ -40,6 +45,21 @@ struct X {
 
         REFLECTION_METHOD(setInt)
         void setInt (int i) {}
+
+        REFLECTION_FIELD_VALUE (d);
+        double d;
+
+        REFLECTION_FIELD_VALUE (ii);
+        double ii;
+
+        std::string REFLECTION_FIELD_VALUE_INPLACE (s);
+
+        X0 *getX0 () { return &x0; }
+
+private:
+
+        REFLECTION_FIELD_REFERENCE (x0);
+        X0 x0;
 
         // Adnotacja inicjująca
         REFLECTION_END(X)

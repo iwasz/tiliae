@@ -6,8 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef METHODANNOTATION_H_
-#define METHODANNOTATION_H_
+#ifndef METHOD_ANNOTATION_H_
+#define METHOD_ANNOTATION_H_
 
 #include "../visitor/IReflectionVisitor.h"
 #include "IReflectionAnnotation.h"
@@ -35,9 +35,9 @@ public:
 
         std::string const &getMethodName () const { return methodName; }
         std::string const &getClassName () const { return className; }
-        ICallableWrapper *getCallableWrapper () const { return this->callableWrapper; }
+        ICallableWrapper *getWrapper () const { return this->callableWrapper; }
 
-        virtual Core::Variant accept (IReflectionVisitor *vis, const Core::Variant &arg = Core::Variant ()) { return vis->visit (this, arg);}
+        virtual Core::Variant accept (IReflectionVisitor *vis, Class *cls = NULL) { return vis->visit (this, cls);}
 
         virtual std::string toString () const;
 

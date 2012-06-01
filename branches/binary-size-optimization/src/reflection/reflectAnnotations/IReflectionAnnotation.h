@@ -14,8 +14,8 @@
 #include "../../core/variant/Variant.h"
 
 namespace Reflection {
-
 struct IReflectionVisitor;
+class Class;
 
 /**
  *
@@ -29,7 +29,7 @@ struct IReflectionAnnotation : public Annotations::IAnnotation {
          * @param args Additional args (input).
          * @return Output.
          */
-        virtual Core::Variant accept (IReflectionVisitor *vis, const Core::Variant &args = Core::Variant ()) = 0;
+        virtual Core::Variant accept (IReflectionVisitor *vis, Class *cls = NULL) = 0;
 
 };
 

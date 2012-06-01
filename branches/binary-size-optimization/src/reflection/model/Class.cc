@@ -163,4 +163,17 @@ std::string Class::toString () const
         return "Class (name:'" + name + "')";
 }
 
+/****************************************************************************/
+
+Field *Class::getField (std::string const &name) const
+{
+        FieldMap::const_iterator i = fields.find (name);
+
+        if (i != fields.end ()) {
+                return i->second;
+        }
+
+        return NULL;
+}
+
 }

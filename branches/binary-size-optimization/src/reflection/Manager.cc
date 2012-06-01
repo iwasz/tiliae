@@ -24,9 +24,7 @@
 #include "model/Method.h"
 
 #include "visitor/ClassVisitor.h"
-#include "visitor/MethodVisitor.h"
-#include "visitor/BaseClassVisitor.h"
-#include "visitor/ConstructorVisitor.h"
+#include "visitor/ClassInternalsVisitor.h"
 #include "../core/variant/Cast.h"
 #include "../core/variant/Variant.h"
 #include "../core/Pointer.h"
@@ -80,9 +78,7 @@ void Manager::init ()
         addStandardTypes ();
 
         ClassVisitor classVisitor;
-        ConstructorVisitor constructorVisitor;
-        MethodVisitor methodVisitor;
-        BaseClassVisitor baseClassVisitor;
+        ClassInternalsVisitor methodVisitor;
 
         // 1. Przeiterować po AnnotationManagerze
         const AnnotationList &annotationList = AnnotationManager::instance ().getAnnotationList ();
@@ -125,40 +121,16 @@ void Manager::init ()
                          * adnotacje REFLECTION_METHOD_ i REFLECTION_BASE_CLASS_.
                          */
                         throw AnnotationException ("No ClassAnnotation (1). You shoud use macro with double '__' as the first macro in annotated class. " + annotation->toString ());
-
-//                        // Zwrócenie pustego warianta oznacza, że dana klasa już znajduje się w managerze.
-//                        continue;
                 }
 
                 Class *clazz = vcast <Class *> (v);
 
                 // Jakaś adnotacja bez klasy (w przyszłości).
                 if (!clazz) {
-                        //continue;
                         throw AnnotationException ("No ClassAnnotation (2). You shoud use macro with double '__' as the first macro in annotated class. " + annotation->toString ());
                 }
 
-                // Mając obiekt Class jeśli:
-                // Adnotacja dotyczy konstruktora, stworzyć obiekt Constructor, dodać do Class.
-                v = annotation->accept (&constructorVisitor);
-
-                if (!v.isNone ()) {
-                        clazz->addConstructor (vcast <Constructor *> (v));
-                }
-
-                // Adnotacja dotyczy metody, stworzyć obiekt Method, dodać do Class.
-                v = annotation->accept (&methodVisitor);
-
-                if (!v.isNone ()) {
-                        clazz->addMethod (vcast <Method *> (v));
-                }
-
-                // Adnotacja dotyczy baseClass;
-                v = annotation->accept (&baseClassVisitor);
-
-                if (!v.isNone ()) {
-                        clazz->addBaseClassNames (vcast <StringList> (v));
-                }
+                annotation->accept (&methodVisitor, clazz);
         }
 
         manager.initialized = true;

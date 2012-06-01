@@ -41,7 +41,7 @@ public:
          */
         IConstructorPointer *getConstructorPointer () const { return this->constructorPointer; }
 
-        virtual Core::Variant accept (IReflectionVisitor *vis, const Core::Variant &arg = Core::Variant ()) { return vis->visit (this, arg);}
+        virtual Core::Variant accept (IReflectionVisitor *vis, Class *cls = NULL) { return vis->visit (this, cls);}
 
         virtual std::string toString () const;
 

@@ -95,7 +95,7 @@ private:
 template <typename T, typename C>
 Core::Variant FieldWrapperRetByPtr <T C::*>::get (Core::Variant const &object)
 {
-        return Core::Variant (&(ocast <C const *> (object)->*ptr));
+        return Core::Variant (&(ocast <C *> (object)->*ptr));
 }
 
 /****************************************************************************/

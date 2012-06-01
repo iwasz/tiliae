@@ -12,6 +12,7 @@
 #include "../../reflection/Manager.h"
 #include "../../reflection/model/Class.h"
 #include "../../reflection/model/Method.h"
+#include "../../reflection/model/Field.h"
 #include "../../reflection/ReflectionTools.h"
 #include "../../core/Typedefs.h"
 #include "../../core/DebugContext.h"
@@ -27,18 +28,6 @@ using Core::DebugContext;
 using Core::VariantVector;
 using Reflection::ReflectionTools;
 using namespace Common;
-
-/****************************************************************************/
-
-Reflection::Class *PropertyRWBeanWrapperPlugin::getClass (const Variant &bean, const IPath *path) const
-{
-        // Sprawdz, czy bean w ogole cos zawiera. Moze nic nie zawierac, czyli ze w mapie map nie bylo obiektu glownego.
-        if (!path->countSegments () || bean.isNone ())
-                return NULL;
-
-        // Kazdy nastepny element wymaga juz uzycia reflexji:
-        return Reflection::Manager::classForType (bean.getTypeInfo ());
-}
 
 /****************************************************************************/
 
@@ -69,6 +58,15 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
 
         // Znajdz getter:
         std::string property = path->getFirstSegment ();
+
+        Reflection::Field *field = cls->getField (property);
+
+        if (field) {
+                clearError (error);
+                path->cutFirstSegment ();
+                return field->get (bean);
+        }
+
         Reflection::Method *getter = ReflectionTools::findGetter (cls, property);
 
         if (!getter) {
@@ -77,10 +75,9 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
                 return Variant ();
         }
 
-        path->cutFirstSegment ();
-
         try {
                 clearError (error);
+                path->cutFirstSegment ();
                 return getter->invoke (bean);
         }
         catch (Core::Exception const &e) {
@@ -111,29 +108,40 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
                 << path << ", path.countSegments = " << path->countSegments () << std::endl;
 #endif
 
-        assert (path);
-
-        Reflection::Class *cls = getClass (*bean, path);
-
-        if (!cls) {
-                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean->getTypeInfo ().name ()) + ")");
-                return false;
-        }
-
-        // Znajdz getter:
-        std::string property = path->getFirstSegment ();
-        Reflection::Method *setter = ReflectionTools::findSetter (cls, property);
-
-        if (!setter) {
-                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Class '" + cls->getName () + "' does not have setter for property with name '" + property + "').");
-        	return false;
-        }
-
-        path->cutFirstSegment ();
-
         try {
+
+                assert (path);
+
+                Reflection::Class *cls = getClass (*bean, path);
+
+                if (!cls) {
+                        dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Nie udalo sie pobrac obiektu klasy (Class) dla nastepujacego type_info : " + std::string (bean->getTypeInfo ().name ()) + ")");
+                        return false;
+                }
+
+                // Znajdz getter:
+                std::string property = path->getFirstSegment ();
+
+                Reflection::Field *field = cls->getField (property);
+
+                if (field) {
+                        clearError (error);
+                        path->cutFirstSegment ();
+                        field->set (*bean);
+                        return true;
+                }
+
+                Reflection::Method *setter = ReflectionTools::findSetter (cls, property);
+
+                if (!setter) {
+                        dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'. Class '" + cls->getName () + "' does not have setter for property with name '" + property + "').");
+                        return false;
+                }
+
+                path->cutFirstSegment ();
+                Variant output;
+
                 if (editor) {
-                        Variant output;
                         output.setTypeInfo (setter->getType ());
 
                         dcBegin (ctx);
@@ -168,6 +176,45 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
         }
 
         return true;
+}
+
+/****************************************************************************/
+
+Reflection::Class *PropertyRWBeanWrapperPlugin::getClass (const Variant &bean, const IPath *path) const
+{
+        // Sprawdz, czy bean w ogole cos zawiera. Moze nic nie zawierac, czyli ze w mapie map nie bylo obiektu glownego.
+        if (!path->countSegments () || bean.isNone ())
+                return NULL;
+
+        // Kazdy nastepny element wymaga juz uzycia reflexji:
+        return Reflection::Manager::classForType (bean.getTypeInfo ());
+}
+
+/****************************************************************************/
+
+bool PropertyRWBeanWrapperPlugin::useEditor (Core::Variant const &input, Core::Variant *output)
+{
+        if (editor) {
+                output.setTypeInfo (setter->getType ());
+
+                dcBegin (ctx);
+
+                if (!editor->convert (objectToSet, &output, ctx)) {
+                        dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
+                        return false;
+                }
+
+                setter->invoke (*bean, (!output.isNone () ? output : objectToSet));
+
+                /*
+                 * Rolbakujemy dopiero tu, bo tu wiemy, ze invoke nie zrzuciło wyjatku. Edytor mógł przecierz
+                 * skonwertować input na coś bezsensownego i wtedy chcemy wiedziec co to było.
+                 */
+                dcRollback (ctx);
+        }
+        else {
+                *output = input;
+        }
 }
 
 } // namespace

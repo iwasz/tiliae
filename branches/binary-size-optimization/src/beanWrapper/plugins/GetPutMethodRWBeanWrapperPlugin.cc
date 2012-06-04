@@ -224,7 +224,10 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                         method->invoke (*bean, &params);
                 }
                 catch (Core::Exception const &e) {
-                        ctx->addContext (e.getContext ());
+                        if (ctx) {
+                                ctx->addContext (e.getContext ());
+                        }
+
                         dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
                                         path->toString () + "'). Exception from 'get' method has been thrown.");
                         return false;
@@ -286,20 +289,20 @@ bool GetPutMethodRWBeanWrapperPlugin::add (Core::Variant *bean,
 #endif
 
                 try {
-					if (editor) {
-							Variant output;
-							output.setTypeInfo (method->getType ());
+                        if (editor) {
+                                Variant output;
+                                output.setTypeInfo (method->getType ());
 
-							if (!editor->convert (objectToSet, &output, ctx)) {
-									dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
-									return false;
-							}
+                                if (!editor->convert (objectToSet, &output, ctx)) {
+                                        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" + path->toString () + "'). Editor failed.");
+                                        return false;
+                                }
 
-							method->invoke (*bean, output);
-					}
-					else {
-							method->invoke (*bean, objectToSet);
-					}
+                                method->invoke (*bean, output);
+                        }
+                        else {
+                                method->invoke (*bean, objectToSet);
+                        }
                 }
                 catch (Core::Exception const &e) {
                         ctx->addContext (e.getContext ());

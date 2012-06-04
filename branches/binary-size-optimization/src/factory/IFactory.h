@@ -60,7 +60,7 @@ struct TILIAE_API IFactory : public Core::Object {
 /**
  *
  */
-typedef std::vector <Ptr <IFactory> > FactoryVector;
+typedef std::vector <IFactory *> FactoryVector;
 
 /**
  *

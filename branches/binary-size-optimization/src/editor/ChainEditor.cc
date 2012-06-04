@@ -10,9 +10,18 @@
 
 namespace Editor {
 
+ChainEditor::~ChainEditor ()
+{
+        if (deleteContents) {
+                for (EditorVector::iterator i = editors.begin (); i != editors.end (); ++i) {
+                        delete *i;
+                }
+        }
+}
+
 bool ChainEditor::convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
-        for (EditorList::const_iterator i = editors.begin (); i != editors.end (); ++i) {
+        for (EditorVector::const_iterator i = editors.begin (); i != editors.end (); ++i) {
 
                 bool success = (*i)->convert (input, output, context);
 

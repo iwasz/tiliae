@@ -23,7 +23,6 @@ namespace Factory {
  */
 struct TILIAE_API ReflectionFactory : public Factory::IFactory {
 
-
         static const char *CLASS_NAME;
         static const char *CONSTRUCTOR_ARGS;
 
@@ -35,8 +34,6 @@ struct TILIAE_API ReflectionFactory : public Factory::IFactory {
          * @return
          */
         virtual Core::Variant create (const Core::VariantMap &parameters, Core::DebugContext *context = NULL) const;
-
-        REFLECTION_END_ (ReflectionFactory)
 };
 
 }

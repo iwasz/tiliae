@@ -10,6 +10,14 @@
 
 namespace Editor {
 
+FactoryEditor::~FactoryEditor ()
+{
+        if (deleteContents) {
+                delete editor;
+                delete factory;
+        }
+}
+
 bool FactoryEditor::convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
         if (!output) {

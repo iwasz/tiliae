@@ -21,7 +21,7 @@ public:
 
         REFLECTION_CONSTRUCTOR_ (void)
 
-        Foo ()
+        Foo () : field6 (NULL), city (NULL), city2 (NULL)
         {
                 Ptr <Address> tmp (new Address ());
                 tmp->setStreet ("test02-66");
@@ -51,17 +51,10 @@ public:
         REFLECTION_METHOD (getField6) char *getField6 () const { return field6; }
         REFLECTION_METHOD (setField6) void setField6 (char *field6) { this->field6 = field6; }
 
-        REFLECTION_METHOD (getCity)   Ptr <City> getCity () const { return city; }
-        REFLECTION_SETTER (setCity)   void setCity (Ptr <City> city) { this->city = city; }
+        REFLECTION_METHOD (getCity)   City *getCity () const { return city; }
+        REFLECTION_SETTER (setCity)   void setCity (City *city) { this->city = city; }
 
-        /*
-         * To jest narazie nie obsługiwane przez kontener, ponieważ
-         * kontener tworzy obiekt City jako City *, a nie Ptr <City>
-         * i kastowanie nie udaje się. To ulegnie zmianie po dorobieniu
-         * odpowiedniej opcji do Variant.
-         */
-        REFLECTION_METHOD (getCity2); Ptr <City> getCity2 () const { return city2; }
-        REFLECTION_METHOD (setCity2); void setCity2 (Ptr <City> city) { this->city2 = city; }
+        Ptr <City> getCity3 () const { return city3; }
 
         REFLECTION_METHOD (getPlace) Place *getPlace () { return &addr; }
         Address addr;
@@ -78,8 +71,9 @@ private:
         char field4;
         bool field5;
         char *field6;
-        Ptr <City> city;
-        Ptr <City> city2;
+        City *city;
+        City *REFLECTION_FIELD_VALUE_INPLACE (city2);
+        Ptr <City> REFLECTION_FIELD_VALUE_INPLACE (city3);
 
         REFLECTION_END (Foo);
 };

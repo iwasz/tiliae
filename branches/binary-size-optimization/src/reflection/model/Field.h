@@ -24,6 +24,8 @@ public:
         std::string getName () const { return this->name; }
         void setName (const std::string &name) { this->name = name; }
 
+        std::type_info const &getType () const { return wrapper->getType (); }
+
         Core::Variant get (Core::Variant const &object) { return wrapper->get (object);  }
         void set (Core::Variant const &object, Core::Variant const &value) { wrapper->set (object, value); }
 

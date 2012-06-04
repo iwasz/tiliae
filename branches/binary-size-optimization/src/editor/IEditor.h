@@ -49,9 +49,9 @@ public:
 
 };
 
-typedef std::list <Ptr <IEditor> > EditorList;
-typedef std::vector <Ptr <IEditor> > EditorVector;
-typedef std::map <std::string, Ptr <IEditor> > EditorMap;
+typedef std::list <IEditor *> EditorList;
+typedef std::vector <IEditor *> EditorVector;
+typedef std::map <std::string, IEditor *> EditorMap;
 
 struct TILIAE_API EditorException : public Core::Exception {
 

@@ -25,16 +25,20 @@ public:
 
         REFLECTION_CONSTRUCTOR_ (void)
 
-        virtual ~ChainFactory () {}
+        ChainFactory () : deleteContents (false) {}
+        ChainFactory (bool b) : deleteContents (b) {}
+        virtual ~ChainFactory ();
+
         virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::DebugContext *context = NULL) const;
 
         REFLECTION_METHOD (setFactories) void setFactories (Factory::FactoryVector const &f) { factories = f; }
-        void addFactory (Ptr <Factory::IFactory> f) { factories.push_back (f); }
+        void addFactory (Factory::IFactory *f) { factories.push_back (f); }
         Factory::FactoryVector const &getFactories () const { return factories; }
 
 private:
 
-        Factory::FactoryVector factories;
+        FactoryVector factories;
+        bool deleteContents;
 
         REFLECTION_END (ChainFactory)
 };

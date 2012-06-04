@@ -46,8 +46,8 @@ struct TILIAE_API IndexedEditor : public JEditor {
 
         typedef std::map <int, Ptr <IEditor> > EditorMap;
 
-        IndexedEditor () : editors (new EditorMap) {}
-        IndexedEditor (Ptr <EditorMap> m) : editors (m) {}
+        IndexedEditor () : editors (new EditorMap), beanWrapper (NULL) {}
+        IndexedEditor (Ptr <EditorMap> m) : editors (m), beanWrapper (NULL) {}
         virtual ~IndexedEditor () {}
 
 /*--------------------------------------------------------------------------*/
@@ -72,14 +72,14 @@ struct TILIAE_API IndexedEditor : public JEditor {
         void setDefaultEditor (Ptr <IEditor> editor) { defaultEditor = editor; }
         Ptr <IEditor> getDefaultEditor () const { return defaultEditor; }
 
-        Ptr<Wrapper::BeanWrapper> getBeanWrapper () const { return beanWrapper; }
-        void setBeanWrapper (Ptr<Wrapper::BeanWrapper> beanWrapper) { this->beanWrapper = beanWrapper; }
+        Wrapper::BeanWrapper *getBeanWrapper () const { return beanWrapper; }
+        void setBeanWrapper (Wrapper::BeanWrapper *beanWrapper) { this->beanWrapper = beanWrapper; }
 
 private:
 
         Ptr <EditorMap> editors;
         Ptr <IEditor> defaultEditor;
-        Ptr <Wrapper::BeanWrapper> beanWrapper;
+        Wrapper::BeanWrapper *beanWrapper;
 
 };
 

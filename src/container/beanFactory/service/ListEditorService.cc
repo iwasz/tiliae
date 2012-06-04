@@ -22,19 +22,19 @@ using namespace Core;
 void ListEditorService::init (Core::VariantMap *singletons)
 {
         Core::Variant v = singletons->operator[] (DEFAULT_INDEXED_EDITOR_NAME);
-        defaultIndexedEditor = ocast <Ptr <Editor::IEditor> > (v);
+        defaultIndexedEditor = ocast <Editor::IEditor *> (v);
 
         v = singletons->operator[] (NOOP_EDITOR_NAME);
-        noopEditor = ocast <Ptr <Editor::IEditor> > (v);
+        noopEditor = ocast <Editor::IEditor *> (v);
 
         v = singletons->operator[] (NOOP_NO_COPY_EDITOR_NAME);
-        noopNoCopyEditor = ocast <Ptr <Editor::IEditor> > (v);
+        noopNoCopyEditor = ocast <Editor::IEditor *> (v);
 
         v = singletons->operator[] (BEAN_WRAPPER_W_CONVERSION);
-        defaultBeanWrapper = ocast <Ptr <Wrapper::BeanWrapper> > (v);
+        defaultBeanWrapper = ocast <Wrapper::BeanWrapper *> (v);
 
         v = singletons->operator[] (BEAN_WRAPPER_SIMPLE);
-        cArgsBeanWrapper = ocast <Ptr <Wrapper::BeanWrapper> > (v);
+        cArgsBeanWrapper = ocast <Wrapper::BeanWrapper *> (v);
 }
 
 /****************************************************************************/
@@ -61,7 +61,7 @@ bool ListEditorService::onIndexedMetaBegin (IndexedMeta *meta)
                 beanFactory->setEditor (editor, true);
         }
         else if (meta->getFields ().empty ()) {
-                editor = noopNoCopyEditor.get ();
+                editor = noopNoCopyEditor;
                 currentEditor = NULL;
                 beanFactory->setEditor (editor, false);
         }
@@ -97,7 +97,7 @@ void ListEditorService::onConstructorArgsBegin (IMeta *data)
         currentFieldIdx = -1;
 
         Editor::IndexedEditor *editor = new Editor::IndexedEditor ();
-        editor->setDefaultEditor (defaultIndexedEditor);
+        editor->setDefaultEditor (std::weak_ptr <IEditor> (defaultIndexedEditor));
         editor->setBeanWrapper (cArgsBeanWrapper);
 
         currentEditor = editor;

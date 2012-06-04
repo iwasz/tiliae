@@ -24,7 +24,9 @@ bool StringFactoryMethodEditor::convert (const Core::Variant &input, Core::Varia
         }
 
         std::type_info const &outputType = output->getTypeInfo ();
+#if 0
         std::cerr << outputType.name () << ", " << container.size () << std::endl;
+#endif
 
         Container::iterator i = container.find (&outputType);
 

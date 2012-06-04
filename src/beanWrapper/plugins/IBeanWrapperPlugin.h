@@ -39,7 +39,7 @@ namespace Wrapper {
  *  Lancuch dziala tak, ze jesli pierwszemu pluginowi nie uda sie
  *  soelnic zadania, to przekazuje je do nastepnego plugina.
  */
-class TILIAE_API IBeanWrapperPlugin : public Core::Object {
+class TILIAE_API IBeanWrapperPlugin {
 public:
 
         virtual ~IBeanWrapperPlugin () {}

@@ -165,12 +165,9 @@ BOOST_AUTO_TEST_CASE (testMegaTonFactoryEditor)
         Variant out;
         BOOST_REQUIRE (!ccast <MegaTon *> (out));
 
-        Ptr <StringToMegatonEditor> strToMega (new StringToMegatonEditor);
-        Ptr <MegaTonFactory> megaFact (new MegaTonFactory);
-
-        FactoryEditor editor;
-        editor.setEditor (strToMega);
-        editor.setFactory (megaFact);
+        FactoryEditor editor (true);
+        editor.setEditor (new StringToMegatonEditor);
+        editor.setFactory (new MegaTonFactory);
 
         editor.convert (Core::Variant (in), &out);
 
@@ -187,14 +184,9 @@ BOOST_AUTO_TEST_CASE (testMegaTonSingletonFactoryEditor)
         Variant out;
         BOOST_REQUIRE (!ccast <MegaTon *> (out));
 
-        Ptr <StringToMegatonEditor> strToMega (new StringToMegatonEditor);
-        Ptr <MegaTonFactory> megaFact (new MegaTonFactory);
-        Ptr <SingletonFactory> sfct (new SingletonFactory);
-        sfct->setFactory (megaFact);
-
-        FactoryEditor editor;
-        editor.setEditor (strToMega);
-        editor.setFactory (sfct);
+        FactoryEditor editor (true);
+        editor.setEditor (new StringToMegatonEditor);
+        editor.setFactory (new SingletonFactory (new MegaTonFactory, true));
 
         editor.convert (Core::Variant (in), &out);
 

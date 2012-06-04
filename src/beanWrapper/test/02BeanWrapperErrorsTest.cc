@@ -31,7 +31,7 @@ using namespace Common;
  */
 BOOST_AUTO_TEST_CASE (testExceptions)
 {
-        Ptr <BeanWrapper> bw = BeanWrapper::create ();
+        BeanWrapper *bw = BeanWrapper::create ();
 
         Country country;
         country.setName ("Polska");
@@ -57,6 +57,8 @@ BOOST_AUTO_TEST_CASE (testExceptions)
 
         bool success = bw->set ("kupaKupa", Core::Variant (123));
         BOOST_REQUIRE_EQUAL (success, false);
+
+        delete bw;
 }
 
 /****************************************************************************/
@@ -68,7 +70,7 @@ BOOST_AUTO_TEST_CASE (testExceptions)
 BOOST_AUTO_TEST_CASE (testContext)
 {
         Address address;
-        Ptr <BeanWrapper> bw = BeanWrapper::create (Core::Variant (&address));
+        BeanWrapper *bw = BeanWrapper::create (Core::Variant (&address));
 
         Variant vv = bw->getWrappedObject ();
         BOOST_REQUIRE (vv.isHandle());
@@ -86,6 +88,8 @@ BOOST_AUTO_TEST_CASE (testContext)
 
         BOOST_REQUIRE (!success);
         BOOST_REQUIRE (!ctx.getMessage().empty ());
+
+        delete bw;
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

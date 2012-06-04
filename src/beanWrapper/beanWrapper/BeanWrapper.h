@@ -28,8 +28,8 @@ namespace Wrapper {
 class TILIAE_API BeanWrapper : public IBeanWrapper, public Core::IToStringEnabled {
 public:
 
-        BeanWrapper () {}
-        BeanWrapper (const Core::Variant &bean) { setWrappedObject (bean); }
+        BeanWrapper () : editor (NULL) {}
+        BeanWrapper (const Core::Variant &bean) : editor (NULL) { setWrappedObject (bean); }
         virtual ~BeanWrapper ();
 
         /**

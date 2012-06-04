@@ -89,7 +89,7 @@ private:
 private:
 
         Mode mode;
-        REFLECTION_END_ (MethodPlugin)
+
 };
 
 } // namespace

@@ -33,7 +33,15 @@ class RefData;
 class ListEditorService : public BeanFactoryService {
 public:
 
-        ListEditorService () : currentEditor (NULL), currentFieldIdx (-1) {}
+        ListEditorService () :
+                currentEditor (NULL),
+                currentFieldIdx (-1),
+                defaultIndexedEditor (NULL),
+                noopEditor (NULL),
+                noopNoCopyEditor (NULL),
+                defaultBeanWrapper (NULL),
+                cArgsBeanWrapper (NULL) {}
+
         virtual ~ListEditorService () {}
         static Ptr <ListEditorService> create () { return Ptr <ListEditorService> (new ListEditorService); }
         void init (Core::VariantMap *singletons);
@@ -43,7 +51,6 @@ public:
         virtual bool onIndexedMetaBegin (IndexedMeta *data);
         virtual void onConstructorArgsBegin (IMeta *data);
         virtual void onConstructorArgsEnd (IMeta *data);
-//        virtual void onListElem (ListElem *data);
         virtual void onValueData (std::string const &key, ValueData *data);
         virtual void onRefData (std::string const &key, RefData *data);
 
@@ -58,11 +65,11 @@ private:
         int currentFieldIdx;
 
         // Singletons
-        Ptr <Editor::IEditor> defaultIndexedEditor;
-        Ptr <Editor::IEditor> noopEditor;
-        Ptr <Editor::IEditor> noopNoCopyEditor;
-        Ptr <Wrapper::BeanWrapper> defaultBeanWrapper;
-        Ptr <Wrapper::BeanWrapper> cArgsBeanWrapper;
+        Editor::IEditor *defaultIndexedEditor;
+        Editor::IEditor *noopEditor;
+        Editor::IEditor *noopNoCopyEditor;
+        Wrapper::BeanWrapper *defaultBeanWrapper;
+        Wrapper::BeanWrapper *cArgsBeanWrapper;
 };
 
 }

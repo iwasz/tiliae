@@ -57,7 +57,7 @@ public:
 private:
 
         Reflection::Class *getClass (const Core::Variant &bean, const Common::IPath *path) const;
-        REFLECTION_END_ (PropertyRWBeanWrapperPlugin)
+
 };
 
 } // namespace

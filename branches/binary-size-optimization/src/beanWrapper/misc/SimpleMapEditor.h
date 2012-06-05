@@ -29,31 +29,31 @@ namespace Editor {
 class TILIAE_API SimpleMapEditor : public JEditor {
 public:
 
-        SimpleMapEditor () : editors (new EditorMap ()) {}
-        SimpleMapEditor (Ptr <EditorMap> e) : editors (e) {}
+        SimpleMapEditor () : defaultEditor (NULL), beanWrapper (NULL) {}
+        SimpleMapEditor (EditorMap const &e) : editors (e), defaultEditor (NULL), beanWrapper (NULL) {}
         virtual ~SimpleMapEditor () {}
 
         virtual bool edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr<Wrapper::BeanWrapper> getBeanWrapper () const { return beanWrapper; }
-        void setBeanWrapper (Ptr<Wrapper::BeanWrapper> beanWrapper) { this->beanWrapper = beanWrapper; }
+        Wrapper::BeanWrapper *getBeanWrapper () const { return beanWrapper; }
+        void setBeanWrapper (Wrapper::BeanWrapper *beanWrapper) { this->beanWrapper = beanWrapper; }
 
-        Ptr<EditorMap> getEditors () const { return editors; }
-        void setEditors (Ptr<EditorMap> editors) { this->editors = editors; }
+        EditorMap const &getEditors () const { return editors; }
+        void setEditors (EditorMap const &editors) { this->editors = editors; }
 
-        void setEditor (const std::string &name, Ptr<IEditor> editor) { editors->operator[] (name) = editor; }
-        Ptr<IEditor> getEditor (const std::string & name) const;
+        void setEditor (const std::string &name, IEditor *editor) { editors.operator[] (name) = editor; }
+        IEditor *getEditor (const std::string & name) const;
 
-        void setDefaultEditor (Ptr <IEditor> editor) { defaultEditor = editor; }
-        Ptr <IEditor> getDefaultEditor () const { return defaultEditor; }
+        void setDefaultEditor (IEditor *editor) { defaultEditor = editor; }
+        IEditor *getDefaultEditor () const { return defaultEditor; }
 
 private:
 
-        Ptr <EditorMap> editors;
-        Ptr <IEditor> defaultEditor;
-        Ptr <Wrapper::BeanWrapper> beanWrapper;
+        EditorMap editors;
+        IEditor *defaultEditor;
+        Wrapper::BeanWrapper *beanWrapper;
 
 };
 

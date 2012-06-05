@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE (testIndexedEditor)
 {
         Ptr <LexicalEditor <std::string, int> > stringEditor = boost::make_shared <LexicalEditor <std::string, int> > ();
         IndexedEditor indexed;
-        indexed.setDefaultEditor (stringEditor);
+        indexed.setDefaultEditor (stringEditor.get ());
         indexed.setBeanWrapper (Wrapper::BeanWrapper::create ());
 
 /*--------------------------------------------------------------------------*/

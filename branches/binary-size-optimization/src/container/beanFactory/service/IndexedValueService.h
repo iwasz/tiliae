@@ -27,31 +27,27 @@ class ValueServiceHelper;
 class IndexedValueService : public BeanFactoryService {
 public:
 
-        IndexedValueService () : inputList (NULL), cargList (NULL) {}
+        IndexedValueService () : inputList (NULL), cargList (NULL), helper (NULL) {}
         virtual ~IndexedValueService () {}
-        static Ptr <IndexedValueService> create () { return Ptr <IndexedValueService> (new IndexedValueService); }
 
 /*--------------------------------------------------------------------------*/
 
         virtual bool onIndexedMetaBegin (IndexedMeta *data);
         virtual void onConstructorArgsBegin (IMeta *data);
         virtual void onConstructorArgsEnd (IMeta *data);
-//        virtual void onListElem (ListElem *data);
         virtual void onValueData (std::string const &key, ValueData *data);
         virtual void onRefData (std::string const &key, RefData *data);
         virtual void onNullData (std::string const &key, NullData *data);
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr<ValueServiceHelper> getValueServiceHelper () const { return helper; }
-        void setValueServiceHelper (Ptr<ValueServiceHelper> valueService) { this->helper = valueService; }
+        void setValueServiceHelper (ValueServiceHelper *valueService) { this->helper = valueService; }
 
 private:
 
         Core::VariantList *inputList;
         Core::VariantList *cargList;
-
-        Ptr<ValueServiceHelper> helper;
+        ValueServiceHelper *helper;
 
 };
 

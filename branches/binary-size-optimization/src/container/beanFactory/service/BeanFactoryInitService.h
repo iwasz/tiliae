@@ -21,8 +21,8 @@ class IMeta;
 class BeanFactoryInitService : public BeanFactoryService {
 public:
 
+        BeanFactoryInitService () : defaultBeanWrapper (NULL) {}
         virtual ~BeanFactoryInitService () {}
-        static Ptr <BeanFactoryInitService> create () { return Ptr <BeanFactoryInitService> (new BeanFactoryInitService); }
 
 /*--------------------------------------------------------------------------*/
 
@@ -31,12 +31,11 @@ public:
 
 /*------Setters-and-getters-------------------------------------------------*/
 
-        Ptr <Wrapper::BeanWrapper> getDefaultBeanWrapper () const { return defaultBeanWrapper; }
-        void setDefaultBeanWrapper (Ptr <Wrapper::BeanWrapper> bw) { defaultBeanWrapper = bw; }
+        void setDefaultBeanWrapper (Wrapper::BeanWrapper *bw) { defaultBeanWrapper = bw; }
 
 private:
 
-        Ptr <Wrapper::BeanWrapper> defaultBeanWrapper;
+        Wrapper::BeanWrapper *defaultBeanWrapper;
 
 };
 

@@ -9,7 +9,7 @@
 #ifndef IMETASERVICE2_H_
 #define IMETASERVICE2_H_
 
-#include <list>
+#include <vector>
 #include <Pointer.h>
 
 namespace Container {
@@ -63,7 +63,7 @@ struct IMetaService {
  * Lista serwisów.
  * \ingroup Container
  */
-typedef std::list <Ptr <IMetaService> > MetaServiceList;
+typedef std::vector <IMetaService *> MetaServiceVector;
 
 }
 

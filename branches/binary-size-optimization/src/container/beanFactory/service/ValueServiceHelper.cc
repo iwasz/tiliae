@@ -23,11 +23,11 @@ const char *EDITOR_SPECIAL_CHAR = "&";
 
 Core::Variant ValueServiceHelper::create (const std::string &type, const std::string &value) const
 {
-        assert (getSingletonMap ());
-        VariantMap::const_iterator i = getSingletonMap ()->find (DEFAULT_VALUE_FACTORY_NAME);
+        assert (singletonMap);
+        VariantMap::const_iterator i = singletonMap->find (DEFAULT_VALUE_FACTORY_NAME);
 
         // Jeśli nie ma odpowiedniego edytora, to zostawiamy nieprzeedytowane
-        if (i == getSingletonMap ()->end ()) {
+        if (i == singletonMap->end ()) {
                 return Core::Variant (value);
         }
 

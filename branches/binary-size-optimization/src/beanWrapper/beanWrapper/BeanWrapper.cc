@@ -39,11 +39,13 @@ BeanWrapper *BeanWrapper::create (const Core::Variant &bean)
 
 BeanWrapper::~BeanWrapper ()
 {
-        for (BeanWrapperPluginVector::iterator i = pluginList.begin (); i != pluginList.end (); ++i) {
-                delete *i;
-        }
+        if (deleteContents) {
+                for (BeanWrapperPluginVector::iterator i = pluginList.begin (); i != pluginList.end (); ++i) {
+                        delete *i;
+                }
 
-        delete editor;
+                delete editor;
+        }
 }
 
 /*##########################################################################*/

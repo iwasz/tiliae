@@ -55,7 +55,7 @@ private:
 
 }
 
-#ifdef TILIAE_DEBUG
+#ifndef NDEBUG
 #define dcError(context_, errorMsg_)                              \
                                                                   \
         if ((context_)) {                                         \
@@ -65,7 +65,7 @@ private:
 #define dcError(context_, errorMsg_)
 #endif
 
-#ifdef TILIAE_DEBUG
+#ifndef NDEBUG
 extern void dcBegin (Core::DebugContext *dc);
 extern void dcCommit (Core::DebugContext *dc);
 extern void dcRollback (Core::DebugContext *dc);

@@ -35,36 +35,31 @@ class XmlMetaService;
 class TILIAE_API ContainerFactory {
 public:
 
-        ContainerFactory ();
-
         /**
          * Tworzy kontener, czyli główny obiekt kontenera (klasy Container).
          */
-        static Ptr <BeanFactoryContainer> createContainer (Ptr <MetaContainer> metaCont,
-                        bool storeMetaContainer = false,
-                        Ptr <BeanFactoryContainer> linkedParent = Ptr <BeanFactoryContainer> ());
+        static Ptr <BeanFactoryContainer> create (MetaContainer *metaCont,
+                                                  bool storeMetaContainer = false,
+                                                  BeanFactoryContainer *linkedParent = NULL);
 
-        static Ptr <BeanFactoryContainer> createEmptyContainer (Ptr <MetaContainer> metaCont,
-                        bool storeMetaContainer,
-                        Ptr <BeanFactoryContainer> linkedParent, ContainerFactory &cf);
+        /**
+         * Inicjuje kontener stworzony za pomocą create.
+         */
+        static void init (BeanFactoryContainer *bfCont, MetaContainer *metaCont);
 
-        void fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContainer> metaCont);
-
-protected:
-
-        Ptr <BeanFactoryContainer> create ();
-
-        Ptr <Wrapper::BeanWrapper> createBeanWrapper ();
-        Ptr <Core::VariantMap> createSingletons ();
+        /**
+         * Metoda robi to co create + init.
+         */
+        static Ptr <BeanFactoryContainer> createAndInit (MetaContainer *metaCont,
+                                                         bool storeMetaContainer = false,
+                                                         BeanFactoryContainer *linkedParent = NULL);
 
 private:
 
-        Ptr <MetaVisitor> iteration0; // TODO testowa, w celu naprawienia błędu z parentowaniem.
-        Ptr <MetaVisitor> iteration1;
-        Ptr <MetaVisitor> iteration2;
-        Ptr <Core::VariantMap> singletons;
-        Ptr <Editor::StringFactoryMethodEditor> conversionMethodEditor;
-        BeanFactoryVisitorContext context;
+        /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer.
+        static Wrapper::BeanWrapper *createBeanWrapper ();
+        /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer. ContainerFactory tworzy je per BeanFactoryContainer.
+        static Core::VariantMap *createSingletons ();
 };
 
 } // ContainerFactory

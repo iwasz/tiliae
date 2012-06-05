@@ -31,16 +31,16 @@ using namespace Core;
 void EditorService::init (Core::VariantMap *singletons)
 {
         Core::Variant v = (*singletons)[DEFAULT_MAPPED_EDITOR_NAME];
-        defaultMappedEditor = ocast <Ptr <Editor::IEditor> > (v);
+        defaultMappedEditor = ocast <Editor::IEditor *> (v);
 
         v = (*singletons)[NOOP_EDITOR_NAME];
-        noopEditor = ocast <Ptr <Editor::IEditor> > (v);
+        noopEditor = ocast <Editor::IEditor *> (v);
 
         v = (*singletons)[NOOP_NO_COPY_EDITOR_NAME];
-        noopNoCopyEditor = ocast <Ptr <Editor::IEditor> > (v);
+        noopNoCopyEditor = ocast <Editor::IEditor *> (v);
 
         v = (*singletons)[BEAN_WRAPPER_W_CONVERSION];
-        defaultBeanWrapper = ocast <Ptr <Wrapper::BeanWrapper> > (v);
+        defaultBeanWrapper = ocast <Wrapper::BeanWrapper *> (v);
 }
 
 /**
@@ -64,9 +64,9 @@ bool EditorService::onMappedMetaBegin (MappedMeta *meta)
         Editor::IEditor *editor = NULL;
 
         if (!customEditorName.empty ()) {
-                Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
+                BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
                 Ptr <BeanFactory> fact = container->getBeanFactory (customEditorName, beanFactory);
-                editor = new Editor::LazyEditor (fact);
+                editor = new Editor::LazyEditor (fact.get ());
         }
         else {
                 editor = currentEditor = createMappedEditor ();
@@ -144,16 +144,15 @@ void EditorService::onValueData (std::string const &key, ValueData *data)
                 return;
         }
 
-        Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
+        BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
         Ptr <BeanFactory> beanFactory = container->getBeanFactory (type, current);
 
         if (!beanFactory) {
                 throw BeanNotFullyInitializedException ("Can't resolve editor for type [" + type + "].");
         }
 
-        Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::LazyEditor> (beanFactory);
-        currentEditor->setEditor (key, tmpEditor);
-//        currentFieldName.clear ();
+        // TODO nie skasuje się - wyciek pamięci
+        currentEditor->setEditor (key, new Editor::LazyEditor (beanFactory.get ()));
 }
 
 /**
@@ -176,28 +175,28 @@ void EditorService::onRefData (std::string const &key, RefData *data)
                 return;
         }
 
-        Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
+        BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
 
         std::string referenceName = data->getData ();
-        Ptr <Factory::IFactory> factory;
+        Factory::IFactory *factory = NULL;
 
         // Specjalne referencje
         if (referenceName == REFERENCE_TO_CONTAINER_ITSELF) {
-                factory = boost::make_shared <Factory::SillyFactory> (Core::Variant (container));
+                factory = new Factory::SillyFactory (Core::Variant (container));
         }
 
         // Zwykłe beany zdefiniowane w XML
         else {
-                factory = container->getBeanFactory (referenceName, current);
+                factory = container->getBeanFactory (referenceName, current).get ();
         }
 
         // Singletony w mapie singletons.
         if (!factory) {
-                Ptr <Core::VariantMap> singletons = container->getSingletons ();
+                Core::VariantMap *singletons = container->getSingletons ();
                 Core::VariantMap::const_iterator i = singletons->find (referenceName);
 
                 if (i != singletons->end ()) {
-                        factory = boost::make_shared <Factory::SillyFactory> (i->second);
+                        factory = new Factory::SillyFactory (i->second);
                 }
         }
 
@@ -205,9 +204,8 @@ void EditorService::onRefData (std::string const &key, RefData *data)
                 throw BeanNotFullyInitializedException ("Can't resolve reference (" + data->getData () + ").");
         }
 
-        Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::FactoryEditor> (noopNoCopyEditor, factory);
-        currentEditor->setEditor (key, tmpEditor);
-
+        // TODO nie skasuje się - wyciek
+        currentEditor->setEditor (key, new Editor::FactoryEditor (noopNoCopyEditor, factory));
 }
 
 }

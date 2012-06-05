@@ -24,8 +24,7 @@ extern const char *EDITOR_SPECIAL_CHAR;
 class ValueServiceHelper {
 public:
 
-        ValueServiceHelper () : classArgs (1) {}
-        static Ptr <ValueServiceHelper> create () { return Ptr <ValueServiceHelper> (new ValueServiceHelper); }
+        ValueServiceHelper () : singletonMap (NULL), classArgs (1) {}
 
         /**
          * Metod tworząca skalary. Szuka edytorów w singletonMap.
@@ -41,12 +40,11 @@ public:
          * dowolny typ (nie tylko wbudowany) i jeżeli tylko znajdzie
          * się edytor o odpowiedniej nazwie, to zostanie zastosowany.
          */
-        Ptr <Core::VariantMap> getSingletonMap () const { return singletonMap; }
-        void setSingletonMap (Ptr <Core::VariantMap> singletonMap) { this->singletonMap = singletonMap; }
+        void setSingletonMap (Core::VariantMap *singletonMap) { this->singletonMap = singletonMap; }
 
 private:
 
-        Ptr <Core::VariantMap> singletonMap;
+        Core::VariantMap *singletonMap;
         mutable Core::VariantMap params;
         mutable Core::VariantVector classArgs;
 

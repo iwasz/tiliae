@@ -37,9 +37,9 @@ namespace Container {
 class EditorService : public BeanFactoryService {
 public:
 
-        EditorService () : currentEditor (NULL) {}
+        EditorService () : currentEditor (NULL), defaultMappedEditor (NULL), noopEditor (NULL), noopNoCopyEditor (NULL), defaultBeanWrapper (NULL) {}
         virtual ~EditorService () {}
-        static Ptr <EditorService> create () { return Ptr <EditorService> (new EditorService); }
+
         void init (Core::VariantMap *singletons);
 
 /*--------------------------------------------------------------------------*/
@@ -47,7 +47,6 @@ public:
         virtual bool onMappedMetaBegin (MappedMeta *data);
         virtual void onConstructorArgsBegin (IMeta *data);
         virtual void onConstructorArgsEnd (IMeta *data);
-//        virtual void onMapElem (MapElem *data);
         virtual void onValueData (std::string const &key, ValueData *data);
         virtual void onRefData (std::string const &key, RefData *data);
 
@@ -59,13 +58,12 @@ private:
 
         // Current mappedEditor / state variables
         Editor::SimpleMapEditor *currentEditor;
-//        std::string currentFieldName;
 
         // Singletons
-        Ptr <Editor::IEditor> defaultMappedEditor;
-        Ptr <Editor::IEditor> noopEditor;
-        Ptr <Editor::IEditor> noopNoCopyEditor;
-        Ptr <Wrapper::BeanWrapper> defaultBeanWrapper;
+        Editor::IEditor *defaultMappedEditor;
+        Editor::IEditor *noopEditor;
+        Editor::IEditor *noopNoCopyEditor;
+        Wrapper::BeanWrapper *defaultBeanWrapper;
 };
 
 }

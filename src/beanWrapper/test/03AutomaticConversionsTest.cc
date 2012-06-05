@@ -63,24 +63,24 @@ BOOST_AUTO_TEST_CASE (testComplex_Object)
 
         Ptr <Editor::TypeEditor> editor = boost::make_shared <Editor::TypeEditor> ();
         Ptr <Editor::IEditor> noop = boost::make_shared <Editor::NoopEditor> ();
-        editor->setEqType (noop);
-        editor->setNullType (noop);
+        editor->setEqType (noop.get ());
+        editor->setNullType (noop.get ());
 
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int), boost::make_shared <Editor::LexicalEditor <std::string, int> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), boost::make_shared <Editor::LexicalEditor <std::string, double> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char), boost::make_shared <Editor::LexicalEditor <std::string, char> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool), boost::make_shared <Editor::LexicalEditor <std::string, bool> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int),    new Editor::LexicalEditor <std::string, int> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), new Editor::LexicalEditor <std::string, double> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char),   new Editor::LexicalEditor <std::string, char> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool),   new Editor::LexicalEditor <std::string, bool> ()));
 
         // Core::String <-> std::string
-        editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), boost::make_shared <Editor::LexicalEditor <Core::String, std::string> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), boost::make_shared <Editor::LexicalEditor <std::string, Core::String> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), new Editor::LexicalEditor <Core::String, std::string> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
 
         // StringCon.
         Ptr <StringConstructorEditor> strCon = boost::make_shared <StringConstructorEditor> ();
 
         ChainEditor *chain = new ChainEditor;
-        chain->addEditor (editor);
-        chain->addEditor (strCon);
+        chain->addEditor (editor.get ());
+        chain->addEditor (strCon.get ());
 
         /*--------------------------------------------------------------------------*/
 
@@ -124,24 +124,24 @@ BOOST_AUTO_TEST_CASE (testComplex_Map)
 
         Ptr <Editor::TypeEditor> editor = boost::make_shared <Editor::TypeEditor> ();
         Ptr <Editor::IEditor> noop = boost::make_shared <Editor::NoopEditor> ();
-        editor->setEqType (noop);
-        editor->setNullType (noop);
+        editor->setEqType (noop.get ());
+        editor->setNullType (noop.get ());
 
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int), boost::make_shared <Editor::LexicalEditor <std::string, int> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), boost::make_shared <Editor::LexicalEditor <std::string, double> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char), boost::make_shared <Editor::LexicalEditor <std::string, char> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool), boost::make_shared <Editor::LexicalEditor <std::string, bool> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int),    new Editor::LexicalEditor <std::string, int> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), new Editor::LexicalEditor <std::string, double> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char),   new Editor::LexicalEditor <std::string, char> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool),   new Editor::LexicalEditor <std::string, bool> ()));
 
         // Core::String <-> std::string
-        editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), boost::make_shared <Editor::LexicalEditor <Core::String, std::string> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), boost::make_shared <Editor::LexicalEditor <std::string, Core::String> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), new Editor::LexicalEditor <Core::String, std::string> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
 
         // StringCon.
         Ptr <StringConstructorEditor> strCon = boost::make_shared <StringConstructorEditor> ();
 
         ChainEditor *chain = new ChainEditor;
-        chain->addEditor (editor);
-        chain->addEditor (strCon);
+        chain->addEditor (editor.get ());
+        chain->addEditor (strCon.get ());
 
         /*--------------------------------------------------------------------------*/
 
@@ -190,24 +190,24 @@ BOOST_AUTO_TEST_CASE (testComplex_Vector)
 
         Ptr <Editor::TypeEditor> editor = boost::make_shared <Editor::TypeEditor> ();
         Ptr <Editor::IEditor> noop = boost::make_shared <Editor::NoopEditor> ();
-        editor->setEqType (noop);
-        editor->setNullType (noop);
+        editor->setEqType (noop.get ());
+        editor->setNullType (noop.get ());
 
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int), boost::make_shared <Editor::LexicalEditor <std::string, int> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), boost::make_shared <Editor::LexicalEditor <std::string, double> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char), boost::make_shared <Editor::LexicalEditor <std::string, char> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool), boost::make_shared <Editor::LexicalEditor <std::string, bool> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int),    new Editor::LexicalEditor <std::string, int> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), new Editor::LexicalEditor <std::string, double> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char),   new Editor::LexicalEditor <std::string, char> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool),   new Editor::LexicalEditor <std::string, bool> ()));
 
         // Core::String <-> std::string
-        editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), boost::make_shared <Editor::LexicalEditor <Core::String, std::string> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), boost::make_shared <Editor::LexicalEditor <std::string, Core::String> > ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), new Editor::LexicalEditor <Core::String, std::string> ()));
+        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
 
         // StringCon.
         Ptr <StringConstructorEditor> strCon = boost::make_shared <StringConstructorEditor> ();
 
         ChainEditor *chain = new ChainEditor;
-        chain->addEditor (editor);
-        chain->addEditor (strCon);
+        chain->addEditor (editor.get ());
+        chain->addEditor (strCon.get ());
 
         /*--------------------------------------------------------------------------*/
 

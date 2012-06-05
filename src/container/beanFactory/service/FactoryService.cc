@@ -46,9 +46,9 @@ bool FactoryService::onMetaBegin (IMeta *data)
         Factory::IFactory *factory = NULL;
 
         if (!customFactoryName.empty ()) {
-                Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
+                BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
                 Ptr <BeanFactory> fact = container->getBeanFactory (customFactoryName, beanFactory);
-                factory = new Factory::LazyFactory (fact);
+                factory = new Factory::LazyFactory (fact.get ());
                 beanFactory->setFactory (factory, true);
         }
         else {

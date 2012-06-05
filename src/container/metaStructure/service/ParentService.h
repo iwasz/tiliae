@@ -27,8 +27,6 @@ class ParentService : public DummyMetaService {
 public:
 
         virtual ~ParentService () {}
-        static Ptr <ParentService> create () { return Ptr <ParentService> (new ParentService); }
-
         virtual bool onMetaBegin (IMeta *data);
 
 };

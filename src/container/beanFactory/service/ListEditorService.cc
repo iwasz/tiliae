@@ -55,9 +55,9 @@ bool ListEditorService::onIndexedMetaBegin (IndexedMeta *meta)
         Editor::IEditor *editor = NULL;
 
         if (!customEditorName.empty ()) {
-                Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
+                BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
                 Ptr <BeanFactory> fact = container->getBeanFactory (customEditorName, beanFactory);
-                editor = new Editor::LazyEditor (fact);
+                editor = new Editor::LazyEditor (fact.get ());
                 beanFactory->setEditor (editor, true);
         }
         else if (meta->getFields ().empty ()) {
@@ -97,7 +97,7 @@ void ListEditorService::onConstructorArgsBegin (IMeta *data)
         currentFieldIdx = -1;
 
         Editor::IndexedEditor *editor = new Editor::IndexedEditor ();
-        editor->setDefaultEditor (std::weak_ptr <IEditor> (defaultIndexedEditor));
+        editor->setDefaultEditor (defaultIndexedEditor);
         editor->setBeanWrapper (cArgsBeanWrapper);
 
         currentEditor = editor;
@@ -163,15 +163,15 @@ void ListEditorService::onValueData (std::string const &key, ValueData *data)
                 return;
         }
 
-        Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
+        BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
         Ptr <BeanFactory> beanFactory = container->getBeanFactory (type, current);
 
         if (!beanFactory) {
                 throw BeanNotFullyInitializedException ("Can't resolve editor for type [" + type + "].");
         }
 
-        Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::LazyEditor> (beanFactory);
-        currentEditor->setEditor (++currentFieldIdx, tmpEditor);
+        // TODO LazyEditor się nie skasuje.
+        currentEditor->setEditor (++currentFieldIdx, new Editor::LazyEditor (beanFactory.get ()));
 }
 
 /****************************************************************************/
@@ -191,7 +191,7 @@ void ListEditorService::onRefData (std::string const &key, RefData *data)
                 return;
         }
 
-        Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
+        BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
         Ptr <BeanFactory> beanFactory = container->getBeanFactory (data->getData (), current);
 
         if (!beanFactory) {
@@ -199,8 +199,8 @@ void ListEditorService::onRefData (std::string const &key, RefData *data)
                                 data->getData () + ").");
         }
 
-        Ptr <Editor::IEditor> tmpEditor = boost::make_shared <Editor::FactoryEditor> (noopNoCopyEditor, beanFactory);
-        currentEditor->setEditor (++currentFieldIdx, tmpEditor);
+        // TODO FactoryEditor się nie skasuje
+        currentEditor->setEditor (++currentFieldIdx, new Editor::FactoryEditor (noopNoCopyEditor, beanFactory.get ()));
 }
 
 }

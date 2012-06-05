@@ -34,6 +34,7 @@ BeanFactory::BeanFactory () :
         cArgsEditor (NULL),
         editor (NULL),
         factory (NULL),
+        beanWrapper (NULL),
         outerBeanFactory (NULL),
         innerBeanFactories (NULL)
 {
@@ -370,13 +371,20 @@ std::string ToStringHelper::toString (const BeanFactoryList &bfl)
 
 /*##########################################################################*/
 
+BeanFactoryContainer::BeanFactoryContainer (Core::VariantMap *s) : singletons (s), linked (NULL), metaContainer (NULL)
+{
+        assert (s);
+        conversionMethodEditor = vcast <Editor::StringFactoryMethodEditor *> (s->operator [](MAIN_METHOD_CONVERSION_EDITOR));
+        typeEditor = vcast <Editor::TypeEditor *> (s->operator [](MAIN_TYPE_EDITOR));
+        assert (conversionMethodEditor);
+        assert (typeEditor);
+}
+
+/****************************************************************************/
+
 std::string BeanFactoryContainer::toString () const
 {
-        std::string ret = "BeanFactoryContainer (";
-
-        if (factoryMap) {
-                ret += ToStringHelper::toString (*factoryMap);
-        }
+        std::string ret = "BeanFactoryContainer (" + ToStringHelper::toString (factoryMap);
 
 //        if (singletons) {
 //                ret += ", ";
@@ -391,7 +399,7 @@ std::string BeanFactoryContainer::toString () const
 
 void BeanFactoryContainer::reset ()
 {
-        factoryMap->clear ();
+        factoryMap.clear ();
 }
 
 /****************************************************************************/
@@ -413,10 +421,10 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name, const Core
                 return i->second;
         }
 
-        BeanFactoryMap::nth_index <0>::type::iterator j = factoryMap->get<0> ().find (name);
+        BeanFactoryMap::nth_index <0>::type::iterator j = factoryMap.get<0> ().find (name);
         Core::Variant ret;
 
-        if (j != factoryMap->end ()) {
+        if (j != factoryMap.end ()) {
                 Ptr <BeanFactory> fact = *j;
                 assert (fact);
                 ret = fact->create (singletons, &context);
@@ -436,7 +444,7 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name, const Core
 
 bool BeanFactoryContainer::containsBean (const std::string &name) const
 {
-        return (singletons->find (name) != singletons->end ()) || (factoryMap->find (name) != factoryMap->end ());
+        return (singletons->find (name) != singletons->end ()) || (factoryMap.find (name) != factoryMap.end ());
 }
 
 /****************************************************************************/
@@ -457,8 +465,8 @@ Ptr <BeanFactory> BeanFactoryContainer::getBeanFactory (const std::string &id, P
         }
 
         if (!ret) {
-                BeanFactoryMap::nth_index <0>::type::iterator j = factoryMap->get<0> ().find (id);
-                ret = (j == factoryMap->get<0> ().end ()) ? (Ptr <BeanFactory> ()) : (*j);
+                BeanFactoryMap::nth_index <0>::type::iterator j = factoryMap.get<0> ().find (id);
+                ret = (j == factoryMap.get<0> ().end ()) ? (Ptr <BeanFactory> ()) : (*j);
         }
 
         if (!ret && getLinked ()) {

@@ -19,7 +19,7 @@ void MetaVisitor::visit (MetaContainer *container)
         ctx->resetDepth ();
         ctx->setMetaContainer (container);
 
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 /*if (!*/service->onContainer (container)/*) {
                         return;
                 }*/
@@ -36,7 +36,7 @@ void MetaVisitor::visit (MetaContainer *container)
 
 void MetaVisitor::visit (MappedMeta *data)
 {
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 /*if (!*/service->onMetaBegin (data);/*) { return; }*/
                 /*if (!*/service->onMappedMetaBegin (data);/*) { return; }*/
         }
@@ -46,7 +46,7 @@ void MetaVisitor::visit (MappedMeta *data)
                 iter->data->accept (iter->key, this);
         }
 
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onConstructorArgsBegin (data);
         }
 
@@ -55,13 +55,13 @@ void MetaVisitor::visit (MappedMeta *data)
                 (*i)->accept (std::string (), this);
         }
 
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onConstructorArgsEnd (data);
         }
 
         visitInnerMeta (data);
 
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onMetaEnd (data);
                 service->onMappedMetaEnd (data);
         }
@@ -69,7 +69,7 @@ void MetaVisitor::visit (MappedMeta *data)
 
 void MetaVisitor::visit (IndexedMeta *data)
 {
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onMetaBegin (data);
                 service->onIndexedMetaBegin (data);
         }
@@ -79,7 +79,7 @@ void MetaVisitor::visit (IndexedMeta *data)
                 (*i)->accept (std::string (), this);
         }
 
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onConstructorArgsBegin (data);
         }
 
@@ -88,13 +88,13 @@ void MetaVisitor::visit (IndexedMeta *data)
                 (*i)->accept (std::string (), this);
         }
 
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onConstructorArgsEnd (data);
         }
 
         visitInnerMeta (data);
 
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onMetaEnd (data);
                 service->onIndexedMetaEnd (data);
         }
@@ -116,7 +116,7 @@ void MetaVisitor::visitInnerMeta (AbstractMeta *data)
 
 //void MetaVisitor::visit (ListElem *data)
 //{
-//        foreach (Ptr <IMetaService> service, services) {
+//        foreach (IMetaService *service, services) {
 //                service->onListElem (data);
 //        }
 //
@@ -125,7 +125,7 @@ void MetaVisitor::visitInnerMeta (AbstractMeta *data)
 //
 //void MetaVisitor::visit (MapElem *data)
 //{
-//        foreach (Ptr <IMetaService> service, services) {
+//        foreach (IMetaService *service, services) {
 //                service->onMapElem (data);
 //        }
 //
@@ -136,28 +136,28 @@ void MetaVisitor::visitInnerMeta (AbstractMeta *data)
 
 void MetaVisitor::visit (std::string const &key, ValueData *data)
 {
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onValueData (key, data);
         }
 }
 
 void MetaVisitor::visit (std::string const &key, NullData *data)
 {
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onNullData (key, data);
         }
 }
 
 void MetaVisitor::visit (std::string const &key, RefData *data)
 {
-        foreach (Ptr <IMetaService> service, services) {
+        foreach (IMetaService *service, services) {
                 service->onRefData (key, data);
         }
 }
 
 //void MetaVisitor::visit (IdRefData *data)
 //{
-//        foreach (Ptr <IMetaService> service, services) {
+//        foreach (IMetaService *service, services) {
 //                service->onIdRefData (data);
 //        }
 //}

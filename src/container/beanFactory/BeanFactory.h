@@ -30,6 +30,7 @@
 #include "../../core/ApiMacro.h"
 #include "../../common/collection/OrderedVariantMap.h"
 #include "StringFactoryMethodEditor.h"
+#include "TypeEditor.h"
 
 namespace Wrapper {
 class IBeanWrapper;
@@ -106,8 +107,8 @@ public:
         bool getFullyInitialized() const { return flags & FULLY_INITIALIZED; }
         void setFullyInitialized (bool fullyInitialized) { if (fullyInitialized) { flags |= FULLY_INITIALIZED; } else { flags &= ~FULLY_INITIALIZED; } }
 
-        Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return beanWrapper; }
-        void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> bw) { beanWrapper = bw; }
+//        Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return beanWrapper; }
+        void setBeanWrapper (Wrapper::IBeanWrapper *bw) { beanWrapper = bw; }
 
 /*------Inner/outer-bean----------------------------------------------------*/
 
@@ -157,7 +158,7 @@ private:
         Editor::IEditor *cArgsEditor;
         Editor::IEditor *editor;
         Factory::IFactory *factory;
-        Ptr <Wrapper::IBeanWrapper> beanWrapper;
+        Wrapper::IBeanWrapper *beanWrapper;
 
         BeanFactory *outerBeanFactory;
         void *innerBeanFactories;
@@ -194,7 +195,7 @@ struct ToStringHelper {
 class TILIAE_API BeanFactoryContainer : public Core::IToStringEnabled {
 public:
 
-        BeanFactoryContainer () : conversionMethodEditor (NULL) {}
+        BeanFactoryContainer (Core::VariantMap *s);
         virtual std::string toString () const;
 
 /*--------------------------------------------------------------------------*/
@@ -223,18 +224,15 @@ public:
          * to co będzie chciał.
          */
         void addSingleton (const std::string &key, const Core::Variant &singleton);
+        Core::VariantMap *getSingletons () { return singletons; }
 
-        Ptr <Core::VariantMap> getSingletons () { return singletons; }
-        void setSingletons (Ptr <Core::VariantMap> s) { singletons = s; }
+        BeanFactoryMap &getBeanFactoryMap () { return factoryMap; }
 
-        Ptr <BeanFactoryMap> getBeanFactoryMap () { return factoryMap; }
-        void setBeanFactoryMap (Ptr <BeanFactoryMap> m) { factoryMap = m; }
+        BeanFactoryContainer const *getLinked () const { return linked; }
+        void setLinked (BeanFactoryContainer const *l) { linked = l; }
 
-        Ptr <BeanFactoryContainer const> getLinked () const { return linked; }
-        void setLinked (Ptr <BeanFactoryContainer const> l) { linked = l; }
-
-        Ptr <MetaContainer const> getMetaContainer () const { return metaContainer; }
-        void setMetaContainer (Ptr <MetaContainer const> m) { metaContainer = m; }
+        MetaContainer const *getMetaContainer () const { return metaContainer; }
+        void setMetaContainer (MetaContainer const *m) { metaContainer = m; }
 
         void addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function);
 
@@ -242,11 +240,12 @@ public:
 
 private:
 
-        Ptr <BeanFactoryMap> factoryMap;
-        Ptr <Core::VariantMap> singletons;
-        Ptr <BeanFactoryContainer const> linked;
-        Ptr <MetaContainer const> metaContainer;
+        BeanFactoryMap factoryMap;
+        Core::VariantMap *singletons;
+        BeanFactoryContainer const *linked;
+        MetaContainer const *metaContainer;
         Editor::StringFactoryMethodEditor *conversionMethodEditor;
+        Editor::TypeEditor *typeEditor;
 
 };
 

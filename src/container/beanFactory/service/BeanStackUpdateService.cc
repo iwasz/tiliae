@@ -26,7 +26,7 @@ bool BeanStackUpdateService::onMetaBegin (IMeta *data)
 
         // Top-level beans are taken directly from container.
         if (stack.empty ()) {
-                Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
+                BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
                 beanFactory = container->getBeanFactory (id);
         }
         else {

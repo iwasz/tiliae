@@ -20,14 +20,15 @@ namespace Container {
 class BeanFactoryVisitorContext : public VisitorContext {
 public:
 
+        BeanFactoryVisitorContext () : beanFactoryMap (NULL), container (NULL) {}
         virtual ~BeanFactoryVisitorContext () {}
 
         /**
          * Mapa wynikowa zawierająca fabryki, które będą fizycznie tworzyć
          * beany.
          */
-        Ptr <BeanFactoryMap> getBeanFactoryMap () const { return beanFactoryMap; };
-        void setBeanFactoryMap (Ptr <BeanFactoryMap> b) { beanFactoryMap = b; };
+        BeanFactoryMap *getBeanFactoryMap () const { return beanFactoryMap; };
+        void setBeanFactoryMap (BeanFactoryMap *b) { beanFactoryMap = b; };
 
         const BeanFactoryStack &getStack () const { return stack; }
         BeanFactoryStack &getStack () { return stack; }
@@ -35,13 +36,13 @@ public:
 
         Ptr <BeanFactory> getCurrentBF () const;
 
-        Ptr <BeanFactoryContainer> getBeanFactoryContainer () const { return container; }
-        void setBeanFactoryContainer (Ptr <BeanFactoryContainer> c) { container = c; }
+        BeanFactoryContainer *getBeanFactoryContainer () const { return container; }
+        void setBeanFactoryContainer (BeanFactoryContainer *c) { container = c; }
 
 private:
 
-        Ptr <BeanFactoryMap> beanFactoryMap;
-        Ptr <BeanFactoryContainer> container;
+        BeanFactoryMap *beanFactoryMap;
+        BeanFactoryContainer *container;
         BeanFactoryStack stack;
 
 };

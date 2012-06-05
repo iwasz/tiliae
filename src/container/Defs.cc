@@ -58,6 +58,9 @@ const char *DEFAULT_VALUE_TYPE = "text";
 
 const char *REFERENCE_TO_CONTAINER_ITSELF = "#container";
 
+const char *MAIN_TYPE_EDITOR = "mainTypeEditor";
+const char *MAIN_METHOD_CONVERSION_EDITOR = "mainMethodConversionEditor";
+
 }
 
 #endif /* ICONTAINER_H_ */

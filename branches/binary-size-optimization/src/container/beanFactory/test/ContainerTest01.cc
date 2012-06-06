@@ -54,10 +54,10 @@ BOOST_AUTO_TEST_CASE (testCreateContainer)
 //        boost::unit_test::unit_test_monitor.register_exception_translator<Core::Exception> (&my_exception1_translator);
 
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure26 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
 
         metaCont = ContainerTestFactory::createMetaStructure05 ();
-        cont = ContainerFactory::createContainer (metaCont);
+        cont = ContainerFactory::createAndInit (metaCont.get ());
         // Jeśli do tej pory się nie wywaliło, to test jest OK i test uważamy za zaliczony.
 }
 
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE (testCreateContainer)
 BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure05 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
 
         /*
          * Po pierwsze sprawdź, czy metaStruktura się dobrze poparentowała.
@@ -82,11 +82,8 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         MappedMeta *mSyn = dynamic_cast <MappedMeta *> (syn);
         BOOST_CHECK (mSyn);
 
-        BOOST_CHECK (mSyn->getField ("field0"));
-        BOOST_CHECK (mSyn->getField ("field0")->getData () == "value0");
-
-        BOOST_CHECK (mSyn->getField ("field00"));
-        BOOST_CHECK (mSyn->getField ("field00")->getData () == "value00");
+        BOOST_CHECK (mSyn->getField ("name"));
+        BOOST_CHECK (mSyn->getField ("name")->getData () == "value0");
 
         /*
          * Udało się z parentowaniem, teraz bierzemy sie za temporaryMap i
@@ -98,19 +95,19 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
          * od razu ustawiany w BeanFactory.
          */
 
-        Ptr <BeanFactoryMap> bm = cont->getBeanFactoryMap ();
+        BeanFactoryMap const &bm = cont->getBeanFactoryMap ();
 
-        BOOST_CHECK (bm->size () == 5);
-        BOOST_CHECK (bm->find ("aska0") != bm->end ());
-        BOOST_CHECK (bm->find ("askaParent") != bm->end ());
-        BOOST_CHECK (bm->find ("aska") != bm->end ());
-        BOOST_CHECK (bm->find ("aska2") != bm->end ());
-        BOOST_CHECK (bm->find ("aska3") != bm->end ());
+        BOOST_CHECK (bm.size () == 5);
+        BOOST_CHECK (bm.find ("aska0") != bm.end ());
+        BOOST_CHECK (bm.find ("askaParent") != bm.end ());
+        BOOST_CHECK (bm.find ("aska") != bm.end ());
+        BOOST_CHECK (bm.find ("aska2") != bm.end ());
+        BOOST_CHECK (bm.find ("aska3") != bm.end ());
 
 /*--------------------------------------------------------------------------*/
 
         Variant v;
-        Ptr <BeanFactory> bf = *(bm->get<0>().find ("aska0"));
+        Ptr <BeanFactory> bf = *(bm.get<0>().find ("aska0"));
         BOOST_CHECK (bf);
 
         v = bf->getInput();
@@ -119,78 +116,50 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         OrderedVariantMap const*aska0 = vcast <OrderedVariantMap const *> (v);
 
         BOOST_CHECK (aska0->size ());
-        BOOST_CHECK (aska0->containsKey ("field0"));
-        BOOST_CHECK (ccast <Core::String> (aska0->get ("field0")));
-        BOOST_CHECK (vcast <Core::String> (aska0->get ("field0")) == "value0");
+        BOOST_CHECK (aska0->containsKey ("name"));
+        BOOST_CHECK (ccast <Core::String> (aska0->get ("name")));
+        BOOST_CHECK (vcast <Core::String> (aska0->get ("name")) == "value0");
 
 /*--------------------------------------------------------------------------*/
 
-        bf = *(bm->get<0>().find ("aska"));
+        bf = *(bm.get<0>().find ("aska"));
         BOOST_CHECK (bf);
         v = bf->getInput();
         BOOST_CHECK (ccast <OrderedVariantMap const *> (v));
 
         OrderedVariantMap const *aska = vcast <OrderedVariantMap const *> (v);
 
-        BOOST_CHECK (aska->containsKey ("field11"));
-        BOOST_CHECK (ccast <Core::String> (aska->get ("field11")));
-        BOOST_CHECK (vcast <Core::String> (aska->get ("field11")) == "value11");
+        BOOST_CHECK (aska->containsKey ("title"));
+        BOOST_CHECK (ccast <Core::String> (aska->get ("title")));
+        BOOST_CHECK (vcast <Core::String> (aska->get ("title")) == "value11");
 
-        BOOST_CHECK (aska->containsKey ("field1"));
+        BOOST_CHECK (aska->containsKey ("body"));
 
 /*--------------------------------------------------------------------------*/
 
-        bf = *(bm->get<0>().find ("aska2"));
+        bf = *(bm.get<0>().find ("aska2"));
         BOOST_CHECK (bf);
         v = bf->getInput();
         BOOST_CHECK (ccast <OrderedVariantMap const *> (v));
 
         OrderedVariantMap const *aska2 = vcast <OrderedVariantMap const *> (v);
 
-        BOOST_CHECK (aska2->containsKey ("field22"));
-        BOOST_CHECK (ccast <Core::String> (aska2->get ("field22")));
-        BOOST_CHECK (vcast <Core::String> (aska2->get ("field22")) == "value22");
-
-        BOOST_CHECK (aska2->containsKey ("field2"));
+        BOOST_CHECK (aska2->containsKey ("name"));
+        BOOST_CHECK (ccast <Core::String> (aska2->get ("name")));
+        BOOST_CHECK (vcast <Core::String> (aska2->get ("name")) == "value22");
 
 /*--------------------------------------------------------------------------*/
 
-        bf = *(bm->get<0>().find ("aska3"));
+        bf = *(bm.get<0>().find ("aska3"));
         BOOST_CHECK (bf);
         v = bf->getInput();
         BOOST_CHECK (ccast <OrderedVariantMap const *> (v));
 
         OrderedVariantMap const *aska3 = vcast <OrderedVariantMap const *> (v);
 
-        BOOST_CHECK (aska3->containsKey ("field33"));
-        BOOST_CHECK (ccast <Core::String> (aska3->get ("field33")));
-        BOOST_CHECK (vcast <Core::String> (aska3->get ("field33")) == "value33");
-
-        BOOST_CHECK (aska3->containsKey ("field3"));
-
-/****************************************************************************/
-
-/*
- * Musiałem zakomentowac, bo meta mają poustawiane głupie pola.
- * Na przykład dla klasy City pole field00 etc. W następnym teście
- * pola są właściwe i testuje się już getBean.
- */
-
-//        v = cont->getBean ("aska0");
-//        BOOST_CHECK (!v.isNone ());
-//        BOOST_CHECK (ccast <City *> (v));
-//
-//        v = cont->getBean ("aska");
-//        BOOST_CHECK (!v.isNone ());
-//        BOOST_CHECK (ccast <Note *> (v));
-//
-//        v = cont->getBean ("aska2");
-//        BOOST_CHECK (!v.isNone ());
-//        BOOST_CHECK (ccast <Country *> (v));
-//
-//        v = cont->getBean ("aska3");
-//        BOOST_CHECK (!v.isNone ());
-//        BOOST_CHECK (ccast <Address *> (v));
+        BOOST_CHECK (aska3->containsKey ("street"));
+        BOOST_CHECK (ccast <Core::String> (aska3->get ("street")));
+        BOOST_CHECK (vcast <Core::String> (aska3->get ("street")) == "value33");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

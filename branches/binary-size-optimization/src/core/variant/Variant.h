@@ -498,6 +498,9 @@ public:
 
 private:
 
+        friend Core::Variant convertVariantToSmart (Core::Variant const &input);
+
+private:
         Type type;
         std::type_info const *ti;
         boost::shared_ptr<void> sptr;

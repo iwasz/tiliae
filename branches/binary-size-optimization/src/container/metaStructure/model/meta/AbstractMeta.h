@@ -90,8 +90,7 @@ public:
 
 protected:
 
-        AbstractMeta () : parent (NULL), scope (IMeta::SINGLETON), attributes (boost::make_shared <Attributes> ()), constructorArgs (NULL), innerMetas (NULL) {}
-        AbstractMeta (const AbstractMeta &) : parent (NULL), scope (IMeta::SINGLETON), attributes (boost::make_shared <Attributes> ()), constructorArgs (NULL), innerMetas (NULL) {}
+        AbstractMeta ();
 
 private:
 
@@ -104,7 +103,7 @@ protected:
 
 private:
 
-        Scope scope;
+//        Scope scope;
         Ptr <Attributes> attributes;
         DataVector *constructorArgs;
         MetaMap *innerMetas;

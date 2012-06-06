@@ -435,4 +435,41 @@ Core::String LCast <Core::String>::run (Core::Variant const &v)
         }
 }
 
+/****************************************************************************/
+
+Core::Variant convertVariantToSmart (Core::Variant const &input)
+{
+        Variant ret;
+
+        if (input.getType () == Variant::POINTER) {
+                ret.sptr = boost::shared_ptr<void> (input.ptr);
+                ret.type = Variant::SMART;
+                ret.ti = input.ti;
+                return ret;
+        }
+
+        if (input.getType () == Variant::POINTER_CONST) {
+                ret.sptr = boost::shared_ptr<void> (const_cast <void *> (input.cptr));
+                ret.type = Variant::SMART_CONST;
+                ret.ti = input.ti;
+                return ret;
+        }
+
+        if (input.getType () == Variant::OBJECT) {
+                ret.sptr = boost::shared_ptr<void> (input.ptr);
+                ret.type = Variant::SMART_OBJECT;
+                ret.ti = input.ti;
+                return ret;
+        }
+
+        if (input.getType () == Variant::OBJECT_CONST) {
+                ret.sptr = boost::shared_ptr<void> (const_cast <void *> (input.cptr));
+                ret.type = Variant::SMART_OBJECT_CONST;
+                ret.ti = input.ti;
+                return ret;
+        }
+
+        return input;
+}
+
 }

@@ -25,8 +25,8 @@ class IMeta;
 class FactoryService : public BeanFactoryService {
 public:
 
+        FactoryService () : defaultSingletonFactory (NULL) {}
         virtual ~FactoryService () {}
-        static Ptr <FactoryService> create () { return Ptr <FactoryService> (new FactoryService); }
         void init (Core::VariantMap *singletons);
 
         virtual bool onMetaBegin (IMeta *data);
@@ -37,8 +37,8 @@ private:
 
 private:
 
-        // Singletons
-        Ptr <Factory::IFactory> defaultFactory;
+        // Singletons owned by BeanFactoryContainer.
+        Factory::IFactory *defaultSingletonFactory;
 };
 
 } //nam

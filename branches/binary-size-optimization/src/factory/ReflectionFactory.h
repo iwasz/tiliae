@@ -21,11 +21,17 @@ namespace Factory {
  * Przykład fabryki korzystającej z refleksji. Typy skalarne obsługiwane
  * przez wariant tworzy z pominięciem refleksji.
  */
-struct TILIAE_API ReflectionFactory : public Factory::IFactory {
+class TILIAE_API ReflectionFactory : public Factory::IFactory {
+public:
 
         static const char *CLASS_NAME;
         static const char *CONSTRUCTOR_ARGS;
 
+        /**
+         * wrapInSharedPtr == false -> return new T.
+         * wrapInSharedPtr == true -> return boost::shared_ptr <T> (new T).
+         */
+        ReflectionFactory (bool w = false) : wrapInSharedPtr (w) {}
         virtual ~ReflectionFactory () {}
 
         /**
@@ -34,6 +40,10 @@ struct TILIAE_API ReflectionFactory : public Factory::IFactory {
          * @return
          */
         virtual Core::Variant create (const Core::VariantMap &parameters, Core::DebugContext *context = NULL) const;
+
+private:
+
+        bool wrapInSharedPtr;
 };
 
 }

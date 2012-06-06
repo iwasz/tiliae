@@ -27,6 +27,16 @@ namespace Container {
 
 /*##########################################################################*/
 
+AbstractMeta::AbstractMeta () : parent (NULL),
+                                attributes (boost::make_shared <Attributes> ()),
+                                constructorArgs (NULL),
+                                innerMetas (NULL)
+{
+        setScope (SINGLETON);
+}
+
+/****************************************************************************/
+
 AbstractMeta::~AbstractMeta ()
 {
         if (constructorArgs) {

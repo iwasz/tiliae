@@ -377,4 +377,36 @@ BOOST_AUTO_TEST_CASE (testVoidPtr)
         }
 }
 
+#ifdef ALLOW_CAST_TO_SMART
+
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (testCastToSmart)
+{
+        int *i = new int;
+        Variant v (i);
+        BOOST_REQUIRE (ccast <Ptr <int> > (v));
+}
+
+#endif
+
+
+#ifndef ALLOW_CAST_TO_SMART
+
+BOOST_AUTO_TEST_CASE (testConvertToPtr)
+{
+        int *i = new int;
+        Variant v (i);
+        BOOST_REQUIRE (!ccast <Ptr <int> > (v));
+
+        Variant v2 = Core::convertVariantToSmart (v);
+        BOOST_REQUIRE (ccast <Ptr <int> > (v2));
+
+        Ptr <int> i2 = vcast <Ptr <int> > (v2);
+        BOOST_REQUIRE_EQUAL (i2.get (), i);
+}
+
+#endif
+
 BOOST_AUTO_TEST_SUITE_END ();

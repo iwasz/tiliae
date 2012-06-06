@@ -25,7 +25,7 @@ Ptr <Container::BeanFactoryContainer> ContainerTestFactory::container;
 
 Ptr <BeanFactoryContainer> ContainerTestFactory::getContainer (const std::string &xmlFilePath)
 {
-        return ContainerFactory::createContainer (MXmlMetaService::parseFile (xmlFilePath));
+        return ContainerFactory::createAndInit (MXmlMetaService::parseFile (xmlFilePath).get ());
 }
 
 /*
@@ -180,34 +180,32 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure05 ()
         MappedMeta *meta00 = new MappedMeta ();
         meta00->setId ("askaParent");
         meta00->setClass ("City");
-        meta00->addField (DataKey ("field00", new ValueData ("value00", "String")));
+        meta00->addField (DataKey ("name", new ValueData ("value00", "String")));
         metaCont->add (meta00);
 
         MappedMeta *meta0 = new MappedMeta ();
         meta0->setId ("aska0");
-        meta0->addField (DataKey ("field0", new ValueData ("value0", "String")));
+        meta0->addField (DataKey ("name", new ValueData ("value0", "String")));
         meta0->setParent ("askaParent");
         metaCont->add (meta0);
 
         MappedMeta *meta = new MappedMeta ();
         meta->setId ("aska");
         meta->setClass ("Note");
-        meta->addField (DataKey ("field1", new RefData ("aska0")));
-        meta->addField (DataKey ("field11", new ValueData ("value11", "String")));
+        meta->addField (DataKey ("title", new ValueData ("value11", "String")));
+        meta->addField (DataKey ("body", new ValueData ("value11", "String")));
         metaCont->add (meta);
 
         MappedMeta *meta1 = new MappedMeta ();
         meta1->setId ("aska2");
         meta1->setClass ("Country");
-        meta1->addField (DataKey ("field2", new RefData ("aska")));
-        meta1->addField (DataKey ("field22", new ValueData ("value22", "String")));
+        meta1->addField (DataKey ("name", new ValueData ("value22", "String")));
         metaCont->add (meta1);
 
         MappedMeta *meta2 = new MappedMeta ();
         meta2->setId ("aska3");
         meta2->setClass ("Address");
-        meta2->addField (DataKey ("field3", new RefData ("aska2")));
-        meta2->addField (DataKey ("field33", new ValueData ("value33", "String")));
+        meta2->addField (DataKey ("street", new ValueData ("value33", "String")));
         metaCont->add (meta2);
 
         return metaCont;
@@ -462,18 +460,21 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure13 ()
         child->addField (DataKey ("name", new ValueData ("Polska", "String")));
         child->setId ("country1");
         child->setClass ("Country");
+        child->setScope (IMeta::PROTOTYPE);
         metaCont->add (child);
 
         child = new MappedMeta ();
         child->addField (DataKey ("name", new ValueData ("Jamajka", "String")));
         child->setId ("country2");
         child->setClass ("Country");
+        child->setScope (IMeta::PROTOTYPE);
         metaCont->add (child);
 
         child = new MappedMeta ();
         child->addField (DataKey ("name", new ValueData ("Wolny Tybet", "String")));
         child->setId ("country3");
         child->setClass ("Country");
+        child->setScope (IMeta::PROTOTYPE);
         metaCont->add (child);
 
 /*--------------------------------------------------------------------------*/
@@ -702,18 +703,21 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure19 ()
         child->addField (DataKey ("name", new ValueData ("Polska", "String")));
         child->setId ("ncountry1");
         child->setClass ("Country");
+        child->setScope (IMeta::PROTOTYPE);
         metaCont->add (child);
 
         child = new MappedMeta ();
         child->addField (DataKey ("name", new ValueData ("Jamajka", "String")));
         child->setId ("ncountry2");
         child->setClass ("Country");
+        child->setScope (IMeta::PROTOTYPE);
         metaCont->add (child);
 
         child = new MappedMeta ();
         child->addField (DataKey ("name", new ValueData ("Wolny Tybet", "String")));
         child->setId ("ncountry3");
         child->setClass ("Country");
+        child->setScope (IMeta::PROTOTYPE);
         metaCont->add (child);
 
 /*--------------------------------------------------------------------------*/
@@ -758,6 +762,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
         child1->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
         child1->setId ("ncity");
         child1->setClass ("City");
+        child1->setScope (IMeta::PROTOTYPE);
         metaCont->add (child1);
 
         return metaCont;
@@ -986,6 +991,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
         child->addField (new RefData ("city100"));
         child->addField (new RefData ("city200"));
         child->setId ("syn");
+        child->setClass ("VariantVector");
         metaCont->add (child);
 
         MappedMeta *meta00 = new MappedMeta ();

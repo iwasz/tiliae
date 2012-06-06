@@ -140,6 +140,10 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                 if (flags & FORCE_SINGLETON || getSingleton ()) {
                         storedSingleton = output;
                 }
+                else {
+                        // Jeśli scope nie SINGLETON i nie BEAN, to konwertujemy prototypy na Ptr.
+                        output = Core::convertVariantToSmart (output);
+                }
 
                 if (output.isNull ()) {
                         dcCommit (context);

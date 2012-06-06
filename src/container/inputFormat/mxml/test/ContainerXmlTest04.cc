@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (test017CityList)
         BOOST_CHECK (foo->size () == 5);
         CityList::const_iterator i = foo->begin ();
 
-        Ptr <City> c = *i++;
+        City *c = *i++;
         BOOST_CHECK (c);
         BOOST_CHECK_EQUAL (c->getName (), "Tokio");
 

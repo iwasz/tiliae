@@ -11,7 +11,7 @@
 
 namespace Container {
 
-extern const char *DEFAULT_OBJECT_FACTORY_NAME;
+extern const char *DEFAULT_SINGLETON_FACTORY_NAME;
 extern const char *DEFAULT_VALUE_FACTORY_NAME;
 extern const char *DEFAULT_INDEXED_EDITOR_NAME;
 extern const char *DEFAULT_MAPPED_EDITOR_NAME;

@@ -86,8 +86,13 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (ccast <A const *> (v));
                 BOOST_REQUIRE (ccast <A &> (v));
                 BOOST_REQUIRE (ccast <A const &> (v));
+#ifdef ALLOW_CAST_TO_SMART
+                BOOST_REQUIRE (ccast <shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
+#else
                 BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
                 BOOST_REQUIRE (!(ccast <shared_ptr<A const> > (v)));
+#endif
         }
 
         {
@@ -99,8 +104,13 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (ccast <A const *> (v));
                 BOOST_REQUIRE (!(ccast <A &> (v)));
                 BOOST_REQUIRE (ccast <A const &> (v));
+#ifdef ALLOW_CAST_TO_SMART
+                BOOST_REQUIRE (!ccast <shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
+#else
                 BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
                 BOOST_REQUIRE (!(ccast <shared_ptr<A const> > (v)));
+#endif
         }
 
         {
@@ -125,8 +135,13 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (ccast <A const *> (v));
                 BOOST_REQUIRE (!(ccast <A &> (v)));
                 BOOST_REQUIRE (ccast <A const &> (v));
+#ifdef ALLOW_CAST_TO_SMART
+                BOOST_REQUIRE (!ccast <shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
+#else
                 BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
                 BOOST_REQUIRE (!(ccast <shared_ptr<A const> > (v)));
+#endif
         }
 
         {
@@ -168,8 +183,13 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE (ccast <I const *> (v));
                 BOOST_REQUIRE ((ccast <I &> (v)));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
+#ifdef ALLOW_CAST_TO_SMART
+                BOOST_REQUIRE (ccast <shared_ptr<I> > (v));
+                BOOST_REQUIRE (ccast <shared_ptr<I const> > (v));
+#else
                 BOOST_REQUIRE (!(ccast <shared_ptr<I> > (v)));
                 BOOST_REQUIRE (!(ccast <shared_ptr<I const> > (v)));
+#endif
         }
 
         {
@@ -180,7 +200,11 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE (!(ccast <I &> (v)));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
                 BOOST_REQUIRE (!(ccast <shared_ptr<I> > (v)));
+#ifdef ALLOW_CAST_TO_SMART
+                BOOST_REQUIRE (ccast <shared_ptr<I const> > (v));
+#else
                 BOOST_REQUIRE (!(ccast <shared_ptr<I const> > (v)));
+#endif
         }
 
         {
@@ -266,8 +290,13 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE (occast <B const *> (v));
                 BOOST_REQUIRE ((occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
+#ifdef ALLOW_CAST_TO_SMART
+                BOOST_REQUIRE (occast <shared_ptr<B> > (v));
+                BOOST_REQUIRE (occast <shared_ptr<B const> > (v));
+#else
                 BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
                 BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+#endif
         }
 
         {
@@ -279,8 +308,13 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE (occast <B const *> (v));
                 BOOST_REQUIRE (!occast <B &> (v));
                 BOOST_REQUIRE ((occast <B const &> (v)));
+#ifdef ALLOW_CAST_TO_SMART
+                BOOST_REQUIRE (!occast <shared_ptr<B> > (v));
+                BOOST_REQUIRE (occast <shared_ptr<B const> > (v));
+#else
                 BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
                 BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+#endif
         }
 
         {
@@ -343,8 +377,13 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE (occast <B const *> (v));
                 BOOST_REQUIRE ((occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
+#ifdef ALLOW_CAST_TO_SMART
+                BOOST_REQUIRE (occast <shared_ptr<B> > (v));
+                BOOST_REQUIRE (occast <shared_ptr<B const> > (v));
+#else
                 BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
                 BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+#endif
         }
 
         {
@@ -370,8 +409,13 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic2)
             BOOST_REQUIRE (occast <C const *> (v));
             BOOST_REQUIRE ((occast <C &> (v)));
             BOOST_REQUIRE ((occast <C const &> (v)));
+#ifdef ALLOW_CAST_TO_SMART
+            BOOST_REQUIRE (occast <shared_ptr<C> > (v));
+            BOOST_REQUIRE (occast <shared_ptr<C const> > (v));
+#else
             BOOST_REQUIRE (!occast <shared_ptr<C> > (v));
             BOOST_REQUIRE (!occast <shared_ptr<C const> > (v));
+#endif
     }
 
     {

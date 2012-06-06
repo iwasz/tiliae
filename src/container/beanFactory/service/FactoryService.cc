@@ -20,8 +20,7 @@ using namespace Core;
 
 void FactoryService::init (Core::VariantMap *singletons)
 {
-        Core::Variant v = singletons->find (DEFAULT_OBJECT_FACTORY_NAME)->second;
-        defaultFactory = ocast <Ptr <Factory::IFactory> > (v);
+        defaultSingletonFactory = ocast <Factory::IFactory *> ((*singletons)[DEFAULT_SINGLETON_FACTORY_NAME]);
 }
 
 /**
@@ -52,7 +51,7 @@ bool FactoryService::onMetaBegin (IMeta *data)
                 beanFactory->setFactory (factory, true);
         }
         else {
-                factory = defaultFactory.get ();
+                factory = defaultSingletonFactory;
                 beanFactory->setFactory (factory, false);
         }
 

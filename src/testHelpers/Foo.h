@@ -62,6 +62,8 @@ public:
         REFLECTION_METHOD (getPlace2) Ptr <Place> getPlace2 () { return addr2; }
         Ptr <Place> addr2;
 
+        City *getCity2 () { return city2; }
+
 private:
 
         Core::String field0;

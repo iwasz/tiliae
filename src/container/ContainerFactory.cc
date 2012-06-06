@@ -124,13 +124,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 printService->setContext (&context);
                 iteration2.addService (printService);
 #endif
-        }
-        catch (Core::Exception &e) {
-                e.addMessage ("Error @ ContainerFactory::ContainerFactory.");
-                throw;
-        }
 
-        try {
                 context.reset ();
                 context.setBeanFactoryContainer (bfCont);
                 context.setBeanFactoryMap (&bfCont->getBeanFactoryMap ());
@@ -221,7 +215,7 @@ Core::VariantMap *ContainerFactory::createSingletons ()
         fact->addFactory (factS);
         fact->addFactory (factR);
 
-        map->operator[] (DEFAULT_OBJECT_FACTORY_NAME) = Core::Variant (fact);
+        map->operator[] (DEFAULT_SINGLETON_FACTORY_NAME) = Core::Variant (fact);
         map->operator[] (DEFAULT_VALUE_FACTORY_NAME) = Core::Variant (factS);
         map->operator[] (BEAN_WRAPPER_SIMPLE) = Core::Variant (Wrapper::BeanWrapper::create ());
 

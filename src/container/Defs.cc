@@ -15,8 +15,8 @@ namespace Container {
  * ID obiektu systemowego.
  * \ingroup Container
  */
-const char *DEFAULT_OBJECT_FACTORY_NAME = "&newObjectFactory";
-const char *DEFAULT_VALUE_FACTORY_NAME = "&newValueFactory";
+const char *DEFAULT_SINGLETON_FACTORY_NAME = "#defaultSingletonFactory";
+const char *DEFAULT_VALUE_FACTORY_NAME = "#newValueFactory";
 
 /**
  * ID obiektu systemowego.

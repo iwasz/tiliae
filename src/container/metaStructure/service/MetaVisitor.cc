@@ -19,11 +19,8 @@ void MetaVisitor::visit (MetaContainer *container)
         ctx->resetDepth ();
         ctx->setMetaContainer (container);
 
-        foreach (IMetaService *service, services) {
-                /*if (!*/service->onContainer (container)/*) {
-                        return;
-                }*/
-                                ;
+        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
+                (*i)->onContainer (container);
         }
 
         foreach (MetaMap::value_type p, container->getMetaMap ()) {

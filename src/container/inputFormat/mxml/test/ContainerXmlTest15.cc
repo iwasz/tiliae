@@ -83,12 +83,11 @@ BOOST_AUTO_TEST_CASE (test072ReferenceToContainer)
  */
 BOOST_AUTO_TEST_CASE (test073ReferenceToExternalSingleton)
 {
-        ContainerFactory factory;
         Ptr <MetaContainer> metaContainer = MXmlMetaService::parseFile (PATH + "073-reference-to-external.xml");
-        Ptr <BeanFactoryContainer> container = factory.createEmptyContainer (metaContainer, true, Ptr <BeanFactoryContainer> (), factory);
+        Ptr <BeanFactoryContainer> container = ContainerFactory::create (metaContainer.get ());
         container->addSingleton ("external1", Core::Variant ("Benek pies"));
         container->addSingleton ("external2", Core::Variant ("Borys pies"));
-        factory.fill (container, metaContainer);
+        ContainerFactory::init (container.get (), metaContainer.get ());
 
         Core::StringMap *map = vcast <Core::StringMap *> (container->getBean ("map"));
 

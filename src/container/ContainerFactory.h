@@ -38,7 +38,7 @@ public:
         /**
          * Tworzy kontener, czyli główny obiekt kontenera (klasy Container).
          */
-        static Ptr <BeanFactoryContainer> create (MetaContainer *metaCont,
+        static Ptr <BeanFactoryContainer> create (Ptr <MetaContainer> metaCont,
                                                   bool storeMetaContainer = false,
                                                   BeanFactoryContainer *linkedParent = NULL);
 
@@ -50,7 +50,7 @@ public:
         /**
          * Metoda robi to co create + init.
          */
-        static Ptr <BeanFactoryContainer> createAndInit (MetaContainer *metaCont,
+        static Ptr <BeanFactoryContainer> createAndInit (Ptr <MetaContainer> metaCont,
                                                          bool storeMetaContainer = false,
                                                          BeanFactoryContainer *linkedParent = NULL);
 

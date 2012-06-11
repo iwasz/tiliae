@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 BOOST_AUTO_TEST_CASE (testSingleton)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE (testSingleton)
 /****************************************************************************/
 
         metaCont = ContainerTestFactory::createMetaStructure21 ();
-        cont = ContainerFactory::createAndInit (metaCont.get ());
+        cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE (testSingleton)
 BOOST_AUTO_TEST_CASE (testInitMethod)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure22 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
         child2->setClass ("VariantList");
         metaCont->add (child2);
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -187,12 +187,12 @@ BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
 }
 
 /**
- *
+ * Bean-scope działa niezależnie od tego czy bean głowny jest prototypem, czy singletonem.
  */
 BOOST_AUTO_TEST_CASE (testBeanScope)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure23 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -215,16 +215,16 @@ BOOST_AUTO_TEST_CASE (testBeanScope)
 
         BOOST_CHECK (bar1 != bar2);
 
-        BOOST_CHECK (bar1->getCity());
-        BOOST_CHECK (bar1->getCity3());
+        BOOST_CHECK (bar1->getCity4());
+        BOOST_CHECK (bar1->getCity5());
 
-        BOOST_CHECK (bar2->getCity());
-        BOOST_CHECK (bar2->getCity3());
+        BOOST_CHECK (bar2->getCity4());
+        BOOST_CHECK (bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+        BOOST_CHECK (bar1->getCity4() == bar1->getCity5());
+        BOOST_CHECK (bar2->getCity4() == bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
+        BOOST_CHECK (bar1->getCity4() != bar2->getCity4 ());
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

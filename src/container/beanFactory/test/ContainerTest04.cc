@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_SUITE (ContainerTest04);
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure15 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure16 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
 BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure17 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
 BOOST_AUTO_TEST_CASE (testCreateMapWithReferenceDoubleIter)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure18 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 

@@ -23,7 +23,6 @@ namespace Container {
 class TILIAE_API MetaContainer {
 public:
 
-        MetaContainer () : linked (NULL) {}
         ~MetaContainer ();
 
         IMeta *get (const std::string &key) const;
@@ -47,13 +46,13 @@ public:
          */
         MetaMap const &getMetaMap () const { return metaMap; }
 
-        MetaContainer const *getLinked () const { return linked; }
-        void setLinked (MetaContainer const *l) { linked = l; }
+        Ptr <MetaContainer const> getLinked () const { return linked; }
+        void setLinked (Ptr <MetaContainer const> l) { linked = l; }
 
 private:
 
         MetaMap metaMap;
-        MetaContainer const *linked;
+        Ptr <MetaContainer const> linked;
 };
 
 }

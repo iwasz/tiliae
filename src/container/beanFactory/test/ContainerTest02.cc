@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_SUITE (ContainerTest02);
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleBean)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleBean)
 BOOST_AUTO_TEST_CASE (testCreateBeanWithReference)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure08 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReference)
 BOOST_AUTO_TEST_CASE (testCreateStringMap)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure09 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 

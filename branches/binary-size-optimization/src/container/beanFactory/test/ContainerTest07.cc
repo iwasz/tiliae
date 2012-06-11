@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
         bool exception = false;
 
         try {
-                Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont.get ());
+                Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /*------Testy---------------------------------------------------------------*/
 

@@ -166,7 +166,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 
 /****************************************************************************/
 
-Ptr <BeanFactoryContainer> ContainerFactory::create (MetaContainer *metaCont,
+Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCont,
                                                      bool storeMetaContainer,
                                                      BeanFactoryContainer *linkedParent)
 {
@@ -187,12 +187,12 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (MetaContainer *metaCont,
 
 /****************************************************************************/
 
-Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (MetaContainer *metaCont,
+Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (Ptr <MetaContainer> metaCont,
                                                             bool storeMetaContainer,
                                                             BeanFactoryContainer *linkedParent)
 {
         Ptr <BeanFactoryContainer> container = create (metaCont, storeMetaContainer,linkedParent);
-        init (container.get (), metaCont);
+        init (container.get (), metaCont.get ());
         return container;
 }
 

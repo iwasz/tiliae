@@ -25,7 +25,7 @@ Ptr <Container::BeanFactoryContainer> ContainerTestFactory::container;
 
 Ptr <BeanFactoryContainer> ContainerTestFactory::getContainer (const std::string &xmlFilePath)
 {
-        return ContainerFactory::createAndInit (MXmlMetaService::parseFile (xmlFilePath).get ());
+        return ContainerFactory::createAndInit (MXmlMetaService::parseFile (xmlFilePath));
 }
 
 /*
@@ -285,6 +285,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure07 ()
 
         child->setId ("mojBean");
         child->setClass ("Foo");
+        child->setScope (IMeta::PROTOTYPE);
 
         metaCont->add (child);
 
@@ -582,10 +583,9 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure16 ()
         child->addConstructorArg (new ValueData ("value2", "String"));
         child->addConstructorArg (new ValueData ("value3", "text"));
         child->addConstructorArg (new RefData ("city"));
-//        child->addConstructorArg (new NullData ());
-
         child->setId ("mojBean");
         child->setClass ("Bar");
+        child->setScope (IMeta::PROTOTYPE);
 
         metaCont->add (child);
 
@@ -595,6 +595,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure16 ()
         child1->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
         child1->setId ("city");
         child1->setClass ("City");
+        child1->setScope (IMeta::PROTOTYPE);
         metaCont->add (child1);
 
         return metaCont;
@@ -833,8 +834,9 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
         meta00->setId ("mainBean");
         meta00->setClass ("Bar");
         meta00->addConstructorArg (new ValueData ("value2", "String"));
-        meta00->addField (DataKey ("city", new RefData ("city")));
-        meta00->addField (DataKey ("city3", new RefData ("city")));
+        meta00->addField (DataKey ("city4", new RefData ("city")));
+        meta00->addField (DataKey ("city5", new RefData ("city")));
+        meta00->setScope (IMeta::PROTOTYPE);
         metaCont->add (meta00);
 
         MappedMeta *meta0 = new MappedMeta ();
@@ -849,6 +851,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
         meta->setClass ("BarMap");
         meta->addField (DataKey ("key01", new RefData ("mainBean")));
         meta->addField (DataKey ("key02", new RefData ("mainBean")));
+        meta->setScope (IMeta::PROTOTYPE);
         metaCont->add (meta);
 
         return metaCont;

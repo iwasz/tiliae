@@ -7,12 +7,12 @@
     <bean id="bean" class="Bar">
         <constructor-arg><value>Test</value></constructor-arg>
 
-        <property name="city3">
+        <property name="city4">
             <bean class="City" id="innerCity" singleton="true" />
         </property>
 
         <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
-        <property name="city">
+        <property name="city5">
             <ref bean="innerCity" />
         </property>
 
@@ -55,12 +55,12 @@
     <bean id="bean2" class="Bar">
         <constructor-arg><value>Test</value></constructor-arg>
 
-        <property name="city3">
+        <property name="city4">
             <bean class="City" id="innerCity2" scope="bean" />
         </property>
 
         <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
-        <property name="city">
+        <property name="city5">
             <ref bean="innerCity2" />
         </property>
 
@@ -79,12 +79,12 @@
     <bean id="bean3" class="Bar">
         <constructor-arg><value>Test</value></constructor-arg>
 
-        <property name="city3">
+        <property name="city4">
             <bean class="City" id="innerCity3" scope="bean" />
         </property>
 
         <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
-        <property name="city">
+        <property name="city5">
             <ref bean="innerCity3" />
         </property>
 

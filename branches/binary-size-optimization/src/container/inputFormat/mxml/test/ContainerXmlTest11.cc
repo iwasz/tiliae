@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "053-bean-scope-first-tests.xml");
 
         Variant v = cont->getBean ("listaSingleton");
-        Ptr <BarList> barList = vcast <Ptr <BarList> > (v);
+        BarListPtr *barList = vcast <BarListPtr *> (v);
         BOOST_CHECK (barList);
 
         BOOST_CHECK (barList->size () == 2);
@@ -75,24 +75,23 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
         BOOST_CHECK (bar1 != bar2);
 
-        BOOST_CHECK (bar1->getCity());
-        BOOST_CHECK (bar1->getCity3());
+        BOOST_CHECK (bar1->getCity4());
+        BOOST_CHECK (bar1->getCity5());
 
-        BOOST_CHECK (bar2->getCity());
-        BOOST_CHECK (bar2->getCity3());
+        BOOST_CHECK (bar2->getCity4());
+        BOOST_CHECK (bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+        BOOST_CHECK (bar1->getCity4() == bar1->getCity5());
+        BOOST_CHECK (bar2->getCity4() == bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar2->getCity ());
+        BOOST_CHECK (bar1->getCity5() == bar2->getCity5 ());
 
 /****************************************************************************/
 
         v = cont->getBean ("listaPrototype");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList> > (v));
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarListPtr *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -132,14 +131,13 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
         v = cont->getBean ("listaBean1");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList> > (v));
 
         Ptr <BeanFactory> bf = cont->getBeanFactory ("bean2");
         BOOST_CHECK (bf);
         bf = bf->getInnerBeanFactory("innerCity2");
         BOOST_CHECK (bf);
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarListPtr *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -164,9 +162,8 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
         v = cont->getBean ("listaBean2");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList > > (v));
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 

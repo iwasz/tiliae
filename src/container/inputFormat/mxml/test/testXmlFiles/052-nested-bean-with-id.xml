@@ -7,7 +7,7 @@
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="city3">
-            <bean class="City" id="innerCity" singleton="true" />
+            <bean class="City" id="innerCity" singleton="false" />
         </property>
 
         <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->

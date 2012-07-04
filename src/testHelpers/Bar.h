@@ -137,6 +137,9 @@ REFLECTION_COLLECTION (BarVector)
 typedef std::list <Ptr <Bar> > BarList;
 REFLECTION_COLLECTION (BarList)
 
+typedef std::list <Bar *> BarListPtr;
+REFLECTION_COLLECTION (BarListPtr)
+
 typedef std::map <std::string, Ptr <Bar> > BarMap;
 REFLECTION_COLLECTION (BarMap)
 

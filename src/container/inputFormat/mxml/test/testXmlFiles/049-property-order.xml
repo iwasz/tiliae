@@ -3,7 +3,7 @@
         "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <bean id="multi" class="Bar">
+    <bean id="multi" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <!--Propertisy ustwaiają się w kolejności występowania. -->
@@ -13,7 +13,7 @@
         <property name="city3.name" value="Warszawa"/>
 
         <property name="city3">
-                <bean class="City"/>
+                <bean class="City" singleton="false"/>
         </property>
     </bean>
     

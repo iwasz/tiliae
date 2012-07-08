@@ -49,11 +49,11 @@ BOOST_AUTO_TEST_CASE (test052NestedBeanWithId)
 
         Variant vB = cont->getBean ("bean");
         BOOST_CHECK (!vB.isNone());
-        Ptr <Bar> bar = vcast <Ptr <Bar> > (vB);
+        Bar *bar = vcast <Bar *> (vB);
 
-        BOOST_CHECK (bar->getCity ());
-        BOOST_CHECK (bar->getCity3 ());
-        BOOST_CHECK (bar->getCity3 () == bar->getCity ());
+        BOOST_CHECK (bar->getCity4 ());
+        BOOST_CHECK (bar->getCity5 ());
+        BOOST_CHECK (bar->getCity4 () == bar->getCity5 ());
 }
 
 /**
@@ -68,10 +68,10 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
         BOOST_CHECK (barList);
 
         BOOST_CHECK (barList->size () == 2);
-        BarList::const_iterator i = barList->begin ();
+        BarListPtr::const_iterator i = barList->begin ();
 
-        Ptr <Bar> bar1 = *i++;
-        Ptr <Bar> bar2 = *i;
+        Bar *bar1 = *i++;
+        Bar *bar2 = *i;
 
         BOOST_CHECK (bar1 != bar2);
 
@@ -163,7 +163,7 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
         v = cont->getBean ("listaBean2");
         BOOST_CHECK (!v.isNone ());
 
-        barList = vcast <BarList *> (v);
+        barList = vcast <BarListPtr *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 

@@ -3,7 +3,7 @@
         "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <bean id="bean" class="Bar">
+    <bean id="bean" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="butter">
@@ -25,7 +25,7 @@
     
 <!-- ======================================================================================== -->
 
-    <bean id="bean4" class="Bar">
+    <bean id="bean4" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="butter">
@@ -47,7 +47,7 @@
     
 <!-- ======================================================================================== -->
 
-    <bean id="bean2" class="Bar">
+    <bean id="bean2" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="butter">

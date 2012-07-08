@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (test057ListScopeTests)
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "057-list-scope.xml");
 
         Variant v = cont->getBean ("listaSingleton");
-        Ptr <BarList> barList = vcast <Ptr <BarList> > (v);
+        BarList *barList = vcast <BarList *> (v);
         BOOST_CHECK (barList);
 
         BOOST_CHECK (barList->size () == 2);
@@ -66,9 +66,8 @@ BOOST_AUTO_TEST_CASE (test057ListScopeTests)
 
         v = cont->getBean ("listaPrototype");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList> > (v));
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -86,14 +85,13 @@ BOOST_AUTO_TEST_CASE (test057ListScopeTests)
 
         v = cont->getBean ("listaBean1");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList> > (v));
 
         Ptr <BeanFactory> bf = cont->getBeanFactory ("bean2");
         BOOST_CHECK (bf);
         bf = bf->getInnerBeanFactory("inner");
         BOOST_CHECK (bf);
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -116,7 +114,7 @@ BOOST_AUTO_TEST_CASE (test058MapScopeTests)
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "058-map-scope.xml");
 
         Variant v = cont->getBean ("listaSingleton");
-        Ptr <BarList> barList = vcast <Ptr <BarList> > (v);
+        BarList *barList = vcast <BarList *> (v);
         BOOST_CHECK (barList);
 
         BOOST_CHECK (barList->size () == 2);
@@ -138,9 +136,8 @@ BOOST_AUTO_TEST_CASE (test058MapScopeTests)
 
         v = cont->getBean ("listaPrototype");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList> > (v));
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -158,14 +155,13 @@ BOOST_AUTO_TEST_CASE (test058MapScopeTests)
 
         v = cont->getBean ("listaBean1");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList> > (v));
 
         Ptr <BeanFactory> bf = cont->getBeanFactory ("bean2");
         BOOST_CHECK (bf);
         bf = bf->getInnerBeanFactory("inner");
         BOOST_CHECK (bf);
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -187,10 +183,10 @@ BOOST_AUTO_TEST_CASE (test059ImportSimple)
 {
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "059-import.xml");
 
-        Ptr <StringList> list = vcast <Ptr <StringList> > (cont->getBean ("bean1"));
+        StringList *list = vcast <StringList *> (cont->getBean ("bean1"));
         BOOST_CHECK (list);
 
-        list = vcast <Ptr <StringList> > (cont->getBean ("bean2"));
+        list = vcast <StringList *> (cont->getBean ("bean2"));
         BOOST_CHECK (list);
 }
 
@@ -201,16 +197,16 @@ BOOST_AUTO_TEST_CASE (test060ImportAdvanced)
 {
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "060-import.xml");
 
-        Ptr <StringList> list = vcast <Ptr <StringList> > (cont->getBean ("bean1"));
+        StringList * list = vcast <StringList *> (cont->getBean ("bean1"));
         BOOST_CHECK (list);
 
-        list = vcast <Ptr <StringList> > (cont->getBean ("bean2"));
+        list = vcast <StringList *> (cont->getBean ("bean2"));
         BOOST_CHECK (list);
 
-        list = vcast <Ptr <StringList> > (cont->getBean ("bean3"));
+        list = vcast <StringList *> (cont->getBean ("bean3"));
         BOOST_CHECK (list);
 
-        list = vcast <Ptr <StringList> > (cont->getBean ("bean4"));
+        list = vcast <StringList *> (cont->getBean ("bean4"));
         BOOST_CHECK (list);
 }
 

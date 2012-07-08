@@ -10,31 +10,17 @@
         </entry>
 
         <entry key="b">
-<!--            <map class="VariantMap">-->
-<!--                <entry key="c">-->
-                    <map class="StringMap">
-                        <entry key="d">
-                            <value>Test1</value>
-                        </entry>
-                    </map>
-<!--                </entry>-->
-<!--            </map>-->
+           <map class="VariantMap">
+               <entry key="c">
+                    <value>Test1</value>
+               </entry>
+           </map>
         </entry>
     </map>
 
     <!--Takie hocki klocki też działają -->
     <bean id="childMap" parent="parentMap">
-        <property name="b.d" value="Test34" />
+        <property name="b.c" value="Test34" />
     </bean>
 
-    <!--Tester -->
-<!--     <bean id="testTool" class="K202Proxy"> -->
-<!--         <property name="domain"> -->
-<!--             <ref bean="childMap" /> -->
-<!--         </property> -->
-
-<!--         <property name="sourceCode"> -->
-<!--             <value><![CDATA[${b.d} == 'Test34']]></value> -->
-<!--         </property> -->
-<!--     </bean> -->
 </beans>

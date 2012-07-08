@@ -4,7 +4,7 @@
 <beans>
 
     <!--Jesli propery mialyby sie udtawiac alfabetycznie, to ten test  nie przejdzie-->
-    <bean id="bean" class="Bar">
+    <bean id="bean" class="Bar" singleton="false" >
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="city3">
@@ -18,7 +18,7 @@
     </bean>
 
 <!--A To bedzie zrzucac wyjatek z metody aaaby-->
-    <bean id="bean2" class="Bar">
+    <bean id="bean2" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="aaaby">

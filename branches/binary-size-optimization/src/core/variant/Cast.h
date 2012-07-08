@@ -1474,6 +1474,10 @@ struct VCast<T *> {
 template<typename T>
 T *VCast <T *>::run (Variant const &v)
 {
+        if (v.type == Variant::NIL) {
+                return NULL;
+        }
+
         if (v.getTypeInfo () != typeid (T &)) {
                 throwExceptionHanle ("T*, typeid (T &) != v.ti", v, typeid (T &));
         }
@@ -1486,9 +1490,6 @@ T *VCast <T *>::run (Variant const &v)
         case Variant::POINTER:
         case Variant::OBJECT:
                 return static_cast<T *> (v.ptr);
-
-        case Variant::NIL:
-                return NULL;
 
         default:
                 throwExceptionHanle ("T*, wrong v.type", v, typeid (T &));
@@ -1520,6 +1521,10 @@ struct VCast<T const *> {
 template<typename T>
 T const *VCast <T const *>::run (Variant const &v)
 {
+        if (v.type == Variant::NIL) {
+                return NULL;
+        }
+
         if (v.getTypeInfo () != typeid (T &)) {
                 throwExceptionHanle ("T const*, typeid (T &) != v.ti", v, typeid (T &));
         }
@@ -1538,9 +1543,6 @@ T const *VCast <T const *>::run (Variant const &v)
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
                 return boost::static_pointer_cast<T const> (v.sptr).get ();
-
-        case Variant::NIL:
-                return NULL;
 
         default:
                 throwExceptionHanle ("T const*, wrong v.type", v, typeid (T &));

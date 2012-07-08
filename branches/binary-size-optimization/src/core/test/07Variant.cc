@@ -409,4 +409,45 @@ BOOST_AUTO_TEST_CASE (testConvertToPtr)
 
 #endif
 
+BOOST_AUTO_TEST_CASE (testNulls)
+{
+        Variant v;
+        v.setNull ();
+        v.setTypeInfo(typeid (double)); // Niezależnie od tego co tu jest, konwersja powinna zadziałać.
+
+        {
+        int *i = vcast <int *> (v);
+        BOOST_REQUIRE (!i);
+
+        Ptr <int> i2 = vcast <Ptr <int> > (v);
+        BOOST_REQUIRE (!i2);
+        }
+
+        {
+        int *i = ocast <int *> (v);
+        BOOST_REQUIRE (!i);
+
+        Ptr <int> i2 = ocast <Ptr <int> > (v);
+        BOOST_REQUIRE (!i2);
+        }
+
+        {
+        TestClass *i = vcast <TestClass *> (v);
+        BOOST_REQUIRE (!i);
+
+        Ptr <TestClass > i2 = vcast <Ptr <TestClass > > (v);
+        BOOST_REQUIRE (!i2);
+        }
+
+        {
+        TestClass *i = ocast <TestClass *> (v);
+        BOOST_REQUIRE (!i);
+
+        Ptr <TestClass > i2 = ocast <Ptr <TestClass > > (v);
+        BOOST_REQUIRE (!i2);
+        }
+
+}
+
+
 BOOST_AUTO_TEST_SUITE_END ();

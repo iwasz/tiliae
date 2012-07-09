@@ -37,12 +37,13 @@ BOOST_AUTO_TEST_CASE (test016CityMap)
 
         Variant v = cont->getBean ("mojaMapa");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <CityMap *> (v));
 
-        Ptr<CityMap> foo = vcast <Ptr<CityMap> > (v);
+        CityMap *foo = vcast <CityMap *> (v);
+
+//        std::cerr << foo->size () << std::endl;
+//        std::cerr << foo->operator[] ("city01")->getName () << std::endl;
 
         BOOST_CHECK (foo->operator[] ("city01"));
-//        std::cerr << foo->operator[] ("city01")->getName () << std::endl;
         BOOST_CHECK (foo->operator[] ("city01")->getName () == "Tokio");
 
         BOOST_CHECK (foo->operator[] ("city02"));

@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE (testGetMethod)
         BOOST_REQUIRE (cls);
         BOOST_REQUIRE_EQUAL (cls->getName (), "Address");
 
-        BOOST_REQUIRE_EQUAL (12, cls->getMethodList ().size ());
+        BOOST_REQUIRE_EQUAL (12u, cls->getMethodList ().size ());
 
         Method *met1 = cls->getMethod ("getStreet", 0);
         Method *met2 = cls->getMethod ("getPostalCode", 0);
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE (testGetMethod)
 /*--------------------------------------------------------------------------*/
 
         cls = Manager::classForName ("City");
-        BOOST_REQUIRE_EQUAL (3, cls->getMethodList ().size ());
+        BOOST_REQUIRE_EQUAL (3U, cls->getMethodList ().size ());
 }
 
 /**

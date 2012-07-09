@@ -64,14 +64,14 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "053-bean-scope-first-tests.xml");
 
         Variant v = cont->getBean ("listaSingleton");
-        BarListPtr *barList = vcast <BarListPtr *> (v);
+        BarList *barList = vcast <BarList *> (v);
         BOOST_CHECK (barList);
 
         BOOST_CHECK (barList->size () == 2);
-        BarListPtr::const_iterator i = barList->begin ();
+        BarList::const_iterator i = barList->begin ();
 
-        Bar *bar1 = *i++;
-        Bar *bar2 = *i;
+        Ptr <Bar> bar1 = *i++;
+        Ptr <Bar> bar2 = *i;
 
         BOOST_CHECK (bar1 != bar2);
 
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
         v = cont->getBean ("listaPrototype");
         BOOST_CHECK (!v.isNone ());
 
-        barList = vcast <BarListPtr *> (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
         bf = bf->getInnerBeanFactory("innerCity2");
         BOOST_CHECK (bf);
 
-        barList = vcast <BarListPtr *> (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -147,23 +147,23 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
         BOOST_CHECK (bar1 != bar2);
 
-        BOOST_CHECK (bar1->getCity());
-        BOOST_CHECK (bar1->getCity3());
+        BOOST_CHECK (bar1->getCity4());
+        BOOST_CHECK (bar1->getCity5());
 
-        BOOST_CHECK (bar2->getCity());
-        BOOST_CHECK (bar2->getCity3());
+        BOOST_CHECK (bar2->getCity4());
+        BOOST_CHECK (bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+        BOOST_CHECK (bar1->getCity4() == bar1->getCity5());
+        BOOST_CHECK (bar2->getCity4() == bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
+        BOOST_CHECK (bar1->getCity4() != bar2->getCity4 ());
 
 /****************************************************************************/
 
         v = cont->getBean ("listaBean2");
         BOOST_CHECK (!v.isNone ());
 
-        barList = vcast <BarListPtr *> (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -173,16 +173,16 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
         BOOST_CHECK (bar1 != bar2);
 
-        BOOST_CHECK (bar1->getCity());
-        BOOST_CHECK (bar1->getCity3());
+        BOOST_CHECK (bar1->getCity4());
+        BOOST_CHECK (bar1->getCity5());
 
-        BOOST_CHECK (bar2->getCity());
-        BOOST_CHECK (bar2->getCity3());
+        BOOST_CHECK (bar2->getCity4());
+        BOOST_CHECK (bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+        BOOST_CHECK (bar1->getCity4() == bar1->getCity5());
+        BOOST_CHECK (bar2->getCity4() == bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
+        BOOST_CHECK (bar1->getCity4() != bar2->getCity4 ());
 }
 
 /**
@@ -203,19 +203,9 @@ BOOST_AUTO_TEST_CASE (test054InnerBeanParent)
 BOOST_AUTO_TEST_CASE (test055MapMetaOverwrite)
 {
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "055-map-meta-overwrite.xml");
-        Variant vB = cont->getBean ("testTool1");
-//        k202::K202Proxy *k202 = vcast <k202::K202Proxy *> (vB);
-//        vB = k202->run ();
-//        BOOST_CHECK (vcast <bool> (vB) == true);
 
-        vB = cont->getBean ("parentMap");
+        Variant vB = cont->getBean ("parentMap");
         BOOST_CHECK_EQUAL (vcast <StringMap *> (vB)->operator[] ("a"), "Test2");
-
-
-//        vB = cont->getBean ("testTool2");
-//        k202 = vcast <k202::K202Proxy *> (vB);
-//        vB = k202->run ();
-//        BOOST_CHECK (vcast <bool> (vB) == true);
 
         vB = cont->getBean ("childMap");
         BOOST_CHECK_EQUAL (vcast <StringMap *> (vB)->operator[] ("a"), "Test34");

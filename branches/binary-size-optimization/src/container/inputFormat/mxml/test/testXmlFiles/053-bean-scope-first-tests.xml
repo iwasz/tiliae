@@ -4,7 +4,7 @@
 <beans>
 
     <!--To jest tylko na rozruch, bean wewnętrzny jest singletonem.-->
-    <bean id="bean" class="Bar">
+    <bean id="bean" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="city4">
@@ -28,7 +28,7 @@
 <!-- ======================================================================================== -->
 
     <!--To jest tylko na rozruch, bean wewnętrzny jest singletonem.-->
-    <bean id="bean4" class="Bar">
+    <bean id="bean4" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="city3">
@@ -52,7 +52,7 @@
 <!-- ======================================================================================== -->
 
     <!--Tutaj mamy innerCity2 ze scope bean. Pierwszy sposób scope-bean.-->
-    <bean id="bean2" class="Bar">
+    <bean id="bean2" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="city4">
@@ -76,7 +76,7 @@
 
 
     <!--Tutaj mamy innerCity2 ze scope bean. Pierwszy sposób scope-bean.-->
-    <bean id="bean3" class="Bar">
+    <bean id="bean3" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="city4">

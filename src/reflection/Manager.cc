@@ -60,8 +60,11 @@ std::string Manager::toString () const
  */
 Manager &Manager::instance ()
 {
-        static Manager *neverDelete = new Manager ();
-        return *neverDelete;
+//        static Manager *neverDelete = new Manager ();
+//        return *neverDelete;
+
+        static Manager reflectionManager;
+        return reflectionManager;
 }
 
 /****************************************************************************/

@@ -18,8 +18,20 @@ namespace Annotations {
 
 AnnotationManager &AnnotationManager::instance ()
 {
-        static AnnotationManager *neverDelete = new AnnotationManager ();
-        return *neverDelete;
+//        static AnnotationManager *neverDelete = new AnnotationManager ();
+//        return *neverDelete;
+        static AnnotationManager annotationMmanager;
+        return annotationMmanager;
+
+}
+
+/****************************************************************************/
+
+AnnotationManager::~AnnotationManager ()
+{
+        for (AnnotationList::iterator i = annotationList.begin (); i != annotationList.end (); ++i) {
+                delete *i;
+        }
 }
 
 /****************************************************************************/

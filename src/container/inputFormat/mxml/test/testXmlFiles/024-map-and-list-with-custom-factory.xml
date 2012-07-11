@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <bean id="reflectionFactory" class="ReflectionFactory"/>
+        <bean id="mapFactory" class="TestFactory"/>
         
-        <map id="mapFactParams" class="VariantMap">
-                <entry key="class" value="StringMap"/>
-        </map>
-        
-        <bean id="mapFactory" class="ProxyFactory">
-                <property name="factory" ref="reflectionFactory"/>
-                <!-- To powinien być embednięty bean. -->
-                <property name="params" ref="mapFactParams"/>
-        </bean>        
-
         <!-- Trochę to zakręcone. -->
         <map id="myMap" factory="mapFactory">
                 <entry key="k1" value="v1"/>
@@ -22,21 +10,4 @@
                 <entry key="k4" value="v4"/>
         </map>
         
-<!-- ========================================================= -->
-
-	<map id="listFactParams" class="VariantMap">
-		<entry key="class" value="StringVector" />
-	</map>
-        
-        <bean id="listFactory" class="ProxyFactory">
-                <property name="factory" ref="reflectionFactory"/>
-                <property name="params" ref="listFactParams"/>
-        </bean>
-
-        <list id="myList" factory="listFactory">
-                <value>v1</value>
-                <value>v2</value>
-                <value>v3</value>
-                <value>v4</value>
-        </list>
 </beans>

@@ -18,7 +18,7 @@ SET (BUILD_K202                0)
 SET (BUILD_SIGNAL              0)
 SET (BUILD_STATE_MACHINE       0)
 SET (BUILD_CONTAINER           1)
-SET (BUILD_DEMO                0)
+SET (BUILD_DEMO                1)
 SET (BUILD_TESTS               1)
 
 #SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 

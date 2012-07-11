@@ -80,6 +80,17 @@ BOOST_AUTO_TEST_CASE (test023BeanWithCustomFactory)
 }
 
 /**
+ * Używana w następnym tescie.
+ */
+class TestFactory : public Factory::IFactory {
+public:
+
+        virtual ~TestFactory () {}
+        Core::Variant create (const Core::VariantMap &parameters, Core::DebugContext *context = NULL) const { return Core::Variant (new Core::StringMap); }
+        REFLECTION_END_(TestFactory)
+};
+
+/**
  *
  */
 BOOST_AUTO_TEST_CASE (test024MapAndListWithCustomFactory)
@@ -99,18 +110,18 @@ BOOST_AUTO_TEST_CASE (test024MapAndListWithCustomFactory)
         BOOST_CHECK (a->operator[] ("k4") == "v4");
 
 // ---------------------
-
-        v = cont->getBean ("myList");
-        BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <StringVector *> (v));
-
-        StringVector *b = vcast <StringVector *> (v);
-        BOOST_CHECK (b->size () == 4);
-
-        BOOST_CHECK (b->operator[] (0) == "v1");
-        BOOST_CHECK (b->operator[] (1) == "v2");
-        BOOST_CHECK (b->operator[] (2) == "v3");
-        BOOST_CHECK (b->operator[] (3) == "v4");
+//
+//        v = cont->getBean ("myList");
+//        BOOST_CHECK (!v.isNone ());
+//        BOOST_CHECK (ccast <StringVector *> (v));
+//
+//        StringVector *b = vcast <StringVector *> (v);
+//        BOOST_CHECK (b->size () == 4);
+//
+//        BOOST_CHECK (b->operator[] (0) == "v1");
+//        BOOST_CHECK (b->operator[] (1) == "v2");
+//        BOOST_CHECK (b->operator[] (2) == "v3");
+//        BOOST_CHECK (b->operator[] (3) == "v4");
 }
 
 /**

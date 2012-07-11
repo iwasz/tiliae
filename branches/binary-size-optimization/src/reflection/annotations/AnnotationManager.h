@@ -28,6 +28,7 @@ namespace Annotations {
 class TILIAE_API AnnotationManager : public Core::IToStringEnabled {
 public:
 
+        virtual ~AnnotationManager ();
         static AnnotationManager &instance ();
 
         /**

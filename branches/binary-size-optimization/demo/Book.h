@@ -19,6 +19,7 @@ class Book : public Core::IToStringEnabled {
 public:
         REFLECTION_CONSTRUCTOR_ (void)
 
+        Book () : author (NULL) {}
         virtual ~Book () {}
 
         std::string const &getIsbn () const { return isbn; }
@@ -27,8 +28,8 @@ public:
         std::string const &getTitle () const { return title; }
         REFLECTION_METHOD (setTitle) void setTitle (std::string const &s) { title = s; }
 
-        Ptr <Author> getAuthor () const { return author; }
-        REFLECTION_METHOD (setAuthor) void setAuthor (Ptr <Author> a) { author = a; }
+        Author *getAuthor () const { return author; }
+        REFLECTION_METHOD (setAuthor) void setAuthor (Author *a) { author = a; }
 
         std::string toString () const { return "Book [" + getTitle () + ", " + getAuthor()->toString () + "]"; }
 
@@ -36,12 +37,12 @@ private:
 
         std::string title;
         std::string isbn;
-        Ptr <Author> author;
+        Author *author;
 
         REFLECTION_END (Book)
 };
 
-typedef std::vector <Ptr <Book> > BookVector;
+typedef std::vector <Book *> BookVector;
 REFLECTION_COLLECTION (BookVector)
 
 #	endif /* BOOK_H_ */

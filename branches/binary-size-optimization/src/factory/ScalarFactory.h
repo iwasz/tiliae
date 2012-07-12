@@ -25,6 +25,16 @@ public:
         virtual ~ScalarFactory () {}
         virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::DebugContext *context = NULL) const;
 
+        /**
+         * Nazwy typów obsługiwanych przez tą fabrykę.
+         */
+        static const char *SUPPORTED_TYPES[];
+
+        /**
+         * Odpowiada na pytanie czy podany typ (podany jako nazwa) jest obsługiwany przez tą fabrykę,
+         * czyli czy umie ona stworzyć skalar tego typu.
+         */
+        static bool isTypeSupported (const char *name);
 };
 
 }

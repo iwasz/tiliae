@@ -6,39 +6,26 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef EDITORSERVICE_H_
-#define EDITORSERVICE_H_
+#ifndef MAPPED_EDITORSERVICE_H_
+#define MAPPED_EDITORSERVICE_H_
 
 #include "beanFactory/service/BeanFactoryService.h"
-
-namespace Factory {
-class IFactory;
-}
+#include "BFMapEditor.h"
 
 namespace Wrapper {
 class BeanWrapper;
-}
-
-namespace Editor {
-class SimpleMapEditor;
-class IndexedEditor;
-}
-
-namespace Editor {
-class IEditor;
 }
 
 namespace Container {
 
 /**
  * Create map-editors for mapped-meta.
- * TODO zmienić nazwę  na MapEditorService
  */
-class EditorService : public BeanFactoryService {
+class MappedEditorService : public BeanFactoryService {
 public:
 
-        EditorService () : currentEditor (NULL), defaultMappedEditor (NULL), noopEditor (NULL), noopNoCopyEditor (NULL), defaultBeanWrapper (NULL) {}
-        virtual ~EditorService () {}
+        MappedEditorService () : currentEditor (NULL), defaultBeanWrapper (NULL) {}
+        virtual ~MappedEditorService () {}
 
         void init (Core::VariantMap *singletons);
 
@@ -52,17 +39,14 @@ public:
 
 private:
 
-        Editor::SimpleMapEditor *createMappedEditor ();
+        BFMapEditor *createMappedEditor ();
 
 private:
 
         // Current mappedEditor / state variables
-        Editor::SimpleMapEditor *currentEditor;
+        BFMapEditor *currentEditor;
 
-        // Singletons
-        Editor::IEditor *defaultMappedEditor;
-        Editor::IEditor *noopEditor;
-        Editor::IEditor *noopNoCopyEditor;
+        // Singleton
         Wrapper::BeanWrapper *defaultBeanWrapper;
 };
 

@@ -7,18 +7,16 @@
  ****************************************************************************/
 
 #include <boost/make_shared.hpp>
-#include "EditorService.h"
+#include "MappedEditorService.h"
 #include "metaStructure/model/MetaStructure.h"
 #include "common/Exceptions.h"
 #include "Defs.h"
 #include "../../../core/variant/Variant.h"
 #include "../../../core/Typedefs.h"
 #include "../../../core/variant/Cast.h"
-#include "../../../editor/LazyEditor.h"
-#include "../../../editor/FactoryEditor.h"
 #include "../../../beanWrapper/beanWrapper/BeanWrapper.h"
-#include "../../../beanWrapper/misc/SimpleMapEditor.h"
-#include "../../../factory/testHelpers/SillyFactory.h"
+#include "../../../factory/ScalarFactory.h"
+#include "../../../editor/LazyEditor.h"
 
 namespace Container {
 using namespace Core;
@@ -28,18 +26,9 @@ using namespace Core;
  * wejściowy. Dzięki temu nie musi ich za kazdym razem szukać. Te singletony służą do
  * konstruowania edytora, który potem ustawia pola nowoutworzonego beana.
  */
-void EditorService::init (Core::VariantMap *singletons)
+void MappedEditorService::init (Core::VariantMap *singletons)
 {
-        Core::Variant v = (*singletons)[DEFAULT_MAPPED_EDITOR_NAME];
-        defaultMappedEditor = ocast <Editor::IEditor *> (v);
-
-        v = (*singletons)[NOOP_EDITOR_NAME];
-        noopEditor = ocast <Editor::IEditor *> (v);
-
-        v = (*singletons)[NOOP_NO_COPY_EDITOR_NAME];
-        noopNoCopyEditor = ocast <Editor::IEditor *> (v);
-
-        v = (*singletons)[BEAN_WRAPPER_W_CONVERSION];
+        Variant v = (*singletons)[BEAN_WRAPPER_W_CONVERSION];
         defaultBeanWrapper = ocast <Wrapper::BeanWrapper *> (v);
 }
 
@@ -50,7 +39,7 @@ void EditorService::init (Core::VariantMap *singletons)
  * ustawiany jest jakiś inny customowy (atrybut editor). Edytor jest ustawiany do
  * odpowiedniego BeanFactory.
  */
-bool EditorService::onMappedMetaBegin (MappedMeta *meta)
+bool MappedEditorService::onMappedMetaBegin (MappedMeta *meta)
 {
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
@@ -85,10 +74,9 @@ bool EditorService::onMappedMetaBegin (MappedMeta *meta)
  * Editor::SimpleMapEditor, która jest potem przypisywana na pole BeanFactory::setEditor.
  * Taki edytor ustawia potem pola nowoutworzonego beana.
  */
-Editor::SimpleMapEditor *EditorService::createMappedEditor ()
+BFMapEditor *MappedEditorService::createMappedEditor ()
 {
-        Editor::SimpleMapEditor *editor = new Editor::SimpleMapEditor ();
-        editor->setDefaultEditor (noopEditor);
+        BFMapEditor *editor = new BFMapEditor ();
         editor->setBeanWrapper (defaultBeanWrapper);
         return editor;
 }
@@ -96,7 +84,7 @@ Editor::SimpleMapEditor *EditorService::createMappedEditor ()
 /**
  * Z tego co pamiętam, to jest jakiś chack, ktory czyści zmienne stanowe.
  */
-void EditorService::onConstructorArgsBegin (IMeta *data)
+void MappedEditorService::onConstructorArgsBegin (IMeta *data)
 {
         currentEditor = NULL;
 }
@@ -104,19 +92,18 @@ void EditorService::onConstructorArgsBegin (IMeta *data)
 /**
  * Z tego co pamiętam, to jest jakiś chack, ktory czyści zmienne stanowe.
  */
-void EditorService::onConstructorArgsEnd (IMeta *data)
+void MappedEditorService::onConstructorArgsEnd (IMeta *data)
 {
         currentEditor = NULL;
 }
 
 /**
- * Tu jest obsługiwana sytuacja, kiedy ktoś poda typ wartości (<value type="xxx">), który
+ * Tu jest obsługiwana sytuacja, kiedy ktoś poda typ wartości (<value type="xyz">), który
  * jest inny niż standardowy zbiór skalarów (int, unsigned int, char, double, bool, string, text).
  * W takim wypadku odszukiwany jest bean o nazwie z atrybutu i wykorzystywany jako edytor.
  * Czyli <b>musi sie dać skastować</b> do Editor::IEditor.
- * TODO Zdublowany kod (chyba chodzi o IndexedEditorService).
  */
-void EditorService::onValueData (std::string const &key, ValueData *data)
+void MappedEditorService::onValueData (std::string const &key, ValueData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest bark pól do edycji
         if (!currentEditor) {
@@ -131,16 +118,7 @@ void EditorService::onValueData (std::string const &key, ValueData *data)
                 return;
         }
 
-        // TODO Z tym stringami to trzeba jakoś sprytniej wymyślić.
-        if (type == "" ||
-                type == "int" ||
-                type == "unsigned int" ||
-                type == "char" ||
-                type == "double" ||
-                type == "bool" ||
-                type == "string" ||
-                type == "String" ||
-                type == "text") {
+        if (type == "" || Factory::ScalarFactory::isTypeSupported (type.c_str ())) {
                 return;
         }
 
@@ -151,8 +129,10 @@ void EditorService::onValueData (std::string const &key, ValueData *data)
                 throw BeanNotFullyInitializedException ("Can't resolve editor for type [" + type + "].");
         }
 
-        // TODO nie skasuje się - wyciek pamięci
-        currentEditor->setEditor (key, new Editor::LazyEditor (beanFactory.get ()));
+        Element element;
+        element.factory = beanFactory.get ();
+        element.type = Element::EDITOR_FROM_BF;
+        currentEditor->setElement (key, element);
 }
 
 /**
@@ -160,9 +140,8 @@ void EditorService::onValueData (std::string const &key, ValueData *data)
  * BeanFactory i tym ID (szukany w obrębie mojegio kontener i zlinkowanych). Następnie
  * ubierane jest w FactoryEditor (bo potrzebny jest edytor, a nie fabryka) i następnie
  * ustawiany do głownego edytora (SimpleMapEditora w tym przypadku).
- * TODO zdublowany kod!
  */
-void EditorService::onRefData (std::string const &key, RefData *data)
+void MappedEditorService::onRefData (std::string const &key, RefData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest brak pól do edycji
         if (!currentEditor) {
@@ -171,41 +150,46 @@ void EditorService::onRefData (std::string const &key, RefData *data)
 
         Ptr <BeanFactory> current = getBVFContext ()->getCurrentBF ();
 
+        // Gdy abstract
         if (!current) {
                 return;
         }
 
         BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-
         std::string referenceName = data->getData ();
-        Factory::IFactory *factory = NULL;
+        Element element;
 
-        // Specjalne referencje
+        // Specjalne referencje (referencja do kontenera).
         if (referenceName == REFERENCE_TO_CONTAINER_ITSELF) {
-                factory = new Factory::SillyFactory (Core::Variant (container));
+                element.singleton = Core::Variant (container);
+                element.type = Element::EXTERNAL_SINGLETON;
         }
-
-        // Zwykłe beany zdefiniowane w XML
         else {
-                factory = container->getBeanFactory (referenceName, current).get ();
-        }
+                Factory::IFactory *factory = container->getBeanFactory (referenceName, current).get ();
 
-        // Singletony w mapie singletons.
-        if (!factory) {
-                Core::VariantMap *singletons = container->getSingletons ();
-                Core::VariantMap::const_iterator i = singletons->find (referenceName);
+                // Zwykłe beany zdefiniowane w XML
+                if (factory) {
+                        element.factory = factory;
+                        element.type = Element::BEAN_FACTORY;
+                }
+                // Szukaj singletonu zewnętrznego w mapie siongletons
+                else {
+                        Core::VariantMap *singletons = container->getSingletons ();
+                        Core::VariantMap::const_iterator i = singletons->find (referenceName);
 
-                if (i != singletons->end ()) {
-                        factory = new Factory::SillyFactory (i->second);
+                        if (i != singletons->end ()) {
+                                element.singleton = i->second;
+                                element.type = Element::EXTERNAL_SINGLETON;
+                        }
+
                 }
         }
 
-        if (!factory) {
+        if (element.type == Element::EMPTY) {
                 throw BeanNotFullyInitializedException ("Can't resolve reference (" + data->getData () + ").");
         }
 
-        // TODO nie skasuje się - wyciek
-        currentEditor->setEditor (key, new Editor::FactoryEditor (noopNoCopyEditor, factory));
+        currentEditor->setElement (key, element);
 }
 
 }

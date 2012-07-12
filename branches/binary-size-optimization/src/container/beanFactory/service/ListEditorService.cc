@@ -15,6 +15,7 @@
 #include "../../../core/Pointer.h"
 #include "../../../beanWrapper/beanWrapper/BeanWrapper.h"
 #include "../../../beanWrapper/misc/IndexedEditor.h"
+#include "../../../factory/ScalarFactory.h"
 
 namespace Container {
 using namespace Core;
@@ -96,8 +97,7 @@ void ListEditorService::onConstructorArgsBegin (IMeta *data)
 
         currentFieldIdx = -1;
 
-        Editor::IndexedEditor *editor = new Editor::IndexedEditor ();
-        editor->setDefaultEditor (defaultIndexedEditor);
+        BFIndexedEditor *editor = new BFIndexedEditor ();
         editor->setBeanWrapper (cArgsBeanWrapper);
 
         currentEditor = editor;
@@ -114,25 +114,15 @@ void ListEditorService::onConstructorArgsEnd (IMeta *data)
 
 /****************************************************************************/
 
-Editor::IndexedEditor *ListEditorService::createIndexedEditor ()
+BFIndexedEditor *ListEditorService::createIndexedEditor ()
 {
-        Editor::IndexedEditor *editor = new Editor::IndexedEditor ();
-        editor->setDefaultEditor (defaultIndexedEditor);
+        BFIndexedEditor *editor = new BFIndexedEditor ();
         editor->setBeanWrapper (defaultBeanWrapper);
         return editor;
 }
 
-
 /****************************************************************************/
 
-//void ListEditorService::onListElem (ListElem *data)
-//{
-//        currentFieldIdx++;
-//}
-
-/****************************************************************************/
-
-// TODO Zdublowny kod!
 void ListEditorService::onValueData (std::string const &key, ValueData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest bark pól do edycji
@@ -148,17 +138,7 @@ void ListEditorService::onValueData (std::string const &key, ValueData *data)
                 return;
         }
 
-        // TODO Z tym stringami to trzeba jakoś sprytinej wymyślić.
-        // TODO To nie może tak być.
-        if (type == "" ||
-                type == "int" ||
-                type == "unsigned int" ||
-                type == "char" ||
-                type == "double" ||
-                type == "bool" ||
-                type == "string" ||
-                type == "String" ||
-                type == "text") {
+        if (type == "" || Factory::ScalarFactory::isTypeSupported (type.c_str ())) {
                 currentFieldIdx++;
                 return;
         }
@@ -170,13 +150,14 @@ void ListEditorService::onValueData (std::string const &key, ValueData *data)
                 throw BeanNotFullyInitializedException ("Can't resolve editor for type [" + type + "].");
         }
 
-        // TODO LazyEditor się nie skasuje.
-        currentEditor->setEditor (++currentFieldIdx, new Editor::LazyEditor (beanFactory.get ()));
+        Element element;
+        element.factory = beanFactory.get ();
+        element.type = Element::EDITOR_FROM_BF;
+        currentEditor->setElement (++currentFieldIdx, element);
 }
 
 /****************************************************************************/
 
-// TODO Zdublowny kod!
 void ListEditorService::onRefData (std::string const &key, RefData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest bark pól do edycji
@@ -186,21 +167,46 @@ void ListEditorService::onRefData (std::string const &key, RefData *data)
 
         Ptr <BeanFactory> current = getBVFContext ()->getCurrentBF ();
 
+        // Gdy abstract
         if (!current) {
-                // Gdy abstract
                 return;
         }
 
         BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-        Ptr <BeanFactory> beanFactory = container->getBeanFactory (data->getData (), current);
+        std::string referenceName = data->getData ();
+        Element element;
 
-        if (!beanFactory) {
-                throw BeanNotFullyInitializedException ("Can't resolve reference (" +
-                                data->getData () + ").");
+        // Specjalne referencje (referencja do kontenera).
+        if (referenceName == REFERENCE_TO_CONTAINER_ITSELF) {
+                element.singleton = Core::Variant (container);
+                element.type = Element::EXTERNAL_SINGLETON;
+        }
+        else {
+                Factory::IFactory *factory = container->getBeanFactory (referenceName, current).get ();
+
+                // Zwykłe beany zdefiniowane w XML
+                if (factory) {
+                        element.factory = factory;
+                        element.type = Element::BEAN_FACTORY;
+                }
+                // Szukaj singletonu zewnętrznego w mapie siongletons
+                else {
+                        Core::VariantMap *singletons = container->getSingletons ();
+                        Core::VariantMap::const_iterator i = singletons->find (referenceName);
+
+                        if (i != singletons->end ()) {
+                                element.singleton = i->second;
+                                element.type = Element::EXTERNAL_SINGLETON;
+                        }
+
+                }
         }
 
-        // TODO FactoryEditor się nie skasuje
-        currentEditor->setEditor (++currentFieldIdx, new Editor::FactoryEditor (noopNoCopyEditor, beanFactory.get ()));
+        if (element.type == Element::EMPTY) {
+                throw BeanNotFullyInitializedException ("Can't resolve reference (" + data->getData () + ").");
+        }
+
+        currentEditor->setElement (++currentFieldIdx, element);
 }
 
 }

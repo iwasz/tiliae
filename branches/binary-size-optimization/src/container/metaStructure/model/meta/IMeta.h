@@ -51,8 +51,6 @@ struct TILIAE_API IMeta {
          * przez atrybuty parent.
          */
         virtual DataVector getConstructorArgs () const = 0;
-//        virtual void setConstructorArgs (const ListElemList &constructorArgs) = 0;
-//        virtual void addConstructorArgs (const ListElemList &constructorArgs) = 0;
         virtual void addConstructorArg (IData *elem) = 0;
 
         virtual Ptr <Attributes> getAttributes () = 0;

@@ -87,12 +87,6 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
         BOOST_CHECK (vcast <std::string> (*i++) == "value3");
 //        BOOST_CHECK (vcast <int> (vl->get (2)) == 6667);
 
-        IEditor *cargsEditor = bf->getCArgsEditor ();
-        BOOST_CHECK (cargsEditor);
-        Editor::IndexedEditor *idxEd = dynamic_cast <Editor::IndexedEditor *> (cargsEditor);
-        BOOST_CHECK (idxEd);
-        BOOST_CHECK (idxEd->getEditor (2));
-
 /****************************************************************************/
 
         Variant v = cont->getBean ("mojBean");

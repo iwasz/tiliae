@@ -16,7 +16,7 @@
 #include "metaStructure/service/MetaVisitor.h"
 #include "metaStructure/service/ParentService.h"
 #include "beanFactory/service/ValueServiceHelper.h"
-#include "beanFactory/service/EditorService.h"
+#include "beanFactory/service/MappedEditorService.h"
 #include "Defs.h"
 #include "ContainerFactory.h"
 #include "beanFactory/service/BeanFactoryService.h"
@@ -104,7 +104,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 updService.setContext (&context);
                 iteration2.addService (&updService);
 
-                EditorService editorService;
+                MappedEditorService editorService;
                 editorService.setContext (&context);
                 editorService.init (singletons);
                 iteration2.addService (&editorService);

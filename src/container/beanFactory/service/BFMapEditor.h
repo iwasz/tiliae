@@ -41,8 +41,7 @@ public:
 
         typedef std::map <std::string, Element> ElementMap;
 
-        BFMapEditor () : defaultEditor (NULL), beanWrapper (NULL) {}
-//        BFMapEditor (EditorMap const &e) : elements (e), defaultEditor (NULL), beanWrapper (NULL) {}
+        BFMapEditor () : /*defaultEditor (NULL),*/ beanWrapper (NULL) {}
         virtual ~BFMapEditor () {}
 
         virtual bool edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
@@ -55,13 +54,13 @@ public:
         void setElement (const std::string &name, Element &e) { elements[name] = e; }
         Element *getElement (const std::string & name);
 
-        void setDefaultEditor (IEditor *editor) { defaultEditor = editor; }
-        IEditor *getDefaultEditor () const { return defaultEditor; }
+protected:
+
+        bool useElement (Element *element, const Core::Variant &input, Core::Variant *output, Core::DebugContext *context);
 
 private:
 
         ElementMap elements;
-        IEditor *defaultEditor;
         Wrapper::BeanWrapper *beanWrapper;
 
 };

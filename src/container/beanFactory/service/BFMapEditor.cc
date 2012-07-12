@@ -23,34 +23,20 @@ bool BFMapEditor::edit (const Core::Variant &input, Core::Variant *output, Core:
 
         for (Common::OrderedVariantMap::const_iterator i = inputMap->begin (); i != inputMap->end (); ++i) {
 
-                Element *element = NULL;
+                Element element;
+                ElementMap::iterator ed = elements.find (i->first);
 
-# if 0
-               std::cerr << vcast <std::string> (p.first) << std::endl;
-#endif
-
-               ElementMap::iterator ed = elements.find (i->first);
-
-               if (ed != elements.end ()) {
+                if (ed != elements.end ()) {
                        element = ed->second;
-               }
-               else if (defaultEditor) {
-                       element = defaultEditor;
-               }
-                else {
-                        continue;
                 }
 
                 Variant outputV;
-                assert (element);
-
-                if (!element->convert (i->second, &outputV, context)) {
+                if (!useElement (&element, i->second, &outputV, context)) {
                         dcError (context, "BFMapEditor : element failed [" + i->first + "].")
                         return false;
                 }
 
-                Variant v = *output;
-                if (!beanWrapper->set (&v, i->first, outputV, context)) {
+                if (!beanWrapper->set (output, i->first, outputV, context)) {
                         dcError (context, "BFMapEditor : beanWrapper set failed [" + i->first + "].")
                         return false;
                 }
@@ -61,10 +47,45 @@ bool BFMapEditor::edit (const Core::Variant &input, Core::Variant *output, Core:
 
 /****************************************************************************/
 
-Element *BFMapEditor::getEditor (const std::string& name)
+bool BFMapEditor::useElement (Element *element, const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
-        ElementMap::const_iterator i = elements.find (name);
-        return (i == elements.end ()) ? (NULL) : (i->second);
+        switch (element->type) {
+        case Element::BEAN_FACTORY:
+                *output = element->factory->create (Core::VariantMap (), context);
+                break;
+
+        case Element::EDITOR_FROM_BF:
+        {
+                Core::Variant vEd = element->factory->create (Core::VariantMap (), context);
+
+                if (!occast <IEditor *> (vEd)) {
+                        dcError (context, "LazyEditor::convert !occast <Ptr <IEditor> > (vEd). vEd : " + vEd.toString ());
+                        return false;
+                }
+
+                IEditor *ed = ocast <IEditor *> (vEd);
+                return ed->convert (input, output, context);
+        }
+        case Element::EXTERNAL_SINGLETON:
+                *output = element->singleton;
+                break;
+
+        case Element::EMPTY:
+        default:
+                *output = input;
+                break;
+
+        }
+
+        return true;
+}
+
+/****************************************************************************/
+
+Element *BFMapEditor::getElement (const std::string& name)
+{
+        ElementMap::iterator i = elements.find (name);
+        return (i == elements.end () ? (NULL) : (&i->second));
 }
 
 

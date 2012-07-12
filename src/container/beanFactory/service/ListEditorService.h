@@ -10,6 +10,7 @@
 #define LISTEDITORSERVICE_H_
 
 #include "beanFactory/service/BeanFactoryService.h"
+#include "BFIndexedEditor.h"
 
 namespace Wrapper {
 class BeanWrapper;
@@ -56,12 +57,12 @@ public:
 
 private:
 
-        Editor::IndexedEditor *createIndexedEditor ();
+        BFIndexedEditor *createIndexedEditor ();
 
 private:
 
         // Current mappedEditor / state variables
-        Editor::IndexedEditor *currentEditor;
+        BFIndexedEditor *currentEditor;
         int currentFieldIdx;
 
         // Singletons

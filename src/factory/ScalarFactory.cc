@@ -349,4 +349,39 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugCo
         return Core::Variant ();
 }
 
+/*
+ * Uwaga - dopisać tu wszystkie typy z metody convertValue.
+ */
+const char *ScalarFactory::SUPPORTED_TYPES[] = {
+                "int",
+                "bool",
+                "char",
+                "signed char",
+                "unsigned char",
+                "double",
+                "long double",
+                "float",
+                "unsigned int",
+                "unsigned long int",
+                "short int",
+                "unsigned short int",
+                "String",
+                "string",
+                "text",
+                NULL
+};
+
+/****************************************************************************/
+
+bool ScalarFactory::isTypeSupported (const char *name)
+{
+        const char *s = NULL;
+        for (int i = 0; (s = SUPPORTED_TYPES[i]); ++i) {
+                if (!strcmp (name, s)) {
+                        return true;
+                }
+        }
+        return false;
+}
+
 }

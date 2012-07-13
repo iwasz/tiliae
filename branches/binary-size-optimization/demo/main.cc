@@ -62,16 +62,22 @@ int main (int argc, char **argv)
                 std::cout << b->toString () << std::endl;
         }
 
-        AuthorMap *a = vcast <AuthorMap *> (container->getBean ("authorMap"));
+        AuthorMap *a = NULL;
 
-        for (AuthorMap::const_iterator i = a->begin (); i != a->end (); ++i) {
-                std::cout << i->first << ", " << i->second->toString () << std::endl;
+        if (container->containsBean ("authorMap")) {
+                a = vcast <AuthorMap *> (container->getBean ("authorMap"));
+
+                for (AuthorMap::const_iterator i = a->begin (); i != a->end (); ++i) {
+                        std::cout << i->first << ", " << i->second->toString () << std::endl;
+                }
         }
 
-        a = vcast <AuthorMap *> (container->getBean ("authorMap2"));
+        if (container->containsBean ("authorMap2")) {
+                a = vcast <AuthorMap *> (container->getBean ("authorMap2"));
 
-        for (AuthorMap::const_iterator i = a->begin (); i != a->end (); ++i) {
-                std::cout << i->first << ", " << i->second->toString () << std::endl;
+                for (AuthorMap::const_iterator i = a->begin (); i != a->end (); ++i) {
+                        std::cout << i->first << ", " << i->second->toString () << std::endl;
+                }
         }
 #endif
 }

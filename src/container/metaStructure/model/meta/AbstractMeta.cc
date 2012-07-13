@@ -46,6 +46,14 @@ AbstractMeta::~AbstractMeta ()
         }
 
         delete constructorArgs;
+
+        if (innerMetas) {
+                for (MetaMap::iterator i = innerMetas->begin (); i != innerMetas->end (); ++i) {
+                        std::cerr << "MetaContainer::delete" << std::endl;
+                        delete i->second;
+                }
+        }
+
         delete innerMetas;
 }
 
@@ -79,6 +87,7 @@ void AbstractMeta::setInnerMetas (const MetaMap &m)
 
 void AbstractMeta::addInnerMeta (IMeta *m)
 {
+        std::cerr << "MetaContainer::add AbstractMeta::addInnerMeta" << std::endl;
         initInnerMetas ();
         innerMetas->operator [] (m->getId ()) = m;
 }

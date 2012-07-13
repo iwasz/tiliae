@@ -16,7 +16,6 @@
 #include "metaStructure/service/MetaVisitor.h"
 #include "metaStructure/service/ParentService.h"
 #include "beanFactory/service/ValueServiceHelper.h"
-#include "beanFactory/service/MappedEditorService.h"
 #include "Defs.h"
 #include "ContainerFactory.h"
 #include "beanFactory/service/BeanFactoryService.h"
@@ -25,7 +24,6 @@
 #include "beanFactory/service/IndexedValueService.h"
 #include "beanFactory/service/FactoryService.h"
 #include "beanFactory/service/BeanStackUpdateService.h"
-#include "beanFactory/service/ListEditorService.h"
 #include "metaStructure/model/meta/IMeta.h"
 #include "../beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
 #include "../beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h"
@@ -43,6 +41,7 @@
 #include "beanFactory/BeanFactoryContext.h"
 #include "../editor/StreamEditor.h"
 #include "../editor/StringFactoryMethodEditor.h"
+#include "beanFactory/service/EditorService.h"
 
 using Editor::StringFactoryMethodEditor;
 
@@ -104,15 +103,10 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 updService.setContext (&context);
                 iteration2.addService (&updService);
 
-                MappedEditorService editorService;
+                EditorService editorService;
                 editorService.setContext (&context);
                 editorService.init (singletons);
                 iteration2.addService (&editorService);
-
-                ListEditorService listEditorService;
-                listEditorService.setContext (&context);
-                listEditorService.init (singletons);
-                iteration2.addService (&listEditorService);
 
                 FactoryService factoryService;
                 factoryService.setContext (&context);

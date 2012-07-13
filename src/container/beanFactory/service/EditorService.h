@@ -6,8 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef LISTEDITORSERVICE_H_
-#define LISTEDITORSERVICE_H_
+#ifndef EDITORSERVICE_H_
+#define EDITORSERVICE_H_
 
 #include "beanFactory/service/BeanFactoryService.h"
 #include "BFIndexedEditor.h"
@@ -16,39 +16,29 @@ namespace Wrapper {
 class BeanWrapper;
 }
 
-namespace Editor {
-class IndexedEditor;
-}
-
 namespace Container {
-
-class IndexedMeta;
-class IMeta;
-class ListElem;
-class ValueData;
-class RefData;
 
 /**
  * Create map-editors for mapped-meta.
  */
-class ListEditorService : public BeanFactoryService {
+class EditorService : public BeanFactoryService {
 public:
 
-        ListEditorService () :
-                currentEditor (NULL),
+        EditorService () :
+                currentMapEditor (NULL),
+                currentIndexedEditor (NULL),
                 currentFieldIdx (-1),
-                defaultIndexedEditor (NULL),
-                noopEditor (NULL),
-                noopNoCopyEditor (NULL),
                 defaultBeanWrapper (NULL),
-                cArgsBeanWrapper (NULL) {}
+                cArgsBeanWrapper (NULL),
+                noopNoCopyEditor (NULL) {}
 
-        virtual ~ListEditorService () {}
-        static Ptr <ListEditorService> create () { return Ptr <ListEditorService> (new ListEditorService); }
+        virtual ~EditorService () {}
+
         void init (Core::VariantMap *singletons);
 
 /*--------------------------------------------------------------------------*/
 
+        virtual bool onMappedMetaBegin (MappedMeta *data);
         virtual bool onIndexedMetaBegin (IndexedMeta *data);
         virtual void onConstructorArgsBegin (IMeta *data);
         virtual void onConstructorArgsEnd (IMeta *data);
@@ -57,22 +47,22 @@ public:
 
 private:
 
+        BFMapEditor *createMappedEditor ();
         BFIndexedEditor *createIndexedEditor ();
 
 private:
 
         // Current mappedEditor / state variables
-        BFIndexedEditor *currentEditor;
+        BFMapEditor *currentMapEditor;
+        BFIndexedEditor *currentIndexedEditor;
         int currentFieldIdx;
 
-        // Singletons
-        Editor::IEditor *defaultIndexedEditor;
-        Editor::IEditor *noopEditor;
-        Editor::IEditor *noopNoCopyEditor;
+        // Singleton
         Wrapper::BeanWrapper *defaultBeanWrapper;
         Wrapper::BeanWrapper *cArgsBeanWrapper;
+        Editor::IEditor *noopNoCopyEditor;
 };
 
 }
 
-#	endif /* LISTEDITORSERVICE_H_ */
+#	endif /* EDITORSERVICE_H_ */

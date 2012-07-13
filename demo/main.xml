@@ -3,7 +3,7 @@
 <beans>
 
     <import resource="../demo/include.xml" />
-    <import resource="../demo/parent.xml" />
+<!--     <import resource="../demo/parent.xml" /> -->
     <import resource="../demo/huge.xml" />
 
     <list id="books" class="BookVector">

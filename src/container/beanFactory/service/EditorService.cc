@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include <boost/make_shared.hpp>
-#include "MappedEditorService.h"
+#include "EditorService.h"
 #include "metaStructure/model/MetaStructure.h"
 #include "common/Exceptions.h"
 #include "Defs.h"
@@ -26,10 +26,16 @@ using namespace Core;
  * wejściowy. Dzięki temu nie musi ich za kazdym razem szukać. Te singletony służą do
  * konstruowania edytora, który potem ustawia pola nowoutworzonego beana.
  */
-void MappedEditorService::init (Core::VariantMap *singletons)
+void EditorService::init (Core::VariantMap *singletons)
 {
         Variant v = (*singletons)[BEAN_WRAPPER_W_CONVERSION];
         defaultBeanWrapper = ocast <Wrapper::BeanWrapper *> (v);
+
+        v = singletons->operator[] (NOOP_NO_COPY_EDITOR_NAME);
+        noopNoCopyEditor = ocast <Editor::IEditor *> (v);
+
+        v = singletons->operator[] (BEAN_WRAPPER_SIMPLE);
+        cArgsBeanWrapper = ocast <Wrapper::BeanWrapper *> (v);
 }
 
 /**
@@ -39,8 +45,11 @@ void MappedEditorService::init (Core::VariantMap *singletons)
  * ustawiany jest jakiś inny customowy (atrybut editor). Edytor jest ustawiany do
  * odpowiedniego BeanFactory.
  */
-bool MappedEditorService::onMappedMetaBegin (MappedMeta *meta)
+bool EditorService::onMappedMetaBegin (MappedMeta *meta)
 {
+        currentFieldIdx = -1;
+        currentIndexedEditor = NULL;
+
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
 
@@ -58,7 +67,7 @@ bool MappedEditorService::onMappedMetaBegin (MappedMeta *meta)
                 editor = new Editor::LazyEditor (fact.get ());
         }
         else {
-                editor = currentEditor = createMappedEditor ();
+                editor = currentMapEditor = createMappedEditor ();
         }
 
         if (!editor) {
@@ -69,32 +78,84 @@ bool MappedEditorService::onMappedMetaBegin (MappedMeta *meta)
         return true;
 }
 
-/**
- * Pomocnicza wykorzystywana w  EditorService::onMappedMetaBegin. Tworzy instancję
- * Editor::SimpleMapEditor, która jest potem przypisywana na pole BeanFactory::setEditor.
- * Taki edytor ustawia potem pola nowoutworzonego beana.
- */
-BFMapEditor *MappedEditorService::createMappedEditor ()
+/****************************************************************************/
+
+bool EditorService::onIndexedMetaBegin (IndexedMeta *meta)
 {
-        BFMapEditor *editor = new BFMapEditor ();
-        editor->setBeanWrapper (defaultBeanWrapper);
-        return editor;
+        currentMapEditor = NULL;
+
+        // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
+        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+
+        if (!beanFactory) {
+                // Gdy abstract
+                return false;
+        }
+
+        currentFieldIdx = -1;
+
+        std::string customEditorName = meta->getEditor ();
+        Editor::IEditor *editor = NULL;
+
+        if (!customEditorName.empty ()) {
+                BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
+                Ptr <BeanFactory> fact = container->getBeanFactory (customEditorName, beanFactory);
+                editor = new Editor::LazyEditor (fact.get ());
+                beanFactory->setEditor (editor, true);
+        }
+        else if (meta->getFields ().empty ()) {
+                editor = noopNoCopyEditor;
+                currentIndexedEditor = NULL;
+                beanFactory->setEditor (editor, false);
+        }
+        else {
+                editor = currentIndexedEditor = createIndexedEditor ();
+                beanFactory->setEditor (editor, true);
+        }
+
+        if (!editor) {
+                throw BeanNotFullyInitializedException ("Can't create editor for BeanFactory. Bean id : (" +
+                        meta->getId () + "), editor name : (" + meta->getEditor () + ").");
+        }
+
+        return true;
 }
 
 /**
  * Z tego co pamiętam, to jest jakiś chack, ktory czyści zmienne stanowe.
  */
-void MappedEditorService::onConstructorArgsBegin (IMeta *data)
+void EditorService::onConstructorArgsBegin (IMeta *data)
 {
-        currentEditor = NULL;
+        currentMapEditor = NULL;
+
+        if (!data || data->getConstructorArgs ().empty ()) {
+                return;
+        }
+
+        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+
+        if (!beanFactory) {
+                // Gdy abstract
+                return;
+        }
+
+        currentFieldIdx = -1;
+
+        BFIndexedEditor *editor = new BFIndexedEditor ();
+        editor->setBeanWrapper (cArgsBeanWrapper);
+
+        currentIndexedEditor = editor;
+        beanFactory->setCArgsEditor (currentIndexedEditor);
 }
 
 /**
  * Z tego co pamiętam, to jest jakiś chack, ktory czyści zmienne stanowe.
  */
-void MappedEditorService::onConstructorArgsEnd (IMeta *data)
+void EditorService::onConstructorArgsEnd (IMeta *data)
 {
-        currentEditor = NULL;
+        currentMapEditor = NULL;
+        currentIndexedEditor = NULL;
+        currentFieldIdx = -1;
 }
 
 /**
@@ -103,10 +164,10 @@ void MappedEditorService::onConstructorArgsEnd (IMeta *data)
  * W takim wypadku odszukiwany jest bean o nazwie z atrybutu i wykorzystywany jako edytor.
  * Czyli <b>musi sie dać skastować</b> do Editor::IEditor.
  */
-void MappedEditorService::onValueData (std::string const &key, ValueData *data)
+void EditorService::onValueData (std::string const &key, ValueData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest bark pól do edycji
-        if (!currentEditor) {
+        if (!currentMapEditor && !currentIndexedEditor) {
                 return;
         }
 
@@ -119,6 +180,10 @@ void MappedEditorService::onValueData (std::string const &key, ValueData *data)
         }
 
         if (type == "" || Factory::ScalarFactory::isTypeSupported (type.c_str ())) {
+                if (currentIndexedEditor) {
+                        ++currentFieldIdx;
+                }
+
                 return;
         }
 
@@ -132,7 +197,13 @@ void MappedEditorService::onValueData (std::string const &key, ValueData *data)
         Element element;
         element.factory = beanFactory.get ();
         element.type = Element::EDITOR_FROM_BF;
-        currentEditor->setElement (key, element);
+
+        if (currentIndexedEditor) {
+                currentIndexedEditor->setElement (++currentFieldIdx, element);
+        }
+        else if (currentMapEditor) {
+                currentMapEditor->setElement (key, element);
+        }
 }
 
 /**
@@ -141,10 +212,10 @@ void MappedEditorService::onValueData (std::string const &key, ValueData *data)
  * ubierane jest w FactoryEditor (bo potrzebny jest edytor, a nie fabryka) i następnie
  * ustawiany do głownego edytora (SimpleMapEditora w tym przypadku).
  */
-void MappedEditorService::onRefData (std::string const &key, RefData *data)
+void EditorService::onRefData (std::string const &key, RefData *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest brak pól do edycji
-        if (!currentEditor) {
+        if (!currentMapEditor && !currentIndexedEditor) {
                 return;
         }
 
@@ -189,7 +260,34 @@ void MappedEditorService::onRefData (std::string const &key, RefData *data)
                 throw BeanNotFullyInitializedException ("Can't resolve reference (" + data->getData () + ").");
         }
 
-        currentEditor->setElement (key, element);
+        if (currentIndexedEditor) {
+                currentIndexedEditor->setElement (++currentFieldIdx, element);
+        }
+        else if (currentMapEditor) {
+                currentMapEditor->setElement (key, element);
+        }
+}
+
+/**
+ * Pomocnicza wykorzystywana w  EditorService::onMappedMetaBegin. Tworzy instancję
+ * Editor::SimpleMapEditor, która jest potem przypisywana na pole BeanFactory::setEditor.
+ * Taki edytor ustawia potem pola nowoutworzonego beana.
+ */
+BFMapEditor *EditorService::createMappedEditor ()
+{
+        BFMapEditor *editor = new BFMapEditor ();
+        editor->setBeanWrapper (defaultBeanWrapper);
+        return editor;
+}
+
+/****************************************************************************/
+
+BFIndexedEditor *EditorService::createIndexedEditor ()
+{
+        BFIndexedEditor *editor = new BFIndexedEditor ();
+        editor->setBeanWrapper (defaultBeanWrapper);
+        return editor;
 }
 
 }
+

@@ -14,6 +14,7 @@ namespace Container {
 MetaContainer::~MetaContainer ()
 {
         for (MetaMap::iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
+                std::cerr << "MetaContainer::delete" << std::endl;
                 delete i->second;
         }
 }
@@ -22,6 +23,7 @@ MetaContainer::~MetaContainer ()
 
 void MetaContainer::add (IMeta *val)
 {
+        std::cerr << "MetaContainer::add" << std::endl;
         metaMap[val->getId ()] = val;
 }
 

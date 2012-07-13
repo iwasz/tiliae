@@ -293,6 +293,7 @@ void Impl::fillMetaArguments (mxml_node_t *node, IMeta *meta)
 
 void Impl::onOpenBean (mxml_node_t *node)
 {
+        std::cerr << "Impl::onOpenBean" << std::endl;
         MappedMeta *meta = pushNewMappedMeta ();
         fillMetaArguments (node, meta);
 }
@@ -301,6 +302,7 @@ void Impl::onOpenBean (mxml_node_t *node)
 
 void Impl::onCloseBean (mxml_node_t *node)
 {
+        std::cerr << "Impl::onCloseBean" << std::endl;
         popCurrentMeta ();
 }
 
@@ -581,6 +583,7 @@ void Impl::onData (mxml_node_t *node)
 
 MappedMeta *Impl::pushNewMappedMeta ()
 {
+        std::cerr << "Impl::pushNew" << std::endl;
         MappedMeta *meta = new MappedMeta ();
         metaStack.push (meta);
         return meta;
@@ -590,6 +593,7 @@ MappedMeta *Impl::pushNewMappedMeta ()
 
 IndexedMeta *Impl::pushNewIndexedMeta ()
 {
+        std::cerr << "Impl::pushNew" << std::endl;
         IndexedMeta *meta = new IndexedMeta ();
         metaStack.push (meta);
         return meta;
@@ -602,15 +606,6 @@ DataKey &Impl::pushNewDataKey ()
         dataKeyStack.push_back (DataKey ());
         return dataKeyStack.back ();
 }
-
-/****************************************************************************/
-
-//Ptr <ListElem> Impl::pushNewListElem ()
-//{
-//        Ptr <ListElem> e = ListElem::create ();
-//        metaElemStack.push (e);
-//        return e;
-//}
 
 /****************************************************************************/
 
@@ -728,6 +723,10 @@ DataKey *Impl::getCurrentDataKey ()
 
 IMeta *Impl::popCurrentMeta ()
 {
+#if 1
+        std::cerr << "Impl::popCurrentMeta" << std::endl;
+#endif
+
         // 1. Pobierz
         IMeta *meta = getCurrentMeta ();
 

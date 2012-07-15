@@ -20,17 +20,18 @@
 #include <boost/multi_index/sequenced_index.hpp>
 #include "common/Exceptions.h"
 #include "common/Attributes.h"
-#include "../../core/string/String.h"
-#include "../../core/Pointer.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/Typedefs.h"
-#include "../../core/IToStringEnabled.h"
-#include "../../factory/IFactory.h"
-#include "../../editor/IEditor.h"
-#include "../../core/ApiMacro.h"
-#include "../../common/collection/OrderedVariantMap.h"
+#include "string/String.h"
+#include "Pointer.h"
+#include "variant/Variant.h"
+#include "Typedefs.h"
+#include "IToStringEnabled.h"
+#include "IFactory.h"
+#include "IEditor.h"
+#include "ApiMacro.h"
+#include "collection/OrderedVariantMap.h"
 #include "StringFactoryMethodEditor.h"
 #include "TypeEditor.h"
+#include "allocator/RegionAllocator.h"
 
 namespace Wrapper {
 class IBeanWrapper;
@@ -195,7 +196,9 @@ struct ToStringHelper {
 class TILIAE_API BeanFactoryContainer : public Core::IToStringEnabled {
 public:
 
-        BeanFactoryContainer (Core::VariantMap *s);
+        BeanFactoryContainer (Core::VariantMap *s, Core::IAllocator *a);
+        virtual ~BeanFactoryContainer ();
+
         virtual std::string toString () const;
 
 /*--------------------------------------------------------------------------*/
@@ -246,6 +249,7 @@ private:
         Ptr <MetaContainer const> metaContainer;
         Editor::StringFactoryMethodEditor *conversionMethodEditor;
         Editor::TypeEditor *typeEditor;
+        Core::IAllocator *allocator;
 
 };
 

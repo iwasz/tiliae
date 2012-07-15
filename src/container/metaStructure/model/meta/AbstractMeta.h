@@ -16,19 +16,6 @@
 
 namespace Container {
 
-//extern TILIAE_API const char *ABSTRACT_ARGUMENT;
-//extern TILIAE_API const char *LAZYINIT_ARGUMENT;
-//extern TILIAE_API const char *ID_ARGUMENT;
-//extern TILIAE_API const char *CLASS_ARGUMENT;
-//extern TILIAE_API const char *PARENT_ARGUMENT;
-//extern TILIAE_API const char *DEPENDSON_ARGUMENT;
-//extern TILIAE_API const char *INITMETHOD_ARGUMENT;
-//extern TILIAE_API const char *FACTORY_ARGUMENT;
-//extern TILIAE_API const char *EDITOR_ARGUMENT;
-//extern TILIAE_API const char *DESCRIPTION_ARGUMENT;
-//extern TILIAE_API const char *OUTER_ARGUMENT;
-//extern TILIAE_API const char *SCOPE_ARGUMENT;
-
 /**
  * W celach implemetacyjnych. Tu jest wspolny kod.
  * \ingroup Container
@@ -81,6 +68,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         MetaMap getInnerMetas () const;
+        IMeta *getInnerMeta (const std::string &key) const;
         void setInnerMetas (const MetaMap &m);
         void addInnerMeta (IMeta *m);
         void addInnerMetaList (const MetaMap &m);
@@ -103,7 +91,6 @@ protected:
 
 private:
 
-//        Scope scope;
         Ptr <Attributes> attributes;
         DataVector *constructorArgs;
         MetaMap *innerMetas;

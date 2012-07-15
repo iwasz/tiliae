@@ -9,23 +9,10 @@
 #include <algorithm>
 #include <iterator>
 #include "AbstractMeta.h"
+#include <boost/algorithm/string/trim.hpp>
+#include "../../../common/Exceptions.h"
 
 namespace Container {
-
-//const char *ABSTRACT_ARGUMENT = "abstract";
-//const char *LAZYINIT_ARGUMENT = "lazyInit";
-//const char *ID_ARGUMENT = "id";
-//const char *CLASS_ARGUMENT = "c";
-//const char *PARENT_ARGUMENT = "parent";
-//const char *DEPENDSON_ARGUMENT = "dependsOn";
-//const char *INITMETHOD_ARGUMENT = "initMethod";
-//const char *FACTORY_ARGUMENT = "factory";
-//const char *EDITOR_ARGUMENT = "editor";
-//const char *DESCRIPTION_ARGUMENT = "description";
-//const char *OUTER_ARGUMENT = "outer";
-//const char *SCOPE_ARGUMENT = "scope";
-
-/*##########################################################################*/
 
 AbstractMeta::AbstractMeta () : parent (NULL),
                                 attributes (boost::make_shared <Attributes> ()),
@@ -49,7 +36,6 @@ AbstractMeta::~AbstractMeta ()
 
         if (innerMetas) {
                 for (MetaMap::iterator i = innerMetas->begin (); i != innerMetas->end (); ++i) {
-                        std::cerr << "MetaContainer::delete" << std::endl;
                         delete i->second;
                 }
         }
@@ -87,8 +73,17 @@ void AbstractMeta::setInnerMetas (const MetaMap &m)
 
 void AbstractMeta::addInnerMeta (IMeta *m)
 {
-        std::cerr << "MetaContainer::add AbstractMeta::addInnerMeta" << std::endl;
         initInnerMetas ();
+
+        // Nie powinno się zdarzyć.
+        if (boost::trim_copy (m->getId ()) == "") {
+                throw ConfigurationException ("AbstractMeta::addInnerMeta : ID is empty. ID should be generated automatically or provided explicitly.");
+        }
+
+        if (getInnerMeta (m->getId ())) {
+                throw ConfigurationException ("AbstractMeta::addInnerMeta : There is already a inner bean with ID [" + m->getId () + "].");
+        }
+
         innerMetas->operator [] (m->getId ()) = m;
 }
 
@@ -99,22 +94,6 @@ void AbstractMeta::addInnerMetaList (const MetaMap &m)
         initInnerMetas ();
         std::copy (m.begin (), m.end (), std::inserter (*innerMetas, innerMetas->end ()));
 }
-
-/****************************************************************************/
-
-//void AbstractMeta::addConstructorArgs (const ListElemList &constructorArgs)
-//{
-//        initConstructorArgs ();
-//        std::copy (constructorArgs.begin (), constructorArgs.end (), std::back_inserter (*this->constructorArgs));
-//}
-//
-///****************************************************************************/
-//
-//void AbstractMeta::setConstructorArgs (const ListElemList &constructorArgs)
-//{
-//        initConstructorArgs ();
-//        *this->constructorArgs = constructorArgs;
-//}
 
 /****************************************************************************/
 
@@ -172,6 +151,35 @@ MetaMap AbstractMeta::getInnerMetas () const
         }
 
         return MetaMap ();
+}
+
+/****************************************************************************/
+
+IMeta *AbstractMeta::getInnerMeta (const std::string &key) const
+{
+        IMeta *ret = NULL;
+
+        if (parent) {
+                ret = parent->getInnerMeta (key);
+
+                if (ret) {
+                        return ret;
+                }
+        }
+
+#if 0
+        std::cerr << getId () << ", parent == false, inner.size () == " << innerMetas.size () << std::endl;
+#endif
+
+        if (innerMetas) {
+                MetaMap::const_iterator i;
+
+                if ((i = innerMetas->find (key)) != innerMetas->end ()) {
+                        return i->second;
+                }
+        }
+
+        return NULL;
 }
 
 }

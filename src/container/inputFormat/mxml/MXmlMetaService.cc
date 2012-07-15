@@ -293,7 +293,6 @@ void Impl::fillMetaArguments (mxml_node_t *node, IMeta *meta)
 
 void Impl::onOpenBean (mxml_node_t *node)
 {
-        std::cerr << "Impl::onOpenBean" << std::endl;
         MappedMeta *meta = pushNewMappedMeta ();
         fillMetaArguments (node, meta);
 }
@@ -302,7 +301,6 @@ void Impl::onOpenBean (mxml_node_t *node)
 
 void Impl::onCloseBean (mxml_node_t *node)
 {
-        std::cerr << "Impl::onCloseBean" << std::endl;
         popCurrentMeta ();
 }
 
@@ -583,7 +581,6 @@ void Impl::onData (mxml_node_t *node)
 
 MappedMeta *Impl::pushNewMappedMeta ()
 {
-        std::cerr << "Impl::pushNew" << std::endl;
         MappedMeta *meta = new MappedMeta ();
         metaStack.push (meta);
         return meta;
@@ -593,7 +590,6 @@ MappedMeta *Impl::pushNewMappedMeta ()
 
 IndexedMeta *Impl::pushNewIndexedMeta ()
 {
-        std::cerr << "Impl::pushNew" << std::endl;
         IndexedMeta *meta = new IndexedMeta ();
         metaStack.push (meta);
         return meta;
@@ -683,50 +679,8 @@ DataKey *Impl::getCurrentDataKey ()
 
 /****************************************************************************/
 
-//Ptr <MapElem> Impl::getCurrentMapElem () const
-//{
-//        Ptr <AbstractElem> elem = getCurrentDataKey ();
-//
-//        if (!elem) {
-//                return Ptr <MapElem> ();
-//        }
-//
-//        Ptr <MapElem> m = boost::dynamic_pointer_cast <MapElem> (elem);
-//
-//        if (!m) {
-//                throw XmlMetaServiceException ("Impl::getCurrentMapElem : Can't cast to MapElem.");
-//        }
-//
-//        return m;
-//}
-//
-///****************************************************************************/
-//
-//Ptr <ListElem> Impl::getCurrentListElem () const
-//{
-//        Ptr <AbstractElem> elem = getCurrentDataKey ();
-//
-//        if (!elem) {
-//                return Ptr <ListElem> ();
-//        }
-//
-//        Ptr <ListElem> m = boost::dynamic_pointer_cast <ListElem> (elem);
-//
-//        if (!m) {
-//                throw XmlMetaServiceException ("Impl::getCurrentListElem : Can't cast to ListElem.");
-//        }
-//
-//        return m;
-//}
-
-/****************************************************************************/
-
 IMeta *Impl::popCurrentMeta ()
 {
-#if 1
-        std::cerr << "Impl::popCurrentMeta" << std::endl;
-#endif
-
         // 1. Pobierz
         IMeta *meta = getCurrentMeta ();
 

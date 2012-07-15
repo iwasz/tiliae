@@ -33,8 +33,6 @@ public:
          * mozna tworzyc beany w XMLu bez podawania ID, to jest
          * tylko i wyłącznie specyfika XML. Metastruktura jest
          * ponad tym.
-         * TODO Wyjątek, jesli Meta o danym ID juz istnieje -
-         * w tym miejscu, czyli najwczesniej!
          */
         void add (IMeta *val);
 

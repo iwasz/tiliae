@@ -77,6 +77,7 @@ IF(BUILD_CORE)
     AUX_SOURCE_DIRECTORY (../src/core LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/core/variant LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/core/string LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/core/allocator LIB_SOURCES)
     
     INCLUDE_DIRECTORIES (../src/core/)
    

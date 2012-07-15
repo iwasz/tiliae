@@ -90,6 +90,7 @@ struct TILIAE_API IMeta {
 /*--------------------------------------------------------------------------*/
 
         virtual MetaMap getInnerMetas () const = 0;
+        virtual IMeta *getInnerMeta (const std::string &key) const = 0;
         virtual void setInnerMetas (const MetaMap &m) = 0;
         virtual void addInnerMeta (IMeta *m) = 0;
         virtual void addInnerMetaList (const MetaMap &m) = 0;

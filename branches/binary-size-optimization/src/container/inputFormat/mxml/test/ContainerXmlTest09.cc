@@ -62,8 +62,7 @@ BOOST_AUTO_TEST_CASE (test042EmptyMapKey)
  */
 BOOST_AUTO_TEST_CASE (test043MultipleIdBean)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "043-multiple-id-bean.xml");
-        Variant vB = cont->getBean ("zcity");
+        BOOST_REQUIRE_THROW(ContainerTestFactory::getContainer (PATH + "043-multiple-id-bean.xml"), Core::Exception);
 }
 
 /**

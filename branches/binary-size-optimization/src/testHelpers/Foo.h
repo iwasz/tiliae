@@ -13,6 +13,7 @@
 #include "Reflection.h"
 #include "../core/string/String.h"
 #include "../core/ApiMacro.h"
+#include "Address.h"
 
 /****************************************************************************/
 

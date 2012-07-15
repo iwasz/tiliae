@@ -29,8 +29,8 @@ struct TILIAE_API ContainerException : public Core::Exception {
  * o nieistniejącym ID.
  * \ingroup Container
  */
-struct TILIAE_API NoSuchBeanException : public Core::Exception {
-        NoSuchBeanException (std::string const &m = "") : Core::Exception (m) {}
+struct TILIAE_API NoSuchBeanException : public ContainerException {
+        NoSuchBeanException (std::string const &m = "") : ContainerException (m) {}
         virtual ~NoSuchBeanException () throw () {}
 };
 
@@ -45,8 +45,8 @@ struct TILIAE_API TooDeepNestingException : public ContainerException {
  * which are not available yet.
  * \ingroup Container
  */
-struct TILIAE_API BeanNotFullyInitializedException : public Core::Exception {
-        BeanNotFullyInitializedException (std::string const &s = "") : Core::Exception (s) {}
+struct TILIAE_API BeanNotFullyInitializedException : public ContainerException {
+        BeanNotFullyInitializedException (std::string const &s = "") : ContainerException (s) {}
 //        virtual ~BeanNotFullyInitializedException throw () {}
 };
 
@@ -55,8 +55,8 @@ struct TILIAE_API BeanNotFullyInitializedException : public Core::Exception {
  * z XMla.
  * \ingroup Container
  */
-struct TILIAE_API XmlMetaServiceException : public Core::Exception {
-        XmlMetaServiceException (std::string const &msg = "") : Core::Exception (msg) {}
+struct TILIAE_API XmlMetaServiceException : public ContainerException {
+        XmlMetaServiceException (std::string const &msg = "") : ContainerException (msg) {}
 //        virtual ~XmlMetaServiceException throw () {}
 };
 
@@ -66,9 +66,17 @@ struct TILIAE_API XmlMetaServiceException : public Core::Exception {
  * można znaleźć pasującego edytora.
  * \ingroup Container
  */
-struct TILIAE_API WrongEditorTypeException : public Core::Exception {
-        WrongEditorTypeException (std::string const &msg = "") : Core::Exception (msg) {}
+struct TILIAE_API WrongEditorTypeException : public ContainerException {
+        WrongEditorTypeException (std::string const &msg = "") : ContainerException (msg) {}
         virtual ~WrongEditorTypeException () throw () {}
+};
+
+/**
+ * Zła konfiguracja XML, lub meta-struktury.
+ */
+struct TILIAE_API ConfigurationException : public ContainerException {
+        ConfigurationException (std::string const &msg = "") : ContainerException (msg) {}
+        virtual ~ConfigurationException () throw () {}
 };
 
 }

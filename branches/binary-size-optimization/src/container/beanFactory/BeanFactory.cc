@@ -375,13 +375,20 @@ std::string ToStringHelper::toString (const BeanFactoryList &bfl)
 
 /*##########################################################################*/
 
-BeanFactoryContainer::BeanFactoryContainer (Core::VariantMap *s) : singletons (s), linked (NULL)
+BeanFactoryContainer::BeanFactoryContainer (Core::VariantMap *s, Core::IAllocator *a) : singletons (s), linked (NULL), allocator (a)
 {
         assert (s);
         conversionMethodEditor = vcast <Editor::StringFactoryMethodEditor *> (s->operator [](MAIN_METHOD_CONVERSION_EDITOR));
         typeEditor = vcast <Editor::TypeEditor *> (s->operator [](MAIN_TYPE_EDITOR));
         assert (conversionMethodEditor);
         assert (typeEditor);
+}
+
+/****************************************************************************/
+
+BeanFactoryContainer::~BeanFactoryContainer ()
+{
+        delete allocator;
 }
 
 /****************************************************************************/

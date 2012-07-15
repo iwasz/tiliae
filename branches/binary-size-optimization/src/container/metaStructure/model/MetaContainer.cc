@@ -8,13 +8,13 @@
 
 #include "MetaContainer.h"
 #include "common/Exceptions.h"
+#include <boost/algorithm/string/trim.hpp>
 
 namespace Container {
 
 MetaContainer::~MetaContainer ()
 {
         for (MetaMap::iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
-                std::cerr << "MetaContainer::delete" << std::endl;
                 delete i->second;
         }
 }
@@ -23,7 +23,14 @@ MetaContainer::~MetaContainer ()
 
 void MetaContainer::add (IMeta *val)
 {
-        std::cerr << "MetaContainer::add" << std::endl;
+        if (boost::trim_copy (val->getId ()) == "") {
+                throw ConfigurationException ("MetaContainer::add : ID is empty. Root level beans must have proper ID.");
+        }
+
+        if (get (val->getId ())) {
+                throw ConfigurationException ("MetaContainer::add : There is already a bean with ID [" + val->getId () + "].");
+        }
+
         metaMap[val->getId ()] = val;
 }
 

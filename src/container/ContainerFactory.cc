@@ -165,8 +165,8 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCon
                                                      bool storeMetaContainer,
                                                      BeanFactoryContainer *linkedParent)
 {
-        Core::IAllocator *allocator = new Core::RegionAllocator ();
-        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> (createSingletons (), allocator);
+//        Core::IAllocator *allocator = new Core::RegionAllocator ();
+        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> (createSingletons ());
 
         if (linkedParent) {
                 container->setLinked (linkedParent);
@@ -194,53 +194,34 @@ Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (Ptr <MetaContainer> 
 
 /****************************************************************************/
 
-//template <typename T>
-//T *alloc (Core::IAllocator *allocator)
-//{
-//        return new (allocator->malloc (sizeof (T))) T ();
-//}
-//
-//template <typename T, typename A1>
-//T *alloc (Core::IAllocator *allocator, A1 const &a1)
-//{
-//        return new (allocator->malloc (sizeof (T))) T (a1);
-//}
-
-Core::VariantMap *ContainerFactory::createSingletons (/*Core::IAllocator *allocator*/)
+Core::VariantMap *ContainerFactory::createSingletons ()
 {
-//        assert (allocator);
         Core::VariantMap *map = new Core::VariantMap ();
         Editor::IEditor *noop = new Editor::NoopEditor ();
 
 
         map->operator[] (DEFAULT_MAPPED_EDITOR_NAME) = Core::Variant (noop);
-        map->operator[] (DEFAULT_MAPPED_EDITOR_NAME).setDeleter (new Core::PtrDeleter <Editor::NoopEditor>);
+//        map->operator[] (DEFAULT_MAPPED_EDITOR_NAME).setDeleter (new Core::PtrDeleter <Editor::NoopEditor>);
 
         map->operator[] (DEFAULT_INDEXED_EDITOR_NAME) = Core::Variant (noop);
         map->operator[] (NOOP_EDITOR_NAME) = Core::Variant (noop);
-        map->operator[] (NOOP_NO_COPY_EDITOR_NAME) = Core::Variant (alloc <Editor::NoopEditor> (allocator, false));
+        map->operator[] (NOOP_NO_COPY_EDITOR_NAME) = Core::Variant (new Editor::NoopEditor (false));
 
         // Dodaj reflection factory.
-        Factory::ScalarFactory *factS = alloc <Factory::ScalarFactory> (allocator);
-        Factory::ReflectionFactory *factR = alloc <Factory::ReflectionFactory> (allocator);
-        Factory::ChainFactory *fact = alloc <Factory::ChainFactory> (allocator);
+        Factory::ScalarFactory *factS = new Factory::ScalarFactory ();
+        Factory::ReflectionFactory *factR = new Factory::ReflectionFactory ();
+        Factory::ChainFactory *fact = new Factory::ChainFactory (true);
         fact->addFactory (factS);
         fact->addFactory (factR);
 
         map->operator[] (DEFAULT_SINGLETON_FACTORY_NAME) = Core::Variant (fact);
         map->operator[] (DEFAULT_VALUE_FACTORY_NAME) = Core::Variant (factS);
+        map->operator[] (BEAN_WRAPPER_SIMPLE) = Core::Variant (Wrapper::BeanWrapper::create ());
 
-        BeanWrapper *beanWrapper = alloc <BeanWrapper> (allocator);
-        beanWrapper->addPlugin (alloc <PropertyRWBeanWrapperPlugin> (allocator));
-        beanWrapper->addPlugin (alloc <GetPutMethodRWBeanWrapperPlugin> (allocator));
-        beanWrapper->addPlugin (alloc <MethodPlugin> (allocator, MethodPlugin::METHOD));
-
-        map->operator[] (BEAN_WRAPPER_SIMPLE) = Core::Variant (beanWrapper);
-
-        beanWrapper = alloc <BeanWrapper> (allocator);
-        beanWrapper->addPlugin (alloc <PropertyRWBeanWrapperPlugin> (allocator));
-        beanWrapper->addPlugin (alloc <GetPutMethodRWBeanWrapperPlugin> (allocator));
-        beanWrapper->addPlugin (alloc <MethodPlugin> (allocator, MethodPlugin::IMMEDIATE_CALL));
+        BeanWrapper *beanWrapper = new BeanWrapper (true);
+        beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::IMMEDIATE_CALL));
 
 /*--------------------------------------------------------------------------*/
 

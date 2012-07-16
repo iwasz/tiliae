@@ -44,16 +44,13 @@ BOOST_AUTO_TEST_CASE (test001SimplestBeanFirst)
 
 BOOST_AUTO_TEST_CASE (test001SimplestBean)
 {
-//        Ptr <BeanFactoryContainer> beanContainer = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "002-simplest-bean-value-string.xml"));
-//
-//        Ptr <City> c = vcast <Ptr <City> > (beanContainer->getBean ("city1"));
-//        BOOST_REQUIRE_EQUAL (c->getName (), "Warszawa");
-//
-//        c = vcast <Ptr <City> > (beanContainer->getBean ("city2"));
-//        BOOST_REQUIRE_EQUAL (c->getName (), "Kraków");
-//
-//        c = vcast <Ptr <City> > (beanContainer->getBean ("city3"));
-//        BOOST_REQUIRE_EQUAL (c->getName (), "Paris");
+        Ptr <BeanFactoryContainer> beanContainer = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "002-simplest-bean-value-string.xml"));
+
+        City *c = vcast <City *> (beanContainer->getBean ("city1"));
+        BOOST_REQUIRE_EQUAL (c->getName (), "Warszawa");
+
+        c = vcast <City *> (beanContainer->getBean ("city3"));
+        BOOST_REQUIRE_EQUAL (c->getName (), "Paris");
 }
 
 

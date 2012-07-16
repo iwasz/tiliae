@@ -375,7 +375,7 @@ std::string ToStringHelper::toString (const BeanFactoryList &bfl)
 
 /*##########################################################################*/
 
-BeanFactoryContainer::BeanFactoryContainer (Core::VariantMap *s, Core::IAllocator *a) : singletons (s), linked (NULL), allocator (a)
+BeanFactoryContainer::BeanFactoryContainer (Core::VariantMap *s/*, Core::IAllocator *a*/) : singletons (s), linked (NULL)//, allocator (a)
 {
         assert (s);
         conversionMethodEditor = vcast <Editor::StringFactoryMethodEditor *> (s->operator [](MAIN_METHOD_CONVERSION_EDITOR));
@@ -388,7 +388,7 @@ BeanFactoryContainer::BeanFactoryContainer (Core::VariantMap *s, Core::IAllocato
 
 BeanFactoryContainer::~BeanFactoryContainer ()
 {
-        delete allocator;
+//        delete allocator;
 }
 
 /****************************************************************************/

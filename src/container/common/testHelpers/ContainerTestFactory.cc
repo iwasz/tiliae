@@ -1008,7 +1008,6 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
         meta00->setClass ("City");
         meta00->addField (DataKey ("name", new ValueData ("Wilno", "String")));
         metaCont->add (meta00);
-        metaCont->add (child);
 
         return metaCont;
 }

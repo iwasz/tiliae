@@ -196,7 +196,7 @@ struct ToStringHelper {
 class TILIAE_API BeanFactoryContainer : public Core::IToStringEnabled {
 public:
 
-        BeanFactoryContainer (Core::VariantMap *s, Core::IAllocator *a);
+        BeanFactoryContainer (Core::VariantMap *s/*, Core::IAllocator *a*/);
         virtual ~BeanFactoryContainer ();
 
         virtual std::string toString () const;
@@ -249,7 +249,7 @@ private:
         Ptr <MetaContainer const> metaContainer;
         Editor::StringFactoryMethodEditor *conversionMethodEditor;
         Editor::TypeEditor *typeEditor;
-        Core::IAllocator *allocator;
+//        Core::IAllocator *allocator;
 
 };
 

@@ -42,6 +42,7 @@
 #include "../editor/StreamEditor.h"
 #include "../editor/StringFactoryMethodEditor.h"
 #include "beanFactory/service/EditorService.h"
+#include "variant/PtrDeleter.h"
 
 using Editor::StringFactoryMethodEditor;
 
@@ -165,7 +166,7 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCon
                                                      BeanFactoryContainer *linkedParent)
 {
         Core::IAllocator *allocator = new Core::RegionAllocator ();
-        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> (createSingletons (allocator), allocator);
+        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> (createSingletons (), allocator);
 
         if (linkedParent) {
                 container->setLinked (linkedParent);
@@ -193,25 +194,28 @@ Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (Ptr <MetaContainer> 
 
 /****************************************************************************/
 
-template <typename T>
-T *alloc (Core::IAllocator *allocator)
-{
-        return new (allocator->malloc (sizeof (T))) T ();
-}
+//template <typename T>
+//T *alloc (Core::IAllocator *allocator)
+//{
+//        return new (allocator->malloc (sizeof (T))) T ();
+//}
+//
+//template <typename T, typename A1>
+//T *alloc (Core::IAllocator *allocator, A1 const &a1)
+//{
+//        return new (allocator->malloc (sizeof (T))) T (a1);
+//}
 
-template <typename T, typename A1>
-T *alloc (Core::IAllocator *allocator, A1 const &a1)
+Core::VariantMap *ContainerFactory::createSingletons (/*Core::IAllocator *allocator*/)
 {
-        return new (allocator->malloc (sizeof (T))) T (a1);
-}
+//        assert (allocator);
+        Core::VariantMap *map = new Core::VariantMap ();
+        Editor::IEditor *noop = new Editor::NoopEditor ();
 
-Core::VariantMap *ContainerFactory::createSingletons (Core::IAllocator *allocator)
-{
-        assert (allocator);
-        Core::VariantMap *map = alloc <Core::VariantMap> (allocator);
-        Editor::IEditor *noop = alloc <Editor::NoopEditor> (allocator);
 
         map->operator[] (DEFAULT_MAPPED_EDITOR_NAME) = Core::Variant (noop);
+        map->operator[] (DEFAULT_MAPPED_EDITOR_NAME).setDeleter (new Core::PtrDeleter <Editor::NoopEditor>);
+
         map->operator[] (DEFAULT_INDEXED_EDITOR_NAME) = Core::Variant (noop);
         map->operator[] (NOOP_EDITOR_NAME) = Core::Variant (noop);
         map->operator[] (NOOP_NO_COPY_EDITOR_NAME) = Core::Variant (alloc <Editor::NoopEditor> (allocator, false));

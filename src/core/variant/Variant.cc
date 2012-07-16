@@ -17,7 +17,8 @@ using namespace boost;
 
 Variant::Variant () :
         type (NONE),
-        ti (0)
+        ti (0),
+        deleter (NULL)
 {
 }
 
@@ -26,6 +27,7 @@ Variant::Variant () :
 Variant::Variant (bool const &j) :
         type (BOOL),
         ti (&typeid (bool &)),
+        deleter (NULL),
         b (j)
 {
 }
@@ -35,6 +37,7 @@ Variant::Variant (bool const &j) :
 Variant::Variant (char const &j) :
         type (CHAR),
         ti (&typeid (char &)),
+        deleter (NULL),
         c (j)
 {
 }
@@ -44,6 +47,7 @@ Variant::Variant (char const &j) :
 Variant::Variant (unsigned char const &j) :
         type (UNSIGNED_CHAR),
         ti (&typeid (unsigned char &)),
+        deleter (NULL),
         uc (j)
 {
 }
@@ -53,6 +57,7 @@ Variant::Variant (unsigned char const &j) :
 Variant::Variant (double const &j) :
         type (DOUBLE),
         ti (&typeid (double &)),
+        deleter (NULL),
         d (j)
 {
 }
@@ -62,6 +67,7 @@ Variant::Variant (double const &j) :
 Variant::Variant (long double const &j) :
         type (LONG_DOUBLE),
         ti (&typeid (long double &)),
+        deleter (NULL),
         ld (j)
 {
 }
@@ -71,6 +77,7 @@ Variant::Variant (long double const &j) :
 Variant::Variant (float const &j) :
         type (FLOAT),
         ti (&typeid (float &)),
+        deleter (NULL),
         f (j)
 {
 }
@@ -80,6 +87,7 @@ Variant::Variant (float const &j) :
 Variant::Variant (int const &j) :
         type (INT),
         ti (&typeid (int &)),
+        deleter (NULL),
         i (j)
 {
 }
@@ -89,6 +97,7 @@ Variant::Variant (int const &j) :
 Variant::Variant (unsigned int const &j) :
         type (UNSIGNED_INT),
         ti (&typeid (unsigned int &)),
+        deleter (NULL),
         ui (j)
 {
 }
@@ -98,6 +107,7 @@ Variant::Variant (unsigned int const &j) :
 Variant::Variant (long int const &j) :
         type (LONG_INT),
         ti (&typeid (long int &)),
+        deleter (NULL),
         li (j)
 {
 }
@@ -107,6 +117,7 @@ Variant::Variant (long int const &j) :
 Variant::Variant (unsigned long int const &j) :
         type (UNSIGNED_LONG_INT),
         ti (&typeid (unsigned long int &)),
+        deleter (NULL),
         uli (j)
 {
 }
@@ -116,6 +127,7 @@ Variant::Variant (unsigned long int const &j) :
 Variant::Variant (short int const &j) :
         type (SHORT_INT),
         ti (&typeid (short int &)),
+        deleter (NULL),
         si (j)
 {
 }
@@ -125,6 +137,7 @@ Variant::Variant (short int const &j) :
 Variant::Variant (unsigned short int const &j) :
         type (UNSIGNED_SHORT_INT),
         ti (&typeid (unsigned short int &)),
+        deleter (NULL),
         usi (j)
 {
 }
@@ -134,14 +147,15 @@ Variant::Variant (unsigned short int const &j) :
 Variant::Variant (std::string const &j) :
         type (STRING),
         ti (&typeid (std::string &)),
-        sptr (boost::make_shared <std::string> (j))
+        sptr (boost::make_shared <std::string> (j)),
+        deleter (NULL)
 {
 }
 
 Variant::Variant (std::string *j) :
         type (STRING_POINTER),
         ti (&typeid (std::string &)),
-//        sptr (boost::make_shared <std::string> (*j))
+        deleter (NULL),
         ptr (j)
 {
 }
@@ -149,7 +163,7 @@ Variant::Variant (std::string *j) :
 Variant::Variant (std::string const *j) :
         type (STRING_POINTER_CONST),
         ti (&typeid (std::string &)),
-//        sptr (boost::make_shared <std::string> (*j))
+        deleter (NULL),
         cptr (j)
 {
 }
@@ -159,7 +173,8 @@ Variant::Variant (std::string const *j) :
 Variant::Variant (const char *s) :
         type (STRING),
         ti (&typeid (std::string &)),
-        sptr (boost::make_shared <std::string> (s))
+        sptr (boost::make_shared <std::string> (s)),
+        deleter (NULL)
 {
 
 }
@@ -169,13 +184,15 @@ Variant::Variant (const char *s) :
 Variant::Variant (Core::String const &j) :
         type (USTRING),
         ti (&typeid (Core::String &)),
-        sptr (boost::make_shared <Core::String> (j))
+        sptr (boost::make_shared <Core::String> (j)),
+        deleter (NULL)
 {
 }
 
 Variant::Variant (Core::String *j) :
         type (USTRING_POINTER),
         ti (&typeid (Core::String &)),
+        deleter (NULL),
         ptr (j)
 {
 }
@@ -183,8 +200,21 @@ Variant::Variant (Core::String *j) :
 Variant::Variant (Core::String const *j) :
         type (USTRING_POINTER_CONST),
         ti (&typeid (Core::String &)),
+        deleter (NULL),
         cptr (j)
 {
+}
+
+/****************************************************************************/
+
+Variant::~Variant ()
+{
+        if (!deleter) {
+                return;
+        }
+
+        deleter->free (*this);
+        delete deleter;
 }
 
 /****************************************************************************/

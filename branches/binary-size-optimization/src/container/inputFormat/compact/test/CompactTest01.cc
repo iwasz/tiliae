@@ -17,7 +17,7 @@
 #include "common/testHelpers/ContainerTestFactory.h"
 #include "../CompactMetaService.h"
 #include "Conf.h"
-#include "../../../../testHelpers/City.h"
+#include <TestHelpers.h>
 
 /****************************************************************************/
 
@@ -53,5 +53,53 @@ BOOST_AUTO_TEST_CASE (test001SimplestBean)
         BOOST_REQUIRE_EQUAL (c->getName (), "Paris");
 }
 
+BOOST_AUTO_TEST_CASE (test003SimplestBeanValueText)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "003-simplest-bean-value-text.xml"));
+
+        Variant vB = cont->getBean ("city");
+        BOOST_CHECK (ccast <City *> (vB));
+
+        City *cit = vcast <City *> (vB);
+        BOOST_CHECK (cit);
+        BOOST_CHECK (cit->getName () == "Warszawa");
+}
+
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (test004SimplestBeanValueEmpty)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "004-simplest-bean-value-empty.xml"));
+
+        Variant vB = cont->getBean ("city");
+        BOOST_CHECK (ccast <City *> (vB));
+
+        City *cit = vcast <City *> (vB);
+        BOOST_CHECK (cit);
+        BOOST_CHECK (cit->getName () == "Warszawa");
+}
+
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (test005LittleBitMoreComplicatedBean)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "005-little-more-complicated-bean.xml"));
+
+        Variant v = cont->getBean ("mojBean");
+        BOOST_CHECK (!v.isNone ());
+        BOOST_CHECK (ccast <Foo *> (v));
+
+        Foo *foo = vcast <Foo *> (v);
+
+        BOOST_CHECK (foo->getField0 () == "value0");
+        BOOST_CHECK (foo->getField1 () == "value1");
+        BOOST_CHECK (foo->getField2 () == 6678);
+        BOOST_CHECK (foo->getField3 () == 12.34);
+        BOOST_CHECK (foo->getField4 () == 'g');
+        BOOST_CHECK (foo->getField5 () == true);
+        BOOST_CHECK (foo->getField6 () == 0);
+}
 
 BOOST_AUTO_TEST_SUITE_END ();

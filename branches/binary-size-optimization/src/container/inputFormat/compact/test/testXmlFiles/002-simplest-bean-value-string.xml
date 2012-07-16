@@ -5,13 +5,14 @@
         <City id="city1" name="Warszawa" />
 
         <!-- 2 -->
-        <City id="city2">
-                <set name="Kraków" />
-        </City>
+<!-- Z tego formatu rezygnuję. Wystarczą 2 -->        
+<!--         <City id="city2"> -->
+<!--                 <set name="Kraków" /> -->
+<!--         </City> -->
 
         <!-- 3 -->
         <City id="city3">
-                <value set="name" type="String">Paris</value>
+                <value set-as="name" type="String">Paris</value>
         </City>
 
 </beans>

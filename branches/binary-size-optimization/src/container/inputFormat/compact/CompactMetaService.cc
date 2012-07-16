@@ -468,14 +468,7 @@ void Impl::onCloseRef (mxml_node_t *node)
 
 void Impl::onOpenValue (mxml_node_t *node)
 {
-        DataKey *elem = NULL;
-
-        if (getPrevTag () == "list") {
-                elem = &pushNewDataKey ();
-        }
-        else {
-                elem = getCurrentDataKey ();
-        }
+        DataKey *elem = &pushNewDataKey ();
 
         ValueData *valueData = new ValueData ();
         elem->data = valueData;
@@ -627,15 +620,6 @@ DataKey &Impl::pushNewDataKey ()
         dataKeyStack.push_back (DataKey ());
         return dataKeyStack.back ();
 }
-
-/****************************************************************************/
-
-//Ptr <ListElem> Impl::pushNewListElem ()
-//{
-//        Ptr <ListElem> e = ListElem::create ();
-//        metaElemStack.push (e);
-//        return e;
-//}
 
 /****************************************************************************/
 

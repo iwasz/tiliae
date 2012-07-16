@@ -475,7 +475,14 @@ void Impl::onOpenValue (mxml_node_t *node)
 
         char const *argVal = NULL;
 
-        if ((argVal = mxmlElementGetAttr (node, "type"))) {
+        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
+                elem->key = argVal;
+        }
+        // TODO to jakoś inaczej będzie obsługiwane
+        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
+                elem->key = argVal;
+        }
+        else if ((argVal = mxmlElementGetAttr (node, "type"))) {
                 valueData->setType (argVal);
         }
 }
@@ -484,7 +491,13 @@ void Impl::onOpenValue (mxml_node_t *node)
 
 void Impl::onCloseValue (mxml_node_t *node)
 {
-        if (getPrevTag () == "list") {
+        DataKey *dk = getCurrentDataKey ();
+
+        // Jest klucz, czyli dodajemy do mapy, lub beana.
+        if (!dk->key.empty ()) {
+                popCurrentDataKeyAddToMapped ();
+        }
+        else {
                 popCurrentDataKeyAddToIndexed ();
         }
 }
@@ -493,13 +506,26 @@ void Impl::onCloseValue (mxml_node_t *node)
 
 void Impl::onOpenNull (mxml_node_t *node)
 {
-        if (getPrevTag () == "list") {
-                IndexedMeta *meta = getCurrentIndexedMeta ();
-                meta->addField (new NullData ());
+        DataKey *elem = &pushNewDataKey ();
+
+        NullData *nullData = new NullData ();
+        elem->data = nullData;
+
+        char const *argVal = NULL;
+
+        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
+                elem->key = argVal;
+        }
+        // TODO to jakoś inaczej będzie obsługiwane
+        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
+                elem->key = argVal;
+        }
+
+        if (!elem->key.empty ()) {
+                popCurrentDataKeyAddToMapped ();
         }
         else {
-                DataKey *elem = getCurrentDataKey ();
-                elem->data = new NullData ();
+                popCurrentDataKeyAddToIndexed ();
         }
 }
 

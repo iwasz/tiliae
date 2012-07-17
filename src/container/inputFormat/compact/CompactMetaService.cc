@@ -224,7 +224,8 @@ void Impl::onCloseElement (mxml_node_t *node)
         else if (!strcmp (name, "carg")) {
                 onCloseCArg (node);
         }
-        else if (!strcmp (name, "beans")) {
+        else if (!strcmp (name, "beans") || !strcmp (name, "null")) {
+                // Ignore
         }
         else {
                 onCloseBean (node);
@@ -482,7 +483,8 @@ void Impl::onOpenValue (mxml_node_t *node)
         else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
                 elem->key = argVal;
         }
-        else if ((argVal = mxmlElementGetAttr (node, "type"))) {
+
+        if ((argVal = mxmlElementGetAttr (node, "type"))) {
                 valueData->setType (argVal);
         }
 }

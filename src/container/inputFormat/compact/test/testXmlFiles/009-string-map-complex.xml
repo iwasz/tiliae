@@ -2,9 +2,8 @@
 <beans>
         <!-- Różne sposoby dodawania kluczy do mapy. -->
         <StringMap id="mojaMapa" klucz0="wartość0">
-                <value set="klucz1" type="String">value1</value>
-                <value set="klucz2" type="text">value2</value>
-                <value set="klucz3">value3</value>
-                <set klucz4="value4" />
+                <value set-as="klucz1" type="String">value1</value>
+                <value set-as="klucz2" type="text">value2</value>
+                <value set-as="klucz3">value3</value>
         </StringMap>
 </beans>

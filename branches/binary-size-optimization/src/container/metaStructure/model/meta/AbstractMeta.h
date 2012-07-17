@@ -23,7 +23,11 @@ namespace Container {
 class TILIAE_API AbstractMeta : public IMeta {
 public:
 
+        AbstractMeta ();
         virtual ~AbstractMeta ();
+
+//        void accept (IMetaVisitor *visitor) { visitor->visit (this); }
+        Type getType () const { return type; }
 
         DataVector getConstructorArgs () const;
         void addConstructorArg (IData *elem);
@@ -74,11 +78,18 @@ public:
         void addInnerMetaList (const MetaMap &m);
 
         IMeta *getParentMeta () { return parent; }
-        void setParentMeta (IMeta *m) { parent = m; attributes->setParentAttributes (m->getAttributes ()); }
+        void setParentMeta (AbstractMeta *m) { parent = m; attributes->setParentAttributes (m->getAttributes ()); }
 
-protected:
+/*--------------------------------------------------------------------------*/
 
-        AbstractMeta ();
+        DataMap getMapFields () const;
+        void addMapField (DataKey const &dataKey);
+        IData *getMapField (const std::string &key);
+
+/*--------------------------------------------------------------------------*/
+
+        DataVector getListFields () const;
+        void addListField (IData *field);
 
 private:
 
@@ -87,14 +98,16 @@ private:
 
 protected:
 
-        IMeta *parent;
+        AbstractMeta *parent;
 
 private:
 
         Ptr <Attributes> attributes;
         DataVector *constructorArgs;
         MetaMap *innerMetas;
-
+        DataMap *mapFields;
+        DataVector *listFields;
+        Type type;
 };
 
 }

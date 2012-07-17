@@ -18,7 +18,7 @@ namespace Container {
 
 using namespace Core;
 
-bool BeanFactoryInitService::onMetaBegin (IMeta *meta)
+bool BeanFactoryInitService::onMetaBegin (MetaObject *meta)
 {
         if (!meta || meta->getAbstract ()) {
                 return false;
@@ -34,7 +34,7 @@ bool BeanFactoryInitService::onMetaBegin (IMeta *meta)
 
 /****************************************************************************/
 
-bool BeanFactoryInitService::onMetaEnd (IMeta *meta)
+bool BeanFactoryInitService::onMetaEnd (MetaObject *meta)
 {
         if (!meta || meta->getAbstract ()) {
                 return false;

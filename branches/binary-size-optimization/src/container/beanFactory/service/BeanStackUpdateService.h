@@ -13,7 +13,7 @@
 
 namespace Container {
 
-class IMeta;
+class MetaObject;
 
 /**
  * Updates beanStack in context.
@@ -26,8 +26,8 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMetaBegin (IMeta *data);
-        virtual bool onMetaEnd (IMeta *data);
+        virtual bool onMetaBegin (MetaObject *data);
+        virtual bool onMetaEnd (MetaObject *data);
 
 };
 

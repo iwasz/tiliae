@@ -24,7 +24,7 @@
 #include "beanFactory/service/IndexedValueService.h"
 #include "beanFactory/service/FactoryService.h"
 #include "beanFactory/service/BeanStackUpdateService.h"
-#include "metaStructure/model/meta/IMeta.h"
+#include "metaStructure/model/MetaObject.h"
 #include "../beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
 #include "../beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h"
 #include "../beanWrapper/plugins/MethodPlugin.h"
@@ -137,7 +137,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 
                         Ptr <BeanFactory> factory = *i;
 
-                        bool isSingleton = (static_cast <IMeta::Scope> (factory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == IMeta::SINGLETON);
+                        bool isSingleton = (static_cast <MetaObject::Scope> (factory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
                         bool isLazyInit = factory->getBoolAttribute (Attributes::LAZYINIT_ARGUMENT);
 
                         if (isSingleton && !isLazyInit) {

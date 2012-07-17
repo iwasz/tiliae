@@ -26,7 +26,7 @@ void PrintMetaService::onContainer (MetaContainer *data)
         }
 }
 
-bool PrintMetaService::onMappedMetaBegin (MappedMeta *data)
+bool PrintMetaService::onMappedMetaBegin (MetaObject *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "MappedMeta ("
@@ -42,7 +42,7 @@ bool PrintMetaService::onMappedMetaBegin (MappedMeta *data)
         return true;
 }
 
-bool PrintMetaService::onIndexedMetaBegin (IndexedMeta *data)
+bool PrintMetaService::onIndexedMetaBegin (MetaObject *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "IndexedMeta ("

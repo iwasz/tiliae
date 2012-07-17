@@ -117,14 +117,14 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
          Ptr <MetaContainer> mc = MXmlMetaService::parseFile (PATH + "053-bean-scope-first-tests.xml");
 
         BOOST_CHECK (mc->getMetaMap ().size () == 8);
-        IMeta *meta = mc->get ("bean2");
+        MetaObject *meta = mc->get ("bean2");
 
         MetaMap innerM = meta->getInnerMetas ();
         BOOST_CHECK (innerM.size () == 1);
 
         BOOST_CHECK (innerM.find ("innerCity2") != innerM.end ());
 
-        IMeta *in = innerM["innerCity2"];
+        MetaObject *in = innerM["innerCity2"];
         BOOST_CHECK (in);
 
 /****************************************************************************/

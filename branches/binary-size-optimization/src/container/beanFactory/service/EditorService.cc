@@ -45,7 +45,7 @@ void EditorService::init (Core::VariantMap *singletons)
  * ustawiany jest jakiś inny customowy (atrybut editor). Edytor jest ustawiany do
  * odpowiedniego BeanFactory.
  */
-bool EditorService::onMappedMetaBegin (MappedMeta *meta)
+bool EditorService::onMappedMetaBegin (MetaObject *meta)
 {
         currentFieldIdx = -1;
         currentIndexedEditor = NULL;
@@ -80,7 +80,7 @@ bool EditorService::onMappedMetaBegin (MappedMeta *meta)
 
 /****************************************************************************/
 
-bool EditorService::onIndexedMetaBegin (IndexedMeta *meta)
+bool EditorService::onIndexedMetaBegin (MetaObject *meta)
 {
         currentMapEditor = NULL;
 
@@ -103,7 +103,7 @@ bool EditorService::onIndexedMetaBegin (IndexedMeta *meta)
                 editor = new Editor::LazyEditor (fact.get ());
                 beanFactory->setEditor (editor, true);
         }
-        else if (meta->getFields ().empty ()) {
+        else if (meta->getListFields ().empty ()) {
                 editor = noopNoCopyEditor;
                 currentIndexedEditor = NULL;
                 beanFactory->setEditor (editor, false);
@@ -124,7 +124,7 @@ bool EditorService::onIndexedMetaBegin (IndexedMeta *meta)
 /**
  * Z tego co pamiętam, to jest jakiś chack, ktory czyści zmienne stanowe.
  */
-void EditorService::onConstructorArgsBegin (IMeta *data)
+void EditorService::onConstructorArgsBegin (MetaObject *data)
 {
         currentMapEditor = NULL;
 
@@ -151,7 +151,7 @@ void EditorService::onConstructorArgsBegin (IMeta *data)
 /**
  * Z tego co pamiętam, to jest jakiś chack, ktory czyści zmienne stanowe.
  */
-void EditorService::onConstructorArgsEnd (IMeta *data)
+void EditorService::onConstructorArgsEnd (MetaObject *data)
 {
         currentMapEditor = NULL;
         currentIndexedEditor = NULL;

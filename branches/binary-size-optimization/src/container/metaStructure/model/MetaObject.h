@@ -6,27 +6,40 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef ABSTRACTMETA_H_
-#define ABSTRACTMETA_H_
+#ifndef META_OBJECT_TILIAE_H_
+#define META_OBJECT_TILIAE_H_
 
-#include "IMeta.h"
+#include <map>
+#include <list>
+#include <stack>
 #include "common/Attributes.h"
-#include "../../../../core/Typedefs.h"
-#include "../../../../core/ApiMacro.h"
+#include "Typedefs.h"
+#include "ApiMacro.h"
+#include "../interface/IDataVisitor.h"
+#include "../../metaStructure/model/data/IData.h"
 
 namespace Container {
+class MetaObject;
+
+typedef std::pair <std::string, Ptr <MetaObject> > MetaPair;
+typedef std::list <Ptr <MetaObject> > MetaList;
+typedef std::map <std::string, MetaObject *> MetaMap;
+typedef std::stack <MetaObject *> MetaStack;
 
 /**
  * W celach implemetacyjnych. Tu jest wspolny kod.
  * \ingroup Container
  */
-class TILIAE_API AbstractMeta : public IMeta {
+class TILIAE_API MetaObject {
 public:
 
-        AbstractMeta ();
-        virtual ~AbstractMeta ();
+        enum Scope { PROTOTYPE, BEAN, SINGLETON };
+        enum Type { UNSPECIFIED, MAPPED, INDEXED };
 
-//        void accept (IMetaVisitor *visitor) { visitor->visit (this); }
+        MetaObject ();
+        virtual ~MetaObject ();
+
+        void accept (IMetaVisitor *visitor) { visitor->visit (this); }
         Type getType () const { return type; }
 
         DataVector getConstructorArgs () const;
@@ -72,13 +85,13 @@ public:
 /*--------------------------------------------------------------------------*/
 
         MetaMap getInnerMetas () const;
-        IMeta *getInnerMeta (const std::string &key) const;
+        MetaObject *getInnerMeta (const std::string &key) const;
         void setInnerMetas (const MetaMap &m);
-        void addInnerMeta (IMeta *m);
+        void addInnerMeta (MetaObject *m);
         void addInnerMetaList (const MetaMap &m);
 
-        IMeta *getParentMeta () { return parent; }
-        void setParentMeta (AbstractMeta *m) { parent = m; attributes->setParentAttributes (m->getAttributes ()); }
+        MetaObject *getParentMeta () { return parent; }
+        void setParentMeta (MetaObject *m) { parent = m; attributes->setParentAttributes (m->getAttributes ()); }
 
 /*--------------------------------------------------------------------------*/
 
@@ -98,7 +111,7 @@ private:
 
 protected:
 
-        AbstractMeta *parent;
+        MetaObject *parent;
 
 private:
 

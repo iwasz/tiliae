@@ -18,7 +18,7 @@ class OrderedVariantMap;
 namespace Container {
 class ValueServiceHelper;
 class IndexedMeta;
-class IMeta;
+class MetaObject;
 class ListElem;
 class ValueData;
 class RefData;
@@ -35,9 +35,9 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMappedMetaBegin (MappedMeta *data);
-        virtual void onConstructorArgsBegin (IMeta *data);
-        virtual void onConstructorArgsEnd (IMeta *data);
+        virtual bool onMappedMetaBegin (MetaObject *data);
+        virtual void onConstructorArgsBegin (MetaObject *data);
+        virtual void onConstructorArgsEnd (MetaObject *data);
         virtual void onValueData (std::string const &key, ValueData *data);
         virtual void onRefData (std::string const &key, RefData *data);
         virtual void onNullData (std::string const &key, NullData *data);
@@ -50,7 +50,7 @@ private:
 
         Common::OrderedVariantMap *inputMap;
         ValueServiceHelper *helper;
-        MappedMeta *currMappedMeta;
+        MetaObject *currMappedMeta;
 };
 
 }

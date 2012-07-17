@@ -36,9 +36,9 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 
 /*--------------------------------------------------------------------------*/
 
-        MappedMeta *child = new MappedMeta ();
+        MetaObject *child = new MetaObject ();
 
-        child->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
+        child->addMapField (DataKey ("name", new ValueData ("Warszawa", "String")));
         child->setId ("mojBean");
 //        Nie ma ustawionego class!
 //        child->setClass ("String");
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 
 /*--------------------------------------------------------------------------*/
 
-        MappedMeta *child2 = new MappedMeta ();
+        MetaObject *child2 = new MetaObject ();
         child2->setId ("nfactory");
         child2->setClass ("CityFactory");
 
@@ -149,12 +149,12 @@ BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
-        MappedMeta *child = new MappedMeta ();
+        MetaObject *child = new MetaObject ();
         child->setId ("mojaMapa");
         child->setClass ("VariantMap");
         metaCont->add (child);
 
-        IndexedMeta *child2 = new IndexedMeta ();
+        MetaObject *child2 = new MetaObject ();
         child2->setId ("mojaLista");
         child2->setClass ("VariantList");
         metaCont->add (child2);

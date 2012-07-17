@@ -37,22 +37,22 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
 
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
-        MappedMeta *meta = new MappedMeta ();
+        MetaObject *meta = new MetaObject ();
         meta->setId ("a_main");
-        meta->setScope (IMeta::SINGLETON);
+        meta->setScope (MetaObject::SINGLETON);
         meta->setParent ("y_par");
         metaCont->add (meta);
 
-        meta = new MappedMeta ();
+        meta = new MetaObject ();
         meta->setId ("x_parent");
         meta->setClass ("City");
-        meta->setScope (IMeta::SINGLETON);
-        meta->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
+        meta->setScope (MetaObject::SINGLETON);
+        meta->addMapField (DataKey ("name", new ValueData ("Warszawa", "String")));
         metaCont->add (meta);
 
-        meta = new MappedMeta ();
+        meta = new MetaObject ();
         meta->setId ("y_par");
-        meta->setScope (IMeta::SINGLETON);
+        meta->setScope (MetaObject::SINGLETON);
         meta->setParent ("x_parent");
         metaCont->add (meta);
 

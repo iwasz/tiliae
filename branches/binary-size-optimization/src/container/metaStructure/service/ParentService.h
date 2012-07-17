@@ -14,9 +14,9 @@
 
 namespace Container {
 
-class MappedMeta;
+class MetaObject;
 class IndexedMeta;
-class IMeta;
+class MetaObject;
 
 /**
  * Implementuje obsługę zależnosci dziecko-rodzic. Uzupełnia dzieci danymi z
@@ -27,7 +27,7 @@ class ParentService : public DummyMetaService {
 public:
 
         virtual ~ParentService () {}
-        virtual bool onMetaBegin (IMeta *data);
+        virtual bool onMetaBegin (MetaObject *data);
 
 };
 

@@ -38,10 +38,10 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMappedMetaBegin (MappedMeta *data);
-        virtual bool onIndexedMetaBegin (IndexedMeta *data);
-        virtual void onConstructorArgsBegin (IMeta *data);
-        virtual void onConstructorArgsEnd (IMeta *data);
+        virtual bool onMappedMetaBegin (MetaObject *data);
+        virtual bool onIndexedMetaBegin (MetaObject *data);
+        virtual void onConstructorArgsBegin (MetaObject *data);
+        virtual void onConstructorArgsEnd (MetaObject *data);
         virtual void onValueData (std::string const &key, ValueData *data);
         virtual void onRefData (std::string const &key, RefData *data);
 

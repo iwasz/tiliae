@@ -8,13 +8,13 @@
 
 #include <algorithm>
 #include <iterator>
-#include "AbstractMeta.h"
 #include <boost/algorithm/string/trim.hpp>
-#include "../../../common/Exceptions.h"
+#include "../../common/Exceptions.h"
+#include "MetaObject.h"
 
 namespace Container {
 
-AbstractMeta::AbstractMeta () : parent (NULL),
+MetaObject::MetaObject () : parent (NULL),
                                 attributes (boost::make_shared <Attributes> ()),
                                 constructorArgs (NULL),
                                 innerMetas (NULL),
@@ -27,7 +27,7 @@ AbstractMeta::AbstractMeta () : parent (NULL),
 
 /****************************************************************************/
 
-AbstractMeta::~AbstractMeta ()
+MetaObject::~MetaObject ()
 {
         if (listFields) {
                 for (DataVector::iterator i = listFields->begin (); i != listFields->end (); ++i) {
@@ -62,7 +62,7 @@ AbstractMeta::~AbstractMeta ()
 
 /****************************************************************************/
 
-void AbstractMeta::initConstructorArgs ()
+void MetaObject::initConstructorArgs ()
 {
         if (!constructorArgs) {
                 constructorArgs = new DataVector;
@@ -71,7 +71,7 @@ void AbstractMeta::initConstructorArgs ()
 
 /****************************************************************************/
 
-void AbstractMeta::initInnerMetas ()
+void MetaObject::initInnerMetas ()
 {
         if (!innerMetas) {
                 innerMetas = new MetaMap;
@@ -80,7 +80,7 @@ void AbstractMeta::initInnerMetas ()
 
 /****************************************************************************/
 
-void AbstractMeta::setInnerMetas (const MetaMap &m)
+void MetaObject::setInnerMetas (const MetaMap &m)
 {
         initInnerMetas ();
         *innerMetas = m;
@@ -88,7 +88,7 @@ void AbstractMeta::setInnerMetas (const MetaMap &m)
 
 /****************************************************************************/
 
-void AbstractMeta::addInnerMeta (IMeta *m)
+void MetaObject::addInnerMeta (MetaObject *m)
 {
         initInnerMetas ();
 
@@ -106,7 +106,7 @@ void AbstractMeta::addInnerMeta (IMeta *m)
 
 /****************************************************************************/
 
-void AbstractMeta::addInnerMetaList (const MetaMap &m)
+void MetaObject::addInnerMetaList (const MetaMap &m)
 {
         initInnerMetas ();
         std::copy (m.begin (), m.end (), std::inserter (*innerMetas, innerMetas->end ()));
@@ -114,7 +114,7 @@ void AbstractMeta::addInnerMetaList (const MetaMap &m)
 
 /****************************************************************************/
 
-void AbstractMeta::addConstructorArg (IData *elem)
+void MetaObject::addConstructorArg (IData *elem)
 {
         initConstructorArgs ();
         constructorArgs->push_back (elem);
@@ -122,7 +122,7 @@ void AbstractMeta::addConstructorArg (IData *elem)
 
 /****************************************************************************/
 
-DataVector AbstractMeta::getConstructorArgs () const
+DataVector MetaObject::getConstructorArgs () const
 {
         if (parent) {
                 DataVector ret = parent->getConstructorArgs ();
@@ -143,7 +143,7 @@ DataVector AbstractMeta::getConstructorArgs () const
 
 /****************************************************************************/
 
-MetaMap AbstractMeta::getInnerMetas () const
+MetaMap MetaObject::getInnerMetas () const
 {
         if (parent) {
                 MetaMap ret = parent->getInnerMetas ();
@@ -172,9 +172,9 @@ MetaMap AbstractMeta::getInnerMetas () const
 
 /****************************************************************************/
 
-IMeta *AbstractMeta::getInnerMeta (const std::string &key) const
+MetaObject *MetaObject::getInnerMeta (const std::string &key) const
 {
-        IMeta *ret = NULL;
+        MetaObject *ret = NULL;
 
         if (parent) {
                 ret = parent->getInnerMeta (key);
@@ -201,7 +201,7 @@ IMeta *AbstractMeta::getInnerMeta (const std::string &key) const
 
 /****************************************************************************/
 
-IData *AbstractMeta::getMapField (const std::string &key)
+IData *MetaObject::getMapField (const std::string &key)
 {
         if (type != MAPPED) {
                 throw ConfigurationException ("AbstractMeta::getMapField : you tried to get map-field from MetaObject which is not of MAPPED type.");
@@ -224,7 +224,7 @@ IData *AbstractMeta::getMapField (const std::string &key)
 
 /****************************************************************************/
 
-void AbstractMeta::addMapField (DataKey const &dataKey)
+void MetaObject::addMapField (DataKey const &dataKey)
 {
         if (type == INDEXED) {
                 throw ConfigurationException ("Meta::addMapField : this MetaObject is of INDEXED type, and you tried to add map-field to it.");
@@ -242,7 +242,7 @@ void AbstractMeta::addMapField (DataKey const &dataKey)
 
 /****************************************************************************/
 
-DataMap AbstractMeta::getMapFields () const
+DataMap MetaObject::getMapFields () const
 {
         if (type != MAPPED) {
                 throw ConfigurationException ("AbstractMeta::getMapField : you tried to get map-field from MetaObject which is not of MAPPED type.");
@@ -272,10 +272,10 @@ DataMap AbstractMeta::getMapFields () const
 
 /****************************************************************************/
 
-DataVector AbstractMeta::getListFields () const
+DataVector MetaObject::getListFields () const
 {
-        if (parent->getType () != INDEXED) {
-                throw ConfigurationException ("AbstractMeta::getListFields : parent is not INDEXED.");
+        if (type != INDEXED) {
+                throw ConfigurationException ("AbstractMeta::getListFields : you tried to get list-field from MetaObject which is not of INDEXED type.");
         }
 
         if (parent) {
@@ -297,7 +297,7 @@ DataVector AbstractMeta::getListFields () const
 
 /****************************************************************************/
 
-void AbstractMeta::addListField (IData *field)
+void MetaObject::addListField (IData *field)
 {
         if (type == MAPPED) {
                 throw ConfigurationException ("Meta::addListField : this MetaObject is of MAPPED type, and you tried to add list-field to it.");

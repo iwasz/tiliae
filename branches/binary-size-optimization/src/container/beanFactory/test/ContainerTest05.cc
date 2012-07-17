@@ -111,15 +111,15 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
-        MappedMeta *child = new MappedMeta ();
+        MetaObject *child = new MetaObject ();
 
-        child->addField (DataKey ("field0", new ValueData ("value0", "bracketType")));
-        child->addField (DataKey ("field1", new ValueData ("value1", "bracketType")));
-        child->addField (DataKey ("field2", new ValueData ("6667", "int")));
-        child->addField (DataKey ("field3", new ValueData ("123.45", "double")));
-        child->addField (DataKey ("field4", new ValueData ("f", "char")));
-        child->addField (DataKey ("field5", new ValueData ("true", "bool")));
-        child->addField (DataKey ("field6", new NullData ()));
+        child->addMapField (DataKey ("field0", new ValueData ("value0", "bracketType")));
+        child->addMapField (DataKey ("field1", new ValueData ("value1", "bracketType")));
+        child->addMapField (DataKey ("field2", new ValueData ("6667", "int")));
+        child->addMapField (DataKey ("field3", new ValueData ("123.45", "double")));
+        child->addMapField (DataKey ("field4", new ValueData ("f", "char")));
+        child->addMapField (DataKey ("field5", new ValueData ("true", "bool")));
+        child->addMapField (DataKey ("field6", new NullData ()));
 
         child->setId ("mojBean");
         child->setClass ("Foo");
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        child = new MappedMeta ();
+        child = new MetaObject ();
         //child->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
         child->setId ("bracketType");
         child->setClass ("DummyIEditor");
@@ -171,13 +171,13 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        IndexedMeta *child = new IndexedMeta ();
+        MetaObject *child = new MetaObject ();
 
-        child->addField (new ValueData ("value0", "string"));
-        child->addField (new ValueData ("value1", "string"));
-        child->addField (new ValueData ("value2", "string"));
-        child->addField (new ValueData ("value3", "string"));
-        child->addField (new ValueData ("value4", "string"));
+        child->addListField (new ValueData ("value0", "string"));
+        child->addListField (new ValueData ("value1", "string"));
+        child->addListField (new ValueData ("value2", "string"));
+        child->addListField (new ValueData ("value3", "string"));
+        child->addListField (new ValueData ("value4", "string"));
         child->setId ("mojBean");
         child->setClass ("string");
         child->setEditor ("editor");
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        MappedMeta *child2 = new MappedMeta ();
+        MetaObject *child2 = new MetaObject ();
         child2->setId ("editor");
         child2->setClass ("ListToStringEditor");
 

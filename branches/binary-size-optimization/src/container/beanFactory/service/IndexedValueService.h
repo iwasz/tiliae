@@ -13,7 +13,7 @@
 
 namespace Container {
 class IndexedMeta;
-class IMeta;
+class MetaObject;
 class ListElem;
 class ValueData;
 class RefData;
@@ -32,9 +32,9 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onIndexedMetaBegin (IndexedMeta *data);
-        virtual void onConstructorArgsBegin (IMeta *data);
-        virtual void onConstructorArgsEnd (IMeta *data);
+        virtual bool onIndexedMetaBegin (MetaObject *data);
+        virtual void onConstructorArgsBegin (MetaObject *data);
+        virtual void onConstructorArgsEnd (MetaObject *data);
         virtual void onValueData (std::string const &key, ValueData *data);
         virtual void onRefData (std::string const &key, RefData *data);
         virtual void onNullData (std::string const &key, NullData *data);

@@ -11,15 +11,9 @@
 #include <queue>
 #include <boost/lexical_cast.hpp>
 #include "CompactMetaService.h"
-#include "../../../core/Pointer.h"
-#include "../../common/Exceptions.h"
-#include "../../metaStructure/model/MetaContainer.h"
-#include "../../metaStructure/model/meta/MappedMeta.h"
-#include "../../metaStructure/model/meta/IndexedMeta.h"
-#include "../../metaStructure/model/data/RefData.h"
-#include "../../metaStructure/model/data/ValueData.h"
-#include "../../metaStructure/model/data/NullData.h"
-#include "../../metaStructure/model/data/IData.h"
+#include "Pointer.h"
+#include "common/Exceptions.h"
+#include "metaStructure/MetaStructure.h"
 #include "../../../reflection/Manager.h"
 
 namespace Container {
@@ -66,13 +60,13 @@ struct Impl {
 
 /****************************************************************************/
 
-        MappedMeta *pushNewMappedMeta ();
-        IndexedMeta *pushNewIndexedMeta ();
-        void fillMetaArguments (mxml_node_t *node, IMeta *meta);
-        IMeta *popCurrentMeta ();
-        AbstractMeta *getCurrentMeta () const;
-        MappedMeta *getCurrentMappedMeta () const;
-        IndexedMeta *getCurrentIndexedMeta () const;
+        MetaObject *pushNewMeta ();
+//        IndexedMeta *pushNewIndexedMeta ();
+        void fillMetaArguments (mxml_node_t *node, MetaObject *meta);
+        MetaObject *popCurrentMeta ();
+        MetaObject *getCurrentMeta () const;
+//        MetaObject *getCurrentMappedMeta () const;
+//        IndexedMeta *getCurrentIndexedMeta () const;
 
         DataKey &pushNewDataKey ();
         void popCurrentDataKeyAddToMapped ();
@@ -90,7 +84,7 @@ struct Impl {
         }
 
 
-        std::string generateId (IMeta *m) const { return m->getClass() + "_" + boost::lexical_cast <std::string> (singetinNumber++); }
+        std::string generateId (MetaObject *m) const { return m->getClass() + "_" + boost::lexical_cast <std::string> (singetinNumber++); }
 
         /**
          * Sprawdza, czy podana nazwa jest nazwąklasy odnajdywalną w reflekcji, czy nie.
@@ -236,7 +230,7 @@ void Impl::onCloseElement (mxml_node_t *node)
 
 /****************************************************************************/
 
-void Impl::fillMetaArguments (mxml_node_t *node, IMeta *meta)
+void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta)
 {
         std::string name = mxmlGetElement (node);
 
@@ -262,17 +256,17 @@ void Impl::fillMetaArguments (mxml_node_t *node, IMeta *meta)
                         meta->setId (value);
                 }
                 else if (name == "singleton") {
-                        meta->setScope ((value == "true") ? (IMeta::SINGLETON) : (IMeta::PROTOTYPE));
+                        meta->setScope ((value == "true") ? (MetaObject::SINGLETON) : (MetaObject::PROTOTYPE));
                 }
                 else if (name == "scope") {
                         if (value == "singleton") {
-                                meta->setScope (IMeta::SINGLETON);
+                                meta->setScope (MetaObject::SINGLETON);
                         }
                         else if (value == "prototype") {
-                                meta->setScope (IMeta::PROTOTYPE);
+                                meta->setScope (MetaObject::PROTOTYPE);
                         }
                         else if (value == "bean") {
-                                meta->setScope (IMeta::BEAN);
+                                meta->setScope (MetaObject::BEAN);
                         }
                         else {
                                 throw XmlMetaServiceException ("Impl::onOpenBean : wrong value for argument 'scope'. Correct values are : 'singleton', 'prototype' and 'bean'. You provided : " + std::string (value));
@@ -305,8 +299,8 @@ void Impl::fillMetaArguments (mxml_node_t *node, IMeta *meta)
                                 dk.data = new ValueData (value);
                         }
 
-                        MappedMeta *meta =  getCurrentMappedMeta ();
-                        meta->addField (dk);
+                        MetaObject *meta =  getCurrentMeta ();
+                        meta->addMapField (dk);
                 }
         }
 
@@ -316,7 +310,7 @@ void Impl::fillMetaArguments (mxml_node_t *node, IMeta *meta)
 
 void Impl::onOpenBean (mxml_node_t *node)
 {
-        MappedMeta *meta = pushNewMappedMeta ();
+        MetaObject *meta = pushNewMeta ();
         fillMetaArguments (node, meta);
 }
 
@@ -346,8 +340,8 @@ void Impl::onOpenSet (mxml_node_t *node)
                         dk.data = new ValueData (value);
                 }
 
-                MappedMeta *meta =  getCurrentMappedMeta ();
-                meta->addField (dk);
+                MetaObject *meta =  getCurrentMeta ();
+                meta->addMapField (dk);
         }
 }
 
@@ -374,16 +368,9 @@ void Impl::onOpenEntry (mxml_node_t *node)
 
 /****************************************************************************/
 
-//void Impl::onCloseSet (mxml_node_t *node)
-//{
-////        popCurrentDataKeyAddToMapped ();
-//}
-
-/****************************************************************************/
-
 void Impl::onOpenList (mxml_node_t *node)
 {
-        IndexedMeta *meta = pushNewIndexedMeta ();
+        MetaObject *meta = pushNewMeta ();
         fillMetaArguments (node, meta);
 }
 
@@ -398,7 +385,7 @@ void Impl::onCloseList (mxml_node_t *node)
 
 void Impl::onOpenMap (mxml_node_t *node)
 {
-        MappedMeta *meta = pushNewMappedMeta ();
+        MetaObject *meta = pushNewMeta ();
         fillMetaArguments (node, meta);
 }
 
@@ -430,7 +417,7 @@ void Impl::onOpenCArg (mxml_node_t *node)
 
 void Impl::onCloseCArg (mxml_node_t *node)
 {
-        IMeta *meta = getCurrentMeta ();
+        MetaObject *meta = getCurrentMeta ();
         DataKey *elem = getCurrentDataKey ();
         dataKeyStack.pop_back ();
         meta->addConstructorArg (elem->data);
@@ -449,8 +436,8 @@ void Impl::onOpenRef (mxml_node_t *node)
         }
 
         if (getPrevTag () == "list") {
-                IndexedMeta *meta = getCurrentIndexedMeta ();
-                meta->addField (refData);
+                MetaObject *meta = getCurrentMeta ();
+                meta->addListField (refData);
         }
         else {
                 DataKey *elem = getCurrentDataKey ();
@@ -625,21 +612,21 @@ void Impl::onData (mxml_node_t *node)
 
 /*##########################################################################*/
 
-MappedMeta *Impl::pushNewMappedMeta ()
+MetaObject *Impl::pushNewMeta ()
 {
-        MappedMeta *meta = new MappedMeta ();
+        MetaObject *meta = new MetaObject ();
         metaStack.push (meta);
         return meta;
 }
 
 /****************************************************************************/
 
-IndexedMeta *Impl::pushNewIndexedMeta ()
-{
-        IndexedMeta *meta = new IndexedMeta ();
-        metaStack.push (meta);
-        return meta;
-}
+//IndexedMeta *Impl::pushNewIndexedMeta ()
+//{
+//        IndexedMeta *meta = new IndexedMeta ();
+//        metaStack.push (meta);
+//        return meta;
+//}
 
 /****************************************************************************/
 
@@ -653,9 +640,9 @@ DataKey &Impl::pushNewDataKey ()
 
 void Impl::popCurrentDataKeyAddToMapped ()
 {
-        MappedMeta *meta =  getCurrentMappedMeta ();
+        MetaObject *meta =  getCurrentMeta ();
         DataKey *dk = getCurrentDataKey ();
-        meta->addField (*dk);
+        meta->addMapField (*dk);
         dataKeyStack.pop_back ();
 }
 
@@ -663,54 +650,54 @@ void Impl::popCurrentDataKeyAddToMapped ()
 
 void Impl::popCurrentDataKeyAddToIndexed ()
 {
-        IndexedMeta *meta = getCurrentIndexedMeta ();
+        MetaObject *meta =  getCurrentMeta ();
         DataKey *dk = getCurrentDataKey ();
-        meta->addField (dk->data);
+        meta->addListField (dk->data);
         dataKeyStack.pop_back ();
 }
 
 /****************************************************************************/
 
-AbstractMeta *Impl::getCurrentMeta () const
+MetaObject *Impl::getCurrentMeta () const
 {
         if (!metaStack.size ()) {
                 throw XmlMetaServiceException ("Impl::getCurrentMeta : metaStack is empty.");
         }
 
-        IMeta *meta = metaStack.top ();
+        MetaObject *meta = metaStack.top ();
 
         if (!meta) {
                 throw XmlMetaServiceException ("Impl::getCurrentMeta : current meta is null.");
         }
 
-        return static_cast <AbstractMeta *> (meta);
+        return static_cast <MetaObject *> (meta);
 }
 
 /****************************************************************************/
 
-MappedMeta *Impl::getCurrentMappedMeta () const
-{
-        MappedMeta *meta = dynamic_cast <MappedMeta *> (getCurrentMeta ());
-
-        if (!meta) {
-                throw XmlMetaServiceException ("Impl::getCurrentMappedMeta : Can't cast to MappedMeta.");
-        }
-
-        return meta;
-}
+//MetaObject *Impl::getCurrentMappedMeta () const
+//{
+//        MetaObject *meta = dynamic_cast <MetaObject *> (getCurrentMeta ());
+//
+//        if (!meta) {
+//                throw XmlMetaServiceException ("Impl::getCurrentMappedMeta : Can't cast to MappedMeta.");
+//        }
+//
+//        return meta;
+//}
 
 /****************************************************************************/
 
-IndexedMeta *Impl::getCurrentIndexedMeta () const
-{
-        IndexedMeta *meta = dynamic_cast <IndexedMeta *> (getCurrentMeta ());
-
-        if (!meta) {
-                throw XmlMetaServiceException ("Impl::getCurrentIndexedMeta : Can't cast to IndexedMeta.");
-        }
-
-        return meta;
-}
+//IndexedMeta *Impl::getCurrentIndexedMeta () const
+//{
+//        IndexedMeta *meta = dynamic_cast <IndexedMeta *> (getCurrentMeta ());
+//
+//        if (!meta) {
+//                throw XmlMetaServiceException ("Impl::getCurrentIndexedMeta : Can't cast to IndexedMeta.");
+//        }
+//
+//        return meta;
+//}
 
 /****************************************************************************/
 
@@ -763,10 +750,10 @@ DataKey *Impl::getCurrentDataKey ()
 
 /****************************************************************************/
 
-IMeta *Impl::popCurrentMeta ()
+MetaObject *Impl::popCurrentMeta ()
 {
         // 1. Pobierz
-        IMeta *meta = getCurrentMeta ();
+        MetaObject *meta = getCurrentMeta ();
 
         // 2. Zdejmij.
         metaStack.pop ();
@@ -777,7 +764,7 @@ IMeta *Impl::popCurrentMeta ()
 
         // 3. Umiesc ten gotowy meta w kontenerze lub w outermeta (jeśli zagnieżdżenie).
         if (!metaStack.empty ()) {
-                AbstractMeta *outerMeta = getCurrentMeta ();
+                MetaObject *outerMeta = getCurrentMeta ();
 
                 std::string id;
 
@@ -795,13 +782,12 @@ IMeta *Impl::popCurrentMeta ()
                         return meta;
                 }
 
-                if (outerMeta->getType () == IMeta::MAPPED) {
+                if (outerMeta->getType () == MetaObject::MAPPED) {
                         DataKey *dk = getCurrentDataKey ();
                         dk->data = new RefData (id);
                 }
                 else {
-                        IndexedMeta *idxMeta = static_cast <IndexedMeta *> (outerMeta);
-                        idxMeta->addField (new RefData (id));
+                        outerMeta->addListField (new RefData (id));
                 }
         }
         else {

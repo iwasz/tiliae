@@ -15,7 +15,7 @@
 namespace Container {
 using namespace Core;
 
-bool MappedValueService::onMappedMetaBegin (MappedMeta *data)
+bool MappedValueService::onMappedMetaBegin (MetaObject *data)
 {
         if (!data || data->getAbstract ()) {
                 return true;
@@ -30,14 +30,14 @@ bool MappedValueService::onMappedMetaBegin (MappedMeta *data)
 
 /****************************************************************************/
 
-void MappedValueService::onConstructorArgsBegin (IMeta *data)
+void MappedValueService::onConstructorArgsBegin (MetaObject *data)
 {
         currMappedMeta = NULL;
 }
 
 /****************************************************************************/
 
-void MappedValueService::onConstructorArgsEnd (IMeta *data)
+void MappedValueService::onConstructorArgsEnd (MetaObject *data)
 {
         currMappedMeta = NULL;
         inputMap = NULL;

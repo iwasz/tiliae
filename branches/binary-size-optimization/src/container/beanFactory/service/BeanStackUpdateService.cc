@@ -7,14 +7,14 @@
  ****************************************************************************/
 
 #include "BeanStackUpdateService.h"
-#include "metaStructure/model/meta/IMeta.h"
 #include <cassert>
+#include "../../metaStructure/model/MetaObject.h"
 
 namespace Container {
 
 using namespace Core;
 
-bool BeanStackUpdateService::onMetaBegin (IMeta *data)
+bool BeanStackUpdateService::onMetaBegin (MetaObject *data)
 {
         if (data->getAbstract()) {
                 return false;
@@ -40,7 +40,7 @@ bool BeanStackUpdateService::onMetaBegin (IMeta *data)
 
 /****************************************************************************/
 
-bool BeanStackUpdateService::onMetaEnd (IMeta *data)
+bool BeanStackUpdateService::onMetaEnd (MetaObject *data)
 {
         if (data->getAbstract()) {
                 return false;

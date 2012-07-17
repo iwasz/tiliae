@@ -17,7 +17,7 @@ class IndexedEditor;
 
 namespace Container {
 
-class IMeta;
+class MetaObject;
 
 /**
  * Create factory
@@ -29,7 +29,7 @@ public:
         virtual ~FactoryService () {}
         void init (Core::VariantMap *singletons);
 
-        virtual bool onMetaBegin (IMeta *data);
+        virtual bool onMetaBegin (MetaObject *data);
 
 private:
 

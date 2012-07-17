@@ -2,10 +2,11 @@
 <beans>
     <StringMap id="mojaMapa" klucz0="wartość0" klucz1="value1" klucz2="value2"/>
 
-    <StringMap id="mojaMapa2">
-        <entry klucz0="wartość0" klucz1="value1" klucz2="value2" />
-        <entry klucz3="wartość3" />
-    </StringMap>
+<!-- olewamy narazie, albo nazawsze -->
+<!--     <StringMap id="mojaMapa2"> -->
+<!--         <entry klucz0="wartość0" klucz1="value1" klucz2="value2" /> -->
+<!--         <entry klucz3="wartość3" /> -->
+<!--     </StringMap> -->
 
     <StringMap id="mojaMapa3">
         <value set-as="klucz0" type="String">wartosc0</value>

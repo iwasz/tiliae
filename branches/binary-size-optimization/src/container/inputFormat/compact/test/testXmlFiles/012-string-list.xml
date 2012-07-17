@@ -12,7 +12,6 @@
   <StringVector id="mojaLista">
     <value>value01</value>
     <value type="string">value02</value>
-    <value add="">value03</value>
   </StringVector>
 
 </beans>

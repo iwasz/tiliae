@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE (test004SimplestBeanValueEmpty)
 
         City *cit = vcast <City *> (vB);
         BOOST_CHECK (cit);
-        BOOST_CHECK (cit->getName () == "Warszawa");
+        BOOST_CHECK_EQUAL (cit->getName (), "");
 }
 
 /**

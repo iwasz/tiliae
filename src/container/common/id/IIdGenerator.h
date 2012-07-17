@@ -12,7 +12,7 @@
 #include "../../../core/string/String.h"
 
 namespace Container {
-class IMeta;
+class MetaObject;
 
 /**
  * Klasa obiektów generujących ID.
@@ -20,7 +20,7 @@ class IMeta;
  */
 struct IIdGenerator {
         virtual ~IIdGenerator () {}
-        virtual std::string generate (IMeta *) const = 0;
+        virtual std::string generate (MetaObject *) const = 0;
 };
 
 }

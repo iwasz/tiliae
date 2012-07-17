@@ -13,7 +13,7 @@
 namespace Container {
 using namespace Core;
 
-bool IndexedValueService::onIndexedMetaBegin (IndexedMeta *data)
+bool IndexedValueService::onIndexedMetaBegin (MetaObject *data)
 {
         if (!data || data->getAbstract ()) {
                 return true;
@@ -29,7 +29,7 @@ bool IndexedValueService::onIndexedMetaBegin (IndexedMeta *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onConstructorArgsBegin (IMeta *data)
+void IndexedValueService::onConstructorArgsBegin (MetaObject *data)
 {
         if (!data || data->getAbstract ()) {
                 return;
@@ -44,7 +44,7 @@ void IndexedValueService::onConstructorArgsBegin (IMeta *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onConstructorArgsEnd (IMeta *data)
+void IndexedValueService::onConstructorArgsEnd (MetaObject *data)
 {
 //        currIndexedMeta = NULL;
 //        currListElem = NULL;

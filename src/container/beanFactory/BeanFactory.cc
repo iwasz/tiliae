@@ -13,7 +13,7 @@
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/mem_fun.hpp>
 #include <boost/multi_index/sequenced_index.hpp>
-#include "metaStructure/model/meta/AbstractMeta.h"
+#include "metaStructure/model/MetaObject.h"
 #include "../../core/variant/Cast.h"
 #include "IBeanWrapper.h"
 #include "BeanFactoryContext.h"
@@ -204,14 +204,14 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
 bool BeanFactory::getSingleton () const
 {
-        return (static_cast <IMeta::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)) == IMeta::SINGLETON);
+        return (static_cast <MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
 }
 
 /****************************************************************************/
 
 void BeanFactory::onBeforePropertiesSet (BeanFactory const *notifier) const
 {
-        if (static_cast <IMeta::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)) == IMeta::BEAN) {
+        if (static_cast <MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)) == MetaObject::BEAN) {
                 flags |= FORCE_SINGLETON;
         }
 }
@@ -220,7 +220,7 @@ void BeanFactory::onBeforePropertiesSet (BeanFactory const *notifier) const
 
 void BeanFactory::onAfterPropertiesSet (BeanFactory const *notifier) const
 {
-        if (static_cast <IMeta::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)) == IMeta::BEAN) {
+        if (static_cast <MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)) == MetaObject::BEAN) {
                 flags &= ~FORCE_SINGLETON;
 
                 if (!getSingleton ()) {

@@ -10,6 +10,7 @@
 #include "VisitorContext.h"
 #include "../../../core/Typedefs.h"
 #include "../../metaStructure/model/data/IData.h"
+#include "../../metaStructure/model/MetaObject.h"
 
 namespace Container {
 
@@ -24,56 +25,38 @@ void MetaVisitor::visit (MetaContainer *container)
         }
 
         foreach (MetaMap::value_type p, container->getMetaMap ()) {
-                IMeta *meta = p.second;
+                MetaObject *meta = p.second;
                 meta->accept (this);
         }
 }
 
 /****************************************************************************/
 
-void MetaVisitor::visit (MappedMeta *data)
-{
-        foreach (IMetaService *service, services) {
-                /*if (!*/service->onMetaBegin (data);/*) { return; }*/
-                /*if (!*/service->onMappedMetaBegin (data);/*) { return; }*/
-        }
-
-        DataMap fields = data->getFields ();
-        for (DataKeyIterator1 iter = fields.get <1> ().begin (); iter != fields.get <1> ().end (); ++iter) {
-                iter->data->accept (iter->key, this);
-        }
-
-        foreach (IMetaService *service, services) {
-                service->onConstructorArgsBegin (data);
-        }
-
-        DataVector cArgs = data->getConstructorArgs();
-        for (DataVector::iterator i = cArgs.begin (); i != cArgs.end (); ++i) {
-                (*i)->accept (std::string (), this);
-        }
-
-        foreach (IMetaService *service, services) {
-                service->onConstructorArgsEnd (data);
-        }
-
-        visitInnerMeta (data);
-
-        foreach (IMetaService *service, services) {
-                service->onMetaEnd (data);
-                service->onMappedMetaEnd (data);
-        }
-}
-
-void MetaVisitor::visit (IndexedMeta *data)
+void MetaVisitor::visit (MetaObject *data)
 {
         foreach (IMetaService *service, services) {
                 service->onMetaBegin (data);
-                service->onIndexedMetaBegin (data);
+
+                if (data->getType () == MetaObject::INDEXED) {
+                        service->onMappedMetaBegin (data);
+                }
+                else {
+                        service->onIndexedMetaBegin (data);
+                }
         }
 
-        DataVector fields = data->getFields ();
-        for (DataVector::iterator i = fields.begin (); i != fields.end (); ++i) {
-                (*i)->accept (std::string (), this);
+        if (data->getType () == MetaObject::INDEXED) {
+                DataVector fields = data->getListFields ();
+                for (DataVector::iterator i = fields.begin (); i != fields.end (); ++i) {
+                        (*i)->accept (std::string (), this);
+                }
+        }
+        else
+        {
+                DataMap fields = data->getMapFields ();
+                for (DataKeyIterator1 iter = fields.get <1> ().begin (); iter != fields.get <1> ().end (); ++iter) {
+                        iter->data->accept (iter->key, this);
+                }
         }
 
         foreach (IMetaService *service, services) {
@@ -93,41 +76,29 @@ void MetaVisitor::visit (IndexedMeta *data)
 
         foreach (IMetaService *service, services) {
                 service->onMetaEnd (data);
-                service->onIndexedMetaEnd (data);
+
+                if (data->getType () == MetaObject::INDEXED) {
+                        service->onMappedMetaEnd (data);
+                }
+                else {
+                        service->onIndexedMetaEnd (data);
+                }
         }
 }
 
-void MetaVisitor::visitInnerMeta (AbstractMeta *data)
+/****************************************************************************/
+
+void MetaVisitor::visitInnerMeta (MetaObject *data)
 {
         ctx->incDepth ();
 
         foreach (MetaMap::value_type p, data->getInnerMetas ()) {
-                IMeta *meta = p.second;
+                MetaObject *meta = p.second;
                 meta->accept (this);
         }
 
         ctx->decDepth ();
 }
-
-/****************************************************************************/
-
-//void MetaVisitor::visit (ListElem *data)
-//{
-//        foreach (IMetaService *service, services) {
-//                service->onListElem (data);
-//        }
-//
-//        data->getData()->accept (this);
-//}
-//
-//void MetaVisitor::visit (MapElem *data)
-//{
-//        foreach (IMetaService *service, services) {
-//                service->onMapElem (data);
-//        }
-//
-//        data->getData()->accept (this);
-//}
 
 /****************************************************************************/
 
@@ -138,6 +109,8 @@ void MetaVisitor::visit (std::string const &key, ValueData *data)
         }
 }
 
+/****************************************************************************/
+
 void MetaVisitor::visit (std::string const &key, NullData *data)
 {
         foreach (IMetaService *service, services) {
@@ -145,19 +118,14 @@ void MetaVisitor::visit (std::string const &key, NullData *data)
         }
 }
 
+/****************************************************************************/
+
 void MetaVisitor::visit (std::string const &key, RefData *data)
 {
         foreach (IMetaService *service, services) {
                 service->onRefData (key, data);
         }
 }
-
-//void MetaVisitor::visit (IdRefData *data)
-//{
-//        foreach (IMetaService *service, services) {
-//                service->onIdRefData (data);
-//        }
-//}
 
 /****************************************************************************/
 

@@ -9,9 +9,9 @@
 #ifndef METACONTAINER_H_
 #define METACONTAINER_H_
 
-#include "metaStructure/model/meta/IMeta.h"
 #include "metaStructure/interface/IDataVisitor.h"
-#include "../../../core/ApiMacro.h"
+#include "ApiMacro.h"
+#include "MetaObject.h"
 
 namespace Container {
 
@@ -25,7 +25,7 @@ public:
 
         ~MetaContainer ();
 
-        IMeta *get (const std::string &key) const;
+        MetaObject *get (const std::string &key) const;
 
         /**
          * Zdecydowałem sie na taki interfejs poniewaz kazdy
@@ -34,7 +34,7 @@ public:
          * tylko i wyłącznie specyfika XML. Metastruktura jest
          * ponad tym.
          */
-        void add (IMeta *val);
+        void add (MetaObject *val);
 
         void accept (IContainerVisitor *visitor) { visitor->visit (this); }
 

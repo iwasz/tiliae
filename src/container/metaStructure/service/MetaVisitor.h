@@ -37,8 +37,7 @@ public:
 
         void visit (MetaContainer *data);
 
-        void visit (MappedMeta *data);
-        void visit (IndexedMeta *data);
+        void visit (MetaObject *data);
 
         void visit (std::string const &key, ValueData *data);
         void visit (std::string const &key, NullData *data);
@@ -58,7 +57,7 @@ public:
 
 private:
 
-        void visitInnerMeta (AbstractMeta *data);
+        void visitInnerMeta (MetaObject *data);
 
 private:
 

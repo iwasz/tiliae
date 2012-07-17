@@ -6,8 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef METASTRUCTURE_H_
-#define METASTRUCTURE_H_
+#ifndef METASTRUCTURE_TILIAE_H_
+#define METASTRUCTURE_TILIAE_H_
 
 #include "interface/Interface.h"
 #include "model/Model.h"

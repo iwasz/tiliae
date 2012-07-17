@@ -25,14 +25,14 @@ struct PrintMetaService : public AbstractMetaService {
         static Ptr <PrintMetaService> create () { return Ptr <PrintMetaService> (new PrintMetaService); }
 
         void onContainer (MetaContainer *data);
-        bool onMetaBegin (IMeta *data) { return true; }
-        bool onMetaEnd (IMeta *data) { return true; }
-        bool onMappedMetaBegin (MappedMeta *data);
-        bool onMappedMetaEnd (MappedMeta *data) { return true; }
-        bool onIndexedMetaBegin (IndexedMeta *data);
-        bool onIndexedMetaEnd (IndexedMeta *data) { return true; }
-        void onConstructorArgsBegin (IMeta *data) {}
-        void onConstructorArgsEnd (IMeta *data) {}
+        bool onMetaBegin (MetaObject *data) { return true; }
+        bool onMetaEnd (MetaObject *data) { return true; }
+        bool onMappedMetaBegin (MetaObject *data);
+        bool onMappedMetaEnd (MetaObject *data) { return true; }
+        bool onIndexedMetaBegin (MetaObject *data);
+        bool onIndexedMetaEnd (MetaObject *data) { return true; }
+        void onConstructorArgsBegin (MetaObject *data) {}
+        void onConstructorArgsEnd (MetaObject *data) {}
         void onValueData (std::string const &key, ValueData *data);
         void onNullData (std::string const &key, NullData *data);
         void onRefData (std::string const &key, RefData *data);

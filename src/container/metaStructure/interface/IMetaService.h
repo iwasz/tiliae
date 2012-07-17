@@ -18,12 +18,12 @@ class ValueData;
 class NullData;
 class RefData;
 
-struct MappedMeta;
-struct IndexedMeta;
+struct MetaObject;
+struct MetaObject;
 
 struct MetaContainer;
 
-struct IMeta;
+struct MetaObject;
 struct AbstractMeta;
 
 class VisitorContext;
@@ -41,15 +41,15 @@ struct IMetaService {
 
         virtual void onContainer (MetaContainer *data) = 0;
 
-        virtual bool onMetaBegin (IMeta *data) = 0;
-        virtual bool onMetaEnd (IMeta *data) = 0;
-        virtual bool onMappedMetaBegin (MappedMeta *data) = 0;
-        virtual bool onMappedMetaEnd (MappedMeta *data) = 0;
-        virtual bool onIndexedMetaBegin (IndexedMeta *data) = 0;
-        virtual bool onIndexedMetaEnd (IndexedMeta *data) = 0;
+        virtual bool onMetaBegin (MetaObject *data) = 0;
+        virtual bool onMetaEnd (MetaObject *data) = 0;
+        virtual bool onMappedMetaBegin (MetaObject *data) = 0;
+        virtual bool onMappedMetaEnd (MetaObject *data) = 0;
+        virtual bool onIndexedMetaBegin (MetaObject *data) = 0;
+        virtual bool onIndexedMetaEnd (MetaObject *data) = 0;
 
-        virtual void onConstructorArgsBegin (IMeta *data) = 0;
-        virtual void onConstructorArgsEnd (IMeta *data) = 0;
+        virtual void onConstructorArgsBegin (MetaObject *data) = 0;
+        virtual void onConstructorArgsEnd (MetaObject *data) = 0;
 
         virtual void onValueData (std::string const &key, ValueData *data) = 0;
         virtual void onNullData (std::string const &key, NullData *data) = 0;

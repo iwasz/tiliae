@@ -31,7 +31,7 @@ void FactoryService::init (Core::VariantMap *singletons)
  * Jeśli ten atrybut jest ustawiony, to za pomocą BeanFactoryContainer::getBeanFactory jest
  * pobierana fabryka o podanym w atrybucie ID i ustawiana do BeanFactory.
  */
-bool FactoryService::onMetaBegin (IMeta *data)
+bool FactoryService::onMetaBegin (MetaObject *data)
 {
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
         Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();

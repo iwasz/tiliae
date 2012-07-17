@@ -21,7 +21,7 @@ MetaContainer::~MetaContainer ()
 
 /****************************************************************************/
 
-void MetaContainer::add (IMeta *val)
+void MetaContainer::add (MetaObject *val)
 {
         if (boost::trim_copy (val->getId ()) == "") {
                 throw ConfigurationException ("MetaContainer::add : ID is empty. Root level beans must have proper ID.");
@@ -36,7 +36,7 @@ void MetaContainer::add (IMeta *val)
 
 /****************************************************************************/
 
-IMeta *MetaContainer::get (const std::string &key) const
+MetaObject *MetaContainer::get (const std::string &key) const
 {
         MetaMap::const_iterator i;
         if ((i = metaMap.find (key)) != metaMap.end ()) {

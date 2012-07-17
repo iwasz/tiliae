@@ -25,14 +25,14 @@ struct DummyMetaService : public AbstractMetaService {
         virtual ~DummyMetaService () {}
 
         virtual void onContainer (MetaContainer *data) {}
-        virtual bool onMetaBegin (IMeta *data) { return true; }
-        virtual bool onMetaEnd (IMeta *data) { return true; }
-        virtual bool onMappedMetaBegin (MappedMeta *data) { return true; }
-        virtual bool onMappedMetaEnd (MappedMeta *data) { return true; }
-        virtual bool onIndexedMetaBegin (IndexedMeta *data) { return true; }
-        virtual bool onIndexedMetaEnd (IndexedMeta *data) { return true; }
-        virtual void onConstructorArgsBegin (IMeta *data) {}
-        virtual void onConstructorArgsEnd (IMeta *data) {}
+        virtual bool onMetaBegin (MetaObject *data) { return true; }
+        virtual bool onMetaEnd (MetaObject *data) { return true; }
+        virtual bool onMappedMetaBegin (MetaObject *data) { return true; }
+        virtual bool onMappedMetaEnd (MetaObject *data) { return true; }
+        virtual bool onIndexedMetaBegin (MetaObject *data) { return true; }
+        virtual bool onIndexedMetaEnd (MetaObject *data) { return true; }
+        virtual void onConstructorArgsBegin (MetaObject *data) {}
+        virtual void onConstructorArgsEnd (MetaObject *data) {}
         virtual void onValueData (std::string const &key, ValueData *data) {}
         virtual void onNullData (std::string const &key, NullData *data) {}
         virtual void onRefData (std::string const &key, RefData *data) {}

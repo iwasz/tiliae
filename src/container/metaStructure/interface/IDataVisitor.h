@@ -16,14 +16,8 @@ namespace Container {
 class ValueData;
 class NullData;
 class RefData;
-
-struct MappedMeta;
-struct IndexedMeta;
-
+class MetaObject;
 class MetaContainer;
-
-struct IMeta;
-struct AbstractMeta;
 
 /**
  * Implementacja paternu Visitor. Ten visitor będzie odwiedzał
@@ -49,8 +43,7 @@ struct IDataVisitor {
  */
 struct IMetaVisitor {
         virtual ~IMetaVisitor () {}
-        virtual void visit (MappedMeta *data) = 0;
-        virtual void visit (IndexedMeta *data) = 0;
+        virtual void visit (MetaObject *data) = 0;
 };
 
 /**

@@ -17,7 +17,7 @@ namespace Container {
 
 using namespace Core;
 
-bool ParentService::onMetaBegin (IMeta *child)
+bool ParentService::onMetaBegin (MetaObject *child)
 {
         if (!child->containsAttribute (Attributes::PARENT_ARGUMENT)) {
                 return NULL;
@@ -25,19 +25,19 @@ bool ParentService::onMetaBegin (IMeta *child)
 
         std::string parentName = child->getParent ();
         MetaContainer *container = getContext ()->getMetaContainer ();
-        IMeta *parent = container->get (parentName);
+        MetaObject *parent = container->get (parentName);
 
         if (!parent) {
                 throw NoSuchBeanException ("NoSuchBeanException @ ParentService::onMeta id=" + parentName);
         }
 
-        if ((child->getType () == IMeta::INDEXED && parent->getType () == IMeta::MAPPED) ||
-            (child->getType () == IMeta::MAPPED && parent->getType () == IMeta::INDEXED)) {
+        if ((child->getType () == MetaObject::INDEXED && parent->getType () == MetaObject::MAPPED) ||
+            (child->getType () == MetaObject::MAPPED && parent->getType () == MetaObject::INDEXED)) {
                 throw ConfigurationException ("ParentService::onMetaBegin : parent is MAPPED and child is INDEXED or vice versa.");
         }
 
         // TODO wywalić dynamic cast, jak MetaObject nie będzie polimorficzny.
-        child->setParentMeta (dynamic_cast <AbstractMeta *> (parent));
+        child->setParentMeta (dynamic_cast <MetaObject *> (parent));
         return true;
 }
 

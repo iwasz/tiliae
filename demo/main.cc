@@ -10,12 +10,8 @@
 #include "../src/container/beanFactory/BeanFactory.h"
 #include "../src/container/ContainerFactory.h"
 #include "Book.h"
-#include "../src/container/metaStructure/model/meta/MappedMeta.h"
-#include "../src/container/metaStructure/model/meta/IndexedMeta.h"
+#include "../src/container/metaStructure/model/MetaStructure.h"
 #include "../src/container/inputFormat/mxml/MXmlMetaService.h"
-#include "../src/container/metaStructure/model/data/RefData.h"
-#include "../src/container/metaStructure/model/data/ValueData.h"
-#include "../src/container/metaStructure/model/data/NullData.h"
 
 using namespace Container;
 using namespace std;
@@ -43,8 +39,8 @@ int main (int argc, char **argv)
         printSize (bool);
         printSize (int *);
 
-        printSize (Container::MappedMeta);
-        printSize (Container::IndexedMeta);
+        printSize (Container::MetaObject);
+        printSize (Container::MetaObject);
         printSize (Container::RefData);
         printSize (Container::ValueData);
         printSize (Container::NullData);

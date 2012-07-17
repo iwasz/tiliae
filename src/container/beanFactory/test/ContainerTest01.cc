@@ -78,12 +78,12 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
          * pola swojego rodzica.
          */
 
-        IMeta *syn = metaCont->get ("aska0");
-        MappedMeta *mSyn = dynamic_cast <MappedMeta *> (syn);
+        MetaObject *syn = metaCont->get ("aska0");
+        MetaObject *mSyn = dynamic_cast <MetaObject *> (syn);
         BOOST_CHECK (mSyn);
 
-        BOOST_CHECK (mSyn->getField ("name"));
-        BOOST_CHECK (mSyn->getField ("name")->getData () == "value0");
+        BOOST_CHECK (mSyn->getMapField ("name"));
+        BOOST_CHECK (mSyn->getMapField ("name")->getData () == "value0");
 
         /*
          * Udało się z parentowaniem, teraz bierzemy sie za temporaryMap i

@@ -13,7 +13,7 @@
 
 namespace Container {
 
-class IMeta;
+class MetaObject;
 
 /**
  * Creates BeanFactory object upon information from meta-structure.
@@ -26,8 +26,8 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMetaBegin (IMeta *meta);
-        virtual bool onMetaEnd (IMeta *meta);
+        virtual bool onMetaBegin (MetaObject *meta);
+        virtual bool onMetaEnd (MetaObject *meta);
 
 /*------Setters-and-getters-------------------------------------------------*/
 

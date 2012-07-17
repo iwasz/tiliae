@@ -31,7 +31,13 @@ bool ParentService::onMetaBegin (IMeta *child)
                 throw NoSuchBeanException ("NoSuchBeanException @ ParentService::onMeta id=" + parentName);
         }
 
-        child->setParentMeta (parent);
+        if ((child->getType () == IMeta::INDEXED && parent->getType () == IMeta::MAPPED) ||
+            (child->getType () == IMeta::MAPPED && parent->getType () == IMeta::INDEXED)) {
+                throw ConfigurationException ("ParentService::onMetaBegin : parent is MAPPED and child is INDEXED or vice versa.");
+        }
+
+        // TODO wywalić dynamic cast, jak MetaObject nie będzie polimorficzny.
+        child->setParentMeta (dynamic_cast <AbstractMeta *> (parent));
         return true;
 }
 

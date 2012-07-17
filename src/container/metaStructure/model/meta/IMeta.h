@@ -42,7 +42,7 @@ struct TILIAE_API IMeta {
          * Scopes.
          */
         enum Scope { PROTOTYPE, BEAN, SINGLETON };
-        enum Type { MAPPED, INDEXED };
+        enum Type { UNSPECIFIED, MAPPED, INDEXED };
 
         virtual Type getType () const = 0;
 
@@ -96,7 +96,7 @@ struct TILIAE_API IMeta {
         virtual void addInnerMetaList (const MetaMap &m) = 0;
 
         virtual IMeta *getParentMeta () = 0;
-        virtual void setParentMeta (IMeta *m) = 0;
+        virtual void setParentMeta (AbstractMeta *m) = 0;
 
 /*-- attribute markers -----------------------------------------------------*/
 

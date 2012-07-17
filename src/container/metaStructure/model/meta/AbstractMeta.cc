@@ -17,7 +17,10 @@ namespace Container {
 AbstractMeta::AbstractMeta () : parent (NULL),
                                 attributes (boost::make_shared <Attributes> ()),
                                 constructorArgs (NULL),
-                                innerMetas (NULL)
+                                innerMetas (NULL),
+                                mapFields (NULL),
+                                listFields (NULL),
+                                type (UNSPECIFIED)
 {
         setScope (SINGLETON);
 }
@@ -26,6 +29,20 @@ AbstractMeta::AbstractMeta () : parent (NULL),
 
 AbstractMeta::~AbstractMeta ()
 {
+        if (listFields) {
+                for (DataVector::iterator i = listFields->begin (); i != listFields->end (); ++i) {
+                        delete *i;
+                }
+                delete listFields;
+        }
+
+        if (mapFields) {
+                for (DataKeyIterator0 i = mapFields->begin (); i != mapFields->end (); ++i) {
+                        delete i->data;
+                }
+                delete mapFields;
+        }
+
         if (constructorArgs) {
                 for (DataVector::iterator i = constructorArgs->begin (); i != constructorArgs->end (); ++i) {
                         delete *i;
@@ -180,6 +197,120 @@ IMeta *AbstractMeta::getInnerMeta (const std::string &key) const
         }
 
         return NULL;
+}
+
+/****************************************************************************/
+
+IData *AbstractMeta::getMapField (const std::string &key)
+{
+        if (type != MAPPED) {
+                throw ConfigurationException ("AbstractMeta::getMapField : you tried to get map-field from MetaObject which is not of MAPPED type.");
+        }
+
+        if (mapFields) {
+                DataKeyIterator0 iter = mapFields->get <0> ().find (key);
+
+                if (iter != mapFields->get <0> ().end ()) {
+                        return iter->data;
+                }
+        }
+
+        if (parent) {
+                return parent->getMapField (key);
+        }
+
+        return NULL;
+}
+
+/****************************************************************************/
+
+void AbstractMeta::addMapField (DataKey const &dataKey)
+{
+        if (type == INDEXED) {
+                throw ConfigurationException ("Meta::addMapField : this MetaObject is of INDEXED type, and you tried to add map-field to it.");
+        }
+
+        type = MAPPED;
+
+        if (!mapFields) {
+                mapFields = new DataMap ();
+        }
+
+        mapFields->erase (dataKey.key);
+        mapFields->get <1> ().push_back (dataKey);
+}
+
+/****************************************************************************/
+
+DataMap AbstractMeta::getMapFields () const
+{
+        if (type != MAPPED) {
+                throw ConfigurationException ("AbstractMeta::getMapField : you tried to get map-field from MetaObject which is not of MAPPED type.");
+        }
+
+        if (parent) {
+                DataMap ret = parent->getMapFields ();
+
+                if (mapFields) {
+                        std::copy (mapFields->get <1> ().begin (), mapFields->get <1> ().end (), std::back_inserter (ret.get <1> ()));
+
+                        for (DataKeyIterator1 i = mapFields->get <1> ().begin (); i != mapFields->get <1> ().end (); ++i) {
+                                ret.erase (i->key);
+                                ret.get <1> ().push_back (*i);
+                        }
+                }
+
+                return ret;
+        }
+
+        if (mapFields) {
+                return *mapFields;
+        }
+
+        return DataMap ();
+}
+
+/****************************************************************************/
+
+DataVector AbstractMeta::getListFields () const
+{
+        if (parent->getType () != INDEXED) {
+                throw ConfigurationException ("AbstractMeta::getListFields : parent is not INDEXED.");
+        }
+
+        if (parent) {
+                DataVector ret = parent->getListFields ();
+
+                if (listFields) {
+                        std::copy (listFields->begin (), listFields->end (), std::back_inserter (ret));
+                }
+
+                return ret;
+        }
+
+        if (listFields) {
+                return *listFields;
+        }
+
+        return DataVector ();
+}
+
+/****************************************************************************/
+
+void AbstractMeta::addListField (IData *field)
+{
+        if (type == MAPPED) {
+                throw ConfigurationException ("Meta::addListField : this MetaObject is of MAPPED type, and you tried to add list-field to it.");
+        }
+
+        type = INDEXED;
+
+        if (!listFields) {
+                listFields = new DataVector ();
+        }
+
+
+        listFields->push_back (field);
 }
 
 }

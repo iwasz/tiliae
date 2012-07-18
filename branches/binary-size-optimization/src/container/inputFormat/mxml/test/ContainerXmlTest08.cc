@@ -137,28 +137,28 @@ BOOST_AUTO_TEST_CASE (test040MultipleNesting)
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "040-multiple-nesting.xml");
 
         Variant v = cont->getBean ("myBean");
-        BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Bar *> (v));
+        BOOST_REQUIRE (!v.isNone ());
         Bar *bar = vcast <Bar *>(v);
         BOOST_CHECK (bar->getCity());
         BOOST_CHECK (!bar->getButter ().isNone ());
+
         BOOST_CHECK (ccast <VariantMap *> (bar->getButter ()));
         VariantMap *vm = vcast <VariantMap *> (bar->getButter ());
-        BOOST_CHECK (vm->size () == 3);
+        BOOST_REQUIRE_EQUAL (vm->size (), 3U);
         BOOST_CHECK (ccast <City *> (vm->operator[] ("k1")));
         City *cit = vcast <City *> (vm->operator[] ("k1"));
         BOOST_CHECK (cit->getName () == "Pcim");
 
         BOOST_CHECK (ccast <StringMap *> (vm->operator[] ("k2")));
         StringMap *map = vcast <StringMap *> (vm->operator[] ("k2"));
-        BOOST_CHECK (map->size () == 3);
+        BOOST_REQUIRE_EQUAL (map->size (), 3U);
         BOOST_CHECK (map->operator[] ("k1") == "Tokio");
         BOOST_CHECK (map->operator[] ("k2") == "Warsaw");
         BOOST_CHECK (map->operator[] ("k3") == "Piaseczno");
 
         BOOST_CHECK (ccast <VariantVector *> (vm->operator[] ("k3")));
         VariantVector *list = vcast <VariantVector *> (vm->operator[] ("k3"));
-        BOOST_CHECK (list->size () == 3);
+        BOOST_REQUIRE_EQUAL (list->size (), 3U);
         BOOST_CHECK (ccast <City *> (list->operator[] (0)));
         BOOST_CHECK (ccast <StringMap *> (list->operator[] (1)));
         BOOST_CHECK (ccast <StringList *> (list->operator[] (2)));

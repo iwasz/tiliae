@@ -203,8 +203,8 @@ MetaObject *MetaObject::getInnerMeta (const std::string &key) const
 
 IData *MetaObject::getMapField (const std::string &key)
 {
-        if (type != MAPPED) {
-                throw ConfigurationException ("AbstractMeta::getMapField : you tried to get map-field from MetaObject which is not of MAPPED type.");
+        if (type == INDEXED) {
+                throw ConfigurationException ("AbstractMeta::getMapField : you tried to get map-field from MetaObject which is of INDEXED type.");
         }
 
         if (mapFields) {
@@ -244,8 +244,8 @@ void MetaObject::addMapField (DataKey const &dataKey)
 
 DataMap MetaObject::getMapFields () const
 {
-        if (type != MAPPED) {
-                throw ConfigurationException ("AbstractMeta::getMapField : you tried to get map-field from MetaObject which is not of MAPPED type.");
+        if (type == INDEXED) {
+                throw ConfigurationException ("AbstractMeta::getMapFields : you tried to get map-field from MetaObject which is of INDEXED type.");
         }
 
         if (parent) {
@@ -274,8 +274,8 @@ DataMap MetaObject::getMapFields () const
 
 DataVector MetaObject::getListFields () const
 {
-        if (type != INDEXED) {
-                throw ConfigurationException ("AbstractMeta::getListFields : you tried to get list-field from MetaObject which is not of INDEXED type.");
+        if (type == MAPPED) {
+                throw ConfigurationException ("AbstractMeta::getListFields : you tried to get list-field from MetaObject which is of MAPPED type.");
         }
 
         if (parent) {

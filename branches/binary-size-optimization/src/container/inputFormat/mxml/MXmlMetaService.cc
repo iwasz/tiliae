@@ -667,8 +667,9 @@ MetaObject *Impl::popCurrentMeta ()
                         return meta;
                 }
 
-                if (outerMeta->getType () == MetaObject::MAPPED) {
-                        DataKey *dk = getCurrentDataKey ();
+                DataKey *dk = getCurrentDataKey ();
+
+                if (dk) {
                         dk->data = new RefData (id);
                 }
                 else {

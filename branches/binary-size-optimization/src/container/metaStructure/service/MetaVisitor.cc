@@ -38,10 +38,10 @@ void MetaVisitor::visit (MetaObject *data)
                 service->onMetaBegin (data);
 
                 if (data->getType () == MetaObject::INDEXED) {
-                        service->onMappedMetaBegin (data);
+                        service->onIndexedMetaBegin (data);
                 }
                 else {
-                        service->onIndexedMetaBegin (data);
+                        service->onMappedMetaBegin (data);
                 }
         }
 
@@ -78,10 +78,10 @@ void MetaVisitor::visit (MetaObject *data)
                 service->onMetaEnd (data);
 
                 if (data->getType () == MetaObject::INDEXED) {
-                        service->onMappedMetaEnd (data);
+                        service->onIndexedMetaEnd (data);
                 }
                 else {
-                        service->onIndexedMetaEnd (data);
+                        service->onMappedMetaEnd (data);
                 }
         }
 }

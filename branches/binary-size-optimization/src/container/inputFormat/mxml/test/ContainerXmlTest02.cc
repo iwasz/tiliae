@@ -53,13 +53,13 @@ BOOST_AUTO_TEST_CASE (test007ParentTest)
 
         Foo *foo = vcast <Foo *> (v);
 
-        BOOST_CHECK (foo->getField0 () == "value0");
-        BOOST_CHECK (foo->getField1 () == "value1");
-        BOOST_CHECK (foo->getField2 () == 6678);
-        BOOST_CHECK (foo->getField3 () == 12.34);
-        BOOST_CHECK (foo->getField4 () == 'g');
-        BOOST_CHECK (foo->getField5 () == true);
-        BOOST_CHECK (foo->getField6 () == 0);
+        BOOST_CHECK_EQUAL (foo->getField0 (), "value0");
+        BOOST_CHECK_EQUAL (foo->getField1 (), "value1");
+        BOOST_CHECK_EQUAL (foo->getField2 (), 6678);
+        BOOST_CHECK_EQUAL (foo->getField3 (), 12.34);
+        BOOST_CHECK_EQUAL (foo->getField4 (), 'g');
+        BOOST_CHECK_EQUAL (foo->getField5 (), true);
+        BOOST_CHECK (!foo->getField6 ());
 }
 
 /**

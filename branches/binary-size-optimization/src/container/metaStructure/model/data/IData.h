@@ -40,10 +40,11 @@ typedef std::vector <IData *> DataVector;
 struct DataKey {
 
         DataKey () : data (NULL) {}
-        DataKey (std::string const &k, IData *d) : key (k), data (d) {}
+        DataKey (std::string const &k, IData *d) : key (k), data (d), associatedWith (NULL) {}
 
         std::string key;
         IData *data;
+        MetaObject *associatedWith;
 };
 
 /**

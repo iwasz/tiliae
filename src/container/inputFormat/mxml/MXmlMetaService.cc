@@ -581,7 +581,9 @@ MetaObject *Impl::pushNewMeta ()
 
 DataKey &Impl::pushNewDataKey ()
 {
-        dataKeyStack.push_back (DataKey ());
+        DataKey dk;
+        dk.associatedWith = getCurrentMeta ();
+        dataKeyStack.push_back (dk);
         return dataKeyStack.back ();
 }
 
@@ -669,7 +671,7 @@ MetaObject *Impl::popCurrentMeta ()
 
                 DataKey *dk = getCurrentDataKey ();
 
-                if (dk) {
+                if (dk && dk->associatedWith == outerMeta) {
                         dk->data = new RefData (id);
                 }
                 else {

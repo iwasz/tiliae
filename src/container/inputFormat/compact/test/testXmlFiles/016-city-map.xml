@@ -7,8 +7,8 @@
   <City id="zcity04" name="Oszlo" />
 
   <CityMap id="mojaMapa" city01="@zcity01" city02="@zcity02">
-    <set city03="@zcity03" />
-    <ref set="city04" bean="zcity04" />
+    <ref set-as="city03" bean="zcity03" />
+    <ref set-as="city04" bean="zcity04" />
   </CityMap>
 
 </beans>

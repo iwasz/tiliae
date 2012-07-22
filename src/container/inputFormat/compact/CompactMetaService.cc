@@ -33,13 +33,13 @@ struct Impl {
         void onOpenBean (mxml_node_t *node);
         void onCloseBean (mxml_node_t *node);
 
-        void onOpenList (mxml_node_t *node);
-        void onCloseList (mxml_node_t *node);
+//        void onOpenList (mxml_node_t *node);
+//        void onCloseList (mxml_node_t *node);
+//
+//        void onOpenMap (mxml_node_t *node);
+//        void onCloseMap (mxml_node_t *node);
 
-        void onOpenMap (mxml_node_t *node);
-        void onCloseMap (mxml_node_t *node);
-
-        void onOpenSet (mxml_node_t *node);
+//        void onOpenSet (mxml_node_t *node);
 //        void onCloseSet (mxml_node_t *node);
 
         void onOpenEntry (mxml_node_t *node);
@@ -51,7 +51,7 @@ struct Impl {
         void onCloseValue (mxml_node_t *node);
 
         void onOpenRef (mxml_node_t *node);
-        void onCloseRef (mxml_node_t *node);
+//        void onCloseRef (mxml_node_t *node);
 
         void onOpenNull (mxml_node_t *node);
         void onOpenImport (mxml_node_t *node);
@@ -157,9 +157,9 @@ void Impl::onOpenElement (mxml_node_t *node)
 //        if (!strcmp (name, "bean")) {
 //                onOpenBean (node);
 //        }
-        if (!strcmp (name, "set")) {
-                onOpenSet (node);
-        }
+//        if (!strcmp (name, "set")) {
+//                onOpenSet (node);
+//        }
 //        else if (!strcmp (name, "entry")) {
 //                onOpenEntry (node);
 //        }
@@ -169,7 +169,7 @@ void Impl::onOpenElement (mxml_node_t *node)
 //        else if (!strcmp (name, "map")) {
 //                onOpenMap (node);
 //        }
-        else if (!strcmp (name, "import")) {
+        if (!strcmp (name, "import")) {
                 onOpenImport (node);
         }
 //        else if (!strcmp (name, "alias")) {
@@ -200,25 +200,25 @@ void Impl::onCloseElement (mxml_node_t *node)
 {
         char const *name = mxmlGetElement (node);
 
-        if (!strcmp (name, "set")) {
+//        if (!strcmp (name, "set")) {
 //                onCloseSet (node);
-        }
+//        }
 //        else if (!strcmp (name, "map")) {
 //                onCloseMap (node);
 //        }
 //        else if (!strcmp (name, "list")) {
 //                onCloseList (node);
 //        }
-        else if (!strcmp (name, "value")) {
+        if (!strcmp (name, "value")) {
                 onCloseValue (node);
         }
-        else if (!strcmp (name, "ref")) {
-                onCloseRef (node);
-        }
+//        else if (!strcmp (name, "ref")) {
+//                onCloseRef (node);
+//        }
         else if (!strcmp (name, "carg")) {
                 onCloseCArg (node);
         }
-        else if (!strcmp (name, "beans") || !strcmp (name, "null")) {
+        else if (!strcmp (name, "beans") || !strcmp (name, "null") || !strcmp (name, "ref")) {
                 // Ignore
         }
         else {
@@ -293,7 +293,7 @@ void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta)
                         dk.key = name;
 
                         if (!value.empty () && value[0] == '@') {
-                                dk.data = new RefData (value);
+                                dk.data = new RefData (value.substr (1));
                         }
                         else {
                                 dk.data = new ValueData (value);
@@ -322,28 +322,28 @@ void Impl::onCloseBean (mxml_node_t *node)
 }
 
 /****************************************************************************/
-
-void Impl::onOpenSet (mxml_node_t *node)
-{
-        mxml_attr_t *attr = node->value.element.attrs;
-        for (int i = 0; i < node->value.element.num_attrs; ++i) {
-                mxml_attr_t *cur = attr + i;
-                std::string value = cur->value;
-
-                DataKey dk;
-                dk.key = cur->name;
-
-                if (!value.empty () && value[0] == '@') {
-                        dk.data = new RefData (value);
-                }
-                else {
-                        dk.data = new ValueData (value);
-                }
-
-                MetaObject *meta =  getCurrentMeta ();
-                meta->addMapField (dk);
-        }
-}
+//
+//void Impl::onOpenSet (mxml_node_t *node)
+//{
+//        mxml_attr_t *attr = node->value.element.attrs;
+//        for (int i = 0; i < node->value.element.num_attrs; ++i) {
+//                mxml_attr_t *cur = attr + i;
+//                std::string value = cur->value;
+//
+//                DataKey dk;
+//                dk.key = cur->name;
+//
+//                if (!value.empty () && value[0] == '@') {
+//                        dk.data = new RefData (value);
+//                }
+//                else {
+//                        dk.data = new ValueData (value);
+//                }
+//
+//                MetaObject *meta =  getCurrentMeta ();
+//                meta->addMapField (dk);
+//        }
+//}
 
 /****************************************************************************/
 
@@ -366,35 +366,35 @@ void Impl::onOpenEntry (mxml_node_t *node)
         }
 }
 
-/****************************************************************************/
-
-void Impl::onOpenList (mxml_node_t *node)
-{
-        MetaObject *meta = pushNewMeta ();
-        fillMetaArguments (node, meta);
-}
-
-/****************************************************************************/
-
-void Impl::onCloseList (mxml_node_t *node)
-{
-        popCurrentMeta ();
-}
-
-/****************************************************************************/
-
-void Impl::onOpenMap (mxml_node_t *node)
-{
-        MetaObject *meta = pushNewMeta ();
-        fillMetaArguments (node, meta);
-}
-
-/****************************************************************************/
-
-void Impl::onCloseMap (mxml_node_t *node)
-{
-        popCurrentMeta ();
-}
+///****************************************************************************/
+//
+//void Impl::onOpenList (mxml_node_t *node)
+//{
+//        MetaObject *meta = pushNewMeta ();
+//        fillMetaArguments (node, meta);
+//}
+//
+///****************************************************************************/
+//
+//void Impl::onCloseList (mxml_node_t *node)
+//{
+//        popCurrentMeta ();
+//}
+//
+///****************************************************************************/
+//
+//void Impl::onOpenMap (mxml_node_t *node)
+//{
+//        MetaObject *meta = pushNewMeta ();
+//        fillMetaArguments (node, meta);
+//}
+//
+///****************************************************************************/
+//
+//void Impl::onCloseMap (mxml_node_t *node)
+//{
+//        popCurrentMeta ();
+//}
 
 /****************************************************************************/
 
@@ -427,29 +427,30 @@ void Impl::onCloseCArg (mxml_node_t *node)
 
 void Impl::onOpenRef (mxml_node_t *node)
 {
+        DataKey elem;
         RefData *refData = new RefData ();
-
+        elem.data = refData;
         char const *argVal = NULL;
+        MetaObject *meta =  getCurrentMeta ();
+
+        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
+                elem.key = argVal;
+        }
+        // TODO to jakoś inaczej będzie obsługiwane
+        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
+                elem.key = argVal;
+        }
 
         if ((argVal = mxmlElementGetAttr (node, "bean"))) {
                 refData->setData (argVal);
         }
 
-        if (getPrevTag () == "list") {
-                MetaObject *meta = getCurrentMeta ();
-                meta->addListField (refData);
+        if (!elem.key.empty ()) {
+                meta->addMapField (elem);
         }
         else {
-                DataKey *elem = getCurrentDataKey ();
-                elem->data = refData;
+                meta->addListField (refData);
         }
-}
-
-/****************************************************************************/
-
-void Impl::onCloseRef (mxml_node_t *node)
-{
-
 }
 
 /****************************************************************************/

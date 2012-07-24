@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <bean id="zcity" class="City">
-                <property name="name" value="Tokio"/>
-        </bean>
+	<City id="zcity" name="Tokio" singleton="false" />
 
-        <bean id="mojBean" class="Bar">
-                <carg>
-                        <value type="String">value0</value>
-                </carg>
-
-                <carg>
-                        <value type="text">value1</value>
-                </carg>
-
-                <carg>
-                        <ref bean="zcity"/>
-                </carg>
-        </bean>
+	<Bar id="mojBean">
+		<cargs>
+			<value type="String">value0</value>
+			<value type="text">value1</value>
+			<ref bean="zcity" />
+		</cargs>
+	</Bar>
 </beans>

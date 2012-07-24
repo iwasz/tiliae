@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <list id="myList" class="VariantVector">
-                <value>value01</value>
-                <value>value02</value>
+	<VariantVector id="myList">
+		<value>value01</value>
+		<value>value02</value>
 
-                <map class="StringMap">
-                        <entry key="k1" value="Tokio"/>
-                        <entry key="k2" value="Warsaw"/>
-                        <entry key="k3" value="Piaseczno"/>
-                </map>
-        </list>
+		<StringMap>
+			<value set-as="k1">Tokio</value>
+			<value set-as="k2">Warsaw</value>
+			<value set-as="k3">Piaseczno</value>
+		</StringMap>
+	</VariantVector>
 </beans>

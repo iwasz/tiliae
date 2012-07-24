@@ -25,7 +25,7 @@ namespace {
  */
 struct Impl {
 
-        Impl (MetaContainer *c) : metaContainer (c) {}
+        Impl (MetaContainer *c) : metaContainer (c), inCarg (false) {}
 
         void onOpenElement (mxml_node_t *node);
         void onCloseElement (mxml_node_t *node);
@@ -65,12 +65,14 @@ struct Impl {
         void fillMetaArguments (mxml_node_t *node, MetaObject *meta);
         MetaObject *popCurrentMeta ();
         MetaObject *getCurrentMeta () const;
-//        MetaObject *getCurrentMappedMeta () const;
-//        IndexedMeta *getCurrentIndexedMeta () const;
+        MetaObject *getCurrentMappedMeta () const;
+        IndexedMeta *getCurrentIndexedMeta () const;
 
         DataKey &pushNewDataKey ();
         void popCurrentDataKeyAddToMapped ();
         void popCurrentDataKeyAddToIndexed ();
+        void popCurrentDataKeyAddToCArgs ();
+
         DataKey *getCurrentDataKey ();
 
         std::string const &getCurrentTag () const { return tagStack.back (); }
@@ -108,6 +110,9 @@ struct Impl {
 
         /// Do automatycznego generowania ID.
         static int singetinNumber;
+
+        // Jesteśmy w tagu <cargs>
+        bool inCarg;
 };
 
 int Impl::singetinNumber = 0;
@@ -175,7 +180,7 @@ void Impl::onOpenElement (mxml_node_t *node)
 //        else if (!strcmp (name, "alias")) {
 //
 //        }
-        else if (!strcmp (name, "carg")) {
+        else if (!strcmp (name, "cargs")) {
                 onOpenCArg (node);
         }
         else if (!strcmp (name, "ref")) {
@@ -215,7 +220,7 @@ void Impl::onCloseElement (mxml_node_t *node)
 //        else if (!strcmp (name, "ref")) {
 //                onCloseRef (node);
 //        }
-        else if (!strcmp (name, "carg")) {
+        else if (!strcmp (name, "cargs")) {
                 onCloseCArg (node);
         }
         else if (!strcmp (name, "beans") || !strcmp (name, "null") || !strcmp (name, "ref")) {
@@ -400,27 +405,19 @@ void Impl::onOpenEntry (mxml_node_t *node)
 
 void Impl::onOpenCArg (mxml_node_t *node)
 {
-        DataKey &elem = pushNewDataKey ();
-
-        char const *argVal = NULL;
-
-        if ((argVal = mxmlElementGetAttr (node, "value"))) {
-                elem.data = new ValueData (argVal);
-        }
-
-        if ((argVal = mxmlElementGetAttr (node, "ref"))) {
-                elem.data = new RefData (argVal);
-        }
+        inCarg = true;
 }
 
 /****************************************************************************/
 
 void Impl::onCloseCArg (mxml_node_t *node)
 {
-        MetaObject *meta = getCurrentMeta ();
-        DataKey *elem = getCurrentDataKey ();
-        dataKeyStack.pop_back ();
-        meta->addConstructorArg (elem->data);
+        inCarg = false;
+
+//        MetaObject *meta = getCurrentMeta ();
+//        DataKey *elem = getCurrentDataKey ();
+//        dataKeyStack.pop_back ();
+//        meta->addConstructorArg (elem->data);
 }
 
 /****************************************************************************/
@@ -449,7 +446,12 @@ void Impl::onOpenRef (mxml_node_t *node)
                 meta->addMapField (elem);
         }
         else {
-                meta->addListField (refData);
+                if (!inCarg) {
+                        meta->addListField (refData);
+                }
+                else {
+                        meta->addConstructorArg (refData);
+                }
         }
 }
 
@@ -488,7 +490,12 @@ void Impl::onCloseValue (mxml_node_t *node)
                 popCurrentDataKeyAddToMapped ();
         }
         else {
-                popCurrentDataKeyAddToIndexed ();
+                if (!inCarg) {
+                        popCurrentDataKeyAddToIndexed ();
+                }
+                else {
+                        popCurrentDataKeyAddToCArgs ();
+                }
         }
 }
 
@@ -515,7 +522,12 @@ void Impl::onOpenNull (mxml_node_t *node)
                 popCurrentDataKeyAddToMapped ();
         }
         else {
-                popCurrentDataKeyAddToIndexed ();
+                if (!inCarg) {
+                        popCurrentDataKeyAddToIndexed ();
+                }
+                else {
+                        popCurrentDataKeyAddToCArgs ();
+                }
         }
 }
 
@@ -659,6 +671,16 @@ void Impl::popCurrentDataKeyAddToIndexed ()
 
 /****************************************************************************/
 
+void Impl::popCurrentDataKeyAddToCArgs ()
+{
+        MetaObject *meta =  getCurrentMeta ();
+        DataKey *dk = getCurrentDataKey ();
+        meta->addConstructorArg (dk->data);
+        dataKeyStack.pop_back ();
+}
+
+/****************************************************************************/
+
 MetaObject *Impl::getCurrentMeta () const
 {
         if (!metaStack.size ()) {
@@ -779,12 +801,22 @@ MetaObject *Impl::popCurrentMeta ()
 
                 if (getPrevTag () == "constructor-arg" || getPrevTag () == "carg") {
                         DataKey *dk = getCurrentDataKey ();
+
+                        if (!dk) {
+                                throw XmlMetaServiceException ("Impl::popCurrentMeta : !dk");
+                        }
+
                         dk->data = new RefData (id);
                         return meta;
                 }
 
                 if (outerMeta->getType () == MetaObject::MAPPED) {
                         DataKey *dk = getCurrentDataKey ();
+
+                        if (!dk) {
+                                throw XmlMetaServiceException ("Impl::popCurrentMeta : !dk");
+                        }
+
                         dk->data = new RefData (id);
                 }
                 else {

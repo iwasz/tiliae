@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-    <niemamnie id="bean" />
+    <niemamnie id="bean1" />
 </beans>

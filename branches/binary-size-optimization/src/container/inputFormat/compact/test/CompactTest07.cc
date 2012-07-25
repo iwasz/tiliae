@@ -23,7 +23,7 @@ using namespace Container;
 
 /****************************************************************************/
 
-BOOST_AUTO_TEST_SUITE (CommonXmlTest07);
+BOOST_AUTO_TEST_SUITE (CompactXmlTest07);
 
 /**
  *

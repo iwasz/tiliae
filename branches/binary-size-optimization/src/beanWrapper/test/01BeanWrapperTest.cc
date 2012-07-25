@@ -786,7 +786,7 @@ BOOST_AUTO_TEST_CASE (testEmptyPath)
 
         wo = beanWrapper->getWrappedObject ();
         BOOST_REQUIRE_EQUAL (&vec, vcast <StringVector *> (wo));
-        BOOST_REQUIRE_EQUAL (vec.size (), 1);
+        BOOST_REQUIRE_EQUAL (vec.size (), 1U);
         BOOST_REQUIRE_EQUAL (vec.front (), "Franek i mama Asia");
 
         Ptr <Core::IIterator> iter2 = beanWrapper->iterator ("this");

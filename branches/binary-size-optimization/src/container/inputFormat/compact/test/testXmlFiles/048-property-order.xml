@@ -7,7 +7,7 @@
 			<value>Test</value>
 		</cargs>
 
-		<City set-as="city3" />
+		<City set-as="city3" singleton="false"/>
 
 		<value set-as="city3.name">Warszawa</value>
 	</Bar>

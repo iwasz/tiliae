@@ -23,7 +23,7 @@ using namespace Container;
 
 /****************************************************************************/
 
-BOOST_AUTO_TEST_SUITE (CommonXmlTest12);
+BOOST_AUTO_TEST_SUITE (CompactXmlTest12);
 
 /**
  * Gdy dziedziczmymy z parenta, który nie został zdefiniowany,

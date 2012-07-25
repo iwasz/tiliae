@@ -9,7 +9,7 @@
 			</StringList>
 		</cargs>
 
-		<City name="Pcim" set-as="city" />
+		<City name="Pcim" set-as="city4" />
 	</Bar>
 
 	<VariantMap id="myMap">

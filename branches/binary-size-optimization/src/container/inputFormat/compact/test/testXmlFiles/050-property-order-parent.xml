@@ -5,14 +5,14 @@
 
     <value set-as="a">Test1</value>
 
-    <StringMap set-as="b">
-      <value set-as="d">Test1</value>
-    </StringMap>
+    <VariantMap set-as="b">
+      <value set-as="c">Test1</value>
+    </VariantMap>
   </VariantMap>
 
   <!--Takie hocki klocki też działają -->
   <parentMap id="childMap">
-    <value set-as="b.d">Test34</value>
+    <value set-as="b.c">Test34</value>
   </parentMap>
 
 </beans>

@@ -25,7 +25,7 @@ namespace {
  */
 struct Impl {
 
-        Impl (MetaContainer *c) : metaContainer (c), inCarg (false) {}
+        Impl (MetaContainer *c) : metaContainer (c) {}
 
         void onOpenElement (mxml_node_t *node);
         void onCloseElement (mxml_node_t *node);
@@ -49,7 +49,7 @@ struct Impl {
 /****************************************************************************/
 
         MetaObject *pushNewMeta ();
-        void fillMetaArguments (mxml_node_t *node, MetaObject *meta);
+        void fillMetaArguments (mxml_node_t *node, MetaObject *meta, MetaObject *outer);
         MetaObject *popCurrentMeta ();
         MetaObject *getCurrentMeta () const;
         MetaObject *getCurrentMappedMeta () const;
@@ -73,7 +73,7 @@ struct Impl {
         }
 
 
-        std::string generateId (MetaObject *m) const { return m->getClass() + "_" + boost::lexical_cast <std::string> (singetinNumber++); }
+        std::string generateId (MetaObject *m) const;
 
         /**
          * Sprawdza, czy podana nazwa jest nazwąklasy odnajdywalną w reflekcji, czy nie.
@@ -89,6 +89,11 @@ struct Impl {
          * Czy dopre ID. Jesli nie, to wyjątek. Złe id, to jedno ze słów kluczowych typu bean, list, map, alias, value etc.
          */
         void validateId (std::string const &name) const;
+
+        /**
+         * Dodaje element do Meta, niezależnie od tego jakiego jest typu (list, czy map).
+         */
+        void addElem (MetaObject *meta, DataKey const &elem);
 
         /// Tu odkładają się nazwy kolejnych (zagnieżdżonych tagów).
         Core::StringVector tagStack;
@@ -107,9 +112,6 @@ struct Impl {
 
         /// Do automatycznego generowania ID.
         static int singetinNumber;
-
-        // Jesteśmy w tagu <cargs>
-        bool inCarg;
 };
 
 int Impl::singetinNumber = 0;
@@ -202,7 +204,7 @@ void Impl::onCloseElement (mxml_node_t *node)
 
 /****************************************************************************/
 
-void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta)
+void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta, MetaObject *outer)
 {
         std::string name = mxmlGetElement (node);
 
@@ -215,6 +217,8 @@ void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta)
         else {
                 meta->setParent (name);
         }
+
+        std::string setAs, addTo;
 
         mxml_attr_t *attr = node->value.element.attrs;
         for (int i = 0; i < node->value.element.num_attrs; ++i) {
@@ -264,8 +268,10 @@ void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta)
                         meta->setAbstract (value == "true");
                 }
                 else if (name == "set-as") {
+                        setAs = value;
                 }
                 else if (name == "add-to") {
+                        addTo = value;
                 }
                 // Property
                 else {
@@ -284,14 +290,40 @@ void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta)
                 }
         }
 
+        if (outer) {
+                DataKey elem;
+                RefData *refData = new RefData ();
+                elem.data = refData;
+
+                if (meta->getId ().empty ()) {
+                        meta->setId (generateId (meta));
+                }
+
+                refData->setData (meta->getId ());
+
+                if (!setAs.empty ()) {
+                        elem.key = setAs;
+                }
+                else if (!addTo.empty ()) {
+                        elem.key = addTo;
+                }
+
+                addElem (outer, elem);
+        }
 }
 
 /****************************************************************************/
 
 void Impl::onOpenBean (mxml_node_t *node)
 {
+        MetaObject *outer = NULL;
+
+        if (metaStack.size ()) {
+                 outer = metaStack.top ();
+        }
+
         MetaObject *meta = pushNewMeta ();
-        fillMetaArguments (node, meta);
+        fillMetaArguments (node, meta, outer);
 }
 
 /****************************************************************************/
@@ -305,14 +337,14 @@ void Impl::onCloseBean (mxml_node_t *node)
 
 void Impl::onOpenCArg (mxml_node_t *node)
 {
-        inCarg = true;
+//        inCarg = true;
 }
 
 /****************************************************************************/
 
 void Impl::onCloseCArg (mxml_node_t *node)
 {
-        inCarg = false;
+//        inCarg = false;
 }
 
 /****************************************************************************/
@@ -337,15 +369,22 @@ void Impl::onOpenRef (mxml_node_t *node)
                 refData->setData (argVal);
         }
 
+        addElem (meta, elem);
+}
+
+/****************************************************************************/
+
+void Impl::addElem (MetaObject *meta, DataKey const &elem)
+{
         if (!elem.key.empty ()) {
                 meta->addMapField (elem);
         }
         else {
-                if (!inCarg) {
-                        meta->addListField (refData);
+                if (getPrevTag () == "cargs") {
+                        meta->addConstructorArg (elem.data);
                 }
                 else {
-                        meta->addConstructorArg (refData);
+                        meta->addListField (elem.data);
                 }
         }
 }
@@ -385,11 +424,11 @@ void Impl::onCloseValue (mxml_node_t *node)
                 popCurrentDataKeyAddToMapped ();
         }
         else {
-                if (!inCarg) {
-                        popCurrentDataKeyAddToIndexed ();
+                if (getPrevTag () == "cargs") {
+                        popCurrentDataKeyAddToCArgs ();
                 }
                 else {
-                        popCurrentDataKeyAddToCArgs ();
+                        popCurrentDataKeyAddToIndexed ();
                 }
         }
 }
@@ -417,11 +456,11 @@ void Impl::onOpenNull (mxml_node_t *node)
                 popCurrentDataKeyAddToMapped ();
         }
         else {
-                if (!inCarg) {
-                        popCurrentDataKeyAddToIndexed ();
+                if (getPrevTag () == "cargs") {
+                        popCurrentDataKeyAddToCArgs ();
                 }
                 else {
-                        popCurrentDataKeyAddToCArgs ();
+                        popCurrentDataKeyAddToIndexed ();
                 }
         }
 }
@@ -513,9 +552,6 @@ void Impl::onData (mxml_node_t *node)
 
                 valueData->setData (text);
         }
-        else if (getCurrentTag () == "key") {
-                elem->key = text;
-        }
 }
 
 /*##########################################################################*/
@@ -579,7 +615,7 @@ MetaObject *Impl::getCurrentMeta () const
                 throw XmlMetaServiceException ("Impl::getCurrentMeta : current meta is null.");
         }
 
-        return static_cast <MetaObject *> (meta);
+        return meta;
 }
 
 /****************************************************************************/
@@ -610,40 +646,7 @@ MetaObject *Impl::popCurrentMeta ()
         // 3. Umiesc ten gotowy meta w kontenerze lub w outermeta (jeśli zagnieżdżenie).
         if (!metaStack.empty ()) {
                 MetaObject *outerMeta = getCurrentMeta ();
-
-                std::string id;
-
-                if ((id = meta->getId ()).empty ()) {
-                        // Generujemy też referencję do zagnieżdzonego beana.
-                        id = generateId (meta);
-                        meta->setId (id);
-                }
-
                 outerMeta->addInnerMeta (meta);
-
-//                if (getPrevTag () == "cargs") {
-//                        DataKey *dk = getCurrentDataKey ();
-//
-//                        if (!dk) {
-//                                throw XmlMetaServiceException ("Impl::popCurrentMeta : !dk");
-//                        }
-//
-//                        dk->data = new RefData (id);
-//                        return meta;
-//                }
-
-//                if (outerMeta->getType () == MetaObject::MAPPED) {
-//                        DataKey *dk = getCurrentDataKey ();
-//
-//                        if (!dk) {
-//                                throw XmlMetaServiceException ("Impl::popCurrentMeta : !dk");
-//                        }
-//
-//                        dk->data = new RefData (id);
-//                }
-//                else {
-//                        outerMeta->addListField (new RefData (id));
-//                }
         }
         else {
                 metaContainer->add (meta);
@@ -714,6 +717,14 @@ Ptr <MetaContainer> CompactMetaService::parseFile (std::string const &path, Ptr 
         }
 
         return container;
+}
+
+/****************************************************************************/
+
+std::string Impl::generateId (MetaObject *m) const
+{
+        std::string prefix = (m->getClass().empty ()) ? (m->getParent ()) : (m->getClass ());
+        return prefix + "_" + boost::lexical_cast <std::string> (singetinNumber++);
 }
 
 } /* namespace Container */

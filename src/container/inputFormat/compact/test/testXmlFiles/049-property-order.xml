@@ -12,7 +12,7 @@
 		<!--bowiem, jest ustawiane property city3, ktore jest NULL. -->
 		<value set-as="city3.name">Warszawa</value>
 
-		<City set-as="city3" />
+		<City set-as="city3" singleton="false" />
 
 	</Bar>
 </beans>

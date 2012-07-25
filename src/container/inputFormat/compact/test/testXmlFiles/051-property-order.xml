@@ -2,23 +2,23 @@
 <beans>
 
   <!--Jesli propery mialyby sie udtawiac alfabetycznie, to ten test nie przejdzie -->
-  <Bar id="bean">
+  <Bar id="bean1" singleton="false">
     <cargs>
       <value>Test</value>
     </cargs>
 
-    <City set-as="city3" />
-    <City set-as="aaaby" />
+    <City set-as="city3" singleton="false" />
+    <City set-as="aaaby" singleton="false" />
   </Bar>
 
   <!--A To bedzie zrzucac wyjatek z metody aaaby -->
-  <Bar id="bean">
+  <Bar id="bean2" singleton="false">
     <cargs>
       <value>Test</value>
     </cargs>
 
-    <City set-as="aaaby" />
-    <City set-as="city3" />
+    <City set-as="aaaby" singleton="false" />
+    <City set-as="city3" singleton="false" />
   </Bar>
 
 </beans>

@@ -2,29 +2,29 @@
 <beans>
 
   <!--To jest tylko na rozruch, bean wewnętrzny jest singletonem. -->
-  <Bar id="bean">
+  <Bar id="bean1" singleton="false">
     <cargs>
       <value>Test</value>
     </cargs>
 
-    <City id="innerCity" singleton="true" set-as="city3" />
+    <City id="innerCity" singleton="true" set-as="city4" />
 
-    <!--Teraz property city i city3 mają referencję do tego samego obiektu. -->
-    <ref bean="innerCity" set-as="city" />
+    <!--Teraz property city i city4 mają referencję do tego samego obiektu. -->
+    <ref bean="innerCity" set-as="city5" />
   </Bar>
 
   <BarList id="listaSingleton">
-    <ref bean="bean" />
-    <ref bean="bean" />
+    <ref bean="bean1" />
+    <ref bean="bean1" />
   </BarList>
 
   <!-- ======================================================================================== -->
 
   <!--To jest tylko na rozruch, bean wewnętrzny jest singletonem. -->
-  <Bar id="bean4">
-    <constructor-arg>
+  <Bar id="bean4" singleton="false">
+    <cargs>
       <value>Test</value>
-    </constructor-arg>
+    </cargs>
 
     <City id="innerCity4" scope="prototype" set-as="city3" />
 
@@ -40,14 +40,14 @@
   <!-- ======================================================================================== -->
 
   <!--Tutaj mamy innerCity2 ze scope bean. Pierwszy sposób scope-bean. -->
-  <Bar id="bean2">
-    <constructor-arg>
+  <Bar id="bean2" singleton="false">
+    <cargs>
       <value>Test</value>
-    </constructor-arg>
+    </cargs>
 
-    <City id="innerCity2" scope="bean" set-as="city3" />
-    <!--Teraz property city i city3 mają referencję do tego samego obiektu. -->
-    <ref bean="innerCity2" set-as="city" />
+    <City id="innerCity2" scope="bean" set-as="city4" />
+    <!--Teraz property city5 i city4 mają referencję do tego samego obiektu. -->
+    <ref bean="innerCity2" set-as="city5" />
   </Bar>
 
 
@@ -60,15 +60,15 @@
 
 
   <!--Tutaj mamy innerCity2 ze scope bean. Pierwszy sposób scope-bean. -->
-  <Bar id="bean3">
-    <constructor-arg>
+  <Bar id="bean3" singleton="false">
+    <cargs>
       <value>Test</value>
-    </constructor-arg>
+    </cargs>
 
-    <City id="innerCity3" scope="bean" set-as="city3" />
+    <City id="innerCity3" scope="bean" set-as="city4" />
 
-    <!--Teraz property city i city3 mają referencję do tego samego obiektu. -->
-    <ref bean="innerCity3" set-as="city" />
+    <!--Teraz property city i city4 mają referencję do tego samego obiektu. -->
+    <ref bean="innerCity3" set-as="city5" />
   </Bar>
 
 

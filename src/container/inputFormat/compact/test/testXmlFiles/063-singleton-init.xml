@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-    <Place id="place" init-method="init" singleton="true" />   
-    <Place id="place2" init-method="init" singleton="true" lazy-init="false"/>   
-    <Place id="place3" init-method="init" singleton="true" lazy-init="true" />   
+    <Place id="place" init-method="init2" singleton="true" />   
+    <Place id="place2" init-method="init2" singleton="true" lazy-init="false"/>   
+    <Place id="place3" init-method="init2" singleton="true" lazy-init="true" />   
 </beans>

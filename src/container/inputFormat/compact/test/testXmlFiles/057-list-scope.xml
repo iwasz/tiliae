@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 
-  <Bar id="bean">
+  <Bar id="bean1" singleton="false">
     <cargs>
       <value>Test</value>
     </cargs>
@@ -15,13 +15,13 @@
 
 
   <BarList id="listaSingleton">
-    <ref bean="bean" />
-    <ref bean="bean" />
+    <ref bean="bean1" />
+    <ref bean="bean1" />
   </BarList>
 
   <!-- ======================================================================================== -->
 
-  <Bar id="bean4">
+  <Bar id="bean4" singleton="false">
     <cargs>
       <value>Test</value>
     </cargs>
@@ -40,7 +40,7 @@
 
   <!-- ======================================================================================== -->
 
-  <Bar id="bean2">
+  <Bar id="bean2" singleton="false">
     <cargs>
       <value>Test</value>
     </cargs>

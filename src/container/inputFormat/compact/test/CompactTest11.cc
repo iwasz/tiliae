@@ -24,7 +24,7 @@ using namespace Container;
 
 /****************************************************************************/
 
-BOOST_AUTO_TEST_SUITE (CommonXmlTest11);
+BOOST_AUTO_TEST_SUITE (CompactXmlTest11);
 
 /**
  * Testuje kolejność ustawiania się propery w beanie.
@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE (test051PropertyOrder)
 {
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "051-property-order.xml"));
 
-        Variant vB = cont->getBean ("bean");
+        Variant vB = cont->getBean ("bean1");
         BOOST_CHECK (!vB.isNone());
 
         BOOST_CHECK_THROW (cont->getBean ("bean2"), Core::Exception);
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (test052NestedBeanWithId)
 {
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "052-nested-bean-with-id.xml"));
 
-        Variant vB = cont->getBean ("bean");
+        Variant vB = cont->getBean ("bean1");
         BOOST_CHECK (!vB.isNone());
         Bar *bar = vcast <Bar *> (vB);
 

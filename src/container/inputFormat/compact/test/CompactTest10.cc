@@ -23,7 +23,7 @@ using namespace Container;
 
 /****************************************************************************/
 
-BOOST_AUTO_TEST_SUITE (CommonXmlTest10);
+BOOST_AUTO_TEST_SUITE (CompactXmlTest10);
 
 /**
  * To jest kawałek kodu, ktory testuje pomysł implementacji prop-value
@@ -32,11 +32,10 @@ BOOST_AUTO_TEST_SUITE (CommonXmlTest10);
 BOOST_AUTO_TEST_CASE (test046PropValue)
 {
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "046-prop-value-test-01.xml"));
-//TODO odkomentować, kiedy będzie zaimplementowane
-//                Variant vB = cont->getBean ("bean");
+        Variant vB = cont->getBean ("bean1");
 
-//                StringMap *cit = vcast <StringMap *> (vB);
-//                BOOST_CHECK (cit);
+        StringMap *cit = vcast <StringMap *> (vB);
+        BOOST_CHECK (cit);
 }
 
 /**
@@ -86,8 +85,7 @@ BOOST_AUTO_TEST_CASE (test048PropertyOrder)
  */
 BOOST_AUTO_TEST_CASE (test049PropertyOrder)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "049-property-order.xml"));
-        BOOST_CHECK_THROW ((cont->getBean ("multi")), Core::Exception);
+        BOOST_CHECK_THROW (ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "049-property-order.xml")), Core::Exception);
 }
 
 /**

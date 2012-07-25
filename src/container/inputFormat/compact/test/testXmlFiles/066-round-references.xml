@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-  <A01 id="a01" a02="@a02" />
-  <A02 id="a02" a01="@a01" />
+  <A01c id="a01" a02="@a02" />
+  <A02c id="a02" a01="@a01" />
 </beans>

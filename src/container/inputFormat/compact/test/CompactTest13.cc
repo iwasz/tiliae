@@ -23,7 +23,7 @@ using namespace Container;
 
 /****************************************************************************/
 
-BOOST_AUTO_TEST_SUITE (CommonXmlTest13);
+BOOST_AUTO_TEST_SUITE (CompactXmlTest13);
 
 /**
  * Testuje linked containers - testuje refy. Ten test jest bardziej zaawansowany niż
@@ -99,14 +99,14 @@ BOOST_AUTO_TEST_CASE (test063SingletonInit)
          * wywołanie powinno zwrócić 1 i wyrzucić błąd. Wobec tego to jest 3cie uruchomienie funkcji
          * init (3).
          */
-        BOOST_CHECK_EQUAL (p->init (), 3);
+        BOOST_CHECK_EQUAL (p->init2 (), 3);
 
         /*
          * place2 jest singletonem i ma lazy-init = false, więc już init się wywołało na początku. Wobec
          * tego teraz jest 4-rte wywołanie.
          */
         p = vcast <Place *> (cont->getBean ("place2"));
-        BOOST_CHECK_EQUAL (p->init (), 4);
+        BOOST_CHECK_EQUAL (p->init2 (), 4);
 
         /*
          * place3 jest singletonem, ale ma lazy-init == true, czyli jest tworzone przy PIERWSZYM pobraniu.
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (test063SingletonInit)
         p = vcast <Place *> (cont->getBean ("place3"));
 
         // Czyli to jest 6ste wywołanie:
-        BOOST_CHECK_EQUAL (p->init (), 6);
+        BOOST_CHECK_EQUAL (p->init2 (), 6);
 }
 
 typedef std::vector <int> IntVector;

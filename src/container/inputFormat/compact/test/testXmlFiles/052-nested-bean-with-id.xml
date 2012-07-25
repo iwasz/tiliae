@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 
-  <Bar id="bean">
+  <Bar id="bean1">
     <cargs>
       <value>Test</value>
     </cargs>
 
-    <City id="innerCity" singleton="true" set-as="city3" />
+    <City id="innerCity" set-as="city4" />
 
     <!--Teraz property city i city3 mają referencję do tego samego obiektu. -->
-    <ref bean="innerCity" set-as="city" />
+    <ref bean="innerCity" set-as="city5" />
   </Bar>
 
 </beans>

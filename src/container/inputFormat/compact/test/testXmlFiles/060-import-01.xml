@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
     <StringList id="bean2" />    
-    <import resource="../src/container/inputFormat/mxml/test/testXmlFiles/060-import-02.xml"/>
+    <import resource="../src/container/inputFormat/compact/test/testXmlFiles/060-import-02.xml"/>
 </beans>

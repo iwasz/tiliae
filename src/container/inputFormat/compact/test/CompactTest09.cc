@@ -23,7 +23,7 @@ using namespace Container;
 
 /****************************************************************************/
 
-BOOST_AUTO_TEST_SUITE (CommonXmlTest09);
+BOOST_AUTO_TEST_SUITE (CompactXmlTest09);
 
 /**
  *
@@ -46,13 +46,7 @@ BOOST_AUTO_TEST_CASE (test041InitMethod)
  */
 BOOST_AUTO_TEST_CASE (test042EmptyMapKey)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "042-map-with-empty-key.xml"));
-
-        Variant vB = cont->getBean ("mojaMapa");
-        BOOST_CHECK (ccast <StringMap *> (vB));
-
-        StringMap *map = vcast <StringMap *> (vB);
-        BOOST_CHECK (map);
+        BOOST_REQUIRE_THROW (ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "042-map-with-empty-key.xml")), Core::Exception);
 }
 
 /**
@@ -62,39 +56,6 @@ BOOST_AUTO_TEST_CASE (test042EmptyMapKey)
 BOOST_AUTO_TEST_CASE (test043MultipleIdBean)
 {
         BOOST_REQUIRE_THROW (ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "043-multiple-id-bean.xml")), Core::Exception);
-}
-
-/**
- * Kolejny jakiś tam test, na coś, co się kiedyś działo : kiedyś, w starej
- * wersji za property działało jak entry i dodawało elementy do mapy. Teraz
- * już tak nie jest. Dlaczego parser nie zgłasza błędu, przecież w DTD to jest
- * zabronione!
- */
-BOOST_AUTO_TEST_CASE (test044PropertyInMap)
-{
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "044-property-in-map.xml"));
-
-        Variant vB = cont->getBean ("mojaMapa");
-        BOOST_CHECK (ccast <StringMap *> (vB));
-
-        StringMap *map = vcast <StringMap *> (vB);
-        BOOST_CHECK (map);
-
-        BOOST_CHECK (map->find ("klucz0") != map->end ());
-        BOOST_CHECK (map->find ("klucz1") != map->end ());
-        BOOST_CHECK_EQUAL (map->size (), 2U);
-
-/*--------------------------------------------------------------------------*/
-
-//        W MXML to już zrzuca wyjątek
-
-//        vB = cont->getBean ("mojaMapa2");
-//        BOOST_CHECK (ccast <StringMap *> (vB));
-//
-//        map = vcast <StringMap *> (vB);
-//        BOOST_CHECK (map);
-//
-//        BOOST_CHECK (map->size () == 0);
 }
 
 /**

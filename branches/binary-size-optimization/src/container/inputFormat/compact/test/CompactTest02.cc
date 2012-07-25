@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE (test006EmptyBean)
 {
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "006-empty-bean.xml"));
 
-        Variant vB = cont->getBean ("bean");
+        Variant vB = cont->getBean ("bean1");
         BOOST_CHECK (ccast <String> (vB));
 
         String cit = vcast <String> (vB);

@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-    <bean id="bean1" class="Address">
-        <property name="street" value="Ulica" />
-        <property name="postalCode" value="KodPocztowy" />
-    </bean>
-    
-    <bean id="bean3" parent="bean1">
-        <property name="String" value="Napis" />
-    </bean>    
+    <Address id="bean" street="Ulica" postalCode="KodPocztowy"/>
+    <bean1 id="bean3" String="Napis"/>
 </beans>

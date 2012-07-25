@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <!--Jesli propery mialyby sie udtawiac alfabetycznie, to ten test  nie przejdzie-->
-    <bean id="bean" class="Bar">
-        <constructor-arg><value>Test</value></constructor-arg>
+  <!--Jesli propery mialyby sie udtawiac alfabetycznie, to ten test nie przejdzie -->
+  <Bar id="bean">
+    <cargs>
+      <value>Test</value>
+    </cargs>
 
-        <property name="city3">
-                <bean class="City"/>
-        </property>
-        
-        <property name="aaaby">
-                <bean class="City"/>
-        </property>
+    <City set-as="city3" />
+    <City set-as="aaaby" />
+  </Bar>
 
-    </bean>
+  <!--A To bedzie zrzucac wyjatek z metody aaaby -->
+  <Bar id="bean">
+    <cargs>
+      <value>Test</value>
+    </cargs>
 
-<!--A To bedzie zrzucac wyjatek z metody aaaby-->
-    <bean id="bean2" class="Bar">
-        <constructor-arg><value>Test</value></constructor-arg>
+    <City set-as="aaaby" />
+    <City set-as="city3" />
+  </Bar>
 
-        <property name="aaaby">
-                <bean class="City"/>
-        </property>
-
-        <property name="city3">
-                <bean class="City"/>
-        </property>
-        
-    </bean>
-    
 </beans>

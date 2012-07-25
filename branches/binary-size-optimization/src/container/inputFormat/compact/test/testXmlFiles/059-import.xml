@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-    <list id="bean1" class="StringList"/>    
-    <!-- Ścieżka relatywna do CWD programu, a program jest w build -->
-    <import resource="../src/container/inputFormat/mxml/test/testXmlFiles/059-import-01.xml"/>
+  <StringList id="bean1" />
+  <!-- Ścieżka relatywna do CWD programu, a program jest w build -->
+  <import resource="../src/container/inputFormat/mxml/test/testXmlFiles/059-import-01.xml" />
 </beans>

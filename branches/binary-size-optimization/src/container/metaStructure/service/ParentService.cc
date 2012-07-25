@@ -28,7 +28,7 @@ bool ParentService::onMetaBegin (MetaObject *child)
         MetaObject *parent = container->get (parentName);
 
         if (!parent) {
-                throw NoSuchBeanException ("NoSuchBeanException @ ParentService::onMeta id=" + parentName);
+                throw NoSuchBeanException ("ParentService::onMetaBegin : Wrong 'parent' value. There is no bean with id =" + parentName);
         }
 
         if ((child->getType () == MetaObject::INDEXED && parent->getType () == MetaObject::MAPPED) ||

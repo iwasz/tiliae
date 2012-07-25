@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-        <String id="bean" />
+        <String id="bean1" />
 </beans>

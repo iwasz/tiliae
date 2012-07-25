@@ -1,70 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <bean id="bean" class="Bar">
-        <constructor-arg><value>Test</value></constructor-arg>
+  <Bar id="bean">
+    <cargs>
+      <value>Test</value>
+    </cargs>
 
-        <property name="butter">
-            <list class="StringList" id="inner" scope="singleton" />
-        </property>
+    <StringList id="inner" scope="singleton" set-as="butter" />
 
-        <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
-        <property name="butter2">
-            <ref bean="inner" />
-        </property>
-    </bean>
+    <!--Teraz property city i city3 mają referencję do tego samego obiektu. -->
+    <ref bean="inner" set-as="butter2" />
+  </Bar>
 
 
 
-    <list id="listaSingleton" class="BarList">
-        <ref bean="bean"/>
-        <ref bean="bean"/>
-    </list>
-    
-<!-- ======================================================================================== -->
+  <BarList id="listaSingleton">
+    <ref bean="bean" />
+    <ref bean="bean" />
+  </BarList>
 
-    <bean id="bean4" class="Bar">
-        <constructor-arg><value>Test</value></constructor-arg>
+  <!-- ======================================================================================== -->
 
-        <property name="butter">
-            <list class="StringList" id="inner" scope="prototype" />
-        </property>
+  <Bar id="bean4">
+    <cargs>
+      <value>Test</value>
+    </cargs>
 
-        <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
-        <property name="butter2">
-            <ref bean="inner" />
-        </property>
-    </bean>
+    <StringList id="inner" scope="prototype" set-as="butter" />
+
+    <!--Teraz property city i city3 mają referencję do tego samego obiektu. -->
+    <ref bean="inner" set-as="butter2" />
+  </Bar>
 
 
+  <BarList id="listaPrototype">
+    <ref bean="bean4" />
+    <ref bean="bean4" />
+  </BarList>
 
-    <list id="listaPrototype" class="BarList">
-        <ref bean="bean4"/>
-        <ref bean="bean4"/>
-    </list>
-    
-<!-- ======================================================================================== -->
+  <!-- ======================================================================================== -->
 
-    <bean id="bean2" class="Bar">
-        <constructor-arg><value>Test</value></constructor-arg>
+  <Bar id="bean2">
+    <cargs>
+      <value>Test</value>
+    </cargs>
 
-        <property name="butter">
-            <list class="StringList" id="inner" scope="bean" />
-        </property>
+    <StringList id="inner" scope="bean" set-as="butter" />
 
-        <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
-        <property name="butter2">
-            <ref bean="inner" />
-        </property>
-    </bean>
+    <!--Teraz property city i city3 mają referencję do tego samego obiektu. -->
+    <ref bean="inner" set-as="butter2" />
+  </Bar>
 
 
-    
-    <list id="listaBean1" class="BarList">
-        <ref bean="bean2"/>
-        <ref bean="bean2"/>
-    </list>
-    
+
+  <BarList id="listaBean1">
+    <ref bean="bean2" />
+    <ref bean="bean2" />
+  </BarList>
+
 </beans>

@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-	<ReflectionFactory id="reflectionFactory" />
+  <TestFactory id="mapFactory" />
 
-	<VariantMap id="mapFactParams" class="StringMap" />
+  <!-- Trochę to zakręcone. -->
+  <map id="myMap" factory="mapFactory">
+    <value set-as="k1">v1</value>
+    <value set-as="k2">v2</value>
+    <value set-as="k3">v3</value>
+    <value set-as="k4">v4</value>
+  </map>
 
-	<ProxyFactory id="mapFactory" factory="@reflectionFactory" params="@mapFactParams" />
-
-	<!-- Trochę to zakręcone. -->
-	<map id="myMap" factory="mapFactory">
-		<value set-as="k1">v1</value>
-		<value set-as="k2">v2</value>
-		<value set-as="k3">v3</value>
-		<value set-as="k4">v4</value>
-	</map>
-
-<!-- ========================================================= -->
-
-	<VariantMap id="listFactParams" class="StringVector" />
-
-	<ProxyFactory id="listFactory" factory="@reflectionFactory" params="@listFactParams" />
-
-	<list id="myList" factory="listFactory">
-		<value>v1</value>
-		<value>v2</value>
-		<value>v3</value>
-		<value>v4</value>
-	</list>
 </beans>

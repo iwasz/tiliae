@@ -31,7 +31,6 @@
 #include "collection/OrderedVariantMap.h"
 #include "StringFactoryMethodEditor.h"
 #include "TypeEditor.h"
-#include "allocator/RegionAllocator.h"
 
 namespace Wrapper {
 class IBeanWrapper;

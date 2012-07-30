@@ -70,9 +70,6 @@ public:
         std::string getParent () const { return attributes->getString (Attributes::PARENT_ARGUMENT, false); }
         void setParent (const std::string &parent) { attributes->setString (Attributes::PARENT_ARGUMENT, parent); }
 
-        std::string getDependsOn () const { return attributes->getString (Attributes::DEPENDSON_ARGUMENT); }
-        void setDependsOn (const std::string &dependsOn) { attributes->setString (Attributes::DEPENDSON_ARGUMENT, dependsOn); }
-
         std::string getInitMethod () const { return attributes->getString (Attributes::INITMETHOD_ARGUMENT); }
         void setInitMethod (const std::string &initMethod) { attributes->setString (Attributes::INITMETHOD_ARGUMENT, initMethod); }
 

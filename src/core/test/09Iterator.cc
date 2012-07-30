@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE (testVector)
         std::vector <int> v;
         v += 6,7,8,9,10,11,12;
 
-        BOOST_REQUIRE_EQUAL (v.size (), 7);
+        BOOST_REQUIRE_EQUAL (v.size (), 7U);
 
         Ptr <IIterator> i = boost::make_shared <TIterator<std::vector <int> > > (v.begin (), v.end ());
 
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (testList)
         std::list <int> l;
         l += 6,7,8,9,10,11,12;
 
-        BOOST_REQUIRE_EQUAL (l.size (), 7);
+        BOOST_REQUIRE_EQUAL (l.size (), 7U);
 
         Ptr <IIterator> i = boost::make_shared <TIterator<std::list <int> > > (l.begin (), l.end ());
 

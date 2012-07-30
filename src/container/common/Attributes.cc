@@ -81,26 +81,6 @@ bool Attributes::getBool (AttributeName key, bool getFromParent) const
 
 /****************************************************************************/
 
-//void Attributes::addAttributes (const Attributes &a)
-//{
-//        // TODO to się aż prosi o przeronieine tego na STL.
-//        foreach (Core::StringMap::value_type v, a.strMap) {
-//                Core::StringMap::iterator i = strMap.find (v.first);
-//                if (i == strMap.end ()) {
-//                        strMap[v.first] = v.second;
-//                }
-//        }
-//
-//        foreach (IntMap::value_type v, a.intMap) {
-//                IntMap::iterator i = intMap.find (v.first);
-//                if (i == intMap.end ()) {
-//                        intMap[v.first] = v.second;
-//                }
-//        }
-//}
-
-/****************************************************************************/
-
 void Attributes::removeAttribute (AttributeName key)
 {
         strMap.erase (key);

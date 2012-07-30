@@ -96,21 +96,21 @@ BOOST_AUTO_TEST_CASE (testUInt)
         {
                 unsigned int d = 667;
                 Variant v (d);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int> (v), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int *> (v)), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int const *>) (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int &> (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int const &> (v), 667);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int> (v), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int *> (v)), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int const *>) (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int &> (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int const &> (v), 667U);
         }
 
         {
                 unsigned int const d = 667;
                 Variant v (d);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int> (v), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int *> (v)), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int const *>) (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int &> (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int const &> (v), 667);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int> (v), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int *> (v)), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int const *>) (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int &> (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int const &> (v), 667U);
         }
 
 //        {
@@ -139,22 +139,22 @@ BOOST_AUTO_TEST_CASE (testUInt)
                 unsigned int d = 667;
                 unsigned int &rd = d;
                 Variant v (rd);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int> (v), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int *> (v)), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int const *>) (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int &> (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int const &> (v), 667);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int> (v), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int *> (v)), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int const *>) (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int &> (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int const &> (v), 667U);
         }
 
         {
-                unsigned int d = 667;
+                unsigned int d = 667U;
                 unsigned int const &crd = d;
                 Variant v (crd);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int> (v), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int *> (v)), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int const *>) (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int &> (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned int const &> (v), 667);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int> (v), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int *> (v)), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned int const *>) (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int &> (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned int const &> (v), 667U);
         }
 }
 
@@ -236,21 +236,21 @@ BOOST_AUTO_TEST_CASE (testULong)
         {
                 unsigned long int d = 667;
                 Variant v (d);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int> (v), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int *> (v)), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int const *>) (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int &> (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int const &> (v), 667);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int> (v), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int *> (v)), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int const *>) (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int &> (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int const &> (v), 667U);
         }
 
         {
-                unsigned long int const d = 667;
+                unsigned long int const d = 667U;
                 Variant v (d);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int> (v), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int *> (v)), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int const *>) (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int &> (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int const &> (v), 667);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int> (v), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int *> (v)), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int const *>) (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int &> (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int const &> (v), 667U);
         }
 
 //        {
@@ -279,22 +279,22 @@ BOOST_AUTO_TEST_CASE (testULong)
                 unsigned long int d = 667;
                 unsigned long int &rd = d;
                 Variant v (rd);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int> (v), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int *> (v)), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int const *>) (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int &> (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int const &> (v), 667);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int> (v), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int *> (v)), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int const *>) (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int &> (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int const &> (v), 667U);
         }
 
         {
-                unsigned long int d = 667;
+                unsigned long int d = 667U;
                 unsigned long int const &crd = d;
                 Variant v (crd);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int> (v), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int *> (v)), 667);
-                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int const *>) (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int &> (v), 667);
-                BOOST_REQUIRE_EQUAL (vcast <unsigned long int const &> (v), 667);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int> (v), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int *> (v)), 667U);
+                BOOST_REQUIRE_EQUAL (*(vcast <unsigned long int const *>) (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int &> (v), 667U);
+                BOOST_REQUIRE_EQUAL (vcast <unsigned long int const &> (v), 667U);
         }
 }
 

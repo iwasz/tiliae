@@ -55,7 +55,7 @@ using namespace Wrapper;
 
 void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCont)
 {
-        MetaVisitor iteration0; // TODO testowa, w celu naprawienia błędu z parentowaniem.
+        MetaVisitor iteration0;
         MetaVisitor iteration1;
         MetaVisitor iteration2;
         BeanFactoryContext ctx;
@@ -74,9 +74,9 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 
                 iteration1.setContext (&context);
 
-//                Ptr <IMetaService> service = ParentService::create ();
-//                service->setContext (&context);
-//                iteration1.addService (service);
+//                ParentService parentService;
+//                parentService.setContext (&context);
+//                iteration1.addService (&parentService);
 
                 BeanFactoryInitService bfService;
                 bfService.setContext (&context);

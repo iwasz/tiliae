@@ -26,18 +26,15 @@ class TILIAE_API Attributes {
 public:
 
         enum AttributeName {
-                ABSTRACT_ARGUMENT,
-                LAZYINIT_ARGUMENT,
-                ID_ARGUMENT,
-                CLASS_ARGUMENT,
-                PARENT_ARGUMENT,
-                DEPENDSON_ARGUMENT,
-                INITMETHOD_ARGUMENT,
-                FACTORY_ARGUMENT,
-                EDITOR_ARGUMENT,
-                DESCRIPTION_ARGUMENT,
-                OUTER_ARGUMENT,
-                SCOPE_ARGUMENT,
+                ABSTRACT_ARGUMENT,    // b
+                LAZYINIT_ARGUMENT,    // b
+                ID_ARGUMENT,          // s
+                CLASS_ARGUMENT,       // s
+                PARENT_ARGUMENT,      // s
+                INITMETHOD_ARGUMENT,  // s
+                FACTORY_ARGUMENT,     // s
+                EDITOR_ARGUMENT,      // s
+                SCOPE_ARGUMENT,       // s
         };
 
         void setString (AttributeName key, const std::string &value);
@@ -49,7 +46,6 @@ public:
         void setBool (AttributeName key, bool value);
         bool getBool (AttributeName key, bool getFromParent = true) const;
 
-//        void addAttributes (const Attributes &a);
         void removeAttribute (AttributeName key);
         bool containsKey (AttributeName key, bool getFromParent = true) const;
 

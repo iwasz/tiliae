@@ -29,7 +29,7 @@ static const char *CLASS_NAME = "class";
 
 BeanFactory::BeanFactory () :
         flags (0x00),
-        id (NULL),
+//        id (NULL),
         cArgs (NULL),
         cArgsEditor (NULL),
         editor (NULL),
@@ -73,7 +73,7 @@ BeanFactory::~BeanFactory ()
 void BeanFactory::setAttributes (Ptr <Attributes> attributes)
 {
         this->attributes = attributes;
-        id = &(attributes->getString (Attributes::ID_ARGUMENT, false));
+        id = attributes->getString (Attributes::ID_ARGUMENT, false);
 }
 
 /****************************************************************************/
@@ -89,7 +89,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                         if (bfc->getNested () > MAX_BEAN_NESTING) {
                                 // Nie bawimy się w fatale, bo to jest tak krytyczmny bład, że trzeba przerwać działanie programu.
-                                throw TooDeepNestingException ("BeanFactory::create. Id : [" + *id + "]. Too deep "
+                                throw TooDeepNestingException ("BeanFactory::create. Id : [" + id + "]. Too deep "
                                       "bean nesting. Max level of nested beans is : " + boost::lexical_cast <std::string> (MAX_BEAN_NESTING));
                         }
                 }
@@ -119,7 +119,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                 if (cArgsEditor) {
                         if (!cArgsEditor->convert (Core::Variant (cArgs), &cArgsEdited, context)) {
                                 dcCommit (context);
-                                dcError (context, "Constructor args editor failed. ID : " + *id);
+                                dcError (context, "Constructor args editor failed. ID : " + id);
                                 return Core::Variant ();
                         }
 
@@ -133,7 +133,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 if (output.isNone ()) {
                         dcCommit (context);
-                        dcError (context,  "Factory in BeanFactory failed. ID : " + *id);
+                        dcError (context,  "Factory in BeanFactory failed. ID : " + id);
                         return Core::Variant ();
                 }
 
@@ -147,7 +147,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 if (output.isNull ()) {
                         dcCommit (context);
-                        dcError (context, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + *id + "]");
+                        dcError (context, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + id + "]");
                         return Core::Variant ();
                 }
 
@@ -156,7 +156,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 if (!editor->convert (getInput (), &output, context)) {
                         dcCommit (context);
-                        dcError (context, "Editor in BeanFactory failed. ID : " + *id);
+                        dcError (context, "Editor in BeanFactory failed. ID : " + id);
                         return Core::Variant ();
                 }
 
@@ -174,7 +174,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                         if (err) {
                                 dcCommit (context);
-                                dcError (context, "Invocation of init method in BeanFactory failed. ID : " + *id);
+                                dcError (context, "Invocation of init method in BeanFactory failed. ID : " + id);
                                 return Core::Variant ();
                         }
                 }
@@ -192,7 +192,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
         }
         catch (Core::Exception &e) {
                 dcCommit (context);
-                dcError (context, "BeanFactory::create. Id : [" + *id +
+                dcError (context, "BeanFactory::create. Id : [" + id +
                                 "] fullyInitialized : [" + boost::lexical_cast <std::string> (flags & FULLY_INITIALIZED) + "]. Exception caught : " +
                                 e.what ());
         }
@@ -271,7 +271,7 @@ std::string BeanFactory::toString () const
         bool comma = false;
 
         if (attributes->containsKey (Attributes::ID_ARGUMENT, false)) {
-                ret += "id=" + *id;
+                ret += "id=" + id;
                 comma = true;
         }
 
@@ -301,13 +301,13 @@ void BeanFactory::addInnerBeanFactory (Ptr <BeanFactory> bf)
 
 /****************************************************************************/
 
-Ptr <BeanFactory> BeanFactory::getInnerBeanFactory (const std::string &id) const
+Ptr <BeanFactory> BeanFactory::getInnerBeanFactory (const std::string &myId) const
 {
         if (innerBeanFactories) {
 
                 BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
 
-                BeanFactoryMap::nth_index <0>::type::iterator i = map->get<0> ().find (id);
+                BeanFactoryMap::nth_index <0>::type::iterator i = map->get<0> ().find (myId);
 
                 if (i != map->get<0> ().end ()) {
                         return *i;
@@ -315,7 +315,7 @@ Ptr <BeanFactory> BeanFactory::getInnerBeanFactory (const std::string &id) const
         }
 
         if (getOuterBeanFactory ()) {
-                return getOuterBeanFactory ()->getInnerBeanFactory (id);
+                return getOuterBeanFactory ()->getInnerBeanFactory (myId);
         }
 
         return Ptr <BeanFactory> ();

@@ -12,6 +12,7 @@
 #include "metaStructure/interface/IDataVisitor.h"
 #include "ApiMacro.h"
 #include "MetaObject.h"
+#include "allocator/ArrayRegionAllocator.h"
 
 namespace Container {
 
@@ -47,10 +48,13 @@ public:
         Ptr <MetaContainer const> getLinked () const { return linked; }
         void setLinked (Ptr <MetaContainer const> l) { linked = l; }
 
+        Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
+
 private:
 
         MetaMap metaMap;
         Ptr <MetaContainer const> linked;
+        Core::ArrayRegionAllocator <char> memoryAllocator;
 };
 
 }

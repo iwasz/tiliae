@@ -36,7 +36,7 @@ bool PrintMetaService::onMappedMetaBegin (MetaObject *data)
                                 << "])" <<std::endl;
         }
         else {
-                *buffer += getContext ()->getDepth() + "MappedMeta (" + data->getId () + ")\n";
+                *buffer += getContext ()->getDepth() + "MappedMeta (" + std::string (data->getId ()) + ")\n";
         }
 
         return true;
@@ -52,7 +52,7 @@ bool PrintMetaService::onIndexedMetaBegin (MetaObject *data)
                                 << "])" <<std::endl;
         }
         else {
-                *buffer += getContext ()->getDepth() + "IndexedMeta (" + data->getId () + ")\n";
+                *buffer += getContext ()->getDepth() + "IndexedMeta (" + std::string (data->getId ()) + ")\n";
         }
 
         return true;
@@ -64,7 +64,7 @@ void PrintMetaService::onValueData (std::string const &key, ValueData *data)
                 std::cerr << getContext ()->getDepth() << "ValueData (" << data->getData() << ")" <<std::endl;
         }
         else {
-                *buffer += getContext ()->getDepth() + "ValueData (" + data->getData() + ")\n";
+                *buffer += getContext ()->getDepth() + "ValueData (" + std::string (data->getData()) + ")\n";
         }
 }
 
@@ -84,7 +84,7 @@ void PrintMetaService::onRefData (std::string const &key, RefData *data)
                 std::cerr << getContext ()->getDepth() << "RefData (" << data->getData() << ")" <<std::endl;
         }
         else {
-                *buffer += getContext ()->getDepth() + "RefData (" + data->getData() + ")\n";
+                *buffer += getContext ()->getDepth() + "RefData (" + std::string (data->getData()) + ")\n";
         }
 }
 

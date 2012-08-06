@@ -15,7 +15,8 @@ namespace Container {
 MetaContainer::~MetaContainer ()
 {
         for (MetaMap::iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
-                delete i->second;
+//                delete i->second;
+                i->second->~MetaObject ();
         }
 }
 
@@ -23,15 +24,17 @@ MetaContainer::~MetaContainer ()
 
 void MetaContainer::add (MetaObject *val)
 {
-        if (boost::trim_copy (val->getId ()) == "") {
+        std::string id = val->getId ();
+
+        if (boost::trim_copy (id) == "") {
                 throw ConfigurationException ("MetaContainer::add : ID is empty. Root level beans must have proper ID.");
         }
 
-        if (get (val->getId ())) {
-                throw ConfigurationException ("MetaContainer::add : There is already a bean with ID [" + val->getId () + "].");
+        if (get (id)) {
+                throw ConfigurationException ("MetaContainer::add : There is already a bean with ID [" + id + "].");
         }
 
-        metaMap[val->getId ()] = val;
+        metaMap[id] = val;
 }
 
 /****************************************************************************/

@@ -6,17 +6,12 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include <boost/lexical_cast.hpp>
-#include "SimpleIdGenerator.h"
-#include "../../metaStructure/model/MetaObject.h"
+#ifndef META_CONTAINER_MODEL_H_
+#define META_CONTAINER_MODEL_H_
 
-namespace Container {
+#include "MetaContainer.h"
+#include "MetaFactory.h"
+#include "MetaObject.h"
+#include "MetaStructure.h"
 
-const char *SIMPLE_ID_GENERATOR_PREFIX = "ID_";
-
-std::string SimpleIdGenerator::generate (MetaObject *m) const
-{
-        return std::string (m->getClass()) + "_" + boost::lexical_cast <std::string> (num++);
-}
-
-}
+#endif /* MODEL_H_ */

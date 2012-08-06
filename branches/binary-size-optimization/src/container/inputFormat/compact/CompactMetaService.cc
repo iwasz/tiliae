@@ -206,110 +206,110 @@ void Impl::onCloseElement (mxml_node_t *node)
 
 void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta, MetaObject *outer)
 {
-        std::string name = mxmlGetElement (node);
-
-        if (checkIfSpecial (name)) {
-                // Nie ustawiaj ani class, ani parent
-        }
-        else if (checkIfClass (name)) {
-                meta->setClass (name);
-        }
-        else {
-                meta->setParent (name);
-        }
-
-        std::string setAs, addTo;
-
-        mxml_attr_t *attr = node->value.element.attrs;
-        for (int i = 0; i < node->value.element.num_attrs; ++i) {
-                mxml_attr_t *cur = attr + i;
-                std::string name = cur->name;
-                std::string value = cur->value;
-
-#if 0
-                std::cerr << name << ", " << value << std::endl;
-#endif
-
-                // Standardowe atrybuty:
-                if (name == "id") {
-                        validateId (value);
-                        meta->setId (value);
-                }
-                else if (name == "singleton") {
-                        meta->setScope ((value == "true") ? (MetaObject::SINGLETON) : (MetaObject::PROTOTYPE));
-                }
-                else if (name == "scope") {
-                        if (value == "singleton") {
-                                meta->setScope (MetaObject::SINGLETON);
-                        }
-                        else if (value == "prototype") {
-                                meta->setScope (MetaObject::PROTOTYPE);
-                        }
-                        else if (value == "bean") {
-                                meta->setScope (MetaObject::BEAN);
-                        }
-                        else {
-                                throw XmlMetaServiceException ("Impl::onOpenBean : wrong value for argument 'scope'. Correct values are : 'singleton', 'prototype' and 'bean'. You provided : " + std::string (value));
-                        }
-                }
-                else if (name == "lazy-init") {
-                        meta->setLazyInit (value == "true");
-                }
-                else if (name == "init-method") {
-                        meta->setInitMethod (value);
-                }
-                else if (name == "editor") {
-                        meta->setEditor (value);
-                }
-                else if (name == "factory") {
-                        meta->setFactory (value);
-                }
-                else if (name == "abstract") {
-                        meta->setAbstract (value == "true");
-                }
-                else if (name == "set-as") {
-                        setAs = value;
-                }
-                else if (name == "add-to") {
-                        addTo = value;
-                }
-                // Property
-                else {
-                        DataKey dk;
-                        dk.key = name;
-
-                        if (!value.empty () && value[0] == '@') {
-                                dk.data = new RefData (value.substr (1));
-                        }
-                        else {
-                                dk.data = new ValueData (value);
-                        }
-
-                        MetaObject *meta =  getCurrentMeta ();
-                        meta->addMapField (dk);
-                }
-        }
-
-        if (outer) {
-                DataKey elem;
-                RefData *refData = new RefData ();
-                elem.data = refData;
-
-                if (meta->getId ().empty ()) {
-                        meta->setId (generateId (meta));
-                }
-
-                refData->setData (meta->getId ());
-
-                if (!setAs.empty ()) {
-                        elem.key = setAs;
-                }
-                else if (!addTo.empty ()) {
-                        elem.key = addTo;
-                }
-
-                addElem (outer, elem);
-        }
+//        std::string name = mxmlGetElement (node);
+//
+//        if (checkIfSpecial (name)) {
+//                // Nie ustawiaj ani class, ani parent
+//        }
+//        else if (checkIfClass (name)) {
+//                meta->setClass (name);
+//        }
+//        else {
+//                meta->setParent (name);
+//        }
+//
+//        std::string setAs, addTo;
+//
+//        mxml_attr_t *attr = node->value.element.attrs;
+//        for (int i = 0; i < node->value.element.num_attrs; ++i) {
+//                mxml_attr_t *cur = attr + i;
+//                std::string name = cur->name;
+//                std::string value = cur->value;
+//
+//#if 0
+//                std::cerr << name << ", " << value << std::endl;
+//#endif
+//
+//                // Standardowe atrybuty:
+//                if (name == "id") {
+//                        validateId (value);
+//                        meta->setId (value);
+//                }
+//                else if (name == "singleton") {
+//                        meta->setScope ((value == "true") ? (MetaObject::SINGLETON) : (MetaObject::PROTOTYPE));
+//                }
+//                else if (name == "scope") {
+//                        if (value == "singleton") {
+//                                meta->setScope (MetaObject::SINGLETON);
+//                        }
+//                        else if (value == "prototype") {
+//                                meta->setScope (MetaObject::PROTOTYPE);
+//                        }
+//                        else if (value == "bean") {
+//                                meta->setScope (MetaObject::BEAN);
+//                        }
+//                        else {
+//                                throw XmlMetaServiceException ("Impl::onOpenBean : wrong value for argument 'scope'. Correct values are : 'singleton', 'prototype' and 'bean'. You provided : " + std::string (value));
+//                        }
+//                }
+//                else if (name == "lazy-init") {
+//                        meta->setLazyInit (value == "true");
+//                }
+//                else if (name == "init-method") {
+//                        meta->setInitMethod (value);
+//                }
+//                else if (name == "editor") {
+//                        meta->setEditor (value);
+//                }
+//                else if (name == "factory") {
+//                        meta->setFactory (value);
+//                }
+//                else if (name == "abstract") {
+//                        meta->setAbstract (value == "true");
+//                }
+//                else if (name == "set-as") {
+//                        setAs = value;
+//                }
+//                else if (name == "add-to") {
+//                        addTo = value;
+//                }
+//                // Property
+//                else {
+//                        DataKey dk;
+//                        dk.key = name;
+//
+//                        if (!value.empty () && value[0] == '@') {
+//                                dk.data = new RefData (value.substr (1));
+//                        }
+//                        else {
+//                                dk.data = new ValueData (value);
+//                        }
+//
+//                        MetaObject *meta =  getCurrentMeta ();
+//                        meta->addMapField (dk);
+//                }
+//        }
+//
+//        if (outer) {
+//                DataKey elem;
+//                RefData *refData = new RefData ();
+//                elem.data = refData;
+//
+//                if (meta->getId ().empty ()) {
+//                        meta->setId (generateId (meta));
+//                }
+//
+//                refData->setData (meta->getId ());
+//
+//                if (!setAs.empty ()) {
+//                        elem.key = setAs;
+//                }
+//                else if (!addTo.empty ()) {
+//                        elem.key = addTo;
+//                }
+//
+//                addElem (outer, elem);
+//        }
 }
 
 /****************************************************************************/
@@ -723,7 +723,8 @@ Ptr <MetaContainer> CompactMetaService::parseFile (std::string const &path, Ptr 
 
 std::string Impl::generateId (MetaObject *m) const
 {
-        std::string prefix = (m->getClass().empty ()) ? (m->getParent ()) : (m->getClass ());
+        std::string clazz = m->getClass();
+        std::string prefix = (clazz.empty ()) ? (m->getParent ()) : (clazz);
         return prefix + "_" + boost::lexical_cast <std::string> (singetinNumber++);
 }
 

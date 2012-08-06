@@ -10,81 +10,99 @@
 
 namespace Container {
 
-void Attributes::setString (AttributeName key, const std::string &value)
+Attributes::Attributes () : integerData (0)
 {
-        strMap[key] = value;
+        for (int i = 0; i < LAST_STRING; ++i) {
+                strMapData[i] = NULL;
+        }
 }
 
 /****************************************************************************/
 
-std::string const &Attributes::getString (AttributeName key, bool getFromParent) const
+void Attributes::setString (AttributeName key, const char *value)
 {
-        AttribStrMap::const_iterator i = strMap.find (key);
+        strMapData[key] = value;
+}
 
-        if (i != strMap.end ()) {
-                return i->second;
+/****************************************************************************/
+
+const char *Attributes::getString (AttributeName key, bool getFromParent) const
+{
+        const char *ret = strMapData[key];
+
+        if (ret) {
+                return ret;
         }
 
         if (getFromParent && parent) {
                 return parent->getString (key);
         }
 
-        static std::string empty;
-        return empty;
+        static const char *EMPTY = "";
+        return EMPTY;
 }
 
 /****************************************************************************/
 
 void Attributes::setInt (AttributeName key, int value)
 {
-        intMap[key] = value;
+        switch (key) {
+        case ABSTRACT_ARGUMENT:
+                integerData |= value & ABSTRACT_ARGUMENT_MASK;
+                integerData |= ABSTRACT_ARGUMENT_SET;
+                break;
+
+        case LAZYINIT_ARGUMENT:
+                integerData |= value & LAZYINIT_ARGUMENT_MASK;
+                integerData |= LAZYINIT_ARGUMENT_SET;
+                break;
+
+        case SCOPE_ARGUMENT:
+                integerData |= value & SCOPE_ARGUMENT_MASK;
+                integerData |= SCOPE_ARGUMENT_SET;
+                break;
+
+        default:
+                break;
+        }
+}
+
+/****************************************************************************/
+
+int Attributes::getIntPriv (AttributeName key) const
+{
+        switch (key) {
+        case ABSTRACT_ARGUMENT:
+                return (integerData & ABSTRACT_ARGUMENT_SET) ? (integerData & ABSTRACT_ARGUMENT_MASK) : (-1);
+
+        case LAZYINIT_ARGUMENT:
+                return (integerData & LAZYINIT_ARGUMENT_SET) ? (integerData & LAZYINIT_ARGUMENT_MASK) : (-1);
+
+        case SCOPE_ARGUMENT:
+                return (integerData & SCOPE_ARGUMENT_SET) ? (integerData & SCOPE_ARGUMENT_MASK) : (-1);
+
+        default:
+                return -1;
+        }
+
+        return -1;
 }
 
 /****************************************************************************/
 
 int Attributes::getInt (AttributeName key, bool getFromParent) const
 {
-        AttribIntMap::const_iterator i = intMap.find (key);
-        if (i != intMap.end ()) {
-                return i->second;
+        int ret = getIntPriv (key);
+
+        if (ret >= 0) {
+               return ret;
         }
 
         if (getFromParent && parent) {
                 return parent->getInt (key);
         }
 
-        return 0;
-}
-
-/****************************************************************************/
-
-void Attributes::setBool (AttributeName key, bool value)
-{
-        intMap[key] = value;
-}
-
-/****************************************************************************/
-
-bool Attributes::getBool (AttributeName key, bool getFromParent) const
-{
-        AttribIntMap::const_iterator i = intMap.find (key);
-        if (i != intMap.end ()) {
-                return i->second;
-        }
-
-        if (getFromParent && parent) {
-                return parent->getBool (key);
-        }
-
-        return false;
-}
-
-/****************************************************************************/
-
-void Attributes::removeAttribute (AttributeName key)
-{
-        strMap.erase (key);
-        intMap.erase (key);
+        return -1;
 }
 
 /****************************************************************************/
@@ -97,8 +115,19 @@ bool Attributes::containsKey (AttributeName key, bool getFromParent) const
                 foundInParent = parent->containsKey (key);
         }
 
-        return strMap.find (key) != strMap.end () || intMap.find (key) != intMap.end () || foundInParent;
-}
+        bool foundInChild = false;
+        int iKey = static_cast <int> (key);
 
+        if (iKey > 0 && iKey < LAST_STRING) {
+                foundInChild = bool (strMapData[iKey]);
+        }
+        else if (iKey >= ABSTRACT_ARGUMENT && iKey <= SCOPE_ARGUMENT) {
+                 foundInChild = ((iKey == ABSTRACT_ARGUMENT) && (integerData & ABSTRACT_ARGUMENT_SET)) ||
+                                ((iKey == LAZYINIT_ARGUMENT) && (integerData & LAZYINIT_ARGUMENT_SET)) ||
+                                ((iKey == SCOPE_ARGUMENT) && (integerData & SCOPE_ARGUMENT_SET));
+        }
+
+        return foundInChild || foundInParent;
+}
 
 }

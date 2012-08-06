@@ -26,38 +26,50 @@ class TILIAE_API Attributes {
 public:
 
         enum AttributeName {
-                ABSTRACT_ARGUMENT,    // b
-                LAZYINIT_ARGUMENT,    // b
                 ID_ARGUMENT,          // s
                 CLASS_ARGUMENT,       // s
                 PARENT_ARGUMENT,      // s
                 INITMETHOD_ARGUMENT,  // s
                 FACTORY_ARGUMENT,     // s
                 EDITOR_ARGUMENT,      // s
-                SCOPE_ARGUMENT,       // s
+                LAST_STRING,
+                ABSTRACT_ARGUMENT,
+                LAZYINIT_ARGUMENT,
+                SCOPE_ARGUMENT
         };
 
-        void setString (AttributeName key, const std::string &value);
-        std::string const &getString (AttributeName key, bool getFromParent = true) const;
+        Attributes ();
+
+        void setString (AttributeName key, const char *value);
+        const char *getString (AttributeName key, bool getFromParent = true) const;
 
         void setInt (AttributeName key, int value);
         int getInt (AttributeName key, bool getFromParent = true) const;
 
-        void setBool (AttributeName key, bool value);
-        bool getBool (AttributeName key, bool getFromParent = true) const;
+        void setBool (AttributeName key, bool value) { setInt (key, value); }
+        bool getBool (AttributeName key, bool getFromParent = true) const { return bool (getInt (key, getFromParent)); }
 
-        void removeAttribute (AttributeName key);
         bool containsKey (AttributeName key, bool getFromParent = true) const;
-
         void setParentAttributes (Ptr <Attributes const> a) { parent = a; }
 
 private:
 
-        typedef std::map <unsigned char, int> AttribIntMap;
-        typedef std::map <unsigned char, std::string> AttribStrMap;
+        enum IntegerAttributeMaskAndSet {
+                ABSTRACT_ARGUMENT_MASK = 0x01,
+                ABSTRACT_ARGUMENT_SET = 0x02,
+                LAZYINIT_ARGUMENT_MASK = 0x04,
+                LAZYINIT_ARGUMENT_SET = 0x08,
+                SCOPE_ARGUMENT_MASK = 0x30,
+                SCOPE_ARGUMENT_SET = 0x40,
+        };
 
-        AttribStrMap strMap;
-        AttribIntMap intMap;
+        int getIntPriv (AttributeName key) const;
+
+private:
+
+        const char *strMapData[LAST_STRING];
+        unsigned int integerData;
+
         Ptr <Attributes const> parent;
 };
 

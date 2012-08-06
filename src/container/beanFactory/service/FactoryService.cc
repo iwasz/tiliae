@@ -56,7 +56,7 @@ bool FactoryService::onMetaBegin (MetaObject *data)
         }
 
         if (!factory) {
-                throw BeanNotFullyInitializedException ("Can't create factory BeanFactory. Bean id : (" + data->getId () + "), factory name : (" + data->getFactory () + ").");
+                throw BeanNotFullyInitializedException ("Can't create factory BeanFactory. Bean id : (" + std::string (data->getId ()) + "), factory name : (" + std::string (data->getFactory ()) + ").");
         }
 
         return true;

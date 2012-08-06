@@ -21,16 +21,16 @@ namespace Container {
 class TILIAE_API ValueData : public IData {
 public:
 
-        ValueData () {}
-        ValueData (const std::string &d) : data (d) {}
-        ValueData (const std::string &d, const std::string &t) : data (d), type (t) {}
+        ValueData () : data (NULL), type (NULL) {}
+        ValueData (const char *d) : data (d) {}
+        ValueData (const char *d, const char *t) : data (d), type (t) {}
         virtual ~ValueData () {}
 
-        std::string const &getData () const { return data; }
-        void setData (const std::string &data) { this->data = data; }
+        const char *getData () const { return data; }
+        void setData (const char *data) { this->data = data; }
 
-        std::string const &getType () const { return type; }
-        void setType (const std::string &type) { this->type = type; }
+        const char *getType () const { return type; }
+        void setType (const char *type) { this->type = type; }
 
 /*--------------------------------------------------------------------------*/
 
@@ -38,8 +38,8 @@ public:
 
 private:
 
-        std::string data;
-        std::string type;
+        const char *data;
+        const char *type;
 
 };
 

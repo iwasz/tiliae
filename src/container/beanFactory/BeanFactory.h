@@ -68,7 +68,7 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        std::string const &getId () const { return *id; }
+        std::string const &getId () const { return id; }
 
         /**
          * Pobiera fabrykę, która tworzy fizycznego beana. Najczęściej będzie to
@@ -91,7 +91,7 @@ public:
         void setAttributes (Ptr <Attributes> attributes);
         std::string getStringAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getString (key, getFromParent); }
         int getIntAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
-        bool getBoolAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getBool (key, getFromParent); }
+        bool getBoolAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
 
         Core::VariantList const *getInputList () const { return inputList; }
         void setInputList (Core::VariantList const *input) { this->inputList = input; flags |= INPUT_LIST; flags &= ~INPUT_MAP; }
@@ -143,7 +143,7 @@ private:
 
         mutable unsigned int flags;
 
-        std::string const *id;
+        std::string id;
 
         union {
                 Core::VariantList const *inputList;

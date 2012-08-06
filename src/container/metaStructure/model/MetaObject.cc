@@ -31,21 +31,24 @@ MetaObject::~MetaObject ()
 {
         if (listFields) {
                 for (DataVector::iterator i = listFields->begin (); i != listFields->end (); ++i) {
-                        delete *i;
+//                        delete *i;
+                        (*i)->~IData ();
                 }
                 delete listFields;
         }
 
         if (mapFields) {
                 for (DataKeyIterator0 i = mapFields->begin (); i != mapFields->end (); ++i) {
-                        delete i->data;
+//                        delete i->data;
+                        i->data->~IData ();
                 }
                 delete mapFields;
         }
 
         if (constructorArgs) {
                 for (DataVector::iterator i = constructorArgs->begin (); i != constructorArgs->end (); ++i) {
-                        delete *i;
+//                        delete *i;
+                        (*i)->~IData ();
                 }
         }
 
@@ -53,7 +56,8 @@ MetaObject::~MetaObject ()
 
         if (innerMetas) {
                 for (MetaMap::iterator i = innerMetas->begin (); i != innerMetas->end (); ++i) {
-                        delete i->second;
+//                        delete i->second;
+                        i->second->~MetaObject();
                 }
         }
 
@@ -91,17 +95,18 @@ void MetaObject::setInnerMetas (const MetaMap &m)
 void MetaObject::addInnerMeta (MetaObject *m)
 {
         initInnerMetas ();
+        std::string id = m->getId ();
 
         // Nie powinno się zdarzyć.
-        if (boost::trim_copy (m->getId ()) == "") {
+        if (boost::trim_copy (id) == "") {
                 throw ConfigurationException ("AbstractMeta::addInnerMeta : ID is empty. ID should be generated automatically or provided explicitly.");
         }
 
-        if (getInnerMeta (m->getId ())) {
-                throw ConfigurationException ("AbstractMeta::addInnerMeta : There is already a inner bean with ID [" + m->getId () + "].");
+        if (getInnerMeta (id)) {
+                throw ConfigurationException ("AbstractMeta::addInnerMeta : There is already a inner bean with ID [" + id + "].");
         }
 
-        innerMetas->operator [] (m->getId ()) = m;
+        innerMetas->operator [] (id) = m;
 }
 
 /****************************************************************************/

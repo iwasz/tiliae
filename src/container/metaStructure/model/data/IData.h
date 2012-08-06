@@ -28,7 +28,7 @@ namespace Container {
  */
 struct TILIAE_API IData {
         virtual ~IData () {}
-        virtual std::string const &getData () const = 0;
+        virtual const char *getData () const = 0;
         virtual void accept (std::string const &key, IDataVisitor *visitor) = 0;
 };
 

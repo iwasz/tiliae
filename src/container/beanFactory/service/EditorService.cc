@@ -71,7 +71,7 @@ bool EditorService::onMappedMetaBegin (MetaObject *meta)
         }
 
         if (!editor) {
-                throw BeanNotFullyInitializedException ("Can't create editor for BeanFactory. Bean id : (" + meta->getId () + "), editor name : (" + meta->getEditor () + ").");
+                throw BeanNotFullyInitializedException ("Can't create editor for BeanFactory. Bean id : (" + std::string (meta->getId ()) + "), editor name : (" + std::string (meta->getEditor ()) + ").");
         }
 
         beanFactory->setEditor (editor, true);
@@ -115,7 +115,7 @@ bool EditorService::onIndexedMetaBegin (MetaObject *meta)
 
         if (!editor) {
                 throw BeanNotFullyInitializedException ("Can't create editor for BeanFactory. Bean id : (" +
-                        meta->getId () + "), editor name : (" + meta->getEditor () + ").");
+                                std::string (meta->getId ()) + "), editor name : (" + std::string (meta->getEditor ()) + ").");
         }
 
         return true;
@@ -257,7 +257,7 @@ void EditorService::onRefData (std::string const &key, RefData *data)
         }
 
         if (element.type == Element::EMPTY) {
-                throw BeanNotFullyInitializedException ("Can't resolve reference (" + data->getData () + ").");
+                throw BeanNotFullyInitializedException ("Can't resolve reference (" + std::string (data->getData ()) + ").");
         }
 
         if (currentIndexedEditor) {

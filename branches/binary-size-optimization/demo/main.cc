@@ -18,13 +18,15 @@ using namespace Container;
 using namespace std;
 
 #define printSize(a) std::cout << #a "=" << sizeof(a) << std::endl;
+#include <vector>
+#include <list>
 
 
-struct TILIAE_API AllocationException : public Core::Exception {
-        AllocationException (std::string const &m = "") : Core::Exception (m) {}
-        AllocationException (Core::DebugContext const &db, std::string const &s = "") : Core::Exception (db, s) {}
-        virtual ~AllocationException () throw () {}
-};
+//struct TILIAE_API AllocationException : public Core::Exception {
+//        AllocationException (std::string const &m = "") : Core::Exception (m) {}
+//        AllocationException (Core::DebugContext const &db, std::string const &s = "") : Core::Exception (db, s) {}
+//        virtual ~AllocationException () throw () {}
+//};
 
 
 
@@ -52,7 +54,7 @@ int main (int argc, char **argv)
 //        printSize (bool);
 //        printSize (int *);
 //
-//        printSize (Container::MetaObject);
+        printSize (Container::MetaObject);
 //        printSize (Container::MetaObject);
 //        printSize (Container::RefData);
 //        printSize (Container::ValueData);
@@ -69,6 +71,8 @@ int main (int argc, char **argv)
 //        }
 
 //        new char [5000];
+
+//        std::list <char> vec (5000);
 
 
 #if 1

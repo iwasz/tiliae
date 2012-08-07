@@ -72,7 +72,7 @@ struct Impl {
         MetaObject *popCurrentMeta ();
         MetaObject *getCurrentMeta () const;
 
-        DataKey &pushNewDataKey ();
+        DataKey *pushNewDataKey ();
         void popCurrentDataKeyAddToMapped ();
         void popCurrentDataKeyAddToIndexed ();
         DataKey *getCurrentDataKey ();
@@ -308,20 +308,20 @@ void Impl::onCloseBean (mxml_node_t *node)
 
 void Impl::onOpenProperty (mxml_node_t *node)
 {
-        DataKey &elem = pushNewDataKey ();
+        DataKey *elem = pushNewDataKey ();
 
         char const *argVal = NULL;
 
         if ((argVal = mxmlElementGetAttr (node, "value"))) {
-                elem.data = factory.newValueData (factory.newString (argVal));
+                elem->data = factory.newValueData (factory.newString (argVal));
         }
 
         if ((argVal = mxmlElementGetAttr (node, "ref"))) {
-                elem.data = factory.newRefData (factory.newString (argVal));
+                elem->data = factory.newRefData (factory.newString (argVal));
         }
 
         if ((argVal = mxmlElementGetAttr (node, "name"))) {
-                elem.key = factory.newString (argVal);
+                elem->key = factory.newString (argVal);
         }
 }
 
@@ -329,20 +329,20 @@ void Impl::onOpenProperty (mxml_node_t *node)
 
 void Impl::onOpenEntry (mxml_node_t *node)
 {
-        DataKey &elem = pushNewDataKey ();
+        DataKey *elem = pushNewDataKey ();
 
         char const *argVal = NULL;
 
         if ((argVal = mxmlElementGetAttr (node, "value"))) {
-                elem.data = factory.newValueData (factory.newString (argVal));
+                elem->data = factory.newValueData (factory.newString (argVal));
         }
 
         if ((argVal = mxmlElementGetAttr (node, "ref"))) {
-                elem.data = factory.newRefData (factory.newString (argVal));
+                elem->data = factory.newRefData (factory.newString (argVal));
         }
 
         if ((argVal = mxmlElementGetAttr (node, "key"))) {
-                elem.key = factory.newString (argVal);
+                elem->key = factory.newString (argVal);
         }
 }
 
@@ -387,16 +387,16 @@ void Impl::onCloseMap (mxml_node_t *node)
 
 void Impl::onOpenCArg (mxml_node_t *node)
 {
-        DataKey &elem = pushNewDataKey ();
+        DataKey *elem = pushNewDataKey ();
 
         char const *argVal = NULL;
 
         if ((argVal = mxmlElementGetAttr (node, "value"))) {
-                elem.data = factory.newValueData (factory.newString (argVal));
+                elem->data = factory.newValueData (factory.newString (argVal));
         }
 
         if ((argVal = mxmlElementGetAttr (node, "ref"))) {
-                elem.data = factory.newRefData (factory.newString (argVal));
+                elem->data = factory.newRefData (factory.newString (argVal));
         }
 }
 
@@ -424,7 +424,7 @@ void Impl::onOpenRef (mxml_node_t *node)
 
         if (getPrevTag () == "list") {
                 MetaObject *meta = getCurrentMeta ();
-                meta->addListField (refData);
+                meta->addListField (factory.newDataKey (refData));
         }
         else {
                 DataKey *elem = getCurrentDataKey ();
@@ -439,7 +439,7 @@ void Impl::onOpenValue (mxml_node_t *node)
         DataKey *elem = NULL;
 
         if (getPrevTag () == "list") {
-                elem = &pushNewDataKey ();
+                elem = pushNewDataKey ();
         }
         else {
                 elem = getCurrentDataKey ();
@@ -470,7 +470,7 @@ void Impl::onOpenNull (mxml_node_t *node)
 {
         if (getPrevTag () == "list") {
                 MetaObject *meta = getCurrentMeta ();
-                meta->addListField (factory.newNullData ());
+                meta->addListField (factory.newDataKey (factory.newNullData ()));
         }
         else {
                 DataKey *elem = getCurrentDataKey ();
@@ -581,10 +581,10 @@ MetaObject *Impl::pushNewMeta ()
 
 /****************************************************************************/
 
-DataKey &Impl::pushNewDataKey ()
+DataKey *Impl::pushNewDataKey ()
 {
-        DataKey dk;
-        dk.associatedWith = getCurrentMeta ();
+        DataKey *dk = factory.newDataKey ();
+        dk->associatedWith = getCurrentMeta ();
         dataKeyStack.push_back (dk);
         return dataKeyStack.back ();
 }
@@ -595,7 +595,7 @@ void Impl::popCurrentDataKeyAddToMapped ()
 {
         MetaObject *meta = getCurrentMeta ();
         DataKey *dk = getCurrentDataKey ();
-        meta->addMapField (*dk);
+        meta->addMapField (dk);
         dataKeyStack.pop_back ();
 }
 
@@ -605,7 +605,7 @@ void Impl::popCurrentDataKeyAddToIndexed ()
 {
         MetaObject *meta =  getCurrentMeta ();
         DataKey *dk = getCurrentDataKey ();
-        meta->addListField (dk->data);
+        meta->addListField (dk);
         dataKeyStack.pop_back ();
 }
 
@@ -634,7 +634,7 @@ DataKey *Impl::getCurrentDataKey ()
                 return NULL;
         }
 
-        return &dataKeyStack.back ();
+        return dataKeyStack.back ();
 }
 
 /****************************************************************************/
@@ -677,7 +677,7 @@ MetaObject *Impl::popCurrentMeta ()
                         dk->data = factory.newRefData (factory.newString (id));
                 }
                 else {
-                        outerMeta->addListField (factory.newRefData (factory.newString (id)));
+                        outerMeta->addListField (factory.newDataKey (factory.newRefData (factory.newString (id))));
                 }
         }
         else {

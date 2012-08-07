@@ -47,7 +47,8 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
         meta->setId ("x_parent");
         meta->setClass ("City");
         meta->setScope (MetaObject::SINGLETON);
-        meta->addMapField (DataKey ("name", new ValueData ("Warszawa", "String")));
+        DataKey dk ("name", new ValueData ("Warszawa", "String"));
+        meta->addMapField (&dk);
         metaCont->add (meta);
 
         meta = new MetaObject ();

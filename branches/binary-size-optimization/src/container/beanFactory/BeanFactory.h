@@ -88,7 +88,7 @@ public:
         Editor::IEditor *getCArgsEditor () const { return cArgsEditor; }
         void setCArgsEditor (Editor::IEditor *cArgsEditor) { this->cArgsEditor = cArgsEditor; }
 
-        void setAttributes (Ptr <Attributes> attributes);
+        void setAttributes (Attributes const *attributes);
         std::string getStringAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getString (key, getFromParent); }
         int getIntAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
         bool getBoolAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
@@ -154,7 +154,7 @@ private:
 
         mutable Core::Variant storedSingleton;
 
-        Ptr <Attributes> attributes;
+        Attributes const *attributes;
         Editor::IEditor *cArgsEditor;
         Editor::IEditor *editor;
         Factory::IFactory *factory;

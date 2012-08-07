@@ -10,7 +10,7 @@
 
 namespace Container {
 
-Attributes::Attributes () : integerData (0)
+Attributes::Attributes () : integerData (0), parent (NULL)
 {
         for (int i = 0; i < LAST_STRING; ++i) {
                 strMapData[i] = NULL;

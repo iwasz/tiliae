@@ -15,6 +15,21 @@ MetaObject *MetaFactory::newMetaObject ()
         return new (memoryAllocator->malloc (sizeof (MetaObject))) MetaObject ();
 }
 
+DataKey *MetaFactory::newDataKey ()
+{
+        return new (memoryAllocator->malloc (sizeof (DataKey))) DataKey ();
+}
+
+DataKey *MetaFactory::newDataKey (IData *d)
+{
+        return new (memoryAllocator->malloc (sizeof (DataKey))) DataKey (d);
+}
+
+DataKey *MetaFactory::newDataKey (const char *k, IData *d)
+{
+        return new (memoryAllocator->malloc (sizeof (DataKey))) DataKey (k, d);
+}
+
 ValueData *MetaFactory::newValueData ()
 {
         return new (memoryAllocator->malloc (sizeof (ValueData))) ValueData ();

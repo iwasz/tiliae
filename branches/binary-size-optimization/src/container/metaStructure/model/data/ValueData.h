@@ -21,9 +21,6 @@ namespace Container {
 class TILIAE_API ValueData : public IData {
 public:
 
-        ValueData () : data (NULL), type (NULL) {}
-        ValueData (const char *d) : data (d) {}
-        ValueData (const char *d, const char *t) : data (d), type (t) {}
         virtual ~ValueData () {}
 
         const char *getData () const { return data; }
@@ -35,6 +32,13 @@ public:
 /*--------------------------------------------------------------------------*/
 
         void accept (std::string const &key, IDataVisitor *visitor) { visitor->visit (key, this); }
+
+private:
+
+        ValueData () : data (NULL), type (NULL) {}
+        ValueData (const char *d) : data (d) {}
+        ValueData (const char *d, const char *t) : data (d), type (t) {}
+        friend class MetaFactory;
 
 private:
 

@@ -351,66 +351,66 @@ void Impl::onCloseCArg (mxml_node_t *node)
 
 void Impl::onOpenRef (mxml_node_t *node)
 {
-        DataKey elem;
-        RefData *refData = new RefData ();
-        elem.data = refData;
-        char const *argVal = NULL;
-        MetaObject *meta =  getCurrentMeta ();
-
-        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
-                elem.key = argVal;
-        }
-        // TODO to jakoś inaczej będzie obsługiwane
-        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
-                elem.key = argVal;
-        }
-
-        if ((argVal = mxmlElementGetAttr (node, "bean"))) {
-                refData->setData (argVal);
-        }
-
-        addElem (meta, elem);
+//        DataKey elem;
+//        RefData *refData = new RefData ();
+//        elem.data = refData;
+//        char const *argVal = NULL;
+//        MetaObject *meta =  getCurrentMeta ();
+//
+//        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
+//                elem.key = argVal;
+//        }
+//        // TODO to jakoś inaczej będzie obsługiwane
+//        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
+//                elem.key = argVal;
+//        }
+//
+//        if ((argVal = mxmlElementGetAttr (node, "bean"))) {
+//                refData->setData (argVal);
+//        }
+//
+//        addElem (meta, elem);
 }
 
 /****************************************************************************/
 
 void Impl::addElem (MetaObject *meta, DataKey const &elem)
 {
-        if (!elem.key.empty ()) {
-                meta->addMapField (elem);
-        }
-        else {
-                if (getPrevTag () == "cargs") {
-                        meta->addConstructorArg (elem.data);
-                }
-                else {
-                        meta->addListField (elem.data);
-                }
-        }
+//        if (!elem.key.empty ()) {
+//                meta->addMapField (elem);
+//        }
+//        else {
+//                if (getPrevTag () == "cargs") {
+//                        meta->addConstructorArg (elem.data);
+//                }
+//                else {
+//                        meta->addListField (elem.data);
+//                }
+//        }
 }
 
 /****************************************************************************/
 
 void Impl::onOpenValue (mxml_node_t *node)
 {
-        DataKey *elem = &pushNewDataKey ();
-
-        ValueData *valueData = new ValueData ();
-        elem->data = valueData;
-
-        char const *argVal = NULL;
-
-        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
-                elem->key = argVal;
-        }
-        // TODO to jakoś inaczej będzie obsługiwane
-        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
-                elem->key = argVal;
-        }
-
-        if ((argVal = mxmlElementGetAttr (node, "type"))) {
-                valueData->setType (argVal);
-        }
+//        DataKey *elem = &pushNewDataKey ();
+//
+//        ValueData *valueData = new ValueData ();
+//        elem->data = valueData;
+//
+//        char const *argVal = NULL;
+//
+//        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
+//                elem->key = argVal;
+//        }
+//        // TODO to jakoś inaczej będzie obsługiwane
+//        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
+//                elem->key = argVal;
+//        }
+//
+//        if ((argVal = mxmlElementGetAttr (node, "type"))) {
+//                valueData->setType (argVal);
+//        }
 }
 
 /****************************************************************************/
@@ -420,7 +420,7 @@ void Impl::onCloseValue (mxml_node_t *node)
         DataKey *dk = getCurrentDataKey ();
 
         // Jest klucz, czyli dodajemy do mapy, lub beana.
-        if (!dk->key.empty ()) {
+        if (dk->key) {
                 popCurrentDataKeyAddToMapped ();
         }
         else {
@@ -437,32 +437,32 @@ void Impl::onCloseValue (mxml_node_t *node)
 
 void Impl::onOpenNull (mxml_node_t *node)
 {
-        DataKey *elem = &pushNewDataKey ();
-
-        NullData *nullData = new NullData ();
-        elem->data = nullData;
-
-        char const *argVal = NULL;
-
-        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
-                elem->key = argVal;
-        }
-        // TODO to jakoś inaczej będzie obsługiwane
-        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
-                elem->key = argVal;
-        }
-
-        if (!elem->key.empty ()) {
-                popCurrentDataKeyAddToMapped ();
-        }
-        else {
-                if (getPrevTag () == "cargs") {
-                        popCurrentDataKeyAddToCArgs ();
-                }
-                else {
-                        popCurrentDataKeyAddToIndexed ();
-                }
-        }
+//        DataKey *elem = &pushNewDataKey ();
+//
+//        NullData *nullData = new NullData ();
+//        elem->data = nullData;
+//
+//        char const *argVal = NULL;
+//
+//        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
+//                elem->key = argVal;
+//        }
+//        // TODO to jakoś inaczej będzie obsługiwane
+//        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
+//                elem->key = argVal;
+//        }
+//
+//        if (elem->key) {
+//                popCurrentDataKeyAddToMapped ();
+//        }
+//        else {
+//                if (getPrevTag () == "cargs") {
+//                        popCurrentDataKeyAddToCArgs ();
+//                }
+//                else {
+//                        popCurrentDataKeyAddToIndexed ();
+//                }
+//        }
 }
 
 /****************************************************************************/
@@ -558,37 +558,37 @@ void Impl::onData (mxml_node_t *node)
 
 MetaObject *Impl::pushNewMeta ()
 {
-        MetaObject *meta = new MetaObject ();
-        metaStack.push (meta);
-        return meta;
+//        MetaObject *meta = new MetaObject ();
+//        metaStack.push (meta);
+//        return meta;
 }
 
 /****************************************************************************/
 
 DataKey &Impl::pushNewDataKey ()
 {
-        dataKeyStack.push_back (DataKey ());
-        return dataKeyStack.back ();
+//        dataKeyStack.push_back (DataKey ());
+//        return dataKeyStack.back ();
 }
 
 /****************************************************************************/
 
 void Impl::popCurrentDataKeyAddToMapped ()
 {
-        MetaObject *meta =  getCurrentMeta ();
-        DataKey *dk = getCurrentDataKey ();
-        meta->addMapField (*dk);
-        dataKeyStack.pop_back ();
+//        MetaObject *meta =  getCurrentMeta ();
+//        DataKey *dk = getCurrentDataKey ();
+//        meta->addMapField (*dk);
+//        dataKeyStack.pop_back ();
 }
 
 /****************************************************************************/
 
 void Impl::popCurrentDataKeyAddToIndexed ()
 {
-        MetaObject *meta =  getCurrentMeta ();
-        DataKey *dk = getCurrentDataKey ();
-        meta->addListField (dk->data);
-        dataKeyStack.pop_back ();
+//        MetaObject *meta =  getCurrentMeta ();
+//        DataKey *dk = getCurrentDataKey ();
+//        meta->addListField (dk->data);
+//        dataKeyStack.pop_back ();
 }
 
 /****************************************************************************/
@@ -626,7 +626,7 @@ DataKey *Impl::getCurrentDataKey ()
                 return NULL;
         }
 
-        return &dataKeyStack.back ();
+//        return &dataKeyStack.back ();
 }
 
 /****************************************************************************/

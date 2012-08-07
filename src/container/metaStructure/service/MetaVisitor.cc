@@ -45,18 +45,9 @@ void MetaVisitor::visit (MetaObject *data)
                 }
         }
 
-        if (data->getType () == MetaObject::INDEXED) {
-                DataVector fields = data->getListFields ();
-                for (DataVector::iterator i = fields.begin (); i != fields.end (); ++i) {
-                        (*i)->accept (std::string (), this);
-                }
-        }
-        else
-        {
-                DataMap fields = data->getMapFields ();
-                for (DataKeyIterator1 iter = fields.get <1> ().begin (); iter != fields.get <1> ().end (); ++iter) {
-                        iter->data->accept (iter->key, this);
-                }
+        DataKeyVector fields = data->getFields ();
+        for (DataKeyVector::iterator i = fields.begin (); i != fields.end (); ++i) {
+                (*i)->data->accept (((*i)->key) ? (std::string ((*i)->key)) : (std::string ()), this);
         }
 
         foreach (IMetaService *service, services) {

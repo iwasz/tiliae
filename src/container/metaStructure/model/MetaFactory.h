@@ -23,6 +23,10 @@ public:
 
         MetaObject *newMetaObject ();
 
+        DataKey *newDataKey ();
+        DataKey *newDataKey (IData *d);
+        DataKey *newDataKey (const char *k, IData *d);
+
         ValueData *newValueData ();
         ValueData *newValueData (const char *d);
         ValueData *newValueData (const char *d, const char *t);

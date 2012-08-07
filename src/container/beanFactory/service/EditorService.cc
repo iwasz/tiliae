@@ -103,7 +103,7 @@ bool EditorService::onIndexedMetaBegin (MetaObject *meta)
                 editor = new Editor::LazyEditor (fact.get ());
                 beanFactory->setEditor (editor, true);
         }
-        else if (meta->getListFields ().empty ()) {
+        else if (meta->getFields ().empty ()) {
                 editor = noopNoCopyEditor;
                 currentIndexedEditor = NULL;
                 beanFactory->setEditor (editor, false);

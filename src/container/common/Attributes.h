@@ -50,7 +50,7 @@ public:
         bool getBool (AttributeName key, bool getFromParent = true) const { return bool (getInt (key, getFromParent)); }
 
         bool containsKey (AttributeName key, bool getFromParent = true) const;
-        void setParentAttributes (Ptr <Attributes const> a) { parent = a; }
+        void setParentAttributes (Attributes const *a) { parent = a; }
 
 private:
 
@@ -69,8 +69,7 @@ private:
 
         const char *strMapData[LAST_STRING];
         unsigned int integerData;
-
-        Ptr <Attributes const> parent;
+        Attributes const *parent;
 };
 
 }

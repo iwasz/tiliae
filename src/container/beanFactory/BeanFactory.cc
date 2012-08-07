@@ -29,8 +29,8 @@ static const char *CLASS_NAME = "class";
 
 BeanFactory::BeanFactory () :
         flags (0x00),
-//        id (NULL),
         cArgs (NULL),
+        attributes (NULL),
         cArgsEditor (NULL),
         editor (NULL),
         factory (NULL),
@@ -70,7 +70,7 @@ BeanFactory::~BeanFactory ()
 
 /****************************************************************************/
 
-void BeanFactory::setAttributes (Ptr <Attributes> attributes)
+void BeanFactory::setAttributes (Attributes const *attributes)
 {
         this->attributes = attributes;
         id = attributes->getString (Attributes::ID_ARGUMENT, false);

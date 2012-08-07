@@ -24,6 +24,7 @@ namespace Container {
 class TILIAE_API MetaContainer {
 public:
 
+        MetaContainer () : memoryAllocator () {}
         ~MetaContainer ();
 
         MetaObject *get (const std::string &key) const;

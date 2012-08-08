@@ -31,7 +31,9 @@ BOOST_AUTO_TEST_SUITE (ContainerTest03);
  */
 BOOST_AUTO_TEST_CASE (testCreateVariantMap)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure10 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure10 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -62,7 +64,9 @@ BOOST_AUTO_TEST_CASE (testCreateVariantMap)
  */
 BOOST_AUTO_TEST_CASE (testCreateStringList)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure11 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure11 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -92,7 +96,9 @@ BOOST_AUTO_TEST_CASE (testCreateStringList)
  */
 BOOST_AUTO_TEST_CASE (testCreateVariantList)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure12 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure12 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -123,7 +129,9 @@ BOOST_AUTO_TEST_CASE (testCreateVariantList)
  */
 BOOST_AUTO_TEST_CASE (testCreateCountryList)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure13 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure13 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -156,7 +164,9 @@ BOOST_AUTO_TEST_CASE (testCreateCountryList)
  */
 BOOST_AUTO_TEST_CASE (testCreateCountryMap)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure14 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure14 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/

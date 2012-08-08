@@ -27,6 +27,7 @@ public:
         MetaContainer () : memoryAllocator () {}
         ~MetaContainer ();
 
+        /// O(N)
         MetaObject *get (const std::string &key) const;
 
         /**
@@ -40,11 +41,7 @@ public:
 
         void accept (IContainerVisitor *visitor) { visitor->visit (this); }
 
-        /**
-         * Pobiera wskaźnik do mapy obiektów Meta. Uwaga, ta mapa
-         * nie jest alokowana dynamicznie.
-         */
-        MetaMap const &getMetaMap () const { return metaMap; }
+        MetaVector const &getMetaVector () const { return metaVector; }
 
         Ptr <MetaContainer const> getLinked () const { return linked; }
         void setLinked (Ptr <MetaContainer const> l) { linked = l; }
@@ -53,7 +50,7 @@ public:
 
 private:
 
-        MetaMap metaMap;
+        MetaVector metaVector;
         Ptr <MetaContainer const> linked;
         Core::ArrayRegionAllocator <char> memoryAllocator;
 };

@@ -10,11 +10,18 @@
 
 namespace Container {
 
-Attributes::Attributes () : integerData (0), parent (NULL)
+Attributes::Attributes () : parent (NULL)
 {
         for (int i = 0; i < LAST_STRING; ++i) {
                 strMapData[i] = NULL;
         }
+
+        intData.abstract = 0;
+        intData.abstractSet = 0;
+        intData.lazyInit = 0;
+        intData.lazyInitSet = 0;
+        intData.scope = 0;
+        intData.scopeSet = 0;
 }
 
 /****************************************************************************/
@@ -48,18 +55,18 @@ void Attributes::setInt (AttributeName key, int value)
 {
         switch (key) {
         case ABSTRACT_ARGUMENT:
-                integerData |= value & ABSTRACT_ARGUMENT_MASK;
-                integerData |= ABSTRACT_ARGUMENT_SET;
+                intData.abstract = value;
+                intData.abstractSet = 1;
                 break;
 
         case LAZYINIT_ARGUMENT:
-                integerData |= value & LAZYINIT_ARGUMENT_MASK;
-                integerData |= LAZYINIT_ARGUMENT_SET;
+                intData.lazyInit = value;
+                intData.lazyInitSet = 1;
                 break;
 
         case SCOPE_ARGUMENT:
-                integerData |= value & SCOPE_ARGUMENT_MASK;
-                integerData |= SCOPE_ARGUMENT_SET;
+                intData.scope = value;
+                intData.scopeSet = 1;
                 break;
 
         default:
@@ -73,13 +80,13 @@ int Attributes::getIntPriv (AttributeName key) const
 {
         switch (key) {
         case ABSTRACT_ARGUMENT:
-                return (integerData & ABSTRACT_ARGUMENT_SET) ? (integerData & ABSTRACT_ARGUMENT_MASK) : (-1);
+                return (intData.abstractSet) ? (intData.abstract) : (-1);
 
         case LAZYINIT_ARGUMENT:
-                return (integerData & LAZYINIT_ARGUMENT_SET) ? (integerData & LAZYINIT_ARGUMENT_MASK) : (-1);
+                return (intData.lazyInitSet) ? (intData.lazyInit) : (-1);
 
         case SCOPE_ARGUMENT:
-                return (integerData & SCOPE_ARGUMENT_SET) ? (integerData & SCOPE_ARGUMENT_MASK) : (-1);
+                return (intData.scopeSet) ? (intData.scope) : (-1);
 
         default:
                 return -1;
@@ -102,7 +109,7 @@ int Attributes::getInt (AttributeName key, bool getFromParent) const
                 return parent->getInt (key);
         }
 
-        return -1;
+        return 0;
 }
 
 /****************************************************************************/
@@ -122,9 +129,9 @@ bool Attributes::containsKey (AttributeName key, bool getFromParent) const
                 foundInChild = bool (strMapData[iKey]);
         }
         else if (iKey >= ABSTRACT_ARGUMENT && iKey <= SCOPE_ARGUMENT) {
-                 foundInChild = ((iKey == ABSTRACT_ARGUMENT) && (integerData & ABSTRACT_ARGUMENT_SET)) ||
-                                ((iKey == LAZYINIT_ARGUMENT) && (integerData & LAZYINIT_ARGUMENT_SET)) ||
-                                ((iKey == SCOPE_ARGUMENT) && (integerData & SCOPE_ARGUMENT_SET));
+                 foundInChild = ((iKey == ABSTRACT_ARGUMENT) && (intData.abstractSet)) ||
+                                ((iKey == LAZYINIT_ARGUMENT) && (intData.lazyInitSet)) ||
+                                ((iKey == SCOPE_ARGUMENT) && (intData.scopeSet));
         }
 
         return foundInChild || foundInParent;

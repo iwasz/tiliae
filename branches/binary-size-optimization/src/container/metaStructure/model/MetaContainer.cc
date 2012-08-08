@@ -14,9 +14,8 @@ namespace Container {
 
 MetaContainer::~MetaContainer ()
 {
-        for (MetaMap::iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
-//                delete i->second;
-                i->second->~MetaObject ();
+        for (MetaVector::const_iterator i = metaVector.begin (); i != metaVector.end (); ++i) {
+                (*i)->~MetaObject();
         }
 }
 
@@ -30,26 +29,20 @@ void MetaContainer::add (MetaObject *val)
                 throw ConfigurationException ("MetaContainer::add : ID is empty. Root level beans must have proper ID.");
         }
 
-        if (get (id)) {
-                throw ConfigurationException ("MetaContainer::add : There is already a bean with ID [" + id + "].");
-        }
-
-        metaMap[id] = val;
+        metaVector.push_back (val);
 }
 
 /****************************************************************************/
 
 MetaObject *MetaContainer::get (const std::string &key) const
 {
-        MetaMap::const_iterator i;
-        if ((i = metaMap.find (key)) != metaMap.end ()) {
-                return i->second;
+        for (MetaVector::const_iterator i = metaVector.begin (); i != metaVector.end (); ++i) {
+                if (!strcmp ((*i)->getId (), key.c_str ())) {
+                        return *i;
+                }
         }
 
         if (getLinked ()) {
-#if 0
-                std::cerr << "Linked search : [" << key << "]" << std::endl;
-#endif
                 return getLinked ()->get (key);
         }
 

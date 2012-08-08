@@ -18,6 +18,7 @@
 #include <boost/make_shared.hpp>
 #include "../../../editor/testHelpers/DummyIEditor.h"
 #include "../../../beanWrapper/misc/IndexedEditor.h"
+#include "../../metaStructure/model/MetaFactory.h"
 
 /****************************************************************************/
 
@@ -34,7 +35,9 @@ BOOST_AUTO_TEST_SUITE (ContainerTest05);
  */
 BOOST_AUTO_TEST_CASE (testCreateCountryListWithReferenceDoubleIter)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure19 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure19 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -65,7 +68,9 @@ BOOST_AUTO_TEST_CASE (testCreateCountryListWithReferenceDoubleIter)
  */
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure20 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure20 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -110,16 +115,18 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
 BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
 
-        MetaObject *child = new MetaObject ();
+        MetaObject *child = factory.newMetaObject ();
 
-        child->addMapField (DataKey ("field0", new ValueData ("value0", "bracketType")));
-        child->addMapField (DataKey ("field1", new ValueData ("value1", "bracketType")));
-        child->addMapField (DataKey ("field2", new ValueData ("6667", "int")));
-        child->addMapField (DataKey ("field3", new ValueData ("123.45", "double")));
-        child->addMapField (DataKey ("field4", new ValueData ("f", "char")));
-        child->addMapField (DataKey ("field5", new ValueData ("true", "bool")));
-        child->addMapField (DataKey ("field6", new NullData ()));
+        child->addMapField (factory.newDataKeyNewString ("field0", factory.newValueDataNewString ("value0", "bracketType")));
+        child->addMapField (factory.newDataKeyNewString ("field1", factory.newValueDataNewString ("value1", "bracketType")));
+        child->addMapField (factory.newDataKeyNewString ("field2", factory.newValueDataNewString ("6667", "int")));
+        child->addMapField (factory.newDataKeyNewString ("field3", factory.newValueDataNewString ("123.45", "double")));
+        child->addMapField (factory.newDataKeyNewString ("field4", factory.newValueDataNewString ("f", "char")));
+        child->addMapField (factory.newDataKeyNewString ("field5", factory.newValueDataNewString ("true", "bool")));
+        child->addMapField (factory.newDataKeyNewString ("field6", factory.newNullData ()));
 
         child->setId ("mojBean");
         child->setClass ("Foo");
@@ -128,8 +135,8 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        child = new MetaObject ();
-        //child->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
+        child = factory.newMetaObject ();
+        //child->addField (DataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         child->setId ("bracketType");
         child->setClass ("DummyIEditor");
         metaCont->add (child);
@@ -168,16 +175,18 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
 
 /*--------------------------------------------------------------------------*/
 
-        MetaObject *child = new MetaObject ();
+        MetaObject *child = factory.newMetaObject ();
 
-        child->addListField (new ValueData ("value0", "string"));
-        child->addListField (new ValueData ("value1", "string"));
-        child->addListField (new ValueData ("value2", "string"));
-        child->addListField (new ValueData ("value3", "string"));
-        child->addListField (new ValueData ("value4", "string"));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value0", "string")));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value1", "string")));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value2", "string")));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value3", "string")));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value4", "string")));
         child->setId ("mojBean");
         child->setClass ("string");
         child->setEditor ("editor");
@@ -186,7 +195,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        MetaObject *child2 = new MetaObject ();
+        MetaObject *child2 = factory.newMetaObject ();
         child2->setId ("editor");
         child2->setClass ("ListToStringEditor");
 

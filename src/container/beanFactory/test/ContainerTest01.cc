@@ -53,10 +53,12 @@ BOOST_AUTO_TEST_CASE (testCreateContainer)
 {
 //        boost::unit_test::unit_test_monitor.register_exception_translator<Core::Exception> (&my_exception1_translator);
 
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure26 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure26 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
-        metaCont = ContainerTestFactory::createMetaStructure05 ();
+        metaCont = ContainerTestFactory::createMetaStructure05 (&factory);
         cont = ContainerFactory::createAndInit (metaCont);
         // Jeśli do tej pory się nie wywaliło, to test jest OK i test uważamy za zaliczony.
 }
@@ -69,7 +71,9 @@ BOOST_AUTO_TEST_CASE (testCreateContainer)
  */
 BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure05 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure05 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
         /*
@@ -78,9 +82,13 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
          * pola swojego rodzica.
          */
 
+        BOOST_CHECK_EQUAL (metaCont->getMetaVector ().size (), 5U);
+
         MetaObject *syn = metaCont->get ("aska0");
-        MetaObject *mSyn = dynamic_cast <MetaObject *> (syn);
-        BOOST_CHECK (mSyn);
+        BOOST_CHECK (syn);
+
+        DataKeyVector fields = syn->getFields ();
+        BOOST_CHECK_EQUAL (fields.size (), 1U);
 
 //        BOOST_CHECK (mSyn->getMapFields ().find ("name"));
 //        BOOST_CHECK (mSyn->getMapField ("name")->getData () == "value0");
@@ -97,7 +105,7 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 
         BeanFactoryMap const &bm = cont->getBeanFactoryMap ();
 
-        BOOST_CHECK (bm.size () == 5);
+        BOOST_CHECK_EQUAL (bm.size (), 5U);
         BOOST_CHECK (bm.find ("aska0") != bm.end ());
         BOOST_CHECK (bm.find ("askaParent") != bm.end ());
         BOOST_CHECK (bm.find ("aska") != bm.end ());

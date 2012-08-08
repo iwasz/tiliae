@@ -21,10 +21,9 @@
 namespace Container {
 class MetaObject;
 
-typedef std::pair <std::string, Ptr <MetaObject> > MetaPair;
-typedef std::list <Ptr <MetaObject> > MetaList;
 typedef std::map <std::string, MetaObject *> MetaMap;
 typedef std::stack <MetaObject *> MetaStack;
+typedef std::vector <MetaObject *> MetaVector;
 
 /**
  * W celach implemetacyjnych. Tu jest wspolny kod.

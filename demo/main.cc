@@ -54,7 +54,7 @@ int main (int argc, char **argv)
 //        printSize (bool);
 //        printSize (int *);
 //
-        printSize (Container::MetaObject);
+        printSize (Container::Attributes);
 //        printSize (Container::MetaObject);
 //        printSize (Container::RefData);
 //        printSize (Container::ValueData);

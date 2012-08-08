@@ -15,6 +15,7 @@
 #include "ContainerFactory.h"
 #include "metaStructure/model/MetaStructure.h"
 #include "common/testHelpers/ContainerTestFactory.h"
+#include "../../metaStructure/model/MetaFactory.h"
 
 /****************************************************************************/
 
@@ -37,21 +38,22 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
 
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
 
-        MetaObject *meta = new MetaObject ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        MetaObject *meta = factory.newMetaObject ();
         meta->setId ("a_main");
         meta->setScope (MetaObject::SINGLETON);
         meta->setParent ("y_par");
         metaCont->add (meta);
 
-        meta = new MetaObject ();
+        meta = factory.newMetaObject ();
         meta->setId ("x_parent");
         meta->setClass ("City");
         meta->setScope (MetaObject::SINGLETON);
-        DataKey dk ("name", new ValueData ("Warszawa", "String"));
-        meta->addMapField (&dk);
+        meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         metaCont->add (meta);
 
-        meta = new MetaObject ();
+        meta = factory.newMetaObject ();
         meta->setId ("y_par");
         meta->setScope (MetaObject::SINGLETON);
         meta->setParent ("x_parent");

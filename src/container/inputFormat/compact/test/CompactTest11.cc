@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
          Ptr <MetaContainer> mc = CompactMetaService::parseFile (PATH + "053-bean-scope-first-tests.xml");
 
-        BOOST_CHECK (mc->getMetaMap ().size () == 8);
+        BOOST_CHECK (mc->getMetaVector ().size () == 8);
         MetaObject *meta = mc->get ("bean2");
 
         MetaMap innerM = meta->getInnerMetas ();

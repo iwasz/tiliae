@@ -47,7 +47,7 @@ public:
         int getInt (AttributeName key, bool getFromParent = true) const;
 
         void setBool (AttributeName key, bool value) { setInt (key, value); }
-        bool getBool (AttributeName key, bool getFromParent = true) const { return bool (getInt (key, getFromParent)); }
+        bool getBool (AttributeName key, bool getFromParent = true) const { int i = getInt (key, getFromParent); return (i > 0); }
 
         bool containsKey (AttributeName key, bool getFromParent = true) const;
         void setParentAttributes (Attributes const *a) { parent = a; }
@@ -68,8 +68,17 @@ private:
 private:
 
         const char *strMapData[LAST_STRING];
-        unsigned int integerData;
         Attributes const *parent;
+
+        struct {
+                unsigned int abstract:1;
+                unsigned int abstractSet:1;
+                unsigned int lazyInit:1;
+                unsigned int lazyInitSet:1;
+                unsigned int scope:2;
+                unsigned int scopeSet:1;
+        } intData;
+
 };
 
 }

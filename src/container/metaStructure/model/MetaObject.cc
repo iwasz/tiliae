@@ -213,6 +213,10 @@ void MetaObject::addMapField (DataKey *input)
                 dkParent = dk;
         }
 
+        if (!fields) {
+                fields = input;
+        }
+
         if (lastField) {
                 lastField->next = input;
         }
@@ -230,6 +234,10 @@ void MetaObject::addListField (DataKey *input)
 
         type = INDEXED;
 
+        if (!fields) {
+                fields = input;
+        }
+
         if (lastField) {
                 lastField->next = input;
         }
@@ -242,10 +250,10 @@ void MetaObject::addListField (DataKey *input)
 DataKeyVector MetaObject::getFields () const
 {
         if (type == INDEXED) {
-                return getMapFields ();
+                return getListFields ();
         }
         else if (type == MAPPED) {
-                return getListFields ();
+                return getMapFields ();
         }
 
         return DataKeyVector ();

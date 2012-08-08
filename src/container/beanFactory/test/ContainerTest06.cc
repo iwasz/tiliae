@@ -17,6 +17,7 @@
 #include "metaStructure/model/MetaStructure.h"
 #include "common/testHelpers/ContainerTestFactory.h"
 #include <boost/make_shared.hpp>
+#include "../../metaStructure/model/MetaFactory.h"
 
 /****************************************************************************/
 
@@ -33,12 +34,14 @@ BOOST_AUTO_TEST_SUITE (ContainerTest06);
 BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
 
 /*--------------------------------------------------------------------------*/
 
-        MetaObject *child = new MetaObject ();
+        MetaObject *child = factory.newMetaObject ();
 
-        child->addMapField (DataKey ("name", new ValueData ("Warszawa", "String")));
+        child->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         child->setId ("mojBean");
 //        Nie ma ustawionego class!
 //        child->setClass ("String");
@@ -47,7 +50,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 
 /*--------------------------------------------------------------------------*/
 
-        MetaObject *child2 = new MetaObject ();
+        MetaObject *child2 = factory.newMetaObject ();
         child2->setId ("nfactory");
         child2->setClass ("CityFactory");
 
@@ -81,7 +84,9 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
  */
 BOOST_AUTO_TEST_CASE (testSingleton)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -100,7 +105,7 @@ BOOST_AUTO_TEST_CASE (testSingleton)
 
 /****************************************************************************/
 
-        metaCont = ContainerTestFactory::createMetaStructure21 ();
+        metaCont = ContainerTestFactory::createMetaStructure21 (&factory);
         cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -123,7 +128,9 @@ BOOST_AUTO_TEST_CASE (testSingleton)
  */
 BOOST_AUTO_TEST_CASE (testInitMethod)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure22 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure22 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -148,13 +155,15 @@ BOOST_AUTO_TEST_CASE (testInitMethod)
 BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
 
-        MetaObject *child = new MetaObject ();
+        MetaObject *child = factory.newMetaObject ();
         child->setId ("mojaMapa");
         child->setClass ("VariantMap");
         metaCont->add (child);
 
-        MetaObject *child2 = new MetaObject ();
+        MetaObject *child2 = factory.newMetaObject ();
         child2->setId ("mojaLista");
         child2->setClass ("VariantList");
         metaCont->add (child2);
@@ -191,7 +200,9 @@ BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
  */
 BOOST_AUTO_TEST_CASE (testBeanScope)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure23 ();
+        Core::ArrayRegionAllocator <char> aloc;
+        MetaFactory factory (&aloc);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure23 (&factory);
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/

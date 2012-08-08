@@ -17,6 +17,7 @@
 #include "../../../beanWrapper/beanWrapper/BeanWrapper.h"
 #include "../../../factory/ScalarFactory.h"
 #include "../../../editor/LazyEditor.h"
+#include "StrUtil.h"
 
 namespace Container {
 using namespace Core;
@@ -58,7 +59,7 @@ bool EditorService::onMappedMetaBegin (MetaObject *meta)
                 return false;
         }
 
-        std::string customEditorName = meta->getEditor ();
+        std::string customEditorName = toStr (meta->getEditor ());
         Editor::IEditor *editor = NULL;
 
         if (!customEditorName.empty ()) {
@@ -94,7 +95,9 @@ bool EditorService::onIndexedMetaBegin (MetaObject *meta)
 
         currentFieldIdx = -1;
 
-        std::string customEditorName = meta->getEditor ();
+        std::string customEditorName = toStr (meta->getEditor ());
+        std::string id = toStr (meta->getId ());
+
         Editor::IEditor *editor = NULL;
 
         if (!customEditorName.empty ()) {
@@ -115,7 +118,7 @@ bool EditorService::onIndexedMetaBegin (MetaObject *meta)
 
         if (!editor) {
                 throw BeanNotFullyInitializedException ("Can't create editor for BeanFactory. Bean id : (" +
-                                std::string (meta->getId ()) + "), editor name : (" + std::string (meta->getEditor ()) + ").");
+                                std::string (id) + "), editor name : (" + customEditorName + ").");
         }
 
         return true;
@@ -151,7 +154,7 @@ void EditorService::onConstructorArgsBegin (MetaObject *data)
 /**
  * Z tego co pamiętam, to jest jakiś chack, ktory czyści zmienne stanowe.
  */
-void EditorService::onConstructorArgsEnd (MetaObject *data)
+void EditorService::onConstructorArgsEnd (MetaObject *)
 {
         currentMapEditor = NULL;
         currentIndexedEditor = NULL;
@@ -171,7 +174,7 @@ void EditorService::onValueData (std::string const &key, ValueData *data)
                 return;
         }
 
-        std::string type = data->getType ();
+        std::string type = toStr (data->getType ());
         Ptr <BeanFactory> current = getBVFContext ()->getCurrentBF ();
 
         if (!current) {
@@ -227,7 +230,7 @@ void EditorService::onRefData (std::string const &key, RefData *data)
         }
 
         BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-        std::string referenceName = data->getData ();
+        std::string referenceName = toStr (data->getData ());
         Element element;
 
         // Specjalne referencje (referencja do kontenera).
@@ -257,7 +260,7 @@ void EditorService::onRefData (std::string const &key, RefData *data)
         }
 
         if (element.type == Element::EMPTY) {
-                throw BeanNotFullyInitializedException ("Can't resolve reference (" + std::string (data->getData ()) + ").");
+                throw BeanNotFullyInitializedException ("Can't resolve reference (" + toStr (data->getData ()) + ").");
         }
 
         if (currentIndexedEditor) {

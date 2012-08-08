@@ -69,7 +69,6 @@ struct normalize {
                 typename boost::remove_reference <T>::type>::type>::type>::type type;
 };
 
-
 } // namespace
 
 #	endif /* TYPEDEFS_H_ */

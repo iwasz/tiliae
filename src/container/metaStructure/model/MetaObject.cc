@@ -11,6 +11,7 @@
 #include <boost/algorithm/string/trim.hpp>
 #include "../../common/Exceptions.h"
 #include "MetaObject.h"
+#include "../../../core/StrUtil.h"
 
 namespace Container {
 
@@ -201,7 +202,7 @@ void MetaObject::addMapField (DataKey *input)
 
         DataKey *dkParent = NULL;
         for (DataKey *dk = fields; dk; dk = dk->next) {
-                if (!strcmp (dk->key, input->key)) {
+                if (!strcmpNull (dk->key, input->key)) {
                         if (dkParent) {
                                 dkParent->next = dk->next;
                         }
@@ -252,11 +253,12 @@ DataKeyVector MetaObject::getFields () const
         if (type == INDEXED) {
                 return getListFields ();
         }
-        else if (type == MAPPED) {
+        // MAPPED lub UNSPECIFIED
+        else /*if (type == MAPPED)*/ {
                 return getMapFields ();
         }
-
-        return DataKeyVector ();
+//
+//        return DataKeyVector ();
 }
 
 /****************************************************************************/
@@ -275,7 +277,7 @@ DataKeyVector MetaObject::getMapFields () const
                         // Dodaj z parFields do ret, ale tylko jesli dziecko nie ma fielda o takim kluczu.
                         bool found = false;
                         for (DataKey *dk = fields; dk; dk = dk->next) {
-                                if (!strcmp (parField->key, dk->key)) {
+                                if (!strcmpNull (parField->key, dk->key)) {
                                         found = true;
                                         break;
                                 }

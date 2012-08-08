@@ -32,9 +32,7 @@ BOOST_AUTO_TEST_SUITE (ContainerTest02);
  */
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleBean)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -63,9 +61,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleBean)
  */
 BOOST_AUTO_TEST_CASE (testCreateBeanWithReference)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure08 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure08 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -99,9 +95,7 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReference)
  */
 BOOST_AUTO_TEST_CASE (testCreateStringMap)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure09 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure09 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/

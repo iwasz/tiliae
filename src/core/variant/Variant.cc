@@ -173,7 +173,7 @@ Variant::Variant (std::string const *j) :
 Variant::Variant (const char *s) :
         type (STRING),
         ti (&typeid (std::string &)),
-        sptr (boost::make_shared <std::string> (s)),
+        sptr (boost::make_shared <std::string> ((s) ? (s) : (""))),
         deleter (NULL)
 {
 

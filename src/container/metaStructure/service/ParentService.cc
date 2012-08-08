@@ -36,8 +36,7 @@ bool ParentService::onMetaBegin (MetaObject *child)
                 throw ConfigurationException ("ParentService::onMetaBegin : parent is MAPPED and child is INDEXED or vice versa.");
         }
 
-        // TODO wywalić dynamic cast, jak MetaObject nie będzie polimorficzny.
-        child->setParentMeta (dynamic_cast <MetaObject *> (parent));
+        child->setParentMeta (parent);
         return true;
 }
 

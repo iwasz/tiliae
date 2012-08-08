@@ -13,6 +13,7 @@
 #include <cassert>
 #include <boost/make_shared.hpp>
 #include "../BeanFactory.h"
+#include "StrUtil.h"
 
 namespace Container {
 
@@ -24,7 +25,7 @@ bool BeanFactoryInitService::onMetaBegin (MetaObject *meta)
                 return false;
         }
 
-        std::string id = meta->getId ();
+        std::string id = toStr (meta->getId ());
         Ptr <BeanFactory> beanFactory = boost::make_shared <BeanFactory> ();
         beanFactory->setBeanWrapper(defaultBeanWrapper);
         beanFactory->setAttributes (meta->getAttributes ());

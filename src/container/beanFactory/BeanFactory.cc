@@ -73,7 +73,7 @@ BeanFactory::~BeanFactory ()
 void BeanFactory::setAttributes (Attributes const *attributes)
 {
         this->attributes = attributes;
-        id = attributes->getString (Attributes::ID_ARGUMENT, false);
+        id = getStringAttribute (Attributes::ID_ARGUMENT, false);
 }
 
 /****************************************************************************/
@@ -110,7 +110,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 // Trzeba sprawdzić, bo inaczej może się zamazać argument class (patrz test 24 myMap - class ustawione przez proxy).
                 if (attributes->containsKey (Attributes::CLASS_ARGUMENT)) {
-                        factoryParams[CLASS_NAME] = Core::Variant (attributes->getString (Attributes::CLASS_ARGUMENT));
+                        factoryParams[CLASS_NAME] = Core::Variant (getStringAttribute (Attributes::CLASS_ARGUMENT));
                 }
 
                 bool err = false;
@@ -167,7 +167,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 // Uruchomienie metody init-method
                 if (attributes->containsKey (Attributes::INITMETHOD_ARGUMENT)) {
-                        std::string initMethodName = attributes->getString (Attributes::INITMETHOD_ARGUMENT);
+                        std::string initMethodName = getStringAttribute (Attributes::INITMETHOD_ARGUMENT);
                         assert (beanWrapper);
                         beanWrapper->setWrappedObject (output);
                         beanWrapper->get (initMethodName, &err, context);

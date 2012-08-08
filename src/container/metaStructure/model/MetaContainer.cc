@@ -9,6 +9,7 @@
 #include "MetaContainer.h"
 #include "common/Exceptions.h"
 #include <boost/algorithm/string/trim.hpp>
+#include "../../../core/StrUtil.h"
 
 namespace Container {
 
@@ -37,7 +38,7 @@ void MetaContainer::add (MetaObject *val)
 MetaObject *MetaContainer::get (const std::string &key) const
 {
         for (MetaVector::const_iterator i = metaVector.begin (); i != metaVector.end (); ++i) {
-                if (!strcmp ((*i)->getId (), key.c_str ())) {
+                if (!strcmpNull ((*i)->getId (), key.c_str ())) {
                         return *i;
                 }
         }

@@ -30,14 +30,14 @@ bool MappedValueService::onMappedMetaBegin (MetaObject *data)
 
 /****************************************************************************/
 
-void MappedValueService::onConstructorArgsBegin (MetaObject *data)
+void MappedValueService::onConstructorArgsBegin (MetaObject *)
 {
         currMappedMeta = NULL;
 }
 
 /****************************************************************************/
 
-void MappedValueService::onConstructorArgsEnd (MetaObject *data)
+void MappedValueService::onConstructorArgsEnd (MetaObject *)
 {
         currMappedMeta = NULL;
         inputMap = NULL;

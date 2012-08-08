@@ -31,7 +31,7 @@ public:
          * Do nazwy edytora dorzucany jest znak &, czyli w mapie
          * singletonów potrzebny jest &text, &bool etc.
          */
-        Core::Variant create (const std::string &type, const std::string &value) const;
+        Core::Variant create (const char *type, const char *value) const;
 
         /**
          * Singleton map, to mapa w której ten serwis będzie szukał

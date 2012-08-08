@@ -9,6 +9,7 @@
 #include "BeanStackUpdateService.h"
 #include <cassert>
 #include "../../metaStructure/model/MetaObject.h"
+#include "StrUtil.h"
 
 namespace Container {
 
@@ -20,7 +21,7 @@ bool BeanStackUpdateService::onMetaBegin (MetaObject *data)
                 return false;
         }
 
-        std::string const &id = data->getId ();
+        std::string id = toStr (data->getId ());
         BeanFactoryStack &stack = getBVFContext ()->getStack();
         Ptr <BeanFactory> beanFactory;
 

@@ -53,12 +53,10 @@ BOOST_AUTO_TEST_CASE (testCreateContainer)
 {
 //        boost::unit_test::unit_test_monitor.register_exception_translator<Core::Exception> (&my_exception1_translator);
 
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure26 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure26 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
-        metaCont = ContainerTestFactory::createMetaStructure05 (&factory);
+        metaCont = ContainerTestFactory::createMetaStructure05 ();
         cont = ContainerFactory::createAndInit (metaCont);
         // Jeśli do tej pory się nie wywaliło, to test jest OK i test uważamy za zaliczony.
 }
@@ -71,9 +69,7 @@ BOOST_AUTO_TEST_CASE (testCreateContainer)
  */
 BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure05 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure05 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
         /*

@@ -34,8 +34,7 @@ BOOST_AUTO_TEST_SUITE (ContainerTest06);
 BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
+        MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
 
@@ -84,9 +83,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
  */
 BOOST_AUTO_TEST_CASE (testSingleton)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -105,7 +102,7 @@ BOOST_AUTO_TEST_CASE (testSingleton)
 
 /****************************************************************************/
 
-        metaCont = ContainerTestFactory::createMetaStructure21 (&factory);
+        metaCont = ContainerTestFactory::createMetaStructure21 ();
         cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -128,9 +125,7 @@ BOOST_AUTO_TEST_CASE (testSingleton)
  */
 BOOST_AUTO_TEST_CASE (testInitMethod)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure22 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure22 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -155,8 +150,7 @@ BOOST_AUTO_TEST_CASE (testInitMethod)
 BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
+        MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *child = factory.newMetaObject ();
         child->setId ("mojaMapa");
@@ -200,9 +194,7 @@ BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
  */
 BOOST_AUTO_TEST_CASE (testBeanScope)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure23 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure23 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/

@@ -14,6 +14,7 @@
 #include "../../../core/variant/Cast.h"
 #include "../../../factory/IFactory.h"
 #include "../../../factory/LazyFactory.h"
+#include "../../../core/StrUtil.h"
 
 namespace Container {
 using namespace Core;
@@ -41,7 +42,7 @@ bool FactoryService::onMetaBegin (MetaObject *data)
                 return false;
         }
 
-        std::string customFactoryName = data->getFactory ();
+        std::string customFactoryName = toStr (data->getFactory ());
         Factory::IFactory *factory = NULL;
 
         if (!customFactoryName.empty ()) {
@@ -56,7 +57,7 @@ bool FactoryService::onMetaBegin (MetaObject *data)
         }
 
         if (!factory) {
-                throw BeanNotFullyInitializedException ("Can't create factory BeanFactory. Bean id : (" + std::string (data->getId ()) + "), factory name : (" + std::string (data->getFactory ()) + ").");
+                throw BeanNotFullyInitializedException ("Can't create factory BeanFactory. Bean id : (" + toStr (data->getId ()) + "), factory name : (" + customFactoryName + ").");
         }
 
         return true;

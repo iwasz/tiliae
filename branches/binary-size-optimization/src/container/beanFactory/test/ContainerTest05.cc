@@ -35,9 +35,7 @@ BOOST_AUTO_TEST_SUITE (ContainerTest05);
  */
 BOOST_AUTO_TEST_CASE (testCreateCountryListWithReferenceDoubleIter)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure19 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure19 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -68,9 +66,7 @@ BOOST_AUTO_TEST_CASE (testCreateCountryListWithReferenceDoubleIter)
  */
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure20 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure20 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -115,8 +111,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
 BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
+        MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -175,8 +170,7 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
+        MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
 

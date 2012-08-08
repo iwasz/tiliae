@@ -31,9 +31,7 @@ BOOST_AUTO_TEST_SUITE (ContainerTest04);
  */
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure15 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure15 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -92,9 +90,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
  */
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure16 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure16 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -121,9 +117,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
  */
 BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-       Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure17 (&factory);
+       Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure17 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
@@ -160,9 +154,7 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
  */
 BOOST_AUTO_TEST_CASE (testCreateMapWithReferenceDoubleIter)
 {
-        Core::ArrayRegionAllocator <char> aloc;
-        MetaFactory factory (&aloc);
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure18 (&factory);
+        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure18 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/

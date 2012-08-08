@@ -36,7 +36,7 @@ public:
 private:
 
         ValueData () : data (NULL), type (NULL) {}
-        ValueData (const char *d) : data (d) {}
+        ValueData (const char *d) : data (d), type (NULL) {}
         ValueData (const char *d, const char *t) : data (d), type (t) {}
         friend class MetaFactory;
 

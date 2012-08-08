@@ -31,6 +31,7 @@
 #include "collection/OrderedVariantMap.h"
 #include "StringFactoryMethodEditor.h"
 #include "TypeEditor.h"
+#include "../../core/StrUtil.h"
 
 namespace Wrapper {
 class IBeanWrapper;
@@ -89,7 +90,7 @@ public:
         void setCArgsEditor (Editor::IEditor *cArgsEditor) { this->cArgsEditor = cArgsEditor; }
 
         void setAttributes (Attributes const *attributes);
-        std::string getStringAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getString (key, getFromParent); }
+        std::string getStringAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return toStr (attributes->getString (key, getFromParent)); }
         int getIntAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
         bool getBoolAttribute (Attributes::AttributeName key, bool getFromParent = true) const { return attributes->getInt (key, getFromParent); }
 
@@ -248,7 +249,6 @@ private:
         Ptr <MetaContainer const> metaContainer;
         Editor::StringFactoryMethodEditor *conversionMethodEditor;
         Editor::TypeEditor *typeEditor;
-//        Core::IAllocator *allocator;
 
 };
 

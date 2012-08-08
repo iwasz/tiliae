@@ -21,9 +21,21 @@ using namespace Core;
 
 const char *EDITOR_SPECIAL_CHAR = "&";
 
-Core::Variant ValueServiceHelper::create (const std::string &type, const std::string &value) const
+Core::Variant ValueServiceHelper::create (const char *typeC, const char *valueC) const
 {
         assert (singletonMap);
+
+        std::string type;
+        std::string value;
+
+        if (typeC) {
+                type = typeC;
+        }
+
+        if (valueC) {
+                value = valueC;
+        }
+
         VariantMap::const_iterator i = singletonMap->find (DEFAULT_VALUE_FACTORY_NAME);
 
         // Jeśli nie ma odpowiedniego edytora, to zostawiamy nieprzeedytowane

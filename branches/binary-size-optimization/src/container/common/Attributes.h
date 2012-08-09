@@ -52,6 +52,12 @@ public:
         bool containsKey (AttributeName key, bool getFromParent = true) const;
         void setParentAttributes (Attributes const *a) { parent = a; }
 
+        /**
+         * Tworzy kopię zainicjowaną wartościami z tego Attributes i z jego rodziców.
+         */
+        Attributes *makeCopyOnHeap () const;
+        static void deleteHeapCopy (Attributes *a);
+
 private:
 
         enum IntegerAttributeMaskAndSet {
@@ -64,6 +70,7 @@ private:
         };
 
         int getIntPriv (AttributeName key) const;
+        const char *copyString (AttributeName key) const;
 
 private:
 

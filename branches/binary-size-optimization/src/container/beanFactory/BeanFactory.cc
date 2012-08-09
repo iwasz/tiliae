@@ -66,11 +66,15 @@ BeanFactory::~BeanFactory ()
         if (flags & DELETE_EDITOR) {
                 delete editor;
         }
+
+        if (attributes) {
+                Attributes::deleteHeapCopy (attributes);
+        }
 }
 
 /****************************************************************************/
 
-void BeanFactory::setAttributes (Attributes const *attributes)
+void BeanFactory::setAttributes (Attributes *attributes)
 {
         this->attributes = attributes;
         id = getStringAttribute (Attributes::ID_ARGUMENT, false);

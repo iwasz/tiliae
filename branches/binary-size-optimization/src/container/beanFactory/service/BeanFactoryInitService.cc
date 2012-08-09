@@ -28,7 +28,7 @@ bool BeanFactoryInitService::onMetaBegin (MetaObject *meta)
         std::string id = toStr (meta->getId ());
         Ptr <BeanFactory> beanFactory = boost::make_shared <BeanFactory> ();
         beanFactory->setBeanWrapper(defaultBeanWrapper);
-        beanFactory->setAttributes (meta->getAttributes ());
+        beanFactory->setAttributes (meta->getAttributes ()->makeCopyOnHeap ());
         getBVFContext ()->getStack().push (beanFactory);
         return true;
 }

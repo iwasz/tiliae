@@ -6,19 +6,29 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef TILIAE_STRUTIL_H_
-#define TILIAE_STRUTIL_H_
+#include "StrUtil.h"
 
-#include <cstring>
-#include <string>
-#include "ApiMacro.h"
-
-inline std::string toStr (const char *s)
+int strcmpNull (const char *a, const char *b)
 {
-        return (s) ? (s) : ("");
+        if (!a && !b) {
+                return 0;
+        }
+
+        if ((!a && b) || (a && !b)) {
+                return 1;
+        }
+
+        return strcmp (a, b);
 }
 
-TILIAE_API extern int strcmpNull (const char *a, const char *b);
-TILIAE_API extern const char *mkCopy (const char *s);
+const char *mkCopy (const char *s)
+{
+        if (!s) {
+                return NULL;
+        }
 
-#endif /* STRUTIL_H_ */
+        int len = strlen (s);
+        char *ret = new char [len + 1];
+        strcpy (ret, s);
+        return ret;
+}

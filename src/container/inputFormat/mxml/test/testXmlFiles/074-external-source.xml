@@ -2,7 +2,7 @@
 <beans>
 
         <!-- Dodaje 2 nowe singletony do kontenera (do mapy singletons). -->
-        <bean class="Source" singleton="true" init-method="init">
+        <bean id="abc" class="Source" singleton="true" init-method="init">
                 <property name="cont" ref="#container"/>
         </bean>
 

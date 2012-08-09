@@ -118,14 +118,14 @@ struct Source {
  * Żey zadziałał, trzebaby instancjonować kazdy singleton podczas parsowania, najszybciej jak
  * to tylko możliwe (czyli kiedy wszystkie zależności danego singletonu zostały już sparsowane).
  */
-//BOOST_AUTO_TEST_CASE (test074ExternalSourceOfSingletons)
-//{
+BOOST_AUTO_TEST_CASE (test074ExternalSourceOfSingletons)
+{
 //        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "074-external-source.xml");
 //
 //        Core::StringMap *map = vcast <Core::StringMap *> (cont->getBean ("map"));
 //
 //        BOOST_REQUIRE_EQUAL (map->operator [] ("ex1"), "Benek pies");
 //        BOOST_REQUIRE_EQUAL (map->operator [] ("ex2"), "Borys pies");
-//}
+}
 
 BOOST_AUTO_TEST_SUITE_END ();

@@ -14,8 +14,14 @@
 #include "../src/container/inputFormat/mxml/MXmlMetaService.h"
 #include <string>
 
+  #include <boost/graph/graph_traits.hpp>
+  #include <boost/graph/adjacency_list.hpp>
+  #include <boost/graph/dijkstra_shortest_paths.hpp>
+  #include <boost/graph/topological_sort.hpp>
+
 using namespace Container;
 using namespace std;
+using namespace boost;
 
 #define printSize(a) std::cout << #a "=" << sizeof(a) << std::endl;
 #include <vector>
@@ -39,6 +45,52 @@ using namespace std;
 
 int main (int argc, char **argv)
 {
+        {
+        // create a typedef for the Graph type
+        typedef adjacency_list<vecS, vecS, directedS> Graph;
+
+        // Make convenient labels for the vertices
+        enum { A, B, C, D, E, N };
+        const int num_vertices = N;
+//        const char* name = "ABCDE";
+
+        // writing out the edges in the graph
+        typedef std::pair<int, int> Edge;
+//        Edge edge_array[] =
+//        { Edge(A,B), Edge(A,D), Edge(C,A), Edge(D,C),
+//          Edge(C,E), Edge(B,D), Edge(D,E) };
+
+        Edge edge_array[] = { Edge (A, B), Edge (A, C), Edge (B, D), Edge (B, E)  };
+
+        Graph g(edge_array, edge_array + sizeof(edge_array) / sizeof(Edge), num_vertices);
+
+// ----
+
+        // get the property map for vertex indices
+        typedef property_map<Graph, vertex_index_t>::type IndexMap;
+        IndexMap index = get(vertex_index, g);
+
+        std::cout << "vertices(g) = ";
+        typedef graph_traits<Graph>::vertex_iterator vertex_iter;
+        std::pair<vertex_iter, vertex_iter> vp;
+        for (vp = vertices(g); vp.first != vp.second; ++vp.first)
+          std::cout << index[*vp.first] <<  " ";
+        std::cout << std::endl;
+
+// ----
+
+        typedef boost::graph_traits<Graph>::vertex_descriptor Vertex;
+        typedef std::vector< Vertex > container;
+        container c;
+        topological_sort(g, std::back_inserter(c));
+
+        cout << "A topological ordering: ";
+        for ( container::reverse_iterator ii=c.rbegin(); ii!=c.rend(); ++ii)
+          cout << index(*ii) << " ";
+        cout << endl;
+
+        }
+
 //        BeanFactory *table = new BeanFactory[1000];
 //        delete [] table;
 //
@@ -54,7 +106,7 @@ int main (int argc, char **argv)
 //        printSize (bool);
 //        printSize (int *);
 //
-        printSize (Container::Attributes);
+//        printSize (Container::Attributes);
 //        printSize (Container::MetaObject);
 //        printSize (Container::RefData);
 //        printSize (Container::ValueData);
@@ -75,32 +127,32 @@ int main (int argc, char **argv)
 //        std::list <char> vec (5000);
 
 
-#if 1
         Ptr <MetaContainer> metaCtr = MXmlMetaService::parseFile ("../demo/main.xml");
-//        Ptr <BeanFactoryContainer> container = ContainerFactory::createAndInit (metaCtr);
-//        BookVector *v = vcast <BookVector *> (container->getBean ("books"));
-//
-//        BOOST_FOREACH (Book *b, *v) {
-//                std::cout << b->toString () << std::endl;
-//        }
-//
-//        AuthorMap *a = NULL;
-//
-//        if (container->containsBean ("authorMap")) {
-//                a = vcast <AuthorMap *> (container->getBean ("authorMap"));
-//
-//                for (AuthorMap::const_iterator i = a->begin (); i != a->end (); ++i) {
-//                        std::cout << i->first << ", " << i->second->toString () << std::endl;
-//                }
-//        }
-//
-//        if (container->containsBean ("authorMap2")) {
-//                a = vcast <AuthorMap *> (container->getBean ("authorMap2"));
-//
-//                for (AuthorMap::const_iterator i = a->begin (); i != a->end (); ++i) {
-//                        std::cout << i->first << ", " << i->second->toString () << std::endl;
-//                }
-//        }
+#if 1
+        Ptr <BeanFactoryContainer> container = ContainerFactory::createAndInit (metaCtr);
+        BookVector *v = vcast <BookVector *> (container->getBean ("books"));
+
+        BOOST_FOREACH (Book *b, *v) {
+                std::cout << b->toString () << std::endl;
+        }
+
+        AuthorMap *a = NULL;
+
+        if (container->containsBean ("authorMap")) {
+                a = vcast <AuthorMap *> (container->getBean ("authorMap"));
+
+                for (AuthorMap::const_iterator i = a->begin (); i != a->end (); ++i) {
+                        std::cout << i->first << ", " << i->second->toString () << std::endl;
+                }
+        }
+
+        if (container->containsBean ("authorMap2")) {
+                a = vcast <AuthorMap *> (container->getBean ("authorMap2"));
+
+                for (AuthorMap::const_iterator i = a->begin (); i != a->end (); ++i) {
+                        std::cout << i->first << ", " << i->second->toString () << std::endl;
+                }
+        }
 #endif
 }
 

@@ -179,7 +179,7 @@ const char *Attributes::copyString (AttributeName key) const
 void Attributes::deleteHeapCopy (Attributes *a)
 {
         for (int i = 0; i < LAST_STRING; ++i) {
-                delete a->strMapData[i];
+                delete [] a->strMapData[i];
         }
 
         delete a;

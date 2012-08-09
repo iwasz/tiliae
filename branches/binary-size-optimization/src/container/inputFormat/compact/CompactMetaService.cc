@@ -25,7 +25,10 @@ namespace {
  */
 struct Impl {
 
-        Impl (MetaContainer *c) : metaContainer (c) {}
+        Impl (MetaContainer *c, Core::ArrayRegionAllocator <char> *aloc) :
+                metaContainer (c),
+                memoryAllocator (aloc),
+                factory (aloc) {}
 
         void onOpenElement (mxml_node_t *node);
         void onCloseElement (mxml_node_t *node);
@@ -55,7 +58,7 @@ struct Impl {
         MetaObject *getCurrentMappedMeta () const;
         IndexedMeta *getCurrentIndexedMeta () const;
 
-        DataKey &pushNewDataKey ();
+        DataKey *pushNewDataKey ();
         void popCurrentDataKeyAddToMapped ();
         void popCurrentDataKeyAddToIndexed ();
         void popCurrentDataKeyAddToCArgs ();
@@ -93,7 +96,7 @@ struct Impl {
         /**
          * Dodaje element do Meta, niezależnie od tego jakiego jest typu (list, czy map).
          */
-        void addElem (MetaObject *meta, DataKey const &elem);
+        void addElem (MetaObject *meta, DataKey *elem);
 
         /// Tu odkładają się nazwy kolejnych (zagnieżdżonych tagów).
         Core::StringVector tagStack;
@@ -112,6 +115,12 @@ struct Impl {
 
         /// Do automatycznego generowania ID.
         static int singetinNumber;
+
+        /// Do alokowania pamięci dla całej meta-struktury.
+        Core::ArrayRegionAllocator <char> *memoryAllocator;
+
+        /// Fabryka tworzy alokatorem.
+        MetaFactory factory;
 };
 
 int Impl::singetinNumber = 0;
@@ -206,110 +215,110 @@ void Impl::onCloseElement (mxml_node_t *node)
 
 void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta, MetaObject *outer)
 {
-//        std::string name = mxmlGetElement (node);
-//
-//        if (checkIfSpecial (name)) {
-//                // Nie ustawiaj ani class, ani parent
-//        }
-//        else if (checkIfClass (name)) {
-//                meta->setClass (name);
-//        }
-//        else {
-//                meta->setParent (name);
-//        }
-//
-//        std::string setAs, addTo;
-//
-//        mxml_attr_t *attr = node->value.element.attrs;
-//        for (int i = 0; i < node->value.element.num_attrs; ++i) {
-//                mxml_attr_t *cur = attr + i;
-//                std::string name = cur->name;
-//                std::string value = cur->value;
-//
-//#if 0
-//                std::cerr << name << ", " << value << std::endl;
-//#endif
-//
-//                // Standardowe atrybuty:
-//                if (name == "id") {
-//                        validateId (value);
-//                        meta->setId (value);
-//                }
-//                else if (name == "singleton") {
-//                        meta->setScope ((value == "true") ? (MetaObject::SINGLETON) : (MetaObject::PROTOTYPE));
-//                }
-//                else if (name == "scope") {
-//                        if (value == "singleton") {
-//                                meta->setScope (MetaObject::SINGLETON);
-//                        }
-//                        else if (value == "prototype") {
-//                                meta->setScope (MetaObject::PROTOTYPE);
-//                        }
-//                        else if (value == "bean") {
-//                                meta->setScope (MetaObject::BEAN);
-//                        }
-//                        else {
-//                                throw XmlMetaServiceException ("Impl::onOpenBean : wrong value for argument 'scope'. Correct values are : 'singleton', 'prototype' and 'bean'. You provided : " + std::string (value));
-//                        }
-//                }
-//                else if (name == "lazy-init") {
-//                        meta->setLazyInit (value == "true");
-//                }
-//                else if (name == "init-method") {
-//                        meta->setInitMethod (value);
-//                }
-//                else if (name == "editor") {
-//                        meta->setEditor (value);
-//                }
-//                else if (name == "factory") {
-//                        meta->setFactory (value);
-//                }
-//                else if (name == "abstract") {
-//                        meta->setAbstract (value == "true");
-//                }
-//                else if (name == "set-as") {
-//                        setAs = value;
-//                }
-//                else if (name == "add-to") {
-//                        addTo = value;
-//                }
-//                // Property
-//                else {
-//                        DataKey dk;
-//                        dk.key = name;
-//
-//                        if (!value.empty () && value[0] == '@') {
-//                                dk.data = new RefData (value.substr (1));
-//                        }
-//                        else {
-//                                dk.data = new ValueData (value);
-//                        }
-//
-//                        MetaObject *meta =  getCurrentMeta ();
-//                        meta->addMapField (dk);
-//                }
-//        }
-//
-//        if (outer) {
-//                DataKey elem;
-//                RefData *refData = new RefData ();
-//                elem.data = refData;
-//
-//                if (meta->getId ().empty ()) {
-//                        meta->setId (generateId (meta));
-//                }
-//
-//                refData->setData (meta->getId ());
-//
-//                if (!setAs.empty ()) {
-//                        elem.key = setAs;
-//                }
-//                else if (!addTo.empty ()) {
-//                        elem.key = addTo;
-//                }
-//
-//                addElem (outer, elem);
-//        }
+        const char *name = mxmlGetElement (node);
+
+        if (checkIfSpecial (name)) {
+                // Nie ustawiaj ani class, ani parent
+        }
+        else if (checkIfClass (name)) {
+                meta->setClass (factory.newString (name));
+        }
+        else {
+                meta->setParent (factory.newString (name));
+        }
+
+        std::string setAs, addTo;
+
+        mxml_attr_t *attr = node->value.element.attrs;
+        for (int i = 0; i < node->value.element.num_attrs; ++i) {
+                mxml_attr_t *cur = attr + i;
+                std::string name = cur->name;
+                std::string value = cur->value;
+
+#if 0
+                std::cerr << name << ", " << value << std::endl;
+#endif
+
+                // Standardowe atrybuty:
+                if (name == "id") {
+                        validateId (value);
+                        meta->setId (factory.newString (value));
+                }
+                else if (name == "singleton") {
+                        meta->setScope ((value == "true") ? (MetaObject::SINGLETON) : (MetaObject::PROTOTYPE));
+                }
+                else if (name == "scope") {
+                        if (value == "singleton") {
+                                meta->setScope (MetaObject::SINGLETON);
+                        }
+                        else if (value == "prototype") {
+                                meta->setScope (MetaObject::PROTOTYPE);
+                        }
+                        else if (value == "bean") {
+                                meta->setScope (MetaObject::BEAN);
+                        }
+                        else {
+                                throw XmlMetaServiceException ("Impl::onOpenBean : wrong value for argument 'scope'. Correct values are : 'singleton', 'prototype' and 'bean'. You provided : " + std::string (value));
+                        }
+                }
+                else if (name == "lazy-init") {
+                        meta->setLazyInit (value == "true");
+                }
+                else if (name == "init-method") {
+                        meta->setInitMethod (factory.newString (value));
+                }
+                else if (name == "editor") {
+                        meta->setEditor (factory.newString (value));
+                }
+                else if (name == "factory") {
+                        meta->setFactory (factory.newString (value));
+                }
+                else if (name == "abstract") {
+                        meta->setAbstract (value == "true");
+                }
+                else if (name == "set-as") {
+                        setAs = value;
+                }
+                else if (name == "add-to") {
+                        addTo = value;
+                }
+                // Property
+                else {
+                        DataKey *dk = factory.newDataKey ();
+                        dk->key = factory.newString (name);
+
+                        if (!value.empty () && value[0] == '@') {
+                                dk->data = factory.newRefDataNewString (value.substr (1).c_str ());
+                        }
+                        else {
+                                dk->data = factory.newValueDataNewString (value.c_str ());
+                        }
+
+                        MetaObject *meta =  getCurrentMeta ();
+                        meta->addMapField (dk);
+                }
+        }
+
+        if (outer) {
+                DataKey *elem = factory.newDataKey ();
+                RefData *refData = factory.newRefData ();
+                elem->data = refData;
+
+                if (!meta->getId () || !strlen (meta->getId ())) {
+                        meta->setId (factory.newString (generateId (meta)));
+                }
+
+                refData->setData (meta->getId ());
+
+                if (!setAs.empty ()) {
+                        elem->key = factory.newString (setAs);
+                }
+                else if (!addTo.empty ()) {
+                        elem->key = factory.newString (addTo);
+                }
+
+                addElem (outer, elem);
+        }
 }
 
 /****************************************************************************/
@@ -351,66 +360,66 @@ void Impl::onCloseCArg (mxml_node_t *node)
 
 void Impl::onOpenRef (mxml_node_t *node)
 {
-//        DataKey elem;
-//        RefData *refData = new RefData ();
-//        elem.data = refData;
-//        char const *argVal = NULL;
-//        MetaObject *meta =  getCurrentMeta ();
-//
-//        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
-//                elem.key = argVal;
-//        }
-//        // TODO to jakoś inaczej będzie obsługiwane
-//        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
-//                elem.key = argVal;
-//        }
-//
-//        if ((argVal = mxmlElementGetAttr (node, "bean"))) {
-//                refData->setData (argVal);
-//        }
-//
-//        addElem (meta, elem);
+        DataKey *elem = factory.newDataKey ();
+        RefData *refData = factory.newRefData ();
+        elem->data = refData;
+        char const *argVal = NULL;
+        MetaObject *meta =  getCurrentMeta ();
+
+        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
+                elem->key = factory.newString (argVal);
+        }
+        // TODO to jakoś inaczej będzie obsługiwane
+        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
+                elem->key = factory.newString (argVal);
+        }
+
+        if ((argVal = mxmlElementGetAttr (node, "bean"))) {
+                refData->setData (factory.newString (argVal));
+        }
+
+        addElem (meta, elem);
 }
 
 /****************************************************************************/
 
-void Impl::addElem (MetaObject *meta, DataKey const &elem)
+void Impl::addElem (MetaObject *meta, DataKey *elem)
 {
-//        if (!elem.key.empty ()) {
-//                meta->addMapField (elem);
-//        }
-//        else {
-//                if (getPrevTag () == "cargs") {
-//                        meta->addConstructorArg (elem.data);
-//                }
-//                else {
-//                        meta->addListField (elem.data);
-//                }
-//        }
+        if (elem->key && strlen (elem->key)) {
+                meta->addMapField (elem);
+        }
+        else {
+                if (getPrevTag () == "cargs") {
+                        meta->addConstructorArg (elem->data);
+                }
+                else {
+                        meta->addListField (factory.newDataKey (elem->data));
+                }
+        }
 }
 
 /****************************************************************************/
 
 void Impl::onOpenValue (mxml_node_t *node)
 {
-//        DataKey *elem = &pushNewDataKey ();
-//
-//        ValueData *valueData = new ValueData ();
-//        elem->data = valueData;
-//
-//        char const *argVal = NULL;
-//
-//        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
-//                elem->key = argVal;
-//        }
-//        // TODO to jakoś inaczej będzie obsługiwane
-//        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
-//                elem->key = argVal;
-//        }
-//
-//        if ((argVal = mxmlElementGetAttr (node, "type"))) {
-//                valueData->setType (argVal);
-//        }
+        DataKey *elem = pushNewDataKey ();
+
+        ValueData *valueData = factory.newValueData ();
+        elem->data = valueData;
+
+        char const *argVal = NULL;
+
+        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
+                elem->key = factory.newString (argVal);
+        }
+        // TODO to jakoś inaczej będzie obsługiwane
+        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
+                elem->key = factory.newString (argVal);
+        }
+
+        if ((argVal = mxmlElementGetAttr (node, "type"))) {
+                valueData->setType (factory.newString (argVal));
+        }
 }
 
 /****************************************************************************/
@@ -437,32 +446,32 @@ void Impl::onCloseValue (mxml_node_t *node)
 
 void Impl::onOpenNull (mxml_node_t *node)
 {
-//        DataKey *elem = &pushNewDataKey ();
-//
-//        NullData *nullData = new NullData ();
-//        elem->data = nullData;
-//
-//        char const *argVal = NULL;
-//
-//        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
-//                elem->key = argVal;
-//        }
-//        // TODO to jakoś inaczej będzie obsługiwane
-//        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
-//                elem->key = argVal;
-//        }
-//
-//        if (elem->key) {
-//                popCurrentDataKeyAddToMapped ();
-//        }
-//        else {
-//                if (getPrevTag () == "cargs") {
-//                        popCurrentDataKeyAddToCArgs ();
-//                }
-//                else {
-//                        popCurrentDataKeyAddToIndexed ();
-//                }
-//        }
+        DataKey *elem = pushNewDataKey ();
+
+        NullData *nullData =factory. newNullData ();
+        elem->data = nullData;
+
+        char const *argVal = NULL;
+
+        if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
+                elem->key = factory.newString (argVal);
+        }
+        // TODO to jakoś inaczej będzie obsługiwane
+        else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
+                elem->key = factory.newString (argVal);
+        }
+
+        if (elem->key) {
+                popCurrentDataKeyAddToMapped ();
+        }
+        else {
+                if (getPrevTag () == "cargs") {
+                        popCurrentDataKeyAddToCArgs ();
+                }
+                else {
+                        popCurrentDataKeyAddToIndexed ();
+                }
+        }
 }
 
 /****************************************************************************/
@@ -540,7 +549,7 @@ void Impl::onData (mxml_node_t *node)
 
                 // Szczególny przypadek, gdy jesteśmy w <key>
                 if (getPrevTag () == "key") {
-                        elem->key = text;
+                        elem->key = factory.newString (text);
                 }
 
 
@@ -550,7 +559,7 @@ void Impl::onData (mxml_node_t *node)
                      return;
                 }
 
-                valueData->setData (text);
+                valueData->setData (factory.newString (text));
         }
 }
 
@@ -558,37 +567,37 @@ void Impl::onData (mxml_node_t *node)
 
 MetaObject *Impl::pushNewMeta ()
 {
-//        MetaObject *meta = new MetaObject ();
-//        metaStack.push (meta);
-//        return meta;
+        MetaObject *meta = factory.newMetaObject ();
+        metaStack.push (meta);
+        return meta;
 }
 
 /****************************************************************************/
 
-DataKey &Impl::pushNewDataKey ()
+DataKey *Impl::pushNewDataKey ()
 {
-//        dataKeyStack.push_back (DataKey ());
-//        return dataKeyStack.back ();
+        dataKeyStack.push_back (factory.newDataKey ());
+        return dataKeyStack.back ();
 }
 
 /****************************************************************************/
 
 void Impl::popCurrentDataKeyAddToMapped ()
 {
-//        MetaObject *meta =  getCurrentMeta ();
-//        DataKey *dk = getCurrentDataKey ();
-//        meta->addMapField (*dk);
-//        dataKeyStack.pop_back ();
+        MetaObject *meta =  getCurrentMeta ();
+        DataKey *dk = getCurrentDataKey ();
+        meta->addMapField (dk);
+        dataKeyStack.pop_back ();
 }
 
 /****************************************************************************/
 
 void Impl::popCurrentDataKeyAddToIndexed ()
 {
-//        MetaObject *meta =  getCurrentMeta ();
-//        DataKey *dk = getCurrentDataKey ();
-//        meta->addListField (dk->data);
-//        dataKeyStack.pop_back ();
+        MetaObject *meta =  getCurrentMeta ();
+        DataKey *dk = getCurrentDataKey ();
+        meta->addListField (dk);
+        dataKeyStack.pop_back ();
 }
 
 /****************************************************************************/
@@ -626,7 +635,7 @@ DataKey *Impl::getCurrentDataKey ()
                 return NULL;
         }
 
-//        return &dataKeyStack.back ();
+        return dataKeyStack.back ();
 }
 
 /****************************************************************************/
@@ -696,7 +705,8 @@ Ptr <MetaContainer> CompactMetaService::parseFile (std::string const &path, Ptr 
                 container = boost::make_shared <MetaContainer> ();
         }
 
-        Impl impl (container.get ());
+        Core::ArrayRegionAllocator <char> *memoryAllocator = container->getMemoryAllocator ();
+        Impl impl (container.get (), memoryAllocator);
         FILE *fp;
 
         fp = fopen (path.c_str (), "r");

@@ -7,6 +7,7 @@
  ****************************************************************************/
 
 #include "Attributes.h"
+#include "../../core/StrUtil.h"
 
 namespace Container {
 
@@ -135,6 +136,53 @@ bool Attributes::containsKey (AttributeName key, bool getFromParent) const
         }
 
         return foundInChild || foundInParent;
+}
+
+/****************************************************************************/
+
+Attributes *Attributes::makeCopyOnHeap () const
+{
+        Attributes *a = new Attributes ();
+
+        a->setString (ID_ARGUMENT, copyString (ID_ARGUMENT));
+        a->setString (CLASS_ARGUMENT, copyString (CLASS_ARGUMENT));
+        a->setString (PARENT_ARGUMENT, copyString (PARENT_ARGUMENT));
+        a->setString (INITMETHOD_ARGUMENT, copyString (INITMETHOD_ARGUMENT));
+        a->setString (FACTORY_ARGUMENT, copyString (FACTORY_ARGUMENT));
+        a->setString (EDITOR_ARGUMENT, copyString (EDITOR_ARGUMENT));
+        a->setInt (ABSTRACT_ARGUMENT, getInt (ABSTRACT_ARGUMENT));
+        a->setInt (LAZYINIT_ARGUMENT, getInt (LAZYINIT_ARGUMENT));
+        a->setInt (SCOPE_ARGUMENT, getInt (SCOPE_ARGUMENT));
+
+        return a;
+}
+
+/****************************************************************************/
+
+const char *Attributes::copyString (AttributeName key) const
+{
+        const char *ret = strMapData[key];
+
+        if (ret) {
+                return mkCopy (ret);
+        }
+
+        if (parent) {
+                return parent->copyString (key);
+        }
+
+        return NULL;
+}
+
+/****************************************************************************/
+
+void Attributes::deleteHeapCopy (Attributes *a)
+{
+        for (int i = 0; i < LAST_STRING; ++i) {
+                delete a->strMapData[i];
+        }
+
+        delete a;
 }
 
 }

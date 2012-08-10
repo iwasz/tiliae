@@ -123,12 +123,28 @@ Core::StringList MetaContainer::getRuntimeDependencies (std::string const &metaN
 
 /****************************************************************************/
 
-MetaVector MetaContainer::topologicalSort () const
+MetaDeque MetaContainer::topologicalSort () const
 {
-        MetaVector metaVector;
+        MetaDeque sorted;
 
+        for (MetaMap::const_iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
+                MetaObject *rootMetaObject = i->second;
+                topologicalSort (rootMetaObject, &sorted);
+        }
 
-        return metaVector;
+        return sorted;
 }
+
+/****************************************************************************/
+
+void MetaContainer::topologicalSortPrv (MetaObject *meta, MetaDeque *sorted)
+{
+        MetaMap innerMetaObjects = meta->getInnerMetas ();
+
+        for (MetaMap::const_iterator i = innerMetaObjects.begin (); i != innerMetaObjects.end (); ++i) {
+                topologicalSort (i->second, sort);
+        }
+}
+
 
 }

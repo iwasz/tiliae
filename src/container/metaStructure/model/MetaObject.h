@@ -10,7 +10,7 @@
 #define META_OBJECT_TILIAE_H_
 
 #include <sparsehash/sparse_hash_map>
-#include <list>
+#include <deque>
 #include <stack>
 #include "common/Attributes.h"
 #include "Typedefs.h"
@@ -30,6 +30,7 @@ struct eqstr {
 typedef google::sparse_hash_map <const char*, MetaObject *, std::tr1::hash <const char*>, eqstr> MetaMap;
 typedef std::stack <MetaObject *> MetaStack;
 typedef std::vector <MetaObject *> MetaVector;
+typedef std::deque <MetaObject *> MetaDeque;
 
 /**
  * W celach implemetacyjnych. Tu jest wspolny kod.

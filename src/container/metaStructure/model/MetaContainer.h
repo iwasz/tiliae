@@ -47,11 +47,12 @@ public:
         void setLinked (Ptr <MetaContainer const> l) { linked = l; }
 
         Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
-        MetaVector topologicalSort () const;
+        MetaDeque topologicalSort () const;
 
 private:
 
         Core::StringList getRuntimeDependencies (std::string const &metaName) const;
+        void topologicalSortPrv (MetaObject *meta, MetaDeque *sorted);
 
 private:
 

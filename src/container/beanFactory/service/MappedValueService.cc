@@ -21,7 +21,7 @@ bool MappedValueService::onMappedMetaBegin (MetaObject *data)
                 return true;
         }
 
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
         inputMap = new Common::OrderedVariantMap ();
         currMappedMeta = data;
         beanFactory->setInputMap (inputMap);

@@ -41,16 +41,21 @@ public:
 
         void accept (IContainerVisitor *visitor) { visitor->visit (this); }
 
-        MetaVector const &getMetaVector () const { return metaVector; }
+        MetaMap const &getMetaMap () const { return metaMap; }
 
         Ptr <MetaContainer const> getLinked () const { return linked; }
         void setLinked (Ptr <MetaContainer const> l) { linked = l; }
 
         Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
+        MetaVector topologicalSort () const;
 
 private:
 
-        MetaVector metaVector;
+        Core::StringList getRuntimeDependencies (std::string const &metaName) const;
+
+private:
+
+        MetaMap metaMap;
         Ptr <MetaContainer const> linked;
         Core::ArrayRegionAllocator <char> memoryAllocator;
 };

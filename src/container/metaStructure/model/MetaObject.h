@@ -9,7 +9,7 @@
 #ifndef META_OBJECT_TILIAE_H_
 #define META_OBJECT_TILIAE_H_
 
-#include <map>
+#include <sparsehash/sparse_hash_map>
 #include <list>
 #include <stack>
 #include "common/Attributes.h"
@@ -21,7 +21,13 @@
 namespace Container {
 class MetaObject;
 
-typedef std::map <std::string, MetaObject *> MetaMap;
+struct eqstr {
+        bool operator()(const char* s1, const char* s2) const {
+                return (s1 == s2) || (s1 && s2 && strcmp(s1, s2) == 0);
+        }
+};
+
+typedef google::sparse_hash_map <const char*, MetaObject *, std::tr1::hash <const char*>, eqstr> MetaMap;
 typedef std::stack <MetaObject *> MetaStack;
 typedef std::vector <MetaObject *> MetaVector;
 
@@ -81,9 +87,7 @@ public:
 
         MetaMap getInnerMetas () const;
         MetaObject *getInnerMeta (const std::string &key) const;
-        void setInnerMetas (const MetaMap &m);
         void addInnerMeta (MetaObject *m);
-        void addInnerMetaList (const MetaMap &m);
 
         MetaObject *getParentMeta () { return parent; }
         void setParentMeta (MetaObject *m) { parent = m; attributes.setParentAttributes (m->getAttributes ()); }

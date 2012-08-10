@@ -35,7 +35,7 @@ void FactoryService::init (Core::VariantMap *singletons)
 bool FactoryService::onMetaBegin (MetaObject *data)
 {
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
 
         if (!beanFactory) {
                 // Gdy abstract
@@ -47,8 +47,8 @@ bool FactoryService::onMetaBegin (MetaObject *data)
 
         if (!customFactoryName.empty ()) {
                 BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-                Ptr <BeanFactory> fact = container->getBeanFactory (customFactoryName, beanFactory);
-                factory = new Factory::LazyFactory (fact.get ());
+                BeanFactory *fact = container->getBeanFactory (customFactoryName, beanFactory);
+                factory = new Factory::LazyFactory (fact);
                 beanFactory->setFactory (factory, true);
         }
         else {

@@ -52,7 +52,7 @@ bool EditorService::onMappedMetaBegin (MetaObject *meta)
         currentIndexedEditor = NULL;
 
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
 
         if (!beanFactory) {
                 // Gdy abstract
@@ -64,8 +64,8 @@ bool EditorService::onMappedMetaBegin (MetaObject *meta)
 
         if (!customEditorName.empty ()) {
                 BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-                Ptr <BeanFactory> fact = container->getBeanFactory (customEditorName, beanFactory);
-                editor = new Editor::LazyEditor (fact.get ());
+                BeanFactory *fact = container->getBeanFactory (customEditorName, beanFactory);
+                editor = new Editor::LazyEditor (fact);
         }
         else {
                 editor = currentMapEditor = createMappedEditor ();
@@ -86,7 +86,7 @@ bool EditorService::onIndexedMetaBegin (MetaObject *meta)
         currentMapEditor = NULL;
 
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
 
         if (!beanFactory) {
                 // Gdy abstract
@@ -102,8 +102,8 @@ bool EditorService::onIndexedMetaBegin (MetaObject *meta)
 
         if (!customEditorName.empty ()) {
                 BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-                Ptr <BeanFactory> fact = container->getBeanFactory (customEditorName, beanFactory);
-                editor = new Editor::LazyEditor (fact.get ());
+                BeanFactory *fact = container->getBeanFactory (customEditorName, beanFactory);
+                editor = new Editor::LazyEditor (fact);
                 beanFactory->setEditor (editor, true);
         }
         else if (meta->getFields ().empty ()) {
@@ -135,7 +135,7 @@ void EditorService::onConstructorArgsBegin (MetaObject *data)
                 return;
         }
 
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
 
         if (!beanFactory) {
                 // Gdy abstract
@@ -175,7 +175,7 @@ void EditorService::onValueData (std::string const &key, ValueData *data)
         }
 
         std::string type = toStr (data->getType ());
-        Ptr <BeanFactory> current = getBVFContext ()->getCurrentBF ();
+        BeanFactory *current = getBVFContext ()->getCurrentBF ();
 
         if (!current) {
                 // Gdy abstract
@@ -191,14 +191,14 @@ void EditorService::onValueData (std::string const &key, ValueData *data)
         }
 
         BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-        Ptr <BeanFactory> beanFactory = container->getBeanFactory (type, current);
+        BeanFactory *beanFactory = container->getBeanFactory (type, current);
 
         if (!beanFactory) {
                 throw BeanNotFullyInitializedException ("Can't resolve editor for type [" + type + "].");
         }
 
         Element element;
-        element.factory = beanFactory.get ();
+        element.factory = beanFactory;
         element.type = Element::EDITOR_FROM_BF;
 
         if (currentIndexedEditor) {
@@ -222,7 +222,7 @@ void EditorService::onRefData (std::string const &key, RefData *data)
                 return;
         }
 
-        Ptr <BeanFactory> current = getBVFContext ()->getCurrentBF ();
+        BeanFactory *current = getBVFContext ()->getCurrentBF ();
 
         // Gdy abstract
         if (!current) {
@@ -239,7 +239,7 @@ void EditorService::onRefData (std::string const &key, RefData *data)
                 element.type = Element::EXTERNAL_SINGLETON;
         }
         else {
-                Factory::IFactory *factory = container->getBeanFactory (referenceName, current).get ();
+                Factory::IFactory *factory = container->getBeanFactory (referenceName, current);
 
                 // Zwykłe beany zdefiniowane w XML
                 if (factory) {

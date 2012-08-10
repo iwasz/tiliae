@@ -33,10 +33,6 @@ public:
 
 private:
 
-        Ptr <Editor::IndexedEditor> createIndexedEditor ();
-
-private:
-
         // Singletons owned by BeanFactoryContainer.
         Factory::IFactory *defaultSingletonFactory;
 };

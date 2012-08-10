@@ -292,7 +292,7 @@ std::string BeanFactory::toString () const
 
 /****************************************************************************/
 
-void BeanFactory::addInnerBeanFactory (Ptr <BeanFactory> bf)
+void BeanFactory::addInnerBeanFactory (BeanFactory *bf)
 {
         if (!innerBeanFactories) {
                 innerBeanFactories = new BeanFactoryMap ();
@@ -305,7 +305,7 @@ void BeanFactory::addInnerBeanFactory (Ptr <BeanFactory> bf)
 
 /****************************************************************************/
 
-Ptr <BeanFactory> BeanFactory::getInnerBeanFactory (const std::string &myId) const
+BeanFactory *BeanFactory::getInnerBeanFactory (const std::string &myId) const
 {
         if (innerBeanFactories) {
 
@@ -322,7 +322,7 @@ Ptr <BeanFactory> BeanFactory::getInnerBeanFactory (const std::string &myId) con
                 return getOuterBeanFactory ()->getInnerBeanFactory (myId);
         }
 
-        return Ptr <BeanFactory> ();
+        return NULL;
 }
 
 /****************************************************************************/
@@ -360,23 +360,6 @@ std::string ToStringHelper::toString (const BeanFactoryMap &bfm)
         return ret + ")";
 }
 
-/****************************************************************************/
-
-std::string ToStringHelper::toString (const BeanFactoryList &bfl)
-{
-        std::string ret = "BeanFactoryList (";
-
-        foreach (Ptr <BeanFactory> b, bfl) {
-                ret += b->toString () + ", ";
-        }
-
-        if (!bfl.empty ()) {
-                ret.resize (ret.size () - 2);
-        }
-
-        return ret + ")";
-}
-
 /*##########################################################################*/
 
 BeanFactoryContainer::BeanFactoryContainer (Core::VariantMap *s/*, Core::IAllocator *a*/) : singletons (s), linked (NULL)//, allocator (a)
@@ -392,7 +375,12 @@ BeanFactoryContainer::BeanFactoryContainer (Core::VariantMap *s/*, Core::IAlloca
 
 BeanFactoryContainer::~BeanFactoryContainer ()
 {
-//        delete allocator;
+        for (BeanFactoryMap::nth_index <1>::type::iterator i = factoryMap.get<1> ().begin ();
+             i  != factoryMap.get<1> (). end ();
+             ++i) {
+
+                delete *i;
+        }
 }
 
 /****************************************************************************/
@@ -423,7 +411,7 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name, const Core
 {
         /*
          * TODO sprawdz, czy pierwszy znak to nir jest @ lub &. Jesli tak, to wyciagnij factory lub editor
-                Ptr <BeanFactory> fact = factoryMap.get (name);
+                BeanFactory *fact = factoryMap.get (name);
                 return fact->getFactory ();
                 return fact->getEditor ();
          */
@@ -440,7 +428,7 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name, const Core
         Core::Variant ret;
 
         if (j != factoryMap.end ()) {
-                Ptr <BeanFactory> fact = *j;
+                BeanFactory *fact = *j;
                 assert (fact);
                 ret = fact->create (singletons, &context);
         }
@@ -471,9 +459,9 @@ void BeanFactoryContainer::addSingleton (const std::string &key, const Core::Var
 
 /****************************************************************************/
 
-Ptr <BeanFactory> BeanFactoryContainer::getBeanFactory (const std::string &id, Ptr <BeanFactory> innerBean) const
+BeanFactory *BeanFactoryContainer::getBeanFactory (const std::string &id, BeanFactory *innerBean) const
 {
-        Ptr <BeanFactory> ret;
+        BeanFactory *ret = NULL;
 
         if (innerBean) {
                 ret = innerBean->getInnerBeanFactory (id);
@@ -481,7 +469,7 @@ Ptr <BeanFactory> BeanFactoryContainer::getBeanFactory (const std::string &id, P
 
         if (!ret) {
                 BeanFactoryMap::nth_index <0>::type::iterator j = factoryMap.get<0> ().find (id);
-                ret = (j == factoryMap.get<0> ().end ()) ? (Ptr <BeanFactory> ()) : (*j);
+                ret = (j == factoryMap.get<0> ().end ()) ? (NULL) : (*j);
         }
 
         if (!ret && getLinked ()) {

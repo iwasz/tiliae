@@ -108,13 +108,12 @@ public:
         bool getFullyInitialized() const { return flags & FULLY_INITIALIZED; }
         void setFullyInitialized (bool fullyInitialized) { if (fullyInitialized) { flags |= FULLY_INITIALIZED; } else { flags &= ~FULLY_INITIALIZED; } }
 
-//        Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return beanWrapper; }
         void setBeanWrapper (Wrapper::IBeanWrapper *bw) { beanWrapper = bw; }
 
 /*------Inner/outer-bean----------------------------------------------------*/
 
-        void addInnerBeanFactory (Ptr <BeanFactory> bf);
-        Ptr <BeanFactory> getInnerBeanFactory (const std::string &id) const;
+        void addInnerBeanFactory (BeanFactory *bf);
+        BeanFactory *getInnerBeanFactory (const std::string &id) const;
 
         BeanFactory *getOuterBeanFactory () const { return outerBeanFactory; }
         void setOuterBeanFactory (BeanFactory *o) { outerBeanFactory = o; }
@@ -165,14 +164,13 @@ private:
         void *innerBeanFactories;
 };
 
-typedef std::list <Ptr <BeanFactory> > BeanFactoryList;
-typedef std::stack <Ptr <BeanFactory> > BeanFactoryStack;
+typedef std::stack <BeanFactory *> BeanFactoryStack;
 
 /**
  * Mapa, która trzyma kolejność elementów.
  */
 typedef boost::multi_index::multi_index_container<
-        Ptr <BeanFactory>,
+        BeanFactory *,
         boost::multi_index::indexed_by<
                 // Jak mapa
                 boost::multi_index::ordered_non_unique<
@@ -185,7 +183,7 @@ typedef boost::multi_index::multi_index_container<
 
 struct ToStringHelper {
         static std::string toString (const BeanFactoryMap &bfm);
-        static std::string toString (const BeanFactoryList &bfl);
+//        static std::string toString (const BeanFactoryList &bfl);
 };
 
 /*##########################################################################*/
@@ -215,7 +213,7 @@ public:
         Core::Variant getBean (const std::string &name, const Core::VariantMap &singletons = Core::VariantMap ()) const;
         bool containsBean (const std::string &name) const;
 
-        Ptr <BeanFactory> getBeanFactory (const std::string &name, Ptr <BeanFactory> innerBean = Ptr <BeanFactory> ()) const;
+        BeanFactory *getBeanFactory (const std::string &name, BeanFactory *innerBean = NULL) const;
 
         /**
          * Taka metoda będzie bardzo przydanta, gdyż za jej pomocą można

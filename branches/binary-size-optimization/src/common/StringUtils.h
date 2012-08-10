@@ -15,6 +15,8 @@
 
 namespace Common {
 
+// TODO wypierdolić i użyc boost string algo
+
 /**
  * Proste metody pomocnicze do operacji na stringach.
  */

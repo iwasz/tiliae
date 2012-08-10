@@ -34,7 +34,7 @@ public:
         BeanFactoryStack &getStack () { return stack; }
         void setStack (const BeanFactoryStack &s) { stack = s; }
 
-        Ptr <BeanFactory> getCurrentBF () const;
+        BeanFactory *getCurrentBF () const;
 
         BeanFactoryContainer *getBeanFactoryContainer () const { return container; }
         void setBeanFactoryContainer (BeanFactoryContainer *c) { container = c; }

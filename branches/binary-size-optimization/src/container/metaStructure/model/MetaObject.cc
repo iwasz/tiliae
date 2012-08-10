@@ -70,11 +70,11 @@ void MetaObject::initInnerMetas ()
 
 /****************************************************************************/
 
-void MetaObject::setInnerMetas (const MetaMap &m)
-{
-        initInnerMetas ();
-        *innerMetas = m;
-}
+//void MetaObject::setInnerMetas (const MetaMap &m)
+//{
+//        initInnerMetas ();
+//        *innerMetas = m;
+//}
 
 /****************************************************************************/
 
@@ -92,15 +92,7 @@ void MetaObject::addInnerMeta (MetaObject *m)
                 throw ConfigurationException ("AbstractMeta::addInnerMeta : There is already a inner bean with ID [" + id + "].");
         }
 
-        innerMetas->operator [] (id) = m;
-}
-
-/****************************************************************************/
-
-void MetaObject::addInnerMetaList (const MetaMap &m)
-{
-        initInnerMetas ();
-        std::copy (m.begin (), m.end (), std::inserter (*innerMetas, innerMetas->end ()));
+        innerMetas->operator [] (m->getId ()) = m;
 }
 
 /****************************************************************************/
@@ -182,7 +174,7 @@ MetaObject *MetaObject::getInnerMeta (const std::string &key) const
         if (innerMetas) {
                 MetaMap::const_iterator i;
 
-                if ((i = innerMetas->find (key)) != innerMetas->end ()) {
+                if ((i = innerMetas->find (key.c_str ())) != innerMetas->end ()) {
                         return i->second;
                 }
         }

@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
          * pola swojego rodzica.
          */
 
-        BOOST_CHECK_EQUAL (metaCont->getMetaVector ().size (), 5U);
+        BOOST_CHECK_EQUAL (metaCont->getMetaMap ().size (), 5U);
 
         MetaObject *syn = metaCont->get ("aska0");
         BOOST_CHECK (syn);
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 /*--------------------------------------------------------------------------*/
 
         Variant v;
-        Ptr <BeanFactory> bf = *(bm.get<0>().find ("aska0"));
+        BeanFactory *bf = *(bm.get<0>().find ("aska0"));
         BOOST_CHECK (bf);
 
         v = bf->getInput();

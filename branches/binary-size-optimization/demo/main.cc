@@ -27,16 +27,14 @@ using namespace boost;
 #include <vector>
 #include <list>
 
+#include <sparsehash/sparse_hash_map>
+using google::sparse_hash_map;      // namespace where class lives by default
 
 //struct TILIAE_API AllocationException : public Core::Exception {
 //        AllocationException (std::string const &m = "") : Core::Exception (m) {}
 //        AllocationException (Core::DebugContext const &db, std::string const &s = "") : Core::Exception (db, s) {}
 //        virtual ~AllocationException () throw () {}
 //};
-
-
-
-
 
 
 /**
@@ -91,6 +89,30 @@ int main (int argc, char **argv)
 
         }
 
+
+
+
+        sparse_hash_map<const char*, int, std::tr1::hash<const char*>, eqstr> months;
+
+
+        months["january"] = 31;
+        months["february"] = 28;
+        months["march"] = 31;
+        months["april"] = 30;
+        months["may"] = 31;
+        months["june"] = 30;
+        months["july"] = 31;
+        months["august"] = 31;
+        months["september"] = 30;
+        months["october"] = 31;
+        months["november"] = 30;
+        months["december"] = 31;
+
+        cout << "september -> " << months["september"] << endl;
+        cout << "april     -> " << months["april"] << endl;
+        cout << "june      -> " << months["june"] << endl;
+        cout << "november  -> " << months["november"] << endl;
+
 //        BeanFactory *table = new BeanFactory[1000];
 //        delete [] table;
 //
@@ -128,7 +150,7 @@ int main (int argc, char **argv)
 
 
         Ptr <MetaContainer> metaCtr = MXmlMetaService::parseFile ("../demo/main.xml");
-#if 1
+#if 0
         Ptr <BeanFactoryContainer> container = ContainerFactory::createAndInit (metaCtr);
         BookVector *v = vcast <BookVector *> (container->getBean ("books"));
 

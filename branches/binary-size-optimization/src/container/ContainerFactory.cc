@@ -115,9 +115,9 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 iteration2.addService (&factoryService);
 
 #if CONTAINER_PRINT_META
-                Ptr <PrintMetaService> printService = PrintMetaService::create ();
-                printService->setContext (&context);
-                iteration2.addService (printService);
+                PrintMetaService printService;
+                printService.setContext (&context);
+                iteration2.addService (&printService);
 #endif
 
                 context.reset ();
@@ -135,7 +135,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                      i  != beanFactoryMap->get<1> (). end ();
                      ++i) {
 
-                        Ptr <BeanFactory> factory = *i;
+                        BeanFactory *factory = *i;
 
                         bool isSingleton = (static_cast <MetaObject::Scope> (factory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
                         bool isLazyInit = factory->getBoolAttribute (Attributes::LAZYINIT_ARGUMENT);

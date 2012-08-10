@@ -62,6 +62,10 @@ if (NOT ANDROID)
     pkg_check_modules (MXML REQUIRED "mxml")
     INCLUDE_DIRECTORIES (${MXML_INCLUDE_DIRS})
     link_directories(${MXML_LIBRARY_DIRS})
+
+    pkg_check_modules (SPARSE_HASH REQUIRED "libsparsehash")
+    INCLUDE_DIRECTORIES (${SPARSE_HASH_INCLUDE_DIRS})
+
 else ()
     find_library (MXML_LIBRARIES "mxml")
 endif ()

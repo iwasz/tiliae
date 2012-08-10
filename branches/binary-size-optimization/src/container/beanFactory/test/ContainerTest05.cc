@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
 
 /****************************************************************************/
 
-        Ptr <BeanFactory> bf = cont->getBeanFactory ("mojBean");
+        BeanFactory *bf = cont->getBeanFactory ("mojBean");
         BOOST_CHECK (bf);
 
         Core::VariantList const *vl = bf->getCArgs ();

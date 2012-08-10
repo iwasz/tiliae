@@ -24,8 +24,8 @@ void MetaVisitor::visit (MetaContainer *container)
                 (*i)->onContainer (container);
         }
 
-        for (MetaVector::const_iterator i = container->getMetaVector ().begin (); i != container->getMetaVector ().end (); ++i) {
-                (*i)->accept (this);
+        for (MetaMap::const_iterator i = container->getMetaMap ().begin (); i != container->getMetaMap ().end (); ++i) {
+                i->second->accept (this);
         }
 }
 

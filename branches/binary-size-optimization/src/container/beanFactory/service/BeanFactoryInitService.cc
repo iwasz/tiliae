@@ -26,7 +26,7 @@ bool BeanFactoryInitService::onMetaBegin (MetaObject *meta)
         }
 
         std::string id = toStr (meta->getId ());
-        Ptr <BeanFactory> beanFactory = boost::make_shared <BeanFactory> ();
+        BeanFactory *beanFactory = new BeanFactory;
         beanFactory->setBeanWrapper(defaultBeanWrapper);
         beanFactory->setAttributes (meta->getAttributes ()->makeCopyOnHeap ());
         getBVFContext ()->getStack().push (beanFactory);
@@ -44,14 +44,14 @@ bool BeanFactoryInitService::onMetaEnd (MetaObject *meta)
         BeanFactoryStack &stack = getBVFContext ()->getStack();
 
         assert (!stack.empty ());
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
         stack.pop ();
 
         if (stack.empty ()) {
                 getBVFContext ()->getBeanFactoryMap()->insert (beanFactory);
         }
         else {
-                Ptr <BeanFactory> parent = getBVFContext ()->getCurrentBF ();
+                BeanFactory *parent = getBVFContext ()->getCurrentBF ();
                 parent->addInnerBeanFactory (beanFactory);
         }
 

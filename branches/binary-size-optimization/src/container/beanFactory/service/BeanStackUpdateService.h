@@ -22,7 +22,6 @@ class BeanStackUpdateService : public BeanFactoryService {
 public:
 
         virtual ~BeanStackUpdateService () {}
-        static Ptr <BeanStackUpdateService> create () { return Ptr <BeanStackUpdateService> (new BeanStackUpdateService); }
 
 /*--------------------------------------------------------------------------*/
 

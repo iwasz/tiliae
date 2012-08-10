@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE (test057ListScopeTests)
         v = cont->getBean ("listaBean1");
         BOOST_CHECK (!v.isNone ());
 
-        Ptr <BeanFactory> bf = cont->getBeanFactory ("bean2");
+        BeanFactory *bf = cont->getBeanFactory ("bean2");
         BOOST_CHECK (bf);
         bf = bf->getInnerBeanFactory("inner");
         BOOST_CHECK (bf);
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE (test058MapScopeTests)
         v = cont->getBean ("listaBean1");
         BOOST_CHECK (!v.isNone ());
 
-        Ptr <BeanFactory> bf = cont->getBeanFactory ("bean2");
+        BeanFactory *bf = cont->getBeanFactory ("bean2");
         BOOST_CHECK (bf);
         bf = bf->getInnerBeanFactory("inner");
         BOOST_CHECK (bf);

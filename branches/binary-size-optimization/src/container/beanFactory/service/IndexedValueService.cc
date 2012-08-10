@@ -22,7 +22,7 @@ bool IndexedValueService::onIndexedMetaBegin (MetaObject *data)
         inputList = new Core::VariantList ();
         cargList = NULL;
 
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
         beanFactory->setInputList (inputList);
         return true;
 }
@@ -38,7 +38,7 @@ void IndexedValueService::onConstructorArgsBegin (MetaObject *data)
         inputList = NULL;
         cargList = new Core::VariantList ();
 
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
         beanFactory->setCArgs (cargList);
 }
 

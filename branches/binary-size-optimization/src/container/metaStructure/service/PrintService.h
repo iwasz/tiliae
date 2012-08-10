@@ -22,7 +22,6 @@ struct PrintMetaService : public AbstractMetaService {
 
         TILIAE_API PrintMetaService () : buffer (NULL) {}
         virtual ~PrintMetaService () {}
-        static Ptr <PrintMetaService> create () { return Ptr <PrintMetaService> (new PrintMetaService); }
 
         void onContainer (MetaContainer *data);
         bool onMetaBegin (MetaObject *data) { return true; }

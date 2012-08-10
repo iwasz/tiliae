@@ -23,7 +23,7 @@ bool BeanStackUpdateService::onMetaBegin (MetaObject *data)
 
         std::string id = toStr (data->getId ());
         BeanFactoryStack &stack = getBVFContext ()->getStack();
-        Ptr <BeanFactory> beanFactory;
+        BeanFactory *beanFactory;
 
         // Top-level beans are taken directly from container.
         if (stack.empty ()) {
@@ -31,7 +31,7 @@ bool BeanStackUpdateService::onMetaBegin (MetaObject *data)
                 beanFactory = container->getBeanFactory (id);
         }
         else {
-                Ptr <BeanFactory> parent = getBVFContext ()->getCurrentBF ();
+                BeanFactory *parent = getBVFContext ()->getCurrentBF ();
                 beanFactory = parent->getInnerBeanFactory (id);
         }
 

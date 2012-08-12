@@ -129,7 +129,7 @@ MetaDeque MetaContainer::topologicalSort () const
 
         for (MetaMap::const_iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
                 MetaObject *rootMetaObject = i->second;
-                topologicalSort (rootMetaObject, &sorted);
+                topologicalSortPrv (rootMetaObject, &sorted);
         }
 
         return sorted;
@@ -137,12 +137,12 @@ MetaDeque MetaContainer::topologicalSort () const
 
 /****************************************************************************/
 
-void MetaContainer::topologicalSortPrv (MetaObject *meta, MetaDeque *sorted)
+void MetaContainer::topologicalSortPrv (MetaObject const *meta, MetaDeque *sorted) const
 {
         MetaMap innerMetaObjects = meta->getInnerMetas ();
 
         for (MetaMap::const_iterator i = innerMetaObjects.begin (); i != innerMetaObjects.end (); ++i) {
-                topologicalSort (i->second, sort);
+                topologicalSortPrv (i->second, sorted);
         }
 }
 

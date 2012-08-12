@@ -52,7 +52,7 @@ public:
 private:
 
         Core::StringList getRuntimeDependencies (std::string const &metaName) const;
-        void topologicalSortPrv (MetaObject *meta, MetaDeque *sorted);
+        void topologicalSortPrv (MetaObject const *meta, MetaDeque *sorted) const;
 
 private:
 

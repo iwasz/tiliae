@@ -12,6 +12,7 @@
 #include <sparsehash/sparse_hash_map>
 #include <deque>
 #include <stack>
+#include <hash_fun.h>
 #include "common/Attributes.h"
 #include "Typedefs.h"
 #include "ApiMacro.h"
@@ -21,15 +22,16 @@
 namespace Container {
 class MetaObject;
 
-struct eqstr {
+struct Eqstr {
         bool operator()(const char* s1, const char* s2) const {
-                std::cerr << s1 << ", " << s2 << std::endl;
+//                std::cerr << s1 << ", " << s2 << std::endl;
                 return (s1 == s2) || (s1 && s2 && strcmp(s1, s2) == 0);
         }
 };
 
-//typedef google::sparse_hash_map <const char*, MetaObject *, std::tr1::hash <const char*>, eqstr> MetaMap;
-typedef std::map <std::string, MetaObject *> MetaMap;
+//typedef google::sparse_hash_map <const char*, MetaObject *, std::tr1::hash <const char*>, Eqstr> MetaMap;
+typedef google::sparse_hash_map <const char*, MetaObject *, __gnu_cxx::hash<const char*>, Eqstr> MetaMap;
+//typedef std::map <std::string, MetaObject *> MetaMap;
 typedef std::stack <MetaObject *> MetaStack;
 typedef std::vector <MetaObject *> MetaVector;
 typedef std::deque <MetaObject *> MetaDeque;

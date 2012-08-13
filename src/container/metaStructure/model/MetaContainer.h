@@ -13,6 +13,10 @@
 #include "ApiMacro.h"
 #include "MetaObject.h"
 #include "allocator/ArrayRegionAllocator.h"
+#include <boost/graph/graph_traits.hpp>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/dijkstra_shortest_paths.hpp>
+#include <boost/graph/topological_sort.hpp>
 
 namespace Container {
 
@@ -51,8 +55,12 @@ public:
 
 private:
 
-        Core::StringList getRuntimeDependencies (std::string const &metaName) const;
-        void topologicalSortPrv (MetaObject const *meta, MetaDeque *sorted) const;
+        typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS> Graph;
+
+        Core::StringList getRuntimeDependencies (MetaObject const *meta) const;
+        void topologicalSortPrv (MetaObject *meta, MetaDeque *sorted, Graph *graph) const;
+        void fillGraph  (MetaObject *meta, MetaDeque *sorted, Graph *graph) const;
+        friend std::ostream &operator<< (std::ostream &o, MetaContainer const &m);
 
 private:
 
@@ -60,6 +68,8 @@ private:
         Ptr <MetaContainer const> linked;
         Core::ArrayRegionAllocator <char> memoryAllocator;
 };
+
+TILIAE_API std::ostream &operator<< (std::ostream &o, MetaContainer const &m);
 
 }
 

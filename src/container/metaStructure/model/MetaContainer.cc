@@ -58,12 +58,12 @@ MetaObject *MetaContainer::get (const std::string &key) const
 
 /****************************************************************************/
 
-Core::StringList MetaContainer::getRuntimeDependencies (std::string const &metaName) const
+Core::StringList MetaContainer::getRuntimeDependencies (MetaObject const *meta) const
 {
         Core::StringList deps;
 
-        // Find MetaObject
-        MetaObject *meta = get (metaName);
+//        // Find MetaObject
+//        MetaObject *meta = get (metaName);
 
         DataKeyVector fields = meta->getFields ();
 
@@ -126,10 +126,23 @@ Core::StringList MetaContainer::getRuntimeDependencies (std::string const &metaN
 MetaDeque MetaContainer::topologicalSort () const
 {
         MetaDeque sorted;
+        Graph graph;
 
         for (MetaMap::const_iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
                 MetaObject *rootMetaObject = i->second;
-                topologicalSortPrv (rootMetaObject, &sorted);
+                topologicalSortPrv (rootMetaObject, &sorted, &graph);
+        }
+
+        typedef boost::graph_traits <Graph>::vertex_descriptor Vertex;
+        typedef std::vector <Vertex> Container;
+        Container c;
+        boost::topological_sort (graph, std::back_inserter (c));
+
+        // TODO zmienić typ vertex_descriptor na MetaObject *
+//        std::copy (c.begin (), c.end (), std::back_inserter (sorted));
+
+        for (Container::const_iterator i = c.begin (); i != c.end (); ++i) {
+                sorted.push_back (reinterpret_cast <MetaObject *> (*i));
         }
 
         return sorted;
@@ -137,14 +150,55 @@ MetaDeque MetaContainer::topologicalSort () const
 
 /****************************************************************************/
 
-void MetaContainer::topologicalSortPrv (MetaObject const *meta, MetaDeque *sorted) const
+void MetaContainer::topologicalSortPrv (MetaObject *meta, MetaDeque *sorted, Graph *graph) const
 {
         MetaMap innerMetaObjects = meta->getInnerMetas ();
 
+        fillGraph (meta, sorted, graph);
+
         for (MetaMap::const_iterator i = innerMetaObjects.begin (); i != innerMetaObjects.end (); ++i) {
-                topologicalSortPrv (i->second, sorted);
+                topologicalSortPrv (i->second, sorted, graph);
         }
 }
 
+/****************************************************************************/
+
+void MetaContainer::fillGraph  (MetaObject *meta, MetaDeque *sorted, Graph *graph) const
+{
+        Core::StringList deps = getRuntimeDependencies (meta);
+
+        // jeśli nie ma zależności, to dodajemy na początek.
+        if (deps.empty ()) {
+                sorted->push_front (meta);
+        }
+
+        for (Core::StringList::const_iterator i = deps.begin (); i != deps.end (); ++i) {
+                MetaObject *dependency = get (*i);
+
+                if (!dependency) {
+                        continue;
+                }
+
+                boost::add_edge ((long unsigned int)meta, (long unsigned int)dependency, *graph);
+        }
+}
+
+/****************************************************************************/
+
+std::ostream &operator<< (std::ostream &o, MetaContainer const &m)
+{
+        o << "MetaContainer [";
+
+        for (MetaMap::const_iterator i = m.metaMap.begin (); i != m.metaMap.end ();) {
+                o << *i->second;
+
+                if (++i != m.metaMap.end ()) {
+                        o << ", ";
+                }
+        }
+
+        o << "]";
+        return o;
+}
 
 }

@@ -92,7 +92,7 @@ int main (int argc, char **argv)
 
 
 
-        sparse_hash_map<const char*, int, std::tr1::hash<const char*>, eqstr> months;
+        sparse_hash_map<const char*, int, std::tr1::hash<const char*>, Eqstr> months;
 
 
         months["january"] = 31;

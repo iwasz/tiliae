@@ -305,4 +305,31 @@ DataKeyVector MetaObject::getListFields () const
         return ret;
 }
 
+/****************************************************************************/
+
+std::ostream &operator<< (std::ostream &o, MetaObject const &m)
+{
+        o << "MetaObject [" << m.getId () << "]";
+        return o;
+}
+
+
+/****************************************************************************/
+
+std::ostream &operator<< (std::ostream &o, MetaDeque const &m)
+{
+        o << "MetaDeque [";
+
+        for (MetaDeque::const_iterator i = m.begin (); i != m.end ();) {
+                o << **i;
+
+                if (++i != m.end ()) {
+                        o << ", ";
+                }
+        }
+
+        o << "]";
+        return o;
+}
+
 }

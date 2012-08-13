@@ -23,11 +23,13 @@ class MetaObject;
 
 struct eqstr {
         bool operator()(const char* s1, const char* s2) const {
+                std::cerr << s1 << ", " << s2 << std::endl;
                 return (s1 == s2) || (s1 && s2 && strcmp(s1, s2) == 0);
         }
 };
 
-typedef google::sparse_hash_map <const char*, MetaObject *, std::tr1::hash <const char*>, eqstr> MetaMap;
+//typedef google::sparse_hash_map <const char*, MetaObject *, std::tr1::hash <const char*>, eqstr> MetaMap;
+typedef std::map <std::string, MetaObject *> MetaMap;
 typedef std::stack <MetaObject *> MetaStack;
 typedef std::vector <MetaObject *> MetaVector;
 typedef std::deque <MetaObject *> MetaDeque;
@@ -122,6 +124,9 @@ private:
         DataKey *lastField;
         Type type;
 };
+
+TILIAE_API std::ostream &operator<< (std::ostream &o, MetaObject const &m);
+TILIAE_API std::ostream &operator<< (std::ostream &o, MetaDeque const &m);
 
 }
 

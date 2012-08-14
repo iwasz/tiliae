@@ -59,7 +59,7 @@ private:
 
         Core::StringList getRuntimeDependencies (MetaObject const *meta) const;
         void fillGraph  (MetaObject *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index);
-        void prepareBidirectionalIndex (BidirectionalMetaIndex *index, size_t *conunter, MetaObject *meta = NULL);
+        void prepareBidirectionalIndex (BidirectionalMetaIndex *index, Graph *graph, MetaObject *meta = NULL);
         friend std::ostream &operator<< (std::ostream &o, MetaContainer const &m);
 
 private:

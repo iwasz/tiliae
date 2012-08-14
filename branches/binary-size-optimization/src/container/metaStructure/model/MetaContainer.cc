@@ -125,10 +125,8 @@ MetaDeque MetaContainer::topologicalSort ()
         MetaDeque sorted;
         BidirectionalMetaIndex index;
         Graph graph;
-        size_t counter = 0;
 
-        prepareBidirectionalIndex (&index, &counter);
-//        std::cerr << index << std::endl;
+        prepareBidirectionalIndex (&index, &graph);
 
         for (BidirectionalMetaIndex::MetaToInt::iterator i = index.metaToInt.begin (); i != index.metaToInt.end (); ++i) {
                 MetaObject *meta = i->first;
@@ -157,17 +155,6 @@ void MetaContainer::fillGraph  (MetaObject *meta, size_t metaNumber, MetaDeque *
 {
         Core::StringList deps = getRuntimeDependencies (meta);
 
-        // jeśli nie ma zależności, to dodajemy na początek.
-        /*
-         * TODO Tu powinny lądować tylko takie obiekty, które nie mają ani zaleznosci, ani nie zależą od niczego (czyli takie, które nie są cześcią grafu)!
-         * W tym momencie jest błąd, który powoduje, że niektóre obiekty się dublują w kolekcji sorted (podwójnie sa te, które nie zależą od niczego, ale
-         * od nich zależą inne).
-         */
-        if (deps.empty ()) {
-                sorted->push_front (meta);
-                return;
-        }
-
         for (Core::StringList::const_iterator i = deps.begin (); i != deps.end (); ++i) {
                 MetaObject *dependency = get (*i);
 
@@ -177,27 +164,30 @@ void MetaContainer::fillGraph  (MetaObject *meta, size_t metaNumber, MetaDeque *
 
                 size_t dependencyNumber = index->get (dependency);
                 boost::add_edge (metaNumber, dependencyNumber, *graph);
-//                std::cerr << "add_edge (" << metaNumber << ", " << dependencyNumber << ")" << std::endl;
+#if 0
+                std::cerr << "add_edge (" << metaNumber << ", " << dependencyNumber << ")" << std::endl;
+#endif
         }
 }
 
 /****************************************************************************/
 
-void MetaContainer::prepareBidirectionalIndex (BidirectionalMetaIndex *index, size_t *counter, MetaObject *meta)
+void MetaContainer::prepareBidirectionalIndex (BidirectionalMetaIndex *index, Graph *graph, MetaObject *meta)
 {
         if (!meta) {
                 for (MetaMap::iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
-                        prepareBidirectionalIndex (index, counter, i->second);
+                        prepareBidirectionalIndex (index, graph, i->second);
                 }
 
                 return;
         }
 
-        index->add ((*counter)++, meta);
+        size_t vertexDescriptor = boost::add_vertex (*graph);
+        index->add (vertexDescriptor, meta);
 
         MetaMap innerMetas = meta->getInnerMetas ();
         for (MetaMap::iterator i = innerMetas.begin (); i != innerMetas.end (); ++i) {
-                prepareBidirectionalIndex (index, counter, i->second);
+                prepareBidirectionalIndex (index, graph, i->second);
         }
 }
 

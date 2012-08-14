@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+	<Dummy id="a"/>
+	<Dummy id="b"/>
+	<Dummy id="c"/>
+	<Dummy id="d"/>
+  
+	<Dummy id="e" field1="@c" />
+	<Dummy id="f" field1="@d" />
+	<Dummy id="g" field1="@b" />
+	<Dummy id="h" field1="@c" />
+  
+	<Dummy id="i" field1="@c" field2="@e" />
+	<Dummy id="j" field1="@d" field2="@f" />
+	<Dummy id="k" field1="@b" field2="@g" />
+	<Dummy id="l" field1="@c" field2="@h" />
+
+  	<Dummy id="m" field1="@c" field2="@e" field3="@i" />
+	<Dummy id="n" field1="@d" field2="@f" field3="@i" />
+	<Dummy id="o" field1="@b" field2="@g" field3="@j" />
+	<Dummy id="p" field1="@c" field2="@h" field3="@j" />
+  
+</beans>

@@ -18,20 +18,41 @@
 #include "ApiMacro.h"
 #include "../interface/IDataVisitor.h"
 #include "../../metaStructure/model/data/IData.h"
+#include "../../common/Exceptions.h"
 
 namespace Container {
 class MetaObject;
 
 struct Eqstr {
         bool operator()(const char* s1, const char* s2) const {
-//                std::cerr << s1 << ", " << s2 << std::endl;
                 return (s1 == s2) || (s1 && s2 && strcmp(s1, s2) == 0);
         }
 };
 
-//typedef google::sparse_hash_map <const char*, MetaObject *, std::tr1::hash <const char*>, Eqstr> MetaMap;
 typedef google::sparse_hash_map <const char*, MetaObject *, __gnu_cxx::hash<const char*>, Eqstr> MetaMap;
-//typedef std::map <std::string, MetaObject *> MetaMap;
+
+struct BidirectionalMetaIndex {
+
+        void add (size_t index, MetaObject *meta)
+        {
+                metaToInt[meta] = index;
+                intToMeta[index] = meta;
+        }
+
+        MetaObject *get (size_t index) { IntToMeta::iterator i = intToMeta.find (index); return (i != intToMeta.end ()) ? (i->second) : (NULL); }
+        MetaObject const *get (size_t index) const { IntToMeta::const_iterator i = intToMeta.find (index); return (i != intToMeta.end ()) ? (i->second) : (NULL); }
+
+        size_t get (MetaObject *meta) { MetaToInt::iterator i = metaToInt.find (meta); if (i != metaToInt.end ()) { return i->second; } throw ConfigurationException ("BidirectionalMetaIndex::get ()"); }
+        size_t get (MetaObject *meta) const { MetaToInt::const_iterator i = metaToInt.find (meta); if (i != metaToInt.end ()) { return i->second; } throw ConfigurationException ("BidirectionalMetaIndex::get ()"); }
+
+        typedef google::sparse_hash_map <MetaObject *, size_t> MetaToInt;
+        typedef google::sparse_hash_map <size_t, MetaObject *> IntToMeta;
+        friend std::ostream &operator<< (std::ostream &o, BidirectionalMetaIndex const &m);
+
+        MetaToInt metaToInt;
+        IntToMeta intToMeta;
+};
+
 typedef std::stack <MetaObject *> MetaStack;
 typedef std::vector <MetaObject *> MetaVector;
 typedef std::deque <MetaObject *> MetaDeque;
@@ -129,6 +150,7 @@ private:
 
 TILIAE_API std::ostream &operator<< (std::ostream &o, MetaObject const &m);
 TILIAE_API std::ostream &operator<< (std::ostream &o, MetaDeque const &m);
+TILIAE_API std::ostream &operator<< (std::ostream &o, BidirectionalMetaIndex const &m);
 
 }
 

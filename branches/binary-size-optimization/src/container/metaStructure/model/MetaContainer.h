@@ -51,15 +51,15 @@ public:
         void setLinked (Ptr <MetaContainer const> l) { linked = l; }
 
         Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
-        MetaDeque topologicalSort () const;
+        MetaDeque topologicalSort ();
 
 private:
 
         typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS> Graph;
 
         Core::StringList getRuntimeDependencies (MetaObject const *meta) const;
-        void topologicalSortPrv (MetaObject *meta, MetaDeque *sorted, Graph *graph) const;
-        void fillGraph  (MetaObject *meta, MetaDeque *sorted, Graph *graph) const;
+        void fillGraph  (MetaObject *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index);
+        void prepareBidirectionalIndex (BidirectionalMetaIndex *index, size_t *conunter, MetaObject *meta = NULL);
         friend std::ostream &operator<< (std::ostream &o, MetaContainer const &m);
 
 private:

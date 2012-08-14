@@ -70,14 +70,6 @@ void MetaObject::initInnerMetas ()
 
 /****************************************************************************/
 
-//void MetaObject::setInnerMetas (const MetaMap &m)
-//{
-//        initInnerMetas ();
-//        *innerMetas = m;
-//}
-
-/****************************************************************************/
-
 void MetaObject::addInnerMeta (MetaObject *m)
 {
         initInnerMetas ();
@@ -324,6 +316,24 @@ std::ostream &operator<< (std::ostream &o, MetaDeque const &m)
                 o << **i;
 
                 if (++i != m.end ()) {
+                        o << ", ";
+                }
+        }
+
+        o << "]";
+        return o;
+}
+
+/****************************************************************************/
+
+std::ostream &operator<< (std::ostream &o, BidirectionalMetaIndex const &m)
+{
+        o << "BidirectionalMetaIndex [";
+
+        for (BidirectionalMetaIndex::MetaToInt::const_iterator i = m.metaToInt.begin (); i != m.metaToInt.end ();) {
+                o << i->second << "=" << *(i->first);
+
+                if (++i != m.metaToInt.end ()) {
                         o << ", ";
                 }
         }

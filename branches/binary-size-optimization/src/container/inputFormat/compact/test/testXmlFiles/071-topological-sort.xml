@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 
-  <City id="thisCity" name="Tokio" />
-
-  <Foo id="kinkreet0" field0="value01" field1="value02" city="@thisCity" />
-
-  <Foo id="kinkreet2" field0="value01" field1="value02">
-        <ref set-as="city" bean="thisCity" />
-  </Foo>
+        <Bar id="a" />
+        <Bar id="b" butter="@a" />
+        <Bar id="c" butter="@a" />
+        <Bar id="d" butter="@c" />
+        <Bar id="e" butter="@d" />
+        <Bar id="f" butter="@d" />
+        <Bar id="g" butter="@f" />
+        <Bar id="h" butter="@g" />
   
 </beans>

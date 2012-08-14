@@ -62,9 +62,6 @@ Core::StringList MetaContainer::getRuntimeDependencies (MetaObject const *meta) 
 {
         Core::StringList deps;
 
-//        // Find MetaObject
-//        MetaObject *meta = get (metaName);
-
         DataKeyVector fields = meta->getFields ();
 
         // Check refs and value.type-s
@@ -123,14 +120,21 @@ Core::StringList MetaContainer::getRuntimeDependencies (MetaObject const *meta) 
 
 /****************************************************************************/
 
-MetaDeque MetaContainer::topologicalSort () const
+MetaDeque MetaContainer::topologicalSort ()
 {
         MetaDeque sorted;
+        BidirectionalMetaIndex index;
         Graph graph;
+        size_t counter = 0;
 
-        for (MetaMap::const_iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
-                MetaObject *rootMetaObject = i->second;
-                topologicalSortPrv (rootMetaObject, &sorted, &graph);
+        prepareBidirectionalIndex (&index, &counter);
+//        std::cerr << index << std::endl;
+
+        for (BidirectionalMetaIndex::MetaToInt::iterator i = index.metaToInt.begin (); i != index.metaToInt.end (); ++i) {
+                MetaObject *meta = i->first;
+                size_t metaNumber = i->second;
+
+                fillGraph (meta, metaNumber, &sorted, &graph, &index);
         }
 
         typedef boost::graph_traits <Graph>::vertex_descriptor Vertex;
@@ -138,11 +142,10 @@ MetaDeque MetaContainer::topologicalSort () const
         Container c;
         boost::topological_sort (graph, std::back_inserter (c));
 
-        // TODO zmienić typ vertex_descriptor na MetaObject *
-//        std::copy (c.begin (), c.end (), std::back_inserter (sorted));
-
         for (Container::const_iterator i = c.begin (); i != c.end (); ++i) {
-                sorted.push_back (reinterpret_cast <MetaObject *> (*i));
+                MetaObject *meta = index.get (*i);
+                assert (meta);
+                sorted.push_back (meta);
         }
 
         return sorted;
@@ -150,26 +153,19 @@ MetaDeque MetaContainer::topologicalSort () const
 
 /****************************************************************************/
 
-void MetaContainer::topologicalSortPrv (MetaObject *meta, MetaDeque *sorted, Graph *graph) const
-{
-        MetaMap innerMetaObjects = meta->getInnerMetas ();
-
-        fillGraph (meta, sorted, graph);
-
-        for (MetaMap::const_iterator i = innerMetaObjects.begin (); i != innerMetaObjects.end (); ++i) {
-                topologicalSortPrv (i->second, sorted, graph);
-        }
-}
-
-/****************************************************************************/
-
-void MetaContainer::fillGraph  (MetaObject *meta, MetaDeque *sorted, Graph *graph) const
+void MetaContainer::fillGraph  (MetaObject *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index)
 {
         Core::StringList deps = getRuntimeDependencies (meta);
 
         // jeśli nie ma zależności, to dodajemy na początek.
+        /*
+         * TODO Tu powinny lądować tylko takie obiekty, które nie mają ani zaleznosci, ani nie zależą od niczego (czyli takie, które nie są cześcią grafu)!
+         * W tym momencie jest błąd, który powoduje, że niektóre obiekty się dublują w kolekcji sorted (podwójnie sa te, które nie zależą od niczego, ale
+         * od nich zależą inne).
+         */
         if (deps.empty ()) {
                 sorted->push_front (meta);
+                return;
         }
 
         for (Core::StringList::const_iterator i = deps.begin (); i != deps.end (); ++i) {
@@ -179,7 +175,29 @@ void MetaContainer::fillGraph  (MetaObject *meta, MetaDeque *sorted, Graph *grap
                         continue;
                 }
 
-                boost::add_edge ((long unsigned int)meta, (long unsigned int)dependency, *graph);
+                size_t dependencyNumber = index->get (dependency);
+                boost::add_edge (metaNumber, dependencyNumber, *graph);
+//                std::cerr << "add_edge (" << metaNumber << ", " << dependencyNumber << ")" << std::endl;
+        }
+}
+
+/****************************************************************************/
+
+void MetaContainer::prepareBidirectionalIndex (BidirectionalMetaIndex *index, size_t *counter, MetaObject *meta)
+{
+        if (!meta) {
+                for (MetaMap::iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
+                        prepareBidirectionalIndex (index, counter, i->second);
+                }
+
+                return;
+        }
+
+        index->add ((*counter)++, meta);
+
+        MetaMap innerMetas = meta->getInnerMetas ();
+        for (MetaMap::iterator i = innerMetas.begin (); i != innerMetas.end (); ++i) {
+                prepareBidirectionalIndex (index, counter, i->second);
         }
 }
 

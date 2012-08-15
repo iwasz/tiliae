@@ -55,77 +55,68 @@ using namespace Wrapper;
 
 void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCont)
 {
-        MetaVisitor iteration0;
-        MetaVisitor iteration1;
-        MetaVisitor iteration2;
+        MetaVisitor iteration;
         BeanFactoryContext ctx;
         BeanFactoryVisitorContext context;
         Core::VariantMap *singletons = bfCont->getSingletons ();
+        context.setMetaContainer (metaCont);
 
         try {
 
-                iteration0.setContext (&context);
+                iteration.setContext (&context);
 
                 ParentService parentService;
                 parentService.setContext (&context);
-                iteration0.addService (&parentService);
-
-/*------1st-iteration-------------------------------------------------------*/
-
-                iteration1.setContext (&context);
+                iteration.addService (&parentService);
 
 //                ParentService parentService;
 //                parentService.setContext (&context);
-//                iteration1.addService (&parentService);
+//                iteration.addService (&parentService);
 
                 BeanFactoryInitService bfService;
                 bfService.setContext (&context);
                 bfService.setDefaultBeanWrapper (vcast <BeanWrapper *> (singletons->operator[] (BEAN_WRAPPER_W_CONVERSION)));
-                iteration1.addService (&bfService);
+                iteration.addService (&bfService);
 
                 MappedValueService valMapService;
                 valMapService.setContext (&context);
                 ValueServiceHelper helper;
                 helper.setSingletonMap (singletons);
                 valMapService.setValueServiceHelper (&helper);
-                iteration1.addService (&valMapService);
+                iteration.addService (&valMapService);
 
                 IndexedValueService valIndexService;
                 valIndexService.setContext (&context);
                 helper.setSingletonMap (singletons);
                 valIndexService.setValueServiceHelper (&helper);
-                iteration1.addService (&valIndexService);
-
-/*------2nd-iteration-------------------------------------------------------*/
-
-                iteration2.setContext (&context);
+                iteration.addService (&valIndexService);
 
                 BeanStackUpdateService updService;
                 updService.setContext (&context);
-                iteration2.addService (&updService);
+                iteration.addService (&updService);
 
                 EditorService editorService;
                 editorService.setContext (&context);
                 editorService.init (singletons);
-                iteration2.addService (&editorService);
+                iteration.addService (&editorService);
 
                 FactoryService factoryService;
                 factoryService.setContext (&context);
                 factoryService.init (singletons);
-                iteration2.addService (&factoryService);
+                iteration.addService (&factoryService);
 
 #if CONTAINER_PRINT_META
                 PrintMetaService printService;
                 printService.setContext (&context);
-                iteration2.addService (&printService);
+                iteration.addService (&printService);
 #endif
 
                 context.reset ();
                 context.setBeanFactoryContainer (bfCont);
                 context.setBeanFactoryMap (&bfCont->getBeanFactoryMap ());
-                metaCont->accept (&iteration0);
-                metaCont->accept (&iteration1);
-                metaCont->accept (&iteration2);
+
+                MetaDeque sorted = metaCont->topologicalSort ();
+                iteration.visit (&sorted);
 
 /*------2.5-iteration-*global*-singletons-----------------------------------*/
 

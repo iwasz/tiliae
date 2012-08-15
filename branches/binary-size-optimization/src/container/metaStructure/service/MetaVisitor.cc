@@ -31,6 +31,22 @@ void MetaVisitor::visit (MetaContainer *container)
 
 /****************************************************************************/
 
+void MetaVisitor::visit (MetaDeque *sorted)
+{
+        assert (ctx);
+        ctx->resetDepth ();
+
+//        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
+//                (*i)->onContainer (container);
+//        }
+
+        for (MetaDeque::const_iterator i = sorted->begin (); i != sorted->end (); ++i) {
+                (*i)->accept (this);
+        }
+}
+
+/****************************************************************************/
+
 void MetaVisitor::visit (MetaObject *data)
 {
         foreach (IMetaService *service, services) {
@@ -62,7 +78,7 @@ void MetaVisitor::visit (MetaObject *data)
                 service->onConstructorArgsEnd (data);
         }
 
-        visitInnerMeta (data);
+//        visitInnerMeta (data);
 
         foreach (IMetaService *service, services) {
                 service->onMetaEnd (data);

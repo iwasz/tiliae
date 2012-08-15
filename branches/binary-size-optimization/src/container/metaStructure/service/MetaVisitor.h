@@ -36,6 +36,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         void visit (MetaContainer *data);
+        void visit (MetaDeque *data);
 
         void visit (MetaObject *data);
 

@@ -6,8 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef BEANFACTORYINITSERVICE_H_
-#define BEANFACTORYINITSERVICE_H_
+#ifndef BEANFACTORY_SINGLETON_INSTANTIATE_SERVICE_H_
+#define BEANFACTORY_SINGLETON_INSTANTIATE_SERVICE_H_
 
 #include "beanFactory/service/BeanFactoryService.h"
 
@@ -16,25 +16,13 @@ namespace Container {
 class MetaObject;
 
 /**
- * Creates BeanFactory object upon information from meta-structure.
+ * Instantiates singletons.
  */
-class BeanFactoryInitService : public BeanFactoryService {
+class SingletonInstantiateService : public BeanFactoryService {
 public:
 
-        BeanFactoryInitService () : defaultBeanWrapper (NULL) {}
-        virtual ~BeanFactoryInitService () {}
-
-/*--------------------------------------------------------------------------*/
-
-        virtual bool onMetaBegin (MetaObject *meta);
-
-/*------Setters-and-getters-------------------------------------------------*/
-
-        void setDefaultBeanWrapper (Wrapper::BeanWrapper *bw) { defaultBeanWrapper = bw; }
-
-private:
-
-        Wrapper::BeanWrapper *defaultBeanWrapper;
+        virtual ~SingletonInstantiateService () {}
+        virtual bool onMetaEnd (MetaObject *meta);
 
 };
 

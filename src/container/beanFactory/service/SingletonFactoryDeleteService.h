@@ -6,8 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef BEANFACTORYINITSERVICE_H_
-#define BEANFACTORYINITSERVICE_H_
+#ifndef BEANFACTORY_SINGLETON_DELETE_SERVICE_H_
+#define BEANFACTORY_SINGLETON_DELETE_SERVICE_H_
 
 #include "beanFactory/service/BeanFactoryService.h"
 
@@ -16,25 +16,13 @@ namespace Container {
 class MetaObject;
 
 /**
- * Creates BeanFactory object upon information from meta-structure.
+ * Delete unused BeanFactories
  */
-class BeanFactoryInitService : public BeanFactoryService {
+class SingletonFactoryDeleteService : public BeanFactoryService {
 public:
 
-        BeanFactoryInitService () : defaultBeanWrapper (NULL) {}
-        virtual ~BeanFactoryInitService () {}
-
-/*--------------------------------------------------------------------------*/
-
+        virtual ~SingletonFactoryDeleteService () {}
         virtual bool onMetaBegin (MetaObject *meta);
-
-/*------Setters-and-getters-------------------------------------------------*/
-
-        void setDefaultBeanWrapper (Wrapper::BeanWrapper *bw) { defaultBeanWrapper = bw; }
-
-private:
-
-        Wrapper::BeanWrapper *defaultBeanWrapper;
 
 };
 

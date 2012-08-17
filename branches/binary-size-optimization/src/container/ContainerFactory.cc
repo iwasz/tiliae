@@ -43,6 +43,8 @@
 #include "../editor/StringFactoryMethodEditor.h"
 #include "beanFactory/service/EditorService.h"
 #include "variant/PtrDeleter.h"
+#include "beanFactory/service/SingletonInstantiateService.h"
+#include "beanFactory/service/SingletonFactoryDeleteService.h"
 
 using Editor::StringFactoryMethodEditor;
 
@@ -56,7 +58,8 @@ using namespace Wrapper;
 void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCont)
 {
         MetaVisitor iteration;
-        BeanFactoryContext ctx;
+//        Przeniesione do SingletonInstantiationService, ale nie wiem czy słusznie.
+//        BeanFactoryContext ctx;
         BeanFactoryVisitorContext context;
         Core::VariantMap *singletons = bfCont->getSingletons ();
         context.setMetaContainer (metaCont);
@@ -91,9 +94,9 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 valIndexService.setValueServiceHelper (&helper);
                 iteration.addService (&valIndexService);
 
-                BeanStackUpdateService updService;
-                updService.setContext (&context);
-                iteration.addService (&updService);
+//                BeanStackUpdateService updService;
+//                updService.setContext (&context);
+//                iteration.addService (&updService);
 
                 EditorService editorService;
                 editorService.setContext (&context);
@@ -104,6 +107,14 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 factoryService.setContext (&context);
                 factoryService.init (singletons);
                 iteration.addService (&factoryService);
+
+                SingletonInstantiateService sIService;
+                sIService.setContext (&context);
+                iteration.addService (&sIService);
+
+//                SingletonFactoryDeleteService sDService;
+//                sDService.setContext (&context);
+//                iteration.addService (&sDService);
 
 #if CONTAINER_PRINT_META
                 PrintMetaService printService;
@@ -120,25 +131,25 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 
 /*------2.5-iteration-*global*-singletons-----------------------------------*/
 
-                // Tworzymy singletony (ale tylko te globalne). Czyli nie iterujemy przez wszystko, a
-                BeanFactoryMap *beanFactoryMap = context.getBeanFactoryMap ();
-                for (BeanFactoryMap::nth_index <1>::type::iterator i = beanFactoryMap->get<1> ().begin ();
-                     i  != beanFactoryMap->get<1> (). end ();
-                     ++i) {
-
-                        BeanFactory *factory = *i;
-
-                        bool isSingleton = (static_cast <MetaObject::Scope> (factory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
-                        bool isLazyInit = factory->getBoolAttribute (Attributes::LAZYINIT_ARGUMENT);
-
-                        if (isSingleton && !isLazyInit) {
-                                Core::Variant v = factory->create (Core::VariantMap (), &ctx);
-
-                                if (v.isNone ()) {
-                                        throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + (*i)->getId () + "].");
-                                }
-                        }
-                }
+//                // Tworzymy singletony (ale tylko te globalne). Czyli nie iterujemy przez wszystko, a
+//                BeanFactoryMap *beanFactoryMap = context.getBeanFactoryMap ();
+//                for (BeanFactoryMap::nth_index <1>::type::iterator i = beanFactoryMap->get<1> ().begin ();
+//                     i  != beanFactoryMap->get<1> (). end ();
+//                     ++i) {
+//
+//                        BeanFactory *factory = *i;
+//
+//                        bool isSingleton = (static_cast <MetaObject::Scope> (factory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
+//                        bool isLazyInit = factory->getBoolAttribute (Attributes::LAZYINIT_ARGUMENT);
+//
+//                        if (isSingleton && !isLazyInit) {
+//                                Core::Variant v = factory->create (Core::VariantMap (), &ctx);
+//
+//                                if (v.isNone ()) {
+//                                        throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + (*i)->getId () + "].");
+//                                }
+//                        }
+//                }
         }
         catch (NoSuchBeanException &e) {
                 e.addMessage ("ContainerFactory::createContainer : [" + bfCont->toString () + "].");

@@ -54,7 +54,11 @@ void IndexedValueService::onConstructorArgsEnd (MetaObject *)
 
 void IndexedValueService::onValueData (std::string const &, ValueData *data)
 {
-        Variant ret = helper->create (data->getType (), data->getData ());
+        Variant ret;
+
+        if (inputList || cargList) {
+                ret = helper->create (data->getType (), data->getData ());
+        }
 
         if (inputList) {
                 inputList->push_back (ret);

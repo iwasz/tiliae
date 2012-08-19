@@ -663,7 +663,7 @@ MetaObject *Impl::popCurrentMeta ()
                         meta->setId (factory.newString (id));
                 }
 
-                outerMeta->addInnerMeta (meta);
+                metaContainer->addInner (outerMeta, meta);
 
                 if (getPrevTag () == "constructor-arg" || getPrevTag () == "carg") {
                         DataKey *dk = getCurrentDataKey ();

@@ -42,6 +42,7 @@ public:
          * ponad tym.
          */
         void add (MetaObject *val);
+        void addInner (MetaObject *outer, MetaObject *inner);
 
         void accept (IContainerVisitor *visitor) { visitor->visit (this); }
 
@@ -60,6 +61,7 @@ private:
         Core::StringList getRuntimeDependencies (MetaObject const *meta) const;
         void fillGraph  (MetaObject *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index);
         void prepareBidirectionalIndex (BidirectionalMetaIndex *index, Graph *graph, MetaObject *meta = NULL);
+        const char *getDependencyName (IData *data) const;
         friend std::ostream &operator<< (std::ostream &o, MetaContainer const &m);
 
 private:

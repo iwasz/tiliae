@@ -14,7 +14,7 @@ namespace Container {
 
 using namespace Core;
 
-bool SingletonFactoryDeleteService::onMetaBegin (MetaObject *meta)
+bool SingletonFactoryDeleteService::onMetaEnd (MetaObject *meta)
 {
         if (!meta || meta->getAbstract ()) {
                 return false;

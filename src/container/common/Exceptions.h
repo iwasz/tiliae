@@ -39,6 +39,11 @@ struct TILIAE_API TooDeepNestingException : public ContainerException {
         virtual ~TooDeepNestingException () throw () {}
 };
 
+struct TILIAE_API RoundReferenceException : public ContainerException {
+        RoundReferenceException (std::string const &m = "") : ContainerException (m) {}
+        virtual ~RoundReferenceException () throw () {}
+};
+
 /**
  * Thrown when one wants to instantiate an uninitialized
  * bean. For example when bean has references to other beans,

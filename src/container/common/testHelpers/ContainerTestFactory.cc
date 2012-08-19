@@ -864,7 +864,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
         meta0->setClass ("City");
         meta0->setScope (MetaObject::BEAN);
         meta0->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
-        meta00->addInnerMeta (meta0);
+        metaCont->addInner (meta00, meta0);
 
         MetaObject *meta = factory.newMetaObject ();
         meta->setId ("list");
@@ -899,36 +899,36 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure24 ()
                 meta01->setId ("city110");
                 meta01->setClass ("City");
                 meta01->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
-                meta00->addInnerMeta (meta01);
+                metaCont->addInner (meta00, meta01);
 
                         // Taka sama nazwa!
                         MetaObject *meta02 = factory.newMetaObject ();
                         meta02->setId ("cityA");
                         meta02->setClass ("City");
-                        meta01->addInnerMeta (meta02);
+                        metaCont->addInner (meta01, meta02);
 
                         meta02 = factory.newMetaObject ();
                         meta02->setId ("cityB");
                         meta02->setClass ("City");
-                        meta01->addInnerMeta (meta02);
+                        metaCont->addInner (meta01, meta02);
 
                 meta01 = factory.newMetaObject ();
                 meta01->setId ("city120");
                 meta01->setClass ("City");
                 meta01->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
-                meta00->addInnerMeta (meta01);
+                metaCont->addInner (meta00, meta01);
 
 /*------Level2-inner-meta-city110-i-city120---------------------------------*/
 
                         meta02 = factory.newMetaObject ();
                         meta02->setId ("cityA");
                         meta02->setClass ("City");
-                        meta01->addInnerMeta (meta02);
+                        metaCont->addInner (meta01, meta02);
 
                         meta02 = factory.newMetaObject ();
                         meta02->setId ("cityB");
                         meta02->setClass ("City");
-                        meta01->addInnerMeta (meta02);
+                        metaCont->addInner (meta01, meta02);
 
 /*--------------------------------------------------------------------------*/
 
@@ -942,7 +942,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure24 ()
                 meta01 = factory.newMetaObject ();
                 meta01->setId ("city110");
                 meta01->setClass ("City");
-                meta00->addInnerMeta (meta01);
+                metaCont->addInner (meta00, meta01);
 
         return metaCont;
 }

@@ -48,14 +48,17 @@ BOOST_AUTO_TEST_CASE (test066RoundReferences)
 {
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "066-round-references.xml"));
 
-        A01c *a01 = vcast <A01c *> (cont->getBean ("a01"));
-        A02c *a02 = vcast <A02c *> (cont->getBean ("a02"));
+        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a01")), RoundReferenceException);
+        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a02")), RoundReferenceException);
 
-        BOOST_REQUIRE (a01);
-        BOOST_REQUIRE (a02);
-        BOOST_REQUIRE (a01->a02);
-        BOOST_REQUIRE_EQUAL (a01->a02, a02);
-        BOOST_REQUIRE_EQUAL (a02->a01, a01);
+//        A01c *a01 = vcast <A01c *> (cont->getBean ("a01"));
+//        A02c *a02 = vcast <A02c *> (cont->getBean ("a02"));
+//
+//        BOOST_REQUIRE (a01);
+//        BOOST_REQUIRE (a02);
+//        BOOST_REQUIRE (a01->a02);
+//        BOOST_REQUIRE_EQUAL (a01->a02, a02);
+//        BOOST_REQUIRE_EQUAL (a02->a01, a01);
 }
 
 /**
@@ -65,14 +68,17 @@ BOOST_AUTO_TEST_CASE (test067RoundReferencesLazy)
 {
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "067-round-references-lazy.xml"));
 
-        A01c *a01 = vcast <A01c *> (cont->getBean ("a01"));
-        A02c *a02 = vcast <A02c *> (cont->getBean ("a02"));
+        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a01")), RoundReferenceException);
+        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a02")), RoundReferenceException);
 
-        BOOST_REQUIRE (a01);
-        BOOST_REQUIRE (a02);
-        BOOST_REQUIRE (a01->a02);
-        BOOST_REQUIRE_EQUAL (a01->a02, a02);
-        BOOST_REQUIRE_EQUAL (a02->a01, a01);
+//        A01c *a01 = vcast <A01c *> (cont->getBean ("a01"));
+//        A02c *a02 = vcast <A02c *> (cont->getBean ("a02"));
+//
+//        BOOST_REQUIRE (a01);
+//        BOOST_REQUIRE (a02);
+//        BOOST_REQUIRE (a01->a02);
+//        BOOST_REQUIRE_EQUAL (a01->a02, a02);
+//        BOOST_REQUIRE_EQUAL (a02->a01, a01);
 }
 
 /**
@@ -82,8 +88,8 @@ BOOST_AUTO_TEST_CASE (test068RoundReferencesPrototype)
 {
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "068-round-references-prototype.xml"));
 
-        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a01")), TooDeepNestingException);
-        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a02")), TooDeepNestingException);
+        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a01")), RoundReferenceException);
+        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a02")), RoundReferenceException);
 }
 
 /**

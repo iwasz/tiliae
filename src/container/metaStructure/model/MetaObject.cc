@@ -41,11 +41,11 @@ MetaObject::~MetaObject ()
 
         delete constructorArgs;
 
-        if (innerMetas) {
-                for (MetaMap::iterator i = innerMetas->begin (); i != innerMetas->end (); ++i) {
-                        i->second->~MetaObject();
-                }
-        }
+//        if (innerMetas) {
+//                for (MetaMap::iterator i = innerMetas->begin (); i != innerMetas->end (); ++i) {
+//                        i->second->~MetaObject();
+//                }
+//        }
 
         delete innerMetas;
 }

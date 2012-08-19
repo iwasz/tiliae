@@ -150,7 +150,7 @@ int main (int argc, char **argv)
 
 
         Ptr <MetaContainer> metaCtr = MXmlMetaService::parseFile ("../demo/main.xml");
-#if 0
+#if 1
         Ptr <BeanFactoryContainer> container = ContainerFactory::createAndInit (metaCtr);
         BookVector *v = vcast <BookVector *> (container->getBean ("books"));
 

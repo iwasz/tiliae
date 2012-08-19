@@ -655,7 +655,7 @@ MetaObject *Impl::popCurrentMeta ()
         // 3. Umiesc ten gotowy meta w kontenerze lub w outermeta (jeśli zagnieżdżenie).
         if (!metaStack.empty ()) {
                 MetaObject *outerMeta = getCurrentMeta ();
-                outerMeta->addInnerMeta (meta);
+                metaContainer->addInner (outerMeta, meta);
         }
         else {
                 metaContainer->add (meta);

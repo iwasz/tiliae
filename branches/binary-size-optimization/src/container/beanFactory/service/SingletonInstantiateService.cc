@@ -47,6 +47,8 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject *meta)
                 if (v.isNone ()) {
                         throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + id + "].");
                 }
+
+//                delete beanFactory;
         }
 
         return true;

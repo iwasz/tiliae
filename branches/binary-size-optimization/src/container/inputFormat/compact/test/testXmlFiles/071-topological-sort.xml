@@ -10,4 +10,9 @@
         <Bar id="g" butter="@f" />
         <Bar id="h" butter="@g" />
   
+        <Bar id="i">
+                <cargs>
+                        <ref bean="g"/>
+                </cargs>
+        </Bar>
 </beans>

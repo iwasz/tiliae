@@ -113,7 +113,6 @@ public:
 
         MetaMap getInnerMetas () const;
         MetaObject *getInnerMeta (const std::string &key) const;
-        void addInnerMeta (MetaObject *m);
 
         MetaObject *getParentMeta () { return parent; }
         void setParentMeta (MetaObject *m) { parent = m; attributes.setParentAttributes (m->getAttributes ()); }
@@ -126,8 +125,13 @@ public:
 
 private:
 
+        void addInnerMeta (MetaObject *m);
+
+private:
+
         MetaObject ();
         friend class MetaFactory;
+        friend class MetaContainer;
 
         void initConstructorArgs ();
         void initInnerMetas ();

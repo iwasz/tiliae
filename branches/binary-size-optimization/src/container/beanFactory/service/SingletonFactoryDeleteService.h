@@ -22,7 +22,7 @@ class SingletonFactoryDeleteService : public BeanFactoryService {
 public:
 
         virtual ~SingletonFactoryDeleteService () {}
-        virtual bool onMetaBegin (MetaObject *meta);
+        virtual bool onMetaEnd (MetaObject *meta);
 
 };
 

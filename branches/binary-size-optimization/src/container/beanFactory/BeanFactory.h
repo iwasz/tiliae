@@ -112,11 +112,11 @@ public:
 
 /*------Inner/outer-bean----------------------------------------------------*/
 
-        void addInnerBeanFactory (BeanFactory *bf);
+//        void addInnerBeanFactory (BeanFactory *bf);
         BeanFactory *getInnerBeanFactory (const std::string &id) const;
 
         BeanFactory *getOuterBeanFactory () const { return outerBeanFactory; }
-        void setOuterBeanFactory (BeanFactory *o) { outerBeanFactory = o; }
+//        void setOuterBeanFactory (BeanFactory *o) { outerBeanFactory = o; }
 
         void onBeforePropertiesSet (BeanFactory const *notifier) const;
         void onAfterPropertiesSet (BeanFactory const *notifier) const;

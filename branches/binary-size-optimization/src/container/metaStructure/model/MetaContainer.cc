@@ -42,6 +42,14 @@ void MetaContainer::add (MetaObject *val)
 
 /****************************************************************************/
 
+void MetaContainer::addInner (MetaObject *outer, MetaObject *inner)
+{
+        outer->addInnerMeta (inner);
+        add (inner);
+}
+
+/****************************************************************************/
+
 MetaObject *MetaContainer::get (const std::string &key) const
 {
         MetaMap::const_iterator i;
@@ -67,38 +75,20 @@ Core::StringList MetaContainer::getRuntimeDependencies (MetaObject const *meta) 
         // Check refs and value.type-s
         for (DataKeyVector::const_iterator i = fields.begin (); i != fields.end (); ++i) {
                 DataKey *dk = *i;
-                const char *depName = NULL;
+                const char *depName = getDependencyName (dk->data);
 
-                if (typeid (*dk->data) == typeid (ValueData)) {
-                        ValueData *vd = static_cast <ValueData *> (dk->data);
-
-                        depName = vd->getType ();
-
-                        if (!depName || !strlen (depName)) {
-                                continue;
-                        }
-
-                        // Jeżeli typ value jest typem wbudowanym, to nie jest to zależność·
-                        if (Factory::ScalarFactory::isTypeSupported (depName)) {
-                                continue;
-                        }
-
+                if (depName) {
+                        deps.push_back (depName);
                 }
-                else if (typeid (*dk->data) == typeid (RefData)) {
-                        RefData *rd = static_cast <RefData *> (dk->data);
-                        depName = rd->getData ();
-                }
+        }
 
-                if (!depName || !strlen (depName)) {
-                        continue;
-                }
+        DataVector cArgs = meta->getConstructorArgs ();
+        for (DataVector::const_iterator i = cArgs.begin (); i != cArgs.end (); ++i) {
+                const char *depName = getDependencyName (*i);
 
-                // Jeśli custom type nie jest odnalezione w MetaContainer, to jest to zależność, ale olewamy ją, bo może chodzić o external-singleton.
-                if (!get (depName)) {
-                        continue;
+                if (depName) {
+                        deps.push_back (depName);
                 }
-
-                deps.push_back (depName);
         }
 
         // Check editor
@@ -116,6 +106,44 @@ Core::StringList MetaContainer::getRuntimeDependencies (MetaObject const *meta) 
         }
 
         return deps;
+}
+
+/****************************************************************************/
+
+const char *MetaContainer::getDependencyName (IData *data) const
+{
+        const char *depName = NULL;
+
+        if (typeid (*data) == typeid (ValueData)) {
+                ValueData *vd = static_cast <ValueData *> (data);
+
+                depName = vd->getType ();
+
+                if (!depName || !strlen (depName)) {
+                        return NULL;
+                }
+
+                // Jeżeli typ value jest typem wbudowanym, to nie jest to zależność·
+                if (Factory::ScalarFactory::isTypeSupported (depName)) {
+                        return NULL;
+                }
+
+        }
+        else if (typeid (*data) == typeid (RefData)) {
+                RefData *rd = static_cast <RefData *> (data);
+                depName = rd->getData ();
+        }
+
+        if (!depName || !strlen (depName)) {
+                return NULL;
+        }
+
+        // Jeśli custom type nie jest odnalezione w MetaContainer, to jest to zależność, ale olewamy ją, bo może chodzić o external-singleton.
+        if (!get (depName)) {
+                return NULL;
+        }
+
+        return depName;
 }
 
 /****************************************************************************/
@@ -138,7 +166,13 @@ MetaDeque MetaContainer::topologicalSort ()
         typedef boost::graph_traits <Graph>::vertex_descriptor Vertex;
         typedef std::vector <Vertex> Container;
         Container c;
-        boost::topological_sort (graph, std::back_inserter (c));
+
+        try {
+                boost::topological_sort (graph, std::back_inserter (c));
+        }
+        catch (...) {
+                throw RoundReferenceException ();
+        }
 
         for (Container::const_iterator i = c.begin (); i != c.end (); ++i) {
                 MetaObject *meta = index.get (*i);
@@ -185,10 +219,10 @@ void MetaContainer::prepareBidirectionalIndex (BidirectionalMetaIndex *index, Gr
         size_t vertexDescriptor = boost::add_vertex (*graph);
         index->add (vertexDescriptor, meta);
 
-        MetaMap innerMetas = meta->getInnerMetas ();
-        for (MetaMap::iterator i = innerMetas.begin (); i != innerMetas.end (); ++i) {
-                prepareBidirectionalIndex (index, graph, i->second);
-        }
+//        MetaMap innerMetas = meta->getInnerMetas ();
+//        for (MetaMap::iterator i = innerMetas.begin (); i != innerMetas.end (); ++i) {
+//                prepareBidirectionalIndex (index, graph, i->second);
+//        }
 }
 
 /****************************************************************************/

@@ -210,7 +210,7 @@ public:
          * @param singletons Dodatkowa mapa singletonów.
          * @return Obiekt.
          */
-        Core::Variant getBean (const std::string &name) const;
+        Core::Variant getBean (const std::string &name, const Core::VariantMap &singletons = Core::VariantMap ()) const;
         bool containsBean (const std::string &name) const;
 
         BeanFactory *getBeanFactory (const std::string &name, BeanFactory *innerBean = NULL) const;

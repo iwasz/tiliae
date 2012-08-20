@@ -22,7 +22,6 @@
 #include "beanFactory/service/MappedValueService.h"
 #include "beanFactory/service/IndexedValueService.h"
 #include "beanFactory/service/FactoryService.h"
-#include "beanFactory/service/BeanStackUpdateService.h"
 #include "metaStructure/model/MetaObject.h"
 #include "../beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
 #include "../beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h"

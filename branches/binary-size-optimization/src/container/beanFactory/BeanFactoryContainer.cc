@@ -407,8 +407,15 @@ void BeanFactoryContainer::reset ()
 
 /****************************************************************************/
 
-Core::Variant BeanFactoryContainer::getBean (const std::string &name) const
+Core::Variant BeanFactoryContainer::getBean (const std::string &name, const Core::VariantMap &singletons) const
 {
+        /*
+         * TODO sprawdz, czy pierwszy znak to nir jest @ lub &. Jesli tak, to wyciagnij factory lub editor
+                BeanFactory *fact = factoryMap.get (name);
+                return fact->getFactory ();
+                return fact->getEditor ();
+         */
+
         BeanFactoryContext context;
 
         Core::VariantMap::const_iterator i = this->singletons->find (name);
@@ -423,16 +430,14 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name) const
         if (j != factoryMap.end ()) {
                 BeanFactory *fact = *j;
                 assert (fact);
-                ret = fact->create (Core::VariantMap (), &context);
+                ret = fact->create (singletons, &context);
         }
         else {
-                if (linked) {
-                        return linked->getBean (name);
-                }
+                throw ContainerException (context, "BeanFactoryContainer::getBean : can't find definition of bean [" + name + "].");
         }
 
         if (ret.isNone ()) {
-                throw ContainerException (context, "BeanFactoryContainer::getBean : can't find definition of bean [" + name + "].");
+                throw ContainerException (context, "BeanFactoryContainer::getBean" );
         }
 
         return ret;
@@ -451,24 +456,14 @@ Core::Variant BeanFactoryContainer::getSingleton (const std::string &name) const
                 return i->second;
         }
 
-        if (linked) {
-                return linked->getSingleton (name);
-        }
-
-        throw ContainerException ("BeanFactoryContainer::getSingleton : can't find definition of bean [" + name + "].");
+        return Core::Variant ();
 }
 
 /****************************************************************************/
 
 bool BeanFactoryContainer::containsBean (const std::string &name) const
 {
-        bool ret = (singletons->find (name) != singletons->end ()) || (factoryMap.find (name) != factoryMap.end ());
-
-        if (!ret && linked) {
-                return linked->containsBean (name);
-        }
-
-        return ret;
+        return (singletons->find (name) != singletons->end ()) || (factoryMap.find (name) != factoryMap.end ());
 }
 
 /****************************************************************************/
@@ -496,10 +491,9 @@ BeanFactory *BeanFactoryContainer::getBeanFactory (const std::string &id, BeanFa
         if (!ret && getLinked ()) {
                 ret = getLinked ()->getBeanFactory (id);
 
-//                TODO sprawdzić na trzeźwo, czy ok, że to zakomentowałem.
-//                if (!ret) {
-//                        throw ContainerException ("Container does not have any BeanFactory with name [" + id + "].");
-//                }
+                if (!ret) {
+                        throw ContainerException ("Container does not have any BeanFactory with name [" + id + "].");
+                }
         }
 
         return ret;

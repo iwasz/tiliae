@@ -20,7 +20,7 @@ namespace Container {
 class BeanFactoryVisitorContext : public VisitorContext {
 public:
 
-        BeanFactoryVisitorContext () : beanFactoryMap (NULL), container (NULL) {}
+        BeanFactoryVisitorContext () : beanFactoryMap (NULL), container (NULL), currentBF (NULL) {}
         virtual ~BeanFactoryVisitorContext () {}
 
         /**
@@ -30,11 +30,8 @@ public:
         BeanFactoryMap *getBeanFactoryMap () const { return beanFactoryMap; };
         void setBeanFactoryMap (BeanFactoryMap *b) { beanFactoryMap = b; };
 
-        const BeanFactoryStack &getStack () const { return stack; }
-        BeanFactoryStack &getStack () { return stack; }
-        void setStack (const BeanFactoryStack &s) { stack = s; }
-
-        BeanFactory *getCurrentBF () const;
+        BeanFactory *getCurrentBF () const { return currentBF; }
+        void setCurrentBF (BeanFactory *c) { currentBF = c; }
 
         BeanFactoryContainer *getBeanFactoryContainer () const { return container; }
         void setBeanFactoryContainer (BeanFactoryContainer *c) { container = c; }
@@ -43,7 +40,7 @@ private:
 
         BeanFactoryMap *beanFactoryMap;
         BeanFactoryContainer *container;
-        BeanFactoryStack stack;
+        BeanFactory *currentBF;
 
 };
 

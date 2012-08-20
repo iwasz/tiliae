@@ -39,21 +39,21 @@ class VisitorContext;
 struct IMetaService {
         virtual ~IMetaService () {}
 
-        virtual void onContainer (MetaContainer *data) = 0;
+        virtual void onContainer (MetaContainer const *data) = 0;
 
-        virtual bool onMetaBegin (MetaObject *data) = 0;
-        virtual bool onMetaEnd (MetaObject *data) = 0;
-        virtual bool onMappedMetaBegin (MetaObject *data) = 0;
-        virtual bool onMappedMetaEnd (MetaObject *data) = 0;
-        virtual bool onIndexedMetaBegin (MetaObject *data) = 0;
-        virtual bool onIndexedMetaEnd (MetaObject *data) = 0;
+        virtual bool onMetaBegin (MetaObject const *data) = 0;
+        virtual bool onMetaEnd (MetaObject const *data) = 0;
+        virtual bool onMappedMetaBegin (MetaObject const *data) = 0;
+        virtual bool onMappedMetaEnd (MetaObject const *data) = 0;
+        virtual bool onIndexedMetaBegin (MetaObject const *data) = 0;
+        virtual bool onIndexedMetaEnd (MetaObject const *data) = 0;
 
-        virtual void onConstructorArgsBegin (MetaObject *data) = 0;
-        virtual void onConstructorArgsEnd (MetaObject *data) = 0;
+        virtual void onConstructorArgsBegin (MetaObject const *data) = 0;
+        virtual void onConstructorArgsEnd (MetaObject const *data) = 0;
 
-        virtual void onValueData (std::string const &key, ValueData *data) = 0;
-        virtual void onNullData (std::string const &key, NullData *data) = 0;
-        virtual void onRefData (std::string const &key, RefData *data) = 0;
+        virtual void onValueData (std::string const &key, ValueData const *data) = 0;
+        virtual void onNullData (std::string const &key, NullData const *data) = 0;
+        virtual void onRefData (std::string const &key, RefData const *data) = 0;
 
         virtual void setContext (VisitorContext *) = 0;
         virtual VisitorContext *getContext () const = 0;

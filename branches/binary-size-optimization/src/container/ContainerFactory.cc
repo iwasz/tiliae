@@ -44,7 +44,6 @@
 #include "beanFactory/service/EditorService.h"
 #include "variant/PtrDeleter.h"
 #include "beanFactory/service/SingletonInstantiateService.h"
-#include "beanFactory/service/SingletonFactoryDeleteService.h"
 
 using Editor::StringFactoryMethodEditor;
 

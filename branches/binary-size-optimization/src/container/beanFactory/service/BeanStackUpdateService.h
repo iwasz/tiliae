@@ -25,8 +25,8 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMetaBegin (MetaObject *data);
-        virtual bool onMetaEnd (MetaObject *data);
+        virtual bool onMetaBegin (MetaObject const *data);
+        virtual bool onMetaEnd (MetaObject const *data);
 
 };
 

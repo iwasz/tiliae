@@ -15,7 +15,7 @@
 namespace Container {
 using namespace Core;
 
-bool MappedValueService::onMappedMetaBegin (MetaObject *data)
+bool MappedValueService::onMappedMetaBegin (MetaObject const *data)
 {
         if (!data || data->getAbstract ()) {
                 return true;
@@ -30,14 +30,14 @@ bool MappedValueService::onMappedMetaBegin (MetaObject *data)
 
 /****************************************************************************/
 
-void MappedValueService::onConstructorArgsBegin (MetaObject *)
+void MappedValueService::onConstructorArgsBegin (MetaObject const *)
 {
         currMappedMeta = NULL;
 }
 
 /****************************************************************************/
 
-void MappedValueService::onConstructorArgsEnd (MetaObject *)
+void MappedValueService::onConstructorArgsEnd (MetaObject const *)
 {
         currMappedMeta = NULL;
         inputMap = NULL;
@@ -45,7 +45,7 @@ void MappedValueService::onConstructorArgsEnd (MetaObject *)
 
 /****************************************************************************/
 
-void MappedValueService::onValueData (std::string const &key, ValueData *data)
+void MappedValueService::onValueData (std::string const &key, ValueData const *data)
 {
         if (!currMappedMeta) {
                 return;
@@ -57,7 +57,7 @@ void MappedValueService::onValueData (std::string const &key, ValueData *data)
 
 /****************************************************************************/
 
-void MappedValueService::onRefData (std::string const &key, RefData *data)
+void MappedValueService::onRefData (std::string const &key, RefData const *data)
 {
         if (!currMappedMeta) {
                 return;
@@ -68,7 +68,7 @@ void MappedValueService::onRefData (std::string const &key, RefData *data)
 
 /****************************************************************************/
 
-void MappedValueService::onNullData (std::string const &key, NullData *data)
+void MappedValueService::onNullData (std::string const &key, NullData const *data)
 {
         if (!currMappedMeta) {
                 return;

@@ -43,7 +43,7 @@ struct IDataVisitor {
  */
 struct IMetaVisitor {
         virtual ~IMetaVisitor () {}
-        virtual void visit (MetaObject *data) = 0;
+        virtual void visit (MetaObject const *data) = 0;
 };
 
 /**

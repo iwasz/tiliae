@@ -33,20 +33,20 @@ typedef google::sparse_hash_map <const char*, MetaObject *, __gnu_cxx::hash<cons
 
 struct BidirectionalMetaIndex {
 
-        void add (size_t index, MetaObject *meta)
+        void add (size_t index, MetaObject const *meta)
         {
                 metaToInt[meta] = index;
                 intToMeta[index] = meta;
         }
 
-        MetaObject *get (size_t index) { IntToMeta::iterator i = intToMeta.find (index); return (i != intToMeta.end ()) ? (i->second) : (NULL); }
+//        MetaObject const *get (size_t index) { IntToMeta::iterator i = intToMeta.find (index); return (i != intToMeta.end ()) ? (i->second) : (NULL); }
         MetaObject const *get (size_t index) const { IntToMeta::const_iterator i = intToMeta.find (index); return (i != intToMeta.end ()) ? (i->second) : (NULL); }
 
-        size_t get (MetaObject *meta) { MetaToInt::iterator i = metaToInt.find (meta); if (i != metaToInt.end ()) { return i->second; } throw ConfigurationException ("BidirectionalMetaIndex::get ()"); }
-        size_t get (MetaObject *meta) const { MetaToInt::const_iterator i = metaToInt.find (meta); if (i != metaToInt.end ()) { return i->second; } throw ConfigurationException ("BidirectionalMetaIndex::get ()"); }
+//        size_t get (MetaObject *meta);
+        size_t get (MetaObject const *meta) const;
 
-        typedef google::sparse_hash_map <MetaObject *, size_t> MetaToInt;
-        typedef google::sparse_hash_map <size_t, MetaObject *> IntToMeta;
+        typedef google::sparse_hash_map <MetaObject const *, size_t> MetaToInt;
+        typedef google::sparse_hash_map <size_t, MetaObject const *> IntToMeta;
         friend std::ostream &operator<< (std::ostream &o, BidirectionalMetaIndex const &m);
 
         MetaToInt metaToInt;
@@ -55,7 +55,7 @@ struct BidirectionalMetaIndex {
 
 typedef std::stack <MetaObject *> MetaStack;
 typedef std::vector <MetaObject *> MetaVector;
-typedef std::deque <MetaObject *> MetaDeque;
+typedef std::deque <MetaObject const *> MetaDeque;
 
 /**
  * W celach implemetacyjnych. Tu jest wspolny kod.
@@ -69,7 +69,7 @@ public:
 
         virtual ~MetaObject ();
 
-        void accept (IMetaVisitor *visitor) { visitor->visit (this); }
+        void accept (IMetaVisitor *visitor) const { visitor->visit (this); }
         Type getType () const { return type; }
 
         DataVector getConstructorArgs () const;
@@ -77,7 +77,7 @@ public:
 
 /*-- attribute markers -----------------------------------------------------*/
 
-        Attributes *getAttributes () { return &attributes; }
+        Attributes const *getAttributes () const { return &attributes; }
         bool containsAttribute (Attributes::AttributeName key) const { return attributes.containsKey (key); }
 
 /*--------------------------------------------------------------------------*/
@@ -114,8 +114,8 @@ public:
         MetaMap getInnerMetas () const;
         MetaObject *getInnerMeta (const std::string &key) const;
 
-        MetaObject *getParentMeta () { return parent; }
-        void setParentMeta (MetaObject *m) { parent = m; attributes.setParentAttributes (m->getAttributes ()); }
+        MetaObject const *getParentMeta () const { return parent; }
+        void setParentMeta (MetaObject const *m) { parent = m; attributes.setParentAttributes (m->getAttributes ()); }
 
 /*--------------------------------------------------------------------------*/
 
@@ -140,7 +140,7 @@ private:
 
 protected:
 
-        MetaObject *parent;
+        MetaObject const *parent;
 
 private:
 

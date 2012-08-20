@@ -46,7 +46,7 @@ void EditorService::init (Core::VariantMap *singletons)
  * ustawiany jest jakiś inny customowy (atrybut editor). Edytor jest ustawiany do
  * odpowiedniego BeanFactory.
  */
-bool EditorService::onMappedMetaBegin (MetaObject *meta)
+bool EditorService::onMappedMetaBegin (MetaObject const *meta)
 {
         currentFieldIdx = -1;
         currentIndexedEditor = NULL;
@@ -81,7 +81,7 @@ bool EditorService::onMappedMetaBegin (MetaObject *meta)
 
 /****************************************************************************/
 
-bool EditorService::onIndexedMetaBegin (MetaObject *meta)
+bool EditorService::onIndexedMetaBegin (MetaObject const *meta)
 {
         currentMapEditor = NULL;
 
@@ -127,7 +127,7 @@ bool EditorService::onIndexedMetaBegin (MetaObject *meta)
 /**
  * Z tego co pamiętam, to jest jakiś chack, ktory czyści zmienne stanowe.
  */
-void EditorService::onConstructorArgsBegin (MetaObject *data)
+void EditorService::onConstructorArgsBegin (MetaObject const *data)
 {
         currentMapEditor = NULL;
 
@@ -154,7 +154,7 @@ void EditorService::onConstructorArgsBegin (MetaObject *data)
 /**
  * Z tego co pamiętam, to jest jakiś chack, ktory czyści zmienne stanowe.
  */
-void EditorService::onConstructorArgsEnd (MetaObject *)
+void EditorService::onConstructorArgsEnd (MetaObject const *)
 {
         currentMapEditor = NULL;
         currentIndexedEditor = NULL;
@@ -167,7 +167,7 @@ void EditorService::onConstructorArgsEnd (MetaObject *)
  * W takim wypadku odszukiwany jest bean o nazwie z atrybutu i wykorzystywany jako edytor.
  * Czyli <b>musi sie dać skastować</b> do Editor::IEditor.
  */
-void EditorService::onValueData (std::string const &key, ValueData *data)
+void EditorService::onValueData (std::string const &key, ValueData const *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest bark pól do edycji
         if (!currentMapEditor && !currentIndexedEditor) {
@@ -215,7 +215,7 @@ void EditorService::onValueData (std::string const &key, ValueData *data)
  * ubierane jest w FactoryEditor (bo potrzebny jest edytor, a nie fabryka) i następnie
  * ustawiany do głownego edytora (SimpleMapEditora w tym przypadku).
  */
-void EditorService::onRefData (std::string const &key, RefData *data)
+void EditorService::onRefData (std::string const &key, RefData const *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest brak pól do edycji
         if (!currentMapEditor && !currentIndexedEditor) {

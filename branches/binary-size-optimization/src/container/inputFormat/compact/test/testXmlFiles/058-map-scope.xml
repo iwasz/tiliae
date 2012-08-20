@@ -26,10 +26,10 @@
       <value>Test</value>
     </cargs>
 
-    <StringMap id="inner" scope="prototype" set-as="butter" />
+    <StringMap id="inner1" scope="prototype" set-as="butter" />
 
     <!--Teraz property city i city3 mają referencję do tego samego obiektu. -->
-    <ref bean="inner" set-as="butter2" />
+    <ref bean="inner1" set-as="butter2" />
   </Bar>
 
 
@@ -46,10 +46,10 @@
       <value>Test</value>
     </cargs>
 
-    <StringMap id="inner" scope="bean" set-as="butter" />
+    <StringMap id="inner2" scope="bean" set-as="butter" />
 
     <!--Teraz property city i city3 mają referencję do tego samego obiektu. -->
-    <ref bean="inner" set-as="butter2" />
+    <ref bean="inner2" set-as="butter2" />
   </Bar>
 
 

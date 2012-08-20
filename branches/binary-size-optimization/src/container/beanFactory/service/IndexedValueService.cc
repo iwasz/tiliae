@@ -13,7 +13,7 @@
 namespace Container {
 using namespace Core;
 
-bool IndexedValueService::onIndexedMetaBegin (MetaObject *data)
+bool IndexedValueService::onIndexedMetaBegin (MetaObject const *data)
 {
         if (!data || data->getAbstract ()) {
                 return true;
@@ -29,7 +29,7 @@ bool IndexedValueService::onIndexedMetaBegin (MetaObject *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onConstructorArgsBegin (MetaObject *data)
+void IndexedValueService::onConstructorArgsBegin (MetaObject const *data)
 {
         if (!data || data->getAbstract ()) {
                 return;
@@ -44,7 +44,7 @@ void IndexedValueService::onConstructorArgsBegin (MetaObject *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onConstructorArgsEnd (MetaObject *)
+void IndexedValueService::onConstructorArgsEnd (MetaObject const *)
 {
         inputList = NULL;
         cargList = NULL;
@@ -52,7 +52,7 @@ void IndexedValueService::onConstructorArgsEnd (MetaObject *)
 
 /****************************************************************************/
 
-void IndexedValueService::onValueData (std::string const &, ValueData *data)
+void IndexedValueService::onValueData (std::string const &, ValueData const *data)
 {
         Variant ret;
 
@@ -70,7 +70,7 @@ void IndexedValueService::onValueData (std::string const &, ValueData *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onRefData (std::string const &, RefData *data)
+void IndexedValueService::onRefData (std::string const &, RefData const *data)
 {
         if (inputList) {
                 inputList->push_back (Core::Variant ());
@@ -82,7 +82,7 @@ void IndexedValueService::onRefData (std::string const &, RefData *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onNullData (std::string const &, NullData *data)
+void IndexedValueService::onNullData (std::string const &, NullData const *data)
 {
         Core::Variant v;
         v.setNull ();

@@ -19,7 +19,7 @@ namespace Container {
 
 using namespace Core;
 
-bool BeanFactoryInitService::onMetaBegin (MetaObject *meta)
+bool BeanFactoryInitService::onMetaBegin (MetaObject const *meta)
 {
         if (!meta || meta->getAbstract ()) {
                 return false;

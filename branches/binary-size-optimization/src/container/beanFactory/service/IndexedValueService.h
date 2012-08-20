@@ -32,12 +32,12 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onIndexedMetaBegin (MetaObject *data);
-        virtual void onConstructorArgsBegin (MetaObject *data);
-        virtual void onConstructorArgsEnd (MetaObject *data);
-        virtual void onValueData (std::string const &key, ValueData *data);
-        virtual void onRefData (std::string const &key, RefData *data);
-        virtual void onNullData (std::string const &key, NullData *data);
+        virtual bool onIndexedMetaBegin (MetaObject const *data);
+        virtual void onConstructorArgsBegin (MetaObject const *data);
+        virtual void onConstructorArgsEnd (MetaObject const *data);
+        virtual void onValueData (std::string const &key, ValueData const *data);
+        virtual void onRefData (std::string const &key, RefData const *data);
+        virtual void onNullData (std::string const &key, NullData const *data);
 
 /*--------------------------------------------------------------------------*/
 

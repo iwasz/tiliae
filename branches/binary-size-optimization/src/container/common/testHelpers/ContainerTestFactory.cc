@@ -313,8 +313,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure08 ()
          * Modyfikujemy bean mojBean stworzony w metodzie createMetaStructure07
          */
 
-        MetaObject *m = metaCont->get ("mojBean");
-        MetaObject *meta = dynamic_cast <MetaObject *> (m);
+        MetaObject *meta = const_cast <MetaObject *> (metaCont->get ("mojBean"));
         meta->addMapField (factory.newDataKeyNewString ("city", factory.newRefDataNewString ("city")));
 
         /*
@@ -630,8 +629,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure17 ()
          * Modyfikujemy bean mojBean stworzony w metodzie createMetaStructure07
          */
 
-        MetaObject *m = metaCont->get ("mojBean");
-        MetaObject *meta = dynamic_cast <MetaObject *> (m);
+        MetaObject *meta = const_cast <MetaObject *> (metaCont->get ("mojBean"));
         meta->addMapField (factory.newDataKeyNewString ("city", factory.newRefDataNewString ("ncity")));
 
         /*

@@ -38,7 +38,7 @@ public:
         void visit (MetaContainer *data);
         void visit (MetaDeque *data);
 
-        void visit (MetaObject *data);
+        void visit (MetaObject const *data);
 
         void visit (std::string const &key, ValueData *data);
         void visit (std::string const &key, NullData *data);

@@ -342,4 +342,30 @@ std::ostream &operator<< (std::ostream &o, BidirectionalMetaIndex const &m)
         return o;
 }
 
+/****************************************************************************/
+
+//size_t BidirectionalMetaIndex::get (MetaObject *meta)
+//{
+//        MetaToInt::iterator i = metaToInt.find (meta);
+//
+//        if (i != metaToInt.end ()) {
+//                return i->second;
+//        }
+//
+//        throw ConfigurationException ("BidirectionalMetaIndex::get : I can't find vertex descriptor (vertex number) for MetaObject in BidirectionalMetaIndex. Meta id : [" + std::string (meta->getId ()) + "]");
+//}
+
+/****************************************************************************/
+
+size_t BidirectionalMetaIndex::get (MetaObject const *meta) const
+{
+        MetaToInt::const_iterator i = metaToInt.find (meta);
+
+        if (i != metaToInt.end ()) {
+                return i->second;
+        }
+
+        throw ConfigurationException ("BidirectionalMetaIndex::get : I can't find vertex descriptor (vertex number) for MetaObject in BidirectionalMetaIndex. Meta id : [" + std::string (meta->getId ()) + "]");
+}
+
 }

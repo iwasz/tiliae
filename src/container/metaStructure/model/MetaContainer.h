@@ -48,8 +48,9 @@ public:
 
         MetaMap const &getMetaMap () const { return metaMap; }
 
+        Ptr <MetaContainer> getLinked () { return linked; }
         Ptr <MetaContainer const> getLinked () const { return linked; }
-        void setLinked (Ptr <MetaContainer const> l) { linked = l; }
+        void setLinked (Ptr <MetaContainer> l) { linked = l; }
 
         Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
 
@@ -79,7 +80,7 @@ private:
 private:
 
         MetaMap metaMap;
-        Ptr <MetaContainer const> linked;
+        Ptr <MetaContainer> linked;
         Core::ArrayRegionAllocator <char> memoryAllocator;
 };
 

@@ -64,18 +64,18 @@ bool EditorService::onMappedMetaBegin (MetaObject const *meta)
 
         if (!customEditorName.empty ()) {
                 BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-                BeanFactory *fact = container->getBeanFactory (customEditorName, beanFactory);
-                editor = new Editor::LazyEditor (fact);
+                editor = ocast <Editor::IEditor *> (container->getSingleton (customEditorName));
+                beanFactory->setEditor (editor, false);
         }
         else {
                 editor = currentMapEditor = createMappedEditor ();
+                beanFactory->setEditor (editor, true);
         }
 
         if (!editor) {
                 throw BeanNotFullyInitializedException ("Can't create editor for BeanFactory. Bean id : (" + std::string (meta->getId ()) + "), editor name : (" + std::string (meta->getEditor ()) + ").");
         }
 
-        beanFactory->setEditor (editor, true);
         return true;
 }
 
@@ -102,9 +102,8 @@ bool EditorService::onIndexedMetaBegin (MetaObject const *meta)
 
         if (!customEditorName.empty ()) {
                 BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-                BeanFactory *fact = container->getBeanFactory (customEditorName, beanFactory);
-                editor = new Editor::LazyEditor (fact);
-                beanFactory->setEditor (editor, true);
+                editor = ocast <Editor::IEditor *> (container->getSingleton (customEditorName));
+                beanFactory->setEditor (editor, false);
         }
         else if (meta->getFields ().empty ()) {
                 editor = noopNoCopyEditor;
@@ -191,14 +190,9 @@ void EditorService::onValueData (std::string const &key, ValueData const *data)
         }
 
         BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-        BeanFactory *beanFactory = container->getBeanFactory (type, current);
-
-        if (!beanFactory) {
-                throw BeanNotFullyInitializedException ("Can't resolve editor for type [" + type + "].");
-        }
 
         Element element;
-        element.factory = beanFactory;
+        element.editor = ocast <Editor::IEditor *> (container->getSingleton (type));
         element.type = Element::EDITOR_FROM_BF;
 
         if (currentIndexedEditor) {

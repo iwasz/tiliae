@@ -29,7 +29,7 @@ bool BeanFactoryInitService::onMetaBegin (MetaObject const *meta)
         BeanFactory *beanFactory = new BeanFactory;
         beanFactory->setBeanWrapper(defaultBeanWrapper);
         beanFactory->setAttributes (meta->getAttributes ()->makeCopyOnHeap ());
-        getBVFContext ()->getStack().push (beanFactory);
+        getBVFContext ()->setCurrentBF (beanFactory);
         return true;
 }
 

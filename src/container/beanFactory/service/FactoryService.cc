@@ -47,9 +47,8 @@ bool FactoryService::onMetaBegin (MetaObject const *data)
 
         if (!customFactoryName.empty ()) {
                 BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-                BeanFactory *fact = container->getBeanFactory (customFactoryName, beanFactory);
-                factory = new Factory::LazyFactory (fact);
-                beanFactory->setFactory (factory, true);
+                factory = ocast <Factory::IFactory *> (container->getSingleton (customFactoryName));
+                beanFactory->setFactory (factory, false);
         }
         else {
                 factory = defaultSingletonFactory;

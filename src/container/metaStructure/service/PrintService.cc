@@ -16,7 +16,7 @@ namespace Container {
 
 using namespace Core;
 
-void PrintMetaService::onContainer (MetaContainer *data)
+void PrintMetaService::onContainer (MetaContainer const *data)
 {
         if (!buffer) {
                 std::cerr << "MetaContainer" <<std::endl;
@@ -26,7 +26,7 @@ void PrintMetaService::onContainer (MetaContainer *data)
         }
 }
 
-bool PrintMetaService::onMappedMetaBegin (MetaObject *data)
+bool PrintMetaService::onMappedMetaBegin (MetaObject const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "MappedMeta ("
@@ -42,7 +42,7 @@ bool PrintMetaService::onMappedMetaBegin (MetaObject *data)
         return true;
 }
 
-bool PrintMetaService::onIndexedMetaBegin (MetaObject *data)
+bool PrintMetaService::onIndexedMetaBegin (MetaObject const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "IndexedMeta ("
@@ -58,7 +58,7 @@ bool PrintMetaService::onIndexedMetaBegin (MetaObject *data)
         return true;
 }
 
-void PrintMetaService::onValueData (std::string const &key, ValueData *data)
+void PrintMetaService::onValueData (std::string const &key, ValueData const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "ValueData (" << data->getData() << ")" <<std::endl;
@@ -68,7 +68,7 @@ void PrintMetaService::onValueData (std::string const &key, ValueData *data)
         }
 }
 
-void PrintMetaService::onNullData (std::string const &key, NullData *data)
+void PrintMetaService::onNullData (std::string const &key, NullData const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "NullData" <<std::endl;
@@ -78,7 +78,7 @@ void PrintMetaService::onNullData (std::string const &key, NullData *data)
         }
 }
 
-void PrintMetaService::onRefData (std::string const &key, RefData *data)
+void PrintMetaService::onRefData (std::string const &key, RefData const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "RefData (" << data->getData() << ")" <<std::endl;

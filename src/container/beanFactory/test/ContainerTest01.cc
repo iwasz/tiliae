@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 
         BOOST_CHECK_EQUAL (metaCont->getMetaMap ().size (), 5U);
 
-        MetaObject *syn = metaCont->get ("aska0");
+        MetaObject const *syn = metaCont->get ("aska0");
         BOOST_CHECK (syn);
 
         DataKeyVector fields = syn->getFields ();

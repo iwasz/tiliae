@@ -35,12 +35,12 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMappedMetaBegin (MetaObject *data);
-        virtual void onConstructorArgsBegin (MetaObject *data);
-        virtual void onConstructorArgsEnd (MetaObject *data);
-        virtual void onValueData (std::string const &key, ValueData *data);
-        virtual void onRefData (std::string const &key, RefData *data);
-        virtual void onNullData (std::string const &key, NullData *data);
+        virtual bool onMappedMetaBegin (MetaObject const *data);
+        virtual void onConstructorArgsBegin (MetaObject const *data);
+        virtual void onConstructorArgsEnd (MetaObject const *data);
+        virtual void onValueData (std::string const &key, ValueData const *data);
+        virtual void onRefData (std::string const &key, RefData const *data);
+        virtual void onNullData (std::string const &key, NullData const *data);
 
 /*--------------------------------------------------------------------------*/
 
@@ -50,7 +50,7 @@ private:
 
         Common::OrderedVariantMap *inputMap;
         ValueServiceHelper *helper;
-        MetaObject *currMappedMeta;
+        MetaObject const *currMappedMeta;
 };
 
 }

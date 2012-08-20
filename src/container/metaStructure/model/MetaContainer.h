@@ -32,7 +32,7 @@ public:
         ~MetaContainer ();
 
         /// O(N)
-        MetaObject *get (const std::string &key) const;
+        MetaObject const *get (const std::string &key) const;
 
         /**
          * Zdecydowałem sie na taki interfejs poniewaz kazdy
@@ -52,6 +52,18 @@ public:
         void setLinked (Ptr <MetaContainer const> l) { linked = l; }
 
         Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
+
+        /**
+         * Should be invoked after MetaStructure is complete, that is after
+         * all MetaObjects was added.
+         */
+        void updateParents ();
+
+        /**
+         * Returns a collection of pointers to MetaObjects in topological order,
+         * which guarantees, that MetaObjects with no dependencies, or with smallest
+         * number of dependencies are before those which depends on them.
+         */
         MetaDeque topologicalSort ();
 
 private:
@@ -59,8 +71,8 @@ private:
         typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS> Graph;
 
         Core::StringList getRuntimeDependencies (MetaObject const *meta) const;
-        void fillGraph  (MetaObject *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index);
-        void prepareBidirectionalIndex (BidirectionalMetaIndex *index, Graph *graph, MetaObject *meta = NULL);
+        void fillGraph  (MetaObject const *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index) const;
+        void prepareBidirectionalIndex (BidirectionalMetaIndex *index, Graph *graph) const;
         const char *getDependencyName (IData *data) const;
         friend std::ostream &operator<< (std::ostream &o, MetaContainer const &m);
 

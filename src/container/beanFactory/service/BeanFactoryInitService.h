@@ -26,7 +26,7 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMetaBegin (MetaObject *meta);
+        virtual bool onMetaBegin (MetaObject const *meta);
 
 /*------Setters-and-getters-------------------------------------------------*/
 

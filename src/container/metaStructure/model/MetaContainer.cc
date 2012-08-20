@@ -50,7 +50,7 @@ void MetaContainer::addInner (MetaObject *outer, MetaObject *inner)
 
 /****************************************************************************/
 
-MetaObject *MetaContainer::get (const std::string &key) const
+MetaObject const *MetaContainer::get (const std::string &key) const
 {
         MetaMap::const_iterator i;
         if ((i = metaMap.find (key.c_str ())) != metaMap.end ()) {
@@ -157,7 +157,7 @@ MetaDeque MetaContainer::topologicalSort ()
         prepareBidirectionalIndex (&index, &graph);
 
         for (BidirectionalMetaIndex::MetaToInt::iterator i = index.metaToInt.begin (); i != index.metaToInt.end (); ++i) {
-                MetaObject *meta = i->first;
+                MetaObject const *meta = i->first;
                 size_t metaNumber = i->second;
 
                 fillGraph (meta, metaNumber, &sorted, &graph, &index);
@@ -175,7 +175,7 @@ MetaDeque MetaContainer::topologicalSort ()
         }
 
         for (Container::const_iterator i = c.begin (); i != c.end (); ++i) {
-                MetaObject *meta = index.get (*i);
+                MetaObject const *meta = index.get (*i);
                 assert (meta);
                 sorted.push_back (meta);
         }
@@ -185,12 +185,12 @@ MetaDeque MetaContainer::topologicalSort ()
 
 /****************************************************************************/
 
-void MetaContainer::fillGraph  (MetaObject *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index)
+void MetaContainer::fillGraph  (MetaObject const *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index) const
 {
         Core::StringList deps = getRuntimeDependencies (meta);
 
         for (Core::StringList::const_iterator i = deps.begin (); i != deps.end (); ++i) {
-                MetaObject *dependency = get (*i);
+                MetaObject const *dependency = get (*i);
 
                 if (!dependency) {
                         continue;
@@ -206,23 +206,32 @@ void MetaContainer::fillGraph  (MetaObject *meta, size_t metaNumber, MetaDeque *
 
 /****************************************************************************/
 
-void MetaContainer::prepareBidirectionalIndex (BidirectionalMetaIndex *index, Graph *graph, MetaObject *meta)
+void MetaContainer::prepareBidirectionalIndex (BidirectionalMetaIndex *index, Graph *graph) const
 {
-        if (!meta) {
-                for (MetaMap::iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
-                        prepareBidirectionalIndex (index, graph, i->second);
-                }
-
-                return;
+        for (MetaMap::const_iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
+                size_t vertexDescriptor = boost::add_vertex (*graph);
+                index->add (vertexDescriptor, i->second);
         }
 
-        size_t vertexDescriptor = boost::add_vertex (*graph);
-        index->add (vertexDescriptor, meta);
+        if (linked) {
+                linked->prepareBidirectionalIndex (index, graph);
+        }
 
-//        MetaMap innerMetas = meta->getInnerMetas ();
-//        for (MetaMap::iterator i = innerMetas.begin (); i != innerMetas.end (); ++i) {
-//                prepareBidirectionalIndex (index, graph, i->second);
-//        }
+        return;
+}
+
+/****************************************************************************/
+
+void MetaContainer::updateParents ()
+{
+        for (MetaMap::const_iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
+                size_t vertexDescriptor = boost::add_vertex (*graph);
+                index->add (vertexDescriptor, i->second);
+        }
+
+        if (linked) {
+                linked->updateParents ();
+        }
 }
 
 /****************************************************************************/

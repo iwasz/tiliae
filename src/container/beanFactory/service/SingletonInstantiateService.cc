@@ -15,26 +15,31 @@ namespace Container {
 
 using namespace Core;
 
-bool SingletonInstantiateService::onMetaEnd (MetaObject *meta)
+bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
 {
         if (!meta || meta->getAbstract ()) {
                 return false;
         }
 
         BeanFactoryStack &stack = getBVFContext ()->getStack();
+        BeanFactoryMap *bfMap = getBVFContext ()->getBeanFactoryMap();
 
         assert (!stack.empty ());
         BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
         stack.pop ();
 
-//        if (stack.empty ()) {
-                getBVFContext ()->getBeanFactoryMap()->insert (beanFactory);
-//        }
-//        else {
-//                BeanFactory *parent = getBVFContext ()->getCurrentBF ();
-//                parent->addInnerBeanFactory (beanFactory);
-//        }
+        // Zagnieżdżanie beanów
+        MetaMap inner = meta->getInnerMetas ();
 
+        for (MetaMap::iterator i = inner.begin (); i != inner.end (); ++i) {
+                MetaObject *meta = i->second;
+                BeanFactoryMap::iterator j = bfMap->find (meta->getId ());
+                assert (j != bfMap->end ());
+                BeanFactory *bf = *j;
+                beanFactory->addInnerBeanFactory (bf);
+        }
+
+        // Instancjonowanie
         std::string id = toStr (meta->getId ());
         BeanFactoryContext ctx;
 
@@ -48,8 +53,14 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject *meta)
                         throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + id + "].");
                 }
 
+//                Kasowanie
 //                delete beanFactory;
+
+//                Dodaj do mapy singletonów
         }
+//        else {
+                bfMap->insert (beanFactory);
+//        }
 
         return true;
 }

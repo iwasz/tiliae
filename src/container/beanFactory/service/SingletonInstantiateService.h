@@ -22,7 +22,7 @@ class SingletonInstantiateService : public BeanFactoryService {
 public:
 
         virtual ~SingletonInstantiateService () {}
-        virtual bool onMetaEnd (MetaObject *meta);
+        virtual bool onMetaEnd (MetaObject const *meta);
 
 };
 

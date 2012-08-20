@@ -27,7 +27,7 @@ class ParentService : public DummyMetaService {
 public:
 
         virtual ~ParentService () {}
-        virtual bool onMetaBegin (MetaObject *data);
+        virtual bool onMetaBegin (MetaObject const *data);
 
 };
 

@@ -29,7 +29,7 @@ public:
         virtual ~FactoryService () {}
         void init (Core::VariantMap *singletons);
 
-        virtual bool onMetaBegin (MetaObject *data);
+        virtual bool onMetaBegin (MetaObject const *data);
 
 private:
 

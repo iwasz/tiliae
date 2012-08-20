@@ -23,18 +23,18 @@ struct PrintMetaService : public AbstractMetaService {
         TILIAE_API PrintMetaService () : buffer (NULL) {}
         virtual ~PrintMetaService () {}
 
-        void onContainer (MetaContainer *data);
-        bool onMetaBegin (MetaObject *data) { return true; }
-        bool onMetaEnd (MetaObject *data) { return true; }
-        bool onMappedMetaBegin (MetaObject *data);
-        bool onMappedMetaEnd (MetaObject *data) { return true; }
-        bool onIndexedMetaBegin (MetaObject *data);
-        bool onIndexedMetaEnd (MetaObject *data) { return true; }
-        void onConstructorArgsBegin (MetaObject *data) {}
-        void onConstructorArgsEnd (MetaObject *data) {}
-        void onValueData (std::string const &key, ValueData *data);
-        void onNullData (std::string const &key, NullData *data);
-        void onRefData (std::string const &key, RefData *data);
+        void onContainer (MetaContainer const *data);
+        bool onMetaBegin (MetaObject const *data) { return true; }
+        bool onMetaEnd (MetaObject const *data) { return true; }
+        bool onMappedMetaBegin (MetaObject const *data);
+        bool onMappedMetaEnd (MetaObject const *data) { return true; }
+        bool onIndexedMetaBegin (MetaObject const *data);
+        bool onIndexedMetaEnd (MetaObject const *data) { return true; }
+        void onConstructorArgsBegin (MetaObject const *data) {}
+        void onConstructorArgsEnd (MetaObject const *data) {}
+        void onValueData (std::string const &key, ValueData const *data);
+        void onNullData (std::string const &key, NullData const *data);
+        void onRefData (std::string const &key, RefData const *data);
 
     /*--------------------------------------------------------------------------*/
 

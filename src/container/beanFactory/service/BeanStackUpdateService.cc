@@ -15,7 +15,7 @@ namespace Container {
 
 using namespace Core;
 
-bool BeanStackUpdateService::onMetaBegin (MetaObject *data)
+bool BeanStackUpdateService::onMetaBegin (MetaObject const *data)
 {
         if (data->getAbstract()) {
                 return false;
@@ -41,7 +41,7 @@ bool BeanStackUpdateService::onMetaBegin (MetaObject *data)
 
 /****************************************************************************/
 
-bool BeanStackUpdateService::onMetaEnd (MetaObject *data)
+bool BeanStackUpdateService::onMetaEnd (MetaObject const *data)
 {
         if (data->getAbstract()) {
                 return false;

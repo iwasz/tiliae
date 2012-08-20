@@ -24,18 +24,18 @@ namespace Container {
 struct DummyMetaService : public AbstractMetaService {
         virtual ~DummyMetaService () {}
 
-        virtual void onContainer (MetaContainer *data) {}
-        virtual bool onMetaBegin (MetaObject *data) { return true; }
-        virtual bool onMetaEnd (MetaObject *data) { return true; }
-        virtual bool onMappedMetaBegin (MetaObject *data) { return true; }
-        virtual bool onMappedMetaEnd (MetaObject *data) { return true; }
-        virtual bool onIndexedMetaBegin (MetaObject *data) { return true; }
-        virtual bool onIndexedMetaEnd (MetaObject *data) { return true; }
-        virtual void onConstructorArgsBegin (MetaObject *data) {}
-        virtual void onConstructorArgsEnd (MetaObject *data) {}
-        virtual void onValueData (std::string const &key, ValueData *data) {}
-        virtual void onNullData (std::string const &key, NullData *data) {}
-        virtual void onRefData (std::string const &key, RefData *data) {}
+        virtual void onContainer (MetaContainer const *data) {}
+        virtual bool onMetaBegin (MetaObject const *data) { return true; }
+        virtual bool onMetaEnd (MetaObject const *data) { return true; }
+        virtual bool onMappedMetaBegin (MetaObject const *data) { return true; }
+        virtual bool onMappedMetaEnd (MetaObject const *data) { return true; }
+        virtual bool onIndexedMetaBegin (MetaObject const *data) { return true; }
+        virtual bool onIndexedMetaEnd (MetaObject const *data) { return true; }
+        virtual void onConstructorArgsBegin (MetaObject const *data) {}
+        virtual void onConstructorArgsEnd (MetaObject const *data) {}
+        virtual void onValueData (std::string const &key, ValueData const *data) {}
+        virtual void onNullData (std::string const &key, NullData const *data) {}
+        virtual void onRefData (std::string const &key, RefData const *data) {}
 };
 
 } // nam

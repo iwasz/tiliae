@@ -17,7 +17,7 @@ namespace Container {
 
 using namespace Core;
 
-bool ParentService::onMetaBegin (MetaObject *child)
+bool ParentService::onMetaBegin (MetaObject const *child)
 {
         if (!child->containsAttribute (Attributes::PARENT_ARGUMENT)) {
                 return NULL;
@@ -25,7 +25,7 @@ bool ParentService::onMetaBegin (MetaObject *child)
 
         std::string parentName = child->getParent ();
         MetaContainer *container = getContext ()->getMetaContainer ();
-        MetaObject *parent = container->get (parentName);
+        MetaObject const *parent = container->get (parentName);
 
         if (!parent) {
                 throw NoSuchBeanException ("ParentService::onMetaBegin : Wrong 'parent' value. There is no bean with id =" + parentName);
@@ -36,7 +36,8 @@ bool ParentService::onMetaBegin (MetaObject *child)
                 throw ConfigurationException ("ParentService::onMetaBegin : parent is MAPPED and child is INDEXED or vice versa.");
         }
 
-        child->setParentMeta (parent);
+        // TODO to jest bardzo brzydko! Najlepiej, zeby metastruktura miała poustawiane parentu już przed tworzeniem BeanFactoryContainer.
+        const_cast <MetaObject *> (child)->setParentMeta (parent);
         return true;
 }
 

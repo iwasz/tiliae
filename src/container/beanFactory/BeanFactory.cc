@@ -292,16 +292,16 @@ std::string BeanFactory::toString () const
 
 /****************************************************************************/
 
-//void BeanFactory::addInnerBeanFactory (BeanFactory *bf)
-//{
-//        if (!innerBeanFactories) {
-//                innerBeanFactories = new BeanFactoryMap ();
-//        }
-//
-//        BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
-//        map->insert (bf);
-//        bf->setOuterBeanFactory (this);
-//}
+void BeanFactory::addInnerBeanFactory (BeanFactory *bf)
+{
+        if (!innerBeanFactories) {
+                innerBeanFactories = new BeanFactoryMap ();
+        }
+
+        BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
+        map->insert (bf);
+        bf->setOuterBeanFactory (this);
+}
 
 /****************************************************************************/
 

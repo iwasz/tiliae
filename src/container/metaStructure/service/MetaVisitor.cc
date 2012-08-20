@@ -47,7 +47,7 @@ void MetaVisitor::visit (MetaDeque *sorted)
 
 /****************************************************************************/
 
-void MetaVisitor::visit (MetaObject *data)
+void MetaVisitor::visit (MetaObject const *data)
 {
         foreach (IMetaService *service, services) {
                 service->onMetaBegin (data);

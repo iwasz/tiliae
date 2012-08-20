@@ -232,8 +232,8 @@ public:
         BeanFactoryContainer const *getLinked () const { return linked; }
         void setLinked (BeanFactoryContainer const *l) { linked = l; }
 
-        Ptr <MetaContainer const> getMetaContainer () const { return metaContainer; }
-        void setMetaContainer (Ptr <MetaContainer const> m) { metaContainer = m; }
+        Ptr <MetaContainer> getMetaContainer () { return metaContainer; }
+        void setMetaContainer (Ptr <MetaContainer> m) { metaContainer = m; }
 
         void addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function);
 
@@ -244,7 +244,7 @@ private:
         BeanFactoryMap factoryMap;
         Core::VariantMap *singletons;
         BeanFactoryContainer const *linked;
-        Ptr <MetaContainer const> metaContainer;
+        Ptr <MetaContainer> metaContainer;
         Editor::StringFactoryMethodEditor *conversionMethodEditor;
         Editor::TypeEditor *typeEditor;
 

@@ -171,7 +171,7 @@ MetaDeque MetaContainer::topologicalSort ()
                 boost::topological_sort (graph, std::back_inserter (c));
         }
         catch (...) {
-                throw RoundReferenceException ();
+                throw RoundReferenceException ("MetaContainer::topologicalSort : circular dependency detected.");
         }
 
         for (Container::const_iterator i = c.begin (); i != c.end (); ++i) {
@@ -225,8 +225,25 @@ void MetaContainer::prepareBidirectionalIndex (BidirectionalMetaIndex *index, Gr
 void MetaContainer::updateParents ()
 {
         for (MetaMap::const_iterator i = metaMap.begin (); i != metaMap.end (); ++i) {
-                size_t vertexDescriptor = boost::add_vertex (*graph);
-                index->add (vertexDescriptor, i->second);
+                MetaObject *child = i->second;
+
+                if (!child->containsAttribute (Attributes::PARENT_ARGUMENT)) {
+                        continue;
+                }
+
+                std::string parentName = child->getParent ();
+                MetaObject const *parent = get (parentName);
+
+                if (!parent) {
+                        throw NoSuchBeanException ("MetaContainer::updateParents : Wrong 'parent' value. There is no bean with id =" + parentName);
+                }
+
+                if ((child->getType () == MetaObject::INDEXED && parent->getType () == MetaObject::MAPPED) ||
+                    (child->getType () == MetaObject::MAPPED && parent->getType () == MetaObject::INDEXED)) {
+                        throw ConfigurationException ("MetaContainer::updateParents : parent is MAPPED and child is INDEXED or vice versa.");
+                }
+
+                child->setParentMeta (parent);
         }
 
         if (linked) {

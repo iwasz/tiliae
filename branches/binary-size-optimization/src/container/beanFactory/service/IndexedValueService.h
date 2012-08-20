@@ -12,7 +12,6 @@
 #include "beanFactory/service/BeanFactoryService.h"
 
 namespace Container {
-class IndexedMeta;
 class MetaObject;
 class ListElem;
 class ValueData;

@@ -55,8 +55,6 @@ struct Impl {
         void fillMetaArguments (mxml_node_t *node, MetaObject *meta, MetaObject *outer);
         MetaObject *popCurrentMeta ();
         MetaObject *getCurrentMeta () const;
-        MetaObject *getCurrentMappedMeta () const;
-        IndexedMeta *getCurrentIndexedMeta () const;
 
         DataKey *pushNewDataKey ();
         void popCurrentDataKeyAddToMapped ();

@@ -14,7 +14,6 @@
 #include "common/testHelpers/ContainerTestFactory.h"
 #include "metaStructure/service/PrintService.h"
 #include "metaStructure/service/MetaVisitor.h"
-#include "metaStructure/service/ParentService.h"
 #include "beanFactory/service/ValueServiceHelper.h"
 #include "Defs.h"
 #include "ContainerFactory.h"
@@ -47,8 +46,6 @@
 
 using Editor::StringFactoryMethodEditor;
 
-//#define CONTAINER_PRINT_META 1
-
 namespace Container {
 using namespace Wrapper;
 
@@ -57,8 +54,6 @@ using namespace Wrapper;
 void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCont)
 {
         MetaVisitor iteration;
-//        Przeniesione do SingletonInstantiationService, ale nie wiem czy słusznie.
-//        BeanFactoryContext ctx;
         BeanFactoryVisitorContext context;
         Core::VariantMap *singletons = bfCont->getSingletons ();
         context.setMetaContainer (metaCont);
@@ -66,14 +61,6 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
         try {
 
                 iteration.setContext (&context);
-
-                ParentService parentService;
-                parentService.setContext (&context);
-                iteration.addService (&parentService);
-
-//                ParentService parentService;
-//                parentService.setContext (&context);
-//                iteration.addService (&parentService);
 
                 BeanFactoryInitService bfService;
                 bfService.setContext (&context);
@@ -93,10 +80,6 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 valIndexService.setValueServiceHelper (&helper);
                 iteration.addService (&valIndexService);
 
-//                BeanStackUpdateService updService;
-//                updService.setContext (&context);
-//                iteration.addService (&updService);
-
                 EditorService editorService;
                 editorService.setContext (&context);
                 editorService.init (singletons);
@@ -111,10 +94,6 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 sIService.setContext (&context);
                 iteration.addService (&sIService);
 
-//                SingletonFactoryDeleteService sDService;
-//                sDService.setContext (&context);
-//                iteration.addService (&sDService);
-
 #if CONTAINER_PRINT_META
                 PrintMetaService printService;
                 printService.setContext (&context);
@@ -125,30 +104,9 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 context.setBeanFactoryContainer (bfCont);
                 context.setBeanFactoryMap (&bfCont->getBeanFactoryMap ());
 
+                metaCont->updateParents ();
                 MetaDeque sorted = metaCont->topologicalSort ();
                 iteration.visit (&sorted);
-
-/*------2.5-iteration-*global*-singletons-----------------------------------*/
-
-//                // Tworzymy singletony (ale tylko te globalne). Czyli nie iterujemy przez wszystko, a
-//                BeanFactoryMap *beanFactoryMap = context.getBeanFactoryMap ();
-//                for (BeanFactoryMap::nth_index <1>::type::iterator i = beanFactoryMap->get<1> ().begin ();
-//                     i  != beanFactoryMap->get<1> (). end ();
-//                     ++i) {
-//
-//                        BeanFactory *factory = *i;
-//
-//                        bool isSingleton = (static_cast <MetaObject::Scope> (factory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
-//                        bool isLazyInit = factory->getBoolAttribute (Attributes::LAZYINIT_ARGUMENT);
-//
-//                        if (isSingleton && !isLazyInit) {
-//                                Core::Variant v = factory->create (Core::VariantMap (), &ctx);
-//
-//                                if (v.isNone ()) {
-//                                        throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + (*i)->getId () + "].");
-//                                }
-//                        }
-//                }
         }
         catch (NoSuchBeanException &e) {
                 e.addMessage ("ContainerFactory::createContainer : [" + bfCont->toString () + "].");
@@ -166,7 +124,6 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCon
                                                      bool storeMetaContainer,
                                                      BeanFactoryContainer *linkedParent)
 {
-//        Core::IAllocator *allocator = new Core::RegionAllocator ();
         Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> (createSingletons ());
 
         if (linkedParent) {

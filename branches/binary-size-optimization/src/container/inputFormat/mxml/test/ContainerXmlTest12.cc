@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (test057ListScopeTests)
 
         BeanFactory *bf = cont->getBeanFactory ("bean2");
         BOOST_CHECK (bf);
-        bf = bf->getInnerBeanFactory("inner");
+        bf = bf->getInnerBeanFactory("inner2");
         BOOST_CHECK (bf);
 
         barList = vcast <BarList *> (v);
@@ -158,7 +158,7 @@ BOOST_AUTO_TEST_CASE (test058MapScopeTests)
 
         BeanFactory *bf = cont->getBeanFactory ("bean2");
         BOOST_CHECK (bf);
-        bf = bf->getInnerBeanFactory("inner");
+        bf = bf->getInnerBeanFactory("inner2");
         BOOST_CHECK (bf);
 
         barList = vcast <BarList *> (v);

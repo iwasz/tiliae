@@ -199,10 +199,6 @@ BOOST_AUTO_TEST_CASE (testBeanScope)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
-
-/****************************************************************************/
-
         Variant v = cont->getBean ("list");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Ptr <BarMap> > (v));

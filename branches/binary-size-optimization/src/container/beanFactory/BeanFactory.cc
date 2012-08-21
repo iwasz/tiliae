@@ -10,16 +10,13 @@
 
 #include <boost/lexical_cast.hpp>
 #include "metaStructure/model/MetaObject.h"
-#include "../../core/variant/Cast.h"
+#include "variant/Cast.h"
 #include "IBeanWrapper.h"
 #include "BeanFactoryContext.h"
 #include "Defs.h"
+#include "ReflectionFactory.h"
 
 namespace Container {
-
-// Takie same nazwy jak w ReflectionFactory, jednak aktualna fabryka może być innego typu.
-static const char *CONSTRUCTOR_ARGS_KEY = "constructor-args";
-static const char *CLASS_NAME = "class";
 
 /****************************************************************************/
 
@@ -100,13 +97,18 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                 assert (editor);
 
                 Core::Variant output;
+                /*
+                 * Parametry dla Fabryki. Klucze pochodzą z ReflectionFactory, ale nie znaczy to, że
+                 * konkretna fabryka musi być tego typu. Można wrzucić inną, ktora będzie trzymała się
+                 * tej samej konwencji.
+                 */
                 Core::VariantMap factoryParams;
                 Core::VariantVector list;
                 Core::Variant cArgsEdited = Core::Variant (&list);
 
                 // Trzeba sprawdzić, bo inaczej może się zamazać argument class (patrz test 24 myMap - class ustawione przez proxy).
                 if (attributes->containsKey (Attributes::CLASS_ARGUMENT)) {
-                        factoryParams[CLASS_NAME] = Core::Variant (getStringAttribute (Attributes::CLASS_ARGUMENT));
+                        factoryParams[Factory::ReflectionFactory::CLASS_NAME] = Core::Variant (getStringAttribute (Attributes::CLASS_ARGUMENT));
                 }
 
                 bool err = false;
@@ -119,7 +121,11 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                                 return Core::Variant ();
                         }
 
-                        factoryParams[CONSTRUCTOR_ARGS_KEY] = cArgsEdited;
+                        factoryParams[Factory::ReflectionFactory::CONSTRUCTOR_ARGS] = cArgsEdited;
+                }
+
+                if (getSingleton ()) {
+                        factoryParams[Factory::ReflectionFactory::CREATE_DELETER] = Core::Variant (true);
                 }
 
                 dcRollback (context);

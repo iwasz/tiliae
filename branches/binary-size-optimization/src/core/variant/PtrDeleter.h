@@ -22,7 +22,7 @@ class PtrDeleter : public IDeleter {
 template <typename T>
 void PtrDeleter<T>::free (Variant &v)
 {
-        delete vcast <T> (v);
+        delete vcast <T *> (v);
 }
 
 } /* namespace Core */

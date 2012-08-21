@@ -26,6 +26,7 @@ public:
 
         static const char *CLASS_NAME;
         static const char *CONSTRUCTOR_ARGS;
+        static const char *CREATE_DELETER;
 
         /**
          * wrapInSharedPtr == false -> return new T.

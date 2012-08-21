@@ -21,6 +21,7 @@ using namespace Core;
 
 const char *ReflectionFactory::CLASS_NAME = "class";
 const char *ReflectionFactory::CONSTRUCTOR_ARGS = "constructor-args";
+const char *ReflectionFactory::CREATE_DELETER = "deleter";
 
 /****************************************************************************/
 
@@ -61,13 +62,18 @@ Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::Deb
                 return Variant ();
         }
 
-        try {
+        bool createDeleter = false;
+        i = parameters.find (CREATE_DELETER);
+        if (i != parameters.end ()) {
+                createDeleter = true;
+        }
 
+        try {
                 if (classArgs) {
-                        return constructor->newInstance (classArgs);
+                        return constructor->newInstance (classArgs, createDeleter);
                 }
                 else {
-                        return constructor->newInstance ();
+                        return constructor->newInstance (NULL, createDeleter);
                 }
 
         }

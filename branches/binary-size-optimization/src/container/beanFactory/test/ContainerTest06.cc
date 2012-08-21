@@ -61,10 +61,6 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
-
-/*--------------------------------------------------------------------------*/
-
         Variant v = cont->getBean ("mojBean");
 
         BOOST_CHECK (!v.isNone ());
@@ -130,10 +126,6 @@ BOOST_AUTO_TEST_CASE (testInitMethod)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 1);
-
-/****************************************************************************/
-
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <City *> (v));
@@ -163,10 +155,6 @@ BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
         metaCont->add (child2);
 
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
 
 /****************************************************************************/
 

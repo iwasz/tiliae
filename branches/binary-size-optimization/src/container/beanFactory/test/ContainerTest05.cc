@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (testCreateCountryListWithReferenceDoubleIter)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 4);
+        BOOST_CHECK_EQUAL (cont->getBeanFactoryMap ().size (), 3U);
 
 /****************************************************************************/
 
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
+        BOOST_CHECK_EQUAL (cont->getBeanFactoryMap ().size (), 2U);
 
 /****************************************************************************/
 
@@ -142,10 +142,6 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
-
-/*--------------------------------------------------------------------------*/
-
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
@@ -200,10 +196,6 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
-
-/*--------------------------------------------------------------------------*/
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());

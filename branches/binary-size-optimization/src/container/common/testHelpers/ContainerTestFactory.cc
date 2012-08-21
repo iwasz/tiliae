@@ -182,11 +182,13 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure05 ()
         MetaObject *meta00 = factory.newMetaObject ();
         meta00->setId ("askaParent");
         meta00->setClass ("City");
+        meta00->setScope (MetaObject::PROTOTYPE);
         meta00->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("value00", "String")));
         metaCont->add (meta00);
 
         MetaObject *meta0 = factory.newMetaObject ();
         meta0->setId ("aska0");
+        meta0->setScope (MetaObject::PROTOTYPE);
         meta0->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("value0", "String")));
         meta0->setParent ("askaParent");
         metaCont->add (meta0);
@@ -194,6 +196,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure05 ()
         MetaObject *meta = factory.newMetaObject ();
         meta->setId ("aska");
         meta->setClass ("Note");
+        meta->setScope (MetaObject::PROTOTYPE);
         meta->addMapField (factory.newDataKeyNewString ("title", factory.newValueDataNewString ("value11", "String")));
         meta->addMapField (factory.newDataKeyNewString ("body", factory.newValueDataNewString ("value11", "String")));
         metaCont->add (meta);
@@ -201,12 +204,14 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure05 ()
         MetaObject *meta1 = factory.newMetaObject ();
         meta1->setId ("aska2");
         meta1->setClass ("Country");
+        meta1->setScope (MetaObject::PROTOTYPE);
         meta1->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("value22", "String")));
         metaCont->add (meta1);
 
         MetaObject *meta2 = factory.newMetaObject ();
         meta2->setId ("aska3");
         meta2->setClass ("Address");
+        meta2->setScope (MetaObject::PROTOTYPE);
         meta2->addMapField (factory.newDataKeyNewString ("street", factory.newValueDataNewString ("value33", "String")));
         metaCont->add (meta2);
 
@@ -574,6 +579,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure15 ()
 
         child->setId ("mojBean");
         child->setClass ("Bar");
+        child->setScope (MetaObject::PROTOTYPE);
 
         metaCont->add (child);
 
@@ -769,6 +775,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
 
         child->setId ("mojBean");
         child->setClass ("Bar");
+        child->setScope (MetaObject::PROTOTYPE);
 
         metaCont->add (child);
 

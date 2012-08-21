@@ -66,7 +66,9 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReference)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
+        BOOST_CHECK_EQUAL (cont->getBeanFactoryMap ().size (), 1U);
+//        Tak nie można, bo tam są serwisowe, ale jest jedna fabryka i jeden singleton
+//        BOOST_CHECK_EQUAL (cont->getSingletons ()->size (), 1U);
 
 /****************************************************************************/
 
@@ -100,21 +102,17 @@ BOOST_AUTO_TEST_CASE (testCreateStringMap)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 1);
-
-/****************************************************************************/
-
         Variant v = cont->getBean ("mojaMapa");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <StringMap *> (v));
 
         StringMap *map = vcast <StringMap *> (v);
 
-        BOOST_CHECK (map->size () == 4);
-        BOOST_CHECK (map->operator[] ("field0") == "value0");
-        BOOST_CHECK (map->operator[] ("field1") == "value1");
-        BOOST_CHECK (map->operator[] ("field2") == "value2");
-        BOOST_CHECK (map->operator[] ("field3") == "value3");
+        BOOST_CHECK_EQUAL (map->size (), 4U);
+        BOOST_CHECK_EQUAL (map->operator[] ("field0"), "value0");
+        BOOST_CHECK_EQUAL (map->operator[] ("field1"), "value1");
+        BOOST_CHECK_EQUAL (map->operator[] ("field2"), "value2");
+        BOOST_CHECK_EQUAL (map->operator[] ("field3"), "value3");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

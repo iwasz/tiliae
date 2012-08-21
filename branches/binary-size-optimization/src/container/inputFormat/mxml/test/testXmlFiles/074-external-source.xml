@@ -7,7 +7,7 @@
         </bean>
 
         <!-- Uzywa tych 2 singletonów. -->
-        <bean id="map" class="StringMap" singleton="true">
+        <bean id="map" class="StringMap" singleton="true" depends-on="abc">
                 <entry key="ex1" ref="external1"/>
                 <entry key="ex2" ref="external2"/>
         </bean>

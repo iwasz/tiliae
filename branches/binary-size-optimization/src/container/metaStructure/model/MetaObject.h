@@ -39,10 +39,7 @@ struct BidirectionalMetaIndex {
                 intToMeta[index] = meta;
         }
 
-//        MetaObject const *get (size_t index) { IntToMeta::iterator i = intToMeta.find (index); return (i != intToMeta.end ()) ? (i->second) : (NULL); }
         MetaObject const *get (size_t index) const { IntToMeta::const_iterator i = intToMeta.find (index); return (i != intToMeta.end ()) ? (i->second) : (NULL); }
-
-//        size_t get (MetaObject *meta);
         size_t get (MetaObject const *meta) const;
 
         typedef google::sparse_hash_map <MetaObject const *, size_t> MetaToInt;
@@ -108,6 +105,9 @@ public:
 
         const char *getEditor () const { return attributes.getString (Attributes::EDITOR_ARGUMENT); }
         void setEditor (const char *editor) { attributes.setString (Attributes::EDITOR_ARGUMENT, editor); }
+
+        Core::StringVector getDependsOn () const;
+        void setDependsOn (const char *s) { attributes.setString (Attributes::DEPENDS_ON_ARGUMENT, s); }
 
 /*--------------------------------------------------------------------------*/
 

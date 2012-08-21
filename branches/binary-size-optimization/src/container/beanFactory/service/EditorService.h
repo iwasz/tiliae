@@ -34,16 +34,22 @@ public:
 
         virtual ~EditorService () {}
 
-        void init (Core::VariantMap *singletons);
+/*--------------------------------------------------------------------------*/
+
+        virtual bool onMappedMetaBegin (const MetaObject* data);
+        virtual bool onIndexedMetaBegin(const MetaObject* data);
+        virtual void onConstructorArgsBegin(const MetaObject* data);
+        virtual void onConstructorArgsEnd(const MetaObject* data);
+        virtual void onValueData(const std::string& key, const ValueData* data);
+        virtual void onRefData(const std::string& key, const RefData* data);
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMappedMetaBegin (MetaObject const *data);
-        virtual bool onIndexedMetaBegin (MetaObject const *data);
-        virtual void onConstructorArgsBegin (MetaObject const *data);
-        virtual void onConstructorArgsEnd (MetaObject const *data);
-        virtual void onValueData (std::string const &key, ValueData const *data);
-        virtual void onRefData (std::string const &key, RefData const *data);
+        void setCArgsBeanWrapper(Wrapper::BeanWrapper* argsBeanWrapper) { this->cArgsBeanWrapper = argsBeanWrapper; }
+        void setDefaultBeanWrapper(Wrapper::BeanWrapper* defaultBeanWrapper) { this->defaultBeanWrapper = defaultBeanWrapper; }
+        void setNoopNoCopyEditor(Editor::IEditor* noopNoCopyEditor) { this->noopNoCopyEditor = noopNoCopyEditor; }
+
+/*--------------------------------------------------------------------------*/
 
 private:
 

@@ -14,6 +14,10 @@
 #include "../../../core/Typedefs.h"
 #include "../../../core/string/String.h"
 
+namespace Factory {
+class IFactory;
+}
+
 namespace Container {
 
 extern const char *EDITOR_SPECIAL_CHAR;
@@ -24,7 +28,7 @@ extern const char *EDITOR_SPECIAL_CHAR;
 class ValueServiceHelper {
 public:
 
-        ValueServiceHelper () : singletonMap (NULL), classArgs (1) {}
+        ValueServiceHelper () : defaultValueFactory (NULL), classArgs (1) {}
 
         /**
          * Metod tworząca skalary. Szuka edytorów w singletonMap.
@@ -32,19 +36,11 @@ public:
          * singletonów potrzebny jest &text, &bool etc.
          */
         Core::Variant create (const char *type, const char *value) const;
-
-        /**
-         * Singleton map, to mapa w której ten serwis będzie szukał
-         * edytorów do tworzenia wartości skalarnych ze stringów.
-         * Taki interfejs jest dlatego, że tworząc skalar można podać
-         * dowolny typ (nie tylko wbudowany) i jeżeli tylko znajdzie
-         * się edytor o odpowiedniej nazwie, to zostanie zastosowany.
-         */
-        void setSingletonMap (Core::VariantMap *singletonMap) { this->singletonMap = singletonMap; }
+        void setDefaultValueFactory (Factory::IFactory* defaultValueFactory) { this->defaultValueFactory = defaultValueFactory; }
 
 private:
 
-        Core::VariantMap *singletonMap;
+        Factory::IFactory *defaultValueFactory;
         mutable Core::VariantMap params;
         mutable Core::VariantVector classArgs;
 

@@ -11,6 +11,7 @@
 
 #include "beanFactory/BeanFactory.h"
 #include "beanFactory/service/BeanFactoryService.h"
+#include "beanFactory/BeanFactoryContainer.h"
 #include "../core/Pointer.h"
 #include "../core/ApiMacro.h"
 
@@ -59,7 +60,7 @@ private:
         /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer.
         static Wrapper::BeanWrapper *createBeanWrapper ();
         /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer. ContainerFactory tworzy je per BeanFactoryContainer.
-        static Core::VariantMap *createSingletons (/*Core::IAllocator *allocator*/);
+        static SparseVariantMap *createSingletons (/*Core::IAllocator *allocator*/);
 };
 
 } // ContainerFactory

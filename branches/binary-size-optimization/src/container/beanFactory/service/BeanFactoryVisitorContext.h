@@ -11,6 +11,7 @@
 
 #include "metaStructure/service/VisitorContext.h"
 #include "beanFactory/BeanFactory.h"
+#include "../BeanFactoryContainer.h"
 
 namespace Container {
 

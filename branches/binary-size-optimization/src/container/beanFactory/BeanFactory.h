@@ -14,10 +14,7 @@
 #include <list>
 #include <vector>
 #include <string>
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-#include <boost/multi_index/mem_fun.hpp>
-#include <boost/multi_index/sequenced_index.hpp>
+
 #include "common/Exceptions.h"
 #include "common/Attributes.h"
 #include "string/String.h"
@@ -33,17 +30,16 @@
 #include "TypeEditor.h"
 #include "../../core/StrUtil.h"
 
+
 namespace Wrapper {
 class IBeanWrapper;
 };
 
-namespace Editor {
-class LazyEditor;
-}
-
 namespace Container {
-class MetaContainer;
-class BeanFactoryImpl;
+class BeanFactory;
+
+typedef std::stack <BeanFactory *> BeanFactoryStack;
+typedef std::map <std::string, BeanFactory *> BeanFactoryMap;
 
 /**
  * Główny i najważniejszy element kontenera IoC (Container), który
@@ -161,96 +157,12 @@ private:
         Wrapper::IBeanWrapper *beanWrapper;
 
         BeanFactory *outerBeanFactory;
-        void *innerBeanFactories;
+        BeanFactoryMap *innerBeanFactories;
 };
-
-typedef std::stack <BeanFactory *> BeanFactoryStack;
-
-/**
- * Mapa, która trzyma kolejność elementów.
- */
-typedef boost::multi_index::multi_index_container<
-        BeanFactory *,
-        boost::multi_index::indexed_by<
-                // Jak mapa
-                boost::multi_index::ordered_non_unique<
-                        boost::multi_index::const_mem_fun <BeanFactory, std::string const &, &BeanFactory::getId>
-                >,
-                // Jak lista
-                boost::multi_index::sequenced<>
-        >
-> BeanFactoryMap;
 
 struct ToStringHelper {
         static std::string toString (const BeanFactoryMap &bfm);
-//        static std::string toString (const BeanFactoryList &bfl);
 };
-
-/*##########################################################################*/
-
-/**
- *
- */
-class TILIAE_API BeanFactoryContainer : public Core::IToStringEnabled {
-public:
-
-        BeanFactoryContainer (Core::VariantMap *s/*, Core::IAllocator *a*/);
-        virtual ~BeanFactoryContainer ();
-
-        virtual std::string toString () const;
-
-/*--------------------------------------------------------------------------*/
-
-        void reset ();
-
-        /**
-         * Głowna metod tego interfejsu. Jako parameters można podać dodatkową
-         * mapę singletonów. Jest to alternatywa do dodawania singletonów za
-         * pomocą addSingleton.
-         * @param singletons Dodatkowa mapa singletonów.
-         * @return Obiekt.
-         */
-        Core::Variant getBean (const std::string &name) const;
-        bool containsBean (const std::string &name) const;
-
-        BeanFactory *getBeanFactory (const std::string &name, BeanFactory *innerBean = NULL) const;
-
-        /**
-         * Taka metoda będzie bardzo przydanta, gdyż za jej pomocą można
-         * dodać do kontenera COKOLWIEK. Można przede wszystkim dodać sam
-         * kontener (addSingleton (@this, this)), oraz mnóstwo jego elementów
-         * składowych, do których będzie można się odwoływać potem jawnie
-         * (na przykad w XMLu). Będzie można dodać edytory i fabryki, które
-         * tworzą ValueData etc. Dodatkowo także i user będzie mógł dodać
-         * to co będzie chciał.
-         */
-        void addSingleton (const std::string &key, const Core::Variant &singleton);
-        Core::Variant getSingleton (const std::string &name) const;
-        Core::VariantMap *getSingletons () { return singletons; }
-
-        BeanFactoryMap &getBeanFactoryMap () { return factoryMap; }
-
-        BeanFactoryContainer const *getLinked () const { return linked; }
-        void setLinked (BeanFactoryContainer const *l) { linked = l; }
-
-        Ptr <MetaContainer> getMetaContainer () { return metaContainer; }
-        void setMetaContainer (Ptr <MetaContainer> m) { metaContainer = m; }
-
-        void addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function);
-
-        friend class ContainerFactory;
-
-private:
-
-        BeanFactoryMap factoryMap;
-        Core::VariantMap *singletons;
-        BeanFactoryContainer const *linked;
-        Ptr <MetaContainer> metaContainer;
-        Editor::StringFactoryMethodEditor *conversionMethodEditor;
-        Editor::TypeEditor *typeEditor;
-
-};
-
 
 }
 

@@ -9,9 +9,11 @@
 #include <algorithm>
 #include <iterator>
 #include <boost/algorithm/string/trim.hpp>
-#include "../../common/Exceptions.h"
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/erase.hpp>
+#include "Exceptions.h"
 #include "MetaObject.h"
-#include "../../../core/StrUtil.h"
+#include "StrUtil.h"
 
 namespace Container {
 
@@ -299,6 +301,17 @@ DataKeyVector MetaObject::getListFields () const
 
 /****************************************************************************/
 
+Core::StringVector MetaObject::getDependsOn () const
+{
+        std::string deps = attributes.getString (Attributes::DEPENDS_ON_ARGUMENT);
+        boost::erase_all (deps, " ");
+        Core::StringVector ret;
+        boost::split (ret, deps, boost::is_any_of (","), boost::token_compress_on);
+        return ret;
+}
+
+/****************************************************************************/
+
 std::ostream &operator<< (std::ostream &o, MetaObject const &m)
 {
         o << "MetaObject [" << m.getId () << "]";
@@ -341,19 +354,6 @@ std::ostream &operator<< (std::ostream &o, BidirectionalMetaIndex const &m)
         o << "]";
         return o;
 }
-
-/****************************************************************************/
-
-//size_t BidirectionalMetaIndex::get (MetaObject *meta)
-//{
-//        MetaToInt::iterator i = metaToInt.find (meta);
-//
-//        if (i != metaToInt.end ()) {
-//                return i->second;
-//        }
-//
-//        throw ConfigurationException ("BidirectionalMetaIndex::get : I can't find vertex descriptor (vertex number) for MetaObject in BidirectionalMetaIndex. Meta id : [" + std::string (meta->getId ()) + "]");
-//}
 
 /****************************************************************************/
 

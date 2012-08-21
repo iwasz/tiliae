@@ -27,9 +27,9 @@ public:
 
         FactoryService () : defaultSingletonFactory (NULL) {}
         virtual ~FactoryService () {}
-        void init (Core::VariantMap *singletons);
 
-        virtual bool onMetaBegin (MetaObject const *data);
+        virtual bool onMetaBegin (const MetaObject* data);
+        void setDefaultSingletonFactory (Factory::IFactory* defaultSingletonFactory) { this->defaultSingletonFactory = defaultSingletonFactory; }
 
 private:
 

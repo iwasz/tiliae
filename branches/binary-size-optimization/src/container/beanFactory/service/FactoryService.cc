@@ -19,11 +19,6 @@
 namespace Container {
 using namespace Core;
 
-void FactoryService::init (Core::VariantMap *singletons)
-{
-        defaultSingletonFactory = ocast <Factory::IFactory *> ((*singletons)[DEFAULT_SINGLETON_FACTORY_NAME]);
-}
-
 /**
  * BeanFactory ma wśrodku factory, które faktycznie tworzy pusty obiekt i domyślnie jest
  * to ReflectionFactory, oraz ma także edytor, który taki nowoutwoprzony obiekt wypełnia

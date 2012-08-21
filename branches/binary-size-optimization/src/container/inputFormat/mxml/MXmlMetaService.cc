@@ -287,6 +287,10 @@ void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta)
         if ((argVal = mxmlElementGetAttr (node, "abstract"))) {
                 meta->setAbstract (!strcmp (argVal, "true"));
         }
+
+        if ((argVal = mxmlElementGetAttr (node, "depends-on"))) {
+                meta->setDependsOn (factory.newString (argVal));
+        }
 }
 
 /****************************************************************************/

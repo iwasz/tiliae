@@ -122,10 +122,6 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
-
-/****************************************************************************/
-
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
@@ -156,10 +152,6 @@ BOOST_AUTO_TEST_CASE (testCreateMapWithReferenceDoubleIter)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure18 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 4);
 
 /****************************************************************************/
 

@@ -36,10 +36,6 @@ BOOST_AUTO_TEST_CASE (testCreateVariantMap)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 1U);
-
-/****************************************************************************/
-
         Variant v = cont->getBean ("mojaMapa");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <VariantMap *> (v));
@@ -67,10 +63,6 @@ BOOST_AUTO_TEST_CASE (testCreateStringList)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 1);
-
-/****************************************************************************/
-
         Variant v = cont->getBean ("mojaLista");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <StringList *> (v));
@@ -94,10 +86,6 @@ BOOST_AUTO_TEST_CASE (testCreateVariantList)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure12 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 1);
 
 /****************************************************************************/
 
@@ -128,10 +116,6 @@ BOOST_AUTO_TEST_CASE (testCreateCountryList)
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 4);
-
-/****************************************************************************/
-
         Variant v = cont->getBean ("mojaLista");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <CountryVector *> (v));
@@ -158,10 +142,6 @@ BOOST_AUTO_TEST_CASE (testCreateCountryMap)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure14 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 4);
 
 /****************************************************************************/
 

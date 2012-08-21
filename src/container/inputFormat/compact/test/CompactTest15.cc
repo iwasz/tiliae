@@ -17,6 +17,10 @@
 #include "Conf.h"
 #include "metaStructure/model/MetaContainer.h"
 
+
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/erase.hpp>
 /****************************************************************************/
 
 using namespace Core;

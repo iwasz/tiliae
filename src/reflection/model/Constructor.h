@@ -34,8 +34,8 @@ public:
         /**
          *  Instantiates a class this constructor is member of.
          */
-        Core::Variant newInstance (Core::VariantVector *ol = NULL);
-        Core::Variant newInstance (Core::Variant const &c);
+        Core::Variant newInstance (Core::VariantVector *ol = NULL, bool createDeleter = false);
+        Core::Variant newInstance (Core::Variant const &c, bool createDeleter = false);
 
         /**
          *  Returns string representing this Constructor. For debugging purposes.

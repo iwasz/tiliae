@@ -306,6 +306,11 @@ Core::StringVector MetaObject::getDependsOn () const
         std::string deps = attributes.getString (Attributes::DEPENDS_ON_ARGUMENT);
         boost::erase_all (deps, " ");
         Core::StringVector ret;
+
+        if (deps.empty ()) {
+                return ret;
+        }
+
         boost::split (ret, deps, boost::is_any_of (","), boost::token_compress_on);
         return ret;
 }

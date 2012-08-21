@@ -213,7 +213,6 @@ Variant::~Variant ()
                 return;
         }
 
-        deleter->free (*this);
         delete deleter;
 }
 

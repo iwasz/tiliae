@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE (testAnnotationVector)
         BOOST_REQUIRE (newV);
 
         add->invoke (obj, Variant ("hfksfdkjsfd"));
-        BOOST_REQUIRE_EQUAL (newV->size (), 1);
+        BOOST_REQUIRE_EQUAL (newV->size (), 1U);
         BOOST_REQUIRE_EQUAL (newV->front(), "hfksfdkjsfd");
 
         Variant ret = get->invoke (obj, Variant (0U));
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE (testAnnotationList)
         BOOST_REQUIRE (newV);
 
         add->invoke (obj, Variant ("hfksfdkjsfd"));
-        BOOST_REQUIRE_EQUAL (newV->size (), 1);
+        BOOST_REQUIRE_EQUAL (newV->size (), 1U);
         BOOST_REQUIRE_EQUAL (newV->front(), "hfksfdkjsfd");
 
         // A tutaj podajemy indeks jako string - on sie sam skonwertuje do u-int.
@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_CASE (testAnnotationSet)
         BOOST_REQUIRE (newV);
 
         add->invoke (obj, Variant ("hfksfdkjsfd"));
-        BOOST_REQUIRE_EQUAL (newV->size (), 1);
+        BOOST_REQUIRE_EQUAL (newV->size (), 1U);
         BOOST_REQUIRE (newV->find("hfksfdkjsfd") != newV->end ());
 
         Variant ret = get->invoke (obj, Variant ("hfksfdkjsfd"));
@@ -178,7 +178,7 @@ BOOST_AUTO_TEST_CASE (testAnnotationMap)
         args.push_back (Variant ("makota"));
         set->invoke (obj, &args);
 
-        BOOST_REQUIRE_EQUAL (newV->size (), 1);
+        BOOST_REQUIRE_EQUAL (newV->size (), 1U);
         BOOST_REQUIRE_EQUAL (newV->operator [] ("ala"), std::string ("makota"));
 
         Variant ret = get->invoke (obj, Variant ("ala"));

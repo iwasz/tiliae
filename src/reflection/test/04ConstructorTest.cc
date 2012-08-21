@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (testConstructor)
 
 /*--------------------------------------------------------------------------*/
 
-        BOOST_REQUIRE_EQUAL (cls->getConstructorList ().size (), 3);
+        BOOST_REQUIRE_EQUAL (cls->getConstructorList ().size (), 3U);
 
         // 7 argumentowy.
         constr = cls->getConstructor (7);

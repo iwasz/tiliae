@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (testBaseClassTest)
         BOOST_REQUIRE (cls);
 
         ClassList list = cls->getBaseClassList();
-        BOOST_REQUIRE_EQUAL (list.size (), 1);
+        BOOST_REQUIRE_EQUAL (list.size (), 1U);
 
         Class *cls2 = list.front ();
         BOOST_REQUIRE_EQUAL (cls2->getName (), "Place");

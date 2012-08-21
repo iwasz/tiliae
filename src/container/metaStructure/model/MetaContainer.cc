@@ -92,14 +92,14 @@ Core::StringVector MetaContainer::getRuntimeDependencies (MetaObject const *meta
         }
 
         // Check editor
-        std::string editorName = mkCopy (meta->getEditor ());
+        std::string editorName = meta->getEditor ();
 
         if (get (editorName)) {
                 deps.push_back (editorName);
         }
 
         // Check factory
-        std::string factoryName = mkCopy (meta->getFactory ());
+        std::string factoryName = meta->getFactory ();
 
         if (get (factoryName)) {
                 deps.push_back (factoryName);

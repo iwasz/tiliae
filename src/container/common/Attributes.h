@@ -32,6 +32,7 @@ public:
                 INITMETHOD_ARGUMENT,  // s
                 FACTORY_ARGUMENT,     // s
                 EDITOR_ARGUMENT,      // s
+                DEPENDS_ON_ARGUMENT,  // s
                 LAST_STRING,
                 ABSTRACT_ARGUMENT,
                 LAZYINIT_ARGUMENT,

@@ -54,7 +54,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 {
         MetaVisitor iteration;
         BeanFactoryVisitorContext context;
-        Core::VariantMap *singletons = bfCont->getSingletons ();
+        SparseVariantMap *singletons = bfCont->getSingletons ();
         context.setMetaContainer (metaCont);
 
         try {
@@ -69,24 +69,25 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 MappedValueService valMapService;
                 valMapService.setContext (&context);
                 ValueServiceHelper helper;
-                helper.setSingletonMap (singletons);
+                helper.setDefaultValueFactory (ocast <Factory::IFactory *> (singletons->operator[] (DEFAULT_VALUE_FACTORY_NAME)));
                 valMapService.setValueServiceHelper (&helper);
                 iteration.addService (&valMapService);
 
                 IndexedValueService valIndexService;
                 valIndexService.setContext (&context);
-                helper.setSingletonMap (singletons);
                 valIndexService.setValueServiceHelper (&helper);
                 iteration.addService (&valIndexService);
 
                 EditorService editorService;
                 editorService.setContext (&context);
-                editorService.init (singletons);
+                editorService.setDefaultBeanWrapper (ocast <Wrapper::BeanWrapper *> ((*singletons)[BEAN_WRAPPER_W_CONVERSION]));
+                editorService.setNoopNoCopyEditor (ocast <Editor::IEditor *> (singletons->operator[] (NOOP_NO_COPY_EDITOR_NAME)));
+                editorService.setCArgsBeanWrapper (ocast <Wrapper::BeanWrapper *> (singletons->operator[] (BEAN_WRAPPER_SIMPLE)));
                 iteration.addService (&editorService);
 
                 FactoryService factoryService;
                 factoryService.setContext (&context);
-                factoryService.init (singletons);
+                factoryService.setDefaultSingletonFactory (ocast <Factory::IFactory *> ((*singletons)[DEFAULT_SINGLETON_FACTORY_NAME]));
                 iteration.addService (&factoryService);
 
                 SingletonInstantiateService sIService;
@@ -151,9 +152,9 @@ Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (Ptr <MetaContainer> 
 
 /****************************************************************************/
 
-Core::VariantMap *ContainerFactory::createSingletons ()
+SparseVariantMap *ContainerFactory::createSingletons ()
 {
-        Core::VariantMap *map = new Core::VariantMap ();
+        SparseVariantMap *map = new SparseVariantMap ();
         Editor::IEditor *noop = new Editor::NoopEditor ();
 
 

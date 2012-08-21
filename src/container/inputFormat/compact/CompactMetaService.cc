@@ -280,6 +280,10 @@ void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta, MetaObject *o
                 else if (name == "add-to") {
                         addTo = value;
                 }
+                else if (name ==  "depends-on") {
+                        meta->setDependsOn (factory.newString (value));
+                }
+
                 // Property
                 else {
                         DataKey *dk = factory.newDataKey ();

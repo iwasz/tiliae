@@ -9,10 +9,6 @@
 #include "BeanFactory.h"
 
 #include <boost/lexical_cast.hpp>
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-#include <boost/multi_index/mem_fun.hpp>
-#include <boost/multi_index/sequenced_index.hpp>
 #include "metaStructure/model/MetaObject.h"
 #include "../../core/variant/Cast.h"
 #include "IBeanWrapper.h"
@@ -44,11 +40,7 @@ BeanFactory::BeanFactory () :
 
 BeanFactory::~BeanFactory ()
 {
-        if (innerBeanFactories) {
-                BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
-                delete map;
-        }
-
+        delete innerBeanFactories;
         delete cArgs;
         delete cArgsEditor;
 
@@ -239,13 +231,11 @@ void BeanFactory::notifyAfterPropertiesSet () const
 {
         if (innerBeanFactories) {
 
-                BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
-
-                for (BeanFactoryMap::nth_index <1>::type::iterator i = map->get<1> ().begin ();
-                     i  != map->get<1> (). end ();
+                for (BeanFactoryMap::const_iterator i = innerBeanFactories->begin ();
+                     i  != innerBeanFactories->end ();
                      ++i) {
 
-                        (*i)->onAfterPropertiesSet (this);
+                        i->second->onAfterPropertiesSet (this);
                 }
         }
 }
@@ -256,13 +246,11 @@ void BeanFactory::notifyBeforePropertiesSet () const
 {
         if (innerBeanFactories) {
 
-                BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
-
-                for (BeanFactoryMap::nth_index <1>::type::iterator i = map->get<1> ().begin ();
-                     i  != map->get<1> (). end ();
+                for (BeanFactoryMap::const_iterator i = innerBeanFactories->begin ();
+                     i  != innerBeanFactories->end ();
                      ++i) {
 
-                        (*i)->onBeforePropertiesSet (this);
+                        i->second->onBeforePropertiesSet (this);
                 }
         }
 }
@@ -279,11 +267,9 @@ std::string BeanFactory::toString () const
                 comma = true;
         }
 
-        BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
-
-        if (map && !map->empty ()) {
+        if (innerBeanFactories && !innerBeanFactories->empty ()) {
                 if (comma) { ret += ", "; }
-                ret += "inner=" + ToStringHelper::toString (*map);
+                ret += "inner=" + ToStringHelper::toString (*innerBeanFactories);
         }
 
         ret += ")";
@@ -298,8 +284,7 @@ void BeanFactory::addInnerBeanFactory (BeanFactory *bf)
                 innerBeanFactories = new BeanFactoryMap ();
         }
 
-        BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
-        map->insert (bf);
+        innerBeanFactories->operator[] (bf->getId ()) = bf;
         bf->setOuterBeanFactory (this);
 }
 
@@ -309,12 +294,10 @@ BeanFactory *BeanFactory::getInnerBeanFactory (const std::string &myId) const
 {
         if (innerBeanFactories) {
 
-                BeanFactoryMap *map = static_cast <BeanFactoryMap *> (innerBeanFactories);
+                BeanFactoryMap::const_iterator i = innerBeanFactories->find (myId);
 
-                BeanFactoryMap::nth_index <0>::type::iterator i = map->get<0> ().find (myId);
-
-                if (i != map->get<0> ().end ()) {
-                        return *i;
+                if (i != innerBeanFactories->end ()) {
+                        return i->second;
                 }
         }
 
@@ -341,16 +324,15 @@ Core::Variant BeanFactory::getInput () const
 
 /*##########################################################################*/
 
-
 std::string ToStringHelper::toString (const BeanFactoryMap &bfm)
 {
         std::string ret = "BeanFactoryMap (";
 
-        for (BeanFactoryMap::nth_index <1>::type::iterator i = bfm.get<1> ().begin ();
-             i  != bfm.get<1> (). end ();
+        for (BeanFactoryMap::const_iterator i = bfm.begin ();
+             i  != bfm.end ();
              ++i) {
 
-                ret += (*i)->toString () + ", ";
+                ret += i->second->toString () + ", ";
         }
 
         if (!bfm.empty ()) {
@@ -358,159 +340,6 @@ std::string ToStringHelper::toString (const BeanFactoryMap &bfm)
         }
 
         return ret + ")";
-}
-
-/*##########################################################################*/
-
-BeanFactoryContainer::BeanFactoryContainer (Core::VariantMap *s/*, Core::IAllocator *a*/) : singletons (s), linked (NULL)//, allocator (a)
-{
-        assert (s);
-        conversionMethodEditor = vcast <Editor::StringFactoryMethodEditor *> (s->operator [](MAIN_METHOD_CONVERSION_EDITOR));
-        typeEditor = vcast <Editor::TypeEditor *> (s->operator [](MAIN_TYPE_EDITOR));
-        assert (conversionMethodEditor);
-        assert (typeEditor);
-}
-
-/****************************************************************************/
-
-BeanFactoryContainer::~BeanFactoryContainer ()
-{
-        for (BeanFactoryMap::nth_index <1>::type::iterator i = factoryMap.get<1> ().begin ();
-             i  != factoryMap.get<1> (). end ();
-             ++i) {
-
-                delete *i;
-        }
-}
-
-/****************************************************************************/
-
-std::string BeanFactoryContainer::toString () const
-{
-        std::string ret = "BeanFactoryContainer (" + ToStringHelper::toString (factoryMap);
-
-//        if (singletons) {
-//                ret += ", ";
-//                ret += singletons->toString ();
-//        }
-
-        ret += ")";
-        return ret;
-}
-
-/****************************************************************************/
-
-void BeanFactoryContainer::reset ()
-{
-        factoryMap.clear ();
-}
-
-/****************************************************************************/
-
-Core::Variant BeanFactoryContainer::getBean (const std::string &name) const
-{
-        BeanFactoryContext context;
-
-        Core::VariantMap::const_iterator i = this->singletons->find (name);
-
-        if (i != this->singletons->end ()) {
-                return i->second;
-        }
-
-        BeanFactoryMap::nth_index <0>::type::iterator j = factoryMap.get<0> ().find (name);
-        Core::Variant ret;
-
-        if (j != factoryMap.end ()) {
-                BeanFactory *fact = *j;
-                assert (fact);
-                ret = fact->create (Core::VariantMap (), &context);
-        }
-        else {
-                if (linked) {
-                        return linked->getBean (name);
-                }
-        }
-
-        if (ret.isNone ()) {
-                throw ContainerException (context, "BeanFactoryContainer::getBean : can't find definition of bean [" + name + "].");
-        }
-
-        return ret;
-}
-
-/****************************************************************************/
-
-Core::Variant BeanFactoryContainer::getSingleton (const std::string &name) const
-{
-        if (!singletons) {
-                return Core::Variant ();
-        }
-
-        Core::VariantMap::const_iterator i;
-        if ((i = singletons->find (name)) != singletons->end ()) {
-                return i->second;
-        }
-
-        if (linked) {
-                return linked->getSingleton (name);
-        }
-
-        throw ContainerException ("BeanFactoryContainer::getSingleton : can't find definition of bean [" + name + "].");
-}
-
-/****************************************************************************/
-
-bool BeanFactoryContainer::containsBean (const std::string &name) const
-{
-        bool ret = (singletons->find (name) != singletons->end ()) || (factoryMap.find (name) != factoryMap.end ());
-
-        if (!ret && linked) {
-                return linked->containsBean (name);
-        }
-
-        return ret;
-}
-
-/****************************************************************************/
-
-void BeanFactoryContainer::addSingleton (const std::string &key, const Core::Variant &singleton)
-{
-        singletons->operator[] (key) = singleton;
-}
-
-/****************************************************************************/
-
-BeanFactory *BeanFactoryContainer::getBeanFactory (const std::string &id, BeanFactory *innerBean) const
-{
-        BeanFactory *ret = NULL;
-
-        if (innerBean) {
-                ret = innerBean->getInnerBeanFactory (id);
-        }
-
-        if (!ret) {
-                BeanFactoryMap::nth_index <0>::type::iterator j = factoryMap.get<0> ().find (id);
-                ret = (j == factoryMap.get<0> ().end ()) ? (NULL) : (*j);
-        }
-
-        if (!ret && getLinked ()) {
-                ret = getLinked ()->getBeanFactory (id);
-
-//                TODO sprawdzić na trzeźwo, czy ok, że to zakomentowałem.
-//                if (!ret) {
-//                        throw ContainerException ("Container does not have any BeanFactory with name [" + id + "].");
-//                }
-        }
-
-        return ret;
-}
-
-/****************************************************************************/
-
-void BeanFactoryContainer::addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function)
-{
-        assert (conversionMethodEditor);
-        conversionMethodEditor->addConversion (type, function);
 }
 
 }

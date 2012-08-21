@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+        <bean class="Foo" id="e" depends-on="a, b, c, d" />
+        <bean class="Foo" id="a" />
+        <bean class="Foo" id="d" depends-on=" a , b, c " />
+        <bean class="Foo" id="c" depends-on="a,b" />
+        <bean class="Foo" id="b" depends-on="a" />
+
+</beans>

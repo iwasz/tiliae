@@ -71,7 +71,7 @@ private:
 
         typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS> Graph;
 
-        Core::StringList getRuntimeDependencies (MetaObject const *meta) const;
+        Core::StringVector getRuntimeDependencies (MetaObject const *meta) const;
         void fillGraph  (MetaObject const *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index) const;
         void prepareBidirectionalIndex (BidirectionalMetaIndex *index, Graph *graph) const;
         const char *getDependencyName (IData *data) const;

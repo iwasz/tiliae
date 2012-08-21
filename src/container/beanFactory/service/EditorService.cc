@@ -23,23 +23,6 @@ namespace Container {
 using namespace Core;
 
 /**
- * Keszuja sobie w zmiennych pomocniczych singletony, które są na mapie podaje jako argumet
- * wejściowy. Dzięki temu nie musi ich za kazdym razem szukać. Te singletony służą do
- * konstruowania edytora, który potem ustawia pola nowoutworzonego beana.
- */
-void EditorService::init (Core::VariantMap *singletons)
-{
-        Variant v = (*singletons)[BEAN_WRAPPER_W_CONVERSION];
-        defaultBeanWrapper = ocast <Wrapper::BeanWrapper *> (v);
-
-        v = singletons->operator[] (NOOP_NO_COPY_EDITOR_NAME);
-        noopNoCopyEditor = ocast <Editor::IEditor *> (v);
-
-        v = singletons->operator[] (BEAN_WRAPPER_SIMPLE);
-        cArgsBeanWrapper = ocast <Wrapper::BeanWrapper *> (v);
-}
-
-/**
  * Początek procesowania MappedMeta (odpowiada tagom <map> oraz <bean>). Tu wpadają
  * obiekty MappedMeta będące w obrębie jednego kontenera (te ze zlinkowanych nie
  * wpadają). Tworzony jest Editor::SimpleMapEditor lub jeśli user sobie zażyczył,
@@ -242,8 +225,8 @@ void EditorService::onRefData (std::string const &key, RefData const *data)
                 }
                 // Szukaj singletonu zewnętrznego w mapie siongletons
                 else {
-                        Core::VariantMap *singletons = container->getSingletons ();
-                        Core::VariantMap::const_iterator i = singletons->find (referenceName);
+                        SparseVariantMap *singletons = container->getSingletons ();
+                        SparseVariantMap::const_iterator i = singletons->find (referenceName);
 
                         if (i != singletons->end ()) {
                                 element.singleton = i->second;

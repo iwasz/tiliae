@@ -114,18 +114,51 @@ struct Source {
 };
 
 /**
- * Ten test nie działa, bo singletony instancjonują się w następnym kroku po sparsowaniu XML.
- * Żey zadziałał, trzebaby instancjonować kazdy singleton podczas parsowania, najszybciej jak
- * to tylko możliwe (czyli kiedy wszystkie zależności danego singletonu zostały już sparsowane).
+ *
  */
 BOOST_AUTO_TEST_CASE (test074ExternalSourceOfSingletons)
 {
-//        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "074-external-source.xml");
-//
-//        Core::StringMap *map = vcast <Core::StringMap *> (cont->getBean ("map"));
-//
-//        BOOST_REQUIRE_EQUAL (map->operator [] ("ex1"), "Benek pies");
-//        BOOST_REQUIRE_EQUAL (map->operator [] ("ex2"), "Borys pies");
+        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "074-external-source.xml");
+
+        Core::StringMap *map = vcast <Core::StringMap *> (cont->getBean ("map"));
+
+        BOOST_REQUIRE_EQUAL (map->operator [] ("ex1"), "Benek pies");
+        BOOST_REQUIRE_EQUAL (map->operator [] ("ex2"), "Borys pies");
+}
+
+BOOST_AUTO_TEST_CASE (test075DependsOn)
+{
+        Ptr <MetaContainer> mc = MXmlMetaService::parseFile (PATH + "075-depends-on.xml");
+        MetaDeque sorted = mc->topologicalSort ();
+
+        MetaDeque::const_iterator i = sorted.begin ();
+        MetaObject const *cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "a");
+        BOOST_CHECK_EQUAL (cur->getDependsOn ().size (), 0U);
+        cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "b");
+        BOOST_REQUIRE_EQUAL (cur->getDependsOn ().size (), 1U);
+        cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "c");
+        BOOST_REQUIRE_EQUAL (cur->getDependsOn ().size (), 2U);
+        cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "d");
+        BOOST_REQUIRE_EQUAL (cur->getDependsOn ().size (), 3U);
+        cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "e");
+        BOOST_REQUIRE_EQUAL (cur->getDependsOn ().size (), 4U);
+
+        Core::StringVector v = cur->getDependsOn ();
+        Core::StringVector::const_iterator j = v.begin ();
+        BOOST_CHECK_EQUAL (*j++, "a");
+        BOOST_CHECK_EQUAL (*j++, "b");
+        BOOST_CHECK_EQUAL (*j++, "c");
+        BOOST_CHECK_EQUAL (*j, "d");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

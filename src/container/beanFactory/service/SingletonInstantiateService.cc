@@ -39,7 +39,7 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
 
                 BeanFactoryMap::iterator j = bfMap->find (meta->getId ());
                 assert (j != bfMap->end ());
-                BeanFactory *bf = *j;
+                BeanFactory *bf = j->second;
                 beanFactory->addInnerBeanFactory (bf);
         }
 
@@ -61,10 +61,10 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
                 bfContainer->addSingleton (id, v);
 
                 // Kasowanie
-//                delete beanFactory;
+                delete beanFactory;
         }
         else {
-                bfMap->insert (beanFactory);
+                bfMap->operator[] (beanFactory->getId ()) = beanFactory;
         }
 
         return true;

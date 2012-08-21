@@ -66,9 +66,9 @@ MetaObject const *MetaContainer::get (const std::string &key) const
 
 /****************************************************************************/
 
-Core::StringList MetaContainer::getRuntimeDependencies (MetaObject const *meta) const
+Core::StringVector MetaContainer::getRuntimeDependencies (MetaObject const *meta) const
 {
-        Core::StringList deps;
+        Core::StringVector deps = meta->getDependsOn ();
 
         DataKeyVector fields = meta->getFields ();
 
@@ -187,9 +187,9 @@ MetaDeque MetaContainer::topologicalSort ()
 
 void MetaContainer::fillGraph  (MetaObject const *meta, size_t metaNumber, MetaDeque *sorted, Graph *graph, BidirectionalMetaIndex const *index) const
 {
-        Core::StringList deps = getRuntimeDependencies (meta);
+        Core::StringVector deps = getRuntimeDependencies (meta);
 
-        for (Core::StringList::const_iterator i = deps.begin (); i != deps.end (); ++i) {
+        for (Core::StringVector::const_iterator i = deps.begin (); i != deps.end (); ++i) {
                 MetaObject const *dependency = get (*i);
 
                 if (!dependency) {

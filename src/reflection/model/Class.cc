@@ -26,6 +26,8 @@ Class::~Class ()
         for (ConstructorList::iterator i = constructorList.begin (); i != constructorList.end (); ++i) {
                 delete *i;
         }
+
+        delete deleter;
 }
 
 /****************************************************************************/

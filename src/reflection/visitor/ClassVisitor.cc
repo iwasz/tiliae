@@ -51,7 +51,7 @@ Core::Variant ClassVisitor::visit (ClassAnnotation *a, Class *cls)
         Class *clazz = findClass (a->getClassName ());
 
         if (!clazz) {
-                clazz = createClass (a->getClassName (), a->getType ());
+                clazz = createClass (a->getClassName (), a->getType (), a->getDeleter ());
         }
         else {
                 if (a->getType () != clazz->getType ()) {
@@ -88,9 +88,9 @@ Class *ClassVisitor::findClass (const std::string &className) const
 
 /****************************************************************************/
 
-Class *ClassVisitor::createClass (const std::string &className, std::type_info const &classType)
+Class *ClassVisitor::createClass (const std::string &className, std::type_info const &classType, IDeleter *deleter)
 {
-        Class *clazz = new Class (className, classType);
+        Class *clazz = new Class (className, classType, deleter);
         Manager::add (clazz);
         cache = clazz;
         return clazz;

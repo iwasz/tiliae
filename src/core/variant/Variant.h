@@ -21,12 +21,6 @@ namespace Core {
 class String;
 class Variant;
 
-struct IDeleter {
-
-        virtual ~IDeleter () {}
-        virtual void free (Variant &v) = 0;
-};
-
 /**
  * \page Variant Variant : implementacja bezpiecznej unii.
  * \section VariantMotyw Motywacja
@@ -436,8 +430,6 @@ public:
         template<typename S>
         explicit Variant (boost::shared_ptr<S const> const &);
 
-        ~Variant ();
-
 /*--------------------------------------------------------------------------*/
 
         /**
@@ -505,8 +497,6 @@ public:
          */
         void setNull ();
 
-        void setDeleter (IDeleter *d) { deleter = d; }
-
 private:
 
         friend Core::Variant convertVariantToSmart (Core::Variant const &input);
@@ -515,7 +505,6 @@ private:
         Type type;
         std::type_info const *ti;
         boost::shared_ptr<void> sptr;
-        IDeleter *deleter;
 
         union {
                 bool b;
@@ -570,8 +559,7 @@ template<typename S>
 Variant::Variant (S const &p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)),
         ti (&typeid (p)),
-        sptr (boost::make_shared <S> (p)),
-        deleter (NULL)
+        sptr (boost::make_shared <S> (p))
 {
 }
 
@@ -602,7 +590,6 @@ template<typename S>
 Variant::Variant (S *p) :
         type ((Type)VHelp <S *>::Impl::TYPE),
         ti ((p) ? (&typeid (*p)) : (&typeid (S))),
-        deleter (NULL),
         ptr (VHelp <S *>::Impl::get (p))
 {
 }
@@ -634,7 +621,6 @@ template<typename S>
 Variant::Variant (S const *p) :
         type ((Type)VHelp <S const *>::Impl::TYPE),
         ti ((p) ? (&typeid (*p)) : (&typeid (S))),
-        deleter (NULL),
         cptr (VHelp <S const *>::Impl::get (p))
 {
 }
@@ -666,8 +652,7 @@ template<typename S>
 Variant::Variant (boost::shared_ptr<S> const &p) :
         type ((Type)VHelp <boost::shared_ptr<S> >::Impl::TYPE),
         ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
-        sptr (VHelp <boost::shared_ptr<S> >::Impl::get (p)),
-        deleter (NULL)
+        sptr (VHelp <boost::shared_ptr<S> >::Impl::get (p))
 {
 }
 
@@ -698,8 +683,7 @@ template<typename S>
 Variant::Variant (boost::shared_ptr<S const> const &p) :
         type ((Type)VHelp <boost::shared_ptr<S const> >::Impl::TYPE),
         ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
-        sptr (VHelp <boost::shared_ptr<S const> >::Impl::get (p)),
-        deleter (NULL)
+        sptr (VHelp <boost::shared_ptr<S const> >::Impl::get (p))
 {
 }
 

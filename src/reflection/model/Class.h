@@ -13,12 +13,13 @@
 
 #include "Constructor.h"
 #include "Method.h"
-#include "../../core/IToStringEnabled.h"
-#include "../../core/string/String.h"
-#include "../../core/Pointer.h"
-#include "../../core/Typedefs.h"
-#include "../../core/ApiMacro.h"
+#include "IToStringEnabled.h"
+#include "string/String.h"
+#include "Pointer.h"
+#include "Typedefs.h"
+#include "ApiMacro.h"
 #include "../model/Field.h"
+#include "../wrapper/Deleter.h"
 
 /****************************************************************************/
 
@@ -35,10 +36,11 @@ typedef std::list <Class *> ClassList;
 class TILIAE_API Class : public Core::IToStringEnabled {
 public:
 
-        Class (const std::string &n, std::type_info const &t) :
+        Class (const std::string &n, std::type_info const &t, IDeleter *d) :
                 name (n),
                 type (t),
-                initialized (false) {}
+                initialized (false),
+                deleter (d) {}
 
         virtual ~Class ();
 
@@ -62,6 +64,8 @@ public:
 
         void addField (Field *field) { fields[field->getName ()] = field; }
         Field *getField (std::string const &name) const;
+
+        void destruct (Core::Variant *v) { deleter->free (*v); }
 
         /// Zwraca pierwszy element types, czyli typ "podstawowy" - nie wskaźnik.
         std::type_info const &getType () const { return type; }
@@ -105,6 +109,7 @@ private:
         FieldMap fields;
         std::type_info const &type;
         bool initialized;
+        IDeleter *deleter;
 
 };
 

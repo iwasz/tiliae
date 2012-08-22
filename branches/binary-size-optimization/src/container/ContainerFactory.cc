@@ -40,7 +40,6 @@
 #include "../editor/StreamEditor.h"
 #include "../editor/StringFactoryMethodEditor.h"
 #include "beanFactory/service/EditorService.h"
-#include "variant/PtrDeleter.h"
 #include "beanFactory/service/SingletonInstantiateService.h"
 
 using Editor::StringFactoryMethodEditor;

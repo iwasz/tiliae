@@ -10,6 +10,8 @@
 #include "variant/Cast.h"
 #include "BeanFactoryContext.h"
 #include "Defs.h"
+#include "../../reflection/Manager.h"
+#include "../../reflection/model/Class.h"
 
 namespace Container {
 
@@ -31,6 +33,17 @@ BeanFactoryContainer::~BeanFactoryContainer ()
              ++i) {
 
                 delete i->second;
+        }
+
+        for (SparseVariantMap::iterator i = singletons->begin (); i != singletons->end (); ++i) {
+                Core::Variant &v = i->second;
+
+                Reflection::Class *cls = Reflection::Manager::classForType (v.getTypeInfo ());
+
+                if (cls) {
+                        std::cerr << "Deleting : " << v.toString () << std::endl;
+                        cls->destruct (&v);
+                }
         }
 }
 

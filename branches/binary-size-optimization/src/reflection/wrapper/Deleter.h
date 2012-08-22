@@ -9,21 +9,28 @@
 #ifndef PTRDELETER_H_
 #define PTRDELETER_H_
 
-#include "Cast.h"
+#include "variant/Variant.h"
+#include "variant/Cast.h"
 
-namespace Core {
+namespace Reflection {
+
+struct IDeleter {
+
+        virtual ~IDeleter () {}
+        virtual void free (Core::Variant &v) = 0;
+};
 
 template <typename T>
 class PtrDeleter : public IDeleter {
         virtual ~PtrDeleter () {}
-        virtual void free (Variant &v);
+        virtual void free (Core::Variant &v);
 };
 
 template <typename T>
-void PtrDeleter<T>::free (Variant &v)
+void PtrDeleter<T>::free (Core::Variant &v)
 {
         delete vcast <T *> (v);
 }
 
-} /* namespace Core */
+} /* namespace Reflection */
 #endif /* PTRDELETER_H_ */

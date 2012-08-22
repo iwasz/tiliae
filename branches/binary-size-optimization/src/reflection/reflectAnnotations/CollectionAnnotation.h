@@ -89,7 +89,7 @@ template <typename T>
 void CollectionAnnotation <std::vector <T> >::run (std::string const &className)
 {
         // Sama klasa
-        Class *clazz = new Class (className, typeid (std::vector <T>&));
+        Class *clazz = new Class (className, typeid (std::vector <T>&), new PtrDeleter <std::vector <T> >);
         Manager::add (clazz);
 
         // Konstruktor
@@ -126,7 +126,7 @@ template <typename T>
 void CollectionAnnotation <std::list <T> >::run (std::string const &className)
 {
         // Sama klasa
-        Class *clazz = new Class (className, typeid (std::list <T> &));
+        Class *clazz = new Class (className, typeid (std::list <T> &), new PtrDeleter <std::list <T> >);
         Manager::add (clazz);
 
         // Konstruktor
@@ -163,7 +163,7 @@ template <typename T>
 void CollectionAnnotation <std::set <T> >::run (std::string const &className)
 {
         // Sama klasa
-        Class *clazz = new Class (className, typeid (std::set <T>&));
+        Class *clazz = new Class (className, typeid (std::set <T>&), new PtrDeleter <std::set <T> >);
         Manager::add (clazz);
 
         // Konstruktor
@@ -196,7 +196,7 @@ template <typename K, typename V>
 void CollectionAnnotation <std::map <K, V> >::run (std::string const &className)
 {
         // Sama klasa
-        Class *clazz = new Class (className, typeid (std::map <K,V>&));
+        Class *clazz = new Class (className, typeid (std::map <K,V>&), new PtrDeleter <std::map <K,V> >);
         Manager::add (clazz);
 
         // Konstruktor

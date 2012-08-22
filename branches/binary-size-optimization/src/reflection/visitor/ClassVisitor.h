@@ -15,6 +15,7 @@
 #include "../../core/Pointer.h"
 #include "../../core/ApiMacro.h"
 #include "../../core/Typedefs.h"
+#include "../wrapper/Deleter.h"
 
 namespace Reflection {
 
@@ -39,7 +40,7 @@ public:
 private:
 
         Class *findClass (const std::string &className) const;
-        Class *createClass (const std::string &className, std::type_info const &classType);
+        Class *createClass (const std::string &className, std::type_info const &classType, IDeleter *deleter);
 
 private:
 

@@ -124,10 +124,6 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                         factoryParams[Factory::ReflectionFactory::CONSTRUCTOR_ARGS] = cArgsEdited;
                 }
 
-                if (getSingleton ()) {
-                        factoryParams[Factory::ReflectionFactory::CREATE_DELETER] = Core::Variant (true);
-                }
-
                 dcRollback (context);
                 dcBegin (context);
 

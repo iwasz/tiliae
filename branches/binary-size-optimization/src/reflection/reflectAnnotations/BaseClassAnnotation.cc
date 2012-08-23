@@ -21,7 +21,7 @@ std::string BaseClassAnnotation::getHash () const
 {
         std::string s = className;
 
-        for (Core::StringList::const_iterator i = baseClassList.begin (); i != baseClassList.end (); ++i) {
+        for (Core::StringVector::const_iterator i = baseClassList.begin (); i != baseClassList.end (); ++i) {
                 s += *i;
         }
 

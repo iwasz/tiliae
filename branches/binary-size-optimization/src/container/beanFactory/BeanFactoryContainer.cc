@@ -12,16 +12,12 @@
 #include "Defs.h"
 #include "../../reflection/Manager.h"
 #include "../../reflection/model/Class.h"
+#include "InternalSingletons.h"
 
 namespace Container {
 
-BeanFactoryContainer::BeanFactoryContainer (SparseVariantMap *s) : singletons (s), linked (NULL)
+BeanFactoryContainer::BeanFactoryContainer (SparseVariantMap *s, InternalSingletons *i) : singletons (s), internalSingletons (i), linked (NULL)
 {
-        assert (s);
-        conversionMethodEditor = vcast <Editor::StringFactoryMethodEditor *> (s->operator [](MAIN_METHOD_CONVERSION_EDITOR));
-        typeEditor = vcast <Editor::TypeEditor *> (s->operator [](MAIN_TYPE_EDITOR));
-        assert (conversionMethodEditor);
-        assert (typeEditor);
 }
 
 /****************************************************************************/
@@ -38,13 +34,22 @@ BeanFactoryContainer::~BeanFactoryContainer ()
         for (SparseVariantMap::iterator i = singletons->begin (); i != singletons->end (); ++i) {
                 Core::Variant &v = i->second;
 
+                if (v.getType () != Core::Variant::POINTER &&
+                    v.getType () != Core::Variant::POINTER_CONST &&
+                    v.getType () != Core::Variant::OBJECT &&
+                    v.getType () != Core::Variant::OBJECT_CONST) {
+                        continue;
+                }
+
                 Reflection::Class *cls = Reflection::Manager::classForType (v.getTypeInfo ());
 
                 if (cls) {
-                        std::cerr << "Deleting : " << v.toString () << std::endl;
                         cls->destruct (&v);
                 }
         }
+
+        delete singletons;
+        delete internalSingletons;
 }
 
 /****************************************************************************/
@@ -106,13 +111,17 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name) const
 
 Core::Variant BeanFactoryContainer::getSingleton (const std::string &name) const
 {
-        if (!singletons) {
-                return Core::Variant ();
+        if (singletons) {
+                SparseVariantMap::const_iterator i;
+                if ((i = singletons->find (name)) != singletons->end ()) {
+                        return i->second;
+                }
         }
 
-        SparseVariantMap::const_iterator i;
-        if ((i = singletons->find (name)) != singletons->end ()) {
-                return i->second;
+        Core::Variant v = internalSingletons->get (name);
+
+        if (!v.isNone ()) {
+                return v;
         }
 
         if (linked) {
@@ -168,7 +177,8 @@ BeanFactory *BeanFactoryContainer::getBeanFactory (const std::string &id, BeanFa
 
 void BeanFactoryContainer::addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function)
 {
-        assert (conversionMethodEditor);
+        assert (internalSingletons->mainMethodConversionEditor);
+        Editor::StringFactoryMethodEditor *conversionMethodEditor = dynamic_cast <Editor::StringFactoryMethodEditor *> (internalSingletons->mainMethodConversionEditor);
         conversionMethodEditor->addConversion (type, function);
 }
 

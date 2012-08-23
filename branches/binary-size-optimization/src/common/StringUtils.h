@@ -22,7 +22,7 @@ namespace Common {
  */
 struct TILIAE_API StringUtils {
 
-        static Core::StringList split (const std::string &input, const std::string &separator);
+        static Core::StringVector split (const std::string &input, const std::string &separator);
 
         template <typename T>
         static std::string join (const T &s, const std::string &separator);

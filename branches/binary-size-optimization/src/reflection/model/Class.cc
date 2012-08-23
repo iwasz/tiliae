@@ -72,7 +72,7 @@ ClassList Class::getBaseClassList() const
 
 /****************************************************************************/
 
-void Class::addBaseClassNames (const Core::StringList &names)
+void Class::addBaseClassNames (const Core::StringVector &names)
 {
         std::copy (names.begin (), names.end (), std::back_inserter (baseClassNames));
 }

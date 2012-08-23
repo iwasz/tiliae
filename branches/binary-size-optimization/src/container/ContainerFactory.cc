@@ -15,7 +15,6 @@
 #include "metaStructure/service/PrintService.h"
 #include "metaStructure/service/MetaVisitor.h"
 #include "beanFactory/service/ValueServiceHelper.h"
-#include "Defs.h"
 #include "ContainerFactory.h"
 #include "beanFactory/service/BeanFactoryService.h"
 #include "beanFactory/service/BeanFactoryInitService.h"
@@ -41,6 +40,7 @@
 #include "../editor/StringFactoryMethodEditor.h"
 #include "beanFactory/service/EditorService.h"
 #include "beanFactory/service/SingletonInstantiateService.h"
+#include "beanFactory/InternalSingletons.h"
 
 using Editor::StringFactoryMethodEditor;
 
@@ -53,7 +53,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 {
         MetaVisitor iteration;
         BeanFactoryVisitorContext context;
-        SparseVariantMap *singletons = bfCont->getSingletons ();
+        InternalSingletons *internals = bfCont->getInternalSingletons ();
         context.setMetaContainer (metaCont);
 
         try {
@@ -62,13 +62,13 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 
                 BeanFactoryInitService bfService;
                 bfService.setContext (&context);
-                bfService.setDefaultBeanWrapper (vcast <BeanWrapper *> (singletons->operator[] (BEAN_WRAPPER_W_CONVERSION)));
+                bfService.setDefaultBeanWrapper (internals->beanWrapperConversion);
                 iteration.addService (&bfService);
 
                 MappedValueService valMapService;
                 valMapService.setContext (&context);
                 ValueServiceHelper helper;
-                helper.setDefaultValueFactory (ocast <Factory::IFactory *> (singletons->operator[] (DEFAULT_VALUE_FACTORY_NAME)));
+                helper.setDefaultValueFactory (internals->defaultValueFactory);
                 valMapService.setValueServiceHelper (&helper);
                 iteration.addService (&valMapService);
 
@@ -79,14 +79,14 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 
                 EditorService editorService;
                 editorService.setContext (&context);
-                editorService.setDefaultBeanWrapper (ocast <Wrapper::BeanWrapper *> ((*singletons)[BEAN_WRAPPER_W_CONVERSION]));
-                editorService.setNoopNoCopyEditor (ocast <Editor::IEditor *> (singletons->operator[] (NOOP_NO_COPY_EDITOR_NAME)));
-                editorService.setCArgsBeanWrapper (ocast <Wrapper::BeanWrapper *> (singletons->operator[] (BEAN_WRAPPER_SIMPLE)));
+                editorService.setDefaultBeanWrapper (internals->beanWrapperConversion);
+                editorService.setNoopNoCopyEditor (internals->noopNoCopy);
+                editorService.setCArgsBeanWrapper (internals->beanWrapperSimple);
                 iteration.addService (&editorService);
 
                 FactoryService factoryService;
                 factoryService.setContext (&context);
-                factoryService.setDefaultSingletonFactory (ocast <Factory::IFactory *> ((*singletons)[DEFAULT_SINGLETON_FACTORY_NAME]));
+                factoryService.setDefaultSingletonFactory (internals->defaultSingletonFactory);
                 iteration.addService (&factoryService);
 
                 SingletonInstantiateService sIService;
@@ -123,7 +123,7 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCon
                                                      bool storeMetaContainer,
                                                      BeanFactoryContainer *linkedParent)
 {
-        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> (createSingletons ());
+        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> (new SparseVariantMap (), createSingletons ());
 
         if (linkedParent) {
                 container->setLinked (linkedParent);
@@ -151,18 +151,12 @@ Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (Ptr <MetaContainer> 
 
 /****************************************************************************/
 
-SparseVariantMap *ContainerFactory::createSingletons ()
+InternalSingletons *ContainerFactory::createSingletons ()
 {
-        SparseVariantMap *map = new SparseVariantMap ();
-        Editor::IEditor *noop = new Editor::NoopEditor ();
+        InternalSingletons *internals = new InternalSingletons;
 
-
-        map->operator[] (DEFAULT_MAPPED_EDITOR_NAME) = Core::Variant (noop);
-//        map->operator[] (DEFAULT_MAPPED_EDITOR_NAME).setDeleter (new Core::PtrDeleter <Editor::NoopEditor>);
-
-        map->operator[] (DEFAULT_INDEXED_EDITOR_NAME) = Core::Variant (noop);
-        map->operator[] (NOOP_EDITOR_NAME) = Core::Variant (noop);
-        map->operator[] (NOOP_NO_COPY_EDITOR_NAME) = Core::Variant (new Editor::NoopEditor (false));
+        internals->noop = new Editor::NoopEditor ();
+        internals->noopNoCopy = new Editor::NoopEditor (false);
 
         // Dodaj reflection factory.
         Factory::ScalarFactory *factS = new Factory::ScalarFactory ();
@@ -171,9 +165,9 @@ SparseVariantMap *ContainerFactory::createSingletons ()
         fact->addFactory (factS);
         fact->addFactory (factR);
 
-        map->operator[] (DEFAULT_SINGLETON_FACTORY_NAME) = Core::Variant (fact);
-        map->operator[] (DEFAULT_VALUE_FACTORY_NAME) = Core::Variant (factS);
-        map->operator[] (BEAN_WRAPPER_SIMPLE) = Core::Variant (Wrapper::BeanWrapper::create ());
+        internals->defaultSingletonFactory = fact;
+        internals->defaultValueFactory = factS;
+        internals->beanWrapperSimple = Wrapper::BeanWrapper::create ();
 
         BeanWrapper *beanWrapper = new BeanWrapper (true);
         beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin ());
@@ -203,23 +197,22 @@ SparseVariantMap *ContainerFactory::createSingletons ()
         // StringCon.
         Editor::StringConstructorEditor *strCon = new Editor::StringConstructorEditor ();
         Editor::StringFactoryMethodEditor *conversionMethodEditor = new Editor::StringFactoryMethodEditor ();
-        Editor::ChainEditor *chain = new Editor::ChainEditor;
+        Editor::ChainEditor *chain = new Editor::ChainEditor (true);
 
         chain->addEditor (typeEditor);
         chain->addEditor (strCon);
         chain->addEditor (conversionMethodEditor);
-        chain->addEditor (noop);
+        chain->addEditor (new Editor::NoopEditor ());
 
         beanWrapper->setEditor (chain);
 
 /*--------------------------------------------------------------------------*/
 
-        map->operator[] (BEAN_WRAPPER_W_CONVERSION) = Core::Variant (beanWrapper);
-        map->operator[] (MAIN_TYPE_EDITOR) = Core::Variant (typeEditor);
-        map->operator[] (MAIN_METHOD_CONVERSION_EDITOR) = Core::Variant (conversionMethodEditor);
-        map->operator[] ("deleteMe1") = Core::Variant (strCon);
+        internals->beanWrapperConversion = beanWrapper;
+        internals->mainTypeEditor = typeEditor;
+        internals->mainMethodConversionEditor = conversionMethodEditor;
 
-        return map;
+        return internals;
 }
 
 }

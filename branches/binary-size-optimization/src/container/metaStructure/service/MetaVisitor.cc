@@ -36,10 +36,6 @@ void MetaVisitor::visit (MetaDeque *sorted)
         assert (ctx);
         ctx->resetDepth ();
 
-//        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
-//                (*i)->onContainer (container);
-//        }
-
         for (MetaDeque::const_iterator i = sorted->begin (); i != sorted->end (); ++i) {
                 (*i)->accept (this);
         }
@@ -49,7 +45,9 @@ void MetaVisitor::visit (MetaDeque *sorted)
 
 void MetaVisitor::visit (MetaObject const *data)
 {
-        foreach (IMetaService *service, services) {
+        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
+                IMetaService *service = *i;
+
                 service->onMetaBegin (data);
 
                 if (data->getType () == MetaObject::INDEXED) {
@@ -65,7 +63,8 @@ void MetaVisitor::visit (MetaObject const *data)
                 (*i)->data->accept (((*i)->key) ? (std::string ((*i)->key)) : (std::string ()), this);
         }
 
-        foreach (IMetaService *service, services) {
+        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
+                IMetaService *service = *i;
                 service->onConstructorArgsBegin (data);
         }
 
@@ -74,13 +73,13 @@ void MetaVisitor::visit (MetaObject const *data)
                 (*i)->accept (std::string (), this);
         }
 
-        foreach (IMetaService *service, services) {
+        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
+                IMetaService *service = *i;
                 service->onConstructorArgsEnd (data);
         }
 
-//        visitInnerMeta (data);
-
-        foreach (IMetaService *service, services) {
+        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
+                IMetaService *service = *i;
                 service->onMetaEnd (data);
 
                 if (data->getType () == MetaObject::INDEXED) {
@@ -94,23 +93,10 @@ void MetaVisitor::visit (MetaObject const *data)
 
 /****************************************************************************/
 
-void MetaVisitor::visitInnerMeta (MetaObject *data)
-{
-        ctx->incDepth ();
-
-        foreach (MetaMap::value_type p, data->getInnerMetas ()) {
-                MetaObject *meta = p.second;
-                meta->accept (this);
-        }
-
-        ctx->decDepth ();
-}
-
-/****************************************************************************/
-
 void MetaVisitor::visit (std::string const &key, ValueData *data)
 {
-        foreach (IMetaService *service, services) {
+        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
+                IMetaService *service = *i;
                 service->onValueData (key, data);
         }
 }
@@ -119,7 +105,8 @@ void MetaVisitor::visit (std::string const &key, ValueData *data)
 
 void MetaVisitor::visit (std::string const &key, NullData *data)
 {
-        foreach (IMetaService *service, services) {
+        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
+                IMetaService *service = *i;
                 service->onNullData (key, data);
         }
 }
@@ -128,7 +115,8 @@ void MetaVisitor::visit (std::string const &key, NullData *data)
 
 void MetaVisitor::visit (std::string const &key, RefData *data)
 {
-        foreach (IMetaService *service, services) {
+        for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
+                IMetaService *service = *i;
                 service->onRefData (key, data);
         }
 }

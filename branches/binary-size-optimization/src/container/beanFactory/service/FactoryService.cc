@@ -42,7 +42,7 @@ bool FactoryService::onMetaBegin (MetaObject const *data)
 
         if (!customFactoryName.empty ()) {
                 BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-                factory = ocast <Factory::IFactory *> (container->getSingleton (customFactoryName));
+                factory = ocast <Factory::IFactory *> (container->getSingleton (customFactoryName.c_str ()));
                 beanFactory->setFactory (factory, false);
         }
         else {

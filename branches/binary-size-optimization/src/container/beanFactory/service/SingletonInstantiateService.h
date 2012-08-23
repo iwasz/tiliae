@@ -10,6 +10,9 @@
 #define BEANFACTORY_SINGLETON_INSTANTIATE_SERVICE_H_
 
 #include "beanFactory/service/BeanFactoryService.h"
+#include "allocator/IAllocator.h"
+
+using Core::IAllocator;
 
 namespace Container {
 
@@ -21,9 +24,13 @@ class MetaObject;
 class SingletonInstantiateService : public BeanFactoryService {
 public:
 
+        SingletonInstantiateService (IAllocator *m) : memoryAllocator (m) {}
         virtual ~SingletonInstantiateService () {}
         virtual bool onMetaEnd (MetaObject const *meta);
 
+private:
+
+        IAllocator *memoryAllocator;
 };
 
 }

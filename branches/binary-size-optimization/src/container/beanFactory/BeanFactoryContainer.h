@@ -22,12 +22,15 @@
 #include "TypeEditor.h"
 #include "StrUtil.h"
 #include "BeanFactory.h"
+#include "allocator/ArrayRegionAllocator.h"
+#include "../../core/StrUtil.h"
+#include <hash_fun.h>
 
 namespace Container {
 class MetaContainer;
 class InternalSingletons;
 
-typedef google::sparse_hash_map <std::string, Core::Variant> SparseVariantMap;
+typedef google::sparse_hash_map <const char*, Core::Variant, __gnu_cxx::hash<const char*>, Eqstr> SparseVariantMap;
 
 /**
  *
@@ -35,7 +38,7 @@ typedef google::sparse_hash_map <std::string, Core::Variant> SparseVariantMap;
 class TILIAE_API BeanFactoryContainer : public Core::IToStringEnabled {
 public:
 
-        BeanFactoryContainer (SparseVariantMap *s, InternalSingletons *i);
+        BeanFactoryContainer ();
         virtual ~BeanFactoryContainer ();
 
         virtual std::string toString () const;
@@ -65,9 +68,11 @@ public:
          * tworzą ValueData etc. Dodatkowo także i user będzie mógł dodać
          * to co będzie chciał.
          */
-        void addSingleton (const std::string &key, const Core::Variant &singleton);
-        Core::Variant getSingleton (const std::string &name) const;
-        SparseVariantMap *getSingletons () { return singletons; }
+        void addSingleton (const char *key, const Core::Variant &singleton);
+        Core::Variant getSingleton (const char *name) const;
+        SparseVariantMap *getSingletons () { return &singletons; }
+
+        void setInternalSingletons (InternalSingletons *s) { internalSingletons = s; }
         InternalSingletons *getInternalSingletons () { return internalSingletons; }
 
         BeanFactoryMap &getBeanFactoryMap () { return factoryMap; }
@@ -79,18 +84,20 @@ public:
         void setMetaContainer (Ptr <MetaContainer> m) { metaContainer = m; }
 
         void addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function);
+        Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
 
         friend class ContainerFactory;
 
 private:
 
         BeanFactoryMap factoryMap;
-        SparseVariantMap *singletons;
+        SparseVariantMap singletons;
         InternalSingletons *internalSingletons;
         BeanFactoryContainer const *linked;
         Ptr <MetaContainer> metaContainer;
         Editor::StringFactoryMethodEditor *conversionMethodEditor;
         Editor::TypeEditor *typeEditor;
+        Core::ArrayRegionAllocator <char> memoryAllocator;
 
 };
 

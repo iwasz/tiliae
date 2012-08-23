@@ -63,10 +63,10 @@ Core::Variant ReflectionFactory::create (const VariantMap &parameters, Core::Deb
 
         try {
                 if (classArgs) {
-                        return constructor->newInstance (classArgs);
+                        return constructor->newInstance (classArgs, allocator);
                 }
                 else {
-                        return constructor->newInstance ();
+                        return constructor->newInstance (NULL, allocator);
                 }
 
         }

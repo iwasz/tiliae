@@ -16,6 +16,7 @@
 #include "Typedefs.h"
 #include "WrapperCommons.h"
 #include "../Tools.h"
+#include "allocator/IAllocator.h"
 
 namespace Reflection {
 
@@ -36,7 +37,7 @@ public:
          * przez referencjęi mogą zostać zmienione przez uruchamianą funkcję,
          * czy tam konstruktor w tym przypadku.
          */
-        virtual Core::Variant invoke (Core::VariantVector *args) = 0;
+        virtual Core::Variant invoke (Core::VariantVector *args, Core::IAllocator *allocator = NULL) = 0;
         virtual std::type_info const &getType () const = 0;
         virtual unsigned int getArity () const = 0;
 
@@ -44,36 +45,39 @@ public:
 
 /*##########################################################################*/
 
-template <class K> class ConstructorPointer00 : public IConstructorPointer {
+template <class K>
+class ConstructorPointer00 : public IConstructorPointer {
 public:
 
-        Core::Variant invoke (Core::VariantVector *list)
-        {
-                Tools::checkArgList (list, 0);
-                return Core::Variant (new K);
-        }
-
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (void *); }
         unsigned int getArity () const { return 0; }
 };
+
+template <class K>
+Core::Variant ConstructorPointer00<K>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
+{
+        Tools::checkArgList (list, 0);
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K ())) : (Core::Variant (new K));
+}
 
 /*##########################################################################*/
 
 template <class K, class T1>
 class ConstructorPointer01 : public IConstructorPointer {
 public:
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 1; }
 };
 
 template <class K, class T1>
-Core::Variant ConstructorPointer01<K, T1>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer01<K, T1>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 1);
         Core::VariantVector::iterator i = list->begin ();
         T1 t1 = vcast <T1> (*i);
-        return Core::Variant (new K (t1));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1))) : (Core::Variant (new K (t1)));
 }
 
 /*##########################################################################*/
@@ -81,19 +85,19 @@ Core::Variant ConstructorPointer01<K, T1>::invoke (Core::VariantVector *list)
 template <class K, class T1, class T2>
 class ConstructorPointer02 : public IConstructorPointer {
 public:
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 2; }
 };
 
 template <class K, class T1, class T2>
-Core::Variant ConstructorPointer02<K, T1, T2>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer02<K, T1, T2>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 2);
         Core::VariantVector::iterator i = list->begin ();
         T1 t1 = vcast <T1> (*i++);
         T2 t2 = vcast <T2> (*i);
-        return Core::Variant (new K (t1, t2));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1, t2))) : (Core::Variant (new K (t1, t2)));
 }
 
 /*##########################################################################*/
@@ -102,20 +106,20 @@ template <class K, class T1, class T2, class T3>
 class ConstructorPointer03 : public IConstructorPointer {
 public:
 
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 3; }
 };
 
 template <class K, class T1, class T2, class T3>
-Core::Variant ConstructorPointer03<K, T1, T2, T3>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer03<K, T1, T2, T3>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 3);
         Core::VariantVector::iterator i = list->begin ();
         T1 t1 = vcast <T1> (*i++);
         T2 t2 = vcast <T2> (*i++);
         T3 t3 = vcast <T3> (*i);
-        return Core::Variant (new K (t1, t2, t3));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1, t2, t3))) : (Core::Variant (new K (t1, t2, t3)));
 }
 
 /*##########################################################################*/
@@ -124,13 +128,13 @@ template <class K, class T1, class T2, class T3, class T4>
 class ConstructorPointer04 : public IConstructorPointer {
 public:
 
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 4; }
 };
 
 template <class K, class T1, class T2, class T3, class T4>
-Core::Variant ConstructorPointer04<K, T1, T2, T3, T4>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer04<K, T1, T2, T3, T4>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 4);
         Core::VariantVector::iterator i = list->begin ();
@@ -138,7 +142,7 @@ Core::Variant ConstructorPointer04<K, T1, T2, T3, T4>::invoke (Core::VariantVect
         T2 t2 = vcast <T2> (*i++);
         T3 t3 = vcast <T3> (*i++);
         T4 t4 = vcast <T4> (*i);
-        return Core::Variant (new K (t1, t2, t3, t4));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1, t2, t3, t4))) : (Core::Variant (new K (t1, t2, t3, t4)));
 }
 
 /*##########################################################################*/
@@ -147,13 +151,13 @@ template <class K, class T1, class T2, class T3, class T4, class T5>
 class ConstructorPointer05 : public IConstructorPointer {
 public:
 
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 5; }
 };
 
 template <class K, class T1, class T2, class T3, class T4, class T5>
-Core::Variant ConstructorPointer05<K, T1, T2, T3, T4, T5>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer05<K, T1, T2, T3, T4, T5>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 5);
         Core::VariantVector::iterator i = list->begin ();
@@ -162,7 +166,7 @@ Core::Variant ConstructorPointer05<K, T1, T2, T3, T4, T5>::invoke (Core::Variant
         T3 t3 = vcast <T3> (*i++);
         T4 t4 = vcast <T4> (*i++);
         T5 t5 = vcast <T5> (*i);
-        return Core::Variant (new K (t1, t2, t3, t4, t5));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1, t2, t3, t4, t5))) : (Core::Variant (new K (t1, t2, t3, t4, t5)));
 }
 
 /*##########################################################################*/
@@ -171,13 +175,13 @@ template <class K, class T1, class T2, class T3, class T4, class T5, class T6>
 class ConstructorPointer06 : public IConstructorPointer {
 public:
 
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 6; }
 };
 
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6>
-Core::Variant ConstructorPointer06<K, T1, T2, T3, T4, T5, T6>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer06<K, T1, T2, T3, T4, T5, T6>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 6);
         Core::VariantVector::iterator i = list->begin ();
@@ -187,7 +191,7 @@ Core::Variant ConstructorPointer06<K, T1, T2, T3, T4, T5, T6>::invoke (Core::Var
         T4 t4 = vcast <T4> (*i++);
         T5 t5 = vcast <T5> (*i++);
         T6 t6 = vcast <T6> (*i);
-        return Core::Variant (new K (t1, t2, t3, t4, t5, t6));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1, t2, t3, t4, t5, t6))) : (Core::Variant (new K (t1, t2, t3, t4, t5, t6)));
 }
 
 /*##########################################################################*/
@@ -196,13 +200,13 @@ template <class K, class T1, class T2, class T3, class T4, class T5, class T6, c
 class ConstructorPointer07 : public IConstructorPointer {
 public:
 
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 7; }
 };
 
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6, class T7>
-Core::Variant ConstructorPointer07<K, T1, T2, T3, T4, T5, T6, T7>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer07<K, T1, T2, T3, T4, T5, T6, T7>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 7);
         Core::VariantVector::iterator i = list->begin ();
@@ -213,7 +217,7 @@ Core::Variant ConstructorPointer07<K, T1, T2, T3, T4, T5, T6, T7>::invoke (Core:
         T5 t5 = vcast <T5> (*i++);
         T6 t6 = vcast <T6> (*i++);
         T7 t7 = vcast <T7> (*i);
-        return Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1, t2, t3, t4, t5, t6, t7))) : (Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7)));
 }
 
 /*##########################################################################*/
@@ -222,13 +226,13 @@ template <class K, class T1, class T2, class T3, class T4, class T5, class T6, c
 class ConstructorPointer08 : public IConstructorPointer {
 public:
 
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 8; }
 };
 
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8>
-Core::Variant ConstructorPointer08<K, T1, T2, T3, T4, T5, T6, T7, T8>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer08<K, T1, T2, T3, T4, T5, T6, T7, T8>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 8);
         Core::VariantVector::iterator i = list->begin ();
@@ -240,7 +244,7 @@ Core::Variant ConstructorPointer08<K, T1, T2, T3, T4, T5, T6, T7, T8>::invoke (C
         T6 t6 = vcast <T6> (*i++);
         T7 t7 = vcast <T7> (*i++);
         T8 t8 = vcast <T8> (*i);
-        return Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7, t8));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1, t2, t3, t4, t5, t6, t7, t8))) : (Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7, t8)));
 }
 
 /*##########################################################################*/
@@ -249,13 +253,13 @@ template <class K, class T1, class T2, class T3, class T4, class T5, class T6, c
 class ConstructorPointer09 : public IConstructorPointer {
 public:
 
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 9; }
 };
 
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9>
-Core::Variant ConstructorPointer09<K, T1, T2, T3, T4, T5, T6, T7, T8, T9>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer09<K, T1, T2, T3, T4, T5, T6, T7, T8, T9>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 9);
         Core::VariantVector::iterator i = list->begin ();
@@ -268,7 +272,7 @@ Core::Variant ConstructorPointer09<K, T1, T2, T3, T4, T5, T6, T7, T8, T9>::invok
         T7 t7 = vcast <T7> (*i++);
         T8 t8 = vcast <T8> (*i++);
         T9 t9 = vcast <T9> (*i);
-        return Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7, t8, t9));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1, t2, t3, t4, t5, t6, t7, t8, t9))) : (Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7, t8, t9)));
 }
 
 /*##########################################################################*/
@@ -277,13 +281,13 @@ template <class K, class T1, class T2, class T3, class T4, class T5, class T6, c
 class ConstructorPointer10 : public IConstructorPointer {
 public:
 
-        Core::Variant invoke (Core::VariantVector *list);
+        Core::Variant invoke (Core::VariantVector *list, Core::IAllocator *allocator = NULL);
         std::type_info const &getType () const { return typeid (typename Core::normalize<T1>::type); }
         unsigned int getArity () const { return 10; }
 };
 
 template <class K, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9, class T10>
-Core::Variant ConstructorPointer10<K, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::invoke (Core::VariantVector *list)
+Core::Variant ConstructorPointer10<K, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::invoke (Core::VariantVector *list, Core::IAllocator *allocator)
 {
         Tools::checkArgList (list, 10);
         Core::VariantVector::iterator i = list->begin ();
@@ -297,7 +301,7 @@ Core::Variant ConstructorPointer10<K, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>::
         T8 t8 = vcast <T8> (*i++);
         T9 t9 = vcast <T9> (*i++);
         T10 t10 = vcast <T10> (*i);
-        return Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10));
+        return (allocator) ? (Core::Variant (new (allocator->malloc (sizeof (K))) K (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10))) : (Core::Variant (new K (t1, t2, t3, t4, t5, t6, t7, t8, t9, t10)));
 }
 
 /*##########################################################################*/

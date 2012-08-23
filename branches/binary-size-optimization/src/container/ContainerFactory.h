@@ -14,6 +14,7 @@
 #include "beanFactory/BeanFactoryContainer.h"
 #include "../core/Pointer.h"
 #include "../core/ApiMacro.h"
+#include "../core/allocator/IAllocator.h"
 
 namespace Wrapper {
 class BeanWrapper;
@@ -61,7 +62,7 @@ private:
         /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer.
         static Wrapper::BeanWrapper *createBeanWrapper ();
         /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer. ContainerFactory tworzy je per BeanFactoryContainer.
-        static InternalSingletons *createSingletons (/*Core::IAllocator *allocator*/);
+        static InternalSingletons *createSingletons (Core::IAllocator *memoryAllocator);
 };
 
 } // ContainerFactory

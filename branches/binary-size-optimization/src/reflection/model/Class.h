@@ -65,7 +65,8 @@ public:
         void addField (Field *field) { fields[field->getName ()] = field; }
         Field *getField (std::string const &name) const;
 
-        void destruct (Core::Variant *v) { deleter->free (*v); }
+        void free (Core::Variant *v) { deleter->free (*v); }
+        void destruct (Core::Variant *v) { deleter->destruct (*v); }
 
         /// Zwraca pierwszy element types, czyli typ "podstawowy" - nie wskaźnik.
         std::type_info const &getType () const { return type; }

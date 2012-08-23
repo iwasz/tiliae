@@ -293,9 +293,9 @@ std::string ListPath::getAllButFirstSegment () const
 
 /****************************************************************************/
 
-Core::StringList ListPath::splitSegments () const
+Core::StringVector ListPath::splitSegments () const
 {
-        Core::StringList ret;
+        Core::StringVector ret;
         ret.resize (body.size ());
         std::copy (body.begin (), body.end (), ret.begin ());
         return ret;

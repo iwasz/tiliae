@@ -48,7 +48,7 @@ public:
         void setName (const std::string &n) { name = n; }
 
         ClassList getBaseClassList() const;
-        void addBaseClassNames (const Core::StringList &names);
+        void addBaseClassNames (const Core::StringVector &names);
 
         const ConstructorList &getConstructorList() const { return constructorList; }
         Constructor *getConstructor (std::type_info const &type) const;
@@ -104,7 +104,7 @@ private:
         std::string name;
         MethodList methodList;
         ConstructorList constructorList;
-        Core::StringList baseClassNames;
+        Core::StringVector baseClassNames;
         ClassList baseClassList;
         FieldMap fields;
         std::type_info const &type;

@@ -13,7 +13,7 @@
         <property name="city3.name" value="Warszawa"/>
 
         <property name="city3">
-                <bean class="City" singleton="false"/>
+                <bean class="City"/>
         </property>
     </bean>
     

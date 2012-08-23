@@ -28,7 +28,7 @@ using namespace Common;
 
 BeanWrapper *BeanWrapper::create (const Core::Variant &bean)
 {
-        BeanWrapper *beanWrapper = new BeanWrapper (bean);
+        BeanWrapper *beanWrapper = new BeanWrapper (bean, true);
         beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin ());
         beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin ());
         beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::METHOD));

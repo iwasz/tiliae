@@ -58,10 +58,6 @@ public:
 
 private:
 
-        void visitInnerMeta (MetaObject *data);
-
-private:
-
         MetaServiceVector services;
         VisitorContext *ctx;
 };

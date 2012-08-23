@@ -27,6 +27,7 @@ namespace Container {
 class MetaContainer;
 class MetaVisitor;
 class XmlMetaService;
+class InternalSingletons;
 
 /**
  * Fabryka tworząca kontener. Tworzy kontener, który z kolei tworzy
@@ -60,7 +61,7 @@ private:
         /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer.
         static Wrapper::BeanWrapper *createBeanWrapper ();
         /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer. ContainerFactory tworzy je per BeanFactoryContainer.
-        static SparseVariantMap *createSingletons (/*Core::IAllocator *allocator*/);
+        static InternalSingletons *createSingletons (/*Core::IAllocator *allocator*/);
 };
 
 } // ContainerFactory

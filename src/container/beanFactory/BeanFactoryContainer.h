@@ -25,6 +25,7 @@
 
 namespace Container {
 class MetaContainer;
+class InternalSingletons;
 
 typedef google::sparse_hash_map <std::string, Core::Variant> SparseVariantMap;
 
@@ -34,7 +35,7 @@ typedef google::sparse_hash_map <std::string, Core::Variant> SparseVariantMap;
 class TILIAE_API BeanFactoryContainer : public Core::IToStringEnabled {
 public:
 
-        BeanFactoryContainer (SparseVariantMap *s);
+        BeanFactoryContainer (SparseVariantMap *s, InternalSingletons *i);
         virtual ~BeanFactoryContainer ();
 
         virtual std::string toString () const;
@@ -67,6 +68,7 @@ public:
         void addSingleton (const std::string &key, const Core::Variant &singleton);
         Core::Variant getSingleton (const std::string &name) const;
         SparseVariantMap *getSingletons () { return singletons; }
+        InternalSingletons *getInternalSingletons () { return internalSingletons; }
 
         BeanFactoryMap &getBeanFactoryMap () { return factoryMap; }
 
@@ -84,6 +86,7 @@ private:
 
         BeanFactoryMap factoryMap;
         SparseVariantMap *singletons;
+        InternalSingletons *internalSingletons;
         BeanFactoryContainer const *linked;
         Ptr <MetaContainer> metaContainer;
         Editor::StringFactoryMethodEditor *conversionMethodEditor;

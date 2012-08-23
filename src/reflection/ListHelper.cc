@@ -11,7 +11,7 @@
 
 namespace Reflection {
 
-Core::StringList ListHelper::createStringList (const std::string &b0,
+Core::StringVector ListHelper::createStringList (const std::string &b0,
                                              const std::string &b1,
                                              const std::string &b2,
                                              const std::string &b3,
@@ -22,7 +22,7 @@ Core::StringList ListHelper::createStringList (const std::string &b0,
                                              const std::string &b8,
                                              const std::string &b9)
 {
-        Core::StringList ret;
+        Core::StringVector ret;
 
         #define DECL(z, n, data) if (!b ## n.empty ()) { ret.push_back (b ## n); }
         BOOST_PP_REPEAT (10, DECL, ~);

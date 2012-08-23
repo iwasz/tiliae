@@ -50,7 +50,7 @@ public:
         std::string getFirstSegment () const;
         std::string getAllButLastSegment () const;
         std::string getAllButFirstSegment () const;
-        Core::StringList splitSegments () const;
+        Core::StringVector splitSegments () const;
 
         bool isRelative () const { return !absolute; }
         bool isAbsolute () const { return absolute; }

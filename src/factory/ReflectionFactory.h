@@ -14,6 +14,7 @@
 #include "../core/ApiMacro.h"
 #include "../core/variant/Variant.h"
 #include "../core/Typedefs.h"
+#include "../core/allocator/IAllocator.h"
 
 namespace Factory {
 
@@ -31,7 +32,7 @@ public:
          * wrapInSharedPtr == false -> return new T.
          * wrapInSharedPtr == true -> return boost::shared_ptr <T> (new T).
          */
-        ReflectionFactory (bool w = false) : wrapInSharedPtr (w) {}
+        ReflectionFactory (Core::IAllocator *a = NULL) : allocator (a) {}
         virtual ~ReflectionFactory () {}
 
         /**
@@ -43,7 +44,8 @@ public:
 
 private:
 
-        bool wrapInSharedPtr;
+        Core::IAllocator *allocator;
+
 };
 
 }

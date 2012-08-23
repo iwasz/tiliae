@@ -44,7 +44,11 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         }
 
         // Instancjonowanie
-        std::string id = toStr (meta->getId ());
+//        std::string id = toStr (meta->getId ());
+        const char *idOrig = (meta->getId () != NULL) ? (meta->getId ()) : ("");
+        char *idCopy = (char *)memoryAllocator->malloc (strlen (idOrig) + 1);
+        strcpy (idCopy, idOrig);
+
         BeanFactoryContext ctx;
 
         bool isSingleton = (static_cast <MetaObject::Scope> (beanFactory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
@@ -54,11 +58,11 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
                 Core::Variant v = beanFactory->create (Core::VariantMap (), &ctx);
 
                 if (v.isNone ()) {
-                        throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + id + "].");
+                        throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + toStr (idCopy) + "].");
                 }
 
                 // Dodaj do mapy singletonów
-                bfContainer->addSingleton (id, v);
+                bfContainer->addSingleton (idCopy, v);
 
                 // Kasowanie
                 delete beanFactory;

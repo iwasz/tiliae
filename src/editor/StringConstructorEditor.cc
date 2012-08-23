@@ -47,7 +47,7 @@ bool StringConstructorEditor::convert (const Core::Variant &input, Core::Variant
         }
 
         try {
-                *output = ctr->newInstance (input);
+                *output = ctr->newInstance (input, allocator);
         }
         catch (Core::Exception const &e) {
                 context->addContext (e.getContext());

@@ -62,14 +62,14 @@ NullData *MetaFactory::newNullData ()
 
 const char *MetaFactory::newString (std::string const &orig)
 {
-        char *ret = memoryAllocator->malloc (orig.size () + 1);
+        char *ret = memoryAllocator->mallocT (orig.size () + 1);
         strcpy (ret, orig.c_str ());
         return ret;
 }
 
 const char *MetaFactory::newString (const char *orig)
 {
-        char *ret = memoryAllocator->malloc (strlen (orig) + 1);
+        char *ret = memoryAllocator->mallocT (strlen (orig) + 1);
         strcpy (ret, orig);
         return ret;
 }

@@ -16,7 +16,11 @@
 
 namespace Container {
 
-BeanFactoryContainer::BeanFactoryContainer (SparseVariantMap *s, InternalSingletons *i) : singletons (s), internalSingletons (i), linked (NULL)
+BeanFactoryContainer::BeanFactoryContainer () :
+                internalSingletons (NULL),
+                linked (NULL),
+                conversionMethodEditor (NULL),
+                typeEditor (NULL)
 {
 }
 
@@ -31,7 +35,7 @@ BeanFactoryContainer::~BeanFactoryContainer ()
                 delete i->second;
         }
 
-        for (SparseVariantMap::iterator i = singletons->begin (); i != singletons->end (); ++i) {
+        for (SparseVariantMap::iterator i = singletons.begin (); i != singletons.end (); ++i) {
                 Core::Variant &v = i->second;
 
                 if (v.getType () != Core::Variant::POINTER &&
@@ -48,7 +52,6 @@ BeanFactoryContainer::~BeanFactoryContainer ()
                 }
         }
 
-        delete singletons;
         delete internalSingletons;
 }
 
@@ -60,7 +63,7 @@ std::string BeanFactoryContainer::toString () const
 
 //        if (singletons) {
 //                ret += ", ";
-//                ret += singletons->toString ();
+//                ret += singletons.toString ();
 //        }
 
         ret += ")";
@@ -80,9 +83,9 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name) const
 {
         BeanFactoryContext context;
 
-        SparseVariantMap::const_iterator i = this->singletons->find (name);
+        SparseVariantMap::const_iterator i = this->singletons.find (name.c_str ());
 
-        if (i != this->singletons->end ()) {
+        if (i != this->singletons.end ()) {
                 return i->second;
         }
 
@@ -109,13 +112,11 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name) const
 
 /****************************************************************************/
 
-Core::Variant BeanFactoryContainer::getSingleton (const std::string &name) const
+Core::Variant BeanFactoryContainer::getSingleton (const char *name) const
 {
-        if (singletons) {
-                SparseVariantMap::const_iterator i;
-                if ((i = singletons->find (name)) != singletons->end ()) {
-                        return i->second;
-                }
+        SparseVariantMap::const_iterator i;
+        if ((i = singletons.find (name)) != singletons.end ()) {
+                return i->second;
         }
 
         Core::Variant v = internalSingletons->get (name);
@@ -128,14 +129,14 @@ Core::Variant BeanFactoryContainer::getSingleton (const std::string &name) const
                 return linked->getSingleton (name);
         }
 
-        throw ContainerException ("BeanFactoryContainer::getSingleton : can't find definition of bean [" + name + "].");
+        throw ContainerException ("BeanFactoryContainer::getSingleton : can't find definition of bean [" + std::string (name) + "].");
 }
 
 /****************************************************************************/
 
 bool BeanFactoryContainer::containsBean (const std::string &name) const
 {
-        bool ret = (singletons->find (name) != singletons->end ()) || (factoryMap.find (name) != factoryMap.end ());
+        bool ret = (singletons.find (name.c_str()) != singletons.end ()) || (factoryMap.find (name) != factoryMap.end ());
 
         if (!ret && linked) {
                 return linked->containsBean (name);
@@ -146,9 +147,9 @@ bool BeanFactoryContainer::containsBean (const std::string &name) const
 
 /****************************************************************************/
 
-void BeanFactoryContainer::addSingleton (const std::string &key, const Core::Variant &singleton)
+void BeanFactoryContainer::addSingleton (const char *key, const Core::Variant &singleton)
 {
-        singletons->operator[] (key) = singleton;
+        singletons.operator[] (key) = singleton;
 }
 
 /****************************************************************************/

@@ -10,12 +10,13 @@
 #define REFLECT_CONSTRUCTOR_H
 
 #include <list>
+#include <wctype.h>
 
 #include "../wrapper/ConstructorPointer.h"
 #include "../../core/IToStringEnabled.h"
 #include "../../core/Pointer.h"
 #include "../../core/ApiMacro.h"
-#include <wctype.h>
+#include "../../core/allocator/IAllocator.h"
 
 namespace Reflection {
 
@@ -34,8 +35,8 @@ public:
         /**
          *  Instantiates a class this constructor is member of.
          */
-        Core::Variant newInstance (Core::VariantVector *ol = NULL);
-        Core::Variant newInstance (Core::Variant const &c);
+        Core::Variant newInstance (Core::VariantVector *ol = NULL, Core::IAllocator *allocator = NULL);
+        Core::Variant newInstance (Core::Variant const &c, Core::IAllocator *allocator = NULL);
 
         /**
          *  Returns string representing this Constructor. For debugging purposes.

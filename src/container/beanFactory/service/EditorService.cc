@@ -47,7 +47,7 @@ bool EditorService::onMappedMetaBegin (MetaObject const *meta)
 
         if (!customEditorName.empty ()) {
                 BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-                editor = ocast <Editor::IEditor *> (container->getSingleton (customEditorName));
+                editor = ocast <Editor::IEditor *> (container->getSingleton (customEditorName.c_str ()));
                 beanFactory->setEditor (editor, false);
         }
         else {
@@ -85,7 +85,7 @@ bool EditorService::onIndexedMetaBegin (MetaObject const *meta)
 
         if (!customEditorName.empty ()) {
                 BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-                editor = ocast <Editor::IEditor *> (container->getSingleton (customEditorName));
+                editor = ocast <Editor::IEditor *> (container->getSingleton (customEditorName.c_str ()));
                 beanFactory->setEditor (editor, false);
         }
         else if (meta->getFields ().empty ()) {
@@ -175,7 +175,7 @@ void EditorService::onValueData (std::string const &key, ValueData const *data)
         BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
 
         Element element;
-        element.editor = ocast <Editor::IEditor *> (container->getSingleton (type));
+        element.editor = ocast <Editor::IEditor *> (container->getSingleton (type.c_str ()));
         element.type = Element::EDITOR_FROM_BF;
 
         if (currentIndexedEditor) {
@@ -226,7 +226,7 @@ void EditorService::onRefData (std::string const &key, RefData const *data)
                 // Szukaj singletonu zewnętrznego w mapie siongletons
                 else {
                         SparseVariantMap *singletons = container->getSingletons ();
-                        SparseVariantMap::const_iterator i = singletons->find (referenceName);
+                        SparseVariantMap::const_iterator i = singletons->find (referenceName.c_str ());
 
                         if (i != singletons->end ()) {
                                 element.singleton = i->second;

@@ -55,6 +55,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
         BeanFactoryVisitorContext context;
         InternalSingletons *internals = bfCont->getInternalSingletons ();
         context.setMetaContainer (metaCont);
+        Core::ArrayRegionAllocator <char> *memoryAllocator = bfCont->getMemoryAllocator ();
 
         try {
 
@@ -89,7 +90,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 factoryService.setDefaultSingletonFactory (internals->defaultSingletonFactory);
                 iteration.addService (&factoryService);
 
-                SingletonInstantiateService sIService;
+                SingletonInstantiateService sIService (memoryAllocator);
                 sIService.setContext (&context);
                 iteration.addService (&sIService);
 
@@ -123,7 +124,8 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCon
                                                      bool storeMetaContainer,
                                                      BeanFactoryContainer *linkedParent)
 {
-        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> (new SparseVariantMap (), createSingletons ());
+        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> ();
+        container->setInternalSingletons (createSingletons (container->getMemoryAllocator ()));
 
         if (linkedParent) {
                 container->setLinked (linkedParent);
@@ -151,7 +153,7 @@ Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (Ptr <MetaContainer> 
 
 /****************************************************************************/
 
-InternalSingletons *ContainerFactory::createSingletons ()
+InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memoryAllocator)
 {
         InternalSingletons *internals = new InternalSingletons;
 
@@ -160,7 +162,7 @@ InternalSingletons *ContainerFactory::createSingletons ()
 
         // Dodaj reflection factory.
         Factory::ScalarFactory *factS = new Factory::ScalarFactory ();
-        Factory::ReflectionFactory *factR = new Factory::ReflectionFactory ();
+        Factory::ReflectionFactory *factR = new Factory::ReflectionFactory (memoryAllocator);
         Factory::ChainFactory *fact = new Factory::ChainFactory (true);
         fact->addFactory (factS);
         fact->addFactory (factR);
@@ -195,7 +197,7 @@ InternalSingletons *ContainerFactory::createSingletons ()
         typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
 
         // StringCon.
-        Editor::StringConstructorEditor *strCon = new Editor::StringConstructorEditor ();
+        Editor::StringConstructorEditor *strCon = new Editor::StringConstructorEditor (memoryAllocator);
         Editor::StringFactoryMethodEditor *conversionMethodEditor = new Editor::StringFactoryMethodEditor ();
         Editor::ChainEditor *chain = new Editor::ChainEditor (true);
 

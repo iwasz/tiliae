@@ -9,30 +9,16 @@
 #ifndef ARRAYREGIONALLOCATOR_H_
 #define ARRAYREGIONALLOCATOR_H_
 
-#include <cstddef>
 #include <vector>
-#include "ApiMacro.h"
-#include "Exception.h"
+#include "IAllocator.h"
 
 namespace Core {
-
-/**
- * Problem z alokacją pamięci.
- */
-class TILIAE_API AllocationException : public Exception {
-public:
-
-        AllocationException (std::string const &s = "") : Exception (s) {}
-        AllocationException (DebugContext const &db, std::string const &s = "") : Exception (db, s) {}
-        virtual ~AllocationException () throw () {}
-
-};
 
 /**
  *
  */
 template <typename T>
-class TILIAE_API ArrayRegionAllocator {
+class TILIAE_API ArrayRegionAllocator : public IAllocator {
 public:
 
         enum { DEFAULT_REGION_SIZE = 8192 };
@@ -45,9 +31,10 @@ public:
                 regionSize (regionSize),
                 endPointer (NULL) {}
 
-        ~ArrayRegionAllocator ();
+        virtual ~ArrayRegionAllocator ();
 
-        T *malloc (size_t size);
+        T *mallocT (size_t size);
+        void *malloc (size_t size) { return mallocT (size); }
 
         /// Returns free memory in current region (in T units) or 0 if there is no region yet.
         size_t calculateFreeMemory ();
@@ -75,7 +62,7 @@ ArrayRegionAllocator <T>::~ArrayRegionAllocator ()
 }
 
 template <typename T>
-T *ArrayRegionAllocator <T>::malloc (size_t size)
+T *ArrayRegionAllocator <T>::mallocT (size_t size)
 {
         // Check if size is smaller or equal to regionSize.
         throwIfNotExceeded (size);

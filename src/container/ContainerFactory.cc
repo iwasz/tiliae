@@ -32,7 +32,6 @@
 #include "../factory/ChainFactory.h"
 #include "../editor/TypeEditor.h"
 #include "../editor/LexicalEditor.h"
-#include "../editor/StringConstructorEditor.h"
 #include "../editor/ChainEditor.h"
 #include "../core/DebugContext.h"
 #include "beanFactory/BeanFactoryContext.h"
@@ -41,8 +40,10 @@
 #include "beanFactory/service/EditorService.h"
 #include "beanFactory/service/SingletonInstantiateService.h"
 #include "beanFactory/InternalSingletons.h"
+#include "beanFactory/service/BFStringConstructorEditor.h"
 
 using Editor::StringFactoryMethodEditor;
+using Container::BFStringConstructorEditor;
 
 namespace Container {
 using namespace Wrapper;
@@ -125,7 +126,7 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCon
                                                      BeanFactoryContainer *linkedParent)
 {
         Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> ();
-        container->setInternalSingletons (createSingletons (container->getMemoryAllocator ()));
+        container->setInternalSingletons (createSingletons (container->getMemoryAllocator (), container->getSingletons ()));
 
         if (linkedParent) {
                 container->setLinked (linkedParent);
@@ -153,7 +154,7 @@ Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (Ptr <MetaContainer> 
 
 /****************************************************************************/
 
-InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memoryAllocator)
+InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memoryAllocator, SparseVariantMap *singletons)
 {
         InternalSingletons *internals = new InternalSingletons;
 
@@ -197,7 +198,7 @@ InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memory
         typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
 
         // StringCon.
-        Editor::StringConstructorEditor *strCon = new Editor::StringConstructorEditor (memoryAllocator);
+        BFStringConstructorEditor *strCon = new BFStringConstructorEditor (singletons, memoryAllocator);
         Editor::StringFactoryMethodEditor *conversionMethodEditor = new Editor::StringFactoryMethodEditor ();
         Editor::ChainEditor *chain = new Editor::ChainEditor (true);
 

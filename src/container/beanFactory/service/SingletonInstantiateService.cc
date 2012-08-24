@@ -44,7 +44,6 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         }
 
         // Instancjonowanie
-//        std::string id = toStr (meta->getId ());
         const char *idOrig = (meta->getId () != NULL) ? (meta->getId ()) : ("");
         char *idCopy = (char *)memoryAllocator->malloc (strlen (idOrig) + 1);
         strcpy (idCopy, idOrig);

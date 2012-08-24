@@ -62,7 +62,7 @@ private:
         /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer.
         static Wrapper::BeanWrapper *createBeanWrapper ();
         /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer. ContainerFactory tworzy je per BeanFactoryContainer.
-        static InternalSingletons *createSingletons (Core::IAllocator *memoryAllocator);
+        static InternalSingletons *createSingletons (Core::IAllocator *memoryAllocator, SparseVariantMap *singletons);
 };
 
 } // ContainerFactory

@@ -26,7 +26,7 @@ bool ChainEditor::convert (const Core::Variant &input, Core::Variant *output, Co
                 bool success = (*i)->convert (input, output, context);
 
                 // Udalo sie skonwertowac
-                if (success || (output && !output->isNone ())) {
+                if (success /*|| (output && !output->isNone ())*/) {
                         return true;
                 }
         }

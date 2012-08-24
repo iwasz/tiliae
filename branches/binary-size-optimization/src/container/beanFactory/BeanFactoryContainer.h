@@ -9,7 +9,6 @@
 #ifndef BEANFACTORY_CONTAINER_H_
 #define BEANFACTORY_CONTAINER_H_
 
-#include <sparsehash/sparse_hash_map>
 #include "common/Exceptions.h"
 #include "common/Attributes.h"
 #include "string/String.h"
@@ -23,14 +22,11 @@
 #include "StrUtil.h"
 #include "BeanFactory.h"
 #include "allocator/ArrayRegionAllocator.h"
-#include "../../core/StrUtil.h"
-#include <hash_fun.h>
+#include "../common/SparseVariantMap.h"
 
 namespace Container {
 class MetaContainer;
 class InternalSingletons;
-
-typedef google::sparse_hash_map <const char*, Core::Variant, __gnu_cxx::hash<const char*>, Eqstr> SparseVariantMap;
 
 /**
  *

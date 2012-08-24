@@ -26,7 +26,7 @@ public:
         virtual ~StringConstructorEditor () {}
         virtual bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 
-private:
+protected:
 
         Core::IAllocator *allocator;
 };

@@ -64,7 +64,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 
                 BeanFactoryInitService bfService;
                 bfService.setContext (&context);
-                bfService.setDefaultBeanWrapper (internals->beanWrapperConversion);
+                bfService.setDefaultBeanWrapper (internals->beanWrapperConversionForSingletons);
                 iteration.addService (&bfService);
 
                 MappedValueService valMapService;
@@ -81,7 +81,8 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 
                 EditorService editorService;
                 editorService.setContext (&context);
-                editorService.setDefaultBeanWrapper (internals->beanWrapperConversion);
+                editorService.setBeanWrapperConversionForSingletons (internals->beanWrapperConversionForSingletons);
+                editorService.setBeanWrapperConversionForPrototypes (internals->beanWrapperConversionForPrototypes);
                 editorService.setNoopNoCopyEditor (internals->noopNoCopy);
                 editorService.setCArgsBeanWrapper (internals->beanWrapperSimple);
                 iteration.addService (&editorService);
@@ -89,6 +90,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
                 FactoryService factoryService;
                 factoryService.setContext (&context);
                 factoryService.setDefaultSingletonFactory (internals->defaultSingletonFactory);
+                factoryService.setDefaultPrototypeFactory (internals->defaultPrototypeFactory);
                 iteration.addService (&factoryService);
 
                 SingletonInstantiateService sIService (memoryAllocator);
@@ -170,14 +172,23 @@ InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memory
 
         internals->defaultSingletonFactory = fact;
         internals->defaultValueFactory = factS;
+
+        // Dla prototpów ReflectionFactory bez alokatora (czyli alokuje na heapie).
+        factS = new Factory::ScalarFactory ();
+        factR = new Factory::ReflectionFactory ();
+        fact = new Factory::ChainFactory (true);
+        fact->addFactory (factS);
+        fact->addFactory (factR);
+
+        internals->defaultPrototypeFactory = fact;
         internals->beanWrapperSimple = Wrapper::BeanWrapper::create ();
+
+/*--------------------------------------------------------------------------*/
 
         BeanWrapper *beanWrapper = new BeanWrapper (true);
         beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin ());
         beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin ());
         beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::IMMEDIATE_CALL));
-
-/*--------------------------------------------------------------------------*/
 
         Editor::TypeEditor *typeEditor = new Editor::TypeEditor (true);
         typeEditor->setEqType (new Editor::NoopEditor ());
@@ -208,10 +219,28 @@ InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memory
         chain->addEditor (new Editor::NoopEditor ());
 
         beanWrapper->setEditor (chain);
+        internals->beanWrapperConversionForSingletons = beanWrapper;
 
 /*--------------------------------------------------------------------------*/
 
-        internals->beanWrapperConversion = beanWrapper;
+        beanWrapper = new BeanWrapper (true);
+        beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::IMMEDIATE_CALL));
+
+        internals->strCon_BW_Proto = strCon = new BFStringConstructorEditor (singletons);
+        chain = new Editor::ChainEditor (false);
+        chain->addEditor (typeEditor);
+        chain->addEditor (strCon);
+        chain->addEditor (conversionMethodEditor);
+        chain->addEditor (internals->noop);
+
+        beanWrapper->setEditor (chain);
+
+        internals->beanWrapperConversionForPrototypes = beanWrapper;
+
+/*--------------------------------------------------------------------------*/
+
         internals->mainTypeEditor = typeEditor;
         internals->mainMethodConversionEditor = conversionMethodEditor;
 

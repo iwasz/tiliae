@@ -40,12 +40,15 @@ struct InternalSingletons {
         Editor::IEditor *noopNoCopy;
         Editor::IEditor *mainTypeEditor;
         Editor::IEditor *mainMethodConversionEditor;
+        Editor::IEditor *strCon_BW_Proto;
 
         Factory::IFactory *defaultSingletonFactory;
+        Factory::IFactory *defaultPrototypeFactory;
         Factory::IFactory *defaultValueFactory;
 
         Wrapper::BeanWrapper *beanWrapperSimple;
-        Wrapper::BeanWrapper *beanWrapperConversion;
+        Wrapper::BeanWrapper *beanWrapperConversionForSingletons;
+        Wrapper::BeanWrapper *beanWrapperConversionForPrototypes;
 
 };
 

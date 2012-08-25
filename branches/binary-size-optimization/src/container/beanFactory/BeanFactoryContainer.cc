@@ -81,16 +81,14 @@ void BeanFactoryContainer::reset ()
 
 Core::Variant BeanFactoryContainer::getBean (const std::string &name) const
 {
-        BeanFactoryContext context;
+        Core::Variant ret = getSingletonNoThrow (name.c_str ());
 
-        SparseVariantMap::const_iterator i = this->singletons.find (name.c_str ());
-
-        if (i != this->singletons.end ()) {
-                return i->second;
+        if (!ret.isNone ()) {
+                return ret;
         }
 
+        BeanFactoryContext context;
         BeanFactoryMap::const_iterator j = factoryMap.find (name);
-        Core::Variant ret;
 
         if (j != factoryMap.end ()) {
                 BeanFactory *fact = j->second;
@@ -107,12 +105,24 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name) const
                 throw ContainerException (context, "BeanFactoryContainer::getBean : can't find definition of bean [" + name + "].");
         }
 
+        return ret;}
+
+/****************************************************************************/
+
+Core::Variant BeanFactoryContainer::getSingleton (const char *name) const
+{
+        Core::Variant ret = getSingletonNoThrow (name);
+
+        if (ret.isNone ()) {
+                throw ContainerException ("BeanFactoryContainer::getSingleton : can't find definition of bean [" + std::string (name) + "].");
+        }
+
         return ret;
 }
 
 /****************************************************************************/
 
-Core::Variant BeanFactoryContainer::getSingleton (const char *name) const
+Core::Variant BeanFactoryContainer::getSingletonNoThrow (const char *name) const
 {
         SparseVariantMap::const_iterator i;
         if ((i = singletons.find (name)) != singletons.end ()) {
@@ -129,7 +139,7 @@ Core::Variant BeanFactoryContainer::getSingleton (const char *name) const
                 return linked->getSingleton (name);
         }
 
-        throw ContainerException ("BeanFactoryContainer::getSingleton : can't find definition of bean [" + std::string (name) + "].");
+        return Core::Variant ();
 }
 
 /****************************************************************************/

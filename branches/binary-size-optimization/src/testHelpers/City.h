@@ -25,7 +25,7 @@ public:
         REFLECTION_CONSTRUCTOR (std::string const &)
         City (std::string const &n) : name (n) {}
 
-        virtual ~City () {}
+        ~City () {}
 
         REFLECTION_METHOD (init) void init () { name += "_INIT"; }
 

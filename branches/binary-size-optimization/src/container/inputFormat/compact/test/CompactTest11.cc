@@ -35,6 +35,7 @@ BOOST_AUTO_TEST_CASE (test051PropertyOrder)
 
         Variant vB = cont->getBean ("bean1");
         BOOST_CHECK (!vB.isNone());
+        vcast <Ptr <Bar> > (vB);
 
         BOOST_CHECK_THROW (cont->getBean ("bean2"), Core::Exception);
 }

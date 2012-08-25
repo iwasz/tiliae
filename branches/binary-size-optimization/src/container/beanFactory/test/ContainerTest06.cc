@@ -81,21 +81,21 @@ BOOST_AUTO_TEST_CASE (testSingleton)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 ();
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        Variant v;
 
 /****************************************************************************/
-
-        Variant v = cont->getBean ("mojBean");
+        {
+        v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Foo *> (v));
-        Foo *foo1 = vcast <Foo *> (v);
+        Ptr <Foo> foo1 = vcast <Ptr <Foo> > (v);
 
         v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
-        Foo *foo2 = vcast <Foo *> (v);
+        Ptr <Foo> foo2 = vcast <Ptr <Foo> > (v);
 
         BOOST_CHECK (foo1 != foo2);
-
+        }
 /****************************************************************************/
 
         metaCont = ContainerTestFactory::createMetaStructure21 ();
@@ -106,12 +106,12 @@ BOOST_AUTO_TEST_CASE (testSingleton)
         v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
-        foo1 = vcast <Foo *> (v);
+        Foo *foo1 = vcast <Foo *> (v);
 
         v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
-        foo2 = vcast <Foo *> (v);
+        Foo *foo2 = vcast <Foo *> (v);
 
         BOOST_CHECK (foo1 == foo2);
 }

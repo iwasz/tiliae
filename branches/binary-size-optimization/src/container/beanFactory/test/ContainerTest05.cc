@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Bar *> (v));
 
-        Bar *foo = vcast <Bar *> (v);
+        Ptr <Bar> foo = vcast <Ptr <Bar> > (v);
 
         BOOST_CHECK (foo->getField0 () == "value2");
         BOOST_CHECK (foo->getField1 () == "value3");

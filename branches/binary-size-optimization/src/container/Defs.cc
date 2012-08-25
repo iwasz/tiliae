@@ -16,6 +16,7 @@ namespace Container {
  * \ingroup Container
  */
 const char *DEFAULT_SINGLETON_FACTORY_NAME = "#defaultSingletonFactory";
+const char *DEFAULT_PROTOTYPE_FACTORY_NAME = "#defaultPrototypeFactory";
 const char *DEFAULT_VALUE_FACTORY_NAME = "#defaultValueFactory";
 
 /**
@@ -46,7 +47,8 @@ const char *NOOP_NO_COPY_EDITOR_NAME = "#noopNoCopy";
  * ID obiektu systemowego.
  * \ingroup Container
  */
-const char *BEAN_WRAPPER_W_CONVERSION = "#beanWrapperConversion";
+const char *BEAN_WRAPPER_W_CONVERSION_FOR_SINGLETONS = "#beanWrapperConversionForSingletons";
+const char *BEAN_WRAPPER_W_CONVERSION_FOR_PROTOTYPES = "#beanWrapperConversionForPrototypes";
 
 const char *BEAN_WRAPPER_SIMPLE = "#beanWrapperSimple";
 

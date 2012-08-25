@@ -25,7 +25,6 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         BeanFactoryMap *bfMap = bfCtx->getBeanFactoryMap();
         BeanFactory *beanFactory = bfCtx->getCurrentBF ();
         BeanFactoryContainer *bfContainer = bfCtx->getBeanFactoryContainer ();
-        bfCtx->setCurrentBF (NULL);
 
         // Zagnieżdżanie beanów
         MetaMap inner = meta->getInnerMetas ();
@@ -63,13 +62,14 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
                 // Dodaj do mapy singletonów
                 bfContainer->addSingleton (idCopy, v);
 
-                // Kasowanie
+                // Kasowanie TODO - czy to nie jest dodane do jakiejś mapy i niepowino być z niej usunięte?
                 delete beanFactory;
         }
         else {
                 bfMap->operator[] (beanFactory->getId ()) = beanFactory;
         }
 
+        bfCtx->setCurrentBF (NULL);
         return true;
 }
 

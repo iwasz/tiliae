@@ -1,4 +1,4 @@
-/****************************************************************************
+/*asia tu była/****************************************************************************
  *                                                                          *
  *  Author : lukasz.iwaszkiewicz@gmail.com                                  *
  *  ~~~~~~~~                                                                *
@@ -46,7 +46,13 @@ bool FactoryService::onMetaBegin (MetaObject const *data)
                 beanFactory->setFactory (factory, false);
         }
         else {
-                factory = defaultSingletonFactory;
+                if (data->getScope () == MetaObject::SINGLETON) {
+                        factory = defaultSingletonFactory;
+                }
+                else {
+                        factory = defaultPrototypeFactory;
+                }
+
                 beanFactory->setFactory (factory, false);
         }
 

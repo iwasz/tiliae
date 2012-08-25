@@ -51,7 +51,7 @@ bool EditorService::onMappedMetaBegin (MetaObject const *meta)
                 beanFactory->setEditor (editor, false);
         }
         else {
-                editor = currentMapEditor = createMappedEditor ();
+                editor = currentMapEditor = createMappedEditor (meta->getScope () == MetaObject::SINGLETON);
                 beanFactory->setEditor (editor, true);
         }
 
@@ -94,7 +94,7 @@ bool EditorService::onIndexedMetaBegin (MetaObject const *meta)
                 beanFactory->setEditor (editor, false);
         }
         else {
-                editor = currentIndexedEditor = createIndexedEditor ();
+                editor = currentIndexedEditor = createIndexedEditor (meta->getScope () == MetaObject::SINGLETON);
                 beanFactory->setEditor (editor, true);
         }
 
@@ -253,19 +253,33 @@ void EditorService::onRefData (std::string const &key, RefData const *data)
  * Editor::SimpleMapEditor, która jest potem przypisywana na pole BeanFactory::setEditor.
  * Taki edytor ustawia potem pola nowoutworzonego beana.
  */
-BFMapEditor *EditorService::createMappedEditor ()
+BFMapEditor *EditorService::createMappedEditor (bool isSingleton)
 {
         BFMapEditor *editor = new BFMapEditor ();
-        editor->setBeanWrapper (defaultBeanWrapper);
+
+        if (isSingleton) {
+                editor->setBeanWrapper (beanWrapperConversionForSingletons);
+        }
+        else {
+                editor->setBeanWrapper (beanWrapperConversionForPrototypes);
+        }
+
         return editor;
 }
 
 /****************************************************************************/
 
-BFIndexedEditor *EditorService::createIndexedEditor ()
+BFIndexedEditor *EditorService::createIndexedEditor (bool isSingleton)
 {
         BFIndexedEditor *editor = new BFIndexedEditor ();
-        editor->setBeanWrapper (defaultBeanWrapper);
+
+        if (isSingleton) {
+                editor->setBeanWrapper (beanWrapperConversionForSingletons);
+        }
+        else {
+                editor->setBeanWrapper (beanWrapperConversionForPrototypes);
+        }
+
         return editor;
 }
 

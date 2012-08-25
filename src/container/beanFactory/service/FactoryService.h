@@ -25,16 +25,19 @@ class MetaObject;
 class FactoryService : public BeanFactoryService {
 public:
 
-        FactoryService () : defaultSingletonFactory (NULL) {}
+        FactoryService () : defaultSingletonFactory (NULL), defaultPrototypeFactory (NULL) {}
         virtual ~FactoryService () {}
 
         virtual bool onMetaBegin (const MetaObject* data);
+
         void setDefaultSingletonFactory (Factory::IFactory* defaultSingletonFactory) { this->defaultSingletonFactory = defaultSingletonFactory; }
+        void setDefaultPrototypeFactory (Factory::IFactory* defaultPrototypeFactory) { this->defaultPrototypeFactory = defaultPrototypeFactory; }
 
 private:
 
         // Singletons owned by BeanFactoryContainer.
         Factory::IFactory *defaultSingletonFactory;
+        Factory::IFactory *defaultPrototypeFactory;
 };
 
 } //nam

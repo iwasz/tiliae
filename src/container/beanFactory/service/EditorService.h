@@ -28,7 +28,8 @@ public:
                 currentMapEditor (NULL),
                 currentIndexedEditor (NULL),
                 currentFieldIdx (-1),
-                defaultBeanWrapper (NULL),
+                beanWrapperConversionForSingletons (NULL),
+                beanWrapperConversionForPrototypes (NULL),
                 cArgsBeanWrapper (NULL),
                 noopNoCopyEditor (NULL) {}
 
@@ -46,15 +47,16 @@ public:
 /*--------------------------------------------------------------------------*/
 
         void setCArgsBeanWrapper(Wrapper::BeanWrapper* argsBeanWrapper) { this->cArgsBeanWrapper = argsBeanWrapper; }
-        void setDefaultBeanWrapper(Wrapper::BeanWrapper* defaultBeanWrapper) { this->defaultBeanWrapper = defaultBeanWrapper; }
+        void setBeanWrapperConversionForPrototypes (Wrapper::BeanWrapper* beanWrapperConversionForPrototypes) { this->beanWrapperConversionForPrototypes = beanWrapperConversionForPrototypes; }
+        void setBeanWrapperConversionForSingletons (Wrapper::BeanWrapper* beanWrapperConversionForSingletons) { this->beanWrapperConversionForSingletons = beanWrapperConversionForSingletons; }
         void setNoopNoCopyEditor(Editor::IEditor* noopNoCopyEditor) { this->noopNoCopyEditor = noopNoCopyEditor; }
 
 /*--------------------------------------------------------------------------*/
 
 private:
 
-        BFMapEditor *createMappedEditor ();
-        BFIndexedEditor *createIndexedEditor ();
+        BFMapEditor *createMappedEditor (bool);
+        BFIndexedEditor *createIndexedEditor (bool);
 
 private:
 
@@ -64,7 +66,8 @@ private:
         int currentFieldIdx;
 
         // Singleton
-        Wrapper::BeanWrapper *defaultBeanWrapper;
+        Wrapper::BeanWrapper *beanWrapperConversionForSingletons;
+        Wrapper::BeanWrapper *beanWrapperConversionForPrototypes;
         Wrapper::BeanWrapper *cArgsBeanWrapper;
         Editor::IEditor *noopNoCopyEditor;
 };

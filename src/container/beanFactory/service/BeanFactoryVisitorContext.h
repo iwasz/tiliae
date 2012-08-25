@@ -22,7 +22,7 @@ class BeanFactoryVisitorContext : public VisitorContext {
 public:
 
         BeanFactoryVisitorContext () : beanFactoryMap (NULL), container (NULL), currentBF (NULL) {}
-        virtual ~BeanFactoryVisitorContext () {}
+        virtual ~BeanFactoryVisitorContext () { delete currentBF; }
 
         /**
          * Mapa wynikowa zawierająca fabryki, które będą fizycznie tworzyć

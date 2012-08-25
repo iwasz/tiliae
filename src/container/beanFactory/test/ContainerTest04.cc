@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Bar *> (v));
 
-        Bar *foo = vcast <Bar *> (v);
+        Ptr <Bar> foo = vcast <Ptr <Bar> > (v);
 
         BOOST_CHECK_EQUAL (foo->getField0 (), "value2");
         BOOST_CHECK_EQUAL (foo->getField1 (), "value3");
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Bar *> (v));
 
-        Bar *foo = vcast <Bar *> (v);
+        Ptr <Bar> foo = vcast <Ptr <Bar> > (v);
 
         BOOST_CHECK (foo->getField0 () == "value2");
         BOOST_CHECK (foo->getField1 () == "value3");
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
 
-        Foo *foo = vcast <Foo *> (v);
+        Ptr <Foo> foo = vcast <Ptr <Foo> > (v);
 
         BOOST_CHECK (foo->getField0 () == "value0");
         BOOST_CHECK (foo->getField1 () == "value1");

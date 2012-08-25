@@ -12,12 +12,14 @@
 namespace Container {
 
 extern const char *DEFAULT_SINGLETON_FACTORY_NAME;
+extern const char *DEFAULT_PROTOTYPE_FACTORY_NAME;
 extern const char *DEFAULT_VALUE_FACTORY_NAME;
 extern const char *DEFAULT_INDEXED_EDITOR_NAME;
 extern const char *DEFAULT_MAPPED_EDITOR_NAME;
 extern const char *NOOP_EDITOR_NAME;
 extern const char *NOOP_NO_COPY_EDITOR_NAME;
-extern const char *BEAN_WRAPPER_W_CONVERSION;
+extern const char *BEAN_WRAPPER_W_CONVERSION_FOR_SINGLETONS;
+extern const char *BEAN_WRAPPER_W_CONVERSION_FOR_PROTOTYPES;
 extern const char *BEAN_WRAPPER_SIMPLE;
 extern const char *DEFAULT_VALUE_TYPE;
 const unsigned int MAX_BEAN_NESTING = 1000;

@@ -86,6 +86,10 @@ public:
 
 private:
 
+        Core::Variant getSingletonNoThrow (const char *name) const;
+
+private:
+
         BeanFactoryMap factoryMap;
         SparseVariantMap singletons;
         InternalSingletons *internalSingletons;

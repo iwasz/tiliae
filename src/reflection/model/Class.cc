@@ -27,6 +27,10 @@ Class::~Class ()
                 delete *i;
         }
 
+        for (FieldMap::iterator i = fields.begin (); i != fields.end (); ++i) {
+                delete i->second;
+        }
+
         delete deleter;
 }
 

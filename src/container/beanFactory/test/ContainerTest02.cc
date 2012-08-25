@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleBean)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
 
-        Foo *foo = vcast <Foo *> (v);
+        Ptr <Foo> foo = vcast <Ptr <Foo> > (v);
 
         BOOST_CHECK_EQUAL (foo->getField0 (), "value0");
         BOOST_CHECK_EQUAL (foo->getField1 (), "value1");
@@ -74,9 +74,8 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReference)
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Foo *> (v));
 
-        Foo *foo = vcast <Foo *> (v);
+        Ptr <Foo> foo = vcast <Ptr <Foo> > (v);
 
         BOOST_CHECK_EQUAL (foo->getField0 (), "value0");
         BOOST_CHECK_EQUAL (foo->getField1 (), "value1");

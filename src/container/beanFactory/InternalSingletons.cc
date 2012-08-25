@@ -19,8 +19,11 @@ InternalSingletons::~InternalSingletons()
         delete noop;
         delete noopNoCopy;
         delete defaultSingletonFactory;
+        delete defaultPrototypeFactory;
         delete beanWrapperSimple;
-        delete beanWrapperConversion;
+        delete beanWrapperConversionForSingletons;
+        delete beanWrapperConversionForPrototypes;
+        delete strCon_BW_Proto;
 }
 
 Core::Variant InternalSingletons::get (std::string const &key) const
@@ -46,14 +49,20 @@ Core::Variant InternalSingletons::get (std::string const &key) const
         else if (key == BEAN_WRAPPER_SIMPLE) {
                 return Core::Variant (beanWrapperSimple);
         }
-        else if (key == BEAN_WRAPPER_W_CONVERSION) {
-                return Core::Variant (beanWrapperConversion);
+        else if (key == BEAN_WRAPPER_W_CONVERSION_FOR_SINGLETONS) {
+                return Core::Variant (beanWrapperConversionForSingletons);
+        }
+        else if (key == BEAN_WRAPPER_W_CONVERSION_FOR_PROTOTYPES) {
+                return Core::Variant (beanWrapperConversionForPrototypes);
         }
         else if (key == MAIN_TYPE_EDITOR) {
                 return Core::Variant (mainTypeEditor);
         }
         else if (key == MAIN_METHOD_CONVERSION_EDITOR) {
                 return Core::Variant (mainMethodConversionEditor);
+        }
+        else if (key == DEFAULT_PROTOTYPE_FACTORY_NAME) {
+                return Core::Variant (defaultPrototypeFactory);
         }
 
         return Core::Variant ();

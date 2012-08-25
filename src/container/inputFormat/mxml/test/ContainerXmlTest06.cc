@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (test026TestSingleton)
         Variant vNS2 = cont->getBean ("cityNonSingleton");
         BOOST_CHECK (ccast <City *> (vNS2));
 
-        BOOST_CHECK (vcast <City *> (vNS1) != vcast <City *> (vNS2));
+        BOOST_CHECK (vcast <Ptr <City> > (vNS1) != vcast <Ptr <City> > (vNS2));
 
         // -------------------------
 

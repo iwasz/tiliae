@@ -37,6 +37,7 @@ public:
         virtual std::string toString () const { return ""; }
 
         std::string getHash () const { return className + fieldName + "-F"; }
+        void deleteDuplicate () { delete wrapper; }
 
 private:
 

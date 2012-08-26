@@ -9,9 +9,8 @@
 #ifndef REFLECT_CONSTRUCTOR_H
 #define REFLECT_CONSTRUCTOR_H
 
-#include <list>
+#include <vector>
 #include <wctype.h>
-
 #include "../wrapper/ConstructorPointer.h"
 #include "../../core/IToStringEnabled.h"
 #include "../../core/Pointer.h"
@@ -50,8 +49,7 @@ private:
 
 /*##########################################################################*/
 
-// TODO vector
-typedef std::list <Constructor *> ConstructorList;
+typedef std::vector <Constructor *> ConstructorList;
 
 
 } // namespace

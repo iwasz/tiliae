@@ -45,19 +45,17 @@ Class *ClassContainer::get (std::type_info const &t) const
 
 /****************************************************************************/
 
-void ClassContainer::add (Class *clazz)
+bool ClassContainer::add (Class *clazz)
 {
-#if 0
         Multi::nth_index<0>::type::iterator i = body.find (clazz->getName ());
-        std::cerr << clazz->getName () << std::endl;
 
         if (i != body.end ()) {
-                throw ClassAllreadyManagedException ("ClassAllreadyManagedException (" + clazz->getName () + ")");
+                return false;
         }
-#endif
 
         body.get<0>().insert(clazz);
         typeMap[&clazz->getType ()] = clazz;
+        return true;
 }
 
 /****************************************************************************/

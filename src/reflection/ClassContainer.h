@@ -47,7 +47,7 @@ struct ClassContainer : public IClassContainer {
         Class *get (const std::string &className) const;
         Class *get (std::type_info const &t) const;
 
-        void add (Class *clazz);
+        bool add (Class *clazz);
         std::string toString () const;
 
 private:

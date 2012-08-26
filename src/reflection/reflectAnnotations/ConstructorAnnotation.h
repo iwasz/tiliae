@@ -29,6 +29,7 @@ public:
         ConstructorAnnotation (const std::string &c,
                                   IConstructorPointer *poi) :
                                   constructorPointer (poi), className (c) {}
+        virtual ~ConstructorAnnotation () {}
 
         /**
          * Nazwa klasy.
@@ -46,6 +47,7 @@ public:
         virtual std::string toString () const;
 
         std::string getHash () const;
+        virtual void deleteDuplicate () { delete constructorPointer; }
 
 private:
 

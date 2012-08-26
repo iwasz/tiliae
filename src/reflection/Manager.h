@@ -57,7 +57,7 @@ public:
          * Adds a Class object to Manager. Does not check whether this
          * class allready inside.
          */
-        static void add (Class *c);
+        static bool add (Class *c);
 
         /**
          * Zwraca informację, czy manager jest zainicjowany (użycie

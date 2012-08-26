@@ -49,7 +49,6 @@ public:
 
 };
 
-typedef std::list <IEditor *> EditorList;
 typedef std::vector <IEditor *> EditorVector;
 typedef std::map <std::string, IEditor *> EditorMap;
 

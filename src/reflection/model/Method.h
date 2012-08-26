@@ -9,8 +9,7 @@
 #ifndef TILIAE_METHOD_H_
 #define TILIAE_METHOD_H_
 
-#include <list>
-
+#include <vector>
 #include "../wrapper/ICallableWrapper.h"
 #include "../../core/IToStringEnabled.h"
 #include "../../core/Typedefs.h"
@@ -53,8 +52,7 @@ private:
 
 };
 
-// TODO vector
-typedef std::list <Method *> MethodList;
+typedef std::vector <Method *> MethodList;
 
 }
 

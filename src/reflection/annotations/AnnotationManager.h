@@ -32,14 +32,9 @@ public:
         static AnnotationManager &instance ();
 
         /**
-         * Dodaje adnotacje do managera. Uwaga : nie ma zabezpieczenia przed wielokrotnym
-         * dodaniem tej samej adnotacji.
+         * Dodaje adnotacje do managera.
          */
-        bool addAnnotation (IAnnotation *a)
-        {
-                annotationList.insert (a);
-                return true;
-        }
+        bool addAnnotation (IAnnotation *a);
 
         static void addMethodAnnotation (std::string const &clsName, std::string const &methName, Reflection::ICallableWrapper *wrapper);
         static void addFieldAnnotation (std::string const &clsName, std::string const &fieldName, Reflection::IFieldWrapper *wrapper);

@@ -11,7 +11,7 @@
 
 #include "../../core/variant/Variant.h"
 #include "../../core/Typedefs.h"
-#include <list>
+#include <vector>
 
 namespace Common {
 
@@ -29,7 +29,7 @@ struct IHandler {
 /**
  * Mapa handlerów.
  */
-typedef std::list <IHandler *> HandlerList;
+typedef std::vector <IHandler *> HandlerList;
 
 }
 

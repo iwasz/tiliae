@@ -102,7 +102,6 @@ public:
 
 /****************************************************************************/
 
-typedef std::list <IBeanWrapperPlugin *> BeanWrapperPluginList;
 typedef std::vector <IBeanWrapperPlugin *> BeanWrapperPluginVector;
 
 } // namespace

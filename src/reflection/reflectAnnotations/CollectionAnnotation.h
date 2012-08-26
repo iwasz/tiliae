@@ -90,7 +90,11 @@ void CollectionAnnotation <std::vector <T> >::run (std::string const &className)
 {
         // Sama klasa
         Class *clazz = new Class (className, typeid (std::vector <T>&), new PtrDeleter <std::vector <T> >);
-        Manager::add (clazz);
+
+        if (!Manager::add (clazz)) {
+                delete clazz;
+                return;
+        }
 
         // Konstruktor
         IConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <std::vector <T>, void>::Level1Wrapper::newConstructorPointer ();
@@ -127,7 +131,10 @@ void CollectionAnnotation <std::list <T> >::run (std::string const &className)
 {
         // Sama klasa
         Class *clazz = new Class (className, typeid (std::list <T> &), new PtrDeleter <std::list <T> >);
-        Manager::add (clazz);
+        if (!Manager::add (clazz)) {
+                delete clazz;
+                return;
+        }
 
         // Konstruktor
         IConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <std::list <T>, void>::Level1Wrapper::newConstructorPointer ();
@@ -164,7 +171,10 @@ void CollectionAnnotation <std::set <T> >::run (std::string const &className)
 {
         // Sama klasa
         Class *clazz = new Class (className, typeid (std::set <T>&), new PtrDeleter <std::set <T> >);
-        Manager::add (clazz);
+        if (!Manager::add (clazz)) {
+                delete clazz;
+                return;
+        }
 
         // Konstruktor
         IConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <std::set <T>, void>::Level1Wrapper::newConstructorPointer ();
@@ -197,7 +207,10 @@ void CollectionAnnotation <std::map <K, V> >::run (std::string const &className)
 {
         // Sama klasa
         Class *clazz = new Class (className, typeid (std::map <K,V>&), new PtrDeleter <std::map <K,V> >);
-        Manager::add (clazz);
+        if (!Manager::add (clazz)) {
+                delete clazz;
+                return;
+        }
 
         // Konstruktor
         IConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <std::map <K, V>, void>::Level1Wrapper::newConstructorPointer ();

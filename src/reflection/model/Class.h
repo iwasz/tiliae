@@ -9,8 +9,7 @@
 #ifndef TILIAE_CLASS_IMPL_H
 #define TILIAE_CLASS_IMPL_H
 
-#include <list>
-
+#include <vector>
 #include "Constructor.h"
 #include "Method.h"
 #include "IToStringEnabled.h"
@@ -27,8 +26,7 @@ namespace Reflection {
 
 class Class;
 
-/// TODO std:vector
-typedef std::list <Class *> ClassList;
+typedef std::vector <Class *> ClassList;
 
 /**
  *

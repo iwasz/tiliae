@@ -10,7 +10,7 @@
 #define ZEROHANDLER_H_
 
 #include <map>
-#include <list>
+#include <vector>
 #include <string>
 #include "IHandler.h"
 #include "../../core/Pointer.h"
@@ -36,7 +36,7 @@ private:
         IHandler *handler;
 };
 
-typedef std::list <ZeroHandler *> ZeroHandlerList;
+typedef std::vector <ZeroHandler *> ZeroHandlerList;
 typedef std::map <std::string, ZeroHandler *> ZeroHandlerMap;
 
 }

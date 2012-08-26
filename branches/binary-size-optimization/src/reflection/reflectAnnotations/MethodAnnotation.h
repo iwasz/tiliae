@@ -22,7 +22,6 @@ namespace Reflection {
 
 /**
  * Adnotacja metody.
- * TODO Dodać std::string prettyName.
  */
 class TILIAE_API MethodAnnotation : public IReflectionAnnotation {
 public:
@@ -42,6 +41,7 @@ public:
         virtual std::string toString () const;
 
         std::string getHash () const { return className + methodName; }
+        void deleteDuplicate () { delete callableWrapper; }
 
 private:
 

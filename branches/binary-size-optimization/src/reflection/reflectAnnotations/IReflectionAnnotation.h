@@ -30,6 +30,7 @@ struct IReflectionAnnotation : public Annotations::IAnnotation {
          * @return Output.
          */
         virtual Core::Variant accept (IReflectionVisitor *vis, Class *cls = NULL) = 0;
+        virtual void deleteDuplicate () {}
 
 };
 

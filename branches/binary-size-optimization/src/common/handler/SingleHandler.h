@@ -17,7 +17,7 @@
 #include "Variant.h"
 #include "Pointer.h"
 #include <map>
-#include <list>
+#include <vector>
 
 namespace Common {
 
@@ -39,7 +39,7 @@ private:
         IHandler *handler;
 };
 
-typedef std::list <SingleHandler *> SingleHandlerList;
+typedef std::vector <SingleHandler *> SingleHandlerList;
 typedef std::map <std::string, SingleHandler *> SingleHandlerMap;
 
 }

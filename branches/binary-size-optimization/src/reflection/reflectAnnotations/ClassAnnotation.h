@@ -28,6 +28,7 @@ public:
         ClassAnnotation (const std::string &c, std::type_info const &t, Reflection::IDeleter *d) :
                 className (c), type (t), deleter (d)
         {}
+        virtual ~ClassAnnotation () {}
 
         /**
          * Nazwa klasy.
@@ -46,6 +47,8 @@ public:
         std::string getHash () const { return className; }
 
         Reflection::IDeleter* getDeleter () const { return deleter; }
+
+        void deleteDuplicate ();
 
 private:
 

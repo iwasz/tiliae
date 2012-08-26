@@ -36,6 +36,22 @@ AnnotationManager::~AnnotationManager ()
 
 /****************************************************************************/
 
+bool AnnotationManager::addAnnotation (IAnnotation *a)
+{
+        AnnotationList::const_iterator i = annotationList.find (a->getHash ());
+
+        if (i != annotationList.end ()) {
+                a->deleteDuplicate ();
+                delete a;
+                return false;
+        }
+
+        annotationList.insert (a);
+        return true;
+}
+
+/****************************************************************************/
+
 std::string AnnotationManager::toString () const
 {
         std::string ret = std::string ("AnnotationManager (noOfAnnotations:") +

@@ -22,4 +22,9 @@ std::string ClassAnnotation::toString () const
         return o.str ();
 }
 
+void ClassAnnotation::deleteDuplicate ()
+{
+        delete deleter;
+}
+
 } // notebook

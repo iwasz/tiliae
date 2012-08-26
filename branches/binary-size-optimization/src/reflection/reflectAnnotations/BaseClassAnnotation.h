@@ -27,6 +27,7 @@ public:
 
         BaseClassAnnotation (const std::string &c,
                           const Core::StringVector &l = Core::StringVector ()) : className (c), baseClassList (l) {}
+        virtual ~BaseClassAnnotation () {}
 
         std::string const &getClassName () const { return className; }
         Core::StringVector const &getBaseClassList () const { return baseClassList; }

@@ -251,9 +251,9 @@ Class *Manager::classForType (std::type_info const &t)
 
 /****************************************************************************/
 
-void Manager::add (Class *c)
+bool Manager::add (Class *c)
 {
-        Manager::instance ().classContainer->add (c);
+        return Manager::instance ().classContainer->add (c);
 }
 
 }

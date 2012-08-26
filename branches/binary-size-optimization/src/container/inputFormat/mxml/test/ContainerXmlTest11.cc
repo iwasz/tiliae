@@ -159,6 +159,10 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
         BOOST_CHECK (bar1->getCity4() != bar2->getCity4 ());
 
+        // Trzeba skasować, żeby nie było wycieku pamięci.
+        delete bar1->getCity4();
+        delete bar2->getCity4();
+
 /****************************************************************************/
 
         v = cont->getBean ("listaBean2");
@@ -184,6 +188,9 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
         BOOST_CHECK (bar2->getCity4() == bar2->getCity5());
 
         BOOST_CHECK (bar1->getCity4() != bar2->getCity4 ());
+
+        delete bar1->getCity4();
+        delete bar2->getCity4();
 }
 
 /**

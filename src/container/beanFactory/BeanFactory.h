@@ -28,7 +28,7 @@
 #include "collection/OrderedVariantMap.h"
 #include "StringFactoryMethodEditor.h"
 #include "TypeEditor.h"
-#include "../../core/StrUtil.h"
+#include "StrUtil.h"
 
 
 namespace Wrapper {
@@ -37,6 +37,7 @@ class IBeanWrapper;
 
 namespace Container {
 class BeanFactory;
+class BeanFactoryContainer;
 
 typedef std::stack <BeanFactory *> BeanFactoryStack;
 typedef std::map <std::string, BeanFactory *> BeanFactoryMap;
@@ -50,7 +51,7 @@ typedef std::map <std::string, BeanFactory *> BeanFactoryMap;
 class TILIAE_API BeanFactory : public Factory::IFactory, public Core::IToStringEnabled {
 public:
 
-        BeanFactory ();
+        BeanFactory (BeanFactoryContainer *c);
         virtual ~BeanFactory ();
 
         /**
@@ -126,14 +127,12 @@ public:
                 DELETE_EDITOR = 0x20
         };
 
+        bool getSingleton () const;
+
 private:
 
         void notifyBeforePropertiesSet () const;
         void notifyAfterPropertiesSet () const;
-
-/*--------------------------------------------------------------------------*/
-
-        bool getSingleton () const;
 
 private:
 
@@ -158,6 +157,7 @@ private:
 
         BeanFactory *outerBeanFactory;
         BeanFactoryMap *innerBeanFactories;
+        BeanFactoryContainer *container;
 };
 
 struct ToStringHelper {

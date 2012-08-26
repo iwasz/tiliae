@@ -32,7 +32,12 @@ BeanFactoryContainer::~BeanFactoryContainer ()
              i  != factoryMap.end ();
              ++i) {
 
-                delete i->second;
+                BeanFactory * bf = i->second;
+
+                // Can be singleton + lazy-init here, but singletons deletes themselves.
+                if (!bf->getSingleton ()) {
+                        delete bf;
+                }
         }
 
         for (SparseVariantMap::iterator i = singletons.begin (); i != singletons.end (); ++i) {

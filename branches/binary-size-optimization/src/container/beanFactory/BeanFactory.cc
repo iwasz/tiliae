@@ -15,12 +15,13 @@
 #include "BeanFactoryContext.h"
 #include "Defs.h"
 #include "ReflectionFactory.h"
+#include "BeanFactoryContainer.h"
 
 namespace Container {
 
 /****************************************************************************/
 
-BeanFactory::BeanFactory () :
+BeanFactory::BeanFactory (BeanFactoryContainer *c) :
         flags (0x00),
         cArgs (NULL),
         attributes (NULL),
@@ -29,7 +30,8 @@ BeanFactory::BeanFactory () :
         factory (NULL),
         beanWrapper (NULL),
         outerBeanFactory (NULL),
-        innerBeanFactories (NULL)
+        innerBeanFactories (NULL),
+        container (c)
 {
 }
 
@@ -135,14 +137,6 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                         return Core::Variant ();
                 }
 
-                if (flags & FORCE_SINGLETON || getSingleton ()) {
-                        storedSingleton = output;
-                }
-                else {
-                        // Jeśli scope nie SINGLETON i nie BEAN, to konwertujemy prototypy na Ptr.
-//                        output = Core::convertVariantToSmart (output);
-                }
-
                 if (output.isNull ()) {
                         dcCommit (context);
                         dcError (context, "BeanFactory::create : unable to create bean, factory returned none. ID = [" + id + "]");
@@ -179,6 +173,25 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 if (bfc) {
                         bfc->decNested ();
+                }
+
+                if (flags & FORCE_SINGLETON || getSingleton ()) {
+                        storedSingleton = output;
+                }
+
+                if (getSingleton ()) {
+                        Core::IAllocator *memoryAllocator = container->getMemoryAllocator ();
+                        char *idCopy = (char *)memoryAllocator->malloc (id.length () + 1);
+                        strcpy (idCopy, id.c_str ());
+
+                        // Dodaj do mapy singletonów
+                        container->addSingleton (idCopy, output);
+
+                        BeanFactoryMap *map = &container->getBeanFactoryMap();
+                        map->erase (id);
+
+                        // Dodaj singleton
+                        delete this;
                 }
 
                 dcRollback (context);

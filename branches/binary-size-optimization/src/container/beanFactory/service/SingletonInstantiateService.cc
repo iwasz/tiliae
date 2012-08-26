@@ -43,10 +43,6 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         }
 
         // Instancjonowanie
-        const char *idOrig = (meta->getId () != NULL) ? (meta->getId ()) : ("");
-        char *idCopy = (char *)memoryAllocator->malloc (strlen (idOrig) + 1);
-        strcpy (idCopy, idOrig);
-
         BeanFactoryContext ctx;
 
         bool isSingleton = (static_cast <MetaObject::Scope> (beanFactory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
@@ -56,14 +52,8 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
                 Core::Variant v = beanFactory->create (Core::VariantMap (), &ctx);
 
                 if (v.isNone ()) {
-                        throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + toStr (idCopy) + "].");
+                        throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + toStr (meta->getId ()) + "].");
                 }
-
-                // Dodaj do mapy singletonów
-                bfContainer->addSingleton (idCopy, v);
-
-                // Kasowanie TODO - czy to nie jest dodane do jakiejś mapy i niepowino być z niej usunięte?
-                delete beanFactory;
         }
         else {
                 bfMap->operator[] (beanFactory->getId ()) = beanFactory;

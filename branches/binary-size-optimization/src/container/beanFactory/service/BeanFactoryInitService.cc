@@ -26,7 +26,8 @@ bool BeanFactoryInitService::onMetaBegin (MetaObject const *meta)
         }
 
         std::string id = toStr (meta->getId ());
-        BeanFactory *beanFactory = new BeanFactory;
+        BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
+        BeanFactory *beanFactory = new BeanFactory (container);
         beanFactory->setBeanWrapper(defaultBeanWrapper);
         beanFactory->setAttributes (meta->getAttributes ()->makeCopyOnHeap ());
         getBVFContext ()->setCurrentBF (beanFactory);

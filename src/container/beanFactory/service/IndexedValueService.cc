@@ -52,7 +52,7 @@ void IndexedValueService::onConstructorArgsEnd (MetaObject const *)
 
 /****************************************************************************/
 
-void IndexedValueService::onValueData (std::string const &, ValueData const *data)
+void IndexedValueService::onValueData (DataKey const *, ValueData const *data)
 {
         Variant ret;
 
@@ -70,7 +70,7 @@ void IndexedValueService::onValueData (std::string const &, ValueData const *dat
 
 /****************************************************************************/
 
-void IndexedValueService::onRefData (std::string const &, RefData const *data)
+void IndexedValueService::onRefData (DataKey const *, RefData const *data)
 {
         if (inputList) {
                 inputList->push_back (Core::Variant ());
@@ -82,7 +82,7 @@ void IndexedValueService::onRefData (std::string const &, RefData const *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onNullData (std::string const &, NullData const *data)
+void IndexedValueService::onNullData (DataKey const *, NullData const *data)
 {
         Core::Variant v;
         v.setNull ();

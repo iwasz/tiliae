@@ -40,9 +40,9 @@ public:
 
         void visit (MetaObject const *data);
 
-        void visit (std::string const &key, ValueData *data);
-        void visit (std::string const &key, NullData *data);
-        void visit (std::string const &key, RefData *data);
+        void visit (DataKey const *dk, ValueData *data);
+        void visit (DataKey const *dk, NullData *data);
+        void visit (DataKey const *dk, RefData *data);
 
         void reset ();
 

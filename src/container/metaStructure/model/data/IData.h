@@ -15,6 +15,7 @@
 #include "../../../../core/ApiMacro.h"
 
 namespace Container {
+class DataKey;
 
 /**
  * Jest to najbardziej elementarna (atomowa) część meta-struktur.
@@ -25,7 +26,7 @@ namespace Container {
 struct TILIAE_API IData {
         virtual ~IData () {}
         virtual const char *getData () const = 0;
-        virtual void accept (std::string const &key, IDataVisitor *visitor) = 0;
+        virtual void accept (DataKey const *dk, IDataVisitor *visitor) = 0;
 };
 
 /**
@@ -37,14 +38,14 @@ struct DataKey {
 
         const char *key;
         IData *data;
-        MetaObject *associatedWith;
         DataKey *next;
+        bool add;
 
 private:
 
-        DataKey () : key (NULL), data (NULL), associatedWith (NULL), next (NULL) {}
-        DataKey (IData *d) : key (NULL), data (d), associatedWith (NULL), next (NULL) {}
-        DataKey (const char *k, IData *d) : key (k), data (d), associatedWith (NULL), next (NULL) {}
+        DataKey () : key (NULL), data (NULL), next (NULL), add (false) {}
+        DataKey (IData *d) : key (NULL), data (d), next (NULL), add (false) {}
+        DataKey (const char *k, IData *d) : key (k), data (d), next (NULL), add (false) {}
         friend class MetaFactory;
 
 };

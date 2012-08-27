@@ -25,7 +25,7 @@ struct TILIAE_API RefData : public IData {
         const char *getData () const { return data; }
         void setData (const char *data) { this->data = data; }
 
-        void accept (std::string const &key, IDataVisitor *visitor) { visitor->visit (key, this); }
+        void accept (DataKey const *dk, IDataVisitor *visitor) { visitor->visit (dk, this); }
 
 private:
 

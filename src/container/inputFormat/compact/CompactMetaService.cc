@@ -36,9 +36,6 @@ struct Impl {
         void onOpenBean (mxml_node_t *node);
         void onCloseBean (mxml_node_t *node);
 
-        void onOpenCArg (mxml_node_t *node);
-        void onCloseCArg (mxml_node_t *node);
-
         void onOpenValue (mxml_node_t *node);
         void onCloseValue (mxml_node_t *node);
 
@@ -168,9 +165,6 @@ void Impl::onOpenElement (mxml_node_t *node)
         if (!strcmp (name, "import")) {
                 onOpenImport (node);
         }
-        else if (!strcmp (name, "cargs")) {
-                onOpenCArg (node);
-        }
         else if (!strcmp (name, "ref")) {
                 onOpenRef (node);
         }
@@ -180,7 +174,7 @@ void Impl::onOpenElement (mxml_node_t *node)
         else if (!strcmp (name, "null")) {
                 onOpenNull (node);
         }
-        else if (!strcmp (name, "beans")) {
+        else if (!strcmp (name, "beans") || !strcmp (name, "cargs")) {
         }
         else {
                 onOpenBean (node);
@@ -196,10 +190,7 @@ void Impl::onCloseElement (mxml_node_t *node)
         if (!strcmp (name, "value")) {
                 onCloseValue (node);
         }
-        else if (!strcmp (name, "cargs")) {
-                onCloseCArg (node);
-        }
-        else if (!strcmp (name, "beans") || !strcmp (name, "null") || !strcmp (name, "ref") || !strcmp (name, "import")) {
+        else if (!strcmp (name, "beans") || !strcmp (name, "null") || !strcmp (name, "ref") || !strcmp (name, "import") || !strcmp (name, "cargs")) {
                 // Ignore
         }
         else {
@@ -346,20 +337,6 @@ void Impl::onCloseBean (mxml_node_t *node)
 
 /****************************************************************************/
 
-void Impl::onOpenCArg (mxml_node_t *node)
-{
-//        inCarg = true;
-}
-
-/****************************************************************************/
-
-void Impl::onCloseCArg (mxml_node_t *node)
-{
-//        inCarg = false;
-}
-
-/****************************************************************************/
-
 void Impl::onOpenRef (mxml_node_t *node)
 {
         DataKey *elem = factory.newDataKey ();
@@ -371,9 +348,9 @@ void Impl::onOpenRef (mxml_node_t *node)
         if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
                 elem->key = factory.newString (argVal);
         }
-        // TODO to jakoś inaczej będzie obsługiwane
         else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
                 elem->key = factory.newString (argVal);
+                elem->add = true;
         }
 
         if ((argVal = mxmlElementGetAttr (node, "bean"))) {
@@ -414,9 +391,9 @@ void Impl::onOpenValue (mxml_node_t *node)
         if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
                 elem->key = factory.newString (argVal);
         }
-        // TODO to jakoś inaczej będzie obsługiwane
         else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
                 elem->key = factory.newString (argVal);
+                elem->add = true;
         }
 
         if ((argVal = mxmlElementGetAttr (node, "type"))) {
@@ -458,9 +435,9 @@ void Impl::onOpenNull (mxml_node_t *node)
         if ((argVal = mxmlElementGetAttr (node, "set-as"))) {
                 elem->key = factory.newString (argVal);
         }
-        // TODO to jakoś inaczej będzie obsługiwane
         else if ((argVal = mxmlElementGetAttr (node, "add-to"))) {
                 elem->key = factory.newString (argVal);
+                elem->add = true;
         }
 
         if (elem->key) {

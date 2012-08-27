@@ -17,15 +17,9 @@ namespace Container {
 class ValueData;
 class NullData;
 class RefData;
-
+class DataKey;
 struct MetaObject;
-struct MetaObject;
-
 struct MetaContainer;
-
-struct MetaObject;
-struct AbstractMeta;
-
 class VisitorContext;
 
 /**
@@ -51,9 +45,9 @@ struct IMetaService {
         virtual void onConstructorArgsBegin (MetaObject const *data) = 0;
         virtual void onConstructorArgsEnd (MetaObject const *data) = 0;
 
-        virtual void onValueData (std::string const &key, ValueData const *data) = 0;
-        virtual void onNullData (std::string const &key, NullData const *data) = 0;
-        virtual void onRefData (std::string const &key, RefData const *data) = 0;
+        virtual void onValueData (DataKey const *dk, ValueData const *data) = 0;
+        virtual void onNullData (DataKey const *dk, NullData const *data) = 0;
+        virtual void onRefData  (DataKey const *dk, RefData const *data) = 0;
 
         virtual void setContext (VisitorContext *) = 0;
         virtual VisitorContext *getContext () const = 0;

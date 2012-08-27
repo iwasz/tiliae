@@ -24,7 +24,6 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         BeanFactoryVisitorContext *bfCtx = getBVFContext ();
         BeanFactoryMap *bfMap = bfCtx->getBeanFactoryMap();
         BeanFactory *beanFactory = bfCtx->getCurrentBF ();
-        BeanFactoryContainer *bfContainer = bfCtx->getBeanFactoryContainer ();
 
         // Zagnieżdżanie beanów
         MetaMap inner = meta->getInnerMetas ();

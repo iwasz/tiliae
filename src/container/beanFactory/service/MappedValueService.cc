@@ -11,6 +11,7 @@
 #include "beanFactory/service/ValueServiceHelper.h"
 #include "../../../common/collection/OrderedVariantMap.h"
 #include <boost/make_shared.hpp>
+#include "StrUtil.h"
 
 namespace Container {
 using namespace Core;
@@ -45,30 +46,30 @@ void MappedValueService::onConstructorArgsEnd (MetaObject const *)
 
 /****************************************************************************/
 
-void MappedValueService::onValueData (std::string const &key, ValueData const *data)
+void MappedValueService::onValueData (DataKey const *dk, ValueData const *data)
 {
         if (!currMappedMeta) {
                 return;
         }
 
         Variant ret = helper->create (data->getType (), data->getData ());
-        inputMap->set (key, ret);
+        inputMap->set (toStr (dk->key), ret);
 }
 
 /****************************************************************************/
 
-void MappedValueService::onRefData (std::string const &key, RefData const *data)
+void MappedValueService::onRefData (DataKey const *dk, RefData const *data)
 {
         if (!currMappedMeta) {
                 return;
         }
 
-        inputMap->set (key, Core::Variant ());
+        inputMap->set (toStr (dk->key), Core::Variant ());
 }
 
 /****************************************************************************/
 
-void MappedValueService::onNullData (std::string const &key, NullData const *data)
+void MappedValueService::onNullData (DataKey const *dk, NullData const *data)
 {
         if (!currMappedMeta) {
                 return;
@@ -77,7 +78,7 @@ void MappedValueService::onNullData (std::string const &key, NullData const *dat
         Core::Variant v;
         v.setNull ();
 
-        inputMap->set (key, v);
+        inputMap->set (toStr (dk->key), v);
 }
 
 }

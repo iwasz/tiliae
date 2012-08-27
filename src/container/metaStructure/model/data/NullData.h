@@ -25,7 +25,7 @@ struct TILIAE_API NullData : public IData {
         virtual ~NullData () {}
 
         const char *getData () const { static const char *NULL_STRING = "NULL"; return NULL_STRING; }
-        void accept (std::string const &key, IDataVisitor *visitor) { visitor->visit (key, this); }
+        void accept (DataKey const *dk, IDataVisitor *visitor) { visitor->visit (dk, this); }
 
 private:
 

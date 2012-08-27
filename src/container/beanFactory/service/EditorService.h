@@ -41,8 +41,8 @@ public:
         virtual bool onIndexedMetaBegin(const MetaObject* data);
         virtual void onConstructorArgsBegin(const MetaObject* data);
         virtual void onConstructorArgsEnd(const MetaObject* data);
-        virtual void onValueData(const std::string& key, const ValueData* data);
-        virtual void onRefData(const std::string& key, const RefData* data);
+        virtual void onValueData (DataKey const *dk, const ValueData* data);
+        virtual void onRefData (DataKey const *dk, const RefData* data);
 
 /*--------------------------------------------------------------------------*/
 

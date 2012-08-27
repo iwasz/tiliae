@@ -588,7 +588,6 @@ MetaObject *Impl::pushNewMeta ()
 DataKey *Impl::pushNewDataKey ()
 {
         DataKey *dk = factory.newDataKey ();
-        dk->associatedWith = getCurrentMeta ();
         dataKeyStack.push_back (dk);
         return dataKeyStack.back ();
 }
@@ -677,7 +676,7 @@ MetaObject *Impl::popCurrentMeta ()
 
                 DataKey *dk = getCurrentDataKey ();
 
-                if (dk && dk->associatedWith == outerMeta) {
+                if (dk && (getPrevTag () != "list")) {
                         dk->data = factory.newRefData (factory.newString (id));
                 }
                 else {

@@ -82,6 +82,13 @@ BOOST_AUTO_TEST_CASE (test073TopologicalSort)
 //        std::cerr << sorted << std::endl;
 }
 
+BOOST_AUTO_TEST_CASE (test074AbstractMeta)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "074-abstract-meta.xml"));
+        BOOST_REQUIRE_THROW (cont->getBean ("a"), Core::Exception);
+        cont->getBean ("b");
+}
+
 BOOST_AUTO_TEST_CASE (test075DependsOn)
 {
         Ptr <MetaContainer> mc = CompactMetaService::parseFile (PATH + "075-depends-on.xml");

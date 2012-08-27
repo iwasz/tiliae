@@ -60,7 +60,7 @@ void MetaVisitor::visit (MetaObject const *data)
 
         DataKeyVector fields = data->getFields ();
         for (DataKeyVector::iterator i = fields.begin (); i != fields.end (); ++i) {
-                (*i)->data->accept (((*i)->key) ? (std::string ((*i)->key)) : (std::string ()), this);
+                (*i)->data->accept (*i, this);
         }
 
         for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
@@ -70,7 +70,7 @@ void MetaVisitor::visit (MetaObject const *data)
 
         DataVector cArgs = data->getConstructorArgs();
         for (DataVector::iterator i = cArgs.begin (); i != cArgs.end (); ++i) {
-                (*i)->accept (std::string (), this);
+                (*i)->accept (NULL, this);
         }
 
         for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
@@ -93,31 +93,31 @@ void MetaVisitor::visit (MetaObject const *data)
 
 /****************************************************************************/
 
-void MetaVisitor::visit (std::string const &key, ValueData *data)
+void MetaVisitor::visit (DataKey const *dk, ValueData *data)
 {
         for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
                 IMetaService *service = *i;
-                service->onValueData (key, data);
+                service->onValueData (dk, data);
         }
 }
 
 /****************************************************************************/
 
-void MetaVisitor::visit (std::string const &key, NullData *data)
+void MetaVisitor::visit (DataKey const *dk, NullData *data)
 {
         for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
                 IMetaService *service = *i;
-                service->onNullData (key, data);
+                service->onNullData (dk, data);
         }
 }
 
 /****************************************************************************/
 
-void MetaVisitor::visit (std::string const &key, RefData *data)
+void MetaVisitor::visit (DataKey const *dk, RefData *data)
 {
         for (MetaServiceVector::iterator i = services.begin (); i != services.end (); ++i) {
                 IMetaService *service = *i;
-                service->onRefData (key, data);
+                service->onRefData (dk, data);
         }
 }
 

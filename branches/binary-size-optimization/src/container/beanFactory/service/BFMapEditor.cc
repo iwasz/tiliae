@@ -20,6 +20,7 @@ bool BFMapEditor::edit (const Core::Variant &input, Core::Variant *output, Core:
         assert (beanWrapper);
 
         const Common::OrderedVariantMap *inputMap = vcast <const Common::OrderedVariantMap *> (input);
+        bool success;
 
         for (Common::OrderedVariantMap::const_iterator i = inputMap->begin (); i != inputMap->end (); ++i) {
 
@@ -36,7 +37,14 @@ bool BFMapEditor::edit (const Core::Variant &input, Core::Variant *output, Core:
                         return false;
                 }
 
-                if (!beanWrapper->set (output, i->first, outputV, context)) {
+                if (element.add) {
+                        success = beanWrapper->add (output, i->first, outputV, context);
+                }
+                else {
+                        success = beanWrapper->set (output, i->first, outputV, context);
+                }
+
+                if (!success) {
                         dcError (context, "BFMapEditor : beanWrapper set failed [" + i->first + "].")
                         return false;
                 }

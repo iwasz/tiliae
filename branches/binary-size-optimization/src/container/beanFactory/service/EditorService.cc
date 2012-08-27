@@ -149,7 +149,7 @@ void EditorService::onConstructorArgsEnd (MetaObject const *)
  * W takim wypadku odszukiwany jest bean o nazwie z atrybutu i wykorzystywany jako edytor.
  * Czyli <b>musi sie dać skastować</b> do Editor::IEditor.
  */
-void EditorService::onValueData (std::string const &key, ValueData const *data)
+void EditorService::onValueData (DataKey const *dk, ValueData const *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest bark pól do edycji
         if (!currentMapEditor && !currentIndexedEditor) {
@@ -177,12 +177,13 @@ void EditorService::onValueData (std::string const &key, ValueData const *data)
         Element element;
         element.editor = ocast <Editor::IEditor *> (container->getSingleton (type.c_str ()));
         element.type = Element::EDITOR_FROM_BF;
+        element.add = dk->add;
 
         if (currentIndexedEditor) {
                 currentIndexedEditor->setElement (++currentFieldIdx, element);
         }
         else if (currentMapEditor) {
-                currentMapEditor->setElement (key, element);
+                currentMapEditor->setElement (toStr (dk->key), element);
         }
 }
 
@@ -192,7 +193,7 @@ void EditorService::onValueData (std::string const &key, ValueData const *data)
  * ubierane jest w FactoryEditor (bo potrzebny jest edytor, a nie fabryka) i następnie
  * ustawiany do głownego edytora (SimpleMapEditora w tym przypadku).
  */
-void EditorService::onRefData (std::string const &key, RefData const *data)
+void EditorService::onRefData (DataKey const *dk, RefData const *data)
 {
         // Brak edytora, kiedy podano custom-editor, lub kiedy jest brak pól do edycji
         if (!currentMapEditor && !currentIndexedEditor) {
@@ -209,6 +210,10 @@ void EditorService::onRefData (std::string const &key, RefData const *data)
         BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
         std::string referenceName = toStr (data->getData ());
         Element element;
+
+        if (dk) {
+                element.add = dk->add;
+        }
 
         // Specjalne referencje (referencja do kontenera).
         if (referenceName == REFERENCE_TO_CONTAINER_ITSELF) {
@@ -244,7 +249,7 @@ void EditorService::onRefData (std::string const &key, RefData const *data)
                 currentIndexedEditor->setElement (++currentFieldIdx, element);
         }
         else if (currentMapEditor) {
-                currentMapEditor->setElement (key, element);
+                currentMapEditor->setElement (toStr (dk->key), element);
         }
 }
 

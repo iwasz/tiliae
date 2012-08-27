@@ -58,7 +58,7 @@ bool PrintMetaService::onIndexedMetaBegin (MetaObject const *data)
         return true;
 }
 
-void PrintMetaService::onValueData (std::string const &key, ValueData const *data)
+void PrintMetaService::onValueData (DataKey const *dk, ValueData const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "ValueData (" << data->getData() << ")" <<std::endl;
@@ -68,7 +68,7 @@ void PrintMetaService::onValueData (std::string const &key, ValueData const *dat
         }
 }
 
-void PrintMetaService::onNullData (std::string const &key, NullData const *data)
+void PrintMetaService::onNullData (DataKey const *dk, NullData const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "NullData" <<std::endl;
@@ -78,7 +78,7 @@ void PrintMetaService::onNullData (std::string const &key, NullData const *data)
         }
 }
 
-void PrintMetaService::onRefData (std::string const &key, RefData const *data)
+void PrintMetaService::onRefData (DataKey const *dk, RefData const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "RefData (" << data->getData() << ")" <<std::endl;

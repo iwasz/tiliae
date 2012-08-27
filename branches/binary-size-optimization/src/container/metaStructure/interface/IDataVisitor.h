@@ -12,12 +12,12 @@
 #include <string>
 
 namespace Container {
-
 class ValueData;
 class NullData;
 class RefData;
 class MetaObject;
 class MetaContainer;
+class DataKey;
 
 /**
  * Implementacja paternu Visitor. Ten visitor będzie odwiedzał
@@ -31,9 +31,9 @@ class MetaContainer;
 struct IDataVisitor {
 
         virtual ~IDataVisitor () {}
-        virtual void visit (std::string const &key, ValueData *data) = 0;
-        virtual void visit (std::string const &key, NullData *data) = 0;
-        virtual void visit (std::string const &key, RefData *data) = 0;
+        virtual void visit (DataKey const *dk, ValueData *data) = 0;
+        virtual void visit (DataKey const *dk, NullData *data) = 0;
+        virtual void visit (DataKey const *dk, RefData *data) = 0;
 };
 
 /**

@@ -26,12 +26,13 @@ namespace Container {
 struct Element {
         enum Type { EMPTY, EXTERNAL_SINGLETON, BEAN_FACTORY, EDITOR_FROM_BF };
 
-        Element () : type (EMPTY), factory (NULL), editor (NULL) {}
+        Element () : type (EMPTY), factory (NULL), editor (NULL), add (false) {}
 
         Type type;
         Factory::IFactory *factory;
         Editor::IEditor *editor;
         Core::Variant singleton;
+        bool add;
 };
 
 /**

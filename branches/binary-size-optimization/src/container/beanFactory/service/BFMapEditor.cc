@@ -63,17 +63,8 @@ bool BFMapEditor::useElement (Element *element, const Core::Variant &input, Core
                 break;
 
         case Element::EDITOR_FROM_BF:
-        {
-//                Core::Variant vEd = element->factory->create (Core::VariantMap (), context);
-//
-//                if (!occast <IEditor *> (vEd)) {
-//                        dcError (context, "BFMapEditor::useElement !occast <IEditor *> (vEd). vEd : " + vEd.toString ());
-//                        return false;
-//                }
-//
-//                IEditor *ed = ocast <IEditor *> (vEd);
                 return element->editor->convert (input, output, context);
-        }
+
         case Element::EXTERNAL_SINGLETON:
                 *output = element->singleton;
                 break;

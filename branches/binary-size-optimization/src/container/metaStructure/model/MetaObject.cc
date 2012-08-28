@@ -186,19 +186,19 @@ void MetaObject::addMapField (DataKey *input)
 
         type = MAPPED;
 
-        DataKey *dkParent = NULL;
-        for (DataKey *dk = fields; dk; dk = dk->next) {
-                if (!strcmpNull (dk->key, input->key)) {
-                        if (dkParent) {
-                                dkParent->next = dk->next;
-                        }
-                        else {
-                                fields = dk->next;
-                        }
-                }
-
-                dkParent = dk;
-        }
+//        DataKey *dkParent = NULL;
+//        for (DataKey *dk = fields; dk; dk = dk->next) {
+//                if (!strcmpNull (dk->key, input->key)) {
+//                        if (dkParent) {
+//                                dkParent->next = dk->next;
+//                        }
+//                        else {
+//                                fields = dk->next;
+//                        }
+//                }
+//
+//                dkParent = dk;
+//        }
 
         if (!fields) {
                 fields = input;

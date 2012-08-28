@@ -43,6 +43,7 @@ public:
         virtual void onConstructorArgsEnd(const MetaObject* data);
         virtual void onValueData (DataKey const *dk, const ValueData* data);
         virtual void onRefData (DataKey const *dk, const RefData* data);
+        virtual void onNullData (DataKey const *dk, NullData const *data);
 
 /*--------------------------------------------------------------------------*/
 

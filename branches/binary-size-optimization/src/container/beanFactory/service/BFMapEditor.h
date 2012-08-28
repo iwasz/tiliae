@@ -11,6 +11,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 #include "JEditor.h"
 #include "IFactory.h"
 
@@ -42,8 +43,9 @@ class BFMapEditor : public Editor::JEditor {
 public:
 
         typedef std::map <std::string, Element> ElementMap;
+        typedef std::vector <Element> ElementList;
 
-        BFMapEditor () : /*defaultEditor (NULL),*/ beanWrapper (NULL) {}
+        BFMapEditor () : beanWrapper (NULL) {}
         virtual ~BFMapEditor () {}
 
         virtual bool edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
@@ -53,8 +55,9 @@ public:
         Wrapper::BeanWrapper *getBeanWrapper () const { return beanWrapper; }
         void setBeanWrapper (Wrapper::BeanWrapper *beanWrapper) { this->beanWrapper = beanWrapper; }
 
-        void setElement (const std::string &name, Element &e) { elements[name] = e; }
-        Element *getElement (const std::string & name);
+//        void setElement (const std::string &name, Element &e) { elements[name] = e; }
+//        Element *getElement (const std::string & name);
+        void addElement (Element &e) { elements.push_back (e); }
 
 protected:
 
@@ -62,7 +65,8 @@ protected:
 
 private:
 
-        ElementMap elements;
+//        ElementMap elements;
+        ElementList elements;
         Wrapper::BeanWrapper *beanWrapper;
 
 };

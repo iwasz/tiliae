@@ -62,4 +62,13 @@ BOOST_AUTO_TEST_CASE (test077AddTo)
         BOOST_REQUIRE_EQUAL (vec4->operator [] (2), "test3");
 }
 
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (test078Abstract)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "078-abstract.xml"));
+        BOOST_REQUIRE_THROW (cont->getBean ("bar"), Core::Exception);
+}
+
 BOOST_AUTO_TEST_SUITE_END ();

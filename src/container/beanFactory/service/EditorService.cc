@@ -168,6 +168,11 @@ void EditorService::onValueData (DataKey const *dk, ValueData const *data)
                 if (currentIndexedEditor) {
                         ++currentFieldIdx;
                 }
+                else if (dk->add && currentMapEditor) {
+                        Element element;
+                        element.add = true;
+                        currentMapEditor->setElement (toStr (dk->key), element);
+                }
 
                 return;
         }

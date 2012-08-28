@@ -22,14 +22,13 @@ bool BFMapEditor::edit (const Core::Variant &input, Core::Variant *output, Core:
         const Common::OrderedVariantMap *inputMap = vcast <const Common::OrderedVariantMap *> (input);
         bool success;
 
-        for (Common::OrderedVariantMap::const_iterator i = inputMap->begin (); i != inputMap->end (); ++i) {
+        assert (elements.size () == inputMap->size ());
 
-                Element element;
-                ElementMap::iterator ed = elements.find (i->first);
+        int cnt = 0;
+        for (Common::OrderedVariantMap::const_iterator i = inputMap->begin (); i != inputMap->end (); ++i, ++cnt) {
 
-                if (ed != elements.end ()) {
-                       element = ed->second;
-                }
+                // Każdemu DataKey odpowiada jeden element.
+                Element &element = elements[cnt];
 
                 Variant outputV;
                 if (!useElement (&element, i->second, &outputV, context)) {
@@ -81,11 +80,11 @@ bool BFMapEditor::useElement (Element *element, const Core::Variant &input, Core
 
 /****************************************************************************/
 
-Element *BFMapEditor::getElement (const std::string& name)
-{
-        ElementMap::iterator i = elements.find (name);
-        return (i == elements.end () ? (NULL) : (&i->second));
-}
+//Element *BFMapEditor::getElement (const std::string& name)
+//{
+//        ElementMap::iterator i = elements.find (name);
+//        return (i == elements.end () ? (NULL) : (&i->second));
+//}
 
 
 }

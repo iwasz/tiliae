@@ -25,6 +25,10 @@ void ListPath::init (const char *buf, char sep)
         char c;
         std::string segment;
 
+        if (!buf) {
+                return;
+        }
+
         for (int i = 0; (c = *(buf + i));) {
 
                 switch (state) {

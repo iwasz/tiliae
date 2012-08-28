@@ -287,23 +287,29 @@ bool BeanWrapper::add (Core::Variant *referenceObject, IPath *path, const Core::
                 return setObjectUsingPlugins (referenceObject, path, v, ctx, true);
         }
 
-        if (path->countSegments () > 0) {
-                ListPath left = path->getAllButLastSegment ();
-                ListPath right = path->getLastSegment ();
-                Core::Variant ret;
-                bool err;
+        ListPath left;
+        ListPath right;
 
-                ret = get (*referenceObject, &left, &err, ctx);
-
-                if (err) {
-                        dcError (ctx, "Cannot add property '" + path->toString () + "'.");
-                        return false;
-                }
-
-                return add (&ret, &right, v, ctx);;
+        if (path->countSegments () > 1) {
+                left = path->getAllButLastSegment ();
+                right = path->getLastSegment ();
+        }
+        else {
+                left = path->toString ();
+                right.clear ();
         }
 
-        return false;
+        Core::Variant ret;
+        bool err;
+
+        ret = get (*referenceObject, &left, &err, ctx);
+
+        if (err) {
+                dcError (ctx, "Cannot add property '" + path->toString () + "'.");
+                return false;
+        }
+
+        return add (&ret, &right, v, ctx);;
 }
 
 /*##########################################################################*/

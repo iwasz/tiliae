@@ -164,31 +164,27 @@ void EditorService::onValueData (DataKey const *dk, ValueData const *data)
                 return;
         }
 
+        Element element;
+        element.add = (dk) ? (dk->add) : (false);
+
         if (type == "" || Factory::ScalarFactory::isTypeSupported (type.c_str ())) {
                 if (currentIndexedEditor) {
                         ++currentFieldIdx;
+                        return;
                 }
-                else if (dk->add && currentMapEditor) {
-                        Element element;
-                        element.add = true;
-                        currentMapEditor->setElement (toStr (dk->key), element);
-                }
-
-                return;
         }
+        else {
+                BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
 
-        BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
-
-        Element element;
-        element.editor = ocast <Editor::IEditor *> (container->getSingleton (type.c_str ()));
-        element.type = Element::EDITOR_FROM_BF;
-        element.add = dk->add;
+                element.editor = ocast <Editor::IEditor *> (container->getSingleton (type.c_str ()));
+                element.type = Element::EDITOR_FROM_BF;
+        }
 
         if (currentIndexedEditor) {
                 currentIndexedEditor->setElement (++currentFieldIdx, element);
         }
         else if (currentMapEditor) {
-                currentMapEditor->setElement (toStr (dk->key), element);
+                currentMapEditor->addElement (/*toStr (dk->key), */element);
         }
 }
 
@@ -214,11 +210,9 @@ void EditorService::onRefData (DataKey const *dk, RefData const *data)
 
         BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
         std::string referenceName = toStr (data->getData ());
-        Element element;
 
-        if (dk) {
-                element.add = dk->add;
-        }
+        Element element;
+        element.add = (dk) ? (dk->add) : (false);
 
         // Specjalne referencje (referencja do kontenera).
         if (referenceName == REFERENCE_TO_CONTAINER_ITSELF) {
@@ -254,7 +248,18 @@ void EditorService::onRefData (DataKey const *dk, RefData const *data)
                 currentIndexedEditor->setElement (++currentFieldIdx, element);
         }
         else if (currentMapEditor) {
-                currentMapEditor->setElement (toStr (dk->key), element);
+                currentMapEditor->addElement (/*toStr (dk->key),*/ element);
+        }
+}
+
+/****************************************************************************/
+
+void EditorService::onNullData (DataKey const *dk, NullData const *data)
+{
+        if (currentMapEditor) {
+                Element element;
+                element.add = (dk) ? (dk->add) : (false);
+                currentMapEditor->addElement (element);
         }
 }
 

@@ -22,7 +22,7 @@ namespace Common {
 class TILIAE_API ListPath : public IPath {
 public:
 
-        ListPath (const char *path, char separator = '.');
+        ListPath (const char *path = NULL, char separator = '.');
         ListPath (const std::string &path, char separator = '.');
         ListPath (const ListPath &p);
 

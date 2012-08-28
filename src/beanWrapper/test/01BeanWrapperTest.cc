@@ -796,4 +796,5 @@ BOOST_AUTO_TEST_CASE (testEmptyPath)
         delete beanWrapper;
 }
 
+
 BOOST_AUTO_TEST_SUITE_END ();

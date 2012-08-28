@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+	<Bar id="bar">
+		<cargs>
+			<VariantMap/>
+		</cargs>
+		<VariantMap set-as="butter.a"/>
+		<VariantMap set-as="butter.a.b"/>
+		<StringVector set-as="butter.a.b.c"/>
+		<value add-to="butter.a.b.c">test1</value>
+		<value add-to="butter.a.b.c">test2</value>
+		<value add-to="butter.a.b.c">test3</value>
+	</Bar>
+
+</beans>

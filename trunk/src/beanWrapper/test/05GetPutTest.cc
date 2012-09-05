@@ -81,12 +81,13 @@ BOOST_AUTO_TEST_CASE (testComplexGetPut)
 {
         A a;
         a.setField ("testowy");
-        Ptr <BeanWrapper> bw = BeanWrapper::create (Variant (&a));
+        BeanWrapper *bw = BeanWrapper::create (Variant (&a));
 
         BOOST_REQUIRE_EQUAL (vcast <std::string> (bw->get ("field")), "testowy");
         a.setField ("kupa");
         BOOST_REQUIRE_EQUAL (vcast <std::string> (bw->get ("name")), "kupa");
         BOOST_REQUIRE_NO_THROW (bw->get ("init"));
+        delete bw;
 }
 
 /**
@@ -125,18 +126,9 @@ BOOST_AUTO_TEST_CASE (testGreedyGetPut)
 BOOST_AUTO_TEST_CASE (testMethodVoid)
 {
         Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-
-        Ptr <IBeanWrapperPlugin> plugin = boost::make_shared <PropertyRWBeanWrapperPlugin> ();
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <GetPutMethodRWBeanWrapperPlugin> ();
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <MethodPlugin> (MethodPlugin::IMMEDIATE_CALL);
-        pluginList->push_back (plugin);
-
-        beanWrapper->setPluginList (pluginList);
+        beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin);
+        beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin);
+        beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::IMMEDIATE_CALL));
 
 /*--------------------------------------------------------------------------*/
 

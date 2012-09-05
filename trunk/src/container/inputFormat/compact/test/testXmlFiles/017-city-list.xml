@@ -6,11 +6,11 @@
   <City id="zcity03" name="Warszawa" />
   <City id="zcity04" name="Oszlo" />
 
-    	<CityList id="miasta">
-            <ref bean="zcity01" />
-            <ref bean="zcity02" />
-            <ref bean="zcity03" />
-            <ref bean="zcity04" />
-            <null/>
-    	</CityList>
+	<CityList id="miasta">
+		<ref bean="zcity01" />
+		<ref bean="zcity02" />
+		<ref bean="zcity03" />
+		<ref bean="zcity04" />
+		<null/>
+	</CityList>
 </beans>

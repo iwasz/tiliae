@@ -1,54 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <bean id="pathxx" class="String">
-        <constructor-arg>
-            <value>pathXXX</value>
-        </constructor-arg>
-    </bean>
-    
-    <!--
-        To symujuje beana, któremu w wielu różnych miejscach trzeba ustawić ten sam napis. Normalnie użylibyśmy wielu
-        tagów value z taką samą wartością, ale można to też zrobić za pomocą beana typu string.
-    -->
-    <map id="bean1" class="StringMap">
-        <entry key="key1">
-            <ref bean="pathxx" />
-        </entry>
+	<String id="pathxx">
+		<cargs>
+			<value>pathXXX</value>
+		</cargs>
+	</String>
 
-        <!--Tu się odwołujemy do wartości, która została ustawiona-->
-        <!--w entry o kluczu key1. Równie dobrze można tak robić w -->
-        <!--beanach, a nie tylko w mapach.-->
-        <entry key="key2">
-            <ref bean="pathxx" />
-        </entry>
-    </map>
-    
-<!--    <map id="bean" class="StringMap">-->
-<!---->
-<!--        <entry key="key1">-->
-<!--            <bean id="pathaa" class="String">-->
-<!--                <constructor-arg>-->
-<!--                    <value>pathAAA</value>-->
-<!--                </constructor-arg>-->
-<!--            </bean>-->
-<!--        </entry>-->
-<!---->
-<!--        Tu się odwołujemy do wartości, która została ustawiona-->
-<!--        w entry o kluczu key1. Równie dobrze można tak robić w -->
-<!--        beanach, a nie tylko w mapach.-->
-<!--        <entry key="key2">-->
-<!--            <ref bean="pathaa" />-->
-<!--        </entry>-->
-<!---->
-<!--        <entry key="key3" value-ref="pathaa" />-->
-<!--    </map>-->
-    
-    <bean id="multi" class="Bar">
-        <constructor-arg><value>Test</value></constructor-arg>
-        <property name="city.name" value="Warszawa"/>
-    </bean>
-    
+	<!-- To symujuje beana, któremu w wielu różnych miejscach trzeba ustawić -->
+	<!-- ten sam napis. Normalnie użylibyśmy wielu tagów value z taką samą wartością, -->
+	<!-- ale można to też zrobić za pomocą beana typu string. -->
+
+	<!--Tu się odwołujemy do wartości, która została ustawiona -->
+	<!--w entry o kluczu key1. Równie dobrze można tak robić w -->
+	<!--beanach, a nie tylko w mapach. -->
+
+	<StringMap id="bean1" key1="@pathxx" key2="@pathxx" />
+
+
+
+	<Bar id="multi">
+		<cargs>
+			<value>Test</value>
+		</cargs>
+		<value set-as="city.name">Warszawa</value>
+	</Bar>
+
 </beans>

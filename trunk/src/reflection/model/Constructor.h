@@ -9,13 +9,13 @@
 #ifndef REFLECT_CONSTRUCTOR_H
 #define REFLECT_CONSTRUCTOR_H
 
-#include <list>
-
+#include <vector>
+#include <wctype.h>
 #include "../wrapper/ConstructorPointer.h"
 #include "../../core/IToStringEnabled.h"
 #include "../../core/Pointer.h"
 #include "../../core/ApiMacro.h"
-#include <wctype.h>
+#include "../../core/allocator/IAllocator.h"
 
 namespace Reflection {
 
@@ -25,21 +25,17 @@ namespace Reflection {
 class TILIAE_API Constructor : public Core::IToStringEnabled {
 public:
 
-        Constructor (Ptr <IConstructorPointer> cp) : constructorPointer (cp) {}
-        virtual ~Constructor () {}
-
-        Ptr<IConstructorPointer> getConstructorPointer() const { return constructorPointer; }
-        void setConstructorPointer(Ptr<IConstructorPointer> constructorPointer) { this->constructorPointer = constructorPointer; }
+        Constructor (IConstructorPointer *cp) : constructorPointer (cp) {}
+        virtual ~Constructor () { delete constructorPointer; }
 
         std::type_info const &getType () const { return constructorPointer->getType (); }
         unsigned int getArity () const { return constructorPointer->getArity (); }
 
-
         /**
          *  Instantiates a class this constructor is member of.
          */
-        Core::Variant newInstance (Core::VariantVector *ol = NULL);
-        Core::Variant newInstance (Core::Variant const &c);
+        Core::Variant newInstance (Core::VariantVector *ol = NULL, Core::IAllocator *allocator = NULL);
+        Core::Variant newInstance (Core::Variant const &c, Core::IAllocator *allocator = NULL);
 
         /**
          *  Returns string representing this Constructor. For debugging purposes.
@@ -48,12 +44,12 @@ public:
 
 private:
 
-        Ptr <IConstructorPointer> constructorPointer;
+        IConstructorPointer *constructorPointer;
 };
 
 /*##########################################################################*/
 
-typedef std::list <Ptr <Constructor> > ConstructorList;
+typedef std::vector <Constructor *> ConstructorList;
 
 
 } // namespace

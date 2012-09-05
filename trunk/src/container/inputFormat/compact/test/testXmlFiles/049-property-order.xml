@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <bean id="multi" class="Bar">
-        <constructor-arg><value>Test</value></constructor-arg>
+	<Bar id="multi01">
+		<cargs>
+			<value>Test</value>
+		</cargs>
 
-        <!--Propertisy ustwaiają się w kolejności występowania. -->
-        <!--Tak więc poniższy XML powoduje zrzucenie wyjątku (akurat-->
-        <!--to jest AssertionException, ale się zmieni). Najpierw-->
-        <!--bowiem, jest ustawiane property city3, ktore jest NULL.--> 
-        <property name="city3.name" value="Warszawa"/>
+		<!--Propertisy ustwaiają się w kolejności występowania. -->
+		<!--Tak więc poniższy XML powoduje zrzucenie wyjątku (akurat -->
+		<!--to jest AssertionException, ale się zmieni). Najpierw -->
+		<!--bowiem, jest ustawiane property city3, ktore jest NULL. -->
+		<value set-as="city3.name">Warszawa</value>
 
-        <property name="city3">
-                <bean class="City"/>
-        </property>
-    </bean>
-    
+		<City set-as="city3" singleton="false" />
+
+	</Bar>
 </beans>

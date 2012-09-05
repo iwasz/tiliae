@@ -22,7 +22,7 @@ void Output::removeAction (const std::string &name)
 Core::StringList Output::run (const Core::StringList &in)
 {
         foreach (std::string input, in) {
-                Ptr <Common::ZeroHandler> handler = actions[input];
+                Common::ZeroHandler *handler = actions[input];
 
                 if (!handler) {
                         throw OutputException ();

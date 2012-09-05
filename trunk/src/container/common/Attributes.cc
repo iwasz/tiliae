@@ -7,46 +7,103 @@
  ****************************************************************************/
 
 #include "Attributes.h"
+#include "../../core/StrUtil.h"
 
 namespace Container {
 
-void Attributes::setString (AttributeName key, const std::string &value)
+Attributes::Attributes () : parent (NULL)
 {
-        strMap[key] = value;
+        for (int i = 0; i < LAST_STRING; ++i) {
+                strMapData[i] = NULL;
+        }
+
+        intData.abstract = 0;
+        intData.abstractSet = 0;
+        intData.lazyInit = 0;
+        intData.lazyInitSet = 0;
+        intData.scope = 0;
+        intData.scopeSet = 0;
 }
 
 /****************************************************************************/
 
-std::string const &Attributes::getString (AttributeName key, bool getFromParent) const
+void Attributes::setString (AttributeName key, const char *value)
 {
-        AttribStrMap::const_iterator i = strMap.find (key);
+        strMapData[key] = value;
+}
 
-        if (i != strMap.end ()) {
-                return i->second;
+/****************************************************************************/
+
+const char *Attributes::getString (AttributeName key, bool getFromParent) const
+{
+        const char *ret = strMapData[key];
+
+        if (ret) {
+                return ret;
         }
 
         if (getFromParent && parent) {
                 return parent->getString (key);
         }
 
-        static std::string empty;
-        return empty;
+        static const char *EMPTY = "";
+        return EMPTY;
 }
 
 /****************************************************************************/
 
 void Attributes::setInt (AttributeName key, int value)
 {
-        intMap[key] = value;
+        switch (key) {
+        case ABSTRACT_ARGUMENT:
+                intData.abstract = value;
+                intData.abstractSet = 1;
+                break;
+
+        case LAZYINIT_ARGUMENT:
+                intData.lazyInit = value;
+                intData.lazyInitSet = 1;
+                break;
+
+        case SCOPE_ARGUMENT:
+                intData.scope = value;
+                intData.scopeSet = 1;
+                break;
+
+        default:
+                break;
+        }
+}
+
+/****************************************************************************/
+
+int Attributes::getIntPriv (AttributeName key) const
+{
+        switch (key) {
+        case ABSTRACT_ARGUMENT:
+                return (intData.abstractSet) ? (intData.abstract) : (-1);
+
+        case LAZYINIT_ARGUMENT:
+                return (intData.lazyInitSet) ? (intData.lazyInit) : (-1);
+
+        case SCOPE_ARGUMENT:
+                return (intData.scopeSet) ? (intData.scope) : (-1);
+
+        default:
+                return -1;
+        }
+
+        return -1;
 }
 
 /****************************************************************************/
 
 int Attributes::getInt (AttributeName key, bool getFromParent) const
 {
-        AttribIntMap::const_iterator i = intMap.find (key);
-        if (i != intMap.end ()) {
-                return i->second;
+        int ret = getIntPriv (key);
+
+        if (ret >= 0) {
+               return ret;
         }
 
         if (getFromParent && parent) {
@@ -54,57 +111,6 @@ int Attributes::getInt (AttributeName key, bool getFromParent) const
         }
 
         return 0;
-}
-
-/****************************************************************************/
-
-void Attributes::setBool (AttributeName key, bool value)
-{
-        intMap[key] = value;
-}
-
-/****************************************************************************/
-
-bool Attributes::getBool (AttributeName key, bool getFromParent) const
-{
-        AttribIntMap::const_iterator i = intMap.find (key);
-        if (i != intMap.end ()) {
-                return i->second;
-        }
-
-        if (getFromParent && parent) {
-                return parent->getBool (key);
-        }
-
-        return false;
-}
-
-/****************************************************************************/
-
-//void Attributes::addAttributes (const Attributes &a)
-//{
-//        // TODO to się aż prosi o przeronieine tego na STL.
-//        foreach (Core::StringMap::value_type v, a.strMap) {
-//                Core::StringMap::iterator i = strMap.find (v.first);
-//                if (i == strMap.end ()) {
-//                        strMap[v.first] = v.second;
-//                }
-//        }
-//
-//        foreach (IntMap::value_type v, a.intMap) {
-//                IntMap::iterator i = intMap.find (v.first);
-//                if (i == intMap.end ()) {
-//                        intMap[v.first] = v.second;
-//                }
-//        }
-//}
-
-/****************************************************************************/
-
-void Attributes::removeAttribute (AttributeName key)
-{
-        strMap.erase (key);
-        intMap.erase (key);
 }
 
 /****************************************************************************/
@@ -117,8 +123,66 @@ bool Attributes::containsKey (AttributeName key, bool getFromParent) const
                 foundInParent = parent->containsKey (key);
         }
 
-        return strMap.find (key) != strMap.end () || intMap.find (key) != intMap.end () || foundInParent;
+        bool foundInChild = false;
+        int iKey = static_cast <int> (key);
+
+        if (iKey > 0 && iKey < LAST_STRING) {
+                foundInChild = bool (strMapData[iKey]);
+        }
+        else if (iKey >= ABSTRACT_ARGUMENT && iKey <= SCOPE_ARGUMENT) {
+                 foundInChild = ((iKey == ABSTRACT_ARGUMENT) && (intData.abstractSet)) ||
+                                ((iKey == LAZYINIT_ARGUMENT) && (intData.lazyInitSet)) ||
+                                ((iKey == SCOPE_ARGUMENT) && (intData.scopeSet));
+        }
+
+        return foundInChild || foundInParent;
 }
 
+/****************************************************************************/
+
+Attributes *Attributes::makeCopyOnHeap () const
+{
+        Attributes *a = new Attributes ();
+
+        a->setString (ID_ARGUMENT, copyString (ID_ARGUMENT));
+        a->setString (CLASS_ARGUMENT, copyString (CLASS_ARGUMENT));
+        a->setString (PARENT_ARGUMENT, copyString (PARENT_ARGUMENT));
+        a->setString (INITMETHOD_ARGUMENT, copyString (INITMETHOD_ARGUMENT));
+        a->setString (FACTORY_ARGUMENT, copyString (FACTORY_ARGUMENT));
+        a->setString (EDITOR_ARGUMENT, copyString (EDITOR_ARGUMENT));
+        a->setInt (ABSTRACT_ARGUMENT, getInt (ABSTRACT_ARGUMENT));
+        a->setInt (LAZYINIT_ARGUMENT, getInt (LAZYINIT_ARGUMENT));
+        a->setInt (SCOPE_ARGUMENT, getInt (SCOPE_ARGUMENT));
+
+        return a;
+}
+
+/****************************************************************************/
+
+const char *Attributes::copyString (AttributeName key) const
+{
+        const char *ret = strMapData[key];
+
+        if (ret) {
+                return mkCopy (ret);
+        }
+
+        if (parent) {
+                return parent->copyString (key);
+        }
+
+        return NULL;
+}
+
+/****************************************************************************/
+
+void Attributes::deleteHeapCopy (Attributes *a)
+{
+        for (int i = 0; i < LAST_STRING; ++i) {
+                delete [] a->strMapData[i];
+        }
+
+        delete a;
+}
 
 }

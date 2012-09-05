@@ -2,7 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
         "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-    <bean id="cityNonSingleton" class="City"/>
+    <bean id="cityNonSingleton" class="City" singleton="false" />
     <bean id="citySingleton" class="City" singleton="true"/>
 
     <list id="lista" class="StringList" singleton="true">

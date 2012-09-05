@@ -2,7 +2,7 @@
 
 <beans>
 
-    <bean id="author01" class="Author">
+    <bean id="author01h" class="Author">
         <constructor-arg>
             <value>Firstname</value>
         </constructor-arg>
@@ -11,7 +11,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="author02" class="Author">
+    <bean id="author02h" class="Author">
         <constructor-arg>
             <value type="string">Test</value>
         </constructor-arg>
@@ -21,7 +21,7 @@
         </constructor-arg>
     </bean>
 
-    <bean id="author03" class="Author" singleton="true">
+    <bean id="author03h" class="Author" singleton="true">
         <property name="firstname" value="Ian" />
         <property name="lastname">
             <value type="text">Anderson</value>
@@ -30,10 +30,10 @@
         <property name="age" value="45" />        
     </bean>
 
-    <map id="authorMap" class="AuthorMap">
-        <entry key="a1" ref="author01" />
-        <entry key="a2" ref="author02" />
-        <entry key="a3" ref="author03" />
+    <map id="authorMaph" class="AuthorMap">
+        <entry key="a1" ref="author01h" />
+        <entry key="a2" ref="author02h" />
+        <entry key="a3" ref="author03h" />
     </map>
 
     <bean id="author1" class="Author" singleton="true">

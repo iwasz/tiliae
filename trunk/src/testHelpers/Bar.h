@@ -27,14 +27,6 @@
 
 /****************************************************************************/
 
-/*
-
-848B  - getter
-4508B - setter!!!
-
-
- */
-
 class TILIAE_API Bar {
 public:
 
@@ -95,6 +87,9 @@ public:
         REFLECTION_METHOD (getCity3) Ptr <City> getCity3 () const { return city3; }
         REFLECTION_METHOD (setCity3) void setCity3 (Ptr <City> city) { MARK(setCity3); this->city3 = city; }
 
+        City *getCity4 () { return city4; }
+        City *getCity5 () { return city5; }
+
         REFLECTION_METHOD (setAaaby) void setAaaby (Ptr <City> city) { MARK(aaaby); if (!city3) { throw Core::Exception (); } }
 
         REFLECTION_METHOD (getButter); Core::Variant getButter() const { return butter; }
@@ -118,8 +113,10 @@ private:
         bool field5;
         char *field6;
         Ptr <City> city;
-        Ptr <City> city3;
         Ptr <City> city2;
+        Ptr <City> city3;
+        City *REFLECTION_FIELD_VALUE_INPLACE (city4);
+        City *REFLECTION_FIELD_VALUE_INPLACE (city5);
         Core::Variant butter;
         Core::Variant butter2;
 
@@ -131,6 +128,9 @@ REFLECTION_COLLECTION (BarVector)
 
 typedef std::list <Ptr <Bar> > BarList;
 REFLECTION_COLLECTION (BarList)
+
+typedef std::list <Bar *> BarListPtr;
+REFLECTION_COLLECTION (BarListPtr)
 
 typedef std::map <std::string, Ptr <Bar> > BarMap;
 REFLECTION_COLLECTION (BarMap)

@@ -22,20 +22,19 @@ struct PrintMetaService : public AbstractMetaService {
 
         TILIAE_API PrintMetaService () : buffer (NULL) {}
         virtual ~PrintMetaService () {}
-        static Ptr <PrintMetaService> create () { return Ptr <PrintMetaService> (new PrintMetaService); }
 
-        void onContainer (MetaContainer *data);
-        bool onMetaBegin (IMeta *data) { return true; }
-        bool onMetaEnd (IMeta *data) { return true; }
-        bool onMappedMetaBegin (MappedMeta *data);
-        bool onMappedMetaEnd (MappedMeta *data) { return true; }
-        bool onIndexedMetaBegin (IndexedMeta *data);
-        bool onIndexedMetaEnd (IndexedMeta *data) { return true; }
-        void onConstructorArgsBegin (IMeta *data) {}
-        void onConstructorArgsEnd (IMeta *data) {}
-        void onValueData (std::string const &key, ValueData *data);
-        void onNullData (std::string const &key, NullData *data);
-        void onRefData (std::string const &key, RefData *data);
+        void onContainer (MetaContainer const *data);
+        bool onMetaBegin (MetaObject const *data) { return true; }
+        bool onMetaEnd (MetaObject const *data) { return true; }
+        bool onMappedMetaBegin (MetaObject const *data);
+        bool onMappedMetaEnd (MetaObject const *data) { return true; }
+        bool onIndexedMetaBegin (MetaObject const *data);
+        bool onIndexedMetaEnd (MetaObject const *data) { return true; }
+        void onConstructorArgsBegin (MetaObject const *data) {}
+        void onConstructorArgsEnd (MetaObject const *data) {}
+        void onValueData (DataKey const *dk, ValueData const *data);
+        void onNullData (DataKey const *dk, NullData const *data);
+        void onRefData (DataKey const *dk, RefData const *data);
 
     /*--------------------------------------------------------------------------*/
 

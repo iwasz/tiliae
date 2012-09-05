@@ -24,8 +24,13 @@ struct TILIAE_API NullData : public IData {
 
         virtual ~NullData () {}
 
-        std::string const &getData () const { static std::string s ("<NULL>"); return s; }
-        void accept (std::string const &key, IDataVisitor *visitor) { visitor->visit (key, this); }
+        const char *getData () const { static const char *NULL_STRING = "NULL"; return NULL_STRING; }
+        void accept (DataKey const *dk, IDataVisitor *visitor) { visitor->visit (dk, this); }
+
+private:
+
+        NullData () {}
+        friend class MetaFactory;
 };
 
 }

@@ -1,42 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <bean id="reflectionFactory" class="ReflectionFactory"/>
-        
-        <map id="mapFactParams" class="VariantMap">
-                <entry key="class" value="StringMap"/>
-        </map>
-        
-        <bean id="mapFactory" class="ProxyFactory">
-                <property name="factory" ref="reflectionFactory"/>
-                <!-- To powinien być embednięty bean. -->
-                <property name="params" ref="mapFactParams"/>
-        </bean>        
+  <TestFactory id="mapFactory" />
 
-        <!-- Trochę to zakręcone. -->
-        <map id="myMap" factory="mapFactory">
-                <entry key="k1" value="v1"/>
-                <entry key="k2" value="v2"/>
-                <entry key="k3" value="v3"/>
-                <entry key="k4" value="v4"/>
-        </map>
-        
-<!-- ========================================================= -->
+  <!-- Trochę to zakręcone. -->
+  <map id="myMap" factory="mapFactory">
+    <value set-as="k1">v1</value>
+    <value set-as="k2">v2</value>
+    <value set-as="k3">v3</value>
+    <value set-as="k4">v4</value>
+  </map>
 
-	<map id="listFactParams" class="VariantMap">
-		<entry key="class" value="StringVector" />
-	</map>
-        
-        <bean id="listFactory" class="ProxyFactory">
-                <property name="factory" ref="reflectionFactory"/>
-                <property name="params" ref="listFactParams"/>
-        </bean>
-
-        <list id="myList" factory="listFactory">
-                <value>v1</value>
-                <value>v2</value>
-                <value>v3</value>
-                <value>v4</value>
-        </list>
 </beans>

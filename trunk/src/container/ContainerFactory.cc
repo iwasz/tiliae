@@ -14,19 +14,14 @@
 #include "common/testHelpers/ContainerTestFactory.h"
 #include "metaStructure/service/PrintService.h"
 #include "metaStructure/service/MetaVisitor.h"
-#include "metaStructure/service/ParentService.h"
 #include "beanFactory/service/ValueServiceHelper.h"
-#include "beanFactory/service/EditorService.h"
-#include "Defs.h"
 #include "ContainerFactory.h"
 #include "beanFactory/service/BeanFactoryService.h"
 #include "beanFactory/service/BeanFactoryInitService.h"
 #include "beanFactory/service/MappedValueService.h"
 #include "beanFactory/service/IndexedValueService.h"
 #include "beanFactory/service/FactoryService.h"
-#include "beanFactory/service/BeanStackUpdateService.h"
-#include "beanFactory/service/ListEditorService.h"
-#include "metaStructure/model/meta/IMeta.h"
+#include "metaStructure/model/MetaObject.h"
 #include "../beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
 #include "../beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h"
 #include "../beanWrapper/plugins/MethodPlugin.h"
@@ -37,231 +32,84 @@
 #include "../factory/ChainFactory.h"
 #include "../editor/TypeEditor.h"
 #include "../editor/LexicalEditor.h"
-#include "../editor/StringConstructorEditor.h"
 #include "../editor/ChainEditor.h"
 #include "../core/DebugContext.h"
 #include "beanFactory/BeanFactoryContext.h"
 #include "../editor/StreamEditor.h"
 #include "../editor/StringFactoryMethodEditor.h"
+#include "beanFactory/service/EditorService.h"
+#include "beanFactory/service/SingletonInstantiateService.h"
+#include "beanFactory/InternalSingletons.h"
+#include "beanFactory/service/BFStringConstructorEditor.h"
 
 using Editor::StringFactoryMethodEditor;
-
-//#define CONTAINER_PRINT_META 1
+using Container::BFStringConstructorEditor;
 
 namespace Container {
 using namespace Wrapper;
 
-ContainerFactory::ContainerFactory ()
+/****************************************************************************/
+
+void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCont)
 {
+        MetaVisitor iteration;
+        BeanFactoryVisitorContext context;
+        InternalSingletons *internals = bfCont->getInternalSingletons ();
+        context.setMetaContainer (metaCont);
+        Core::ArrayRegionAllocator <char> *memoryAllocator = bfCont->getMemoryAllocator ();
+
         try {
 
-                iteration0 = MetaVisitor::create ();
-                iteration0->setContext (&context);
+                iteration.setContext (&context);
 
-                Ptr <IMetaService> service = ParentService::create ();
-                service->setContext (&context);
-                iteration0->addService (service);
+                BeanFactoryInitService bfService;
+                bfService.setContext (&context);
+                bfService.setDefaultBeanWrapper (internals->beanWrapperConversionForSingletons);
+                iteration.addService (&bfService);
 
-/*------1st-iteration-------------------------------------------------------*/
+                MappedValueService valMapService;
+                valMapService.setContext (&context);
+                ValueServiceHelper helper;
+                helper.setDefaultValueFactory (internals->defaultValueFactory);
+                valMapService.setValueServiceHelper (&helper);
+                iteration.addService (&valMapService);
 
-                iteration1 = MetaVisitor::create ();
-                iteration1->setContext (&context);
+                IndexedValueService valIndexService;
+                valIndexService.setContext (&context);
+                valIndexService.setValueServiceHelper (&helper);
+                iteration.addService (&valIndexService);
 
-//                Ptr <IMetaService> service = ParentService::create ();
-//                service->setContext (&context);
-//                iteration1->addService (service);
+                EditorService editorService;
+                editorService.setContext (&context);
+                editorService.setBeanWrapperConversionForSingletons (internals->beanWrapperConversionForSingletons);
+                editorService.setBeanWrapperConversionForPrototypes (internals->beanWrapperConversionForPrototypes);
+                editorService.setNoopNoCopyEditor (internals->noopNoCopy);
+                editorService.setCArgsBeanWrapper (internals->beanWrapperSimple);
+                iteration.addService (&editorService);
 
-                Ptr <Wrapper::BeanWrapper> beanWrapper = createBeanWrapper ();
+                FactoryService factoryService;
+                factoryService.setContext (&context);
+                factoryService.setDefaultSingletonFactory (internals->defaultSingletonFactory);
+                factoryService.setDefaultPrototypeFactory (internals->defaultPrototypeFactory);
+                iteration.addService (&factoryService);
 
-                Ptr <BeanFactoryInitService> bfService = BeanFactoryInitService::create ();
-                bfService->setContext (&context);
-                //Ptr <Wrapper::BeanWrapper> beanWrapper = Wrapper::BeanWrapper::create ();
-                bfService->setDefaultBeanWrapper (beanWrapper);
-                iteration1->addService (bfService);
-
-                singletons = createSingletons ();
-                singletons->operator[] (BEAN_WRAPPER_W_CONVERSION) = Core::Variant (beanWrapper);
-
-                Ptr <MappedValueService> valMapService = MappedValueService::create ();
-                valMapService->setContext (&context);
-                Ptr <ValueServiceHelper> helper = ValueServiceHelper::create ();
-                helper->setSingletonMap (singletons);
-                valMapService->setValueServiceHelper (helper);
-                iteration1->addService (valMapService);
-
-                Ptr <IndexedValueService> valIndexService = IndexedValueService::create ();
-                valIndexService->setContext (&context);
-                helper->setSingletonMap (singletons);
-                valIndexService->setValueServiceHelper (helper);
-                iteration1->addService (valIndexService);
-
-/*------2nd-iteration-------------------------------------------------------*/
-
-                iteration2 = MetaVisitor::create ();
-                iteration2->setContext (&context);
-
-                Ptr <BeanStackUpdateService> updService = BeanStackUpdateService::create ();
-                updService->setContext (&context);
-                iteration2->addService (updService);
-
-                Ptr <EditorService> editorService = EditorService::create ();
-                editorService->setContext (&context);
-                editorService->init (singletons.get ());
-                iteration2->addService (editorService);
-
-                Ptr <ListEditorService> listEditorService = ListEditorService::create ();
-                listEditorService->setContext (&context);
-                listEditorService->init (singletons.get ());
-                iteration2->addService (listEditorService);
-
-                Ptr <FactoryService> factoryService = FactoryService::create ();
-                factoryService->setContext (&context);
-                factoryService->init (singletons.get ());
-                iteration2->addService (factoryService);
+                SingletonInstantiateService sIService (memoryAllocator);
+                sIService.setContext (&context);
+                iteration.addService (&sIService);
 
 #if CONTAINER_PRINT_META
-                Ptr <PrintMetaService> printService = PrintMetaService::create ();
-                printService->setContext (&context);
-                iteration2->addService (printService);
+                PrintMetaService printService;
+                printService.setContext (&context);
+                iteration.addService (&printService);
 #endif
-        }
-        catch (Core::Exception &e) {
-                e.addMessage ("Error @ ContainerFactory::ContainerFactory.");
-                throw;
-        }
-}
 
-/****************************************************************************/
-
-Ptr <Core::VariantMap> ContainerFactory::createSingletons ()
-{
-        Ptr <Core::VariantMap> map = boost::make_shared <Core::VariantMap> ();
-
-        Ptr <Editor::IEditor> noop = Editor::NoopEditor::create ();
-        Ptr <Editor::IEditor> noopNoCopy = Editor::NoopEditor::create (false);
-
-        map->operator[] (DEFAULT_MAPPED_EDITOR_NAME) = Core::Variant (noop);
-        map->operator[] (DEFAULT_INDEXED_EDITOR_NAME) = Core::Variant (noop);
-        map->operator[] (NOOP_EDITOR_NAME) = Core::Variant (noop);
-        map->operator[] (NOOP_NO_COPY_EDITOR_NAME) = Core::Variant (noopNoCopy);
-
-        // Dodaj reflection factory.
-        Ptr <Factory::ScalarFactory> factS = boost::make_shared <Factory::ScalarFactory> ();
-        Ptr <Factory::ReflectionFactory> factR = boost::make_shared <Factory::ReflectionFactory> ();
-        Ptr <Factory::ChainFactory> fact = boost::make_shared <Factory::ChainFactory> ();
-        fact->addFactory (factS);
-        fact->addFactory (factR);
-        map->operator[] (DEFAULT_OBJECT_FACTORY_NAME) = Core::Variant (fact);
-        map->operator[] (DEFAULT_VALUE_FACTORY_NAME) = Core::Variant (factS);
-
-        map->operator[] (BEAN_WRAPPER_SIMPLE) = Core::Variant (Wrapper::BeanWrapper::create ());
-
-        return map;
-}
-
-/****************************************************************************/
-
-Ptr <Wrapper::BeanWrapper> ContainerFactory::createBeanWrapper ()
-{
-        Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-
-        Ptr <IBeanWrapperPlugin> plugin = boost::make_shared <PropertyRWBeanWrapperPlugin> ();
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <GetPutMethodRWBeanWrapperPlugin> ();
-        pluginList->push_back (plugin);
-
-        plugin = boost::make_shared <MethodPlugin> (MethodPlugin::IMMEDIATE_CALL);
-        pluginList->push_back (plugin);
-
-        beanWrapper->setPluginList (pluginList);
-
-/*--------------------------------------------------------------------------*/
-
-        Ptr <Editor::TypeEditor> editor = boost::make_shared <Editor::TypeEditor> ();
-        Ptr <Editor::IEditor> noop = Editor::NoopEditor::create ();
-        editor->setEqType (noop);
-        editor->setNullType (noop);
-
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int), boost::make_shared <Editor::StreamEditor <std::string, int> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), boost::make_shared <Editor::LexicalEditor <std::string, double> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (float), boost::make_shared <Editor::LexicalEditor <std::string, float> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char), boost::make_shared <Editor::LexicalEditor <std::string, char> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool), boost::make_shared <Editor::LexicalEditor <std::string, bool> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned int), boost::make_shared <Editor::StreamEditor <std::string, unsigned int> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned char), boost::make_shared <Editor::StreamEditor <std::string, unsigned char> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (long), boost::make_shared <Editor::StreamEditor <std::string, long> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned long), boost::make_shared <Editor::StreamEditor <std::string, unsigned long> > ()));
-
-        // Core::String <-> std::string
-        editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), boost::make_shared <Editor::LexicalEditor <Core::String, std::string> > ()));
-        editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), boost::make_shared <Editor::LexicalEditor <std::string, Core::String> > ()));
-
-        // StringCon.
-        Ptr <Editor::StringConstructorEditor> strCon = boost::make_shared <Editor::StringConstructorEditor> ();
-
-        conversionMethodEditor = boost::make_shared <Editor::StringFactoryMethodEditor> ();
-
-        Ptr <Editor::ChainEditor> chain = boost::make_shared <Editor::ChainEditor> ();
-
-        chain->addEditor (editor);
-        chain->addEditor (strCon);
-        chain->addEditor (conversionMethodEditor);
-        chain->addEditor (noop);
-
-/*--------------------------------------------------------------------------*/
-
-        beanWrapper->setEditor (chain);
-        return beanWrapper;
-}
-
-/****************************************************************************/
-
-Ptr <BeanFactoryContainer> ContainerFactory::create ()
-{
-        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> ();
-        container->setSingletons (singletons);
-        Ptr <BeanFactoryMap> map = boost::make_shared <BeanFactoryMap> ();
-        container->setBeanFactoryMap (map);
-        return container;
-}
-
-/****************************************************************************/
-
-void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContainer> metaCont)
-{
-        BeanFactoryContext ctx;
-
-        try {
                 context.reset ();
                 context.setBeanFactoryContainer (bfCont);
-                context.setBeanFactoryMap (bfCont->getBeanFactoryMap ());
-                metaCont->accept (iteration0.get ());
-                metaCont->accept (iteration1.get ());
-                metaCont->accept (iteration2.get ());
+                context.setBeanFactoryMap (&bfCont->getBeanFactoryMap ());
 
-/*------2.5-iteration-*global*-singletons-----------------------------------*/
-
-                // Tworzymy singletony (ale tylko te globalne). Czyli nie iterujemy przez wszystko, a
-                Ptr <BeanFactoryMap> beanFactoryMap = context.getBeanFactoryMap ();
-                for (BeanFactoryMap::nth_index <1>::type::iterator i = beanFactoryMap->get<1> ().begin ();
-                     i  != beanFactoryMap->get<1> (). end ();
-                     ++i) {
-
-                        Ptr <BeanFactory> factory = *i;
-
-                        bool isSingleton = (static_cast <IMeta::Scope> (factory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == IMeta::SINGLETON);
-                        bool isLazyInit = factory->getBoolAttribute (Attributes::LAZYINIT_ARGUMENT);
-
-                        if (isSingleton && !isLazyInit) {
-                                Core::Variant v = factory->create (Core::VariantMap (), &ctx);
-
-                                if (v.isNone ()) {
-                                        throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + (*i)->getId () + "].");
-                                }
-                        }
-                }
+                metaCont->updateParents ();
+                MetaDeque sorted = metaCont->topologicalSort ();
+                iteration.visit (&sorted);
         }
         catch (NoSuchBeanException &e) {
                 e.addMessage ("ContainerFactory::createContainer : [" + bfCont->toString () + "].");
@@ -275,22 +123,12 @@ void ContainerFactory::fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContain
 
 /****************************************************************************/
 
-Ptr <BeanFactoryContainer> ContainerFactory::createContainer (Ptr <MetaContainer> metaCont,
-                bool storeMetaContainer,
-                Ptr <BeanFactoryContainer> linkedParent)
+Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCont,
+                                                     bool storeMetaContainer,
+                                                     BeanFactoryContainer *linkedParent)
 {
-        ContainerFactory cf;
-        Ptr <BeanFactoryContainer> container = cf.createEmptyContainer (metaCont, storeMetaContainer, linkedParent, cf);
-        cf.fill (container, metaCont);
-        return container;
-}
-
-Ptr <BeanFactoryContainer> ContainerFactory::createEmptyContainer (Ptr <MetaContainer> metaCont,
-                bool storeMetaContainer,
-                Ptr <BeanFactoryContainer> linkedParent, ContainerFactory &cf)
-{
-        Ptr <BeanFactoryContainer> container = cf.create ();
-        container->conversionMethodEditor = cf.conversionMethodEditor.get ();
+        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> ();
+        container->setInternalSingletons (createSingletons (container->getMemoryAllocator (), container->getSingletons ()));
 
         if (linkedParent) {
                 container->setLinked (linkedParent);
@@ -302,6 +140,111 @@ Ptr <BeanFactoryContainer> ContainerFactory::createEmptyContainer (Ptr <MetaCont
         }
 
         return container;
+}
+
+
+/****************************************************************************/
+
+Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (Ptr <MetaContainer> metaCont,
+                                                            bool storeMetaContainer,
+                                                            BeanFactoryContainer *linkedParent)
+{
+        Ptr <BeanFactoryContainer> container = create (metaCont, storeMetaContainer,linkedParent);
+        init (container.get (), metaCont.get ());
+        return container;
+}
+
+/****************************************************************************/
+
+InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memoryAllocator, SparseVariantMap *singletons)
+{
+        InternalSingletons *internals = new InternalSingletons;
+
+        internals->noop = new Editor::NoopEditor ();
+        internals->noopNoCopy = new Editor::NoopEditor (false);
+
+        // Dodaj reflection factory.
+        Factory::ScalarFactory *factS = new Factory::ScalarFactory ();
+        Factory::ReflectionFactory *factR = new Factory::ReflectionFactory (memoryAllocator);
+        Factory::ChainFactory *fact = new Factory::ChainFactory (true);
+        fact->addFactory (factS);
+        fact->addFactory (factR);
+
+        internals->defaultSingletonFactory = fact;
+        internals->defaultValueFactory = factS;
+
+        // Dla prototpów ReflectionFactory bez alokatora (czyli alokuje na heapie).
+        factS = new Factory::ScalarFactory ();
+        factR = new Factory::ReflectionFactory ();
+        fact = new Factory::ChainFactory (true);
+        fact->addFactory (factS);
+        fact->addFactory (factR);
+
+        internals->defaultPrototypeFactory = fact;
+        internals->beanWrapperSimple = Wrapper::BeanWrapper::create ();
+
+/*--------------------------------------------------------------------------*/
+
+        BeanWrapper *beanWrapper = new BeanWrapper (true);
+        beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::IMMEDIATE_CALL));
+
+        Editor::TypeEditor *typeEditor = new Editor::TypeEditor (true);
+        typeEditor->setEqType (new Editor::NoopEditor ());
+        typeEditor->setNullType (new Editor::NoopEditor ());
+
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (int), new Editor::StreamEditor <std::string, int> ()));
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (double), new Editor::LexicalEditor <std::string, double> ()));
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (float), new Editor::LexicalEditor <std::string, float> ()));
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char), new Editor::LexicalEditor <std::string, char> ()));
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool), new Editor::LexicalEditor <std::string, bool> ()));
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned int), new Editor::StreamEditor <std::string, unsigned int> ()));
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned char), new Editor::StreamEditor <std::string, unsigned char> ()));
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (long), new Editor::StreamEditor <std::string, long> ()));
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned long), new Editor::StreamEditor <std::string, unsigned long> ()));
+
+        // Core::String <-> std::string
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), new Editor::LexicalEditor <Core::String, std::string> ()));
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
+
+        // StringCon.
+        BFStringConstructorEditor *strCon = new BFStringConstructorEditor (singletons, memoryAllocator);
+        Editor::StringFactoryMethodEditor *conversionMethodEditor = new Editor::StringFactoryMethodEditor ();
+        Editor::ChainEditor *chain = new Editor::ChainEditor (true);
+
+        chain->addEditor (typeEditor);
+        chain->addEditor (strCon);
+        chain->addEditor (conversionMethodEditor);
+        chain->addEditor (new Editor::NoopEditor ());
+
+        beanWrapper->setEditor (chain);
+        internals->beanWrapperConversionForSingletons = beanWrapper;
+
+/*--------------------------------------------------------------------------*/
+
+        beanWrapper = new BeanWrapper (true);
+        beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin ());
+        beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::IMMEDIATE_CALL));
+
+        internals->strCon_BW_Proto = strCon = new BFStringConstructorEditor (singletons);
+        chain = new Editor::ChainEditor (false);
+        chain->addEditor (typeEditor);
+        chain->addEditor (strCon);
+        chain->addEditor (conversionMethodEditor);
+        chain->addEditor (internals->noop);
+
+        beanWrapper->setEditor (chain);
+
+        internals->beanWrapperConversionForPrototypes = beanWrapper;
+
+/*--------------------------------------------------------------------------*/
+
+        internals->mainTypeEditor = typeEditor;
+        internals->mainMethodConversionEditor = conversionMethodEditor;
+
+        return internals;
 }
 
 }

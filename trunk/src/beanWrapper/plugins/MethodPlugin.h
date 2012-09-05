@@ -28,18 +28,18 @@ namespace Wrapper {
 class TILIAE_API Handler {
 public:
 
-        Handler (const Core::Variant &v, Ptr <Reflection::Method> m) : object (v), method (m) {}
+        Handler (const Core::Variant &v, Reflection::Method *m) : object (v), method (m) {}
         Handler (const Handler &h) : object (h.object), method (h.method) {}
 
         Core::Variant getObject () const { return object; }
-        Ptr <Reflection::Method> getMethod () const { return method; }
+        Reflection::Method *getMethod () const { return method; }
 
         Core::Variant invoke (Core::VariantVector *list = NULL) { return method->invoke (object, list); }
 
 private:
 
         Core::Variant object;
-        Ptr <Reflection::Method> method;
+        Reflection::Method *method;
 
 };
 
@@ -84,12 +84,12 @@ public:
 
 private:
 
-        Ptr <Reflection::Class> getClass (const Core::Variant &bean, const Common::IPath *path) const;
+        Reflection::Class *getClass (const Core::Variant &bean, const Common::IPath *path) const;
 
 private:
 
         Mode mode;
-        REFLECTION_END_ (MethodPlugin)
+
 };
 
 } // namespace

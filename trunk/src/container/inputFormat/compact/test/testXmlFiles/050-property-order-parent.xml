@@ -1,41 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <map id="parentMap" class="VariantMap">
+  <VariantMap id="parentMap">
 
-        <entry key="a">
-            <value>Test1</value>
-        </entry>
+    <value set-as="a">Test1</value>
 
-        <entry key="b">
-<!--            <map class="VariantMap">-->
-<!--                <entry key="c">-->
-                    <map class="StringMap">
-                        <entry key="d">
-                            <value>Test1</value>
-                        </entry>
-                    </map>
-<!--                </entry>-->
-<!--            </map>-->
-        </entry>
-    </map>
+    <VariantMap set-as="b">
+      <value set-as="c">Test1</value>
+    </VariantMap>
+  </VariantMap>
 
-    <!--Takie hocki klocki też działają -->
-    <bean id="childMap" parent="parentMap">
-<!--        <property name="b.c.d" value="Test34" />-->
-        <property name="b.d" value="Test34" />
-    </bean>
+  <!--Takie hocki klocki też działają -->
+  <parentMap id="childMap">
+    <value set-as="b.c">Test34</value>
+  </parentMap>
 
-    <!--Tester -->
-    <bean id="testTool" class="K202Proxy">
-        <property name="domain">
-            <ref bean="childMap" />
-        </property>
-
-        <property name="sourceCode">
-            <value><![CDATA[${b.d} == 'Test34']]></value>
-        </property>
-    </bean>
 </beans>

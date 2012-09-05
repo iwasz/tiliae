@@ -50,7 +50,9 @@ struct TestClass {
  */
 BOOST_AUTO_TEST_CASE (testBasic)
 {
-        BOOST_REQUIRE (sizeof (Variant) <= 48);
+//        std::cerr << sizeof (Variant) << std::endl;
+//        BOOST_REQUIRE (sizeof (Variant) <= 48);
+        BOOST_REQUIRE (sizeof (Variant) <= 64);
 }
 
 BOOST_AUTO_TEST_CASE (testConstCorrectnessPointer)
@@ -288,7 +290,7 @@ BOOST_AUTO_TEST_CASE (testLCast)
         {
                 Variant v ("666");
                 BOOST_CHECK_EQUAL (lcast <int> (v), 666);
-                BOOST_CHECK_EQUAL (lcast <unsigned int> (v), 666);
+                BOOST_CHECK_EQUAL (lcast <unsigned int> (v), 666U);
                 BOOST_CHECK_EQUAL (lcast <double> (v), 666.0);
                 BOOST_CHECK_EQUAL (lcast <float> (v), 666.0);
                 BOOST_CHECK_EQUAL (lcast <long double> (v), 666.0);
@@ -376,5 +378,78 @@ BOOST_AUTO_TEST_CASE (testVoidPtr)
                 BOOST_REQUIRE_EQUAL (p, si);
         }
 }
+
+#ifdef ALLOW_CAST_TO_SMART
+
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (testCastToSmart)
+{
+        int *i = new int;
+        Variant v (i);
+        BOOST_REQUIRE (ccast <Ptr <int> > (v));
+}
+
+#endif
+
+
+#ifndef ALLOW_CAST_TO_SMART
+
+BOOST_AUTO_TEST_CASE (testConvertToPtr)
+{
+        int *i = new int;
+        Variant v (i);
+        BOOST_REQUIRE (!ccast <Ptr <int> > (v));
+
+        Variant v2 = Core::convertVariantToSmart (v);
+        BOOST_REQUIRE (ccast <Ptr <int> > (v2));
+
+        Ptr <int> i2 = vcast <Ptr <int> > (v2);
+        BOOST_REQUIRE_EQUAL (i2.get (), i);
+}
+
+#endif
+
+BOOST_AUTO_TEST_CASE (testNulls)
+{
+        Variant v;
+        v.setNull ();
+        v.setTypeInfo(typeid (double)); // Niezależnie od tego co tu jest, konwersja powinna zadziałać.
+
+        {
+        int *i = vcast <int *> (v);
+        BOOST_REQUIRE (!i);
+
+        Ptr <int> i2 = vcast <Ptr <int> > (v);
+        BOOST_REQUIRE (!i2);
+        }
+
+        {
+        int *i = ocast <int *> (v);
+        BOOST_REQUIRE (!i);
+
+        Ptr <int> i2 = ocast <Ptr <int> > (v);
+        BOOST_REQUIRE (!i2);
+        }
+
+        {
+        TestClass *i = vcast <TestClass *> (v);
+        BOOST_REQUIRE (!i);
+
+        Ptr <TestClass > i2 = vcast <Ptr <TestClass > > (v);
+        BOOST_REQUIRE (!i2);
+        }
+
+        {
+        TestClass *i = ocast <TestClass *> (v);
+        BOOST_REQUIRE (!i);
+
+        Ptr <TestClass > i2 = ocast <Ptr <TestClass > > (v);
+        BOOST_REQUIRE (!i2);
+        }
+
+}
+
 
 BOOST_AUTO_TEST_SUITE_END ();

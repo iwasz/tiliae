@@ -15,12 +15,21 @@ using namespace Core;
 
 /****************************************************************************/
 
-Ptr<Class> ClassContainer::get (const std::string &className) const
+ClassContainer::~ClassContainer ()
+{
+        for (Multi::nth_index<0>::type::iterator i = body.begin (); i != body.end (); ++i) {
+                delete *i;
+        }
+}
+
+/****************************************************************************/
+
+Class *ClassContainer::get (const std::string &className) const
 {
         Multi::nth_index<0>::type::iterator i = body.find (className);
 
         if (i == body.end ()) {
-                return Ptr<Class> ();
+                return NULL;
         }
 
         return *i;
@@ -28,27 +37,25 @@ Ptr<Class> ClassContainer::get (const std::string &className) const
 
 /****************************************************************************/
 
-Ptr<Class> ClassContainer::get (std::type_info const &t) const
+Class *ClassContainer::get (std::type_info const &t) const
 {
         TypeMap::const_iterator i = typeMap.find (&t);
-        return (i == typeMap.end ()) ? (Ptr <Class> ()) : (i->second);
+        return (i == typeMap.end ()) ? (NULL) : (i->second);
 }
 
 /****************************************************************************/
 
-void ClassContainer::add (Ptr<Class> clazz)
+bool ClassContainer::add (Class *clazz)
 {
-#if 0
         Multi::nth_index<0>::type::iterator i = body.find (clazz->getName ());
-        std::cerr << clazz->getName () << std::endl;
 
         if (i != body.end ()) {
-                throw ClassAllreadyManagedException ("ClassAllreadyManagedException (" + clazz->getName () + ")");
+                return false;
         }
-#endif
 
         body.get<0>().insert(clazz);
         typeMap[&clazz->getType ()] = clazz;
+        return true;
 }
 
 /****************************************************************************/
@@ -61,7 +68,7 @@ std::string ClassContainer::toString () const
 
         while (i != body.end ()) {
 
-                Ptr <Class> cls = *i;
+                Class *cls = *i;
                 ret += cls->toString ();
 
                 if (++i != body.end ()) {

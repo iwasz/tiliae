@@ -10,13 +10,5 @@
 
 namespace Container {
 
-Ptr <BeanFactory> BeanFactoryVisitorContext::getCurrentBF () const
-{
-        if (stack.empty ()) {
-                return Ptr <BeanFactory> ();
-        }
-
-        return stack.top ();
-}
 
 } //nam

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+        <Bar id="a" />
+        <Bar id="b" butter="@a" />
+        <Bar id="c" butter="@a" />
+        <Bar id="d" butter="@c" />
+        <Bar id="e" butter="@d" />
+        <Bar id="f" butter="@d" />
+        <Bar id="g" butter="@f" />
+        <Bar id="h" butter="@g" />
+  
+        <Bar id="i">
+                <cargs>
+                        <ref bean="g"/>
+                </cargs>
+        </Bar>
+</beans>

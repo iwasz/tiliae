@@ -16,6 +16,7 @@
 #include "../../core/variant/Variant.h"
 #include "../ReflectionFactory.h"
 #include "../ChainFactory.h"
+#include "../LazyFactory.h"
 #include <boost/make_shared.hpp>
 #include "../../testHelpers/Bar.h"
 
@@ -28,14 +29,12 @@ using namespace Factory;
  */
 BOOST_AUTO_TEST_CASE (testAdvanced)
 {
-        Ptr <ScalarFactory> factS = boost::make_shared <ScalarFactory> ();
-        Ptr <ReflectionFactory> factR = boost::make_shared <ReflectionFactory> ();
-        ChainFactory fact;
+        ChainFactory fact (true);
 
         // Pierwsza
-        fact.addFactory (factS);
+        fact.addFactory (new ScalarFactory);
         // Druga
-        fact.addFactory (factR);
+        fact.addFactory (new ReflectionFactory);
 
         // 1. Stwórz skalar - powinna zadziałać ScalarFactory.
         VariantMap params;
@@ -51,9 +50,10 @@ BOOST_AUTO_TEST_CASE (testAdvanced)
         classArgs.clear ();
         classArgs.push_back (Core::Variant ("6006424881"));
         v = fact.create (params);
-        BOOST_REQUIRE (ccast <Ptr <Telephone> > (v));
-        Ptr <Telephone> b = vcast <Ptr <Telephone> > (v);
+        BOOST_REQUIRE (ccast <Telephone *> (v));
+        Telephone *b = vcast <Telephone *> (v);
         BOOST_REQUIRE_EQUAL (b->getName(), "6006424881");
+        delete b;
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

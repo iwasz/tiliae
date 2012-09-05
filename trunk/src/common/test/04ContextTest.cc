@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE (testListHelper)
 
         dcError (context, "message");
 
-#if defined (TILIAE_DEBUG)
+#ifndef NDEBUG
         BOOST_REQUIRE_EQUAL (c.getMessage(), "message");
 #else
         BOOST_REQUIRE_EQUAL (c.getMessage(), "1");

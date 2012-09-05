@@ -33,9 +33,9 @@ namespace Editor {
 class TILIAE_API FactoryEditor : public IEditor {
 public:
 
-        FactoryEditor () {}
-        FactoryEditor (Ptr <IEditor> e, Ptr <Factory::IFactory> f) : editor (e), factory (f) {}
-        virtual ~FactoryEditor () {}
+        FactoryEditor (bool d = false) : deleteContents (d) {}
+        FactoryEditor (IEditor *e, Factory::IFactory *f, bool d = false) : editor (e), factory (f), deleteContents (d) {}
+        virtual ~FactoryEditor ();
 
         /**
          * Jesli parametr output jest wariantem, ktory:
@@ -49,20 +49,21 @@ public:
          */
         virtual bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 
-        Ptr <Factory::IFactory> getFactory () const { return factory; }
-        void setFactory (Ptr <Factory::IFactory> factory) { this->factory = factory; }
+        Factory::IFactory *getFactory () const { return factory; }
+        void setFactory (Factory::IFactory *factory) { this->factory = factory; }
 
-        Ptr <Editor::IEditor> getEditor () const { return editor; }
-        void setEditor (Ptr <Editor::IEditor> editor) { this->editor = editor; }
+        Editor::IEditor *getEditor () const { return editor; }
+        void setEditor (Editor::IEditor *editor) { this->editor = editor; }
 
         Core::VariantMap getFactoryParams () const { return factoryParams; }
         void setFactoryParams (Core::VariantMap factoryParams) { this->factoryParams = factoryParams; }
 
 private:
 
-        Ptr <Editor::IEditor> editor;
-        Ptr <Factory::IFactory> factory;
+        Editor::IEditor *editor;
+        Factory::IFactory *factory;
         Core::VariantMap factoryParams; // Dubluje funkcjonalność ProxyFactory.
+        bool deleteContents;
 };
 
 }

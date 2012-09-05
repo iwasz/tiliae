@@ -10,33 +10,29 @@
 #include "ValueServiceHelper.h"
 #include "Defs.h"
 #include "common/Exceptions.h"
-#include "../../../editor/IEditor.h"
-#include "../../../core/Typedefs.h"
-#include "../../../core/variant/Cast.h"
-#include "../../../factory/IFactory.h"
-#include "../../../factory/ReflectionFactory.h"
+#include "IEditor.h"
+#include "Typedefs.h"
+#include "variant/Cast.h"
+#include "IFactory.h"
+#include "ReflectionFactory.h"
 
 namespace Container {
 using namespace Core;
 
 const char *EDITOR_SPECIAL_CHAR = "&";
 
-Core::Variant ValueServiceHelper::create (const std::string &type, const std::string &value) const
+Core::Variant ValueServiceHelper::create (const char *typeC, const char *valueC) const
 {
-        assert (getSingletonMap ());
-        VariantMap::const_iterator i = getSingletonMap ()->find (DEFAULT_VALUE_FACTORY_NAME);
+        std::string type;
+        std::string value;
 
-        // Jeśli nie ma odpowiedniego edytora, to zostawiamy nieprzeedytowane
-        if (i == getSingletonMap ()->end ()) {
-                return Core::Variant (value);
+        if (typeC) {
+                type = typeC;
         }
 
-        if (!occast <Factory::IFactory *> (i->second)) {
-                throw ContainerException ("ValueServiceHelper::create : !occast <Factory::IFactory *> (i->second)");
+        if (valueC) {
+                value = valueC;
         }
-
-        Factory::IFactory *factory = ocast <Factory::IFactory *> (i->second);
-        assert (factory);
 
         if (type.empty ()) {
                 params[Factory::ReflectionFactory::CLASS_NAME] = Core::Variant (std::string (DEFAULT_VALUE_TYPE));
@@ -48,7 +44,7 @@ Core::Variant ValueServiceHelper::create (const std::string &type, const std::st
         classArgs[0] = Core::Variant (value);
         params[Factory::ReflectionFactory::CONSTRUCTOR_ARGS] = Core::Variant (&classArgs);
 
-        Variant v = factory->create (params);
+        Variant v = defaultValueFactory->create (params);
 
 #if 0
         std::cerr << v << std::endl;

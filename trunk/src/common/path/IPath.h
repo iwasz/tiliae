@@ -48,7 +48,7 @@ public:
         virtual std::string getFirstSegment () const = 0;
         virtual std::string getAllButLastSegment () const = 0;
         virtual std::string getAllButFirstSegment () const = 0;
-        virtual Core::StringList splitSegments () const = 0;
+        virtual Core::StringVector splitSegments () const = 0;
 
         virtual bool isRelative () const = 0;
         virtual bool isAbsolute () const = 0;

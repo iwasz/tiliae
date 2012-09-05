@@ -32,12 +32,7 @@ BOOST_AUTO_TEST_SUITE (ContainerTest03);
 BOOST_AUTO_TEST_CASE (testCreateVariantMap)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure10 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 1U);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -64,12 +59,7 @@ BOOST_AUTO_TEST_CASE (testCreateVariantMap)
 BOOST_AUTO_TEST_CASE (testCreateStringList)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure11 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 1);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -95,12 +85,7 @@ BOOST_AUTO_TEST_CASE (testCreateStringList)
 BOOST_AUTO_TEST_CASE (testCreateVariantList)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure12 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 1);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -127,12 +112,7 @@ BOOST_AUTO_TEST_CASE (testCreateVariantList)
 BOOST_AUTO_TEST_CASE (testCreateCountryList)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure13 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 4);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -161,12 +141,7 @@ BOOST_AUTO_TEST_CASE (testCreateCountryList)
 BOOST_AUTO_TEST_CASE (testCreateCountryMap)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure14 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 4);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 

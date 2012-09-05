@@ -21,7 +21,7 @@ namespace Reflection {
  */
 struct TILIAE_API ListHelper {
 
-        static Core::StringList createStringList (const std::string &b0,
+        static Core::StringVector createStringList (const std::string &b0,
                                              const std::string &b1 = std::string (),
                                              const std::string &b2 = std::string (),
                                              const std::string &b3 = std::string (),

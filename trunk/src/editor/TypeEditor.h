@@ -24,21 +24,22 @@ namespace Editor {
 class TILIAE_API TypeEditor : public IEditor {
 public:
 
-        virtual ~TypeEditor () {}
+        TypeEditor (bool d = false) : eqType (NULL), nullType (NULL), deleteContents (d) {}
+        virtual ~TypeEditor ();
         virtual bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 
         /**
          * Edytor używany w przypadku kiedy typy warianta input i output są
          * takie same.
          */
-        Ptr <IEditor> getEqType () const { return eqType; }
-        void setEqType (Ptr <IEditor> e) { eqType = e; }
+        IEditor *getEqType () { return eqType; }
+        void setEqType (IEditor *e) { eqType = e; }
 
         /**
          * Edytor, ktory zostanie użyty kiedy input jest typu Variant::NIL.
          */
-        Ptr <IEditor> getNullType () const { return nullType; }
-        void setNullType (Ptr <IEditor> e) { nullType = e; }
+        IEditor *getNullType () { return nullType; }
+        void setNullType (IEditor *e) { nullType = e; }
 
         /**
          * Typ elementu dla multi_index. Raczekj nie da się tego używać jak mapy, że
@@ -47,14 +48,14 @@ public:
         struct Type {
                 std::type_info const *inputType;
                 std::type_info const *outputType;
-                Ptr <Editor::IEditor> editor;
+                Editor::IEditor *editor;
 
-                Type (std::type_info const *i, std::type_info const *o, Ptr <Editor::IEditor> e) :
+                Type (std::type_info const *i, std::type_info const *o, Editor::IEditor *e) :
                         inputType (i),
                         outputType (o),
                         editor (e) {}
 
-                Type (std::type_info const &i, std::type_info const &o, Ptr <Editor::IEditor> e) :
+                Type (std::type_info const &i, std::type_info const &o, Editor::IEditor *e) :
                         inputType (&i),
                         outputType (&o),
                         editor (e) {}
@@ -88,9 +89,10 @@ private:
 
 private:
 
-        Ptr <IEditor> eqType;
-        Ptr <IEditor> nullType;
+        IEditor *eqType;
+        IEditor *nullType;
         Container container;
+        bool deleteContents;
 
 };
 

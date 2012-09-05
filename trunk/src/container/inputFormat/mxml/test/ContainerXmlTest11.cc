@@ -36,6 +36,7 @@ BOOST_AUTO_TEST_CASE (test051PropertyOrder)
 
         Variant vB = cont->getBean ("bean");
         BOOST_CHECK (!vB.isNone());
+        vcast <Ptr <Bar> > (vB);
 
         BOOST_CHECK_THROW (cont->getBean ("bean2"), Core::Exception);
 }
@@ -49,11 +50,11 @@ BOOST_AUTO_TEST_CASE (test052NestedBeanWithId)
 
         Variant vB = cont->getBean ("bean");
         BOOST_CHECK (!vB.isNone());
-        Ptr <Bar> bar = vcast <Ptr <Bar> > (vB);
+        Bar *bar = vcast <Bar *> (vB);
 
-        BOOST_CHECK (bar->getCity ());
-        BOOST_CHECK (bar->getCity3 ());
-        BOOST_CHECK (bar->getCity3 () == bar->getCity ());
+        BOOST_CHECK (bar->getCity4 ());
+        BOOST_CHECK (bar->getCity5 ());
+        BOOST_CHECK (bar->getCity4 () == bar->getCity5 ());
 }
 
 /**
@@ -64,7 +65,7 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "053-bean-scope-first-tests.xml");
 
         Variant v = cont->getBean ("listaSingleton");
-        Ptr <BarList> barList = vcast <Ptr <BarList> > (v);
+        BarList *barList = vcast <BarList *> (v);
         BOOST_CHECK (barList);
 
         BOOST_CHECK (barList->size () == 2);
@@ -75,24 +76,23 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
         BOOST_CHECK (bar1 != bar2);
 
-        BOOST_CHECK (bar1->getCity());
-        BOOST_CHECK (bar1->getCity3());
+        BOOST_CHECK (bar1->getCity4());
+        BOOST_CHECK (bar1->getCity5());
 
-        BOOST_CHECK (bar2->getCity());
-        BOOST_CHECK (bar2->getCity3());
+        BOOST_CHECK (bar2->getCity4());
+        BOOST_CHECK (bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+        BOOST_CHECK (bar1->getCity4() == bar1->getCity5());
+        BOOST_CHECK (bar2->getCity4() == bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar2->getCity ());
+        BOOST_CHECK (bar1->getCity5() == bar2->getCity5 ());
 
 /****************************************************************************/
 
         v = cont->getBean ("listaPrototype");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList> > (v));
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -117,29 +117,28 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
          Ptr <MetaContainer> mc = MXmlMetaService::parseFile (PATH + "053-bean-scope-first-tests.xml");
 
-        BOOST_CHECK (mc->getMetaMap ().size () == 8);
-        IMeta *meta = mc->get ("bean2");
+        BOOST_CHECK_EQUAL (mc->getMetaMap ().size (), 12U);
+        MetaObject const *meta = mc->get ("bean2");
 
         MetaMap innerM = meta->getInnerMetas ();
         BOOST_CHECK (innerM.size () == 1);
 
         BOOST_CHECK (innerM.find ("innerCity2") != innerM.end ());
 
-        IMeta *in = innerM["innerCity2"];
+        MetaObject *in = innerM["innerCity2"];
         BOOST_CHECK (in);
 
 /****************************************************************************/
 
         v = cont->getBean ("listaBean1");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList> > (v));
 
-        Ptr <BeanFactory> bf = cont->getBeanFactory ("bean2");
+        BeanFactory *bf = cont->getBeanFactory ("bean2");
         BOOST_CHECK (bf);
         bf = bf->getInnerBeanFactory("innerCity2");
         BOOST_CHECK (bf);
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -149,24 +148,27 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
         BOOST_CHECK (bar1 != bar2);
 
-        BOOST_CHECK (bar1->getCity());
-        BOOST_CHECK (bar1->getCity3());
+        BOOST_CHECK (bar1->getCity4());
+        BOOST_CHECK (bar1->getCity5());
 
-        BOOST_CHECK (bar2->getCity());
-        BOOST_CHECK (bar2->getCity3());
+        BOOST_CHECK (bar2->getCity4());
+        BOOST_CHECK (bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+        BOOST_CHECK (bar1->getCity4() == bar1->getCity5());
+        BOOST_CHECK (bar2->getCity4() == bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
+        BOOST_CHECK (bar1->getCity4() != bar2->getCity4 ());
+
+        // Trzeba skasować, żeby nie było wycieku pamięci.
+        delete bar1->getCity4();
+        delete bar2->getCity4();
 
 /****************************************************************************/
 
         v = cont->getBean ("listaBean2");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Ptr <BarList > > (v));
 
-        barList = vcast <Ptr <BarList> > (v);
+        barList = vcast <BarList *> (v);
 
         BOOST_CHECK (barList->size () == 2);
 
@@ -176,16 +178,19 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 
         BOOST_CHECK (bar1 != bar2);
 
-        BOOST_CHECK (bar1->getCity());
-        BOOST_CHECK (bar1->getCity3());
+        BOOST_CHECK (bar1->getCity4());
+        BOOST_CHECK (bar1->getCity5());
 
-        BOOST_CHECK (bar2->getCity());
-        BOOST_CHECK (bar2->getCity3());
+        BOOST_CHECK (bar2->getCity4());
+        BOOST_CHECK (bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+        BOOST_CHECK (bar1->getCity4() == bar1->getCity5());
+        BOOST_CHECK (bar2->getCity4() == bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
+        BOOST_CHECK (bar1->getCity4() != bar2->getCity4 ());
+
+        delete bar1->getCity4();
+        delete bar2->getCity4();
 }
 
 /**
@@ -206,19 +211,9 @@ BOOST_AUTO_TEST_CASE (test054InnerBeanParent)
 BOOST_AUTO_TEST_CASE (test055MapMetaOverwrite)
 {
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "055-map-meta-overwrite.xml");
-        Variant vB = cont->getBean ("testTool1");
-//        k202::K202Proxy *k202 = vcast <k202::K202Proxy *> (vB);
-//        vB = k202->run ();
-//        BOOST_CHECK (vcast <bool> (vB) == true);
 
-        vB = cont->getBean ("parentMap");
+        Variant vB = cont->getBean ("parentMap");
         BOOST_CHECK_EQUAL (vcast <StringMap *> (vB)->operator[] ("a"), "Test2");
-
-
-//        vB = cont->getBean ("testTool2");
-//        k202 = vcast <k202::K202Proxy *> (vB);
-//        vB = k202->run ();
-//        BOOST_CHECK (vcast <bool> (vB) == true);
 
         vB = cont->getBean ("childMap");
         BOOST_CHECK_EQUAL (vcast <StringMap *> (vB)->operator[] ("a"), "Test34");

@@ -353,10 +353,10 @@ std::string Path::getAllButFirstSegment () const
 
 /****************************************************************************/
 
-Core::StringList Path::splitSegments () const
+Core::StringVector Path::splitSegments () const
 {
         if (/*!validate () || */body.empty ())
-                return Core::StringList ();
+                return Core::StringVector ();
 
         return StringUtils::split (body, separatorStr);
 }

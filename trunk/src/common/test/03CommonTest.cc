@@ -59,7 +59,7 @@
 // */
 //BOOST_AUTO_TEST_CASE (testZeroHandler)
 //{
-//        Ptr <DebugHandler> cdh (new DebugHandler);
+//        DebugHandler *cdh = new DebugHandler;
 //        cdh->setDebug ("cdh1");
 //
 //        ZeroHandler zh;

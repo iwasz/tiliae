@@ -25,7 +25,7 @@ public:
         REFLECTION_CONSTRUCTOR (std::string const &)
         City (std::string const &n) : name (n) {}
 
-        virtual ~City () {}
+        ~City () {}
 
         REFLECTION_METHOD (init) void init () { name += "_INIT"; }
 
@@ -40,13 +40,13 @@ private:
 
 };
 
-typedef std::vector <Ptr <City> > CityVector;
+typedef std::vector <City *> CityVector;
 _gn (CityVector, "CityVector")
 
-typedef std::list <Ptr <City> > CityList;
+typedef std::list <City *> CityList;
 _gn (CityList, "CityList")
 
-typedef std::map <std::string, Ptr <City> > CityMap;
+typedef std::map <std::string, City *> CityMap;
 REFLECTION_COLLECTION (CityMap)
 
 #endif

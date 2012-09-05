@@ -17,6 +17,7 @@
 #include "metaStructure/model/MetaStructure.h"
 #include "common/testHelpers/ContainerTestFactory.h"
 #include <boost/make_shared.hpp>
+#include "../../metaStructure/model/MetaFactory.h"
 
 /****************************************************************************/
 
@@ -33,12 +34,13 @@ BOOST_AUTO_TEST_SUITE (ContainerTest06);
 BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
 
-        MappedMeta *child = new MappedMeta ();
+        MetaObject *child = factory.newMetaObject ();
 
-        child->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
+        child->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         child->setId ("mojBean");
 //        Nie ma ustawionego class!
 //        child->setClass ("String");
@@ -47,7 +49,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 
 /*--------------------------------------------------------------------------*/
 
-        MappedMeta *child2 = new MappedMeta ();
+        MetaObject *child2 = factory.newMetaObject ();
         child2->setId ("nfactory");
         child2->setClass ("CityFactory");
 
@@ -55,14 +57,9 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 2);
-
-/*--------------------------------------------------------------------------*/
 
         Variant v = cont->getBean ("mojBean");
 
@@ -83,11 +80,30 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 BOOST_AUTO_TEST_CASE (testSingleton)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        Variant v;
+
+/****************************************************************************/
+        {
+        v = cont->getBean ("mojBean");
+        BOOST_CHECK (!v.isNone ());
+        Ptr <Foo> foo1 = vcast <Ptr <Foo> > (v);
+
+        v = cont->getBean ("mojBean");
+        BOOST_CHECK (!v.isNone ());
+        BOOST_CHECK (ccast <Foo *> (v));
+        Ptr <Foo> foo2 = vcast <Ptr <Foo> > (v);
+
+        BOOST_CHECK (foo1 != foo2);
+        }
+/****************************************************************************/
+
+        metaCont = ContainerTestFactory::createMetaStructure21 ();
+        cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
-        Variant v = cont->getBean ("mojBean");
+        v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
         Foo *foo1 = vcast <Foo *> (v);
@@ -96,25 +112,6 @@ BOOST_AUTO_TEST_CASE (testSingleton)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
         Foo *foo2 = vcast <Foo *> (v);
-
-        BOOST_CHECK (foo1 != foo2);
-
-/****************************************************************************/
-
-        metaCont = ContainerTestFactory::createMetaStructure21 ();
-        cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        v = cont->getBean ("mojBean");
-        BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Foo *> (v));
-        foo1 = vcast <Foo *> (v);
-
-        v = cont->getBean ("mojBean");
-        BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Foo *> (v));
-        foo2 = vcast <Foo *> (v);
 
         BOOST_CHECK (foo1 == foo2);
 }
@@ -125,12 +122,7 @@ BOOST_AUTO_TEST_CASE (testSingleton)
 BOOST_AUTO_TEST_CASE (testInitMethod)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure22 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 1);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -150,23 +142,19 @@ BOOST_AUTO_TEST_CASE (testInitMethod)
 BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        MetaFactory factory (metaCont->getMemoryAllocator ());
 
-        MappedMeta *child = new MappedMeta ();
+        MetaObject *child = factory.newMetaObject ();
         child->setId ("mojaMapa");
         child->setClass ("VariantMap");
         metaCont->add (child);
 
-        IndexedMeta *child2 = new IndexedMeta ();
+        MetaObject *child2 = factory.newMetaObject ();
         child2->setId ("mojaLista");
         child2->setClass ("VariantList");
         metaCont->add (child2);
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 2);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -190,17 +178,12 @@ BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
 }
 
 /**
- *
+ * Bean-scope działa niezależnie od tego czy bean głowny jest prototypem, czy singletonem.
  */
 BOOST_AUTO_TEST_CASE (testBeanScope)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure23 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 2);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -219,16 +202,16 @@ BOOST_AUTO_TEST_CASE (testBeanScope)
 
         BOOST_CHECK (bar1 != bar2);
 
-        BOOST_CHECK (bar1->getCity());
-        BOOST_CHECK (bar1->getCity3());
+        BOOST_CHECK (bar1->getCity4());
+        BOOST_CHECK (bar1->getCity5());
 
-        BOOST_CHECK (bar2->getCity());
-        BOOST_CHECK (bar2->getCity3());
+        BOOST_CHECK (bar2->getCity4());
+        BOOST_CHECK (bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() == bar1->getCity3());
-        BOOST_CHECK (bar2->getCity() == bar2->getCity3());
+        BOOST_CHECK (bar1->getCity4() == bar1->getCity5());
+        BOOST_CHECK (bar2->getCity4() == bar2->getCity5());
 
-        BOOST_CHECK (bar1->getCity() != bar2->getCity ());
+        BOOST_CHECK (bar1->getCity4() != bar2->getCity4 ());
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

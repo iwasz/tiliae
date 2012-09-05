@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <bean id="foo" class="Foo">
-            <property name="city">
-                <value type="string">Warszawa</value>
-            </property>
-
-            <property name="city2" value="Tokio"/>
-        </bean>
+  <Foo id="foo">
+    <value type="string" set-as="city">Warszawa</value>
+    <value set-as="city2">Tokio</value>
+  </Foo>
 </beans>

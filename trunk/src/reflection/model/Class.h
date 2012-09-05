@@ -9,15 +9,16 @@
 #ifndef TILIAE_CLASS_IMPL_H
 #define TILIAE_CLASS_IMPL_H
 
-#include <list>
-
+#include <vector>
 #include "Constructor.h"
 #include "Method.h"
-#include "../../core/IToStringEnabled.h"
-#include "../../core/string/String.h"
-#include "../../core/Pointer.h"
-#include "../../core/Typedefs.h"
-#include "../../core/ApiMacro.h"
+#include "IToStringEnabled.h"
+#include "string/String.h"
+#include "Pointer.h"
+#include "Typedefs.h"
+#include "ApiMacro.h"
+#include "../model/Field.h"
+#include "../wrapper/Deleter.h"
 
 /****************************************************************************/
 
@@ -25,8 +26,7 @@ namespace Reflection {
 
 class Class;
 
-/// Lista klas.
-typedef std::list <Ptr <Class> > ClassList;
+typedef std::vector <Class *> ClassList;
 
 /**
  *
@@ -34,30 +34,37 @@ typedef std::list <Ptr <Class> > ClassList;
 class TILIAE_API Class : public Core::IToStringEnabled {
 public:
 
-        Class (const std::string &n, std::type_info const &t) :
+        Class (const std::string &n, std::type_info const &t, IDeleter *d) :
                 name (n),
                 type (t),
-                initialized (false) {}
+                initialized (false),
+                deleter (d) {}
 
-        virtual ~Class () {}
+        virtual ~Class ();
 
         std::string getName () const { return name; }
         void setName (const std::string &n) { name = n; }
 
         ClassList getBaseClassList() const;
-        void addBaseClassNames (const Core::StringList &names);
+        void addBaseClassNames (const Core::StringVector &names);
 
         const ConstructorList &getConstructorList() const { return constructorList; }
-        Ptr<Constructor> getConstructor (std::type_info const &type) const;
-        Ptr<Constructor> getConstructor (unsigned int noOfArgs = 0) const;
+        Constructor *getConstructor (std::type_info const &type) const;
+        Constructor *getConstructor (unsigned int noOfArgs = 0) const;
         void setConstructorList (const ConstructorList &constructorList) { this->constructorList = constructorList; }
-        void addConstructor (Ptr<Constructor> constructor) { this->constructorList.push_back (constructor); }
+        void addConstructor (Constructor *constructor) { this->constructorList.push_back (constructor); }
 
         const MethodList &getMethodList() const;
-        Ptr<Method> getMethod (const std::string &name, std::type_info const &ti) const;
-        Ptr<Method> getMethod (const std::string &name, int noOfArgs = -1) const;
+        Method *getMethod (const std::string &name, std::type_info const &ti) const;
+        Method *getMethod (const std::string &name, int noOfArgs = -1) const;
         void setMethodList (const MethodList &methodList) { this->methodList = methodList; }
-        void addMethod (Ptr <Method> method) { this->methodList.push_back (method); }
+        void addMethod (Method *method) { this->methodList.push_back (method); }
+
+        void addField (Field *field) { fields[field->getName ()] = field; }
+        Field *getField (std::string const &name) const;
+
+        void free (Core::Variant *v) { deleter->free (*v); }
+        void destruct (Core::Variant *v) { deleter->destruct (*v); }
 
         /// Zwraca pierwszy element types, czyli typ "podstawowy" - nie wskaźnik.
         std::type_info const &getType () const { return type; }
@@ -96,10 +103,12 @@ private:
         std::string name;
         MethodList methodList;
         ConstructorList constructorList;
-        Core::StringList baseClassNames;
+        Core::StringVector baseClassNames;
         ClassList baseClassList;
+        FieldMap fields;
         std::type_info const &type;
         bool initialized;
+        IDeleter *deleter;
 
 };
 

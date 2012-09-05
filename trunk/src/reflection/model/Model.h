@@ -6,11 +6,12 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef MODEL_H_
-#define MODEL_H_
+#ifndef TILIAE_REFLECTION_MODEL_H_
+#define TILIAE_REFLECTION_MODEL_H_
 
 #include "Class.h"
 #include "Constructor.h"
 #include "Method.h"
+#include "Field.h"
 
 #endif /* MODEL_H_ */

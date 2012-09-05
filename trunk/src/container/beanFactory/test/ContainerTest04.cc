@@ -32,16 +32,15 @@ BOOST_AUTO_TEST_SUITE (ContainerTest04);
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure15 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 1);
+        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 1);
 
 /****************************************************************************/
 
-        Ptr <BeanFactory> bf = cont->getBeanFactory ("mojBean");
+        BeanFactory *bf = cont->getBeanFactory ("mojBean");
         BOOST_CHECK (bf);
 
         Core::VariantList const *vl = bf->getCArgs ();
@@ -75,7 +74,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Bar *> (v));
 
-        Bar *foo = vcast <Bar *> (v);
+        Ptr <Bar> foo = vcast <Ptr <Bar> > (v);
 
         BOOST_CHECK_EQUAL (foo->getField0 (), "value2");
         BOOST_CHECK_EQUAL (foo->getField1 (), "value3");
@@ -92,12 +91,11 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure16 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 2);
+        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
 
 /****************************************************************************/
 
@@ -105,7 +103,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Bar *> (v));
 
-        Bar *foo = vcast <Bar *> (v);
+        Ptr <Bar> foo = vcast <Ptr <Bar> > (v);
 
         BOOST_CHECK (foo->getField0 () == "value2");
         BOOST_CHECK (foo->getField1 () == "value3");
@@ -119,13 +117,8 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
  */
 BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure17 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 2);
+       Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure17 ();
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -133,7 +126,7 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
 
-        Foo *foo = vcast <Foo *> (v);
+        Ptr <Foo> foo = vcast <Ptr <Foo> > (v);
 
         BOOST_CHECK (foo->getField0 () == "value0");
         BOOST_CHECK (foo->getField1 () == "value1");
@@ -158,12 +151,7 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
 BOOST_AUTO_TEST_CASE (testCreateMapWithReferenceDoubleIter)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure18 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 4);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 

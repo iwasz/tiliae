@@ -3,7 +3,7 @@
         "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <bean id="bean" class="Bar">
+    <bean id="bean" class="Bar" singleton="false" >
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="butter">
@@ -25,16 +25,16 @@
     
 <!-- ======================================================================================== -->
 
-    <bean id="bean4" class="Bar">
+    <bean id="bean4" class="Bar" singleton="false" >
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="butter">
-            <map class="StringMap" id="inner" scope="prototype" />
+            <map class="StringMap" id="inner1" scope="prototype" />
         </property>
 
         <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
         <property name="butter2">
-            <ref bean="inner" />
+            <ref bean="inner1" />
         </property>
     </bean>
 
@@ -47,16 +47,16 @@
     
 <!-- ======================================================================================== -->
 
-    <bean id="bean2" class="Bar">
+    <bean id="bean2" class="Bar" singleton="false" >
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="butter">
-            <map class="StringMap" id="inner" scope="bean" />
+            <map class="StringMap" id="inner2" scope="bean" />
         </property>
 
         <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
         <property name="butter2">
-            <ref bean="inner" />
+            <ref bean="inner2" />
         </property>
     </bean>
 

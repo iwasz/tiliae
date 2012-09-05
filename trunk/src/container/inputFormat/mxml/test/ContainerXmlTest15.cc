@@ -31,9 +31,9 @@ struct A03 {
         REFLECTION_CONSTRUCTOR_ (void)
 
         REFLECTION_METHOD (setCont)
-        void setCont (Ptr <BeanFactoryContainer> c) { cont = c; }
+        void setCont (BeanFactoryContainer *c) { cont = c; }
 
-        Ptr <BeanFactoryContainer> cont;
+        BeanFactoryContainer *cont;
 
         REFLECTION_END (A03)
 };
@@ -45,11 +45,11 @@ BOOST_AUTO_TEST_CASE (test071ReferenceToContainerPtr)
 {
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "071-reference-to-container.xml");
 
-        Ptr <A03> a = vcast <Ptr <A03> > (cont->getBean ("a"));
+        A03 *a = vcast <A03 *> (cont->getBean ("a"));
         BOOST_REQUIRE (a);
 
-        Ptr <BeanFactoryContainer> cont2 = a->cont;
-        BOOST_REQUIRE_EQUAL (cont2, cont);
+        BeanFactoryContainer *cont2 = a->cont;
+        BOOST_REQUIRE_EQUAL (cont2, cont.get ());
 }
 
 struct A04 {
@@ -64,13 +64,13 @@ struct A04 {
 };
 
 /**
- * Testuje ustawianie referencji do samego kontenera (zwykły wskaźnik BeanFactoryContainer *).
+ * Testuje ustawianie referencji do samego kontenera (zwykły wskaźnik BeanFactoryContainer *) - ten test się zdublował
  */
 BOOST_AUTO_TEST_CASE (test072ReferenceToContainer)
 {
         Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "072-reference-to-container.xml");
 
-        Ptr <A04> a = vcast <Ptr <A04> > (cont->getBean ("a"));
+        A04 *a = vcast <A04 *> (cont->getBean ("a"));
         BOOST_REQUIRE (a);
 
         BeanFactoryContainer *cont2 = a->cont;
@@ -83,12 +83,11 @@ BOOST_AUTO_TEST_CASE (test072ReferenceToContainer)
  */
 BOOST_AUTO_TEST_CASE (test073ReferenceToExternalSingleton)
 {
-        ContainerFactory factory;
         Ptr <MetaContainer> metaContainer = MXmlMetaService::parseFile (PATH + "073-reference-to-external.xml");
-        Ptr <BeanFactoryContainer> container = factory.createEmptyContainer (metaContainer, true, Ptr <BeanFactoryContainer> (), factory);
+        Ptr <BeanFactoryContainer> container = ContainerFactory::create (metaContainer);
         container->addSingleton ("external1", Core::Variant ("Benek pies"));
         container->addSingleton ("external2", Core::Variant ("Borys pies"));
-        factory.fill (container, metaContainer);
+        ContainerFactory::init (container.get (), metaContainer.get ());
 
         Core::StringMap *map = vcast <Core::StringMap *> (container->getBean ("map"));
 
@@ -125,6 +124,41 @@ BOOST_AUTO_TEST_CASE (test074ExternalSourceOfSingletons)
 
         BOOST_REQUIRE_EQUAL (map->operator [] ("ex1"), "Benek pies");
         BOOST_REQUIRE_EQUAL (map->operator [] ("ex2"), "Borys pies");
+}
+
+BOOST_AUTO_TEST_CASE (test075DependsOn)
+{
+        Ptr <MetaContainer> mc = MXmlMetaService::parseFile (PATH + "075-depends-on.xml");
+        MetaDeque sorted = mc->topologicalSort ();
+
+        MetaDeque::const_iterator i = sorted.begin ();
+        MetaObject const *cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "a");
+        BOOST_CHECK_EQUAL (cur->getDependsOn ().size (), 0U);
+        cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "b");
+        BOOST_REQUIRE_EQUAL (cur->getDependsOn ().size (), 1U);
+        cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "c");
+        BOOST_REQUIRE_EQUAL (cur->getDependsOn ().size (), 2U);
+        cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "d");
+        BOOST_REQUIRE_EQUAL (cur->getDependsOn ().size (), 3U);
+        cur = *i++;
+
+        BOOST_REQUIRE_EQUAL (std::string (cur->getId ()), "e");
+        BOOST_REQUIRE_EQUAL (cur->getDependsOn ().size (), 4U);
+
+        Core::StringVector v = cur->getDependsOn ();
+        Core::StringVector::const_iterator j = v.begin ();
+        BOOST_CHECK_EQUAL (*j++, "a");
+        BOOST_CHECK_EQUAL (*j++, "b");
+        BOOST_CHECK_EQUAL (*j++, "c");
+        BOOST_CHECK_EQUAL (*j, "d");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

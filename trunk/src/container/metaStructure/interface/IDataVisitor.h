@@ -12,22 +12,12 @@
 #include <string>
 
 namespace Container {
-
 class ValueData;
 class NullData;
 class RefData;
-//class IdRefData;
-
-//struct ListElem;
-//struct MapElem;
-
-struct MappedMeta;
-struct IndexedMeta;
-
+class MetaObject;
 class MetaContainer;
-
-struct IMeta;
-struct AbstractMeta;
+class DataKey;
 
 /**
  * Implementacja paternu Visitor. Ten visitor będzie odwiedzał
@@ -41,22 +31,10 @@ struct AbstractMeta;
 struct IDataVisitor {
 
         virtual ~IDataVisitor () {}
-        virtual void visit (std::string const &key, ValueData *data) = 0;
-        virtual void visit (std::string const &key, NullData *data) = 0;
-        virtual void visit (std::string const &key, RefData *data) = 0;
-//        virtual void visit (IdRefData *data) = 0;
+        virtual void visit (DataKey const *dk, ValueData *data) = 0;
+        virtual void visit (DataKey const *dk, NullData *data) = 0;
+        virtual void visit (DataKey const *dk, RefData *data) = 0;
 };
-
-///**
-// * Implementacja paternu Visitor. Ten visitor będzie odwiedzał
-// * obiekty typu IElem.
-// * \ingroup Container
-// */
-//struct IElemVisitor {
-//        virtual ~IElemVisitor () {}
-//        virtual void visit (ListElem *data) = 0;
-//        virtual void visit (MapElem *data) = 0;
-//};
 
 /**
  * Implementacja paternu Visitor. Ten visitor będzie odwiedzał
@@ -65,8 +43,7 @@ struct IDataVisitor {
  */
 struct IMetaVisitor {
         virtual ~IMetaVisitor () {}
-        virtual void visit (MappedMeta *data) = 0;
-        virtual void visit (IndexedMeta *data) = 0;
+        virtual void visit (MetaObject const *data) = 0;
 };
 
 /**

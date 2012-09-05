@@ -30,6 +30,13 @@ struct IAnnotation : public Core::IToStringEnabled {
         virtual ~IAnnotation () {}
         virtual std::string getHash () const = 0;
 
+        /**
+         * Wywoływane przez AnnotationManager kiedy próbujemy dodać adnotację
+         * po raz drugi. Wówczas dodawanie nie powiedzie się, a manager zawoła
+         * tą metodę.
+         */
+        virtual void deleteDuplicate () = 0;
+
 };
 
 /****************************************************************************/

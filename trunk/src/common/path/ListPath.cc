@@ -25,6 +25,10 @@ void ListPath::init (const char *buf, char sep)
         char c;
         std::string segment;
 
+        if (!buf) {
+                return;
+        }
+
         for (int i = 0; (c = *(buf + i));) {
 
                 switch (state) {
@@ -293,9 +297,9 @@ std::string ListPath::getAllButFirstSegment () const
 
 /****************************************************************************/
 
-Core::StringList ListPath::splitSegments () const
+Core::StringVector ListPath::splitSegments () const
 {
-        Core::StringList ret;
+        Core::StringVector ret;
         ret.resize (body.size ());
         std::copy (body.begin (), body.end (), ret.begin ());
         return ret;

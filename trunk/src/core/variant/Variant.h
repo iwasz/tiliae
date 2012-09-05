@@ -19,6 +19,7 @@
 
 namespace Core {
 class String;
+class Variant;
 
 /**
  * \page Variant Variant : implementacja bezpiecznej unii.
@@ -498,6 +499,9 @@ public:
 
 private:
 
+        friend Core::Variant convertVariantToSmart (Core::Variant const &input);
+
+private:
         Type type;
         std::type_info const *ti;
         boost::shared_ptr<void> sptr;
@@ -568,13 +572,13 @@ struct VHelpPtr {
 template <typename S>
 struct VHelpPtr <S, true> {
         enum { TYPE = Variant::OBJECT };
-        static void *get (S *p) { return static_cast <Core::Object *> (p); }
+        static Core::Object *get (S *p) { return static_cast <Core::Object *> (p); }
 };
 
 template <typename S>
 struct VHelpPtr <S, false> {
         enum { TYPE = Variant::POINTER };
-        static void *get (S *p) { return p; }
+        static S *get (S *p) { return p; }
 };
 
 template <typename S>

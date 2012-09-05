@@ -18,6 +18,7 @@
 #include <boost/make_shared.hpp>
 #include "../../../editor/testHelpers/DummyIEditor.h"
 #include "../../../beanWrapper/misc/IndexedEditor.h"
+#include "../../metaStructure/model/MetaFactory.h"
 
 /****************************************************************************/
 
@@ -35,12 +36,11 @@ BOOST_AUTO_TEST_SUITE (ContainerTest05);
 BOOST_AUTO_TEST_CASE (testCreateCountryListWithReferenceDoubleIter)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure19 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 4);
+        BOOST_CHECK_EQUAL (cont->getBeanFactoryMap ().size (), 3U);
 
 /****************************************************************************/
 
@@ -67,16 +67,15 @@ BOOST_AUTO_TEST_CASE (testCreateCountryListWithReferenceDoubleIter)
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure20 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 2);
+        BOOST_CHECK_EQUAL (cont->getBeanFactoryMap ().size (), 2U);
 
 /****************************************************************************/
 
-        Ptr <BeanFactory> bf = cont->getBeanFactory ("mojBean");
+        BeanFactory *bf = cont->getBeanFactory ("mojBean");
         BOOST_CHECK (bf);
 
         Core::VariantList const *vl = bf->getCArgs ();
@@ -89,19 +88,13 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
         BOOST_CHECK (vcast <std::string> (*i++) == "value3");
 //        BOOST_CHECK (vcast <int> (vl->get (2)) == 6667);
 
-        IEditor *cargsEditor = bf->getCArgsEditor ();
-        BOOST_CHECK (cargsEditor);
-        Editor::IndexedEditor *idxEd = dynamic_cast <Editor::IndexedEditor *> (cargsEditor);
-        BOOST_CHECK (idxEd);
-        BOOST_CHECK (idxEd->getEditor (2));
-
 /****************************************************************************/
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Bar *> (v));
 
-        Bar *foo = vcast <Bar *> (v);
+        Ptr <Bar> foo = vcast <Ptr <Bar> > (v);
 
         BOOST_CHECK (foo->getField0 () == "value2");
         BOOST_CHECK (foo->getField1 () == "value3");
@@ -118,16 +111,17 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
 BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        MetaFactory factory (metaCont->getMemoryAllocator ());
 
-        MappedMeta *child = new MappedMeta ();
+        MetaObject *child = factory.newMetaObject ();
 
-        child->addField (DataKey ("field0", new ValueData ("value0", "bracketType")));
-        child->addField (DataKey ("field1", new ValueData ("value1", "bracketType")));
-        child->addField (DataKey ("field2", new ValueData ("6667", "int")));
-        child->addField (DataKey ("field3", new ValueData ("123.45", "double")));
-        child->addField (DataKey ("field4", new ValueData ("f", "char")));
-        child->addField (DataKey ("field5", new ValueData ("true", "bool")));
-        child->addField (DataKey ("field6", new NullData ()));
+        child->addMapField (factory.newDataKeyNewString ("field0", factory.newValueDataNewString ("value0", "bracketType")));
+        child->addMapField (factory.newDataKeyNewString ("field1", factory.newValueDataNewString ("value1", "bracketType")));
+        child->addMapField (factory.newDataKeyNewString ("field2", factory.newValueDataNewString ("6667", "int")));
+        child->addMapField (factory.newDataKeyNewString ("field3", factory.newValueDataNewString ("123.45", "double")));
+        child->addMapField (factory.newDataKeyNewString ("field4", factory.newValueDataNewString ("f", "char")));
+        child->addMapField (factory.newDataKeyNewString ("field5", factory.newValueDataNewString ("true", "bool")));
+        child->addMapField (factory.newDataKeyNewString ("field6", factory.newNullData ()));
 
         child->setId ("mojBean");
         child->setClass ("Foo");
@@ -136,22 +130,17 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        child = new MappedMeta ();
-        //child->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
+        child = factory.newMetaObject ();
+        //child->addField (DataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         child->setId ("bracketType");
         child->setClass ("DummyIEditor");
         metaCont->add (child);
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 2);
-
-/*--------------------------------------------------------------------------*/
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
@@ -177,16 +166,17 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 {
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
 
-        IndexedMeta *child = new IndexedMeta ();
+        MetaObject *child = factory.newMetaObject ();
 
-        child->addField (new ValueData ("value0", "string"));
-        child->addField (new ValueData ("value1", "string"));
-        child->addField (new ValueData ("value2", "string"));
-        child->addField (new ValueData ("value3", "string"));
-        child->addField (new ValueData ("value4", "string"));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value0", "string")));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value1", "string")));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value2", "string")));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value3", "string")));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value4", "string")));
         child->setId ("mojBean");
         child->setClass ("string");
         child->setEditor ("editor");
@@ -195,7 +185,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        MappedMeta *child2 = new MappedMeta ();
+        MetaObject *child2 = factory.newMetaObject ();
         child2->setId ("editor");
         child2->setClass ("ListToStringEditor");
 
@@ -203,14 +193,9 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 2);
-
-/*--------------------------------------------------------------------------*/
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());

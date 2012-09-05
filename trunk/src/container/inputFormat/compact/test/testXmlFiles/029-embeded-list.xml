@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <bean id="mojBean" class="Bar">
-                <constructor-arg>
-                    <value type="String">value01</value>
-                </constructor-arg>
-                <constructor-arg value="value02"/>
-                <constructor-arg><null/></constructor-arg>
+	<Bar id="mojBean">
+		<cargs>
+			<value type="String">value01</value>
+			<value>value02</value>
+			<null />
+		</cargs>
 
-                <property name="butter">
-                        <list class="StringVector">
-                                <value>Tokio</value>
-                                <value>Warsaw</value>
-                                <value>Kraków</value>
-                        </list>
-                </property>
-        </bean>
+		<StringVector set-as="butter">
+			<value>Tokio</value>
+			<value>Warsaw</value>
+			<value>Kraków</value>
+		</StringVector>
+	</Bar>
 </beans>

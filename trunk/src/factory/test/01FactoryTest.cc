@@ -60,9 +60,7 @@ BOOST_AUTO_TEST_CASE (testMegaTonFactory)
 
 BOOST_AUTO_TEST_CASE (testMegaTonSingletinFactory)
 {
-        Ptr <MegaTonFactory> factory (new MegaTonFactory);
-        SingletonFactory sfct;
-        sfct.setFactory (factory);
+        SingletonFactory sfct (new MegaTonFactory, true);
 
         Variant v = sfct.create ();
 
@@ -112,10 +110,9 @@ BOOST_AUTO_TEST_CASE (testProxyFactory)
         VariantMap factoryParams;
         factoryParams[Factory::ReflectionFactory::CLASS_NAME] = Core::Variant ("City");
 
-        Ptr <ReflectionFactory> reflection = boost::make_shared <ReflectionFactory> ();
-        Ptr <ProxyFactory> cities = boost::make_shared <ProxyFactory> (reflection, factoryParams);
+        ProxyFactory cities (new ReflectionFactory, factoryParams, true);
 
-        Variant result = cities->create ();
+        Variant result = cities.create ();
         BOOST_REQUIRE (ccast <City *> (result));
 }
 

@@ -24,9 +24,7 @@
 #include "model/Method.h"
 
 #include "visitor/ClassVisitor.h"
-#include "visitor/MethodVisitor.h"
-#include "visitor/BaseClassVisitor.h"
-#include "visitor/ConstructorVisitor.h"
+#include "visitor/ClassInternalsVisitor.h"
 #include "../core/variant/Cast.h"
 #include "../core/variant/Variant.h"
 #include "../core/Pointer.h"
@@ -43,6 +41,13 @@ Manager::Manager () : initialized (false), classContainer (new ClassContainer ()
 
 /****************************************************************************/
 
+Manager::~Manager ()
+{
+        delete classContainer;
+}
+
+/****************************************************************************/
+
 std::string Manager::toString () const
 {
         return std::string ("Manager (ClassContainer:") + classContainer->toString() + ")";
@@ -55,8 +60,11 @@ std::string Manager::toString () const
  */
 Manager &Manager::instance ()
 {
-        static Manager *neverDelete = new Manager ();
-        return *neverDelete;
+//        static Manager *neverDelete = new Manager ();
+//        return *neverDelete;
+
+        static Manager reflectionManager;
+        return reflectionManager;
 }
 
 /****************************************************************************/
@@ -72,10 +80,8 @@ void Manager::init ()
 
         addStandardTypes ();
 
-        Ptr <ClassVisitor> classVisitor (new ClassVisitor);
-        Ptr <ConstructorVisitor> constructorVisitor (new ConstructorVisitor);
-        Ptr <MethodVisitor> methodVisitor (new MethodVisitor);
-        Ptr <BaseClassVisitor> baseClassVisitor (new BaseClassVisitor);
+        ClassVisitor classVisitor;
+        ClassInternalsVisitor methodVisitor;
 
         // 1. Przeiterować po AnnotationManagerze
         const AnnotationList &annotationList = AnnotationManager::instance ().getAnnotationList ();
@@ -103,7 +109,7 @@ void Manager::init ()
                  * jeśli już jest stworzona. ClassVisitor ma cache, więc
                  * nie odpytuje Managera za każdym razem.
                  */
-                Variant v = annotation->accept (classVisitor.get ());
+                Variant v = annotation->accept (&classVisitor);
 
                 // Jakaś adnotacja bez klasy (w przyszłości).
                 if (v.isNone ()) {
@@ -118,40 +124,16 @@ void Manager::init ()
                          * adnotacje REFLECTION_METHOD_ i REFLECTION_BASE_CLASS_.
                          */
                         throw AnnotationException ("No ClassAnnotation (1). You shoud use macro with double '__' as the first macro in annotated class. " + annotation->toString ());
-
-//                        // Zwrócenie pustego warianta oznacza, że dana klasa już znajduje się w managerze.
-//                        continue;
                 }
 
-                Ptr <Class> clazz = vcast <Ptr <Class> > (v);
+                Class *clazz = vcast <Class *> (v);
 
                 // Jakaś adnotacja bez klasy (w przyszłości).
                 if (!clazz) {
-                        //continue;
                         throw AnnotationException ("No ClassAnnotation (2). You shoud use macro with double '__' as the first macro in annotated class. " + annotation->toString ());
                 }
 
-                // Mając obiekt Class jeśli:
-                // Adnotacja dotyczy konstruktora, stworzyć obiekt Constructor, dodać do Class.
-                v = annotation->accept (constructorVisitor.get ());
-
-                if (!v.isNone ()) {
-                        clazz->addConstructor (vcast <Ptr <Constructor> > (v));
-                }
-
-                // Adnotacja dotyczy metody, stworzyć obiekt Method, dodać do Class.
-                v = annotation->accept (methodVisitor.get ());
-
-                if (!v.isNone ()) {
-                        clazz->addMethod (vcast <Ptr <Method> > (v));
-                }
-
-                // Adnotacja dotyczy baseClass;
-                v = annotation->accept (baseClassVisitor.get ());
-
-                if (!v.isNone ()) {
-                        clazz->addBaseClassNames (vcast <StringList> (v));
-                }
+                annotation->accept (&methodVisitor, clazz);
         }
 
         manager.initialized = true;
@@ -246,7 +228,7 @@ void Manager::addStandardTypes ()
 
 /****************************************************************************/
 
-Ptr<Class> Manager::classForName (const std::string &className)
+Class *Manager::classForName (const std::string &className)
 {
         Manager::init (); // Run only once.
         return classForNameImpl (className);
@@ -254,14 +236,14 @@ Ptr<Class> Manager::classForName (const std::string &className)
 
 /****************************************************************************/
 
-Ptr<Class> Manager::classForNameImpl (const std::string &className)
+Class *Manager::classForNameImpl (const std::string &className)
 {
         return Manager::instance ().classContainer->get (className);
 }
 
 /****************************************************************************/
 
-Ptr<Class> Manager::classForType (std::type_info const &t)
+Class *Manager::classForType (std::type_info const &t)
 {
         Manager::init (); // Run only once.
         return Manager::instance ().classContainer->get (t);
@@ -269,9 +251,9 @@ Ptr<Class> Manager::classForType (std::type_info const &t)
 
 /****************************************************************************/
 
-void Manager::add (Ptr <Class> c)
+bool Manager::add (Class *c)
 {
-        Manager::instance ().classContainer->add (c);
+        return Manager::instance ().classContainer->add (c);
 }
 
 }

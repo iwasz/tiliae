@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
 //        std::cerr << Reflection::Manager::instance ().toString() << std::endl;
 
         // Po pierwsze powtórz test z ReflectionTest.
-        Ptr <Reflection::Class> cls = Reflection::Manager::classForName ("Address");
+        Reflection::Class *cls = Reflection::Manager::classForName ("Address");
         BOOST_REQUIRE (cls);
 
         cls = Reflection::Manager::classForType (typeid (Address));
@@ -94,9 +94,7 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
         // OK...
 
         Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-        pluginList->push_back (boost::make_shared <PropertyRWBeanWrapperPlugin> ());
-        beanWrapper->setPluginList (pluginList);
+        beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin);
 
         Country country;
         country.setName ("Polska");
@@ -226,9 +224,7 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
 BOOST_AUTO_TEST_CASE (testGetPutPlugin)
 {
         Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-        pluginList->push_back (boost::make_shared <GetPutMethodRWBeanWrapperPlugin> ());
-        beanWrapper->setPluginList (pluginList);
+        beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin);
 
 /*##########################################################################*/
 
@@ -273,9 +269,7 @@ BOOST_AUTO_TEST_CASE (testGetPutPlugin)
 BOOST_AUTO_TEST_CASE (testGetPutPlugin2)
 {
         Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-        pluginList->push_back (boost::make_shared <GetPutMethodRWBeanWrapperPlugin> ());
-        beanWrapper->setPluginList (pluginList);
+        beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin);
 
 /*##########################################################################*/
 
@@ -333,10 +327,12 @@ BOOST_AUTO_TEST_CASE (testSimpleBeanWrapper)
         //beanWrapper->set ("vMap", Core::Variant (&vMap));
         //beanWrapper->set ("sMap", Core::Variant (&stringMap));
 
-        Ptr <BeanWrapper> beanWrapper = BeanWrapper::create (Core::Variant (vMap));
+        BeanWrapper *beanWrapper = BeanWrapper::create (Core::Variant (vMap));
 
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key1")) == "value1");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key2")) == "value2");
+
+        delete beanWrapper;
 }
 
 #if 0
@@ -498,22 +494,10 @@ void BeanWrapperTest::testNestedBeanWrappers ()
 
 BOOST_AUTO_TEST_CASE (testListPlugin)
 {
-//        BeanWrapper beanWrapper;
-//        BeanWrapperPluginList pluginList;
-//        ListPlugin listPlugin;
-//        pluginList.push_back (&listPlugin);
-//        beanWrapper.setPluginList (&pluginList);
-
-
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-
-        pluginList->push_back (boost::make_shared <PropertyRWBeanWrapperPlugin> ());
-//        pluginList->push_back (boost::make_shared <ListPlugin> ());
-        pluginList->push_back (boost::make_shared <GetPutMethodRWBeanWrapperPlugin> ());
-        pluginList->push_back (boost::make_shared <MethodPlugin> (MethodPlugin::METHOD));
-
         BeanWrapper beanWrapper;
-        beanWrapper.setPluginList (pluginList);
+        beanWrapper.addPlugin (new PropertyRWBeanWrapperPlugin);
+        beanWrapper.addPlugin (new GetPutMethodRWBeanWrapperPlugin);
+        beanWrapper.addPlugin (new MethodPlugin (MethodPlugin::METHOD));
 
 /*##########################################################################*/
 
@@ -648,10 +632,8 @@ BOOST_AUTO_TEST_CASE (testMapPlugin)
 BOOST_AUTO_TEST_CASE (testMethodPlugin)
 {
         BeanWrapper beanWrapper;
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-        pluginList->push_back (boost::make_shared <MethodPlugin> ());
-        pluginList->push_back (boost::make_shared <PropertyRWBeanWrapperPlugin> ());
-        beanWrapper.setPluginList (pluginList);
+        beanWrapper.addPlugin (new MethodPlugin);
+        beanWrapper.addPlugin (new PropertyRWBeanWrapperPlugin);
 
 /*##########################################################################*/
 
@@ -686,10 +668,8 @@ BOOST_AUTO_TEST_CASE (testMethodPlugin)
 BOOST_AUTO_TEST_CASE (testMethodPluginMethodMode)
 {
         BeanWrapper beanWrapper;
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-        pluginList->push_back (boost::make_shared <MethodPlugin> (MethodPlugin::METHOD));
-        pluginList->push_back (boost::make_shared <PropertyRWBeanWrapperPlugin> ());
-        beanWrapper.setPluginList (pluginList);
+        beanWrapper.addPlugin (new MethodPlugin (MethodPlugin::METHOD));
+        beanWrapper.addPlugin (new PropertyRWBeanWrapperPlugin);
 
 /*##########################################################################*/
 
@@ -732,14 +712,10 @@ BOOST_AUTO_TEST_CASE (testMethodPluginMethodMode)
  */
 BOOST_AUTO_TEST_CASE (testMethodPluginMethodSegF)
 {
-        Ptr <BeanWrapper> beanWrapper (new BeanWrapper);
-        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
-
-        pluginList->push_back (boost::make_shared <PropertyRWBeanWrapperPlugin> ());
-        pluginList->push_back (boost::make_shared <GetPutMethodRWBeanWrapperPlugin> ());
-        pluginList->push_back (boost::make_shared <MethodPlugin> (MethodPlugin::METHOD));
-
-        beanWrapper->setPluginList (pluginList);
+        BeanWrapper beanWrapper;
+        beanWrapper.addPlugin (new PropertyRWBeanWrapperPlugin);
+        beanWrapper.addPlugin (new GetPutMethodRWBeanWrapperPlugin);
+        beanWrapper.addPlugin (new MethodPlugin (MethodPlugin::METHOD));
 
 /****************************************************************************/
 
@@ -750,11 +726,11 @@ BOOST_AUTO_TEST_CASE (testMethodPluginMethodSegF)
 
         DebugContext ctx;
         bool err;
-        Variant ret = beanWrapper->get (&domain, "bar.funcA", &err, &ctx);
+        Variant ret = beanWrapper.get (&domain, "bar.funcA", &err, &ctx);
         BOOST_REQUIRE (!err);
 
         // No i na tym był SegF! Podana zła nazwa funkcji.
-        ret = beanWrapper->get (&domain, "funcA", &err, &ctx);
+        ret = beanWrapper.get (&domain, "funcA", &err, &ctx);
         BOOST_REQUIRE (err);
 }
 
@@ -766,7 +742,7 @@ BOOST_AUTO_TEST_CASE (testAbstractObjects)
         Foo foo;
         foo.addr.setStreet ("testowy01");
 
-        Ptr <BeanWrapper> beanWrapper = BeanWrapper::create (Core::Variant (&foo));
+        BeanWrapper *beanWrapper = BeanWrapper::create (Core::Variant (&foo));
 
         /*
          * Z poniższym wywołaniem był problem, ponieważ warian zawierający wskaźnik do
@@ -777,6 +753,7 @@ BOOST_AUTO_TEST_CASE (testAbstractObjects)
 
         // Place2 jest typu Ptr <Place> a wskazuje na obiekt typu Address.
         BOOST_REQUIRE_EQUAL (vcast <String> (beanWrapper->get ("place2.street")), "test02-66");
+        delete beanWrapper;
 }
 
 /**
@@ -785,7 +762,7 @@ BOOST_AUTO_TEST_CASE (testAbstractObjects)
  */
 BOOST_AUTO_TEST_CASE (testEmptyPath)
 {
-        Ptr <BeanWrapper> beanWrapper = BeanWrapper::create ();
+        BeanWrapper *beanWrapper = BeanWrapper::create ();
 
         StringMap map;
         beanWrapper->setWrappedObject (Variant (&map));
@@ -809,12 +786,15 @@ BOOST_AUTO_TEST_CASE (testEmptyPath)
 
         wo = beanWrapper->getWrappedObject ();
         BOOST_REQUIRE_EQUAL (&vec, vcast <StringVector *> (wo));
-        BOOST_REQUIRE_EQUAL (vec.size (), 1);
+        BOOST_REQUIRE_EQUAL (vec.size (), 1U);
         BOOST_REQUIRE_EQUAL (vec.front (), "Franek i mama Asia");
 
         Ptr <Core::IIterator> iter2 = beanWrapper->iterator ("this");
         ret = vcast <std::string> (iter2->next ());
         BOOST_REQUIRE_EQUAL (ret, "Franek i mama Asia");
+
+        delete beanWrapper;
 }
+
 
 BOOST_AUTO_TEST_SUITE_END ();

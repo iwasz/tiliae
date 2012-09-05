@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
   <bean id="myBean" class="Bar">
     <constructor-arg>
+    
       <map id="myMap" class="VariantMap">
         <entry key="k1">
           <bean class="City">
@@ -43,7 +42,7 @@
     </constructor-arg>
 
     <property name="city">
-      <bean class="City">
+      <bean class="City" singleton="false">
         <property name="name" value="Pcim" />
       </bean>
     </property>

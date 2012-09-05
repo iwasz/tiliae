@@ -43,7 +43,7 @@ public:
                 Elem,
                 boost::multi_index::indexed_by<
                         // Jak mapa
-                        boost::multi_index::ordered_unique<
+                        boost::multi_index::ordered_non_unique<
                                 boost::multi_index::member <Elem, std::string, &Elem::first>
                         >,
                         // Jak lista

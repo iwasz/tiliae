@@ -27,8 +27,9 @@ class TILIAE_API ConstructorAnnotation : public IReflectionAnnotation {
 public:
 
         ConstructorAnnotation (const std::string &c,
-                          Ptr <IConstructorPointer> poi) :
+                                  IConstructorPointer *poi) :
                                   constructorPointer (poi), className (c) {}
+        virtual ~ConstructorAnnotation () {}
 
         /**
          * Nazwa klasy.
@@ -39,17 +40,18 @@ public:
          * Obiekt wywołujący fizycnie konstruktor danej klasy za pomocą
          * operatora new.
          */
-        Ptr<IConstructorPointer> getConstructorPointer () const { return this->constructorPointer; }
+        IConstructorPointer *getConstructorPointer () const { return this->constructorPointer; }
 
-        virtual Core::Variant accept (IReflectionVisitor *vis, const Core::Variant &arg = Core::Variant ()) { return vis->visit (this, arg);}
+        virtual Core::Variant accept (IReflectionVisitor *vis, Class *cls = NULL) { return vis->visit (this, cls);}
 
         virtual std::string toString () const;
 
         std::string getHash () const;
+        virtual void deleteDuplicate () { delete constructorPointer; }
 
 private:
 
-        Ptr <IConstructorPointer> constructorPointer;
+        IConstructorPointer *constructorPointer;
         std::string className;
 };
 

@@ -17,5 +17,6 @@
 #include "IReflectionAnnotation.h"
 #include "MethodAnnotation.h"
 #include "DefaultAnnotationMacros.h"
+#include "FieldAnnotation.h"
 
 #	endif /* REFLECTANNOTATIONS_H_ */

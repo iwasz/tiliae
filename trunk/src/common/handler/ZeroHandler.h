@@ -10,7 +10,7 @@
 #define ZEROHANDLER_H_
 
 #include <map>
-#include <list>
+#include <vector>
 #include <string>
 #include "IHandler.h"
 #include "../../core/Pointer.h"
@@ -23,20 +23,21 @@ namespace Common {
  */
 struct ZeroHandler : public IHandler {
 
+        ZeroHandler () : handler (NULL) {}
         virtual ~ZeroHandler () {}
         virtual Core::Variant run (const Core::VariantList &);
         virtual Core::Variant run ();
 
-        Ptr <IHandler> getHandler () const { return handler; }
-        void setHandler (Ptr <IHandler> handler) { this->handler = handler; }
+        IHandler *getHandler () const { return handler; }
+        void setHandler (IHandler *handler) { this->handler = handler; }
 
 private:
 
-        Ptr <IHandler> handler;
+        IHandler *handler;
 };
 
-typedef std::list <ZeroHandler *> ZeroHandlerList;
-typedef std::map <std::string, Ptr <ZeroHandler> > ZeroHandlerMap;
+typedef std::vector <ZeroHandler *> ZeroHandlerList;
+typedef std::map <std::string, ZeroHandler *> ZeroHandlerMap;
 
 }
 

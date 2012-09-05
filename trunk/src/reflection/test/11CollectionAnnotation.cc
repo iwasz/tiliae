@@ -34,10 +34,10 @@ BOOST_AUTO_TEST_CASE (testAnnotationVector)
 {
         CollectionAnnotation <StringVector>::run ("StringVector2");
 
-        Ptr <Class> cls = Manager::classForName ("StringVector2");
+        Class *cls = Manager::classForName ("StringVector2");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr = cls->getConstructor ();
+        Constructor *constr = cls->getConstructor ();
         BOOST_REQUIRE (constr);
 
         Variant obj = constr->newInstance ();
@@ -45,13 +45,13 @@ BOOST_AUTO_TEST_CASE (testAnnotationVector)
         BOOST_REQUIRE (!obj.isNone ());
         BOOST_REQUIRE (ccast <StringVector *> (obj));
 
-        Ptr<Method> set = cls->getMethod ("set", 2);
+        Method *set = cls->getMethod ("set", 2);
         BOOST_REQUIRE (set);
 
-        Ptr<Method> get = cls->getMethod ("get", 1);
+        Method *get = cls->getMethod ("get", 1);
         BOOST_REQUIRE (get);
 
-        Ptr<Method> add = cls->getMethod ("add", 1);
+        Method *add = cls->getMethod ("add", 1);
         BOOST_REQUIRE (add);
 
 
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE (testAnnotationVector)
         BOOST_REQUIRE (newV);
 
         add->invoke (obj, Variant ("hfksfdkjsfd"));
-        BOOST_REQUIRE_EQUAL (newV->size (), 1);
+        BOOST_REQUIRE_EQUAL (newV->size (), 1U);
         BOOST_REQUIRE_EQUAL (newV->front(), "hfksfdkjsfd");
 
         Variant ret = get->invoke (obj, Variant (0U));
@@ -75,10 +75,10 @@ BOOST_AUTO_TEST_CASE (testAnnotationVector)
  */
 BOOST_AUTO_TEST_CASE (testAnnotationList)
 {
-        Ptr <Class> cls = Manager::classForName ("StringList");
+        Class *cls = Manager::classForName ("StringList");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr = cls->getConstructor ();
+        Constructor *constr = cls->getConstructor ();
         BOOST_REQUIRE (constr);
 
         Variant obj = constr->newInstance ();
@@ -86,13 +86,13 @@ BOOST_AUTO_TEST_CASE (testAnnotationList)
         BOOST_REQUIRE (!obj.isNone ());
         BOOST_REQUIRE (ccast <StringList *> (obj));
 
-        Ptr<Method> set = cls->getMethod ("set", 2);
+        Method *set = cls->getMethod ("set", 2);
         BOOST_REQUIRE (set);
 
-        Ptr<Method> get = cls->getMethod ("get", 1);
+        Method *get = cls->getMethod ("get", 1);
         BOOST_REQUIRE (get);
 
-        Ptr<Method> add = cls->getMethod ("add", 1);
+        Method *add = cls->getMethod ("add", 1);
         BOOST_REQUIRE (add);
 
 
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE (testAnnotationList)
         BOOST_REQUIRE (newV);
 
         add->invoke (obj, Variant ("hfksfdkjsfd"));
-        BOOST_REQUIRE_EQUAL (newV->size (), 1);
+        BOOST_REQUIRE_EQUAL (newV->size (), 1U);
         BOOST_REQUIRE_EQUAL (newV->front(), "hfksfdkjsfd");
 
         // A tutaj podajemy indeks jako string - on sie sam skonwertuje do u-int.
@@ -117,10 +117,10 @@ BOOST_AUTO_TEST_CASE (testAnnotationList)
  */
 BOOST_AUTO_TEST_CASE (testAnnotationSet)
 {
-        Ptr <Class> cls = Manager::classForName ("StringSet");
+        Class *cls = Manager::classForName ("StringSet");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr = cls->getConstructor ();
+        Constructor *constr = cls->getConstructor ();
         BOOST_REQUIRE (constr);
 
         Variant obj = constr->newInstance ();
@@ -128,17 +128,17 @@ BOOST_AUTO_TEST_CASE (testAnnotationSet)
         BOOST_REQUIRE (!obj.isNone ());
         BOOST_REQUIRE (ccast <StringSet *> (obj));
 
-        Ptr<Method> get = cls->getMethod ("get", 1);
+        Method *get = cls->getMethod ("get", 1);
         BOOST_REQUIRE (get);
 
-        Ptr<Method> add = cls->getMethod ("add", 1);
+        Method *add = cls->getMethod ("add", 1);
         BOOST_REQUIRE (add);
 
         StringSet *newV = vcast <StringSet *> (obj);
         BOOST_REQUIRE (newV);
 
         add->invoke (obj, Variant ("hfksfdkjsfd"));
-        BOOST_REQUIRE_EQUAL (newV->size (), 1);
+        BOOST_REQUIRE_EQUAL (newV->size (), 1U);
         BOOST_REQUIRE (newV->find("hfksfdkjsfd") != newV->end ());
 
         Variant ret = get->invoke (obj, Variant ("hfksfdkjsfd"));
@@ -153,10 +153,10 @@ BOOST_AUTO_TEST_CASE (testAnnotationSet)
  */
 BOOST_AUTO_TEST_CASE (testAnnotationMap)
 {
-        Ptr <Class> cls = Manager::classForName ("StringMap");
+        Class *cls = Manager::classForName ("StringMap");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr = cls->getConstructor ();
+        Constructor *constr = cls->getConstructor ();
         BOOST_REQUIRE (constr);
 
         Variant obj = constr->newInstance ();
@@ -164,10 +164,10 @@ BOOST_AUTO_TEST_CASE (testAnnotationMap)
         BOOST_REQUIRE (!obj.isNone ());
         BOOST_REQUIRE (ccast <StringMap *> (obj));
 
-        Ptr<Method> get = cls->getMethod ("get", 1);
+        Method *get = cls->getMethod ("get", 1);
         BOOST_REQUIRE (get);
 
-        Ptr<Method> set = cls->getMethod ("set", 2);
+        Method *set = cls->getMethod ("set", 2);
         BOOST_REQUIRE (set);
 
         StringMap *newV = vcast <StringMap *> (obj);
@@ -178,7 +178,7 @@ BOOST_AUTO_TEST_CASE (testAnnotationMap)
         args.push_back (Variant ("makota"));
         set->invoke (obj, &args);
 
-        BOOST_REQUIRE_EQUAL (newV->size (), 1);
+        BOOST_REQUIRE_EQUAL (newV->size (), 1U);
         BOOST_REQUIRE_EQUAL (newV->operator [] ("ala"), std::string ("makota"));
 
         Variant ret = get->invoke (obj, Variant ("ala"));
@@ -193,19 +193,19 @@ BOOST_AUTO_TEST_CASE (testAnnotationMap)
  */
 BOOST_AUTO_TEST_CASE (testCustomCollections)
 {
-    Ptr <Class> cls = Manager::classForName ("AddressList");
+    Class *cls = Manager::classForName ("AddressList");
     BOOST_REQUIRE (cls);
 
-    Ptr <Constructor> constr = cls->getConstructor ();
+    Constructor *constr = cls->getConstructor ();
     BOOST_REQUIRE (constr);
 
     Variant obj = constr->newInstance ();
     BOOST_REQUIRE (!obj.isNone ());
 
-    Ptr<Method> get = cls->getMethod ("get", 1);
+    Method *get = cls->getMethod ("get", 1);
     BOOST_REQUIRE (get);
 
-    Ptr<Method> set = cls->getMethod ("set", 2);
+    Method *set = cls->getMethod ("set", 2);
     BOOST_REQUIRE (set);
 
     cls = Manager::classForName ("BarList");
@@ -226,10 +226,10 @@ BOOST_AUTO_TEST_CASE (testCustomCollections)
  */
 BOOST_AUTO_TEST_CASE (testVectorIterator)
 {
-        Ptr <Class> cls = Manager::classForName ("StringVector");
+        Class *cls = Manager::classForName ("StringVector");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr = cls->getConstructor ();
+        Constructor *constr = cls->getConstructor ();
         BOOST_REQUIRE (constr);
 
         Variant obj = constr->newInstance ();
@@ -243,7 +243,7 @@ BOOST_AUTO_TEST_CASE (testVectorIterator)
         strV->push_back ("KOTA");
         strV->push_back ("PSA");
 
-        Ptr<Method> iterator = cls->getMethod ("iterator");
+        Method *iterator = cls->getMethod ("iterator");
         BOOST_REQUIRE (iterator);
         Ptr <IIterator> i = ocast <Ptr <IIterator> > (iterator->invoke (obj));
 
@@ -263,10 +263,10 @@ BOOST_AUTO_TEST_CASE (testVectorIterator)
  */
 BOOST_AUTO_TEST_CASE (testListIterator)
 {
-        Ptr <Class> cls = Manager::classForName ("StringList");
+        Class *cls = Manager::classForName ("StringList");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr = cls->getConstructor ();
+        Constructor *constr = cls->getConstructor ();
         BOOST_REQUIRE (constr);
 
         Variant obj = constr->newInstance ();
@@ -280,7 +280,7 @@ BOOST_AUTO_TEST_CASE (testListIterator)
         strV->push_back ("KOTA");
         strV->push_back ("PSA");
 
-        Ptr<Method> iterator = cls->getMethod ("iterator");
+        Method *iterator = cls->getMethod ("iterator");
         BOOST_REQUIRE (iterator);
         Ptr <IIterator> i = ocast <Ptr <IIterator> > (iterator->invoke (obj));
 
@@ -300,10 +300,10 @@ BOOST_AUTO_TEST_CASE (testListIterator)
  */
 BOOST_AUTO_TEST_CASE (testListSet)
 {
-        Ptr <Class> cls = Manager::classForName ("StringSet");
+        Class *cls = Manager::classForName ("StringSet");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr = cls->getConstructor ();
+        Constructor *constr = cls->getConstructor ();
         BOOST_REQUIRE (constr);
 
         Variant obj = constr->newInstance ();
@@ -317,7 +317,7 @@ BOOST_AUTO_TEST_CASE (testListSet)
         strV->insert ("KOTA");
         strV->insert ("PSA");
 
-        Ptr<Method> iterator = cls->getMethod ("iterator");
+        Method *iterator = cls->getMethod ("iterator");
         BOOST_REQUIRE (iterator);
         Ptr <IIterator> i = ocast <Ptr <IIterator> > (iterator->invoke (obj));
 
@@ -338,10 +338,10 @@ BOOST_AUTO_TEST_CASE (testListSet)
  */
 BOOST_AUTO_TEST_CASE (testListMap)
 {
-        Ptr <Class> cls = Manager::classForName ("StringMap");
+        Class *cls = Manager::classForName ("StringMap");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr = cls->getConstructor ();
+        Constructor *constr = cls->getConstructor ();
         BOOST_REQUIRE (constr);
 
         Variant obj = constr->newInstance ();
@@ -354,7 +354,7 @@ BOOST_AUTO_TEST_CASE (testListMap)
         (*strV)["b"] = "2";
         (*strV)["c"] = "3";
 
-        Ptr<Method> iterator = cls->getMethod ("iterator");
+        Method *iterator = cls->getMethod ("iterator");
         BOOST_REQUIRE (iterator);
         Ptr <IIterator> i = ocast <Ptr <IIterator> > (iterator->invoke (obj));
 

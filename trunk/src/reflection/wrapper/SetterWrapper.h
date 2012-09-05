@@ -127,9 +127,9 @@ Core::Variant SetterPtrWrapper <void (C::*) (A1) const>::call (Core::Variant con
 /*##########################################################################*/
 
 template <typename T>
-boost::shared_ptr <SetterPtrWrapper <T> > createSetterWrapper (T t)
+SetterPtrWrapper <T> *createSetterWrapper (T t)
 {
-        return boost::make_shared <SetterPtrWrapper <T> > (t);
+        return new SetterPtrWrapper <T> (t);
 }
 
 } // namespace

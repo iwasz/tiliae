@@ -12,38 +12,46 @@
 #include "reflectAnnotations/ConstructorAnnotation.h"
 #include "reflectAnnotations/MethodAnnotation.h"
 #include "reflectAnnotations/ClassAnnotation.h"
+#include "reflectAnnotations/FieldAnnotation.h"
 #include "model/Class.h"
 
 namespace Reflection {
 using namespace Core;
 
-Core::Variant ClassVisitor::visit (BaseClassAnnotation *a, const Core::Variant &)
+Core::Variant ClassVisitor::visit (BaseClassAnnotation *a, Class *cls)
 {
         return Core::Variant (findClass (a->getClassName ()));
 }
 
 /****************************************************************************/
 
-Core::Variant ClassVisitor::visit (MethodAnnotation *a, const Core::Variant &arg)
+Core::Variant ClassVisitor::visit (MethodAnnotation *a, Class *cls)
 {
         return Core::Variant (findClass (a->getClassName ()));
 }
 
 /****************************************************************************/
 
-Core::Variant ClassVisitor::visit (ConstructorAnnotation *a, const Core::Variant &arg)
+Core::Variant ClassVisitor::visit (FieldAnnotation *a, Class *cls)
 {
         return Core::Variant (findClass (a->getClassName ()));
 }
 
 /****************************************************************************/
 
-Core::Variant ClassVisitor::visit (ClassAnnotation *a, const Core::Variant &arg)
+Core::Variant ClassVisitor::visit (ConstructorAnnotation *a, Class *cls)
 {
-        Ptr <Class> clazz = findClass (a->getClassName ());
+        return Core::Variant (findClass (a->getClassName ()));
+}
+
+/****************************************************************************/
+
+Core::Variant ClassVisitor::visit (ClassAnnotation *a, Class *cls)
+{
+        Class *clazz = findClass (a->getClassName ());
 
         if (!clazz) {
-                clazz = createClass (a->getClassName (), a->getType ());
+                clazz = createClass (a->getClassName (), a->getType (), a->getDeleter ());
         }
         else {
                 if (a->getType () != clazz->getType ()) {
@@ -57,13 +65,11 @@ Core::Variant ClassVisitor::visit (ClassAnnotation *a, const Core::Variant &arg)
         }
 
         return Core::Variant (clazz);
-//        // Zwrócenie pustego warianta oznacza, że dana klasa już znajduje się w managerze.
-//        return Core::Variant ();
 }
 
 /****************************************************************************/
 
-Ptr <Reflection::Class> ClassVisitor::findClass (const std::string &className) const
+Class *ClassVisitor::findClass (const std::string &className) const
 {
         // Dla każdej adnotacji pobrać nazwę klasy
         if (cache && className == cache->getName ()) {
@@ -71,10 +77,10 @@ Ptr <Reflection::Class> ClassVisitor::findClass (const std::string &className) c
         }
 
         // 3. Odszukać klasę po nazwie w kontenerze klas, jeśli nie ma, stworzyć.
-        Ptr <Class> clazz = Manager::classForNameImpl (className);
+        Class *clazz = Manager::classForNameImpl (className);
 
         if (!clazz) {
-                return Ptr <Class> ();
+                return NULL;
         }
 
         return clazz;
@@ -82,9 +88,9 @@ Ptr <Reflection::Class> ClassVisitor::findClass (const std::string &className) c
 
 /****************************************************************************/
 
-Ptr <Reflection::Class> ClassVisitor::createClass (const std::string &className, std::type_info const &classType)
+Class *ClassVisitor::createClass (const std::string &className, std::type_info const &classType, IDeleter *deleter)
 {
-        Ptr <Class> clazz = boost::make_shared <Class> (className, classType);
+        Class *clazz = new Class (className, classType, deleter);
         Manager::add (clazz);
         cache = clazz;
         return clazz;

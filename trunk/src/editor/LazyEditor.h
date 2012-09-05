@@ -27,9 +27,13 @@ namespace Editor {
 class TILIAE_API LazyEditor : public IEditor {
 public:
 
-        LazyEditor () {}
-        LazyEditor (Ptr <Factory::IFactory> f) : factory (f) {}
-        virtual ~LazyEditor () {}
+        LazyEditor (Factory::IFactory *f, bool d = false) : factory (f), deleteContents (d) {}
+        virtual ~LazyEditor ()
+        {
+                if (deleteContents) {
+                        delete factory;
+                }
+        }
 
 /*--------------------------------------------------------------------------*/
 
@@ -38,21 +42,22 @@ public:
                 assert (factory);
                 Core::Variant vEd = factory->create (Core::VariantMap (), context);
 
-                if (!occast <Ptr <IEditor> > (vEd)) {
+                if (!occast <IEditor *> (vEd)) {
                         dcError (context, "LazyEditor::convert !occast <Ptr <IEditor> > (vEd). vEd : " + vEd.toString ());
                         return false;
                 }
 
-                Ptr <IEditor> ed = ocast <Ptr <IEditor> > (vEd);
+                IEditor *ed = ocast <IEditor *> (vEd);
                 return ed->convert (input, output, context);
         }
 
-        Ptr <Factory::IFactory> getFactory () const { return factory; }
-        void setFactory (Ptr <Factory::IFactory> factory) { this->factory = factory; }
+        Factory::IFactory *getFactory () const { return factory; }
+        void setFactory (Factory::IFactory *factory) { this->factory = factory; }
 
 private:
 
-        Ptr <Factory::IFactory> factory;
+        Factory::IFactory *factory;
+        bool deleteContents;
 };
 
 }

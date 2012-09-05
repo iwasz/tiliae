@@ -11,6 +11,20 @@
 
 namespace Editor {
 
+TypeEditor::~TypeEditor ()
+{
+        if (!deleteContents) {
+                return;
+        }
+
+        delete eqType;
+        delete nullType;
+
+        for (Container::iterator i = container.begin (); i != container.end (); ++i) {
+                delete i->editor;
+        }
+}
+
 bool TypeEditor::convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
         // Znajdź odpowiedni do typów edytor.

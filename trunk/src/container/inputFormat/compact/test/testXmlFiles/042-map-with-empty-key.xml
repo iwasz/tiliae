@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <!-- Mam notatke, ze segf-oltowaolo przy pustym tagu key, wiec robie test na wszelki wypad.. -->
-        <map id="mojaMapa" class="StringMap">
-                <entry>
-                        <key></key>
-                        <value>wartość0</value>
-                </entry>
-
-                <entry>
-                        <key/>
-                        <value>value1</value>
-                </entry>
-        </map>
+	<!-- Mam notatke, ze segf-oltowaolo przy pustym tagu key, wiec robie test 
+		na wszelki wypad.. -->
+	<StringMap id="mojaMapa">
+		<value>wartość0</value>
+		<value>value1</value>
+	</StringMap>
 </beans>

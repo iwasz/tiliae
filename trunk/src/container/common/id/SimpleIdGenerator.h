@@ -28,7 +28,7 @@ struct SimpleIdGenerator : public IIdGenerator {
         SimpleIdGenerator () : prefix (SIMPLE_ID_GENERATOR_PREFIX), num (0) {}
         virtual ~SimpleIdGenerator () {}
 
-        virtual std::string generate (IMeta *) const;
+        virtual std::string generate (MetaObject *) const;
 
 private:
 

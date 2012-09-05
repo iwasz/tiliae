@@ -4,29 +4,29 @@
 <beans>
 
     <!--Jesli propery mialyby sie udtawiac alfabetycznie, to ten test  nie przejdzie-->
-    <bean id="bean" class="Bar">
+    <bean id="bean" class="Bar" singleton="false" >
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="city3">
-                <bean class="City"/>
+                <bean class="City" singleton="false" />
         </property>
         
         <property name="aaaby">
-                <bean class="City"/>
+                <bean class="City" singleton="false" />
         </property>
 
     </bean>
 
 <!--A To bedzie zrzucac wyjatek z metody aaaby-->
-    <bean id="bean2" class="Bar">
+    <bean id="bean2" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="aaaby">
-                <bean class="City"/>
+                <bean class="City" singleton="false" />
         </property>
 
         <property name="city3">
-                <bean class="City"/>
+                <bean class="City" singleton="false" />
         </property>
         
     </bean>

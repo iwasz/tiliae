@@ -29,9 +29,13 @@ namespace Factory {
 class TILIAE_API LazyFactory : public IFactory {
 public:
 
-        LazyFactory () {}
-        LazyFactory (Ptr <Factory::IFactory> f) : factory (f) {}
-        virtual ~LazyFactory () {}
+        LazyFactory (Factory::IFactory *f = NULL, bool d = false) : factory (f), deleteContents (d) {}
+        virtual ~LazyFactory ()
+        {
+                if (deleteContents) {
+                        delete factory;
+                }
+        }
 
 /*--------------------------------------------------------------------------*/
 
@@ -39,7 +43,7 @@ public:
         {
                 assert (factory);
                 Core::Variant vFac = factory->create (Core::VariantMap (), context);
-                Ptr <IFactory> fac = ocast <Ptr <IFactory> > (vFac);
+                IFactory *fac = ocast <IFactory *> (vFac);
 
                 if (!fac) {
                         dcError (context, "LazyFactory cam't create factory");
@@ -49,12 +53,14 @@ public:
                 return fac->create (parameters, context);
         }
 
-        Ptr <Factory::IFactory> getFactory () const { return factory; }
-        void setFactory (Ptr <Factory::IFactory> factory) { this->factory = factory; }
+        Factory::IFactory *getFactory () const { return factory; }
+        void setFactory (Factory::IFactory *factory) { this->factory = factory; }
 
 private:
 
-        Ptr <Factory::IFactory> factory;
+        Factory::IFactory *factory;
+        bool deleteContents;
+
 };
 
 }

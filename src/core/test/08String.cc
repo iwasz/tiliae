@@ -48,81 +48,81 @@ BOOST_AUTO_TEST_CASE (testIterators)
         String s = testString;
         String::iterator i = s.begin ();
 
-        BOOST_REQUIRE_EQUAL (*i++, 122);
-        BOOST_REQUIRE_EQUAL (*i++, 97);
-        BOOST_REQUIRE_EQUAL (*i++, 380);
-        BOOST_REQUIRE_EQUAL (*i++, 243);
-        BOOST_REQUIRE_EQUAL (*i++, 322);
-        BOOST_REQUIRE_EQUAL (*i++, 263);
-        BOOST_REQUIRE_EQUAL (*i++, 32);
-        BOOST_REQUIRE_EQUAL (*i++, 103);
-        BOOST_REQUIRE_EQUAL (*i++, 281);
-        BOOST_REQUIRE_EQUAL (*i++, 347);
-        BOOST_REQUIRE_EQUAL (*i++, 108);
-        BOOST_REQUIRE_EQUAL (*i++, 261);
-        BOOST_REQUIRE_EQUAL (*i++, 32);
-        BOOST_REQUIRE_EQUAL (*i++, 106);
-        BOOST_REQUIRE_EQUAL (*i++, 97);
-        BOOST_REQUIRE_EQUAL (*i++, 378);
-        BOOST_REQUIRE_EQUAL (*i++, 324);
-        BOOST_REQUIRE_EQUAL (*i++, 44);
-        BOOST_REQUIRE_EQUAL (*i++, 32);
-        BOOST_REQUIRE_EQUAL (*i++, 90);
-        BOOST_REQUIRE_EQUAL (*i++, 65);
-        BOOST_REQUIRE_EQUAL (*i++, 379);
-        BOOST_REQUIRE_EQUAL (*i++, 211);
-        BOOST_REQUIRE_EQUAL (*i++, 321);
-        BOOST_REQUIRE_EQUAL (*i++, 262);
-        BOOST_REQUIRE_EQUAL (*i++, 32);
-        BOOST_REQUIRE_EQUAL (*i++, 71);
-        BOOST_REQUIRE_EQUAL (*i++, 280);
-        BOOST_REQUIRE_EQUAL (*i++, 346);
-        BOOST_REQUIRE_EQUAL (*i++, 76);
-        BOOST_REQUIRE_EQUAL (*i++, 260);
-        BOOST_REQUIRE_EQUAL (*i++, 32);
-        BOOST_REQUIRE_EQUAL (*i++, 74);
-        BOOST_REQUIRE_EQUAL (*i++, 65);
-        BOOST_REQUIRE_EQUAL (*i++, 377);
-        BOOST_REQUIRE_EQUAL (*i++, 323);
+        BOOST_REQUIRE_EQUAL (*i++, 122U);
+        BOOST_REQUIRE_EQUAL (*i++, 97U);
+        BOOST_REQUIRE_EQUAL (*i++, 380U);
+        BOOST_REQUIRE_EQUAL (*i++, 243U);
+        BOOST_REQUIRE_EQUAL (*i++, 322U);
+        BOOST_REQUIRE_EQUAL (*i++, 263U);
+        BOOST_REQUIRE_EQUAL (*i++, 32U);
+        BOOST_REQUIRE_EQUAL (*i++, 103U);
+        BOOST_REQUIRE_EQUAL (*i++, 281U);
+        BOOST_REQUIRE_EQUAL (*i++, 347U);
+        BOOST_REQUIRE_EQUAL (*i++, 108U);
+        BOOST_REQUIRE_EQUAL (*i++, 261U);
+        BOOST_REQUIRE_EQUAL (*i++, 32U);
+        BOOST_REQUIRE_EQUAL (*i++, 106U);
+        BOOST_REQUIRE_EQUAL (*i++, 97U);
+        BOOST_REQUIRE_EQUAL (*i++, 378U);
+        BOOST_REQUIRE_EQUAL (*i++, 324U);
+        BOOST_REQUIRE_EQUAL (*i++, 44U);
+        BOOST_REQUIRE_EQUAL (*i++, 32U);
+        BOOST_REQUIRE_EQUAL (*i++, 90U);
+        BOOST_REQUIRE_EQUAL (*i++, 65U);
+        BOOST_REQUIRE_EQUAL (*i++, 379U);
+        BOOST_REQUIRE_EQUAL (*i++, 211U);
+        BOOST_REQUIRE_EQUAL (*i++, 321U);
+        BOOST_REQUIRE_EQUAL (*i++, 262U);
+        BOOST_REQUIRE_EQUAL (*i++, 32U);
+        BOOST_REQUIRE_EQUAL (*i++, 71U);
+        BOOST_REQUIRE_EQUAL (*i++, 280U);
+        BOOST_REQUIRE_EQUAL (*i++, 346U);
+        BOOST_REQUIRE_EQUAL (*i++, 76U);
+        BOOST_REQUIRE_EQUAL (*i++, 260U);
+        BOOST_REQUIRE_EQUAL (*i++, 32U);
+        BOOST_REQUIRE_EQUAL (*i++, 74U);
+        BOOST_REQUIRE_EQUAL (*i++, 65U);
+        BOOST_REQUIRE_EQUAL (*i++, 377U);
+        BOOST_REQUIRE_EQUAL (*i++, 323U);
 
         i = s.end ();
 
-        BOOST_REQUIRE_EQUAL (*(--i), 323);
-        BOOST_REQUIRE_EQUAL (*(--i), 377);
-        BOOST_REQUIRE_EQUAL (*(--i), 65);
-        BOOST_REQUIRE_EQUAL (*(--i), 74);
-        BOOST_REQUIRE_EQUAL (*(--i), 32);
-        BOOST_REQUIRE_EQUAL (*(--i), 260);
-        BOOST_REQUIRE_EQUAL (*(--i), 76);
-        BOOST_REQUIRE_EQUAL (*(--i), 346);
-        BOOST_REQUIRE_EQUAL (*(--i), 280);
-        BOOST_REQUIRE_EQUAL (*(--i), 71);
-        BOOST_REQUIRE_EQUAL (*(--i), 32);
-        BOOST_REQUIRE_EQUAL (*(--i), 262);
-        BOOST_REQUIRE_EQUAL (*(--i), 321);
-        BOOST_REQUIRE_EQUAL (*(--i), 211);
-        BOOST_REQUIRE_EQUAL (*(--i), 379);
-        BOOST_REQUIRE_EQUAL (*(--i), 65);
-        BOOST_REQUIRE_EQUAL (*(--i), 90);
-        BOOST_REQUIRE_EQUAL (*(--i), 32);
-        BOOST_REQUIRE_EQUAL (*(--i), 44);
-        BOOST_REQUIRE_EQUAL (*(--i), 324);
-        BOOST_REQUIRE_EQUAL (*(--i), 378);
-        BOOST_REQUIRE_EQUAL (*(--i), 97);
-        BOOST_REQUIRE_EQUAL (*(--i), 106);
-        BOOST_REQUIRE_EQUAL (*(--i), 32);
-        BOOST_REQUIRE_EQUAL (*(--i), 261);
-        BOOST_REQUIRE_EQUAL (*(--i), 108);
-        BOOST_REQUIRE_EQUAL (*(--i), 347);
-        BOOST_REQUIRE_EQUAL (*(--i), 281);
-        BOOST_REQUIRE_EQUAL (*(--i), 103);
-        BOOST_REQUIRE_EQUAL (*(--i), 32);
-        BOOST_REQUIRE_EQUAL (*(--i), 263);
-        BOOST_REQUIRE_EQUAL (*(--i), 322);
-        BOOST_REQUIRE_EQUAL (*(--i), 243);
-        BOOST_REQUIRE_EQUAL (*(--i), 380);
-        BOOST_REQUIRE_EQUAL (*(--i), 97);
-        BOOST_REQUIRE_EQUAL (*(--i), 122);
+        BOOST_REQUIRE_EQUAL (*(--i), 323U);
+        BOOST_REQUIRE_EQUAL (*(--i), 377U);
+        BOOST_REQUIRE_EQUAL (*(--i), 65U);
+        BOOST_REQUIRE_EQUAL (*(--i), 74U);
+        BOOST_REQUIRE_EQUAL (*(--i), 32U);
+        BOOST_REQUIRE_EQUAL (*(--i), 260U);
+        BOOST_REQUIRE_EQUAL (*(--i), 76U);
+        BOOST_REQUIRE_EQUAL (*(--i), 346U);
+        BOOST_REQUIRE_EQUAL (*(--i), 280U);
+        BOOST_REQUIRE_EQUAL (*(--i), 71U);
+        BOOST_REQUIRE_EQUAL (*(--i), 32U);
+        BOOST_REQUIRE_EQUAL (*(--i), 262U);
+        BOOST_REQUIRE_EQUAL (*(--i), 321U);
+        BOOST_REQUIRE_EQUAL (*(--i), 211U);
+        BOOST_REQUIRE_EQUAL (*(--i), 379U);
+        BOOST_REQUIRE_EQUAL (*(--i), 65U);
+        BOOST_REQUIRE_EQUAL (*(--i), 90U);
+        BOOST_REQUIRE_EQUAL (*(--i), 32U);
+        BOOST_REQUIRE_EQUAL (*(--i), 44U);
+        BOOST_REQUIRE_EQUAL (*(--i), 324U);
+        BOOST_REQUIRE_EQUAL (*(--i), 378U);
+        BOOST_REQUIRE_EQUAL (*(--i), 97U);
+        BOOST_REQUIRE_EQUAL (*(--i), 106U);
+        BOOST_REQUIRE_EQUAL (*(--i), 32U);
+        BOOST_REQUIRE_EQUAL (*(--i), 261U);
+        BOOST_REQUIRE_EQUAL (*(--i), 108U);
+        BOOST_REQUIRE_EQUAL (*(--i), 347U);
+        BOOST_REQUIRE_EQUAL (*(--i), 281U);
+        BOOST_REQUIRE_EQUAL (*(--i), 103U);
+        BOOST_REQUIRE_EQUAL (*(--i), 32U);
+        BOOST_REQUIRE_EQUAL (*(--i), 263U);
+        BOOST_REQUIRE_EQUAL (*(--i), 322U);
+        BOOST_REQUIRE_EQUAL (*(--i), 243U);
+        BOOST_REQUIRE_EQUAL (*(--i), 380U);
+        BOOST_REQUIRE_EQUAL (*(--i), 97U);
+        BOOST_REQUIRE_EQUAL (*(--i), 122U);
 }
 
 /**
@@ -134,42 +134,42 @@ BOOST_AUTO_TEST_CASE (testRandomAccess)
         String s = testString;
         int i = 0;
 
-        BOOST_REQUIRE_EQUAL (s[i++], 122);
-        BOOST_REQUIRE_EQUAL (s[i++], 97);
-        BOOST_REQUIRE_EQUAL (s[i++], 380);
-        BOOST_REQUIRE_EQUAL (s[i++], 243);
-        BOOST_REQUIRE_EQUAL (s[i++], 322);
-        BOOST_REQUIRE_EQUAL (s[i++], 263);
-        BOOST_REQUIRE_EQUAL (s[i++], 32);
-        BOOST_REQUIRE_EQUAL (s[i++], 103);
-        BOOST_REQUIRE_EQUAL (s[i++], 281);
-        BOOST_REQUIRE_EQUAL (s[i++], 347);
-        BOOST_REQUIRE_EQUAL (s[i++], 108);
-        BOOST_REQUIRE_EQUAL (s[i++], 261);
-        BOOST_REQUIRE_EQUAL (s[i++], 32);
-        BOOST_REQUIRE_EQUAL (s[i++], 106);
-        BOOST_REQUIRE_EQUAL (s[i++], 97);
-        BOOST_REQUIRE_EQUAL (s[i++], 378);
-        BOOST_REQUIRE_EQUAL (s[i++], 324);
-        BOOST_REQUIRE_EQUAL (s[i++], 44);
-        BOOST_REQUIRE_EQUAL (s[i++], 32);
-        BOOST_REQUIRE_EQUAL (s[i++], 90);
-        BOOST_REQUIRE_EQUAL (s[i++], 65);
-        BOOST_REQUIRE_EQUAL (s[i++], 379);
-        BOOST_REQUIRE_EQUAL (s[i++], 211);
-        BOOST_REQUIRE_EQUAL (s[i++], 321);
-        BOOST_REQUIRE_EQUAL (s[i++], 262);
-        BOOST_REQUIRE_EQUAL (s[i++], 32);
-        BOOST_REQUIRE_EQUAL (s[i++], 71);
-        BOOST_REQUIRE_EQUAL (s[i++], 280);
-        BOOST_REQUIRE_EQUAL (s[i++], 346);
-        BOOST_REQUIRE_EQUAL (s[i++], 76);
-        BOOST_REQUIRE_EQUAL (s[i++], 260);
-        BOOST_REQUIRE_EQUAL (s[i++], 32);
-        BOOST_REQUIRE_EQUAL (s[i++], 74);
-        BOOST_REQUIRE_EQUAL (s[i++], 65);
-        BOOST_REQUIRE_EQUAL (s[i++], 377);
-        BOOST_REQUIRE_EQUAL (s[i++], 323);
+        BOOST_REQUIRE_EQUAL (s[i++], 122U);
+        BOOST_REQUIRE_EQUAL (s[i++], 97U);
+        BOOST_REQUIRE_EQUAL (s[i++], 380U);
+        BOOST_REQUIRE_EQUAL (s[i++], 243U);
+        BOOST_REQUIRE_EQUAL (s[i++], 322U);
+        BOOST_REQUIRE_EQUAL (s[i++], 263U);
+        BOOST_REQUIRE_EQUAL (s[i++], 32U);
+        BOOST_REQUIRE_EQUAL (s[i++], 103U);
+        BOOST_REQUIRE_EQUAL (s[i++], 281U);
+        BOOST_REQUIRE_EQUAL (s[i++], 347U);
+        BOOST_REQUIRE_EQUAL (s[i++], 108U);
+        BOOST_REQUIRE_EQUAL (s[i++], 261U);
+        BOOST_REQUIRE_EQUAL (s[i++], 32U);
+        BOOST_REQUIRE_EQUAL (s[i++], 106U);
+        BOOST_REQUIRE_EQUAL (s[i++], 97U);
+        BOOST_REQUIRE_EQUAL (s[i++], 378U);
+        BOOST_REQUIRE_EQUAL (s[i++], 324U);
+        BOOST_REQUIRE_EQUAL (s[i++], 44U);
+        BOOST_REQUIRE_EQUAL (s[i++], 32U);
+        BOOST_REQUIRE_EQUAL (s[i++], 90U);
+        BOOST_REQUIRE_EQUAL (s[i++], 65U);
+        BOOST_REQUIRE_EQUAL (s[i++], 379U);
+        BOOST_REQUIRE_EQUAL (s[i++], 211U);
+        BOOST_REQUIRE_EQUAL (s[i++], 321U);
+        BOOST_REQUIRE_EQUAL (s[i++], 262U);
+        BOOST_REQUIRE_EQUAL (s[i++], 32U);
+        BOOST_REQUIRE_EQUAL (s[i++], 71U);
+        BOOST_REQUIRE_EQUAL (s[i++], 280U);
+        BOOST_REQUIRE_EQUAL (s[i++], 346U);
+        BOOST_REQUIRE_EQUAL (s[i++], 76U);
+        BOOST_REQUIRE_EQUAL (s[i++], 260U);
+        BOOST_REQUIRE_EQUAL (s[i++], 32U);
+        BOOST_REQUIRE_EQUAL (s[i++], 74U);
+        BOOST_REQUIRE_EQUAL (s[i++], 65U);
+        BOOST_REQUIRE_EQUAL (s[i++], 377U);
+        BOOST_REQUIRE_EQUAL (s[i++], 323U);
 }
 
 /**
@@ -178,13 +178,13 @@ BOOST_AUTO_TEST_CASE (testRandomAccess)
 BOOST_AUTO_TEST_CASE (testLengthMethod)
 {
         String s = testString;
-        BOOST_REQUIRE_EQUAL (s.length (), 36);
+        BOOST_REQUIRE_EQUAL (s.length (), 36U);
 
         s = "";
-        BOOST_REQUIRE_EQUAL (s.length (), 0);
+        BOOST_REQUIRE_EQUAL (s.length (), 0U);
 
         s = "a";
-        BOOST_REQUIRE_EQUAL (s.length (), 1);
+        BOOST_REQUIRE_EQUAL (s.length (), 1U);
 }
 
 /**
@@ -200,12 +200,12 @@ BOOST_AUTO_TEST_CASE (testPushBack)
 
         s.push_back ('a');
 
-        BOOST_REQUIRE_EQUAL (s.length (), 1);
-        BOOST_REQUIRE_EQUAL (s[0], 97);
+        BOOST_REQUIRE_EQUAL (s.length (), 1U);
+        BOOST_REQUIRE_EQUAL (s[0], 97U);
 
         s.push_back (data[2]); //ż
-        BOOST_REQUIRE_EQUAL (s.length (), 2);
-        BOOST_REQUIRE_EQUAL (s[1], 380);
+        BOOST_REQUIRE_EQUAL (s.length (), 2U);
+        BOOST_REQUIRE_EQUAL (s[1], 380U);
 }
 
 /**
@@ -268,10 +268,10 @@ BOOST_AUTO_TEST_CASE (testErase)
 
         i = s.begin ();
 
-        BOOST_REQUIRE_EQUAL (*i++, 122);
-        BOOST_REQUIRE_EQUAL (*i++, 97);
-        BOOST_REQUIRE_EQUAL (*i++, 380);
-        BOOST_REQUIRE_EQUAL (*i++, 322);
+        BOOST_REQUIRE_EQUAL (*i++, 122U);
+        BOOST_REQUIRE_EQUAL (*i++, 97U);
+        BOOST_REQUIRE_EQUAL (*i++, 380U);
+        BOOST_REQUIRE_EQUAL (*i++, 322U);
 
         // Test na end - podajemy end jako znak do usuniecia.
 
@@ -298,14 +298,14 @@ BOOST_AUTO_TEST_CASE (testErase2)
 
         i = s.begin ();
 
-        BOOST_REQUIRE_EQUAL (*i++, 122);
-        BOOST_REQUIRE_EQUAL (*i++, 97);
-        BOOST_REQUIRE_EQUAL (*i++, 380);
-//      BOOST_REQUIRE_EQUAL (*i++, 243);
-//      BOOST_REQUIRE_EQUAL (*i++, 322);
-        BOOST_REQUIRE_EQUAL (*i++, 263); // ć
-        BOOST_REQUIRE_EQUAL (*i++, 32);
-        BOOST_REQUIRE_EQUAL (*i++, 103);
+        BOOST_REQUIRE_EQUAL (*i++, 122U);
+        BOOST_REQUIRE_EQUAL (*i++, 97U);
+        BOOST_REQUIRE_EQUAL (*i++, 380U);
+//      BOOST_REQUIRE_EQUAL (*i++, 243U);
+//      BOOST_REQUIRE_EQUAL (*i++, 322U);
+        BOOST_REQUIRE_EQUAL (*i++, 263U); // ć
+        BOOST_REQUIRE_EQUAL (*i++, 32U);
+        BOOST_REQUIRE_EQUAL (*i++, 103U);
 }
 
 /**
@@ -322,14 +322,14 @@ BOOST_AUTO_TEST_CASE (testErase3)
 
         String::iterator i = s.begin ();
 
-        BOOST_REQUIRE_EQUAL (*i++, 122);
-        BOOST_REQUIRE_EQUAL (*i++, 97);
-        BOOST_REQUIRE_EQUAL (*i++, 380);
-//      BOOST_REQUIRE_EQUAL (*i++, 243);
-//      BOOST_REQUIRE_EQUAL (*i++, 322);
-        BOOST_REQUIRE_EQUAL (*i++, 263); // ć
-        BOOST_REQUIRE_EQUAL (*i++, 32);
-        BOOST_REQUIRE_EQUAL (*i++, 103);
+        BOOST_REQUIRE_EQUAL (*i++, 122U);
+        BOOST_REQUIRE_EQUAL (*i++, 97U);
+        BOOST_REQUIRE_EQUAL (*i++, 380U);
+//      BOOST_REQUIRE_EQUAL (*i++, 243U);
+//      BOOST_REQUIRE_EQUAL (*i++, 322U);
+        BOOST_REQUIRE_EQUAL (*i++, 263U); // ć
+        BOOST_REQUIRE_EQUAL (*i++, 32U);
+        BOOST_REQUIRE_EQUAL (*i++, 103U);
 }
 
 /**
@@ -351,13 +351,13 @@ BOOST_AUTO_TEST_CASE (testInsert)
 
         i = s.begin ();
 
-        BOOST_REQUIRE_EQUAL (*i++, 122);
-        BOOST_REQUIRE_EQUAL (*i++, 97);
-        BOOST_REQUIRE_EQUAL (*i++, 380);
-        BOOST_REQUIRE_EQUAL (*i++, 97); // znow ,,a''
-        BOOST_REQUIRE_EQUAL (*i++, 243);
-        BOOST_REQUIRE_EQUAL (*i++, 322);
-        BOOST_REQUIRE_EQUAL (*i++, 263); // ć
+        BOOST_REQUIRE_EQUAL (*i++, 122U);
+        BOOST_REQUIRE_EQUAL (*i++, 97U);
+        BOOST_REQUIRE_EQUAL (*i++, 380U);
+        BOOST_REQUIRE_EQUAL (*i++, 97U); // znow ,,a''
+        BOOST_REQUIRE_EQUAL (*i++, 243U);
+        BOOST_REQUIRE_EQUAL (*i++, 322U);
+        BOOST_REQUIRE_EQUAL (*i++, 263U); // ć
 
         /*
          * Nie mozna drugi raz insertowac z tym samym iteratorem,
@@ -376,14 +376,14 @@ BOOST_AUTO_TEST_CASE (testInsert)
         s.insert (i, 'b');
         i = s.begin ();
 
-        BOOST_REQUIRE_EQUAL (*i++, 122); // z
-        BOOST_REQUIRE_EQUAL (*i++, 97);  // z
-        BOOST_REQUIRE_EQUAL (*i++, 380); // ż
-        BOOST_REQUIRE_EQUAL (*i++, 97);  // znow ,,a''
-        BOOST_REQUIRE_EQUAL (*i++, 243); // ó
-        BOOST_REQUIRE_EQUAL (*i++, 98);  // a tu ,,b''
-        BOOST_REQUIRE_EQUAL (*i++, 322); // ł
-        BOOST_REQUIRE_EQUAL (*i++, 263); // ć
+        BOOST_REQUIRE_EQUAL (*i++, 122U); // z
+        BOOST_REQUIRE_EQUAL (*i++, 97U);  // z
+        BOOST_REQUIRE_EQUAL (*i++, 380U); // ż
+        BOOST_REQUIRE_EQUAL (*i++, 97U);  // znow ,,a''
+        BOOST_REQUIRE_EQUAL (*i++, 243U); // ó
+        BOOST_REQUIRE_EQUAL (*i++, 98U);  // a tu ,,b''
+        BOOST_REQUIRE_EQUAL (*i++, 322U); // ł
+        BOOST_REQUIRE_EQUAL (*i++, 263U); // ć
 
         i = s.end ();
         // Wstaw ,,c'' przed end, czyli na samym koncu!
@@ -407,13 +407,13 @@ BOOST_AUTO_TEST_CASE (testInsert2)
 
         i = s.begin ();
 
-        BOOST_REQUIRE_EQUAL (*i++, 122); // z
-        BOOST_REQUIRE_EQUAL (*i++, 97);  // a
-        BOOST_REQUIRE_EQUAL (*i++, 380); // ż
-        BOOST_REQUIRE_EQUAL (*i++, 380);  // ż
-        BOOST_REQUIRE_EQUAL (*i++, 97); // a
-        BOOST_REQUIRE_EQUAL (*i++, 98); // b
-        BOOST_REQUIRE_EQUAL (*i++, 97); // a
+        BOOST_REQUIRE_EQUAL (*i++, 122U); // z
+        BOOST_REQUIRE_EQUAL (*i++, 97U);  // a
+        BOOST_REQUIRE_EQUAL (*i++, 380U); // ż
+        BOOST_REQUIRE_EQUAL (*i++, 380U);  // ż
+        BOOST_REQUIRE_EQUAL (*i++, 97U); // a
+        BOOST_REQUIRE_EQUAL (*i++, 98U); // b
+        BOOST_REQUIRE_EQUAL (*i++, 97U); // a
 
         s = "ża";
         s.insert (s.end (), "żaba");
@@ -433,10 +433,10 @@ BOOST_AUTO_TEST_CASE (testInsert3)
 
         String::iterator i = s.begin ();
 
-        BOOST_REQUIRE_EQUAL (*i++, 122); // z
-        BOOST_REQUIRE_EQUAL (*i++, 97);  // a
-        BOOST_REQUIRE_EQUAL (*i++, 380); // ż
-        BOOST_REQUIRE_EQUAL (*i++, 97);  // a
+        BOOST_REQUIRE_EQUAL (*i++, 122U); // z
+        BOOST_REQUIRE_EQUAL (*i++, 97U);  // a
+        BOOST_REQUIRE_EQUAL (*i++, 380U); // ż
+        BOOST_REQUIRE_EQUAL (*i++, 97U);  // a
 
         s = "ża";
         s.insert (2, 'b');
@@ -468,13 +468,13 @@ BOOST_AUTO_TEST_CASE (testInsert4)
 
         String::iterator i = s.begin ();
 
-        BOOST_REQUIRE_EQUAL (*i++, 122); // z
-        BOOST_REQUIRE_EQUAL (*i++, 97);  // a
-        BOOST_REQUIRE_EQUAL (*i++, 380); // ż
-        BOOST_REQUIRE_EQUAL (*i++, 380);  // ż
-        BOOST_REQUIRE_EQUAL (*i++, 97); // a
-        BOOST_REQUIRE_EQUAL (*i++, 98); // b
-        BOOST_REQUIRE_EQUAL (*i++, 97); // a
+        BOOST_REQUIRE_EQUAL (*i++, 122U); // z
+        BOOST_REQUIRE_EQUAL (*i++, 97U);  // a
+        BOOST_REQUIRE_EQUAL (*i++, 380U); // ż
+        BOOST_REQUIRE_EQUAL (*i++, 380U);  // ż
+        BOOST_REQUIRE_EQUAL (*i++, 97U); // a
+        BOOST_REQUIRE_EQUAL (*i++, 98U); // b
+        BOOST_REQUIRE_EQUAL (*i++, 97U); // a
 
         s = "ża";
         s.insert (2, "baabaż");
@@ -502,8 +502,8 @@ BOOST_AUTO_TEST_CASE (testOperatorPlus)
 
         String s3 = s1 + s2;
 
-        BOOST_REQUIRE_EQUAL (s3[36], 122); // z
-        BOOST_REQUIRE_EQUAL (s3[71], 323); // Ń
+        BOOST_REQUIRE_EQUAL (s3[36], 122U); // z
+        BOOST_REQUIRE_EQUAL (s3[71], 323U); // Ń
 }
 
 /**
@@ -599,16 +599,16 @@ BOOST_AUTO_TEST_CASE (testIndexOf)
         String s1 = testString;
 
         String::size_type i = s1.indexOf ("GĘŚ");
-        BOOST_REQUIRE_EQUAL (i, 26);
+        BOOST_REQUIRE_EQUAL (i, 26U);
 
         i = s1.indexOf ("zażół");
-        BOOST_REQUIRE_EQUAL (i, 0);
+        BOOST_REQUIRE_EQUAL (i, 0U);
 
         i = s1.indexOf ("zażół", 20);
         BOOST_REQUIRE_EQUAL (i, String::npos);
 
         i = s1.indexOf ("a", 0);
-        BOOST_REQUIRE_EQUAL (i, 1);
+        BOOST_REQUIRE_EQUAL (i, 1U);
 
         i = s1.indexOf ("a", s1.length () + 1);
         BOOST_REQUIRE_EQUAL (i, String::npos);
@@ -657,15 +657,15 @@ BOOST_AUTO_TEST_CASE (testCount)
 {
         String s = testString;
 
-        BOOST_REQUIRE_EQUAL (s.count ("a"), 2);
+        BOOST_REQUIRE_EQUAL (s.count ("a"), 2U);
 
         s = "łąłąłąłąłą";
 
-        BOOST_REQUIRE_EQUAL (s.count ("łą"), 5);
-        BOOST_REQUIRE_EQUAL (s.count ("kupa"), 0);
-        BOOST_REQUIRE_EQUAL (s.count ("897689678967896986897"), 0);
+        BOOST_REQUIRE_EQUAL (s.count ("łą"), 5U);
+        BOOST_REQUIRE_EQUAL (s.count ("kupa"), 0U);
+        BOOST_REQUIRE_EQUAL (s.count ("897689678967896986897"), 0U);
         // Gupie to, ale tak dziala std::string::find - kiedy podasz "", to znajduje co znak.
-        BOOST_REQUIRE_EQUAL (s.count (""), 11);
+        BOOST_REQUIRE_EQUAL (s.count (""), 11U);
 }
 
 /**
@@ -730,14 +730,14 @@ BOOST_AUTO_TEST_CASE (testAt)
         String s = testString;
         int i = 0;
 
-        BOOST_REQUIRE_EQUAL (s.at (i++), 122);
-        BOOST_REQUIRE_EQUAL (s.at (i++), 97);
-        BOOST_REQUIRE_EQUAL (s.at (i++), 380);
-        BOOST_REQUIRE_EQUAL (s.at (i++), 243);
-        BOOST_REQUIRE_EQUAL (s.at (i++), 322);
-        BOOST_REQUIRE_EQUAL (s.at (i++), 263);
-        BOOST_REQUIRE_EQUAL (s.at (i++), 32);
-        BOOST_REQUIRE_EQUAL (s.at (i++), 103);
+        BOOST_REQUIRE_EQUAL (s.at (i++), 122U);
+        BOOST_REQUIRE_EQUAL (s.at (i++), 97U);
+        BOOST_REQUIRE_EQUAL (s.at (i++), 380U);
+        BOOST_REQUIRE_EQUAL (s.at (i++), 243U);
+        BOOST_REQUIRE_EQUAL (s.at (i++), 322U);
+        BOOST_REQUIRE_EQUAL (s.at (i++), 263U);
+        BOOST_REQUIRE_EQUAL (s.at (i++), 32U);
+        BOOST_REQUIRE_EQUAL (s.at (i++), 103U);
 
 #if defined (TEST_OVERFLOW)
         bool caught = false;

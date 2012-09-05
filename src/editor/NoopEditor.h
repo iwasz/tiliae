@@ -28,8 +28,6 @@ struct TILIAE_API NoopEditor : public IEditor {
         NoopEditor (bool c = true) : copy (c) {}
         virtual ~NoopEditor () {}
 
-        static Ptr <NoopEditor> create (bool c = true) { return Ptr <NoopEditor> (new NoopEditor (c)); }
-
         virtual bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL)
         {
                 if (copy) {

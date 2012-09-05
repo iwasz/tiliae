@@ -1,4 +1,4 @@
-/****************************************************************************
+/*asia tu była***************************************************************
  *                                                                          *
  *  Author : lukasz.iwaszkiewicz@gmail.com                                  *
  *  ~~~~~~~~                                                                *
@@ -14,15 +14,10 @@
 #include "../../../core/variant/Cast.h"
 #include "../../../factory/IFactory.h"
 #include "../../../factory/LazyFactory.h"
+#include "../../../core/StrUtil.h"
 
 namespace Container {
 using namespace Core;
-
-void FactoryService::init (Core::VariantMap *singletons)
-{
-        Core::Variant v = singletons->find (DEFAULT_OBJECT_FACTORY_NAME)->second;
-        defaultFactory = ocast <Ptr <Factory::IFactory> > (v);
-}
 
 /**
  * BeanFactory ma wśrodku factory, które faktycznie tworzy pusty obiekt i domyślnie jest
@@ -32,32 +27,37 @@ void FactoryService::init (Core::VariantMap *singletons)
  * Jeśli ten atrybut jest ustawiony, to za pomocą BeanFactoryContainer::getBeanFactory jest
  * pobierana fabryka o podanym w atrybucie ID i ustawiana do BeanFactory.
  */
-bool FactoryService::onMetaBegin (IMeta *data)
+bool FactoryService::onMetaBegin (MetaObject const *data)
 {
         // Tu powinien być beanFactory odpowiadający podanemu meta w parametrze.
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
 
         if (!beanFactory) {
                 // Gdy abstract
                 return false;
         }
 
-        std::string customFactoryName = data->getFactory ();
+        std::string customFactoryName = toStr (data->getFactory ());
         Factory::IFactory *factory = NULL;
 
         if (!customFactoryName.empty ()) {
-                Ptr <BeanFactoryContainer> container = getBVFContext ()->getBeanFactoryContainer ();
-                Ptr <BeanFactory> fact = container->getBeanFactory (customFactoryName, beanFactory);
-                factory = new Factory::LazyFactory (fact);
-                beanFactory->setFactory (factory, true);
+                BeanFactoryContainer *container = getBVFContext ()->getBeanFactoryContainer ();
+                factory = ocast <Factory::IFactory *> (container->getSingleton (customFactoryName.c_str ()));
+                beanFactory->setFactory (factory, false);
         }
         else {
-                factory = defaultFactory.get ();
+                if (data->getScope () == MetaObject::SINGLETON) {
+                        factory = defaultSingletonFactory;
+                }
+                else {
+                        factory = defaultPrototypeFactory;
+                }
+
                 beanFactory->setFactory (factory, false);
         }
 
         if (!factory) {
-                throw BeanNotFullyInitializedException ("Can't create factory BeanFactory. Bean id : (" + data->getId () + "), factory name : (" + data->getFactory () + ").");
+                throw BeanNotFullyInitializedException ("Can't create factory BeanFactory. Bean id : (" + toStr (data->getId ()) + "), factory name : (" + customFactoryName + ").");
         }
 
         return true;

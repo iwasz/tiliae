@@ -12,8 +12,7 @@
 #include "beanFactory/service/BeanFactoryService.h"
 
 namespace Container {
-class IndexedMeta;
-class IMeta;
+class MetaObject;
 class ListElem;
 class ValueData;
 class RefData;
@@ -27,31 +26,27 @@ class ValueServiceHelper;
 class IndexedValueService : public BeanFactoryService {
 public:
 
-        IndexedValueService () : inputList (NULL), cargList (NULL) {}
+        IndexedValueService () : inputList (NULL), cargList (NULL), helper (NULL) {}
         virtual ~IndexedValueService () {}
-        static Ptr <IndexedValueService> create () { return Ptr <IndexedValueService> (new IndexedValueService); }
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onIndexedMetaBegin (IndexedMeta *data);
-        virtual void onConstructorArgsBegin (IMeta *data);
-        virtual void onConstructorArgsEnd (IMeta *data);
-//        virtual void onListElem (ListElem *data);
-        virtual void onValueData (std::string const &key, ValueData *data);
-        virtual void onRefData (std::string const &key, RefData *data);
-        virtual void onNullData (std::string const &key, NullData *data);
+        virtual bool onIndexedMetaBegin (MetaObject const *data);
+        virtual void onConstructorArgsBegin (MetaObject const *data);
+        virtual void onConstructorArgsEnd (MetaObject const *data);
+        virtual void onValueData (DataKey const *dk, ValueData const *data);
+        virtual void onRefData (DataKey const *dk, RefData const *data);
+        virtual void onNullData (DataKey const *dk, NullData const *data);
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr<ValueServiceHelper> getValueServiceHelper () const { return helper; }
-        void setValueServiceHelper (Ptr<ValueServiceHelper> valueService) { this->helper = valueService; }
+        void setValueServiceHelper (ValueServiceHelper *valueService) { this->helper = valueService; }
 
 private:
 
         Core::VariantList *inputList;
         Core::VariantList *cargList;
-
-        Ptr<ValueServiceHelper> helper;
+        ValueServiceHelper *helper;
 
 };
 

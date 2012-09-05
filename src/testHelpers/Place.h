@@ -23,6 +23,7 @@ public:
 
         virtual ~Place () {}
         REFLECTION_METHOD (init) int init () { static int cnt = 0; return ++cnt; }
+        REFLECTION_METHOD (init2) int init2 () { static int cnt2 = 0; return ++cnt2; }
 
         REFLECTION_METHOD (getPlace) Core::Variant getPlace () const { return place; }
         REFLECTION_METHOD (setPlace) void setPlace (const Core::Variant &p) { place = p; }

@@ -26,21 +26,21 @@ using namespace Editor;
 
 BOOST_AUTO_TEST_CASE (testJEditor)
 {
-        Ptr <TypeEditor> editor = boost::make_shared <TypeEditor> ();
+        TypeEditor editor (true);
 
-        editor->addType (TypeEditor::Type (typeid (std::string), typeid (int), boost::make_shared <LexicalEditor <std::string, int> > ()));
-        editor->addType (TypeEditor::Type (typeid (int), typeid (std::string), boost::make_shared <LexicalEditor <int, std::string> > ()));
-        editor->addType (TypeEditor::Type (typeid (Core::String), typeid (std::string), boost::make_shared <LexicalEditor <Core::String, std::string> > ()));
-        editor->addType (TypeEditor::Type (typeid (std::string), typeid (Core::String), boost::make_shared <LexicalEditor <std::string, Core::String> > ()));
+        editor.addType (TypeEditor::Type (typeid (std::string), typeid (int), new LexicalEditor <std::string, int> ()));
+        editor.addType (TypeEditor::Type (typeid (int), typeid (std::string), new LexicalEditor <int, std::string> ()));
+        editor.addType (TypeEditor::Type (typeid (Core::String), typeid (std::string), new LexicalEditor <Core::String, std::string> ()));
+        editor.addType (TypeEditor::Type (typeid (std::string), typeid (Core::String), new LexicalEditor <std::string, Core::String> ()));
 
 /*--------------------------------------------------------------------------*/
 
         Variant out ((int)0);
-        editor->convert (Variant (std::string ("123")), &out);
+        editor.convert (Variant (std::string ("123")), &out);
         BOOST_REQUIRE_EQUAL (vcast <int> (out), 123);
 
         out = Variant (Core::String (""));
-        editor->convert (Variant (std::string ("123")), &out);
+        editor.convert (Variant (std::string ("123")), &out);
         BOOST_REQUIRE_EQUAL (vcast <Core::String> (out), "123");
 }
 
@@ -52,17 +52,18 @@ BOOST_AUTO_TEST_CASE (testStringConstruct)
 
 ///*--------------------------------------------------------------------------*/
 
-        Ptr <City> city;
+        City *city = NULL;
         Variant out (city);
 
         Core::DebugContext ctx;
         bool success = editor->convert (Variant ("Warszawa"), &out, &ctx);
         std::cerr << ctx.getMessage () << std::endl;
 
-        city = vcast <Ptr <City> > (out);
+        city = vcast <City *> (out);
         BOOST_REQUIRE (city);
         BOOST_REQUIRE_EQUAL (city->getName (), "Warszawa");
         BOOST_REQUIRE_EQUAL (success, true);
+        delete city;
 }
 
 /****************************************************************************/

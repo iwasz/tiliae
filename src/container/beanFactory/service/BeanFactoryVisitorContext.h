@@ -11,6 +11,7 @@
 
 #include "metaStructure/service/VisitorContext.h"
 #include "beanFactory/BeanFactory.h"
+#include "../BeanFactoryContainer.h"
 
 namespace Container {
 
@@ -20,29 +21,27 @@ namespace Container {
 class BeanFactoryVisitorContext : public VisitorContext {
 public:
 
-        virtual ~BeanFactoryVisitorContext () {}
+        BeanFactoryVisitorContext () : beanFactoryMap (NULL), container (NULL), currentBF (NULL) {}
+        virtual ~BeanFactoryVisitorContext () { delete currentBF; }
 
         /**
          * Mapa wynikowa zawierająca fabryki, które będą fizycznie tworzyć
          * beany.
          */
-        Ptr <BeanFactoryMap> getBeanFactoryMap () const { return beanFactoryMap; };
-        void setBeanFactoryMap (Ptr <BeanFactoryMap> b) { beanFactoryMap = b; };
+        BeanFactoryMap *getBeanFactoryMap () const { return beanFactoryMap; };
+        void setBeanFactoryMap (BeanFactoryMap *b) { beanFactoryMap = b; };
 
-        const BeanFactoryStack &getStack () const { return stack; }
-        BeanFactoryStack &getStack () { return stack; }
-        void setStack (const BeanFactoryStack &s) { stack = s; }
+        BeanFactory *getCurrentBF () const { return currentBF; }
+        void setCurrentBF (BeanFactory *c) { currentBF = c; }
 
-        Ptr <BeanFactory> getCurrentBF () const;
-
-        Ptr <BeanFactoryContainer> getBeanFactoryContainer () const { return container; }
-        void setBeanFactoryContainer (Ptr <BeanFactoryContainer> c) { container = c; }
+        BeanFactoryContainer *getBeanFactoryContainer () const { return container; }
+        void setBeanFactoryContainer (BeanFactoryContainer *c) { container = c; }
 
 private:
 
-        Ptr <BeanFactoryMap> beanFactoryMap;
-        Ptr <BeanFactoryContainer> container;
-        BeanFactoryStack stack;
+        BeanFactoryMap *beanFactoryMap;
+        BeanFactoryContainer *container;
+        BeanFactory *currentBF;
 
 };
 

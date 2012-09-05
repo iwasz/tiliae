@@ -36,7 +36,7 @@ using namespace Editor;
  */
 BOOST_AUTO_TEST_CASE (testIter)
 {
-        Ptr <BeanWrapper> beanWrapper = BeanWrapper::create ();
+        BeanWrapper *beanWrapper = BeanWrapper::create ();
 
 /*##########################################################################*/
 
@@ -60,11 +60,13 @@ BOOST_AUTO_TEST_CASE (testIter)
         BOOST_REQUIRE (i->hasNext ());
         BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "value3");
         BOOST_REQUIRE (!i->hasNext ());
+
+        delete beanWrapper;
 }
 
 BOOST_AUTO_TEST_CASE (testIterSlightlyMoreComplicated)
 {
-        Ptr <BeanWrapper> beanWrapper = BeanWrapper::create ();
+        BeanWrapper *beanWrapper = BeanWrapper::create ();
 
 /*##########################################################################*/
 
@@ -92,11 +94,13 @@ BOOST_AUTO_TEST_CASE (testIterSlightlyMoreComplicated)
         BOOST_REQUIRE (i->hasNext ());
         BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "value3");
         BOOST_REQUIRE (!i->hasNext ());
+
+        delete beanWrapper;
 }
 
 BOOST_AUTO_TEST_CASE (testIterComplex)
 {
-        Ptr <BeanWrapper> beanWrapper = BeanWrapper::create ();
+        BeanWrapper *beanWrapper = BeanWrapper::create ();
 
 /*##########################################################################*/
 
@@ -130,6 +134,8 @@ BOOST_AUTO_TEST_CASE (testIterComplex)
         BOOST_REQUIRE (i->hasNext ());
         BOOST_REQUIRE_EQUAL (vcast <std::string> (i->next ()), "value3");
         BOOST_REQUIRE (!i->hasNext ());
+
+        delete beanWrapper;
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

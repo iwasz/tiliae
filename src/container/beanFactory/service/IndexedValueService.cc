@@ -13,7 +13,7 @@
 namespace Container {
 using namespace Core;
 
-bool IndexedValueService::onIndexedMetaBegin (IndexedMeta *data)
+bool IndexedValueService::onIndexedMetaBegin (MetaObject const *data)
 {
         if (!data || data->getAbstract ()) {
                 return true;
@@ -22,14 +22,14 @@ bool IndexedValueService::onIndexedMetaBegin (IndexedMeta *data)
         inputList = new Core::VariantList ();
         cargList = NULL;
 
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
         beanFactory->setInputList (inputList);
         return true;
 }
 
 /****************************************************************************/
 
-void IndexedValueService::onConstructorArgsBegin (IMeta *data)
+void IndexedValueService::onConstructorArgsBegin (MetaObject const *data)
 {
         if (!data || data->getAbstract ()) {
                 return;
@@ -38,36 +38,27 @@ void IndexedValueService::onConstructorArgsBegin (IMeta *data)
         inputList = NULL;
         cargList = new Core::VariantList ();
 
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
         beanFactory->setCArgs (cargList);
 }
 
 /****************************************************************************/
 
-void IndexedValueService::onConstructorArgsEnd (IMeta *data)
+void IndexedValueService::onConstructorArgsEnd (MetaObject const *)
 {
-//        currIndexedMeta = NULL;
-//        currListElem = NULL;
         inputList = NULL;
         cargList = NULL;
 }
 
 /****************************************************************************/
 
-//void IndexedValueService::onListElem (ListElem *data)
-//{
-//        currListElem = data;
-//}
-
-/****************************************************************************/
-
-void IndexedValueService::onValueData (std::string const &, ValueData *data)
+void IndexedValueService::onValueData (DataKey const *, ValueData const *data)
 {
-//        if (/*!currIndexedMeta || */!currListElem) {
-//                return;
-//        }
+        Variant ret;
 
-        Variant ret = helper->create (data->getType (), data->getData ());
+        if (inputList || cargList) {
+                ret = helper->create (data->getType (), data->getData ());
+        }
 
         if (inputList) {
                 inputList->push_back (ret);
@@ -79,12 +70,8 @@ void IndexedValueService::onValueData (std::string const &, ValueData *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onRefData (std::string const &, RefData *data)
+void IndexedValueService::onRefData (DataKey const *, RefData const *data)
 {
-//        if (!currIndexedMeta) {
-//                return true;
-//        }
-
         if (inputList) {
                 inputList->push_back (Core::Variant ());
         }
@@ -95,12 +82,8 @@ void IndexedValueService::onRefData (std::string const &, RefData *data)
 
 /****************************************************************************/
 
-void IndexedValueService::onNullData (std::string const &, NullData *data)
+void IndexedValueService::onNullData (DataKey const *, NullData const *data)
 {
-//        if (/*!currIndexedMeta || */!currListElem) {
-//                return;
-//        }
-
         Core::Variant v;
         v.setNull ();
 

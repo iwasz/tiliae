@@ -44,10 +44,10 @@ namespace Editor {
  */
 struct TILIAE_API IndexedEditor : public JEditor {
 
-        typedef std::map <int, Ptr <IEditor> > EditorMap;
+        typedef std::map <int, IEditor *> EditorMap;
 
-        IndexedEditor () : editors (new EditorMap) {}
-        IndexedEditor (Ptr <EditorMap> m) : editors (m) {}
+        IndexedEditor () : defaultEditor (NULL), beanWrapper (NULL) {}
+        IndexedEditor (EditorMap const &m) : editors (m), defaultEditor (NULL), beanWrapper (NULL) {}
         virtual ~IndexedEditor () {}
 
 /*--------------------------------------------------------------------------*/
@@ -59,27 +59,27 @@ struct TILIAE_API IndexedEditor : public JEditor {
         /**
          * Zwraca całą listę edytorów.
          */
-        Ptr <EditorMap> getEditors () const { return editors; }
-        void setEditors (Ptr <EditorMap> editors) { this->editors = editors; }
-        void setEditors (Ptr <EditorVector> editors);
-        void setEditor (int index, Ptr <IEditor> editor) { editors->operator[](index) = editor; }
-        Ptr <IEditor> getEditor (int index) const;
+        EditorMap const &getEditors () const { return editors; }
+        void setEditors (EditorMap const &editors) { this->editors = editors; }
+        void setEditors (EditorVector const &editors);
+        void setEditor (int index, IEditor *editor) { editors[index] = editor; }
+        IEditor *getEditor (int index);
 
         /**
          * DefaultEditor jest edytorem, który jest używany w przypadku, gdy
          * nie znaleziono edytora o pasującym kluczu na mapie editors.
          */
-        void setDefaultEditor (Ptr <IEditor> editor) { defaultEditor = editor; }
-        Ptr <IEditor> getDefaultEditor () const { return defaultEditor; }
+        void setDefaultEditor (IEditor *editor) { defaultEditor = editor; }
+        IEditor *getDefaultEditor () const { return defaultEditor; }
 
-        Ptr<Wrapper::BeanWrapper> getBeanWrapper () const { return beanWrapper; }
-        void setBeanWrapper (Ptr<Wrapper::BeanWrapper> beanWrapper) { this->beanWrapper = beanWrapper; }
+        Wrapper::BeanWrapper *getBeanWrapper () const { return beanWrapper; }
+        void setBeanWrapper (Wrapper::BeanWrapper *beanWrapper) { this->beanWrapper = beanWrapper; }
 
 private:
 
-        Ptr <EditorMap> editors;
-        Ptr <IEditor> defaultEditor;
-        Ptr <Wrapper::BeanWrapper> beanWrapper;
+        EditorMap editors;
+        IEditor *defaultEditor;
+        Wrapper::BeanWrapper *beanWrapper;
 
 };
 

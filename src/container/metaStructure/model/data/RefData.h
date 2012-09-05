@@ -20,18 +20,22 @@ namespace Container {
  */
 struct TILIAE_API RefData : public IData {
 
-        RefData () : IData () {}
-        RefData (const std::string &d) : data (d) {}
         virtual ~RefData () {}
 
-        std::string const &getData () const { return data; }
-        void setData (const std::string &data) { this->data = data; }
+        const char *getData () const { return data; }
+        void setData (const char *data) { this->data = data; }
 
-        void accept (std::string const &key, IDataVisitor *visitor) { visitor->visit (key, this); }
+        void accept (DataKey const *dk, IDataVisitor *visitor) { visitor->visit (dk, this); }
 
 private:
 
-        std::string data;
+        RefData () : IData (), data (NULL) {}
+        RefData (const char *d) : data (d) {}
+        friend class MetaFactory;
+
+private:
+
+        const char *data;
 
 };
 

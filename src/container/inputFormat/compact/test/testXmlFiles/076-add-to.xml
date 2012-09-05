@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+	<Bar id="bar">
+		<cargs>
+			<value>to sie zamaze</value>
+		</cargs>
+		<StringVector set-as="butter"/>
+		<value add-to="butter">test1</value>
+		<value add-to="butter">test2</value>
+		<value add-to="butter">test3</value>
+	</Bar>
+
+</beans>

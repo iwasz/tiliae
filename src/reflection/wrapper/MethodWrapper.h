@@ -335,9 +335,9 @@ Core::Variant MethodPtrWrapper <void (C::*) (A1, A2) const>::call (Core::Variant
 /*##########################################################################*/
 
 template <typename T>
-boost::shared_ptr <MethodPtrWrapper <T> > createMethodWrapper (T t)
+MethodPtrWrapper <T> *createMethodWrapper (T t)
 {
-        return boost::make_shared <MethodPtrWrapper <T> > (t);
+        return new MethodPtrWrapper <T> (t);
 }
 
 } // namespace

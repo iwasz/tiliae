@@ -68,7 +68,7 @@ public:
         std::string getFirstSegment () const { return firstSegmentCache; }
         std::string getAllButLastSegment () const;
         std::string getAllButFirstSegment () const;
-        Core::StringList splitSegments () const;
+        Core::StringVector splitSegments () const;
 
         bool isRelative () const;
         bool isAbsolute () const;

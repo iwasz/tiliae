@@ -20,10 +20,10 @@ class Class;
 struct IClassContainer : public Core::IToStringEnabled {
         virtual ~IClassContainer () {}
 
-        virtual Ptr<Class> get (const std::string &className) const = 0;
-        virtual Ptr<Class> get (std::type_info const &t) const = 0;
+        virtual Class *get (const std::string &className) const = 0;
+        virtual Class *get (std::type_info const &t) const = 0;
 
-        virtual void add (Ptr<Class> clazz) = 0;
+        virtual bool add (Class *clazz) = 0;
 };
 
 } // nam

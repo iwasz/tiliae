@@ -10,62 +10,67 @@
 #define EDITORSERVICE_H_
 
 #include "beanFactory/service/BeanFactoryService.h"
-
-namespace Factory {
-class IFactory;
-}
+#include "BFIndexedEditor.h"
 
 namespace Wrapper {
 class BeanWrapper;
-}
-
-namespace Editor {
-class SimpleMapEditor;
-class IndexedEditor;
-}
-
-namespace Editor {
-class IEditor;
 }
 
 namespace Container {
 
 /**
  * Create map-editors for mapped-meta.
- * TODO zmienić nazwę  na MapEditorService
  */
 class EditorService : public BeanFactoryService {
 public:
 
-        EditorService () : currentEditor (NULL) {}
+        EditorService () :
+                currentMapEditor (NULL),
+                currentIndexedEditor (NULL),
+                currentFieldIdx (-1),
+                beanWrapperConversionForSingletons (NULL),
+                beanWrapperConversionForPrototypes (NULL),
+                cArgsBeanWrapper (NULL),
+                noopNoCopyEditor (NULL) {}
+
         virtual ~EditorService () {}
-        static Ptr <EditorService> create () { return Ptr <EditorService> (new EditorService); }
-        void init (Core::VariantMap *singletons);
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMappedMetaBegin (MappedMeta *data);
-        virtual void onConstructorArgsBegin (IMeta *data);
-        virtual void onConstructorArgsEnd (IMeta *data);
-//        virtual void onMapElem (MapElem *data);
-        virtual void onValueData (std::string const &key, ValueData *data);
-        virtual void onRefData (std::string const &key, RefData *data);
+        virtual bool onMappedMetaBegin (const MetaObject* data);
+        virtual bool onIndexedMetaBegin(const MetaObject* data);
+        virtual void onConstructorArgsBegin(const MetaObject* data);
+        virtual void onConstructorArgsEnd(const MetaObject* data);
+        virtual void onValueData (DataKey const *dk, const ValueData* data);
+        virtual void onRefData (DataKey const *dk, const RefData* data);
+        virtual void onNullData (DataKey const *dk, NullData const *data);
+
+/*--------------------------------------------------------------------------*/
+
+        void setCArgsBeanWrapper(Wrapper::BeanWrapper* argsBeanWrapper) { this->cArgsBeanWrapper = argsBeanWrapper; }
+        void setBeanWrapperConversionForPrototypes (Wrapper::BeanWrapper* beanWrapperConversionForPrototypes) { this->beanWrapperConversionForPrototypes = beanWrapperConversionForPrototypes; }
+        void setBeanWrapperConversionForSingletons (Wrapper::BeanWrapper* beanWrapperConversionForSingletons) { this->beanWrapperConversionForSingletons = beanWrapperConversionForSingletons; }
+        void setNoopNoCopyEditor(Editor::IEditor* noopNoCopyEditor) { this->noopNoCopyEditor = noopNoCopyEditor; }
+
+/*--------------------------------------------------------------------------*/
 
 private:
 
-        Editor::SimpleMapEditor *createMappedEditor ();
+        BFMapEditor *createMappedEditor (bool);
+        BFIndexedEditor *createIndexedEditor (bool);
 
 private:
 
         // Current mappedEditor / state variables
-        Editor::SimpleMapEditor *currentEditor;
-//        std::string currentFieldName;
+        BFMapEditor *currentMapEditor;
+        BFIndexedEditor *currentIndexedEditor;
+        int currentFieldIdx;
 
-        // Singletons
-        Ptr <Editor::IEditor> defaultMappedEditor;
-        Ptr <Editor::IEditor> noopEditor;
-        Ptr <Editor::IEditor> noopNoCopyEditor;
-        Ptr <Wrapper::BeanWrapper> defaultBeanWrapper;
+        // Singleton
+        Wrapper::BeanWrapper *beanWrapperConversionForSingletons;
+        Wrapper::BeanWrapper *beanWrapperConversionForPrototypes;
+        Wrapper::BeanWrapper *cArgsBeanWrapper;
+        Editor::IEditor *noopNoCopyEditor;
 };
 
 }

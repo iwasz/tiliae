@@ -16,7 +16,7 @@ namespace Container {
 
 using namespace Core;
 
-void PrintMetaService::onContainer (MetaContainer *data)
+void PrintMetaService::onContainer (MetaContainer const *data)
 {
         if (!buffer) {
                 std::cerr << "MetaContainer" <<std::endl;
@@ -26,7 +26,7 @@ void PrintMetaService::onContainer (MetaContainer *data)
         }
 }
 
-bool PrintMetaService::onMappedMetaBegin (MappedMeta *data)
+bool PrintMetaService::onMappedMetaBegin (MetaObject const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "MappedMeta ("
@@ -36,13 +36,13 @@ bool PrintMetaService::onMappedMetaBegin (MappedMeta *data)
                                 << "])" <<std::endl;
         }
         else {
-                *buffer += getContext ()->getDepth() + "MappedMeta (" + data->getId () + ")\n";
+                *buffer += getContext ()->getDepth() + "MappedMeta (" + std::string (data->getId ()) + ")\n";
         }
 
         return true;
 }
 
-bool PrintMetaService::onIndexedMetaBegin (IndexedMeta *data)
+bool PrintMetaService::onIndexedMetaBegin (MetaObject const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "IndexedMeta ("
@@ -52,23 +52,23 @@ bool PrintMetaService::onIndexedMetaBegin (IndexedMeta *data)
                                 << "])" <<std::endl;
         }
         else {
-                *buffer += getContext ()->getDepth() + "IndexedMeta (" + data->getId () + ")\n";
+                *buffer += getContext ()->getDepth() + "IndexedMeta (" + std::string (data->getId ()) + ")\n";
         }
 
         return true;
 }
 
-void PrintMetaService::onValueData (std::string const &key, ValueData *data)
+void PrintMetaService::onValueData (DataKey const *dk, ValueData const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "ValueData (" << data->getData() << ")" <<std::endl;
         }
         else {
-                *buffer += getContext ()->getDepth() + "ValueData (" + data->getData() + ")\n";
+                *buffer += getContext ()->getDepth() + "ValueData (" + std::string (data->getData()) + ")\n";
         }
 }
 
-void PrintMetaService::onNullData (std::string const &key, NullData *data)
+void PrintMetaService::onNullData (DataKey const *dk, NullData const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "NullData" <<std::endl;
@@ -78,13 +78,13 @@ void PrintMetaService::onNullData (std::string const &key, NullData *data)
         }
 }
 
-void PrintMetaService::onRefData (std::string const &key, RefData *data)
+void PrintMetaService::onRefData (DataKey const *dk, RefData const *data)
 {
         if (!buffer) {
                 std::cerr << getContext ()->getDepth() << "RefData (" << data->getData() << ")" <<std::endl;
         }
         else {
-                *buffer += getContext ()->getDepth() + "RefData (" + data->getData() + ")\n";
+                *buffer += getContext ()->getDepth() + "RefData (" + std::string (data->getData()) + ")\n";
         }
 }
 

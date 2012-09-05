@@ -1,22 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <bean id="kinkreet" class="Foo">
-                <property name="field0">
-                        <value type="String">value01</value>
-                </property>
-
-                <property name="field1">
-                        <value type="text">value02</value>
-                </property>
-
-                <property name="city">                        
-		        <bean class="City">
-		                <property name="name" value="Tokio"/>
-		        </bean>
-		        <!-- Tutaj tworzy się niejawnie ref do tego co powyżej i 
-		         jest mu nadawany jakieś ID (wygenerowane). -->
-                </property>
-        </bean>
+  <Foo id="kinkreet">
+    <value set-as="field0" type="String">value01</value>
+    <value set-as="field1" type="text">value02</value>
+    <City set-as="city" name="Tokio" />
+  </Foo>
 </beans>

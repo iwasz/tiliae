@@ -33,12 +33,11 @@ BOOST_AUTO_TEST_SUITE (ContainerTest02);
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleBean)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure07 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 1);
+        BOOST_CHECK (cont->getBeanFactoryMap ().size () == 1);
 
 /****************************************************************************/
 
@@ -46,7 +45,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleBean)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <Foo *> (v));
 
-        Foo *foo = vcast <Foo *> (v);
+        Ptr <Foo> foo = vcast <Ptr <Foo> > (v);
 
         BOOST_CHECK_EQUAL (foo->getField0 (), "value0");
         BOOST_CHECK_EQUAL (foo->getField1 (), "value1");
@@ -63,20 +62,20 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleBean)
 BOOST_AUTO_TEST_CASE (testCreateBeanWithReference)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure08 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 2);
+        BOOST_CHECK_EQUAL (cont->getBeanFactoryMap ().size (), 1U);
+//        Tak nie można, bo tam są serwisowe, ale jest jedna fabryka i jeden singleton
+//        BOOST_CHECK_EQUAL (cont->getSingletons ()->size (), 1U);
 
 /****************************************************************************/
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Foo *> (v));
 
-        Foo *foo = vcast <Foo *> (v);
+        Ptr <Foo> foo = vcast <Ptr <Foo> > (v);
 
         BOOST_CHECK_EQUAL (foo->getField0 (), "value0");
         BOOST_CHECK_EQUAL (foo->getField1 (), "value1");
@@ -98,12 +97,7 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReference)
 BOOST_AUTO_TEST_CASE (testCreateStringMap)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure09 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
-
-/****************************************************************************/
-
-        BOOST_CHECK (cont->getBeanFactoryMap ());
-        BOOST_CHECK (cont->getBeanFactoryMap ()->size () == 1);
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -113,11 +107,11 @@ BOOST_AUTO_TEST_CASE (testCreateStringMap)
 
         StringMap *map = vcast <StringMap *> (v);
 
-        BOOST_CHECK (map->size () == 4);
-        BOOST_CHECK (map->operator[] ("field0") == "value0");
-        BOOST_CHECK (map->operator[] ("field1") == "value1");
-        BOOST_CHECK (map->operator[] ("field2") == "value2");
-        BOOST_CHECK (map->operator[] ("field3") == "value3");
+        BOOST_CHECK_EQUAL (map->size (), 4U);
+        BOOST_CHECK_EQUAL (map->operator[] ("field0"), "value0");
+        BOOST_CHECK_EQUAL (map->operator[] ("field1"), "value1");
+        BOOST_CHECK_EQUAL (map->operator[] ("field2"), "value2");
+        BOOST_CHECK_EQUAL (map->operator[] ("field3"), "value3");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

@@ -8,7 +8,7 @@
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="city3">
-                <bean class="City"/>
+                <bean class="City" singleton="false"/>
         </property>
 
         <property name="city3.name" value="Warszawa"/>

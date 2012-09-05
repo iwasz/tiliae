@@ -72,34 +72,31 @@ void DebugContext::rollback ()
 
 /****************************************************************************/
 
+#ifndef NDEBUG
+
 void dcBegin (Core::DebugContext *dc)
 {
-#ifdef TILIAE_DEBUG
         if (dc) {
                 dc->begin ();
         }
-#endif
 }
 
 /****************************************************************************/
 
 void dcCommit (Core::DebugContext *dc)
 {
-#ifdef TILIAE_DEBUG
         if (dc) {
                 dc->commit ();
         }
-#endif
 }
 
 /****************************************************************************/
 
 void dcRollback (Core::DebugContext *dc)
 {
-#ifdef TILIAE_DEBUG
         if (dc) {
                 dc->rollback ();
         }
-#endif
 }
 
+#endif

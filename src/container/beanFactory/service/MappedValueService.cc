@@ -11,17 +11,18 @@
 #include "beanFactory/service/ValueServiceHelper.h"
 #include "../../../common/collection/OrderedVariantMap.h"
 #include <boost/make_shared.hpp>
+#include "StrUtil.h"
 
 namespace Container {
 using namespace Core;
 
-bool MappedValueService::onMappedMetaBegin (MappedMeta *data)
+bool MappedValueService::onMappedMetaBegin (MetaObject const *data)
 {
         if (!data || data->getAbstract ()) {
                 return true;
         }
 
-        Ptr <BeanFactory> beanFactory = getBVFContext ()->getCurrentBF ();
+        BeanFactory *beanFactory = getBVFContext ()->getCurrentBF ();
         inputMap = new Common::OrderedVariantMap ();
         currMappedMeta = data;
         beanFactory->setInputMap (inputMap);
@@ -30,14 +31,14 @@ bool MappedValueService::onMappedMetaBegin (MappedMeta *data)
 
 /****************************************************************************/
 
-void MappedValueService::onConstructorArgsBegin (IMeta *data)
+void MappedValueService::onConstructorArgsBegin (MetaObject const *)
 {
         currMappedMeta = NULL;
 }
 
 /****************************************************************************/
 
-void MappedValueService::onConstructorArgsEnd (IMeta *data)
+void MappedValueService::onConstructorArgsEnd (MetaObject const *)
 {
         currMappedMeta = NULL;
         inputMap = NULL;
@@ -45,30 +46,30 @@ void MappedValueService::onConstructorArgsEnd (IMeta *data)
 
 /****************************************************************************/
 
-void MappedValueService::onValueData (std::string const &key, ValueData *data)
+void MappedValueService::onValueData (DataKey const *dk, ValueData const *data)
 {
         if (!currMappedMeta) {
                 return;
         }
 
         Variant ret = helper->create (data->getType (), data->getData ());
-        inputMap->set (key, ret);
+        inputMap->set (toStr (dk->key), ret);
 }
 
 /****************************************************************************/
 
-void MappedValueService::onRefData (std::string const &key, RefData *data)
+void MappedValueService::onRefData (DataKey const *dk, RefData const *data)
 {
         if (!currMappedMeta) {
                 return;
         }
 
-        inputMap->set (key, Core::Variant ());
+        inputMap->set (toStr (dk->key), Core::Variant ());
 }
 
 /****************************************************************************/
 
-void MappedValueService::onNullData (std::string const &key, NullData *data)
+void MappedValueService::onNullData (DataKey const *dk, NullData const *data)
 {
         if (!currMappedMeta) {
                 return;
@@ -77,7 +78,7 @@ void MappedValueService::onNullData (std::string const &key, NullData *data)
         Core::Variant v;
         v.setNull ();
 
-        inputMap->set (key, v);
+        inputMap->set (toStr (dk->key), v);
 }
 
 }

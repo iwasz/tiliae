@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <bean id="a01" class="A01" singleton="true" lazy-init="true">
-            <property name="a02" ref="a02"/>
-        </bean>
- 
-        <bean id="a02" class="A02" singleton="true" lazy-init="true">
-            <property name="a01" ref="a01"/>
-        </bean>
+  <A01c id="a01" a02="@a02" lazy-init="true" />
+  <A02c id="a02" a01="@a01" lazy-init="true" />
 </beans>

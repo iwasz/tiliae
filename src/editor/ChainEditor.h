@@ -23,16 +23,18 @@ namespace Editor {
 class TILIAE_API ChainEditor : public IEditor  {
 public:
 
-        virtual ~ChainEditor () {}
+        ChainEditor (bool d = false) : deleteContents (d) {}
+        virtual ~ChainEditor ();
         virtual bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 
-        EditorList const &getEditors () const { return editors; }
-        void setEditors (EditorList const &e) { this->editors = e; }
-        void addEditor (Ptr <IEditor> e) { editors.push_back (e); }
+        EditorVector const &getEditors () const { return editors; }
+        void setEditors (EditorVector const &e) { this->editors = e; }
+        void addEditor (IEditor *e) { editors.push_back (e); }
 
 private:
 
-        EditorList editors;
+        EditorVector editors;
+        bool deleteContents;
 
 };
 

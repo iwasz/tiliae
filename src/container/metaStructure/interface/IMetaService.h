@@ -9,7 +9,7 @@
 #ifndef IMETASERVICE2_H_
 #define IMETASERVICE2_H_
 
-#include <list>
+#include <vector>
 #include <Pointer.h>
 
 namespace Container {
@@ -17,15 +17,9 @@ namespace Container {
 class ValueData;
 class NullData;
 class RefData;
-
-struct MappedMeta;
-struct IndexedMeta;
-
+class DataKey;
+struct MetaObject;
 struct MetaContainer;
-
-struct IMeta;
-struct AbstractMeta;
-
 class VisitorContext;
 
 /**
@@ -39,21 +33,21 @@ class VisitorContext;
 struct IMetaService {
         virtual ~IMetaService () {}
 
-        virtual void onContainer (MetaContainer *data) = 0;
+        virtual void onContainer (MetaContainer const *data) = 0;
 
-        virtual bool onMetaBegin (IMeta *data) = 0;
-        virtual bool onMetaEnd (IMeta *data) = 0;
-        virtual bool onMappedMetaBegin (MappedMeta *data) = 0;
-        virtual bool onMappedMetaEnd (MappedMeta *data) = 0;
-        virtual bool onIndexedMetaBegin (IndexedMeta *data) = 0;
-        virtual bool onIndexedMetaEnd (IndexedMeta *data) = 0;
+        virtual bool onMetaBegin (MetaObject const *data) = 0;
+        virtual bool onMetaEnd (MetaObject const *data) = 0;
+        virtual bool onMappedMetaBegin (MetaObject const *data) = 0;
+        virtual bool onMappedMetaEnd (MetaObject const *data) = 0;
+        virtual bool onIndexedMetaBegin (MetaObject const *data) = 0;
+        virtual bool onIndexedMetaEnd (MetaObject const *data) = 0;
 
-        virtual void onConstructorArgsBegin (IMeta *data) = 0;
-        virtual void onConstructorArgsEnd (IMeta *data) = 0;
+        virtual void onConstructorArgsBegin (MetaObject const *data) = 0;
+        virtual void onConstructorArgsEnd (MetaObject const *data) = 0;
 
-        virtual void onValueData (std::string const &key, ValueData *data) = 0;
-        virtual void onNullData (std::string const &key, NullData *data) = 0;
-        virtual void onRefData (std::string const &key, RefData *data) = 0;
+        virtual void onValueData (DataKey const *dk, ValueData const *data) = 0;
+        virtual void onNullData (DataKey const *dk, NullData const *data) = 0;
+        virtual void onRefData  (DataKey const *dk, RefData const *data) = 0;
 
         virtual void setContext (VisitorContext *) = 0;
         virtual VisitorContext *getContext () const = 0;
@@ -63,7 +57,7 @@ struct IMetaService {
  * Lista serwisów.
  * \ingroup Container
  */
-typedef std::list <Ptr <IMetaService> > MetaServiceList;
+typedef std::vector <IMetaService *> MetaServiceVector;
 
 }
 

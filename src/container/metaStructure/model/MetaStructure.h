@@ -10,7 +10,7 @@
 #define METASTRUCTURE_H_
 
 #include "data/Data.h"
-#include "meta/Meta.h"
 #include "MetaContainer.h"
+#include "MetaObject.h"
 
 #endif /* METASTRUCTURE_H_ */

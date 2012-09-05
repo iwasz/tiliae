@@ -27,7 +27,7 @@ using namespace Reflection;
  */
 BOOST_AUTO_TEST_CASE (testGetClassForName)
 {
-        Ptr <Class> cls = Manager::classForName ("Address");
+        Class *cls = Manager::classForName ("Address");
 #if 0
         std::cerr << Manager::instance().toString() << std::endl;
 #endif
@@ -39,13 +39,13 @@ BOOST_AUTO_TEST_CASE (testGetClassForName)
  */
 BOOST_AUTO_TEST_CASE (testBaseClassTest)
 {
-        Ptr <Class> cls = Manager::classForName ("Address");
+        Class *cls = Manager::classForName ("Address");
         BOOST_REQUIRE (cls);
 
         ClassList list = cls->getBaseClassList();
-        BOOST_REQUIRE_EQUAL (list.size (), 1);
+        BOOST_REQUIRE_EQUAL (list.size (), 1U);
 
-        Ptr <Class> cls2 = list.front ();
+        Class *cls2 = list.front ();
         BOOST_REQUIRE_EQUAL (cls2->getName (), "Place");
 }
 
@@ -90,10 +90,10 @@ namespace D {
  */
 BOOST_AUTO_TEST_CASE (testTwoClasesSameName)
 {
-        Ptr <Class> cls = Manager::classForType (typeid (A::Testowa));
+        Class *cls = Manager::classForType (typeid (A::Testowa));
         BOOST_REQUIRE (cls);
 
-        Ptr <Class> cls2 = Manager::classForType (typeid (B::Testowa));
+        Class *cls2 = Manager::classForType (typeid (B::Testowa));
         BOOST_REQUIRE (cls2);
 
         BOOST_REQUIRE (cls != cls2);
@@ -160,7 +160,7 @@ namespace E {
 BOOST_AUTO_TEST_CASE (testVirtualClass)
 {
         {
-                Ptr <Class> cls = Manager::classForType (typeid (E::Testowa01));
+                Class *cls = Manager::classForType (typeid (E::Testowa01));
                 BOOST_REQUIRE (cls);
 
                 cls = Manager::classForName ("Testowa01");
@@ -170,26 +170,26 @@ BOOST_AUTO_TEST_CASE (testVirtualClass)
 /*--------------------------------------------------------------------------*/
 
         {
-                Ptr <Class> cls = Manager::classForType (typeid (E::Testowa02));
+                Class *cls = Manager::classForType (typeid (E::Testowa02));
                 BOOST_REQUIRE (cls);
 
                 cls = Manager::classForName ("Testowa02");
                 BOOST_REQUIRE (cls);
 
-                Ptr<Method> met1 = cls->getMethod ("f", 0);
+                Method *met1 = cls->getMethod ("f", 0);
                 BOOST_REQUIRE (met1);
         }
 
 /*--------------------------------------------------------------------------*/
 
         {
-                Ptr <Class> cls = Manager::classForType (typeid (E::Testowa03));
+                Class *cls = Manager::classForType (typeid (E::Testowa03));
                 BOOST_REQUIRE (cls);
 
                 cls = Manager::classForName ("Testowa03");
                 BOOST_REQUIRE (cls);
 
-                Ptr<Method> met1 = cls->getMethod ("f", 0);
+                Method *met1 = cls->getMethod ("f", 0);
                 BOOST_REQUIRE (met1);
 
                 E::Testowa03 t;
@@ -204,13 +204,13 @@ BOOST_AUTO_TEST_CASE (testVirtualClass)
 /*--------------------------------------------------------------------------*/
 
         {
-                Ptr <Class> cls = Manager::classForType (typeid (E::Testowa04));
+                Class *cls = Manager::classForType (typeid (E::Testowa04));
                 BOOST_REQUIRE (cls);
 
                 cls = Manager::classForName ("Testowa04");
                 BOOST_REQUIRE (cls);
 
-                Ptr<Method> met1 = cls->getMethod ("f", 0);
+                Method *met1 = cls->getMethod ("f", 0);
                 BOOST_REQUIRE (met1);
 
                 E::Testowa04 t;
@@ -293,7 +293,7 @@ namespace F {
 BOOST_AUTO_TEST_CASE (testTemplateClass)
 {
         {
-                Ptr <Class> cls;
+                Class *cls;
                 cls = Manager::classForType (typeid (F::Template<int>));
                 BOOST_REQUIRE (cls);
 
@@ -304,7 +304,7 @@ BOOST_AUTO_TEST_CASE (testTemplateClass)
 /*--------------------------------------------------------------------------*/
 
         {
-                Ptr <Class> cls;
+                Class *cls;
                 cls = Manager::classForType (typeid (F::Template01<int>));
                 BOOST_REQUIRE (cls);
 
@@ -331,7 +331,7 @@ BOOST_AUTO_TEST_CASE (testTemplateClass)
 /*##########################################################################*/
 
         {
-                Ptr <Class> cls;
+                Class *cls;
                 cls = Manager::classForType (typeid (F::Template02<int>));
                 BOOST_REQUIRE (cls);
 
@@ -358,7 +358,7 @@ BOOST_AUTO_TEST_CASE (testTemplateClass)
 /*--------------------------------------------------------------------------*/
 
         {
-                Ptr <Class> cls;
+                Class *cls;
                 cls = Manager::classForType (typeid (F::Template02<double>));
                 BOOST_REQUIRE (cls);
 

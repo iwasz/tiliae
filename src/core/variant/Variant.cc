@@ -141,7 +141,6 @@ Variant::Variant (std::string const &j) :
 Variant::Variant (std::string *j) :
         type (STRING_POINTER),
         ti (&typeid (std::string &)),
-//        sptr (boost::make_shared <std::string> (*j))
         ptr (j)
 {
 }
@@ -149,7 +148,6 @@ Variant::Variant (std::string *j) :
 Variant::Variant (std::string const *j) :
         type (STRING_POINTER_CONST),
         ti (&typeid (std::string &)),
-//        sptr (boost::make_shared <std::string> (*j))
         cptr (j)
 {
 }
@@ -159,7 +157,7 @@ Variant::Variant (std::string const *j) :
 Variant::Variant (const char *s) :
         type (STRING),
         ti (&typeid (std::string &)),
-        sptr (boost::make_shared <std::string> (s))
+        sptr (boost::make_shared <std::string> ((s) ? (s) : ("")))
 {
 
 }

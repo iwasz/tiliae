@@ -86,7 +86,7 @@ struct TestClass {
  */
 BOOST_AUTO_TEST_CASE (testBasicCall0)
 {
-        Ptr <ICallableWrapper> wrp;
+        ICallableWrapper *wrp = NULL;
         VariantVector args;
         Variant ret;
 
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE (testBasicCall0)
  */
 BOOST_AUTO_TEST_CASE (testBasicCall1)
 {
-        Ptr <ICallableWrapper> wrp;
+        ICallableWrapper *wrp = NULL;
         VariantVector args;
         Variant ret;
 
@@ -199,12 +199,6 @@ BOOST_AUTO_TEST_CASE (testBasicCall1)
         BOOST_REQUIRE_EQUAL (testClass.value, 'h');
         ret = wrp->call (voc, &args);
         BOOST_REQUIRE_EQUAL (testClass.value, 'h');
-
-/*--------------------------------------------------------------------------*/
-
-
-
-
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

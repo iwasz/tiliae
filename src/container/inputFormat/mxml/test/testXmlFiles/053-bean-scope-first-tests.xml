@@ -4,15 +4,15 @@
 <beans>
 
     <!--To jest tylko na rozruch, bean wewnętrzny jest singletonem.-->
-    <bean id="bean" class="Bar">
+    <bean id="bean" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
-        <property name="city3">
+        <property name="city4">
             <bean class="City" id="innerCity" singleton="true" />
         </property>
 
         <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
-        <property name="city">
+        <property name="city5">
             <ref bean="innerCity" />
         </property>
 
@@ -28,7 +28,7 @@
 <!-- ======================================================================================== -->
 
     <!--To jest tylko na rozruch, bean wewnętrzny jest singletonem.-->
-    <bean id="bean4" class="Bar">
+    <bean id="bean4" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
         <property name="city3">
@@ -52,15 +52,15 @@
 <!-- ======================================================================================== -->
 
     <!--Tutaj mamy innerCity2 ze scope bean. Pierwszy sposób scope-bean.-->
-    <bean id="bean2" class="Bar">
+    <bean id="bean2" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
-        <property name="city3">
+        <property name="city4">
             <bean class="City" id="innerCity2" scope="bean" />
         </property>
 
         <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
-        <property name="city">
+        <property name="city5">
             <ref bean="innerCity2" />
         </property>
 
@@ -76,15 +76,15 @@
 
 
     <!--Tutaj mamy innerCity2 ze scope bean. Pierwszy sposób scope-bean.-->
-    <bean id="bean3" class="Bar">
+    <bean id="bean3" class="Bar" singleton="false">
         <constructor-arg><value>Test</value></constructor-arg>
 
-        <property name="city3">
+        <property name="city4">
             <bean class="City" id="innerCity3" scope="bean" />
         </property>
 
         <!--Teraz property city i city3 mają referencję do tego samego obiektu.-->
-        <property name="city">
+        <property name="city5">
             <ref bean="innerCity3" />
         </property>
 

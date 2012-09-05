@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <map id="myMap0" class="VariantMap">
-                <entry key="k1" value="Tokio"/>
-                <entry key="k2" value="Warsaw"/>
-                
-                <entry key="k3">
-                        <map id="ID_0" class="StringMap">
-                                <entry key="k1" value="Tokio"/>
-                                <entry key="k2" value="Warsaw"/>
-                                <entry key="k3" value="Piaseczno"/>
-                        </map>
-                </entry>
-        </map>
-        
-        <map id="myMap" parent="myMap0" />
-        
+
+	<VariantMap id="myMap">
+		<value set-as="k1">Tokio</value>
+		<value set-as="k2">Warsaw</value>
+
+		<StringMap set-as="k3" id="ID_0">
+			<value set-as="k1">Tokio</value>
+			<value set-as="k2">Warsaw</value>
+			<value set-as="k3">Piaseczno</value>
+		</StringMap>
+	</VariantMap>
+
+	<myMap id="myMap0" />
+
 </beans>

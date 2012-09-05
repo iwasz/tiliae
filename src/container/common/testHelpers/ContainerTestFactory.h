@@ -11,8 +11,7 @@
 
 #include <Pointer.h>
 #include "ContainerFactory.h"
-
-//using Container::XmlContainerFactory;
+#include "../../metaStructure/model/MetaFactory.h"
 
 namespace Container {
 class MetaContainer;

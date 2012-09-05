@@ -26,12 +26,13 @@ class TILIAE_API BaseClassAnnotation : public IReflectionAnnotation {
 public:
 
         BaseClassAnnotation (const std::string &c,
-                          const Core::StringList &l = Core::StringList ()) : className (c), baseClassList (l) {}
+                          const Core::StringVector &l = Core::StringVector ()) : className (c), baseClassList (l) {}
+        virtual ~BaseClassAnnotation () {}
 
         std::string const &getClassName () const { return className; }
-        Core::StringList const &getBaseClassList () const { return baseClassList; }
+        Core::StringVector const &getBaseClassList () const { return baseClassList; }
 
-        virtual Core::Variant accept (IReflectionVisitor *vis, const Core::Variant &arg = Core::Variant ()) { return vis->visit (this, arg);}
+        virtual Core::Variant accept (IReflectionVisitor *vis, Class *cls = NULL) { return vis->visit (this, cls);}
 
         virtual std::string toString () const;
 
@@ -40,7 +41,7 @@ public:
 private:
 
         std::string className;
-        Core::StringList baseClassList;
+        Core::StringVector baseClassList;
 };
 
 }

@@ -21,7 +21,7 @@ using namespace Reflection;
 
 BOOST_AUTO_TEST_CASE (testInstantiateStandardTypes)
 {
-        Ptr <Class> cls = Manager::classForName ("int");
+        Class *cls = Manager::classForName ("int");
         BOOST_REQUIRE (cls);
 
         cls = Manager::classForName ("bool");
@@ -101,7 +101,7 @@ BOOST_AUTO_TEST_CASE (testInstantiateStandardTypes)
 
 BOOST_AUTO_TEST_CASE (testClassForType)
 {
-        Ptr <Class> cls = Manager::classForType (typeid (int));
+        Class *cls = Manager::classForType (typeid (int));
         BOOST_REQUIRE (cls);
 
 //        cls = Manager::classForName ("bool");
@@ -181,10 +181,10 @@ BOOST_AUTO_TEST_CASE (testClassForType)
 
 BOOST_AUTO_TEST_CASE (testStringListMethods)
 {
-        Ptr <Class> cls = Manager::classForName ("StringList");
+        Class *cls = Manager::classForName ("StringList");
         BOOST_REQUIRE (cls);
 
-        Ptr <Constructor> constr = cls->getConstructor ();
+        Constructor *constr = cls->getConstructor ();
         BOOST_REQUIRE (constr);
 
         Variant obj = constr->newInstance ();
@@ -192,8 +192,8 @@ BOOST_AUTO_TEST_CASE (testStringListMethods)
         BOOST_REQUIRE (!obj.isNone ());
         BOOST_REQUIRE (ccast <StringList *> (obj));
 
-        Ptr<Method> get = cls->getMethod ("get", 1);
-        Ptr<Method> add = cls->getMethod ("add", 1);
+        Method *get = cls->getMethod ("get", 1);
+        Method *add = cls->getMethod ("add", 1);
 
         BOOST_REQUIRE (get);
         BOOST_REQUIRE (add);

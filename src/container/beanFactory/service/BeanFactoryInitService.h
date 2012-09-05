@@ -13,7 +13,7 @@
 
 namespace Container {
 
-class IMeta;
+class MetaObject;
 
 /**
  * Creates BeanFactory object upon information from meta-structure.
@@ -21,22 +21,20 @@ class IMeta;
 class BeanFactoryInitService : public BeanFactoryService {
 public:
 
+        BeanFactoryInitService () : defaultBeanWrapper (NULL) {}
         virtual ~BeanFactoryInitService () {}
-        static Ptr <BeanFactoryInitService> create () { return Ptr <BeanFactoryInitService> (new BeanFactoryInitService); }
 
 /*--------------------------------------------------------------------------*/
 
-        virtual bool onMetaBegin (IMeta *meta);
-        virtual bool onMetaEnd (IMeta *meta);
+        virtual bool onMetaBegin (MetaObject const *meta);
 
 /*------Setters-and-getters-------------------------------------------------*/
 
-        Ptr <Wrapper::BeanWrapper> getDefaultBeanWrapper () const { return defaultBeanWrapper; }
-        void setDefaultBeanWrapper (Ptr <Wrapper::BeanWrapper> bw) { defaultBeanWrapper = bw; }
+        void setDefaultBeanWrapper (Wrapper::BeanWrapper *bw) { defaultBeanWrapper = bw; }
 
 private:
 
-        Ptr <Wrapper::BeanWrapper> defaultBeanWrapper;
+        Wrapper::BeanWrapper *defaultBeanWrapper;
 
 };
 

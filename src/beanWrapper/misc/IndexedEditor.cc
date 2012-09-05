@@ -22,17 +22,16 @@ namespace Editor {
 using namespace Core;
 using namespace Reflection;
 
-Ptr <IEditor> IndexedEditor::getEditor (int index) const
+IEditor *IndexedEditor::getEditor (int index)
 {
-		EditorMap::const_iterator i = editors->find (index);
-		return (i == editors->end ()) ? (Ptr <IEditor> ()) : (i->second);
+		EditorMap::const_iterator i = editors.find (index);
+		return (i == editors.end ()) ? (NULL) : (i->second);
 }
 
 /****************************************************************************/
 
 bool IndexedEditor::edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
-        assert (editors);
         assert (beanWrapper);
 
         VariantList const *inputCollection = vcast <VariantList const *> (input);
@@ -42,10 +41,10 @@ bool IndexedEditor::edit (const Core::Variant &input, Core::Variant *output, Cor
         for (; in != inputCollection->end (); in++, cnt++) {
 
                 Variant v;
-                Ptr <IEditor> editor;
+                IEditor *editor = NULL;
 
                 EditorMap::const_iterator i;
-                if ((i = editors->find (cnt)) != editors->end ()) {
+                if ((i = editors.find (cnt)) != editors.end ()) {
                         editor = i->second;
                 }
                 else if (defaultEditor) {
@@ -71,14 +70,12 @@ bool IndexedEditor::edit (const Core::Variant &input, Core::Variant *output, Cor
 
 /****************************************************************************/
 
-void IndexedEditor::setEditors (Ptr <EditorVector> editors)
+void IndexedEditor::setEditors (EditorVector const &editors)
 {
-        assert (editors);
-        assert (this->editors);
         int cnt = 0;
 
-        for (EditorVector::iterator i = editors->begin(); i != editors->end (); ++i, ++cnt) {
-                this->editors->operator [](cnt) = *i;
+        for (EditorVector::const_iterator i = editors.begin(); i != editors.end (); ++i, ++cnt) {
+                this->editors[cnt] = *i;
         }
 }
 

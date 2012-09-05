@@ -10,6 +10,15 @@
 
 namespace Factory {
 
+ChainFactory::~ChainFactory ()
+{
+        if (deleteContents) {
+                for (FactoryVector::iterator i = factories.begin (); i != factories.end (); ++i) {
+                        delete *i;
+                }
+        }
+}
+
 Core::Variant ChainFactory::create (const Core::VariantMap &parameters, Core::DebugContext *context) const
 {
         Core::Variant result;

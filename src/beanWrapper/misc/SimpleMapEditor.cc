@@ -15,32 +15,23 @@
 namespace Editor {
 using namespace Core;
 
-Ptr<IEditor> SimpleMapEditor::getEditor (const std::string& name) const
-{
-        EditorMap::const_iterator i = editors->find (name);
-        return (i == editors->end ()) ? (Ptr<IEditor> ()) : (i->second);
-}
-
-/****************************************************************************/
-
 bool SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
-        assert (editors);
         assert (beanWrapper);
 
         const Common::OrderedVariantMap *inputMap = vcast <const Common::OrderedVariantMap *> (input);
 
         for (Common::OrderedVariantMap::const_iterator i = inputMap->begin (); i != inputMap->end (); ++i) {
 
-                Ptr <IEditor> editor;
+                IEditor *editor = NULL;
 
 # if 0
                std::cerr << vcast <std::string> (p.first) << std::endl;
 #endif
 
-               EditorMap::iterator ed = editors->find (i->first);
+               EditorMap::iterator ed = editors.find (i->first);
 
-               if (ed != editors->end ()) {
+               if (ed != editors.end ()) {
                        editor = ed->second;
                }
                else if (defaultEditor) {
@@ -67,5 +58,14 @@ bool SimpleMapEditor::edit (const Core::Variant &input, Core::Variant *output, C
 
         return true;
 }
+
+/****************************************************************************/
+
+IEditor *SimpleMapEditor::getEditor (const std::string& name) const
+{
+        EditorMap::const_iterator i = editors.find (name);
+        return (i == editors.end ()) ? (NULL) : (i->second);
+}
+
 
 }

@@ -27,36 +27,28 @@ namespace Container {
  */
 class MetaVisitor : public IContainerVisitor,
                 public IMetaVisitor,
-//                public IElemVisitor,
                 public IDataVisitor {
 public:
 
         MetaVisitor () : ctx (NULL) {}
         virtual ~MetaVisitor () {}
 
-        /// Zwraca nowy obiekt klasy MetaVisitor.
-        static Ptr <MetaVisitor> create () { return Ptr <MetaVisitor> (new MetaVisitor); }
-
 /*--------------------------------------------------------------------------*/
 
         void visit (MetaContainer *data);
+        void visit (MetaDeque *data);
 
-        void visit (MappedMeta *data);
-        void visit (IndexedMeta *data);
+        void visit (MetaObject const *data);
 
-//        void visit (ListElem *data);
-//        void visit (MapElem *data);
-
-        void visit (std::string const &key, ValueData *data);
-        void visit (std::string const &key, NullData *data);
-        void visit (std::string const &key, RefData *data);
-//        void visit (IdRefData *data);
+        void visit (DataKey const *dk, ValueData *data);
+        void visit (DataKey const *dk, NullData *data);
+        void visit (DataKey const *dk, RefData *data);
 
         void reset ();
 
 /*--------------------------------------------------------------------------*/
 
-        void addService (Ptr <IMetaService> s) { services.push_back (s); }
+        void addService (IMetaService *s) { services.push_back (s); }
         void clearServices () { services.clear (); }
 
 /*--------------------------------------------------------------------------*/
@@ -66,11 +58,7 @@ public:
 
 private:
 
-        void visitInnerMeta (AbstractMeta *data);
-
-private:
-
-        MetaServiceList services;
+        MetaServiceVector services;
         VisitorContext *ctx;
 };
 

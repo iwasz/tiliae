@@ -14,6 +14,7 @@
 #include "../core/ApiMacro.h"
 #include "../core/variant/Variant.h"
 #include "../core/Typedefs.h"
+#include "../core/allocator/IAllocator.h"
 
 namespace Factory {
 
@@ -21,12 +22,17 @@ namespace Factory {
  * Przykład fabryki korzystającej z refleksji. Typy skalarne obsługiwane
  * przez wariant tworzy z pominięciem refleksji.
  */
-struct TILIAE_API ReflectionFactory : public Factory::IFactory {
-
+class TILIAE_API ReflectionFactory : public Factory::IFactory {
+public:
 
         static const char *CLASS_NAME;
         static const char *CONSTRUCTOR_ARGS;
 
+        /**
+         * wrapInSharedPtr == false -> return new T.
+         * wrapInSharedPtr == true -> return boost::shared_ptr <T> (new T).
+         */
+        ReflectionFactory (Core::IAllocator *a = NULL) : allocator (a) {}
         virtual ~ReflectionFactory () {}
 
         /**
@@ -36,7 +42,10 @@ struct TILIAE_API ReflectionFactory : public Factory::IFactory {
          */
         virtual Core::Variant create (const Core::VariantMap &parameters, Core::DebugContext *context = NULL) const;
 
-        REFLECTION_END_ (ReflectionFactory)
+private:
+
+        Core::IAllocator *allocator;
+
 };
 
 }

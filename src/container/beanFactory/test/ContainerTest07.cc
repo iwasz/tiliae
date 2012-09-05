@@ -15,6 +15,7 @@
 #include "ContainerFactory.h"
 #include "metaStructure/model/MetaStructure.h"
 #include "common/testHelpers/ContainerTestFactory.h"
+#include "../../metaStructure/model/MetaFactory.h"
 
 /****************************************************************************/
 
@@ -36,23 +37,24 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
 /*------Meta struktura------------------------------------------------------*/
 
         Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        MetaFactory factory (metaCont->getMemoryAllocator ());
 
-        MappedMeta *meta = new MappedMeta ();
+        MetaObject *meta = factory.newMetaObject ();
         meta->setId ("a_main");
-        meta->setScope (IMeta::SINGLETON);
+        meta->setScope (MetaObject::SINGLETON);
         meta->setParent ("y_par");
         metaCont->add (meta);
 
-        meta = new MappedMeta ();
+        meta = factory.newMetaObject ();
         meta->setId ("x_parent");
         meta->setClass ("City");
-        meta->setScope (IMeta::SINGLETON);
-        meta->addField (DataKey ("name", new ValueData ("Warszawa", "String")));
+        meta->setScope (MetaObject::SINGLETON);
+        meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         metaCont->add (meta);
 
-        meta = new MappedMeta ();
+        meta = factory.newMetaObject ();
         meta->setId ("y_par");
-        meta->setScope (IMeta::SINGLETON);
+        meta->setScope (MetaObject::SINGLETON);
         meta->setParent ("x_parent");
         metaCont->add (meta);
 
@@ -61,7 +63,7 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
         bool exception = false;
 
         try {
-                Ptr <BeanFactoryContainer> cont = ContainerFactory::createContainer (metaCont);
+                Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
 
 /*------Testy---------------------------------------------------------------*/
 

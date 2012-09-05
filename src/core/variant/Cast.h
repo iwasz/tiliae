@@ -1474,6 +1474,10 @@ struct VCast<T *> {
 template<typename T>
 T *VCast <T *>::run (Variant const &v)
 {
+        if (v.type == Variant::NIL) {
+                return NULL;
+        }
+
         if (v.getTypeInfo () != typeid (T &)) {
                 throwExceptionHanle ("T*, typeid (T &) != v.ti", v, typeid (T &));
         }
@@ -1486,9 +1490,6 @@ T *VCast <T *>::run (Variant const &v)
         case Variant::POINTER:
         case Variant::OBJECT:
                 return static_cast<T *> (v.ptr);
-
-        case Variant::NIL:
-                return NULL;
 
         default:
                 throwExceptionHanle ("T*, wrong v.type", v, typeid (T &));
@@ -1520,6 +1521,10 @@ struct VCast<T const *> {
 template<typename T>
 T const *VCast <T const *>::run (Variant const &v)
 {
+        if (v.type == Variant::NIL) {
+                return NULL;
+        }
+
         if (v.getTypeInfo () != typeid (T &)) {
                 throwExceptionHanle ("T const*, typeid (T &) != v.ti", v, typeid (T &));
         }
@@ -1538,9 +1543,6 @@ T const *VCast <T const *>::run (Variant const &v)
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
                 return boost::static_pointer_cast<T const> (v.sptr).get ();
-
-        case Variant::NIL:
-                return NULL;
 
         default:
                 throwExceptionHanle ("T const*, wrong v.type", v, typeid (T &));
@@ -1570,21 +1572,41 @@ boost::shared_ptr<T> VCast<boost::shared_ptr<T> >::run (Variant const &v)
                 return boost::shared_ptr<T> ();
         }
 
-        if (v.type != Variant::SMART && v.type != Variant::SMART_OBJECT) {
-                throwExceptionHanle ("shared_ptr<T>, wrong v.type", v, typeid (T &));
-        }
-
         if (v.getTypeInfo () != typeid (T &)) {
                 throwExceptionHanle ("shared_ptr<T>, typeid (T &) != v.ti", v, typeid (T &));
         }
 
+#ifdef ALLOW_CAST_TO_SMART
+        switch (v.type) {
+        case Variant::SMART:
+        case Variant::SMART_OBJECT:
+                return boost::static_pointer_cast<T> (v.sptr);
+
+        case Variant::POINTER:
+        case Variant::OBJECT:
+                return boost::shared_ptr <T> (static_cast<T *> (v.ptr));
+
+        default:
+                throwExceptionHanle ("T*, wrong v.type", v, typeid (T &));
+                exit (1); // Żeby pozbyć się warninga
+        }
+#else
+        if (v.type != Variant::SMART && v.type != Variant::SMART_OBJECT) {
+                throwExceptionHanle ("shared_ptr<T>, wrong v.type", v, typeid (T &));
+        }
+
         return boost::static_pointer_cast<T> (v.sptr);
+#endif
 }
 
 template<typename T>
 bool VCast<boost::shared_ptr<T> >::can (Variant const &v)
 {
+#ifdef ALLOW_CAST_TO_SMART
+        return ((v.type == Variant::SMART || v.type == Variant::SMART_OBJECT || v.type == Variant::POINTER || v.type == Variant::OBJECT) && v.ti == &typeid (T &)) || (v.type == Variant::NIL);
+#else
 	return ((v.type == Variant::SMART || v.type == Variant::SMART_OBJECT) && v.ti == &typeid (T &)) || (v.type == Variant::NIL);
+#endif
 }
 
 /****************************************************************************/
@@ -1614,6 +1636,16 @@ boost::shared_ptr<T const> VCast<boost::shared_ptr<T const> >::run (Variant cons
         case Variant::SMART_OBJECT_CONST:
                 return boost::static_pointer_cast<T> (v.sptr);
 
+#ifdef ALLOW_CAST_TO_SMART
+        case Variant::POINTER:
+        case Variant::OBJECT:
+                return boost::shared_ptr <T const> (static_cast <T const *> (v.ptr));
+
+        case Variant::POINTER_CONST:
+        case Variant::OBJECT_CONST:
+                return boost::shared_ptr <T const> (static_cast <T const *> (v.cptr));
+#endif
+
         default:
                 throwExceptionHanle ("shared_ptr<T const>, wrong v.type", v, typeid (T &));
                 exit (1); // Żeby pozbyć się warninga
@@ -1626,7 +1658,14 @@ bool VCast<boost::shared_ptr<T const> >::can (Variant const &v)
 	return ((v.type == Variant::SMART ||
                 v.type == Variant::SMART_CONST ||
                 v.type == Variant::SMART_OBJECT ||
-                v.type == Variant::SMART_OBJECT_CONST) && v.ti == &typeid (T &)) ||
+                v.type == Variant::SMART_OBJECT_CONST
+#ifdef ALLOW_CAST_TO_SMART
+                || v.type == Variant::POINTER ||
+                   v.type == Variant::OBJECT ||
+                   v.type == Variant::POINTER_CONST ||
+                   v.type == Variant::OBJECT_CONST
+#endif
+	        ) && v.ti == &typeid (T &)) ||
                 (v.type == Variant::NIL);
 }
 
@@ -1934,6 +1973,12 @@ boost::shared_ptr<T> OCast<boost::shared_ptr<T> >::run (Variant const &v)
                 return dynamic_pointer_cast <T> (boost::static_pointer_cast<Object> (v.sptr));
         }
 
+#ifdef ALLOW_CAST_TO_SMART
+        if (v.type == Variant::OBJECT) {
+                return boost::shared_ptr <T> (dynamic_cast <T *> (static_cast<Object *> (v.ptr)));
+        }
+#endif
+
         return VCast<boost::shared_ptr <T> >::run (v);
 }
 
@@ -1942,6 +1987,9 @@ template<typename T>
 bool OCast<boost::shared_ptr<T> >::can (Variant const &v)
 {
 	return (v.type == Variant::SMART_OBJECT && dynamic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ())) ||
+#ifdef ALLOW_CAST_TO_SMART
+                (v.type == Variant::OBJECT && dynamic_cast <T *> (static_cast<Object *> (v.ptr))) ||
+#endif
 			VCast<boost::shared_ptr<T> >::can (v);
 }
 
@@ -1962,6 +2010,14 @@ boost::shared_ptr<T const> OCast<boost::shared_ptr<T const> >::run (Variant cons
         case Variant::SMART_OBJECT_CONST:
                 return dynamic_pointer_cast <T const>  (boost::static_pointer_cast<Object const> (v.sptr));
 
+#ifdef ALLOW_CAST_TO_SMART
+        case Variant::OBJECT:
+                return boost::shared_ptr <T const> (dynamic_cast <T const *> (static_cast<Object const *> (v.ptr)));
+
+        case Variant::OBJECT_CONST:
+                return boost::shared_ptr <T const> (dynamic_cast <T const *> (static_cast<Object const *> (v.cptr)));
+#endif
+
         default:
                 return VCast<boost::shared_ptr<T const> >::run (v);
         };
@@ -1974,6 +2030,14 @@ bool OCast<boost::shared_ptr<T const> >::can (Variant const &v)
     case Variant::SMART_OBJECT:
     case Variant::SMART_OBJECT_CONST:
             return dynamic_cast <T const *>  (boost::static_pointer_cast<Object const> (v.sptr).get ());
+
+#ifdef ALLOW_CAST_TO_SMART
+        case Variant::OBJECT:
+                return dynamic_cast <T const *> (static_cast<Object const *> (v.ptr));
+
+        case Variant::OBJECT_CONST:
+                return dynamic_cast <T const *> (static_cast<Object const *> (v.cptr));
+#endif
 
     default:
             return VCast<boost::shared_ptr<T const> >::can (v);
@@ -2016,6 +2080,13 @@ template<typename T>
 struct PolyHelper <boost::shared_ptr<T const> > {
         typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <boost::shared_ptr<T const> >, VCast<boost::shared_ptr<T const> > >::type Type;
 };
+
+
+/**
+ * Jeśli variant input jest typu POINTER, to ta funkcja zwóci nowy wariant o typie
+ * SMART zawierający wskaxnik z input.
+ */
+extern Core::Variant TILIAE_API convertVariantToSmart (Core::Variant const &input);
 
 } // namespace
 
@@ -2138,4 +2209,5 @@ T lcast (Core::Variant const &v)
 {
         return Core::LCast <T>::run (v);
 }
+
 #	endif /* CAST_H_ */

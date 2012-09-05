@@ -30,9 +30,13 @@ namespace Factory {
 class TILIAE_API SingletonFactory : public IFactory {
 public:
 
-        SingletonFactory () {}
-        SingletonFactory (Ptr <IFactory> f) : factory (f) {}
-        virtual ~SingletonFactory () {}
+        SingletonFactory (IFactory *f = NULL, bool b = false) : factory (f), deleteContents (b) {}
+        virtual ~SingletonFactory ()
+        {
+                if (deleteContents) {
+                        delete factory;
+                }
+        }
 
 /*--------------------------------------------------------------------------*/
 
@@ -56,13 +60,14 @@ public:
          */
         virtual void reset () { cache = Core::Variant (); }
 
-        Ptr <IFactory> getFactory () const { return factory; }
-        void setFactory (Ptr <IFactory> factory) { this->factory = factory; }
+        IFactory *getFactory () const { return factory; }
+        void setFactory (IFactory *factory) { this->factory = factory; }
 
 private:
 
-        Ptr <IFactory> factory;
+        IFactory *factory;
         mutable Core::Variant cache;
+        bool deleteContents;
 };
 
 }

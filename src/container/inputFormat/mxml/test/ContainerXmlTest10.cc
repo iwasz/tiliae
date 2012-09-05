@@ -108,17 +108,6 @@ BOOST_AUTO_TEST_CASE (test050PropertyOrderParent)
         VariantMap *m1 = vcast <VariantMap *> (vB);
         VariantMap *m2 = vcast <VariantMap *> (m1->operator [] ("b"));
         BOOST_REQUIRE_EQUAL (vcast <std::string> (m2->operator []("c")), "Test34");
-
-
-//        vB = cont->getBean ("testTool");
-//        BOOST_CHECK (ccast <k202::K202Proxy *> (vB));
-//        k202::K202Proxy *k202 = vcast <k202::K202Proxy *> (vB);
-//
-//        BOOST_CHECK (k202);
-//        vB = k202->run ();
-//
-//        BOOST_CHECK (ccast <bool> (vB));
-//        BOOST_CHECK (vcast <bool> (vB) == true);
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

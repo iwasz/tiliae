@@ -9,10 +9,9 @@
     <value>value05</value>
   </StringVector>
 
-  <StringVector id="mojaLista">
+  <StringVector id="mojaLista2">
     <value>value01</value>
     <value type="string">value02</value>
-    <value add="">value03</value>
   </StringVector>
 
 </beans>

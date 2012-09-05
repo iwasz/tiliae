@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
-        "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <!--To powinno przejść -->
-    <bean id="multi01" class="Bar">
-        <constructor-arg><value>Test</value></constructor-arg>
+	<!--To powinno przejść -->
+	<Bar id="multi01">
+		<cargs>
+			<value>Test</value>
+		</cargs>
 
-        <property name="city3">
-                <bean class="City"/>
-        </property>
+		<City set-as="city3" singleton="false"/>
 
-        <property name="city3.name" value="Warszawa"/>
+		<value set-as="city3.name">Warszawa</value>
+	</Bar>
 
-    </bean>
-  
 </beans>

@@ -202,6 +202,35 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugCo
                 arg1 = classArgs->front ();
 
                 switch (arg1.getType()) {
+                case Variant::STRING:
+                        s = vcast <std::string> (arg1);
+                        type = STRING;
+                        break;
+
+                case Variant::STRING_POINTER:
+                        s = vcast <std::string> (arg1);
+                        type = STRING;
+                        break;
+
+                case Variant::STRING_POINTER_CONST:
+                        s = vcast <std::string> (arg1);
+                        type = STRING;
+                        break;
+
+                case Variant::USTRING:
+                        us = vcast <Core::String> (arg1).getBody ();
+                        type = USTRING;
+                        break;
+
+                case Variant::USTRING_POINTER:
+                        us = vcast <Core::String> (arg1).getBody ();
+                        type = USTRING;
+                        break;
+
+                case Variant::USTRING_POINTER_CONST:
+                        us = vcast <Core::String> (arg1).getBody ();
+                        type = USTRING;
+                        break;
 
                 case Variant::BOOL:
                         i = vcast <bool> (arg1);
@@ -263,36 +292,6 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugCo
                         type = UINT;
                         break;
 
-                case Variant::USTRING:
-                        us = vcast <Core::String> (arg1).getBody ();
-                        type = USTRING;
-                        break;
-
-                case Variant::USTRING_POINTER:
-                        us = vcast <Core::String> (arg1).getBody ();
-                        type = USTRING;
-                        break;
-
-                case Variant::USTRING_POINTER_CONST:
-                        us = vcast <Core::String> (arg1).getBody ();
-                        type = USTRING;
-                        break;
-
-                case Variant::STRING:
-                        s = vcast <std::string> (arg1);
-                        type = STRING;
-                        break;
-
-                case Variant::STRING_POINTER:
-                        s = vcast <std::string> (arg1);
-                        type = STRING;
-                        break;
-
-                case Variant::STRING_POINTER_CONST:
-                        s = vcast <std::string> (arg1);
-                        type = STRING;
-                        break;
-
                 default:
                         dcError (context, "ScalarFactory wrong argument type. Simple scalar type expected. You provided : " + arg1.toString ());
                         return Core::Variant ();
@@ -300,53 +299,88 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugCo
 
         }
 
-        if (className == "int") {
-                return convertValue <int> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "bool") {
-                return convertValue <bool> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "char") {
-                return convertValue <char> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "signed char") {
-                return convertValue <signed char> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "unsigned char") {
-                return convertValue <unsigned char> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "double") {
-                return convertValue <double> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "long double") {
-                return convertValue <long double> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "float") {
-                return convertValue <float> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "unsigned int") {
-                return convertValue <unsigned int> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "long int") {
-                return convertValue <long int> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "unsigned long int") {
-                return convertValue <unsigned long int> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "short int") {
-                return convertValue <short int> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "unsigned short int") {
-                return convertValue <unsigned short int> (classArgs, type, s, us, i, ui, d);
-        }
-        if (className == "String") {
-                return convertValue <Core::String> (classArgs, type, s, us, i, ui, d);
-        }
         if (className == "string" || className == "text") {
                 return convertValue <std::string> (classArgs, type, s, us, i, ui, d);
         }
+        else if (className == "String") {
+                return convertValue <Core::String> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "int") {
+                return convertValue <int> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "bool") {
+                return convertValue <bool> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "char") {
+                return convertValue <char> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "signed char") {
+                return convertValue <signed char> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "unsigned char") {
+                return convertValue <unsigned char> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "double") {
+                return convertValue <double> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "long double") {
+                return convertValue <long double> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "float") {
+                return convertValue <float> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "unsigned int") {
+                return convertValue <unsigned int> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "long int") {
+                return convertValue <long int> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "unsigned long int") {
+                return convertValue <unsigned long int> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "short int") {
+                return convertValue <short int> (classArgs, type, s, us, i, ui, d);
+        }
+        else if (className == "unsigned short int") {
+                return convertValue <unsigned short int> (classArgs, type, s, us, i, ui, d);
+        }
 
         return Core::Variant ();
+}
+
+/*
+ * Uwaga - dopisać tu wszystkie typy z metody convertValue.
+ */
+const char *ScalarFactory::SUPPORTED_TYPES[] = {
+                "int",
+                "bool",
+                "char",
+                "signed char",
+                "unsigned char",
+                "double",
+                "long double",
+                "float",
+                "unsigned int",
+                "unsigned long int",
+                "short int",
+                "unsigned short int",
+                "String",
+                "string",
+                "text",
+                NULL
+};
+
+/****************************************************************************/
+
+bool ScalarFactory::isTypeSupported (const char *name)
+{
+        const char *s = NULL;
+        for (int i = 0; (s = SUPPORTED_TYPES[i]); ++i) {
+                if (!strcmp (name, s)) {
+                        return true;
+                }
+        }
+        return false;
 }
 
 }

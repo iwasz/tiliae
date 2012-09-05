@@ -11,7 +11,6 @@
 
 #include <algorithm>
 #include <iterator>
-#include <Reflection.h>
 #include "IFactory.h"
 #include "../core/Pointer.h"
 #include "../core/Typedefs.h"
@@ -28,11 +27,14 @@ namespace Factory {
  */
 class TILIAE_API ProxyFactory : public IFactory {
 public:
-        REFLECTION_CONSTRUCTOR_ (void)
 
-        ProxyFactory () {}
-        ProxyFactory (Ptr <IFactory> f, const Core::VariantMap &p) : factory (f), params (p) {}
-        virtual ~ProxyFactory () {}
+        ProxyFactory (IFactory *f, const Core::VariantMap &p, bool d = false) : factory (f), params (p), deleteContents (d) {}
+        virtual ~ProxyFactory ()
+        {
+                if (deleteContents) {
+                        delete factory;
+                }
+        }
 
 /*--------------------------------------------------------------------------*/
 
@@ -50,18 +52,17 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr<IFactory> getFactory () const { return factory; }
-        REFLECTION_SETTER (setFactory) void setFactory (Ptr<IFactory> factory) { this->factory = factory; }
+        IFactory *getFactory () const { return factory; }
+        void setFactory (IFactory *factory) { this->factory = factory; }
 
         Core::VariantMap getParams () const { return params; }
-        REFLECTION_METHOD (setParams) void setParams (const Core::VariantMap &params) { this->params = params; }
+        void setParams (const Core::VariantMap &params) { this->params = params; }
 
 private:
 
-        Ptr <IFactory> factory;
+        IFactory *factory;
         Core::VariantMap params;
-
-        REFLECTION_END (ProxyFactory)
+        bool deleteContents;
 };
 
 }

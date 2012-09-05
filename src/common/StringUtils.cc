@@ -10,10 +10,9 @@
 
 namespace Common {
 
-// TODO zronic tego test w tools.
-Core::StringList StringUtils::split (const std::string &input, const std::string &separator)
+Core::StringVector StringUtils::split (const std::string &input, const std::string &separator)
 {
-        Core::StringList  ret;
+        Core::StringVector  ret;
         std::string::size_type h = 0, i = 0, length = input.length ();
 
         do {

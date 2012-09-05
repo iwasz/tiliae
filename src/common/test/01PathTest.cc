@@ -650,8 +650,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE (testGetSegmentByNumber, Path, TestTypes)
 BOOST_AUTO_TEST_CASE_TEMPLATE (testSplitSegments, Path, TestTypes)
 {
         Path p01 ("kocham.asie.ala.ma.kota");
-        Core::StringList list = p01.splitSegments ();
-        Core::StringList::const_iterator i = list.begin ();
+        Core::StringVector list = p01.splitSegments ();
+        Core::StringVector::const_iterator i = list.begin ();
 
         BOOST_CHECK (*i++ == "kocham");
         BOOST_CHECK (*i++ == "asie");

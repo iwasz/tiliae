@@ -11,8 +11,10 @@
 
 #include "beanFactory/BeanFactory.h"
 #include "beanFactory/service/BeanFactoryService.h"
+#include "beanFactory/BeanFactoryContainer.h"
 #include "../core/Pointer.h"
 #include "../core/ApiMacro.h"
+#include "../core/allocator/IAllocator.h"
 
 namespace Wrapper {
 class BeanWrapper;
@@ -26,6 +28,7 @@ namespace Container {
 class MetaContainer;
 class MetaVisitor;
 class XmlMetaService;
+class InternalSingletons;
 
 /**
  * Fabryka tworząca kontener. Tworzy kontener, który z kolei tworzy
@@ -35,36 +38,31 @@ class XmlMetaService;
 class TILIAE_API ContainerFactory {
 public:
 
-        ContainerFactory ();
-
         /**
          * Tworzy kontener, czyli główny obiekt kontenera (klasy Container).
          */
-        static Ptr <BeanFactoryContainer> createContainer (Ptr <MetaContainer> metaCont,
-                        bool storeMetaContainer = false,
-                        Ptr <BeanFactoryContainer> linkedParent = Ptr <BeanFactoryContainer> ());
+        static Ptr <BeanFactoryContainer> create (Ptr <MetaContainer> metaCont,
+                                                  bool storeMetaContainer = false,
+                                                  BeanFactoryContainer *linkedParent = NULL);
 
-        static Ptr <BeanFactoryContainer> createEmptyContainer (Ptr <MetaContainer> metaCont,
-                        bool storeMetaContainer,
-                        Ptr <BeanFactoryContainer> linkedParent, ContainerFactory &cf);
+        /**
+         * Inicjuje kontener stworzony za pomocą create.
+         */
+        static void init (BeanFactoryContainer *bfCont, MetaContainer *metaCont);
 
-        void fill (Ptr <BeanFactoryContainer> bfCont, Ptr <MetaContainer> metaCont);
-
-protected:
-
-        Ptr <BeanFactoryContainer> create ();
-
-        Ptr <Wrapper::BeanWrapper> createBeanWrapper ();
-        Ptr <Core::VariantMap> createSingletons ();
+        /**
+         * Metoda robi to co create + init.
+         */
+        static Ptr <BeanFactoryContainer> createAndInit (Ptr <MetaContainer> metaCont,
+                                                         bool storeMetaContainer = false,
+                                                         BeanFactoryContainer *linkedParent = NULL);
 
 private:
 
-        Ptr <MetaVisitor> iteration0; // TODO testowa, w celu naprawienia błędu z parentowaniem.
-        Ptr <MetaVisitor> iteration1;
-        Ptr <MetaVisitor> iteration2;
-        Ptr <Core::VariantMap> singletons;
-        Ptr <Editor::StringFactoryMethodEditor> conversionMethodEditor;
-        BeanFactoryVisitorContext context;
+        /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer.
+        static Wrapper::BeanWrapper *createBeanWrapper ();
+        /// Singletony powiny być skasowane (dalete) w BeanFactoryContainer. ContainerFactory tworzy je per BeanFactoryContainer.
+        static InternalSingletons *createSingletons (Core::IAllocator *memoryAllocator, SparseVariantMap *singletons);
 };
 
 } // ContainerFactory

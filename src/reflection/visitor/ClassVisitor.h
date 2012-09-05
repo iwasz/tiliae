@@ -15,6 +15,7 @@
 #include "../../core/Pointer.h"
 #include "../../core/ApiMacro.h"
 #include "../../core/Typedefs.h"
+#include "../wrapper/Deleter.h"
 
 namespace Reflection {
 
@@ -27,21 +28,23 @@ class Class;
 class ClassVisitor : public IReflectionVisitor {
 public:
 
+        ClassVisitor () : cache (NULL) {}
         virtual ~ClassVisitor () {}
 
-        virtual Core::Variant visit (BaseClassAnnotation *a, const Core::Variant &arg);
-        virtual Core::Variant visit (MethodAnnotation *a, const Core::Variant &arg);
-        virtual Core::Variant visit (ConstructorAnnotation *a, const Core::Variant &arg);
-        virtual Core::Variant visit (ClassAnnotation *a, const Core::Variant &arg);
+        virtual Core::Variant visit (BaseClassAnnotation *a, Class *cls);
+        virtual Core::Variant visit (MethodAnnotation *a, Class *cls);
+        virtual Core::Variant visit (ConstructorAnnotation *a, Class *cls);
+        virtual Core::Variant visit (ClassAnnotation *a, Class *cls);
+        virtual Core::Variant visit (FieldAnnotation *a, Class *cls);
 
 private:
 
-        Ptr <Class> findClass (const std::string &className) const;
-        Ptr <Class> createClass (const std::string &className, std::type_info const &classType);
+        Class *findClass (const std::string &className) const;
+        Class *createClass (const std::string &className, std::type_info const &classType, IDeleter *deleter);
 
 private:
 
-        Ptr <Class> cache;
+        Class *cache;
 };
 
 }

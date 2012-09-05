@@ -23,7 +23,6 @@ namespace Wrapper {
  */
 class TILIAE_API GetPutMethodRWBeanWrapperPlugin : public IBeanWrapperPlugin {
 public:
-        REFLECTION_CONSTRUCTOR_ (void)
 
         virtual ~GetPutMethodRWBeanWrapperPlugin () {}
 
@@ -50,7 +49,6 @@ public:
                                         bool *error,
                                         Core::DebugContext *ctx) const;
 
-        REFLECTION_END (GetPutMethodRWBeanWrapperPlugin)
 };
 
 

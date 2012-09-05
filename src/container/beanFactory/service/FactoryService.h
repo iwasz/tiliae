@@ -17,7 +17,7 @@ class IndexedEditor;
 
 namespace Container {
 
-class IMeta;
+class MetaObject;
 
 /**
  * Create factory
@@ -25,20 +25,19 @@ class IMeta;
 class FactoryService : public BeanFactoryService {
 public:
 
+        FactoryService () : defaultSingletonFactory (NULL), defaultPrototypeFactory (NULL) {}
         virtual ~FactoryService () {}
-        static Ptr <FactoryService> create () { return Ptr <FactoryService> (new FactoryService); }
-        void init (Core::VariantMap *singletons);
 
-        virtual bool onMetaBegin (IMeta *data);
+        virtual bool onMetaBegin (const MetaObject* data);
 
-private:
-
-        Ptr <Editor::IndexedEditor> createIndexedEditor ();
+        void setDefaultSingletonFactory (Factory::IFactory* defaultSingletonFactory) { this->defaultSingletonFactory = defaultSingletonFactory; }
+        void setDefaultPrototypeFactory (Factory::IFactory* defaultPrototypeFactory) { this->defaultPrototypeFactory = defaultPrototypeFactory; }
 
 private:
 
-        // Singletons
-        Ptr <Factory::IFactory> defaultFactory;
+        // Singletons owned by BeanFactoryContainer.
+        Factory::IFactory *defaultSingletonFactory;
+        Factory::IFactory *defaultPrototypeFactory;
 };
 
 } //nam

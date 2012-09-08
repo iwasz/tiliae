@@ -52,8 +52,7 @@ if (UNIX)
     SET (CMAKE_PREFIX_PATH "/home/iwasz/local")
 endif()
 
-SET(Boost_ADDITIONAL_VERSIONS "1.41" "1.41.0")
-find_package (Boost 1.41.0)
+find_package (Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # TODO inaczej!

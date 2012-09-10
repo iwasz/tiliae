@@ -59,6 +59,11 @@ bool BFMapEditor::useElement (Element *element, const Core::Variant &input, Core
         switch (element->type) {
         case Element::BEAN_FACTORY:
                 *output = element->factory->create (Core::VariantMap (), context);
+
+                if (output->isNone ()) {
+                        return false;
+                }
+
                 break;
 
         case Element::EDITOR_FROM_BF:

@@ -308,6 +308,7 @@ void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta, MetaObject *o
                 }
                 else if (!addTo.empty ()) {
                         elem->key = factory.newString (addTo);
+                        elem->add = true;
                 }
 
                 addElem (outer, elem);
@@ -526,10 +527,10 @@ void Impl::onData (mxml_node_t *node)
         // Obsługa konkretnych tagów.
         if (getCurrentTag () == "value") {
 
-                // Szczególny przypadek, gdy jesteśmy w <key>
-                if (getPrevTag () == "key") {
-                        elem->key = factory.newString (text);
-                }
+//                // Szczególny przypadek, gdy jesteśmy w <key>
+//                if (getPrevTag () == "key") {
+//                        elem->key = factory.newString (text);
+//                }
 
 
                 ValueData *valueData;

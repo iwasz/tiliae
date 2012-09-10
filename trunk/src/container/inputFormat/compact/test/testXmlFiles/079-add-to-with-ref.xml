@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+        <Bar id="test" scope="prototype">
+                <cargs>
+                        <value>to sie zamaze</value>
+                </cargs>
+        </Bar>
+
+	<Bar id="bar">
+		<cargs>
+			<value>to sie zamaze</value>
+		</cargs>
+		<VariantVector set-as="butter"/>
+		<ref bean="test" add-to="butter"/>
+		<ref bean="test" add-to="butter"/>
+		<ref bean="test" add-to="butter"/>
+	</Bar>
+
+</beans>

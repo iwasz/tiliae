@@ -71,4 +71,50 @@ BOOST_AUTO_TEST_CASE (test078Abstract)
         BOOST_REQUIRE_THROW (cont->getBean ("bar"), Core::Exception);
 }
 
+BOOST_AUTO_TEST_CASE (test079AddToWithRef)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "079-add-to-with-ref.xml"));
+        Bar *bar = vcast <Bar *> (cont->getBean ("bar"));
+        VariantVector *vec = vcast <VariantVector *> (bar->getButter ());
+
+        BOOST_REQUIRE_EQUAL (vec->size (), 3u);
+        BOOST_REQUIRE (!vec->operator [] (0).isNone ());
+        BOOST_REQUIRE (!vec->operator [] (1).isNone ());
+        BOOST_REQUIRE (!vec->operator [] (2).isNone ());
+
+        Bar *bar1 = vcast <Bar *> (vec->operator [] (0));
+        Bar *bar2 = vcast <Bar *> (vec->operator [] (1));
+        Bar *bar3 = vcast <Bar *> (vec->operator [] (2));
+
+        BOOST_REQUIRE_NE (bar1, bar2);
+        BOOST_REQUIRE_NE (bar1, bar3);
+        BOOST_REQUIRE_NE (bar2, bar3);
+}
+
+struct Dummy1;
+
+typedef std::vector <Dummy1 *> DummyVector;
+REFLECTION_COLLECTION (DummyVector)
+
+struct Dummy1 {
+
+        REFLECTION_CONSTRUCTOR_ (void)
+        Dummy1 () {}
+
+        DummyVector REFLECTION_FIELD_REFERENCE_INPLACE (vector);
+
+        REFLECTION_END (Dummy1)
+};
+
+BOOST_AUTO_TEST_CASE (test080AddToWithRef)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "080-add-to-with-ref.xml"));
+        Dummy1 *bar = vcast <Dummy1 *> (cont->getBean ("bar"));
+
+        BOOST_REQUIRE_EQUAL (bar->vector.size (), 5u);
+        BOOST_REQUIRE (bar->vector.operator [] (0));
+        BOOST_REQUIRE (bar->vector.operator [] (1));
+        BOOST_REQUIRE (bar->vector.operator [] (2));
+}
+
 BOOST_AUTO_TEST_SUITE_END ();

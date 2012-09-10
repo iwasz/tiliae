@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+        <Dummy1 id="test1" />
+        <Dummy1 id="test2" />
+        <Dummy1 id="test3" />
+
+        <test3 id="test4" />
+
+	<Dummy1 id="bar">
+		<ref bean="test1" add-to="vector"/>
+                <ref bean="test2" add-to="vector"/>
+                <ref bean="test3" add-to="vector"/>
+                <ref bean="test4" add-to="vector"/>
+                <test3 add-to="vector"/>
+	</Dummy1>
+  
+</beans>

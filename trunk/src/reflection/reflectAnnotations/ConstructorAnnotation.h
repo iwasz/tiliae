@@ -79,15 +79,23 @@ REFLECTION_CONSTRUCTOR_ANNOTATION(REFLECT_CLASS_NAME, CLASS, __VA_ARGS__)
  * to nie jest w standardzie :( Gcc działa bez problemu, ale nie wiem od
  * której wersji :(
  */
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_CONSTRUCTOR(...)                                                      \
                                                                                          \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_CONSTRUCTOR_ANNOTATION_BODY_PRIV(__VA_ARGS__) }
+#else
+#define REFLECTION_CONSTRUCTOR(...)
+#endif
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_CONSTRUCTOR_(...)                                                     \
                                                                                          \
                 ANNOTATION_METHOD_HEADER                                                 \
                 REFLECTION_CLASS_ANNOTATION_BODY_PRIV                                    \
                 REFLECTION_CONSTRUCTOR_ANNOTATION_BODY_PRIV(__VA_ARGS__) }
+#else
+#define REFLECTION_CONSTRUCTOR_(...)
+#endif
 
 #endif /* METHODANNOTATION_H_ */

@@ -173,9 +173,17 @@ namespace {                                                                     
 #define REFLECTION_TEMPLATE_END _te_implementation_arg(BOOST_PP_CAT(TOKEN,BOOST_PP_DEC(BOOST_PP_DEC(__COUNTER__))))
 
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_END(Clazz) _e_implementation_arg(Clazz, BOOST_PP_CAT(ServiceClass,BOOST_PP_CAT(__COUNTER__, __LINE__)))
+#else
+#define REFLECTION_END(Clazz)
+#endif
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_END_(Clazz) REFLECTION_CONSTRUCTOR_(void); REFLECTION_END(Clazz)
+#else
+#define REFLECTION_END_(Clazz)
+#endif
 
 /**
  * Implementacja dla makra ANNOTATION_RUN_ONCE_AT_STARTUP

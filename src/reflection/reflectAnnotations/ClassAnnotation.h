@@ -62,21 +62,29 @@ private:
 /**
  * Makro ogólnego przeznaczenia.
  */
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_CLASS_ANNOTATION(CLS_NAME, CLS_TYPE)                       \
                                                                                \
 Annotations::AnnotationManager::instance ().addAnnotation                      \
   (new Reflection::ClassAnnotation (CLS_NAME, typeid (CLS_TYPE&), new Reflection::PtrDeleter<CLS_TYPE>));
+#else
+#define REFLECTION_CLASS_ANNOTATION(CLS_NAME, CLS_TYPE)
+#endif
 
 /**
  * Makro do implementacji REFLECTION_CONSTRUCTOR, nie używać.
  */
+
 #define REFLECTION_CLASS_ANNOTATION_BODY_PRIV                                 \
 REFLECTION_CLASS_ANNOTATION(REFLECT_CLASS_NAME, CLASS)
 
-
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_CLASS                                                   \
                                                                            \
                 ANNOTATION_METHOD_HEADER                                   \
                 REFLECTION_CLASS_ANNOTATION_BODY_PRIV }
+#else
+#define REFLECTION_CLASS
+#endif
 
 #endif /* METHODANNOTATION_H_ */

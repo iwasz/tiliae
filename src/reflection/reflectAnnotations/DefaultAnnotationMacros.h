@@ -13,6 +13,7 @@
 #undef b__
 #undef d__
 #undef g_
+#undef gn_
 #undef c_
 #undef c__
 #undef fn_
@@ -35,6 +36,7 @@
 #define b__     REFLECTION_BASE_CLASS_
 #define d__     REFLECTION_CLASS
 #define g_      REFLECTION_COLLECTION
+#define gn_     REFLECTION_COLLECTION_NAME
 #define c_      REFLECTION_CONSTRUCTOR
 #define c__     REFLECTION_CONSTRUCTOR_
 #define fn_     REFLECTION_FACTORY_NAME

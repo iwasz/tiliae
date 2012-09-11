@@ -76,21 +76,37 @@ private:
  * (zamknięty w statyczną metodę) więc trzeba pamiętać, że
  * jest pewien narzut.
  */
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_FIELD_VALUE(field)                                                    \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_FIELD_VALUE_ANNOTATION_BODY_PRIV(field)
+#else
+#define REFLECTION_FIELD_VALUE(field)
+#endif
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_FIELD_REFERENCE(field)                                                \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_FIELD_REFERENCE_ANNOTATION_BODY_PRIV(field)
+#else
+#define REFLECTION_FIELD_REFERENCE(field)
+#endif
 
 
 /**
  * Do stosowania na przykład tak:
  * int REFLECTION_FIELD_VALUE_INPLACE (i);
  */
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_FIELD_VALUE_INPLACE(field) field; REFLECTION_FIELD_VALUE(field)
-#define REFLECTION_FIELD_REFERENCE_INPLACE(field) field; REFLECTION_FIELD_REFERENCE(field)
+#else
+#define REFLECTION_FIELD_VALUE_INPLACE(field) field;
+#endif
 
+#ifdef REFLECTION_ENABLED
+#define REFLECTION_FIELD_REFERENCE_INPLACE(field) field; REFLECTION_FIELD_REFERENCE(field)
+#else
+#define REFLECTION_FIELD_REFERENCE_INPLACE(field) field;
+#endif
 
 #endif /* METHODANNOTATION_H_ */

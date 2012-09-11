@@ -100,47 +100,76 @@ REFLECTION_SETTER_ANNOTATION(REFLECT_CLASS_NAME, CLASS, method)           \
  * (zamknięty w statyczną metodę) więc trzeba pamiętać, że
  * jest pewien narzut.
  */
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_METHOD(method)                                                        \
-                                                                                         \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_METHOD_ANNOTATION_BODY_PRIV(method)
+#else
+#define REFLECTION_METHOD(method)
+#endif
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_METHOD_(method)                                                       \
-                                                                                         \
                 ANNOTATION_METHOD_HEADER                                                 \
                 REFLECTION_METHOD_ANNOTATION_BODY_PRIV(method)
+#else
+#define REFLECTION_METHOD_(method)
+#endif
 
 /**
  * Setter.
  */
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_SETTER(method)                                                        \
                                                                                          \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
                 REFLECTION_SETTER_ANNOTATION_BODY_PRIV(method)
+#else
+#define REFLECTION_SETTER(method)
+#endif
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_SETTER_(method)                                                       \
-                                                                                         \
                 ANNOTATION_METHOD_HEADER                                                 \
                 REFLECTION_SETTER_ANNOTATION_BODY_PRIV(method)
+#else
+#define REFLECTION_SETTER_(method)
+#endif
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_OVERLOADED_METHOD(ret,method,...)                                                            \
         ANNOTATION_METHOD_HEADER_RECURENCE                                                                      \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, CLASS, ret, method, __VA_ARGS__) \
 }
+#else
+#define REFLECTION_OVERLOADED_METHOD(ret,method,...)
+#endif
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_OVERLOADED_METHOD_(ret,method,...)                                                           \
         ANNOTATION_METHOD_HEADER                                                                                \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD(REFLECT_CLASS_NAME, CLASS, ret, method, __VA_ARGS__) \
 }
+#else
+#define REFLECTION_OVERLOADED_METHOD_(ret,method,...)
+#endif
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_OVERLOADED_CONST_METHOD(ret,method,...)                                                            \
         ANNOTATION_METHOD_HEADER_RECURENCE                                                                            \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, CLASS, ret, method, __VA_ARGS__) \
 }
+#else
+#define REFLECTION_OVERLOADED_CONST_METHOD(ret,method,...)
+#endif
 
+#ifdef REFLECTION_ENABLED
 #define REFLECTION_OVERLOADED_CONST_METHOD_(ret,method,...)                                                           \
         ANNOTATION_METHOD_HEADER                                                                                      \
         REFLECTION_METHOD_ANNOTATION_OVERLOAD_CONST(REFLECT_CLASS_NAME, CLASS, ret, method, __VA_ARGS__) \
 }
+#else
+#define REFLECTION_OVERLOADED_CONST_METHOD_(ret,method,...)
+#endif
 
 #endif /* METHODANNOTATION_H_ */

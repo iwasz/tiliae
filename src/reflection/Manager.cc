@@ -14,11 +14,13 @@
 #include "ClassContainer.h"
 #include "Exceptions.h"
 #include "annotations/AnnotationManager.h"
+#define REFLECTION_ENABLED
 #include "reflectAnnotations/BaseClassAnnotation.h"
 #include "reflectAnnotations/MethodAnnotation.h"
 #include "reflectAnnotations/ConstructorAnnotation.h"
 #include "reflectAnnotations/ClassAnnotation.h"
 #include "reflectAnnotations/CollectionAnnotation.h"
+#undef REFLECTION_ENABLED
 #include "model/Class.h"
 #include "model/Constructor.h"
 #include "model/Method.h"

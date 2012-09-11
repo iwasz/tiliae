@@ -41,10 +41,10 @@ private:
 };
 
 typedef std::vector <City *> CityVector;
-_gn (CityVector, "CityVector")
+REFLECTION_COLLECTION_NAME (CityVector, "CityVector")
 
 typedef std::list <City *> CityList;
-_gn (CityList, "CityList")
+REFLECTION_COLLECTION_NAME (CityList, "CityList")
 
 typedef std::map <std::string, City *> CityMap;
 REFLECTION_COLLECTION (CityMap)

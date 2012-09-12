@@ -116,19 +116,42 @@ Method *Class::getMethod (const std::string &s, std::type_info const &ti) const
 
 Method *Class::getMethod (const std::string &name, int arity) const
 {
-        (const_cast <Class *> (this))->initWithCheck ();
-
         for (MethodList::const_iterator i = methodList.begin (); i != methodList.end (); ++i) {
             if ((*i)->getName () == name && (arity == -1 || (*i)->getArity () == arity)) {
                     return *i;
             }
         }
 
+        (const_cast <Class *> (this))->initWithCheck ();
+
         for (ClassList::const_iterator i = baseClassList.begin (); i != baseClassList.end (); ++i) {
             Method *m = (*i)->getMethod (name, arity);
 
             if (m) {
                     return m;
+            }
+        }
+
+        return NULL;
+}
+
+/****************************************************************************/
+
+Field *Class::getField (std::string const &name) const
+{
+        FieldMap::const_iterator i = fields.find (name);
+
+        if (i != fields.end ()) {
+                return i->second;
+        }
+
+        (const_cast <Class *> (this))->initWithCheck ();
+
+        for (ClassList::const_iterator i = baseClassList.begin (); i != baseClassList.end (); ++i) {
+            Field *f = (*i)->getField (name);
+
+            if (f) {
+                    return f;
             }
         }
 
@@ -167,19 +190,6 @@ Constructor *Class::getConstructor (unsigned int noOfArgs) const
 std::string Class::toString () const
 {
         return "Class (name:'" + name + "')";
-}
-
-/****************************************************************************/
-
-Field *Class::getField (std::string const &name) const
-{
-        FieldMap::const_iterator i = fields.find (name);
-
-        if (i != fields.end ()) {
-                return i->second;
-        }
-
-        return NULL;
 }
 
 }

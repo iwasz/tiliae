@@ -12,22 +12,22 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
-#include "variant/Cast.h"
-#include "../../beanWrapper/IBeanWrapper.h"
-#include "../beanWrapper/BeanWrapper.h"
-#include "../../reflection/annotations/AnnotationManager.h"
-#include "../../reflection/Manager.h"
-#include "../../testHelpers/Address.h"
-#include "../../testHelpers/City.h"
-#include "../../testHelpers/Country.h"
+#include "core/variant/Cast.h"
+#include "beanWrapper/IBeanWrapper.h"
+#include "beanWrapper/BeanWrapper.h"
+#include "reflection/annotations/AnnotationManager.h"
+#include "reflection/Manager.h"
+#include "testHelpers/Address.h"
+#include "testHelpers/City.h"
+#include "testHelpers/Country.h"
 #include <typeinfo>
-#include "../plugins/PropertyRWBeanWrapperPlugin.h"
-#include "../plugins/GetPutMethodRWBeanWrapperPlugin.h"
+#include "beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
+#include "beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h"
 #include <boost/make_shared.hpp>
-#include "../plugins/MethodPlugin.h"
-#include "../../testHelpers/Bar.h"
-#include "../../testHelpers/Foo.h"
-#include "../../core/DebugContext.h"
+#include "beanWrapper/plugins/MethodPlugin.h"
+#include "testHelpers/Bar.h"
+#include "testHelpers/Foo.h"
+#include "core/DebugContext.h"
 
 /****************************************************************************/
 

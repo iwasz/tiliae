@@ -6,11 +6,11 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include "../../common/logger/ILogger.h"
+#include "common/logger/ILogger.h"
 #include "StackStateExtension.h"
 #include "IState.h"
 #include "transition/Transition.h"
-#include "../condition/ICondition.h"
+#include "condition/ICondition.h"
 
 namespace StateMachine {
 

@@ -9,10 +9,10 @@
 #ifndef CONTEXT_K202_H_
 #define CONTEXT_K202_H_
 
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
 
 namespace Wrapper {
 class IBeanWrapper;

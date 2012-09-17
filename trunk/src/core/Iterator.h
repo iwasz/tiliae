@@ -9,9 +9,9 @@
 #ifndef TILIAE_ITERATOR_H_
 #define TILIAE_ITERATOR_H_
 
-#include "../core/variant/Variant.h"
-#include "../core/Object.h"
-#include "../core/ApiMacro.h"
+#include "core/variant/Variant.h"
+#include "core/Object.h"
+#include "core/ApiMacro.h"
 
 namespace Core {
 

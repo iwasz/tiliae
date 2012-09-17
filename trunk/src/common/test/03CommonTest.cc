@@ -9,10 +9,10 @@
 //#include <boost/test/unit_test.hpp>
 //#include <iostream>
 //
-//#include "../handler/IHandler.h"
-//#include "../handler/ZeroHandler.h"
-//#include "../handler/SingleHandler.h"
-//#include "../handler/DebugHandler.h"
+//#include "handler/IHandler.h"
+//#include "handler/ZeroHandler.h"
+//#include "handler/SingleHandler.h"
+//#include "handler/DebugHandler.h"
 //
 //BOOST_AUTO_TEST_SUITE (CommonTest);
 //

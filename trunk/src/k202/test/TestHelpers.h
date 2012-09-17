@@ -12,11 +12,11 @@
 #include <cassert>
 #include <iostream>
 #include "K202.h"
-#include "../../core/Pointer.h"
-#include "../../core/string/String.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/variant/Cast.h"
-#include "../../core/Typedefs.h"
+#include "core/Pointer.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/variant/Cast.h"
+#include "core/Typedefs.h"
 
 namespace k202 {
 class Compiler;

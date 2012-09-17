@@ -10,9 +10,9 @@
 #define NULLDATA_H_
 
 #include "IData.h"
-#include "../../../../core/string/String.h"
-#include "../../../../core/ApiMacro.h"
-#include "../../../../core/Pointer.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
+#include "core/Pointer.h"
 
 namespace Container {
 

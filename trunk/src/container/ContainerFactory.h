@@ -9,12 +9,12 @@
 #ifndef CONTAINERFACTORY_H_
 #define CONTAINERFACTORY_H_
 
-#include "beanFactory/BeanFactory.h"
-#include "beanFactory/service/BeanFactoryService.h"
-#include "beanFactory/BeanFactoryContainer.h"
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
-#include "../core/allocator/IAllocator.h"
+#include "container/beanFactory/BeanFactory.h"
+#include "container/beanFactory/service/BeanFactoryService.h"
+#include "container/beanFactory/BeanFactoryContainer.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
+#include "core/allocator/IAllocator.h"
 
 namespace Wrapper {
 class BeanWrapper;

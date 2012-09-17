@@ -6,15 +6,15 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include <LazyFactory.h>
 #include <boost/make_shared.hpp>
+#include "factory/LazyFactory.h"
 #include "FactoryService.h"
-#include "metaStructure/model/MetaStructure.h"
-#include "Defs.h"
-#include "../../../core/variant/Cast.h"
-#include "../../../factory/IFactory.h"
-#include "../../../factory/LazyFactory.h"
-#include "../../../core/StrUtil.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/Defs.h"
+#include "core/variant/Cast.h"
+#include "factory/IFactory.h"
+#include "factory/LazyFactory.h"
+#include "core/StrUtil.h"
 
 namespace Container {
 using namespace Core;

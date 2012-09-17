@@ -225,7 +225,7 @@
 #include "model/Constructor.h"
 #include "annotations/Annotations.h"
 #include "reflectAnnotations/ReflectAnnotations.h"
-#include "Manager.h"
+#include "reflection/Manager.h"
 #include "Exceptions.h"
 
 namespace Reflection {

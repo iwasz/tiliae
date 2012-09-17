@@ -9,11 +9,11 @@
 #ifndef MACHINELISTENER_H_
 #define MACHINELISTENER_H_
 
-#include "Reflection.h"
-#include "../signal/Listener.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
-#include "../core/ApiMacro.h"
+#include "reflection/Reflection.h"
+#include "signal/Listener.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 class Machine;

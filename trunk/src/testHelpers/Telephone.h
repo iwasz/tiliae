@@ -10,9 +10,9 @@
 #define TELEPHONE_633075_H
 
 #include <list>
-#include "Reflection.h"
-#include "../core/string/String.h"
-#include "../core/ApiMacro.h"
+#include "reflection/Reflection.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 /****************************************************************************/
 

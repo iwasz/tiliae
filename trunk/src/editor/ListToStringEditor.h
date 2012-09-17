@@ -9,10 +9,10 @@
 #ifndef LISTTOSTRINGEDITOR_H_
 #define LISTTOSTRINGEDITOR_H_
 
-#include <Reflection.h>
+#include "reflection/Reflection.h"
 #include <iosfwd>
-#include "JEditor.h"
-#include "../core/ApiMacro.h"
+#include "editor/JEditor.h"
+#include "core/ApiMacro.h"
 
 namespace Editor {
 

@@ -10,9 +10,9 @@
 #define BOOK_H_
 
 #include <string>
-#include "../src/reflection/Reflection.h"
-#include "../src/core/Pointer.h"
-#include "../src/core/IToStringEnabled.h"
+#include "reflection/Reflection.h"
+#include "core/Pointer.h"
+#include "core/IToStringEnabled.h"
 #include "Author.h"
 
 class Book : public Core::IToStringEnabled {

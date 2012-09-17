@@ -10,12 +10,12 @@
 #define TILIAE_METHOD_H_
 
 #include <vector>
-#include "../wrapper/ICallableWrapper.h"
-#include "../../core/IToStringEnabled.h"
-#include "../../core/Typedefs.h"
-#include "../../core/string/String.h"
-#include "../../core/Pointer.h"
-#include "../../core/ApiMacro.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "core/IToStringEnabled.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 

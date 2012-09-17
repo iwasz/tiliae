@@ -12,7 +12,7 @@
 //#include <interfaces/IList.h>
 //
 //#include "ListPlugin.h"
-//#include "path/Path.h"
+//#include "common/path/Path.h"
 //#include "BeanWrapperTool.h"
 //
 ///****************************************************************************/

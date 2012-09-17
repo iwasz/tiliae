@@ -9,9 +9,9 @@
 #include <Script.h>
 
 #include "K202Condition.h"
-#include "../context/MachineContext.h"
-#include "../Exceptions.h"
-#include "../../core/Exception.h"
+#include "context/MachineContext.h"
+#include "Exceptions.h"
+#include "core/Exception.h"
 
 namespace Machine {
 

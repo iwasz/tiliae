@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include "StringFactoryMethodEditor.h"
-#include "../core/variant/Cast.h"
+#include "core/variant/Cast.h"
 
 namespace Editor {
 

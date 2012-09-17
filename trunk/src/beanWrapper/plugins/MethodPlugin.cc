@@ -8,15 +8,15 @@
 
 #include <cassert>
 #include "MethodPlugin.h"
-#include "path/Path.h"
-#include "../../core/variant/Variant.h"
-#include "../../reflection/model/Class.h"
-#include "../../reflection/model/Method.h"
-#include "../../reflection/Manager.h"
-#include "../../reflection/ReflectionTools.h"
-#include "../../beanWrapper/IBeanWrapper.h"
-#include "../../core/DebugContext.h"
-#include "../beanWrapper/BeanWrapper.h"
+#include "common/path/Path.h"
+#include "core/variant/Variant.h"
+#include "reflection/model/Class.h"
+#include "reflection/model/Method.h"
+#include "reflection/Manager.h"
+#include "reflection/ReflectionTools.h"
+#include "beanWrapper/IBeanWrapper.h"
+#include "core/DebugContext.h"
+#include "beanWrapper/BeanWrapper.h"
 
 /****************************************************************************/
 

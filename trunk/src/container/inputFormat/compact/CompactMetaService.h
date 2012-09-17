@@ -10,8 +10,8 @@
 #define COMPACTMETASERVICE_H_
 
 #include <string>
-#include "ApiMacro.h"
-#include "Pointer.h"
+#include "core/ApiMacro.h"
+#include "core/Pointer.h"
 
 namespace Container {
 class MetaContainer;

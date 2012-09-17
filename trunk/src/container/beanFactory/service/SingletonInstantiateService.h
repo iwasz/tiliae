@@ -9,8 +9,8 @@
 #ifndef BEANFACTORY_SINGLETON_INSTANTIATE_SERVICE_H_
 #define BEANFACTORY_SINGLETON_INSTANTIATE_SERVICE_H_
 
-#include "beanFactory/service/BeanFactoryService.h"
-#include "allocator/IAllocator.h"
+#include "container/beanFactory/service/BeanFactoryService.h"
+#include "core/allocator/IAllocator.h"
 
 using Core::IAllocator;
 

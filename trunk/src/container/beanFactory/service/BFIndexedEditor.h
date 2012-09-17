@@ -9,9 +9,9 @@
 #ifndef BFINDEXEDEDITOR_H_
 #define BFINDEXEDEDITOR_H_
 
-#include "JEditor.h"
+#include "editor/JEditor.h"
 #include <map>
-#include "../core/Pointer.h"
+#include "core/Pointer.h"
 #include "BFMapEditor.h"
 
 namespace Wrapper {

@@ -7,11 +7,11 @@
  ****************************************************************************/
 
 #include <boost/foreach.hpp>
-#include "../src/container/beanFactory/BeanFactory.h"
-#include "../src/container/ContainerFactory.h"
+#include "container/beanFactory/BeanFactory.h"
+#include "container/ContainerFactory.h"
 #include "Book.h"
-#include "../src/container/metaStructure/model/MetaStructure.h"
-#include "../src/container/inputFormat/mxml/MXmlMetaService.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/inputFormat/mxml/MXmlMetaService.h"
 #include <string>
 
   #include <boost/graph/graph_traits.hpp>

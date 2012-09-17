@@ -9,12 +9,12 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/make_shared.hpp>
 #include <boost/make_shared.hpp>
-#include "../TypeEditor.h"
-#include "../LexicalEditor.h"
-#include "../StringConstructorEditor.h"
-#include "../../testHelpers/City.h"
-#include "../StreamEditor.h"
-#include "../StringFactoryMethodEditor.h"
+#include "editor/TypeEditor.h"
+#include "editor/LexicalEditor.h"
+#include "editor/StringConstructorEditor.h"
+#include "editor/StreamEditor.h"
+#include "editor/StringFactoryMethodEditor.h"
+#include "testHelpers/City.h"
 
 /****************************************************************************/
 

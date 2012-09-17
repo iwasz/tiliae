@@ -10,8 +10,8 @@
 #define CACHEEXTENSION_H_
 
 #include "IExtension.h"
-#include "../../core/Typedefs.h"
-#include "../../core/ApiMacro.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
 
 namespace k202 {
 

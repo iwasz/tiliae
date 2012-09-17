@@ -9,10 +9,10 @@
 #ifndef MEGATONFACTORY_H_
 #define MEGATONFACTORY_H_
 
-#include "IFactory.h"
+#include "factory/IFactory.h"
 #include "MegaTon.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/Typedefs.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
 
 /**
  * Fabryka produkujaca megatonowe obiekty.

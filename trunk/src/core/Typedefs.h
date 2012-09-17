@@ -14,17 +14,14 @@
 #include <map>
 #include <string>
 #include <set>
-#include <boost/foreach.hpp>
 #include <boost/type_traits/remove_cv.hpp>
 #include <boost/type_traits/remove_pointer.hpp>
 #include <boost/type_traits/remove_reference.hpp>
 #include <boost/type_traits/add_reference.hpp>
 
-#include "string/String.h"
-#include "variant/Variant.h"
-#include "../core/Pointer.h"
-
-#define foreach BOOST_FOREACH
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/Pointer.h"
 
 namespace Core{
 

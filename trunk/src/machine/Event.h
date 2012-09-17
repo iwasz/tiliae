@@ -10,7 +10,7 @@
 #define STM_EVENT_H_
 
 #include <string>
-#include "../core/Typedefs.h"
+#include "core/Typedefs.h"
 
 namespace Machine {
 

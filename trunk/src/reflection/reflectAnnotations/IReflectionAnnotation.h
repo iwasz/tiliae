@@ -10,8 +10,8 @@
 #ifndef IREFLECTANNOTATION_H_
 #define IREFLECTANNOTATION_H_
 
-#include "../annotations/IAnnotation.h"
-#include "../../core/variant/Variant.h"
+#include "reflection/annotations/IAnnotation.h"
+#include "core/variant/Variant.h"
 
 namespace Reflection {
 struct IReflectionVisitor;

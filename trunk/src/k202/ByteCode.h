@@ -9,10 +9,10 @@
 #ifndef BYTE_CODE_H__
 #define BYTE_CODE_H__
 
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
-#include "../core/IToStringEnabled.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/IToStringEnabled.h"
 #include "expression/ExpressionCollection.h"
 
 namespace k202 {

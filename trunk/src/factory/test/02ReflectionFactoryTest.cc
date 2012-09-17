@@ -8,12 +8,12 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include <TestHelpers.h>
+#include "testHelpers/TestHelpers.h"
 
-#include "ReflectionFactory.h"
-#include "../../testHelpers/Telephone.h"
-#include "../../testHelpers/City.h"
-#include "../../core/variant/Variant.h"
+#include "factory/ReflectionFactory.h"
+#include "testHelpers/Telephone.h"
+#include "testHelpers/City.h"
+#include "core/variant/Variant.h"
 
 BOOST_AUTO_TEST_SUITE (ReflectionFactoryTest02);
 using namespace Core;

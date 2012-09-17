@@ -10,8 +10,8 @@
 #define STRINGLITERAL_H_
 
 #include "IExpression.h"
-#include "../../core/string/String.h"
-#include "../../core/variant/Variant.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
 #include <boost/lexical_cast.hpp>
 
 namespace k202 {

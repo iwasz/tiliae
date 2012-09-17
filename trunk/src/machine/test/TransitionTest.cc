@@ -7,13 +7,13 @@
 // ****************************************************************************/
 //
 //#include <boost/test/unit_test.hpp>
-//#include "../../core/Typedefs.h"
+//#include "core/Typedefs.h"
 //#include "State.h"
 //#include "Machine.h"
 //#include "Helper.h"
-//#include "../context/Context.h"
-//#include "../action/K202Action.h"
-//#include "../condition/Condition.h"
+//#include "context/Context.h"
+//#include "action/K202Action.h"
+//#include "condition/Condition.h"
 //
 //BOOST_AUTO_TEST_SUITE (TransitionTest);
 //

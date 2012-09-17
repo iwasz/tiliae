@@ -8,16 +8,16 @@
 
 #include <boost/make_shared.hpp>
 #include "EditorService.h"
-#include "metaStructure/model/MetaStructure.h"
-#include "common/Exceptions.h"
-#include "Defs.h"
-#include "../../../core/variant/Variant.h"
-#include "../../../core/Typedefs.h"
-#include "../../../core/variant/Cast.h"
-#include "../../../beanWrapper/beanWrapper/BeanWrapper.h"
-#include "../../../factory/ScalarFactory.h"
-#include "../../../editor/LazyEditor.h"
-#include "StrUtil.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/common/Exceptions.h"
+#include "container/Defs.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/variant/Cast.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
+#include "factory/ScalarFactory.h"
+#include "editor/LazyEditor.h"
+#include "core/StrUtil.h"
 
 namespace Container {
 using namespace Core;

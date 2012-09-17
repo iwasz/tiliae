@@ -9,13 +9,13 @@
 #ifndef LAZY_FACTORY_H_
 #define LAZY_FACTORY_H_
 
-#include "IFactory.h"
+#include "factory/IFactory.h"
 #include <cassert>
-#include "../core/variant/Cast.h"
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
-#include "../core/ApiMacro.h"
-#include "../core/Pointer.h"
+#include "core/variant/Cast.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
+#include "core/Pointer.h"
 
 namespace Factory {
 

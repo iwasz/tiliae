@@ -12,7 +12,7 @@
 #include "Vertex.h"
 #include <vector>
 //#include <boost/ptr_container/ptr_vector.hpp>
-#include "../../core/Pointer.h"
+#include "core/Pointer.h"
 
 namespace Machine {
 

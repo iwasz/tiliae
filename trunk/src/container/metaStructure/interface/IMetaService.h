@@ -10,7 +10,7 @@
 #define IMETASERVICE2_H_
 
 #include <vector>
-#include <Pointer.h>
+#include "core/Pointer.h"
 
 namespace Container {
 

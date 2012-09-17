@@ -6,15 +6,15 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include "BeanFactory.h"
+#include "container/beanFactory/BeanFactory.h"
 
 #include <boost/lexical_cast.hpp>
-#include "metaStructure/model/MetaObject.h"
-#include "variant/Cast.h"
-#include "IBeanWrapper.h"
+#include "container/metaStructure/model/MetaObject.h"
+#include "core/variant/Cast.h"
+#include "beanWrapper/IBeanWrapper.h"
 #include "BeanFactoryContext.h"
-#include "Defs.h"
-#include "ReflectionFactory.h"
+#include "container/Defs.h"
+#include "factory/ReflectionFactory.h"
 #include "BeanFactoryContainer.h"
 
 namespace Container {

@@ -11,10 +11,10 @@
 
 #include <string>
 #include "K202.h"
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
-#include "../core/ApiMacro.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace Signal {
 class Scope;

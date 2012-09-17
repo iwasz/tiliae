@@ -21,8 +21,8 @@
 #include "model/Constructor.h"
 #include "model/Method.h"
 #include "IClassContainer.h"
-#include "../core/Pointer.h"
-#include "../core/string/String.h"
+#include "core/Pointer.h"
+#include "core/string/String.h"
 
 namespace Reflection {
 

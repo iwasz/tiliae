@@ -9,12 +9,12 @@
 #ifndef STRINGTOMEGATONEDITOR_H_
 #define STRINGTOMEGATONEDITOR_H_
 
-#include "JEditor.h"
+#include "editor/JEditor.h"
 #include <cassert>
-#include "../../factory/testHelpers/MegaTon.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/variant/Cast.h"
-#include "../../core/string/String.h"
+#include "factory/testHelpers/MegaTon.h"
+#include "core/variant/Variant.h"
+#include "core/variant/Cast.h"
+#include "core/string/String.h"
 
 /**
  * Edytory dzialaja w jedna strone, nie tak jak w javie.

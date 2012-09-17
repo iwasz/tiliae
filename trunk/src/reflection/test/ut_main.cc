@@ -12,7 +12,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/test/unit_test_monitor.hpp>
 #include <iostream>
-#include "../../core/Exception.h"
+#include "core/Exception.h"
 
 using namespace ::boost::unit_test;
 

@@ -7,11 +7,11 @@
  ****************************************************************************/
 
 #include "BeanFactoryContainer.h"
-#include "variant/Cast.h"
+#include "core/variant/Cast.h"
 #include "BeanFactoryContext.h"
-#include "Defs.h"
-#include "../../reflection/Manager.h"
-#include "../../reflection/model/Class.h"
+#include "container/Defs.h"
+#include "reflection/Manager.h"
+#include "reflection/model/Class.h"
 #include "InternalSingletons.h"
 
 namespace Container {

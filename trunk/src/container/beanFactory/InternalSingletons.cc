@@ -7,10 +7,10 @@
  ****************************************************************************/
 
 #include "InternalSingletons.h"
-#include "IFactory.h"
-#include "IEditor.h"
-#include "BeanWrapper.h"
-#include "Defs.h"
+#include "factory/IFactory.h"
+#include "editor/IEditor.h"
+#include "beanWrapper/BeanWrapper.h"
+#include "container/Defs.h"
 
 namespace Container {
 

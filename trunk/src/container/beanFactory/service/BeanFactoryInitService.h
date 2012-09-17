@@ -9,7 +9,7 @@
 #ifndef BEANFACTORYINITSERVICE_H_
 #define BEANFACTORYINITSERVICE_H_
 
-#include "beanFactory/service/BeanFactoryService.h"
+#include "container/beanFactory/service/BeanFactoryService.h"
 
 namespace Container {
 

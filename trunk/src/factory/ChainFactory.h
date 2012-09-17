@@ -9,9 +9,9 @@
 #ifndef CHAINFACTORY_H_
 #define CHAINFACTORY_H_
 
-#include "IFactory.h"
-#include "../core/ApiMacro.h"
-#include <Reflection.h>
+#include "factory/IFactory.h"
+#include "core/ApiMacro.h"
+#include "reflection/Reflection.h"
 
 namespace Factory {
 

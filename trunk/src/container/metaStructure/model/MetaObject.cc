@@ -11,9 +11,9 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/erase.hpp>
-#include "Exceptions.h"
+#include "container/common/Exceptions.h"
 #include "MetaObject.h"
-#include "StrUtil.h"
+#include "core/StrUtil.h"
 
 namespace Container {
 

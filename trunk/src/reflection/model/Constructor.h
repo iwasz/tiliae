@@ -11,11 +11,11 @@
 
 #include <vector>
 #include <wctype.h>
-#include "../wrapper/ConstructorPointer.h"
-#include "../../core/IToStringEnabled.h"
-#include "../../core/Pointer.h"
-#include "../../core/ApiMacro.h"
-#include "../../core/allocator/IAllocator.h"
+#include "reflection/wrapper/ConstructorPointer.h"
+#include "core/IToStringEnabled.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
+#include "core/allocator/IAllocator.h"
 
 namespace Reflection {
 

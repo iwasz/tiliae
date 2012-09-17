@@ -9,11 +9,11 @@
 #ifndef VALUESERVICE_HELPER_H_
 #define VALUESERVICE_HELPER_H_
 
-#include "../../../core/Pointer.h"
-#include "../../../core/variant/Variant.h"
-#include "../../../core/Typedefs.h"
-#include "../../../core/string/String.h"
-#include "../../../core/allocator/ArrayRegionAllocator.h"
+#include "core/Pointer.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/allocator/ArrayRegionAllocator.h"
 
 namespace Factory {
 class IFactory;

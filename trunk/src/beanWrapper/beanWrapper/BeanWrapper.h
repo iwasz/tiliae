@@ -9,14 +9,14 @@
 #ifndef SERVICEREPOSITORYIMPL_404238_H
 #define SERVICEREPOSITORYIMPL_404238_H
 
-#include "IBeanWrapper.h"
-#include "path/IPath.h"
-#include "plugins/IBeanWrapperPlugin.h"
-#include "../../core/Pointer.h"
-#include "../../core/ApiMacro.h"
-#include "../../core/DebugContext.h"
-#include "../../editor/IEditor.h"
-#include "Reflection.h"
+#include "beanWrapper/IBeanWrapper.h"
+#include "common/path/IPath.h"
+#include "beanWrapper/plugins/IBeanWrapperPlugin.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
+#include "core/DebugContext.h"
+#include "editor/IEditor.h"
+#include "reflection/Reflection.h"
 
 namespace Wrapper {
 

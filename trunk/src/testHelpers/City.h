@@ -11,10 +11,10 @@
 
 #include <list>
 #include <map>
-#include "Reflection.h"
-#include "../core/string/String.h"
+#include "reflection/Reflection.h"
+#include "core/string/String.h"
 #include <vector>
-#include "../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 class TILIAE_API City {
 public:

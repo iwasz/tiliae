@@ -10,10 +10,10 @@
 #include "State.h"
 #include "Machine.h"
 #include "Helper.h"
-#include "../context/Context.h"
-#include "../action/K202Action.h"
-#include "../condition/Condition.h"
-#include "../../core/variant/Variant.h"
+#include "context/Context.h"
+#include "action/K202Action.h"
+#include "condition/Condition.h"
+#include "core/variant/Variant.h"
 
 BOOST_AUTO_TEST_SUITE (ActionTest);
  

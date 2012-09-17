@@ -10,10 +10,10 @@
 #define OUTPUT_H_
 
 #include "IOutput.h"
-#include "../../common/handler/ZeroHandler.h"
-#include "../../core/Exception.h"
-#include "../../core/string/String.h"
-#include "../../core/ApiMacro.h"
+#include "common/handler/ZeroHandler.h"
+#include "core/Exception.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

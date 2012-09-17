@@ -9,8 +9,8 @@
 #ifndef BFSTRINGCONSTRUCTOREDITOR_H_
 #define BFSTRINGCONSTRUCTOREDITOR_H_
 
-#include "StringConstructorEditor.h"
-#include "../../common/SparseVariantMap.h"
+#include "editor/StringConstructorEditor.h"
+#include "container/common/SparseVariantMap.h"
 
 namespace Container {
 

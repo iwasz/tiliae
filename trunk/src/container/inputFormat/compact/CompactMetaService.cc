@@ -10,11 +10,11 @@
 #include <iostream>
 #include <queue>
 #include <boost/lexical_cast.hpp>
-#include "CompactMetaService.h"
-#include "Pointer.h"
-#include "common/Exceptions.h"
-#include "metaStructure/MetaStructure.h"
-#include "../../../reflection/Manager.h"
+#include "container/inputFormat/compact/CompactMetaService.h"
+#include "core/Pointer.h"
+#include "container/common/Exceptions.h"
+#include "container/metaStructure/MetaStructure.h"
+#include "reflection/Manager.h"
 
 namespace Container {
 

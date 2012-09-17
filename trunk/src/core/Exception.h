@@ -11,8 +11,8 @@
 
 #include <exception>
 #include <string>
-#include "ApiMacro.h"
-#include "../core/DebugContext.h"
+#include "core/ApiMacro.h"
+#include "core/DebugContext.h"
 
 namespace Core {
 

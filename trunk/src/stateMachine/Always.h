@@ -10,7 +10,7 @@
 #define ALWAYS_H_
 
 #include "IMachinery.h"
-#include "../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

@@ -9,9 +9,9 @@
 #ifndef STRINGCONSTRUCTOREDITOR_H_
 #define STRINGCONSTRUCTOREDITOR_H_
 
-#include "IEditor.h"
-#include "../core/ApiMacro.h"
-#include "../core/allocator/IAllocator.h"
+#include "editor/IEditor.h"
+#include "core/ApiMacro.h"
+#include "core/allocator/IAllocator.h"
 
 namespace Editor {
 

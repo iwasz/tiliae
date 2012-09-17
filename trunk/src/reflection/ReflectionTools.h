@@ -9,8 +9,8 @@
 #ifndef REFLECTIONTOOLS_636860_H
 #define REFLECTIONTOOLS_636860_H
 
-#include "../core/Pointer.h"
-#include "../core/string/String.h"
+#include "core/Pointer.h"
+#include "core/string/String.h"
 #include "model/Method.h"
 
 /****************************************************************************/

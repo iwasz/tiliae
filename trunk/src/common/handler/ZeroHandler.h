@@ -13,8 +13,8 @@
 #include <vector>
 #include <string>
 #include "IHandler.h"
-#include "../../core/Pointer.h"
-#include "../../core/variant/Variant.h"
+#include "core/Pointer.h"
+#include "core/variant/Variant.h"
 
 namespace Common {
 

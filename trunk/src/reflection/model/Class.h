@@ -12,13 +12,13 @@
 #include <vector>
 #include "Constructor.h"
 #include "Method.h"
-#include "IToStringEnabled.h"
-#include "string/String.h"
-#include "Pointer.h"
-#include "Typedefs.h"
-#include "ApiMacro.h"
-#include "../model/Field.h"
-#include "../wrapper/Deleter.h"
+#include "core/IToStringEnabled.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
+#include "reflection/model/Field.h"
+#include "reflection/wrapper/Deleter.h"
 
 /****************************************************************************/
 

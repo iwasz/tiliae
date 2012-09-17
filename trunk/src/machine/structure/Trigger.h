@@ -10,8 +10,8 @@
 #define ITRIGGER_H_
 
 #include <vector>
-#include "../../core/Pointer.h"
-#include "../Event.h"
+#include "core/Pointer.h"
+#include "Event.h"
 
 namespace Machine {
 

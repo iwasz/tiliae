@@ -10,9 +10,9 @@
 #define TILIAE_REFLECT_TOOLS_H
 
 #include "Exceptions.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
-#include "../core/ApiMacro.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 

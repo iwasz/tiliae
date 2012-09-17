@@ -10,7 +10,7 @@
 #include "Method.h"
 #include "Class.h"
 #include <cassert>
-#include "../../core/Typedefs.h"
+#include "core/Typedefs.h"
 
 namespace Reflection {
 

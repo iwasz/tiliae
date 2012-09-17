@@ -15,13 +15,13 @@
 #include "context/MachineContext.h"
 #include "TransitionAction.h"
 #include "TransitionActionContainer.h"
-#include "../../core/Pointer.h"
-#include "../../core/string/String.h"
-#include "../../reflection/reflectAnnotations/CollectionAnnotation.h"
-#include "../../reflection/reflectAnnotations/ConstructorAnnotation.h"
-#include "../../reflection/reflectAnnotations/MethodAnnotation.h"
-#include "../../reflection/annotations/Macros.h"
-#include "../../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/string/String.h"
+#include "reflection/reflectAnnotations/CollectionAnnotation.h"
+#include "reflection/reflectAnnotations/ConstructorAnnotation.h"
+#include "reflection/reflectAnnotations/MethodAnnotation.h"
+#include "reflection/annotations/Macros.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 class ICondition;

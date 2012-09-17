@@ -10,10 +10,10 @@
 #define SIMPLECONDITION_H_
 
 #include "ICondition.h"
-#include "../../core/Typedefs.h"
-#include "../../core/Pointer.h"
-#include "../../core/string/String.h"
-#include "../../core/ApiMacro.h"
+#include "core/Typedefs.h"
+#include "core/Pointer.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

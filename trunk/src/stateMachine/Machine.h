@@ -9,7 +9,7 @@
 #ifndef TTEE_MACHINE_H_
 #define TTEE_MACHINE_H_
 
-#include "Reflection.h"
+#include "reflection/Reflection.h"
 #include "IMachinery.h"
 #include "State.h"
 #include "transition/Transition.h"
@@ -18,10 +18,10 @@
 #include "Exceptions.h"
 #include "condition/K202Condition.h"
 #include "MachineListener.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Common {
         class ILogger;

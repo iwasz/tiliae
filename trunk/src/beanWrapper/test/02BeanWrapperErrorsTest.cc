@@ -8,14 +8,14 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include "../beanWrapper/BeanWrapper.h"
-#include "../../core/Pointer.h"
-#include "../../testHelpers/Country.h"
-#include "../../testHelpers/City.h"
-#include "../../testHelpers/Address.h"
-#include "../../core/variant/Variant.h"
-#include "../plugins/PropertyRWBeanWrapperPlugin.h"
-#include "../../core/DebugContext.h"
+#include "beanWrapper/BeanWrapper.h"
+#include "core/Pointer.h"
+#include "testHelpers/Country.h"
+#include "testHelpers/City.h"
+#include "testHelpers/Address.h"
+#include "core/variant/Variant.h"
+#include "beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
+#include "core/DebugContext.h"
 
 /****************************************************************************/
 

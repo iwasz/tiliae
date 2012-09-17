@@ -15,10 +15,10 @@
 #include <boost/multi_index/sequenced_index.hpp>
 #include <utility>
 #include <string>
-#include "../../core/Pointer.h"
-#include "../../core/IToStringEnabled.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/IToStringEnabled.h"
+#include "core/variant/Variant.h"
+#include "core/ApiMacro.h"
 
 namespace Common {
 
@@ -74,7 +74,7 @@ public:
 
         virtual void remove (const Core::Variant &key);
 
-        virtual int size () const;
+        virtual size_t size () const;
         virtual bool isEmpty () const;
 
         void insert (Elem const &e) { container.insert (e); }

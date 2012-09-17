@@ -8,12 +8,12 @@
 
 #include <stack>
 #include "XmiParser.h"
-#include "../core/Pointer.h"
-#include "../stateMachine2/structure/Model.h"
-#include "../stateMachine2/structure/Region.h"
-#include "../stateMachine2/structure/State.h"
-#include "../stateMachine2/structure/StateMachine.h"
-#include "../xml/XmlTextReader.h"
+#include "core/Pointer.h"
+#include "stateMachine2/structure/Model.h"
+#include "stateMachine2/structure/Region.h"
+#include "stateMachine2/structure/State.h"
+#include "stateMachine2/structure/StateMachine.h"
+#include "xml/XmlTextReader.h"
 
 namespace FsmXmi {
 using namespace StateMachine;

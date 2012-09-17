@@ -10,9 +10,9 @@
 #define K202ACTION_H_
 
 #include <K202.h>
-#include <Reflection.h>
+#include "reflection/Reflection.h"
 #include "IAction.h"
-#include "../../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Machine {
 

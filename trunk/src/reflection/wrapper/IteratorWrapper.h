@@ -16,11 +16,11 @@
 #include <set>
 #include <boost/make_shared.hpp>
 
-#include "../../core/variant/Variant.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../../core/Typedefs.h"
+#include "core/variant/Variant.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "core/Typedefs.h"
 #include "WrapperCommons.h"
-#include "../../core/Iterator.h"
+#include "core/Iterator.h"
 
 using Core::TIterator;
 

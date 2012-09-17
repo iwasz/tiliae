@@ -9,9 +9,9 @@
 #ifndef BEANFACTORYSERVICE_H_
 #define BEANFACTORYSERVICE_H_
 
-#include "metaStructure/service/AbstractMetaService.h"
-#include "beanFactory/BeanFactory.h"
-#include "metaStructure/service/DummyService.h"
+#include "container/metaStructure/service/AbstractMetaService.h"
+#include "container/beanFactory/BeanFactory.h"
+#include "container/metaStructure/service/DummyService.h"
 #include "BeanFactoryVisitorContext.h"
 
 namespace Container {

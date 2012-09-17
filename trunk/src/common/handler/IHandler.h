@@ -9,8 +9,8 @@
 #ifndef IHANDLER_H_
 #define IHANDLER_H_
 
-#include "../../core/variant/Variant.h"
-#include "../../core/Typedefs.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
 #include <vector>
 
 namespace Common {

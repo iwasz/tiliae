@@ -11,12 +11,12 @@
 
 #include <boost/make_shared.hpp>
 #include <cassert>
-#include "IEditor.h"
-#include "../factory/IFactory.h"
-#include "../core/variant/Variant.h"
-#include "../core/Pointer.h"
-#include "../core/Typedefs.h"
-#include "../core/ApiMacro.h"
+#include "editor/IEditor.h"
+#include "factory/IFactory.h"
+#include "core/variant/Variant.h"
+#include "core/Pointer.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
 
 namespace Editor {
 

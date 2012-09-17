@@ -13,9 +13,9 @@
 #include "Address.h"
 #include "Telephone.h"
 #include "Gender.h"
-#include "Reflection.h"
-#include "../core/string/String.h"
-#include "../core/ApiMacro.h"
+#include "reflection/Reflection.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 /**
  *  Firma

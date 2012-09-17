@@ -9,11 +9,11 @@
 #ifndef LAZY_EDITOR_H_
 #define LAZY_EDITOR_H_
 
-#include "IEditor.h"
-#include "../core/variant/Cast.h"
-#include "../core/Pointer.h"
-#include "../factory/IFactory.h"
-#include "../core/ApiMacro.h"
+#include "editor/IEditor.h"
+#include "core/variant/Cast.h"
+#include "core/Pointer.h"
+#include "factory/IFactory.h"
+#include "core/ApiMacro.h"
 
 namespace Editor {
 

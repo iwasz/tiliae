@@ -11,7 +11,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include "String.h"
-#include "Exception.h"
+#include "core/Exception.h"
 
 namespace Core {
 using namespace boost;

@@ -10,7 +10,7 @@
 #define DUMMYJEDITOR_H_
 
 #include <string>
-#include "JEditor.h"
+#include "editor/JEditor.h"
 
 /**
  * JEditor, ktory oczekuje Stringow i zwraca

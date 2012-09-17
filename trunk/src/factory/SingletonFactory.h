@@ -9,12 +9,12 @@
 #ifndef SINGLETONFACTORY_H_
 #define SINGLETONFACTORY_H_
 
-#include "IFactory.h"
+#include "factory/IFactory.h"
 #include <cassert>
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Factory {
 

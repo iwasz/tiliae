@@ -11,8 +11,8 @@
 #include <cassert>
 #include "Transition.h"
 #include "condition/ICondition.h"
-#include "../../core/string/String.h"
-#include "../../core/Pointer.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
 
 using namespace boost::lambda;
 

@@ -7,12 +7,12 @@
  ****************************************************************************/
 
 #include "MetaContainer.h"
-#include "common/Exceptions.h"
+#include "container/common/Exceptions.h"
 #include <boost/algorithm/string/trim.hpp>
-#include "StrUtil.h"
+#include "core/StrUtil.h"
 #include "data/ValueData.h"
 #include "data/RefData.h"
-#include "ScalarFactory.h"
+#include "factory/ScalarFactory.h"
 
 namespace Container {
 

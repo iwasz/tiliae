@@ -7,8 +7,8 @@
  ****************************************************************************/
 
 #include "K202Action.h"
-#include "../context/MachineContext.h"
-#include "../../k202/Script.h"
+#include "context/MachineContext.h"
+#include "k202/Script.h"
 
 namespace Machine {
 

@@ -6,7 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include <StringUtils.h>
+#include "common/StringUtils.h"
 #include <cassert>
 #include <boost/algorithm/string/trim.hpp>
 #include "Path.h"

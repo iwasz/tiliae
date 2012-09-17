@@ -8,8 +8,8 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include "../../core/DebugContext.h"
-#include "../../core/Exception.h"
+#include "core/DebugContext.h"
+#include "core/Exception.h"
 
 
 BOOST_AUTO_TEST_SUITE (ContextTest);

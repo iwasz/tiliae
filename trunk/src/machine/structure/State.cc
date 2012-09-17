@@ -10,7 +10,7 @@
 #include "State.h"
 #include "StateMachine.h"
 #include "Transition.h"
-#include "../Event.h"
+#include "Event.h"
 
 /**
  * TODO Substany nie są zaimplementowane i nie wiem do końca jak mają być zaimplementowane,

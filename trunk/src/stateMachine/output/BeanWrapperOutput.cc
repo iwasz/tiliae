@@ -8,7 +8,7 @@
 
 #include <cassert>
 #include "BeanWrapperOutput.h"
-#include "../../beanWrapper/IBeanWrapper.h"
+#include "beanWrapper/IBeanWrapper.h"
 
 namespace StateMachine {
 

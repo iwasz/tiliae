@@ -10,15 +10,15 @@
 #define TTEE_STATE_H_
 
 #include <memory>
-#include "Reflection.h"
+#include "reflection/Reflection.h"
 #include "Vertex.h"
 #include "Region.h"
 #include "ConnectionPointReference.h"
 #include "PseudoState.h"
 #include "IBehavior.h"
-#include "../core/string/String.h"
-#include "../core/ApiMacro.h"
-#include "../../core/Pointer.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
+#include "core/Pointer.h"
 
 namespace Machine {
 class StateMachine;

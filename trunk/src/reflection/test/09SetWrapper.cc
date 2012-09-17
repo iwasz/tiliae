@@ -11,10 +11,10 @@
 #include <boost/any.hpp>
 #include <vector>
 
-#include "../../core/Pointer.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../wrapper/MethodWrapper.h"
-#include "../wrapper/SetWrapper.h"
+#include "core/Pointer.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "reflection/wrapper/MethodWrapper.h"
+#include "reflection/wrapper/SetWrapper.h"
 
 /*##########################################################################*/
 

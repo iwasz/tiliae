@@ -8,14 +8,14 @@
 
 #include <cassert>
 #include <boost/make_shared.hpp>
-#include "path/ListPath.h"
-#include "BeanWrapper.h"
-#include "plugins/IBeanWrapperPlugin.h"
-#include "plugins/PropertyRWBeanWrapperPlugin.h"
-#include "plugins/GetPutMethodRWBeanWrapperPlugin.h"
-#include "plugins/MethodPlugin.h"
-#include "../../core/Exception.h"
-#include "../../core/DebugContext.h"
+#include "common/path/ListPath.h"
+#include "beanWrapper/BeanWrapper.h"
+#include "beanWrapper/plugins/IBeanWrapperPlugin.h"
+#include "beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
+#include "beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h"
+#include "beanWrapper/plugins/MethodPlugin.h"
+#include "core/Exception.h"
+#include "core/DebugContext.h"
 
 /****************************************************************************/
 

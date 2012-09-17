@@ -10,8 +10,8 @@
 #ifndef K202_FACTORIES_H_
 #define K202_FACTORIES_H_
 
-#include <Reflection.h>
-#include "../../factory/IFactory.h"
+#include "reflection/Reflection.h"
+#include "factory/IFactory.h"
 
 namespace k202 {
 

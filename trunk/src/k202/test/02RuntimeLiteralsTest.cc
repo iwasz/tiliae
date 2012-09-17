@@ -9,12 +9,12 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <cassert>
-#include "variant/Cast.h"
+#include "core/variant/Cast.h"
 #include "K202.h"
 #include "TestHelpers.h"
-#include "../../core/string/String.h"
-#include "../../core/Pointer.h"
-#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (RuntimeLiteralsTest02);
 using namespace k202;

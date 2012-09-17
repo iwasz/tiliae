@@ -8,9 +8,9 @@
 
 #include <boost/lexical_cast.hpp>
 #include "OrderedVariantMap.h"
-#include "../../core/Exception.h"
-#include "../../core/variant/Cast.h"
-#include "../../core/variant/Variant.h"
+#include "core/Exception.h"
+#include "core/variant/Cast.h"
+#include "core/variant/Variant.h"
 
 namespace Common {
 using namespace Core;
@@ -99,7 +99,7 @@ void OrderedVariantMap::remove (const std::string &key)
 
 /****************************************************************************/
 
-int OrderedVariantMap::size () const
+size_t OrderedVariantMap::size () const
 {
         return container.get <0> ().size ();
 }

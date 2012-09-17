@@ -9,10 +9,10 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
-#include "variant/Cast.h"
-#include "../Object.h"
+#include "core/variant/Cast.h"
+#include "core/Object.h"
 #include <boost/make_shared.hpp>
-#include "../../core/Typedefs.h"
+#include "core/Typedefs.h"
 
 BOOST_AUTO_TEST_SUITE (Variant07);
 

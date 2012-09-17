@@ -12,7 +12,7 @@
 #include <iostream> // Wywalić
 #include <boost/preprocessor.hpp> // TODO Zamienić na pojedyncze hedery
 #include <boost/current_function.hpp>
-#include "ApiMacro.h"
+#include "core/ApiMacro.h"
 
 /**
  * TODO Czy da się w klasie użyć jakiegoś magicznego makra w stylu __CLASS__,

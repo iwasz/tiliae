@@ -8,17 +8,16 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include <TestHelpers.h>
-
-#include "ScalarFactory.h"
-#include "../../testHelpers/Telephone.h"
-#include "../../testHelpers/City.h"
-#include "../../core/variant/Variant.h"
-#include "../ReflectionFactory.h"
-#include "../ChainFactory.h"
-#include "../LazyFactory.h"
+#include "testHelpers/TestHelpers.h"
+#include "factory/ScalarFactory.h"
+#include "testHelpers/Telephone.h"
+#include "testHelpers/City.h"
+#include "core/variant/Variant.h"
+#include "factory/ReflectionFactory.h"
+#include "factory/ChainFactory.h"
+#include "factory/LazyFactory.h"
 #include <boost/make_shared.hpp>
-#include "../../testHelpers/Bar.h"
+#include "testHelpers/Bar.h"
 
 BOOST_AUTO_TEST_SUITE (ChainFactoryTest04);
 using namespace Core;

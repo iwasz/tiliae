@@ -12,12 +12,12 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/make_shared.hpp>
 
-#include "variant/Cast.h"
-#include "../../core/Typedefs.h"
-#include "../../core/variant/Variant.h"
+#include "core/variant/Cast.h"
+#include "core/Typedefs.h"
+#include "core/variant/Variant.h"
 #include "ICallableWrapper.h"
-#include "../../core/Exception.h"
-#include "../../core/ApiMacro.h"
+#include "core/Exception.h"
+#include "core/ApiMacro.h"
 #include "WrapperCommons.h"
 
 namespace Reflection {

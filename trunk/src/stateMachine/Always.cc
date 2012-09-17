@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include "Always.h"
-#include "../core/Typedefs.h"
+#include "core/Typedefs.h"
 
 namespace StateMachine {
 

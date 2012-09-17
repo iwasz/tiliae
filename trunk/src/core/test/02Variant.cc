@@ -10,8 +10,8 @@
 #include <iostream>
 #include <string>
 
-#include "variant/Cast.h"
-#include "string/String.h"
+#include "core/variant/Cast.h"
+#include "core/string/String.h"
 
 BOOST_AUTO_TEST_SUITE (Variant02);
 

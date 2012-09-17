@@ -7,8 +7,8 @@
  ****************************************************************************/
 
 #include "MachineContext.h"
-#include "../../core/Typedefs.h"
-#include "../Exceptions.h"
+#include "core/Typedefs.h"
+#include "Exceptions.h"
 
 namespace Machine {
 

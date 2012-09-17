@@ -9,15 +9,14 @@
 #include <boost/test/unit_test.hpp>
 
 #include <iostream>
-#include <Pointer.h>
-#include <TestHelpers.h> // Z testHelpers
-#include <testHelpers/TestFactories.h> // Z factory
-
-#include "ContainerFactory.h"
-#include "metaStructure/model/MetaStructure.h"
-#include "common/testHelpers/ContainerTestFactory.h"
+#include "core/Pointer.h"
+#include "testHelpers/TestHelpers.h"
+#include "factory/testHelpers/TestFactories.h"
+#include "container/ContainerFactory.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/common/testHelpers/ContainerTestFactory.h"
 #include <boost/make_shared.hpp>
-#include "../../metaStructure/model/MetaFactory.h"
+#include "container/metaStructure/model/MetaFactory.h"
 
 /****************************************************************************/
 

@@ -10,13 +10,13 @@
 #include <boost/test/execution_monitor.hpp>
 
 #include <iostream>
-#include <Pointer.h>
-#include <TestHelpers.h>
+#include "core/Pointer.h"
+#include "testHelpers/TestHelpers.h"
 
-#include "ContainerFactory.h"
-#include "metaStructure/model/MetaStructure.h"
-#include "common/testHelpers/ContainerTestFactory.h"
-#include "../MXmlMetaService.h"
+#include "container/ContainerFactory.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/common/testHelpers/ContainerTestFactory.h"
+#include "container/inputFormat/mxml/MXmlMetaService.h"
 #include "Conf.h"
 
 /****************************************************************************/

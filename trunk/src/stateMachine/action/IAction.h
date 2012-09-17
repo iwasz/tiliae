@@ -10,8 +10,8 @@
 #define IACTION_H_
 
 #include "context/MachineContext.h"
-#include "../../reflection/reflectAnnotations/CollectionAnnotation.h"
-#include "../../core/ApiMacro.h"
+#include "reflection/reflectAnnotations/CollectionAnnotation.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

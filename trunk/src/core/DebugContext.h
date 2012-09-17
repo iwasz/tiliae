@@ -10,7 +10,7 @@
 #define CONTEXT_BW_H_
 
 #include <string>
-#include "../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 #include <vector>
 
 namespace Core {

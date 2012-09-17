@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include "Scope.h"
-#include "Manager.h"
+#include "reflection/Manager.h"
 
 namespace Signal {
 

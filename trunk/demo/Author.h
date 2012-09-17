@@ -12,8 +12,8 @@
 #include <string>
 #include <map>
 #include <string>
-#include "../src/reflection/Reflection.h"
-#include "../src/core/IToStringEnabled.h"
+#include "reflection/Reflection.h"
+#include "core/IToStringEnabled.h"
 #include "Filters.h"
 
 /**

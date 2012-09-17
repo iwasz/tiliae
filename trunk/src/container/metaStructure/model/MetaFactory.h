@@ -9,12 +9,12 @@
 #ifndef METAFACTORY_H_
 #define METAFACTORY_H_
 
-#include "allocator/ArrayRegionAllocator.h"
+#include "core/allocator/ArrayRegionAllocator.h"
 #include "MetaObject.h"
 #include "data/ValueData.h"
 #include "data/RefData.h"
 #include "data/NullData.h"
-#include "ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Container {
 

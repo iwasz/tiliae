@@ -10,9 +10,9 @@
 #include <iostream>
 #include <boost/any.hpp>
 
-#include "../../core/Pointer.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../wrapper/MethodWrapper.h"
+#include "core/Pointer.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "reflection/wrapper/MethodWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (CallableWrapper);
 

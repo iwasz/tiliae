@@ -9,20 +9,20 @@
 #ifndef BEANFACTORY_CONTAINER_H_
 #define BEANFACTORY_CONTAINER_H_
 
-#include "common/Exceptions.h"
-#include "common/Attributes.h"
-#include "string/String.h"
-#include "Pointer.h"
-#include "variant/Variant.h"
-#include "Typedefs.h"
-#include "IToStringEnabled.h"
-#include "ApiMacro.h"
-#include "StringFactoryMethodEditor.h"
-#include "TypeEditor.h"
-#include "StrUtil.h"
-#include "BeanFactory.h"
-#include "allocator/ArrayRegionAllocator.h"
-#include "../common/SparseVariantMap.h"
+#include "container/common/Exceptions.h"
+#include "container/common/Attributes.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/IToStringEnabled.h"
+#include "core/ApiMacro.h"
+#include "editor/StringFactoryMethodEditor.h"
+#include "editor/TypeEditor.h"
+#include "core/StrUtil.h"
+#include "container/beanFactory/BeanFactory.h"
+#include "core/allocator/ArrayRegionAllocator.h"
+#include "container/common/SparseVariantMap.h"
 
 namespace Container {
 class MetaContainer;

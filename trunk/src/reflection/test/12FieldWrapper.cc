@@ -11,9 +11,9 @@
 #include <boost/any.hpp>
 #include <vector>
 
-#include "../../core/Pointer.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../wrapper/FieldWrapper.h"
+#include "core/Pointer.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "reflection/wrapper/FieldWrapper.h"
 
 /*##########################################################################*/
 

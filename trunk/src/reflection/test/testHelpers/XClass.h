@@ -14,12 +14,12 @@
 #include <vector>
 #include <set>
 #include <stack>
-#include "annotations/Annotations.h"
-#include "reflectAnnotations/MethodAnnotation.h"
-#include "reflectAnnotations/FieldAnnotation.h"
-#include "reflectAnnotations/ConstructorAnnotation.h"
-#include "reflectAnnotations/FactoryMethodAnnotation.h"
-#include "reflectAnnotations/DefaultAnnotationMacros.h"
+#include "reflection/annotations/Annotations.h"
+#include "reflection/reflectAnnotations/MethodAnnotation.h"
+#include "reflection/reflectAnnotations/FieldAnnotation.h"
+#include "reflection/reflectAnnotations/ConstructorAnnotation.h"
+#include "reflection/reflectAnnotations/FactoryMethodAnnotation.h"
+#include "reflection/reflectAnnotations/DefaultAnnotationMacros.h"
 
 struct X0 {};
 

@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include "MachineContext.h"
-#include "../../core/Typedefs.h"
+#include "core/Typedefs.h"
 
 namespace StateMachine {
 

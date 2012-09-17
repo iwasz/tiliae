@@ -10,14 +10,15 @@
 #include <boost/test/execution_monitor.hpp>
 
 #include <iostream>
-#include <Pointer.h>
+#include "core/Pointer.h"
 
-#include "ContainerFactory.h"
-#include "metaStructure/model/MetaStructure.h"
-#include "common/testHelpers/ContainerTestFactory.h"
-#include "../CompactMetaService.h"
+#include "container/ContainerFactory.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/common/testHelpers/ContainerTestFactory.h"
+#include "container/inputFormat/compact/CompactMetaService.h"
 #include "Conf.h"
-#include <TestHelpers.h>
+#include "testHelpers/TestHelpers.h"
+#include "editor/ListToStringEditor.h"
 
 /****************************************************************************/
 

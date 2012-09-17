@@ -7,12 +7,11 @@
  ****************************************************************************/
 
 #include "Class.h"
-#include "Tools.h"
-#include "Exceptions.h"
-#include "Manager.h"
+#include "reflection/Tools.h"
+#include "reflection/Exceptions.h"
+#include "reflection/Manager.h"
 #include <algorithm>
-#include "../../core/Typedefs.h"
-#include "../Exceptions.h"
+#include "core/Typedefs.h"
 
 namespace Reflection {
 using namespace Core;
@@ -42,11 +41,11 @@ void Class::initBaseClasses ()
                 throw ManagerNotInitializedException ("For class name : " + name);
         }
 
-        foreach (std::string name, baseClassNames) {
-                Class *c = Manager::classForName (name);
+        for (Core::StringVector::iterator i = baseClassNames.begin (); i != baseClassNames.end (); ++i) {
+                Class *c = Manager::classForName (*i);
 
                 if (!c) {
-                        throw NoSuchBaseClassException (name);
+                        throw NoSuchBaseClassException (*i);
                 }
 
                 baseClassList.push_back (c);

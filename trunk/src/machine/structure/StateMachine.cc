@@ -9,7 +9,7 @@
 #include <cassert>
 #include <string>
 #include "StateMachine.h"
-#include "../Event.h"
+#include "Event.h"
 
 namespace Machine {
 using namespace Common;

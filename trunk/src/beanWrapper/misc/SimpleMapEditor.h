@@ -10,10 +10,10 @@
 #define SIMPLEMAPEDITOR_H_
 
 #include <string>
-#include "IEditor.h"
-#include "JEditor.h"
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "editor/IEditor.h"
+#include "editor/JEditor.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Wrapper {
 class BeanWrapper;

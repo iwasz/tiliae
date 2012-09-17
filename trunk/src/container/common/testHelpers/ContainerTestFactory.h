@@ -9,9 +9,9 @@
 #ifndef CONTAINERTESTFACTORY_H_
 #define CONTAINERTESTFACTORY_H_
 
-#include <Pointer.h>
-#include "ContainerFactory.h"
-#include "../../metaStructure/model/MetaFactory.h"
+#include "core/Pointer.h"
+#include "container/ContainerFactory.h"
+#include "container/metaStructure/model/MetaFactory.h"
 
 namespace Container {
 class MetaContainer;

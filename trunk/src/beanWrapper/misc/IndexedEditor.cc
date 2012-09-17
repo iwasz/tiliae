@@ -8,13 +8,13 @@
 
 #include "IndexedEditor.h"
 #include <cassert>
-#include "../core/Typedefs.h"
-#include "../core/variant/Cast.h"
-#include "../container/common/Exceptions.h"
-#include "../reflection/Manager.h"
-#include "../reflection/model/Method.h"
-#include "../reflection/model/Class.h"
-#include "../beanWrapper/beanWrapper/BeanWrapper.h"
+#include "core/Typedefs.h"
+#include "core/variant/Cast.h"
+#include "container/common/Exceptions.h"
+#include "reflection/Manager.h"
+#include "reflection/model/Method.h"
+#include "reflection/model/Class.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
 
 using Container::ContainerException;
 

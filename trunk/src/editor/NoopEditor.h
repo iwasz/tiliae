@@ -10,9 +10,9 @@
 #define NOOPEDITOR_H_
 
 #include <cassert>
-#include "IEditor.h"
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "editor/IEditor.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Editor {
 

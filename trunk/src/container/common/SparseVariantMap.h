@@ -11,8 +11,8 @@
 
 #include <hash_fun.h>
 #include <sparsehash/sparse_hash_map>
-#include "variant/Variant.h"
-#include "StrUtil.h"
+#include "core/variant/Variant.h"
+#include "core/StrUtil.h"
 
 namespace Container {
 

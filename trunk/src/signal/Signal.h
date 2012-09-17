@@ -181,7 +181,7 @@
  * jest kasowany).
  */
 
-#include "Manager.h"
+#include "reflection/Manager.h"
 #include "Helper.h"
 #include "Functions.h"
 #include "Listener.h"

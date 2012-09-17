@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include <boost/test/unit_test.hpp>
-#include "allocator/ArrayRegionAllocator.h"
+#include "core/allocator/ArrayRegionAllocator.h"
 
 BOOST_AUTO_TEST_SUITE (AllocatorTest10);
 

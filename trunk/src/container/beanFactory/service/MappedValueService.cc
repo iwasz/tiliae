@@ -7,11 +7,11 @@
  ****************************************************************************/
 
 #include "MappedValueService.h"
-#include "metaStructure/model/MetaStructure.h"
-#include "beanFactory/service/ValueServiceHelper.h"
-#include "../../../common/collection/OrderedVariantMap.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/beanFactory/service/ValueServiceHelper.h"
+#include "common/collection/OrderedVariantMap.h"
 #include <boost/make_shared.hpp>
-#include "StrUtil.h"
+#include "core/StrUtil.h"
 
 namespace Container {
 using namespace Core;

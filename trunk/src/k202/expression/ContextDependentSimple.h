@@ -12,8 +12,8 @@
 #include "ExpressionCollection.h"
 #include "IExpression.h"
 #include "NArryExpression.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/string/String.h"
 
 namespace k202 {
 

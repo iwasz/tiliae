@@ -11,8 +11,8 @@
 #define ICONDITION_H_
 
 #include "context/MachineContext.h"
-#include "../../core/Object.h"
-#include "../../core/ApiMacro.h"
+#include "core/Object.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

@@ -13,13 +13,13 @@
 #include <deque>
 #include <stack>
 #include <hash_fun.h>
-#include "common/Attributes.h"
-#include "Typedefs.h"
-#include "ApiMacro.h"
-#include "../interface/IDataVisitor.h"
-#include "../../metaStructure/model/data/IData.h"
-#include "../../common/Exceptions.h"
-#include "../../../core/StrUtil.h"
+#include "container/common/Attributes.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
+#include "container/metaStructure/interface/IDataVisitor.h"
+#include "container/metaStructure/model/data/IData.h"
+#include "container/common/Exceptions.h"
+#include "core/StrUtil.h"
 
 namespace Container {
 class MetaObject;

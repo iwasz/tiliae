@@ -9,9 +9,9 @@
 #ifndef TTE_LISTHELPER_H_
 #define TTE_LISTHELPER_H_
 
-#include "../core/string/String.h"
-#include "../core/Typedefs.h"
-#include "../core/ApiMacro.h"
+#include "core/string/String.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 

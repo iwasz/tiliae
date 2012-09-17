@@ -9,17 +9,17 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/make_shared.hpp>
 #include <iostream>
-#include "../../editor/LexicalEditor.h"
-#include "../misc/IndexedEditor.h"
-#include "../../core/Typedefs.h"
-#include "../beanWrapper/BeanWrapper.h"
+#include "editor/LexicalEditor.h"
+#include "beanWrapper/misc/IndexedEditor.h"
+#include "core/Typedefs.h"
+#include "beanWrapper/BeanWrapper.h"
 #include <vector>
-#include <Reflection.h>
-#include "../plugins/IBeanWrapperPlugin.h"
-#include "../plugins/PropertyRWBeanWrapperPlugin.h"
-#include "../plugins/GetPutMethodRWBeanWrapperPlugin.h"
-#include "../plugins/MethodPlugin.h"
-#include "../../testHelpers/City.h"
+#include "reflection/Reflection.h"
+#include "beanWrapper/plugins/IBeanWrapperPlugin.h"
+#include "beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
+#include "beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h"
+#include "beanWrapper/plugins/MethodPlugin.h"
+#include "testHelpers/City.h"
 
 /****************************************************************************/
 

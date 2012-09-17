@@ -9,9 +9,9 @@
 #ifndef SCALARFACTORY_H_
 #define SCALARFACTORY_H_
 
-#include "IFactory.h"
-#include "../core/Typedefs.h"
-#include "../core/ApiMacro.h"
+#include "factory/IFactory.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
 
 namespace Factory {
 

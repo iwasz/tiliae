@@ -10,11 +10,11 @@
 #define COUNTRY_920296_H
 
 #include <list>
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
-#include "Reflection.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "reflection/Reflection.h"
 #include <vector>
-#include "../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 /****************************************************************************/
 

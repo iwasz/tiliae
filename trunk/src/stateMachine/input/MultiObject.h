@@ -11,8 +11,8 @@
 
 #include "IObject.h"
 #include <map>
-#include "../../core/variant/Variant.h"
-#include "../../core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/string/String.h"
 
 namespace StateMachine {
 

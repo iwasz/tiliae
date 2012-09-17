@@ -10,10 +10,10 @@
 #define PROPERTYRWBEANWRAPPERPLUGIN_279553_H
 
 #include "IBeanWrapperPlugin.h"
-#include "../../core/Pointer.h"
-#include "../../core/variant/Variant.h"
-#include "../../common/path/IPath.h"
-#include "../../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/variant/Variant.h"
+#include "common/path/IPath.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 class Class;

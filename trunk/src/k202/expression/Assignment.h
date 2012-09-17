@@ -12,9 +12,9 @@
 #include "ExpressionCollection.h"
 #include "IExpression.h"
 #include "NArryExpression.h"
-#include "../../core/string/String.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/Pointer.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/Pointer.h"
 
 namespace k202 {
 

@@ -11,7 +11,7 @@
 
 #include <iosfwd>
 #include <string>
-#include "ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Core {
 

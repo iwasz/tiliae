@@ -9,7 +9,7 @@
 #ifndef MAPPEDVALUESERVICE_H_
 #define MAPPEDVALUESERVICE_H_
 
-#include "beanFactory/service/BeanFactoryService.h"
+#include "container/beanFactory/service/BeanFactoryService.h"
 
 namespace Common {
 class OrderedVariantMap;

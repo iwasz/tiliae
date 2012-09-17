@@ -9,7 +9,7 @@
 #ifndef FACTORYSERVICE_H_
 #define FACTORYSERVICE_H_
 
-#include "beanFactory/service/BeanFactoryService.h"
+#include "container/beanFactory/service/BeanFactoryService.h"
 
 namespace Editor {
 class IndexedEditor;

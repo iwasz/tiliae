@@ -9,8 +9,8 @@
 #ifndef EXCEPTIONS_H_
 #define EXCEPTIONS_H_
 
-#include "../../core/Exception.h"
-#include "../../core/ApiMacro.h"
+#include "core/Exception.h"
+#include "core/ApiMacro.h"
 
 namespace Container {
 

@@ -72,119 +72,95 @@ endif ()
 
 ENABLE_TESTING ()
 
+INCLUDE_DIRECTORIES (../src)
+
 ## --------------------------------------------------------
 ## Core
 ## --------------------------------------------------------
 IF(BUILD_CORE)
-
+    ADD_DEFINITIONS (-DBUILD_CORE)
     AUX_SOURCE_DIRECTORY (../src/core LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/core/variant LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/core/string LIB_SOURCES)
-    AUX_SOURCE_DIRECTORY (../src/core/allocator LIB_SOURCES)
-    
-    INCLUDE_DIRECTORIES (../src/core/)
-   
+    AUX_SOURCE_DIRECTORY (../src/core/allocator LIB_SOURCES)      
 ENDIF(BUILD_CORE)
 ## --------------------------------------------------------
 ## TestHelpers
 ## --------------------------------------------------------
 IF(BUILD_TEST_HELPERS AND BUILD_TESTS)
-
+    ADD_DEFINITIONS (-DBUILD_TEST_HELPERS)
     AUX_SOURCE_DIRECTORY (../src/testHelpers LIB_SOURCES)
-    INCLUDE_DIRECTORIES (../src/testHelpers)
-
 ENDIF()
 ## --------------------------------------------------------
 ## Common
 ## --------------------------------------------------------
 IF(BUILD_COMMON)
-
+    ADD_DEFINITIONS (-DBUILD_COMMON)
     AUX_SOURCE_DIRECTORY (../src/common/ LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/common/logger LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/common/path LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/common/collection LIB_SOURCES)
-    
-    INCLUDE_DIRECTORIES (../src/common/)
-
 ENDIF(BUILD_COMMON)
 ## --------------------------------------------------------
 ## Reflection
 ## --------------------------------------------------------
 IF(BUILD_REFLECTION)
-    
+    ADD_DEFINITIONS (-DBUILD_REFLECTION)
     AUX_SOURCE_DIRECTORY (../src/reflection/ LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/reflection/wrapper LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/reflection/annotations LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/reflection/visitor LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/reflection/reflectAnnotations LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/reflection/model LIB_SOURCES)
-    
-    INCLUDE_DIRECTORIES (../src/reflection)
-
 ENDIF(BUILD_REFLECTION)
 ## --------------------------------------------------------
 ## BeanWrapper
 ## --------------------------------------------------------
 IF(BUILD_BEAN_WRAPPER)
-    
+    ADD_DEFINITIONS (-DBUILD_BEAN_WRAPPER)    
     AUX_SOURCE_DIRECTORY (../src/beanWrapper LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/beanWrapper/beanWrapper LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/beanWrapper/plugins LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/beanWrapper/misc LIB_SOURCES)
-    
-    INCLUDE_DIRECTORIES (../src/beanWrapper) 
-    
 ENDIF(BUILD_BEAN_WRAPPER)
 ## --------------------------------------------------------
 ## Factory
 ## --------------------------------------------------------
 IF(BUILD_FACTORY)
-    
+    ADD_DEFINITIONS (-DBUILD_FACTORY)
     AUX_SOURCE_DIRECTORY (../src/factory LIB_SOURCES)   
-    
-    INCLUDE_DIRECTORIES (../src/factory)
-
 ENDIF(BUILD_FACTORY)
 ## --------------------------------------------------------
 ## Editor
 ## --------------------------------------------------------
 IF(BUILD_EDITOR)
-    
+    ADD_DEFINITIONS (-DBUILD_EDITOR)    
     AUX_SOURCE_DIRECTORY (../src/editor LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/editor/scalar LIB_SOURCES)
-    
-    INCLUDE_DIRECTORIES (../src/editor)
-    
 ENDIF(BUILD_EDITOR)
 ## --------------------------------------------------------
 ## K202 expression script
 ## --------------------------------------------------------
 IF(BUILD_K202)
-    
+    ADD_DEFINITIONS (-DBUILD_K202)        
     AUX_SOURCE_DIRECTORY (../src/k202 LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/k202/compiler LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/k202/expression LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/k202/misc LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/k202/extension LIB_SOURCES)
-    
-    INCLUDE_DIRECTORIES (../src/k202/)
-    
 ENDIF(BUILD_K202)
 ## --------------------------------------------------------
 ## Signal                  
 ## --------------------------------------------------------
 IF(BUILD_SIGNAL)
-    
+    ADD_DEFINITIONS (-DBUILD_SIGNAL)        
     AUX_SOURCE_DIRECTORY (../src/signal LIB_SOURCES)
-    
-    INCLUDE_DIRECTORIES (../src/signal/)
-    
 ENDIF(BUILD_SIGNAL)
 ## --------------------------------------------------------
 ## StateMachine
 ## --------------------------------------------------------
 IF(BUILD_STATE_MACHINE)
-    
+    ADD_DEFINITIONS (-DBUILD_STATE_MACHINE)
     AUX_SOURCE_DIRECTORY (../src/stateMachine/ LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/stateMachine/condition LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/stateMachine/extension LIB_SOURCES)
@@ -193,15 +169,12 @@ IF(BUILD_STATE_MACHINE)
     AUX_SOURCE_DIRECTORY (../src/stateMachine/action LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/stateMachine/context LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/stateMachine/transition LIB_SOURCES)
-    
-    INCLUDE_DIRECTORIES (../src/stateMachine)
-
 ENDIF(BUILD_STATE_MACHINE)
 ## --------------------------------------------------------
 ## container
 ## --------------------------------------------------------
 IF(BUILD_CONTAINER)
-
+    ADD_DEFINITIONS (-DBUILD_CONTAINER)
     AUX_SOURCE_DIRECTORY (../src/container LIB_SOURCES)
     
     AUX_SOURCE_DIRECTORY (../src/container/beanFactory LIB_SOURCES)
@@ -223,9 +196,6 @@ IF(BUILD_CONTAINER)
     AUX_SOURCE_DIRECTORY (../src/container/metaStructure/model/data LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/container/metaStructure/model/elem LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/container/metaStructure/model/meta LIB_SOURCES)
-  
-    INCLUDE_DIRECTORIES (../src/container)
-    
 ENDIF(BUILD_CONTAINER)
 
 ## --------------------------------------------------------
@@ -251,11 +221,14 @@ INSTALL (
 ## --------------------------------------------------------
 ## Testy.
 ## --------------------------------------------------------
+#ADD_DEFINITIONS (-DREFLECTION_ENABLED)
+
 IF(BUILD_CORE AND BUILD_TESTS)
 
     SET(SOURCES)
     AUX_SOURCE_DIRECTORY (../src/core/test SOURCES)
     add_executable (core_test ${SOURCES})
+    SET_TARGET_PROPERTIES (core_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     
     TARGET_LINK_LIBRARIES (core_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (core_test boost_prg_exec_monitor)
@@ -278,6 +251,7 @@ IF(BUILD_COMMON AND BUILD_TESTS)
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/common/test TEST_SOURCES)   
     add_executable (common_test ${TEST_SOURCES})
+    SET_TARGET_PROPERTIES (common_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     
     TARGET_LINK_LIBRARIES (common_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (common_test boost_prg_exec_monitor)
@@ -294,7 +268,7 @@ IF(BUILD_REFLECTION AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (../src/reflection/test/testHelpers TEST_SOURCES)
 
     add_executable (reflection_test ${TEST_SOURCES})
-    
+    SET_TARGET_PROPERTIES (reflection_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (reflection_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (reflection_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (reflection_test tiliae)
@@ -309,6 +283,7 @@ IF(BUILD_TOOLS AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (../src/tools/test TEST_SOURCES)
 
     add_executable (tools_test ${TEST_SOURCES})  
+    SET_TARGET_PROPERTIES (tools_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (tools_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (tools_test tiliae)
 
@@ -322,6 +297,7 @@ IF(BUILD_BEAN_WRAPPER AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (../src/beanWrapper/test TEST_SOURCES)
 
     add_executable (bwrap_test ${TEST_SOURCES})
+    SET_TARGET_PROPERTIES (bwrap_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (bwrap_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (bwrap_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (bwrap_test tiliae)
@@ -337,6 +313,7 @@ IF(BUILD_FACTORY AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (../src/factory/testHelpers TEST_SOURCES)
     
     add_executable (factory_test ${TEST_SOURCES})
+    SET_TARGET_PROPERTIES (factory_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (factory_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (factory_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (factory_test tiliae)
@@ -352,6 +329,7 @@ IF(BUILD_EDITOR AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (../src/editor/testHelpers TEST_SOURCES)
 
     add_executable (editor_test ${TEST_SOURCES})
+    SET_TARGET_PROPERTIES (editor_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (editor_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (editor_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (editor_test tiliae)
@@ -366,6 +344,7 @@ IF(BUILD_K202 AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (../src/k202/test TEST_SOURCES)
 
     add_executable (k202_test ${TEST_SOURCES})
+    SET_TARGET_PROPERTIES (k202_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (k202_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (k202_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (k202_test tiliae)
@@ -380,6 +359,7 @@ IF(BUILD_SIGNAL AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (../src/signal/test TEST_SOURCES)
 
     add_executable (signal_test ${TEST_SOURCES})
+    SET_TARGET_PROPERTIES (signal_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (signal_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (signal_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (signal_test tiliae)
@@ -394,6 +374,7 @@ IF(BUILD_STATE_MACHINE AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (../src/stateMachine/test TEST_SOURCES)
 
     add_executable (machine_test ${TEST_SOURCES})
+    SET_TARGET_PROPERTIES (machine_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (machine_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (machine_test boost_prg_exec_monitor)    
     TARGET_LINK_LIBRARIES (machine_test tiliae)
@@ -414,6 +395,7 @@ IF(BUILD_CONTAINER AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (../src/editor/testHelpers TEST_SOURCES)
      
     add_executable (container_test ${TEST_SOURCES})
+    SET_TARGET_PROPERTIES (container_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (container_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (container_test tiliae)
 
@@ -429,6 +411,7 @@ IF(BUILD_DEMO)
     AUX_SOURCE_DIRECTORY (../demo/ DEMO_SOURCES)
          
     add_executable (demo ${DEMO_SOURCES})
+    SET_TARGET_PROPERTIES (demo PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (demo boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (demo tiliae)
 

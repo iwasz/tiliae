@@ -9,10 +9,10 @@
 #include <boost/test/unit_test.hpp>
 #include "K202.h"
 #include "TestHelpers.h"
-#include "../../testHelpers/Bar.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/string/String.h"
-#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
+#include "testHelpers/Bar.h"
+#include "core/variant/Variant.h"
+#include "core/string/String.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (FunctionTest);
 using namespace k202;

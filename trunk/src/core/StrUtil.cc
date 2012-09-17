@@ -6,7 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include "StrUtil.h"
+#include "core/StrUtil.h"
 
 int strcmpNull (const char *a, const char *b)
 {

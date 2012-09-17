@@ -9,12 +9,12 @@
 #include <boost/test/unit_test.hpp>
 #include "K202.h"
 #include "TestHelpers.h"
-#include "../extension/CacheExtension.h"
-#include "../../core/variant/Variant.h"
-#include "../../testHelpers/Address.h"
-#include "../../testHelpers/City.h"
-#include "../../testHelpers/Country.h"
-#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
+#include "extension/CacheExtension.h"
+#include "core/variant/Variant.h"
+#include "testHelpers/Address.h"
+#include "testHelpers/City.h"
+#include "testHelpers/Country.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (ContextDepTest06);
 using namespace k202;

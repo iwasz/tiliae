@@ -11,7 +11,7 @@
 
 #include <cstring>
 #include <string>
-#include "ApiMacro.h"
+#include "core/ApiMacro.h"
 
 inline std::string toStr (const char *s)
 {

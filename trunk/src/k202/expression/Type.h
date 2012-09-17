@@ -10,8 +10,8 @@
 #define ITYPE_H_
 
 #include <typeinfo>
-#include "../../core/variant/Variant.h"
-#include "../../core/variant/Cast.h"
+#include "core/variant/Variant.h"
+#include "core/variant/Cast.h"
 
 namespace k202 {
 

@@ -9,10 +9,10 @@
 #include <iostream>
 #include <boost/lexical_cast.hpp>
 #include "AnnotationManager.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../wrapper/FieldWrapper.h"
-#include "../reflectAnnotations/MethodAnnotation.h"
-#include "../reflectAnnotations/FieldAnnotation.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "reflection/wrapper/FieldWrapper.h"
+#include "reflection/reflectAnnotations/MethodAnnotation.h"
+#include "reflection/reflectAnnotations/FieldAnnotation.h"
 
 namespace Annotations {
 

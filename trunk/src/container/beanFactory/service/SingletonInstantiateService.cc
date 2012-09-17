@@ -7,9 +7,9 @@
  ****************************************************************************/
 
 #include "SingletonInstantiateService.h"
-#include "metaStructure/model/MetaStructure.h"
+#include "container/metaStructure/model/MetaStructure.h"
 #include <cassert>
-#include "../BeanFactoryContext.h"
+#include "container/beanFactory/BeanFactoryContext.h"
 
 namespace Container {
 

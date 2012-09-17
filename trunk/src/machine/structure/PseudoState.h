@@ -11,7 +11,7 @@
 
 #include <vector>
 #include "Vertex.h"
-#include "../../core/Pointer.h"
+#include "core/Pointer.h"
 
 namespace Machine {
 

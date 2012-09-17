@@ -9,7 +9,7 @@
 #ifndef IIDGENERATOR_H_
 #define IIDGENERATOR_H_
 
-#include "../../../core/string/String.h"
+#include "core/string/String.h"
 
 namespace Container {
 class MetaObject;

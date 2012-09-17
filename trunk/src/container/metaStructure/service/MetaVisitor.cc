@@ -8,9 +8,9 @@
 
 #include "MetaVisitor.h"
 #include "VisitorContext.h"
-#include "../../../core/Typedefs.h"
-#include "../../metaStructure/model/data/IData.h"
-#include "../../metaStructure/model/MetaObject.h"
+#include "core/Typedefs.h"
+#include "container/metaStructure/model/data/IData.h"
+#include "container/metaStructure/model/MetaObject.h"
 
 namespace Container {
 

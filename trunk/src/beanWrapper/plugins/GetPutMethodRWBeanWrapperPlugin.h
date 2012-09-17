@@ -9,9 +9,9 @@
 #ifndef GETPUTMETHODRWBEANWRAPPERPLUGIN_498_H
 #define GETPUTMETHODRWBEANWRAPPERPLUGIN_498_H
 
-#include <Reflection.h>
+#include "reflection/Reflection.h"
 #include "IBeanWrapperPlugin.h"
-#include "../../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Wrapper {
 

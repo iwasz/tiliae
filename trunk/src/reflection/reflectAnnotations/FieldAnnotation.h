@@ -9,9 +9,9 @@
 #ifndef FIELD_ANNOTATION_H_
 #define FIELD_ANNOTATION_H_
 
-#include "../visitor/IReflectionVisitor.h"
-#include "../../core/ApiMacro.h"
-#include "../wrapper/FieldWrapper.h"
+#include "reflection/visitor/IReflectionVisitor.h"
+#include "core/ApiMacro.h"
+#include "reflection/wrapper/FieldWrapper.h"
 #include "IReflectionAnnotation.h"
 
 namespace Reflection {

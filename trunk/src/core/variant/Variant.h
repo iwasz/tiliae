@@ -14,8 +14,8 @@
 #include <boost/make_shared.hpp>
 #include <string> // toString
 
-#include "Object.h"
-#include "ApiMacro.h"
+#include "core/Object.h"
+#include "core/ApiMacro.h"
 
 namespace Core {
 class String;

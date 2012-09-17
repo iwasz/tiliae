@@ -9,13 +9,13 @@
 #ifndef K202_H_
 #define K202_H_
 
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
 #include "Context.h"
 #include "extension/IExtension.h"
-#include "Reflection.h"
-#include "../beanWrapper/IBeanWrapper.h"
+#include "reflection/Reflection.h"
+#include "beanWrapper/IBeanWrapper.h"
 
 namespace k202 {
 

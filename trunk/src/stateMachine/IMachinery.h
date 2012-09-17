@@ -11,8 +11,8 @@
 
 #include "context/MachineContext.h"
 #include <list>
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

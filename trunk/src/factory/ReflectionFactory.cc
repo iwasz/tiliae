@@ -8,13 +8,13 @@
 
 #include <cassert>
 #include "ReflectionFactory.h"
-#include "../core/string/String.h"
-#include "../core/Typedefs.h"
-#include "../core/variant/Cast.h"
-#include "../reflection/model/Constructor.h"
-#include "../reflection/model/Class.h"
-#include "../reflection/Manager.h"
-#include "../core/DebugContext.h"
+#include "core/string/String.h"
+#include "core/Typedefs.h"
+#include "core/variant/Cast.h"
+#include "reflection/model/Constructor.h"
+#include "reflection/model/Class.h"
+#include "reflection/Manager.h"
+#include "core/DebugContext.h"
 
 namespace Factory {
 using namespace Core;

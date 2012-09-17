@@ -8,8 +8,8 @@
 
 #ifndef STRINGFACTORYMETHODEDITOR_H_
 #define STRINGFACTORYMETHODEDITOR_H_
-#include "IEditor.h"
-#include "../core/ApiMacro.h"
+#include "editor/IEditor.h"
+#include "core/ApiMacro.h"
 
 namespace Editor {
 

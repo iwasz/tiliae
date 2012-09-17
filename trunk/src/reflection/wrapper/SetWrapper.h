@@ -15,11 +15,11 @@
 #include <map>
 #include <set>
 
-#include "../../core/variant/Variant.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../../core/Typedefs.h"
+#include "core/variant/Variant.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "core/Typedefs.h"
 #include "WrapperCommons.h"
-#include "../../core/variant/Cast.h"
+#include "core/variant/Cast.h"
 
 namespace Reflection {
 

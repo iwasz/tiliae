@@ -10,8 +10,8 @@
 #define BEANWRAPPEROUTPUT_H_
 
 #include "IOutput.h"
-#include "../../core/Pointer.h"
-#include "../../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Wrapper {
 class IBeanWrapper;

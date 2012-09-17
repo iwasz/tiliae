@@ -11,10 +11,9 @@
 
 #include <map>
 #include <string>
-#include "K202.h"
-#include "../core/Exception.h"
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
+#include "core/Exception.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
 
 namespace Signal {
 class IListener;

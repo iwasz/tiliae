@@ -12,11 +12,11 @@
 #include "action/IAction.h"
 #include "context/MachineContext.h"
 #include "transition/Transition.h"
-#include "Reflection.h"
-#include "../core/Pointer.h"
+#include "reflection/Reflection.h"
+#include "core/Pointer.h"
 #include <map>
 #include <list>
-#include "../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

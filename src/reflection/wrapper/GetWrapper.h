@@ -15,9 +15,9 @@
 #include <map>
 #include <set>
 
-#include "../../core/variant/Variant.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../../core/Typedefs.h"
+#include "core/variant/Variant.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "core/Typedefs.h"
 #include "WrapperCommons.h"
 
 namespace Reflection {

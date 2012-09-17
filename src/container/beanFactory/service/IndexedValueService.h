@@ -9,7 +9,7 @@
 #ifndef INDEXEDVALUESERVICE_H_
 #define INDEXEDVALUESERVICE_H_
 
-#include "beanFactory/service/BeanFactoryService.h"
+#include "container/beanFactory/service/BeanFactoryService.h"
 
 namespace Container {
 class MetaObject;

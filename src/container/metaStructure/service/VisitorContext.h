@@ -9,7 +9,7 @@
 #ifndef VISITORCONTEXT_H_
 #define VISITORCONTEXT_H_
 
-#include "../../../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Container {
 class MetaContainer;

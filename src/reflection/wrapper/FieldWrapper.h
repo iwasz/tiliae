@@ -9,7 +9,7 @@
 #ifndef FIELDWRAPPER_H_
 #define FIELDWRAPPER_H_
 
-#include "variant/Cast.h"
+#include "core/variant/Cast.h"
 
 namespace Reflection {
 

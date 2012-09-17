@@ -9,8 +9,8 @@
 #ifndef CHAINOFRESPONSIBILITYEDITOR_H_
 #define CHAINOFRESPONSIBILITYEDITOR_H_
 
-#include "IEditor.h"
-#include "../core/ApiMacro.h"
+#include "editor/IEditor.h"
+#include "core/ApiMacro.h"
 
 namespace Editor {
 

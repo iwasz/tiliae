@@ -16,9 +16,9 @@
 #include "IBehavior.h"
 #include "Trigger.h"
 #include "context/MachineContext.h"
-#include "../../core/Pointer.h"
-#include "../../core/string/String.h"
-#include "../../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace Machine {
 class Vertex;

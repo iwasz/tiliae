@@ -8,21 +8,21 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include "../beanWrapper/BeanWrapper.h"
-#include "../../core/Pointer.h"
-#include "../../testHelpers/Country.h"
-#include "../../testHelpers/City.h"
-#include "../../testHelpers/Address.h"
-#include "../../core/variant/Variant.h"
-#include "../plugins/PropertyRWBeanWrapperPlugin.h"
-#include "../../core/DebugContext.h"
-#include "../../editor/LexicalEditor.h"
-#include "../../editor/TypeEditor.h"
-#include "../../editor/NoopEditor.h"
-#include "../../testHelpers/Foo.h"
-#include "../../editor/ChainEditor.h"
-#include "../../editor/StringConstructorEditor.h"
-#include "../../editor/StringFactoryMethodEditor.h"
+#include "beanWrapper/BeanWrapper.h"
+#include "core/Pointer.h"
+#include "testHelpers/Country.h"
+#include "testHelpers/City.h"
+#include "testHelpers/Address.h"
+#include "core/variant/Variant.h"
+#include "beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
+#include "core/DebugContext.h"
+#include "editor/LexicalEditor.h"
+#include "editor/TypeEditor.h"
+#include "editor/NoopEditor.h"
+#include "testHelpers/Foo.h"
+#include "editor/ChainEditor.h"
+#include "editor/StringConstructorEditor.h"
+#include "editor/StringFactoryMethodEditor.h"
 
 using Editor::ChainEditor;
 

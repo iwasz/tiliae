@@ -11,11 +11,11 @@
 
 #include <algorithm>
 #include <iterator>
-#include "IFactory.h"
-#include "../core/Pointer.h"
-#include "../core/Typedefs.h"
-#include "../core/variant/Variant.h"
-#include "../core/ApiMacro.h"
+#include "factory/IFactory.h"
+#include "core/Pointer.h"
+#include "core/Typedefs.h"
+#include "core/variant/Variant.h"
+#include "core/ApiMacro.h"
 
 namespace Factory {
 

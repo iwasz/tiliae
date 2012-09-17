@@ -7,10 +7,10 @@
  ****************************************************************************/
 
 #include "SimpleMapEditor.h"
-#include "../beanWrapper/beanWrapper/BeanWrapper.h"
-#include "../core/Typedefs.h"
-#include "../core/variant/Cast.h"
-#include "../common/collection/OrderedVariantMap.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
+#include "core/Typedefs.h"
+#include "core/variant/Cast.h"
+#include "common/collection/OrderedVariantMap.h"
 
 namespace Editor {
 using namespace Core;

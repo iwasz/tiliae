@@ -9,14 +9,14 @@
 #ifndef METHOD_ANNOTATION_H_
 #define METHOD_ANNOTATION_H_
 
-#include "../visitor/IReflectionVisitor.h"
+#include "reflection/visitor/IReflectionVisitor.h"
 #include "IReflectionAnnotation.h"
-#include "../../core/string/String.h"
-#include "../../core/ApiMacro.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../wrapper/MethodWrapper.h"
-#include "../wrapper/SetterWrapper.h"
-#include "../../core/Pointer.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "reflection/wrapper/MethodWrapper.h"
+#include "reflection/wrapper/SetterWrapper.h"
+#include "core/Pointer.h"
 
 namespace Reflection {
 

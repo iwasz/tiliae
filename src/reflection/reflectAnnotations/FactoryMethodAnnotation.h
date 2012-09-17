@@ -9,8 +9,8 @@
 #ifndef FACTORY_METHODANNOTATION_H_
 #define FACTORY_METHODANNOTATION_H_
 
-#include "Manager.h"
-#include "../annotations/Macros.h"
+#include "reflection/Manager.h"
+#include "reflection/annotations/Macros.h"
 
 /**
  * Wymaga, aby klasa miała metodę:

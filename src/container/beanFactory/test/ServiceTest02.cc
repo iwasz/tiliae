@@ -11,29 +11,29 @@
 //#include <boost/test/unit_test.hpp>
 //#include <boost/make_shared.hpp>
 //#include <iostream>
-//#include <Pointer.h>
-//#include <TestHelpers.h>
+//#include "core/Pointer.h"
+//#include "testHelpers/TestHelpers.h"
 //#include <BeanWrapper.h>
 //#include <NoopEditor.h>
 //#include <SimpleMapEditor.h>
 //#include <IndexedEditor.h>
 //
-//#include "metaStructure/model/MetaStructure.h"
-//#include "common/testHelpers/ContainerTestFactory.h"
-//#include "beanFactory/service/BeanFactoryService.h"
-//#include "metaStructure/service/PrintService.h"
-//#include "metaStructure/service/MetaVisitor.h"
-//#include "metaStructure/service/ParentService.h"
-//#include "beanFactory/factory/ServiceFactory.h"
-//#include "beanFactory/service/ValueServiceHelper.h"
+//#include "container/metaStructure/model/MetaStructure.h"
+//#include "container/common/testHelpers/ContainerTestFactory.h"
+//#include "container/beanFactory/service/BeanFactoryService.h"
+//#include "container/metaStructure/service/PrintService.h"
+//#include "container/metaStructure/service/MetaVisitor.h"
+//#include "container/metaStructure/service/ParentService.h"
+//#include "container/beanFactory/factory/ServiceFactory.h"
+//#include "container/beanFactory/service/ValueServiceHelper.h"
 //#include "common/OrderedVariantMap.h"
-//#include "beanFactory/service/EditorService.h"
-//#include "Defs.h"
-//#include "beanFactory/service/BeanFactoryInitService.h"
-//#include "beanFactory/service/MappedValueService.h"
-//#include "beanFactory/service/IndexedValueService.h"
-//#include "beanFactory/service/BeanStackUpdateService.h"
-//#include "beanFactory/service/ListEditorService.h"
+//#include "container/beanFactory/service/EditorService.h"
+//#include "container/Defs.h"
+//#include "container/beanFactory/service/BeanFactoryInitService.h"
+//#include "container/beanFactory/service/MappedValueService.h"
+//#include "container/beanFactory/service/IndexedValueService.h"
+//#include "container/beanFactory/service/BeanStackUpdateService.h"
+//#include "container/beanFactory/service/ListEditorService.h"
 //
 ///****************************************************************************/
 //

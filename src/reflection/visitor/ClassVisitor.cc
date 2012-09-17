@@ -8,12 +8,12 @@
 
 #include <boost/make_shared.hpp>
 #include "ClassVisitor.h"
-#include "reflectAnnotations/BaseClassAnnotation.h"
-#include "reflectAnnotations/ConstructorAnnotation.h"
-#include "reflectAnnotations/MethodAnnotation.h"
-#include "reflectAnnotations/ClassAnnotation.h"
-#include "reflectAnnotations/FieldAnnotation.h"
-#include "model/Class.h"
+#include "reflection/reflectAnnotations/BaseClassAnnotation.h"
+#include "reflection/reflectAnnotations/ConstructorAnnotation.h"
+#include "reflection/reflectAnnotations/MethodAnnotation.h"
+#include "reflection/reflectAnnotations/ClassAnnotation.h"
+#include "reflection/reflectAnnotations/FieldAnnotation.h"
+#include "reflection/model/Class.h"
 
 namespace Reflection {
 using namespace Core;

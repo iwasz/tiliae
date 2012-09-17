@@ -9,7 +9,7 @@
 #ifndef EDITORSERVICE_H_
 #define EDITORSERVICE_H_
 
-#include "beanFactory/service/BeanFactoryService.h"
+#include "container/beanFactory/service/BeanFactoryService.h"
 #include "BFIndexedEditor.h"
 
 namespace Wrapper {

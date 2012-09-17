@@ -8,8 +8,8 @@
 
 #include <iostream>
 #include "BeanFactoryService.h"
-#include "metaStructure/model/MetaStructure.h"
-#include "beanFactory/service/ValueServiceHelper.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/beanFactory/service/ValueServiceHelper.h"
 
 namespace Container {
 

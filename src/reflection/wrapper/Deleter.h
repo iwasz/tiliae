@@ -9,8 +9,8 @@
 #ifndef PTRDELETER_H_
 #define PTRDELETER_H_
 
-#include "variant/Variant.h"
-#include "variant/Cast.h"
+#include "core/variant/Variant.h"
+#include "core/variant/Cast.h"
 
 namespace Reflection {
 

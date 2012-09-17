@@ -9,8 +9,8 @@
 #ifndef IOUTPUT_H_
 #define IOUTPUT_H_
 
-#include "../IMachinery.h"
-#include "../../core/ApiMacro.h"
+#include "IMachinery.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

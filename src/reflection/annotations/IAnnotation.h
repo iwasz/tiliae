@@ -15,7 +15,7 @@
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/mem_fun.hpp>
 #include <boost/multi_index/sequenced_index.hpp>
-#include "../../core/IToStringEnabled.h"
+#include "core/IToStringEnabled.h"
 
 namespace Annotations {
 

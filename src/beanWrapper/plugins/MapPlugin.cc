@@ -7,11 +7,11 @@
 // ****************************************************************************/
 //
 //#include "MapPlugin.h"
-//#include "path/ListPath.h"
+//#include "common/path/ListPath.h"
 //#include "BeanWrapperTool.h"
-//#include "../../core/variant/Variant.h"
-//#include "../../common/path/IPath.h"
-//#include "../Context.h"
+//#include "core/variant/Variant.h"
+//#include "common/path/IPath.h"
+//#include "Context.h"
 //#include <cassert>
 //
 ///****************************************************************************/

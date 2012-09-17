@@ -8,7 +8,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include "string/String.h"
+#include "core/string/String.h"
 
 BOOST_AUTO_TEST_SUITE (StringTest08);
 

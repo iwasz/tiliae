@@ -17,6 +17,6 @@
 #include "IBeanWrapper.h"
 #include "IPropertyAccessor.h"
 #include "beanWrapper/BeanWrapper.h"
-#include "plugins/Plugins.h"
+#include "beanWrapper/plugins/Plugins.h"
 
 #	endif /* BEANWRAPPER_H_ */

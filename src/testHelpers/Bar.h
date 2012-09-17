@@ -12,13 +12,13 @@
 #include <list>
 #include <map>
 #include "City.h"
-#include "Reflection.h"
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
-#include "../core/variant/Variant.h"
-#include "../core/Exception.h"
+#include "reflection/Reflection.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/variant/Variant.h"
+#include "core/Exception.h"
 #include <vector>
-#include "../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 /****************************************************************************/
 

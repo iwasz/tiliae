@@ -9,7 +9,7 @@
 #ifndef IREFLECTIONVISITOR_H_
 #define IREFLECTIONVISITOR_H_
 
-#include "../../core/variant/Variant.h"
+#include "core/variant/Variant.h"
 
 namespace Reflection {
 class BaseClassAnnotation;

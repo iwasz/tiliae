@@ -15,7 +15,7 @@
 #include "standardTypes/String.h"
 #include "standardTypes/VariantList.h"
 #include "Variant.h"
-#include "Pointer.h"
+#include "core/Pointer.h"
 #include <map>
 #include <vector>
 

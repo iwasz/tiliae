@@ -8,12 +8,12 @@
 
 #include <cassert>
 #include "GetPutMethodRWBeanWrapperPlugin.h"
-#include "IPropertyAccessor.h"
-#include "path/Path.h"
-#include "../../reflection/Manager.h"
-#include "../../core/DebugContext.h"
-#include "../../beanWrapper/IBeanWrapper.h"
-#include "../beanWrapper/BeanWrapper.h"
+#include "beanWrapper/IPropertyAccessor.h"
+#include "common/path/Path.h"
+#include "reflection/Manager.h"
+#include "core/DebugContext.h"
+#include "beanWrapper/IBeanWrapper.h"
+#include "beanWrapper/BeanWrapper.h"
 
 /****************************************************************************/
 

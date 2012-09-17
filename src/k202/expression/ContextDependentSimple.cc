@@ -9,9 +9,9 @@
 #include <cassert>
 #include <boost/lexical_cast.hpp>
 #include "ContextDependentSimple.h"
-#include "../Context.h"
-#include "../../core/string/String.h"
-#include "../../core/Typedefs.h"
+#include "Context.h"
+#include "core/string/String.h"
+#include "core/Typedefs.h"
 
 namespace k202 {
 

@@ -9,10 +9,10 @@
 #ifndef SCRIPT_H_
 #define SCRIPT_H_
 
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
 
 namespace k202 {
 

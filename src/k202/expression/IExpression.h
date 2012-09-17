@@ -10,8 +10,8 @@
 #define IEXPRESSION_H_
 
 #include "Type.h"
-#include "../../core/IToStringEnabled.h"
-#include "../../core/variant/Variant.h"
+#include "core/IToStringEnabled.h"
+#include "core/variant/Variant.h"
 
 namespace k202 {
 

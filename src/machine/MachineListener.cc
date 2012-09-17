@@ -8,8 +8,8 @@
 //
 //#include "MachineListener.h"
 //#include "Machine.h"
-//#include "../signal/Manager.h"
-//#include "../core/Typedefs.h"
+//#include "signal/Manager.h"
+//#include "core/Typedefs.h"
 //
 //namespace Machine {
 //

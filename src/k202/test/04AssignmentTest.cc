@@ -10,7 +10,7 @@
 #include "K202.h"
 #include "TestHelpers.h"
 #include <cassert>
-#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (AssignmentTest04);
 using namespace k202;

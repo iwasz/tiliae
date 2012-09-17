@@ -10,8 +10,8 @@
 #define K202EXECUTOR_H_
 
 #include <K202.h>
-#include <Reflection.h>
-#include "../../core/ApiMacro.h"
+#include "reflection/Reflection.h"
+#include "core/ApiMacro.h"
 
 namespace k202 {
 

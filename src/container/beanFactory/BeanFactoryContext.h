@@ -9,7 +9,7 @@
 #ifndef BEANFACTORYCONTEXT_H_
 #define BEANFACTORYCONTEXT_H_
 
-#include "../../core/DebugContext.h"
+#include "core/DebugContext.h"
 
 namespace Container {
 

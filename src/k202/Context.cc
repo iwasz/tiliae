@@ -10,9 +10,9 @@
 #include <boost/lexical_cast.hpp>
 #include "Context.h"
 #include "Exceptions.h"
-#include "../core/variant/Cast.h"
-#include "../beanWrapper/IBeanWrapper.h"
-#include "../beanWrapper/plugins/MethodPlugin.h"
+#include "core/variant/Cast.h"
+#include "beanWrapper/IBeanWrapper.h"
+#include "beanWrapper/plugins/MethodPlugin.h"
 
 namespace k202 {
 

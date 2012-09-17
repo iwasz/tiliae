@@ -9,8 +9,8 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
-#include "variant/Cast.h"
-#include "../Object.h"
+#include "core/variant/Cast.h"
+#include "core/Object.h"
 
 BOOST_AUTO_TEST_SUITE (CanCast06);
 

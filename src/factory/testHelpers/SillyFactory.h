@@ -9,9 +9,9 @@
 #ifndef SILLYFACTORY_H_
 #define SILLYFACTORY_H_
 
-#include "IFactory.h"
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
+#include "factory/IFactory.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
 
 namespace Factory {
 

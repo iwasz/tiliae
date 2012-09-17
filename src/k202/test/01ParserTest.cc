@@ -14,7 +14,7 @@
 #include <cassert>
 #include "compiler/Compiler.h"
 #include "TestHelpers.h"
-#include "../extension/CacheExtension.h"
+#include "extension/CacheExtension.h"
 
 BOOST_AUTO_TEST_SUITE (ParserTest01);
 using namespace k202;

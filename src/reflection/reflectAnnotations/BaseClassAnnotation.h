@@ -10,12 +10,12 @@
 #define BASE_CLASS_ANNOTATION_H_
 
 #include "IReflectionAnnotation.h"
-#include "ListHelper.h"
-#include "../visitor/IReflectionVisitor.h"
-#include "../../core/Typedefs.h"
-#include "../../core/string/String.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/ApiMacro.h"
+#include "reflection/ListHelper.h"
+#include "reflection/visitor/IReflectionVisitor.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 

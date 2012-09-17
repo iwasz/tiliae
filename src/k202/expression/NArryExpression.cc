@@ -8,7 +8,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include "NArryExpression.h"
-#include "../Exceptions.h"
+#include "Exceptions.h"
 
 namespace k202 {
 

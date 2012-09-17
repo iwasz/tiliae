@@ -7,12 +7,12 @@
  ****************************************************************************/
 
 #include "K202Factory.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/Typedefs.h"
-#include "../../testHelpers/City.h"
-#include "../../core/ApiMacro.h"
-#include "../K202.h"
-#include "../compiler/Compiler.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "testHelpers/City.h"
+#include "core/ApiMacro.h"
+#include "K202.h"
+#include "compiler/Compiler.h"
 
 namespace k202 {
 

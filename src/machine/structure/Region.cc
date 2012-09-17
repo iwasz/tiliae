@@ -8,7 +8,7 @@
 
 #include "Region.h"
 #include "State.h"
-#include "../Event.h"
+#include "Event.h"
 
 namespace Machine {
 

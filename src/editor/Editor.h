@@ -15,16 +15,15 @@
  * Opis.
  */
 
-#include "IEditor.h"
-//#include "mappedEditor/MappedEditor.h"
-#include "JEditor.h"
-#include "ListToStringEditor.h"
-//#include "ChainOfResponsibilityEditor.h"
-#include "NoopEditor.h"
-#include "Editor.h"
 #include "ChainEditor.h"
 #include "FactoryEditor.h"
-#include "ChainEditor.h"
+#include "LazyEditor.h"
+#include "LexicalEditor.h"
+#include "ListToStringEditor.h"
+#include "NoopEditor.h"
 #include "StreamEditor.h"
+#include "StringConstructorEditor.h"
+#include "StringFactoryMethodEditor.h"
+#include "TypeEditor.h"
 
 #endif /* EDITOR_H_ */

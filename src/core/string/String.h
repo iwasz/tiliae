@@ -21,7 +21,7 @@
 #include <stdint.h>
 
 #include "utf8.h"
-#include "../ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Core {
 

@@ -9,10 +9,10 @@
 #ifndef PLACESS_100408_H
 #define PLACESS_100408_H
 
-#include "Reflection.h"
-#include "../core/string/String.h"
-#include "../core/variant/Variant.h"
-#include "../core/ApiMacro.h"
+#include "reflection/Reflection.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/ApiMacro.h"
 
 /**
  * Klasa bazowa dla adresu : do testów.

@@ -10,9 +10,9 @@
 #define IDATA_H_
 
 #include <vector>
-#include "metaStructure/interface/IDataVisitor.h"
-#include "../../../../core/string/String.h"
-#include "../../../../core/ApiMacro.h"
+#include "container/metaStructure/interface/IDataVisitor.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace Container {
 class DataKey;

@@ -9,11 +9,11 @@
 #ifndef INDEXEDEDITOR_H_
 #define INDEXEDEDITOR_H_
 
-#include "IEditor.h"
-#include "JEditor.h"
+#include "editor/IEditor.h"
+#include "editor/JEditor.h"
 #include <map>
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Wrapper {
 class BeanWrapper;

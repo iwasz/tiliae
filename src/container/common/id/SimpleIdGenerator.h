@@ -10,7 +10,7 @@
 #define SIMPLEIDGENERATOR_H_
 
 #include "IIdGenerator.h"
-#include "../../../core/string/String.h"
+#include "core/string/String.h"
 
 namespace Container {
 

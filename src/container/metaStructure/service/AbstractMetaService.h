@@ -9,8 +9,8 @@
 #ifndef ABSTRACTMETASERVICE_H_
 #define ABSTRACTMETASERVICE_H_
 
-#include "metaStructure/interface/IMetaService.h"
-#include "metaStructure/service/VisitorContext.h"
+#include "container/metaStructure/interface/IMetaService.h"
+#include "container/metaStructure/service/VisitorContext.h"
 
 namespace Container {
 

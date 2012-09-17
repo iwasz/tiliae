@@ -11,7 +11,7 @@
 
 #include <vector>
 #include <list>
-#include "../../core/Pointer.h"
+#include "core/Pointer.h"
 
 namespace k202 {
 class IExpression;

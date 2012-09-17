@@ -11,12 +11,12 @@
 
 #include <list>
 #include <map>
-#include "variant/Variant.h"
-#include "variant/Cast.h"
-#include "Typedefs.h"
+#include "core/variant/Variant.h"
+#include "core/variant/Cast.h"
+#include "core/Typedefs.h"
 #include "WrapperCommons.h"
-#include "../Tools.h"
-#include "allocator/IAllocator.h"
+#include "reflection/Tools.h"
+#include "core/allocator/IAllocator.h"
 
 namespace Reflection {
 

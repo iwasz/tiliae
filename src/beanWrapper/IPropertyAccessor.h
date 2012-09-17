@@ -9,13 +9,13 @@
 #ifndef ISERVICEREPOSITORY_822081_H
 #define ISERVICEREPOSITORY_822081_H
 
-#include "../core/string/String.h"
-#include "../core/variant/Variant.h"
-#include "../core/ApiMacro.h"
-#include "../core/Object.h"
-#include "../core/Iterator.h"
-#include "../core/Pointer.h"
-#include "../core/DebugContext.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/ApiMacro.h"
+#include "core/Object.h"
+#include "core/Iterator.h"
+#include "core/Pointer.h"
+#include "core/DebugContext.h"
 
 namespace Wrapper {
 

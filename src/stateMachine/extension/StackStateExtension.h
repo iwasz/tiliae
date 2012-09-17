@@ -10,10 +10,10 @@
 #define STACKSTATEEXTENSION_H_
 
 #include "IMachineExtension.h"
-#include "../../core/Typedefs.h"
+#include "core/Typedefs.h"
 #include <deque>
 #include <string>
-#include "../../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Common {
 struct ILogger;

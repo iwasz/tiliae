@@ -15,7 +15,7 @@
 #include <boost/type_traits/remove_reference.hpp>
 #include <boost/type_traits/remove_cv.hpp>
 #include <boost/type_traits/integral_constant.hpp>
-#include "ApiMacro.h"
+#include "core/ApiMacro.h"
 
 #ifndef CORE_78954789_PTR_H_
 #define CORE_78954789_PTR_H_

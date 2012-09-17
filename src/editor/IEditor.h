@@ -13,12 +13,12 @@
 #include <vector>
 #include <map>
 #include <wctype.h>
-#include "../core/Object.h"
-#include "../core/variant/Variant.h"
-#include "../core/Pointer.h"
-#include "../core/Exception.h"
-#include "../core/ApiMacro.h"
-#include "../core/DebugContext.h"
+#include "core/Object.h"
+#include "core/variant/Variant.h"
+#include "core/Pointer.h"
+#include "core/Exception.h"
+#include "core/ApiMacro.h"
+#include "core/DebugContext.h"
 
 namespace Editor {
 

@@ -6,7 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include "Core.h"
+#include "core/Core.h"
 #include <iostream>
 
 using namespace std::tr1;

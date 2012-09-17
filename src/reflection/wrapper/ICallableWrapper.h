@@ -10,8 +10,8 @@
 #define ICALLABLE_WRAPPER_H_
 
 #include <typeinfo>
-#include "../../core/variant/Variant.h"
-#include "../../core/Typedefs.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
 
 namespace Reflection {
 

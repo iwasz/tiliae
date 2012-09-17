@@ -9,7 +9,7 @@
 #ifndef INTERNALSINGLETONS_H_
 #define INTERNALSINGLETONS_H_
 
-#include "variant/Variant.h"
+#include "core/variant/Variant.h"
 #include <string>
 
 namespace Editor {

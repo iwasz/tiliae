@@ -7,11 +7,11 @@
  ****************************************************************************/
 
 #include "ContainerTestFactory.h"
-#include "metaStructure/model/MetaStructure.h"
-#include "ContainerFactory.h"
-#include "beanFactory/BeanFactory.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/ContainerFactory.h"
+#include "container/beanFactory/BeanFactory.h"
 #include <boost/make_shared.hpp>
-#include "../../inputFormat/mxml/MXmlMetaService.h"
+#include "container/inputFormat/mxml/MXmlMetaService.h"
 
 using namespace Container;
 using namespace Core;

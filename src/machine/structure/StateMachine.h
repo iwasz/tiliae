@@ -11,15 +11,15 @@
 
 #include <vector>
 #include <map>
-#include "Reflection.h"
+#include "reflection/Reflection.h"
 #include "State.h"
 #include "Exceptions.h"
 #include "MachineListener.h"
 #include "Region.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Common {
 class ILogger;

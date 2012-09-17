@@ -11,10 +11,10 @@
 
 #include "visitor/ClassVisitor.h"
 #include "IClassContainer.h"
-#include "../core/IToStringEnabled.h"
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "core/IToStringEnabled.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 

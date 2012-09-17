@@ -19,9 +19,9 @@
 #include <string>
 
 #include "Variant.h"
-#include "Exception.h"
-#include "Pointer.h"
-#include "string/String.h"
+#include "core/Exception.h"
+#include "core/Pointer.h"
+#include "core/string/String.h"
 
 namespace Core {
 
@@ -2086,7 +2086,7 @@ struct PolyHelper <boost::shared_ptr<T const> > {
  * Jeśli variant input jest typu POINTER, to ta funkcja zwóci nowy wariant o typie
  * SMART zawierający wskaxnik z input.
  */
-extern Core::Variant TILIAE_API convertVariantToSmart (Core::Variant const &input);
+//extern Core::Variant TILIAE_API convertVariantToSmart (Core::Variant const &input);
 
 } // namespace
 

@@ -15,9 +15,9 @@
 #include <list>
 #include <map>
 #include <utility>
-#include "Iterator.h"
-#include "../../core/Pointer.h"
-#include "../../core/variant/Cast.h"
+#include "core/Iterator.h"
+#include "core/Pointer.h"
+#include "core/variant/Cast.h"
 
 BOOST_AUTO_TEST_SUITE (IterTest09);
 

@@ -9,10 +9,10 @@
 #ifndef METACONTAINER_H_
 #define METACONTAINER_H_
 
-#include "metaStructure/interface/IDataVisitor.h"
-#include "ApiMacro.h"
+#include "container/metaStructure/interface/IDataVisitor.h"
+#include "core/ApiMacro.h"
 #include "MetaObject.h"
-#include "allocator/ArrayRegionAllocator.h"
+#include "core/allocator/ArrayRegionAllocator.h"
 #include <boost/graph/graph_traits.hpp>
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/graph/dijkstra_shortest_paths.hpp>

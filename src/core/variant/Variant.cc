@@ -10,7 +10,7 @@
 #include <boost/make_shared.hpp>
 
 #include "Variant.h"
-#include "string/String.h"
+#include "core/string/String.h"
 
 namespace Core {
 using namespace boost;

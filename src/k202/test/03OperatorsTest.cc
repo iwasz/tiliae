@@ -9,9 +9,9 @@
 #include <boost/test/unit_test.hpp>
 #include "K202.h"
 #include "TestHelpers.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/Typedefs.h"
-#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (OperatorsTest03);
 using namespace k202;

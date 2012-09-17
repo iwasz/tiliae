@@ -9,9 +9,9 @@
 #ifndef NOTE_181772_H
 #define NOTE_181772_H
 
-#include "Reflection.h"
-#include "../core/string/String.h"
-#include "../core/ApiMacro.h"
+#include "reflection/Reflection.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 /****************************************************************************/
 

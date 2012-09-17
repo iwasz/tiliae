@@ -15,20 +15,20 @@
 #include <vector>
 #include <string>
 
-#include "common/Exceptions.h"
-#include "common/Attributes.h"
-#include "string/String.h"
-#include "Pointer.h"
-#include "variant/Variant.h"
-#include "Typedefs.h"
-#include "IToStringEnabled.h"
-#include "IFactory.h"
-#include "IEditor.h"
-#include "ApiMacro.h"
-#include "collection/OrderedVariantMap.h"
-#include "StringFactoryMethodEditor.h"
-#include "TypeEditor.h"
-#include "StrUtil.h"
+#include "container/common/Exceptions.h"
+#include "container/common/Attributes.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/IToStringEnabled.h"
+#include "factory/IFactory.h"
+#include "editor/IEditor.h"
+#include "core/ApiMacro.h"
+#include "common/collection/OrderedVariantMap.h"
+#include "editor/StringFactoryMethodEditor.h"
+#include "editor/TypeEditor.h"
+#include "core/StrUtil.h"
 
 
 namespace Wrapper {

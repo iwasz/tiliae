@@ -10,9 +10,9 @@
 #define INTOBJECT_H_
 
 #include "IObject.h"
-#include "../../core/Typedefs.h"
-#include "../../core/string/String.h"
-#include "../../core/ApiMacro.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

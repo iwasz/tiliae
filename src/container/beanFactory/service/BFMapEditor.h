@@ -12,8 +12,8 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "JEditor.h"
-#include "IFactory.h"
+#include "editor/JEditor.h"
+#include "factory/IFactory.h"
 
 namespace Wrapper {
 class BeanWrapper;

@@ -9,10 +9,10 @@
 #ifndef INPUT_H_
 #define INPUT_H_
 
-#include "../IMachinery.h"
+#include "IMachinery.h"
 #include "IObject.h"
-#include "../../core/Pointer.h"
-#include "../../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

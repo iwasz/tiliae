@@ -6,11 +6,10 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include <Core.h>
+#include "core/Core.h"
 #include <vector>
 #include <string>
-
-#include "Manager.h"
+#include "reflection/Manager.h"
 #include "ClassContainer.h"
 #include "Exceptions.h"
 #include "annotations/AnnotationManager.h"
@@ -27,10 +26,10 @@
 
 #include "visitor/ClassVisitor.h"
 #include "visitor/ClassInternalsVisitor.h"
-#include "../core/variant/Cast.h"
-#include "../core/variant/Variant.h"
-#include "../core/Pointer.h"
-#include "../core/Typedefs.h"
+#include "core/variant/Cast.h"
+#include "core/variant/Variant.h"
+#include "core/Pointer.h"
+#include "core/Typedefs.h"
 
 namespace Reflection {
 using namespace Annotations;

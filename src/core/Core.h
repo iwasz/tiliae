@@ -6,8 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef CORE_H_
-#define CORE_H_
+#ifndef TILIAE_CORE_H_
+#define TILIAE_CORE_H_
 
 /**
  * \page Core Core : podstawowe funkcjonalności.
@@ -19,13 +19,17 @@
  * Klasy i funkcje wchodzące w skład API.
  */
 
-#include "ApiMacro.h"
+#include "core/ApiMacro.h"
+#include "DebugContext.h"
 #include "Exception.h"
-#include "Object.h"
-#include "Pointer.h"
-#include "Typedefs.h"
-#include "variant/Cast.h"
-#include "string/String.h"
-#include "Iterator.h"
+#include "core/Object.h"
+#include "core/Pointer.h"
+#include "core/Typedefs.h"
+#include "core/Iterator.h"
+#include "core/IToStringEnabled.h"
+#include "core/StrUtil.h"
+#include "core/variant/Cast.h"
+#include "core/string/String.h"
+#include "core/allocator/Allocator.h"
 
 #	endif /* CORE_H_ */

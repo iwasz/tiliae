@@ -12,8 +12,8 @@
 //#include "testHelpers/ContainerTestFactory.h"
 //#include "metaVisitor/ParentVisitor.h"
 //#include "metaVisitor/ReferenceVisitor.h"
-//#include "metaStructure/MetaContainer.h"
-//#include "../misc/OrderedVariantMap.h"
+//#include "container/metaStructure/MetaContainer.h"
+//#include "misc/OrderedVariantMap.h"
 
 /****************************************************************************/
 

@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include "Attributes.h"
-#include "../../core/StrUtil.h"
+#include "core/StrUtil.h"
 
 namespace Container {
 

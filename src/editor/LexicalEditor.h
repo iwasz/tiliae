@@ -11,9 +11,9 @@
 
 #include <cassert>
 #include <boost/lexical_cast.hpp>
-#include "IEditor.h"
-#include "../core/variant/Variant.h"
-#include "../core/variant/Cast.h"
+#include "editor/IEditor.h"
+#include "core/variant/Variant.h"
+#include "core/variant/Cast.h"
 
 namespace Editor {
 

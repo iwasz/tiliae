@@ -12,13 +12,13 @@
 #include <vector>
 #include <wctype.h>
 
-#include "../core/Exception.h"
-#include "../core/variant/Variant.h"
-#include "../core/Object.h"
-#include "../core/Typedefs.h"
-#include "../core/ApiMacro.h"
-#include "../core/Pointer.h"
-#include "../core/DebugContext.h"
+#include "core/Exception.h"
+#include "core/variant/Variant.h"
+#include "core/Object.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/DebugContext.h"
 
 namespace Factory {
 

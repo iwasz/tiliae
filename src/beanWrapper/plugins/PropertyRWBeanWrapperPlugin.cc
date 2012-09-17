@@ -8,16 +8,16 @@
 
 #include <cassert>
 #include "PropertyRWBeanWrapperPlugin.h"
-#include "path/Path.h"
-#include "../../reflection/Manager.h"
-#include "../../reflection/model/Class.h"
-#include "../../reflection/model/Method.h"
-#include "../../reflection/model/Field.h"
-#include "../../reflection/ReflectionTools.h"
-#include "../../core/Typedefs.h"
-#include "../../core/DebugContext.h"
-#include "../../beanWrapper/IBeanWrapper.h"
-#include "../beanWrapper/BeanWrapper.h"
+#include "common/path/Path.h"
+#include "reflection/Manager.h"
+#include "reflection/model/Class.h"
+#include "reflection/model/Method.h"
+#include "reflection/model/Field.h"
+#include "reflection/ReflectionTools.h"
+#include "core/Typedefs.h"
+#include "core/DebugContext.h"
+#include "beanWrapper/IBeanWrapper.h"
+#include "beanWrapper/BeanWrapper.h"
 
 /****************************************************************************/
 

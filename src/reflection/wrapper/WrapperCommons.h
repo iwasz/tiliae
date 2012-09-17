@@ -9,9 +9,9 @@
 #define WRAPPERCOMMONS_H_
 
 #include <string>
-#include "../../core/ApiMacro.h"
-#include "../../core/Exception.h"
-#include "../../core/Typedefs.h"
+#include "core/ApiMacro.h"
+#include "core/Exception.h"
+#include "core/Typedefs.h"
 
 namespace Reflection {
 

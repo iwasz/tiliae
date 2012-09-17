@@ -9,12 +9,12 @@
 #ifndef CLASS_ANNOTATION_H_
 #define CLASS_ANNOTATION_H_
 
-#include "../visitor/IReflectionVisitor.h"
+#include "reflection/visitor/IReflectionVisitor.h"
 #include "IReflectionAnnotation.h"
-#include "ApiMacro.h"
-#include "Typedefs.h"
-#include "variant/Variant.h"
-#include "wrapper/Deleter.h"
+#include "core/ApiMacro.h"
+#include "core/Typedefs.h"
+#include "core/variant/Variant.h"
+#include "reflection/wrapper/Deleter.h"
 
 namespace Reflection {
 

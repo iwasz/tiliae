@@ -9,9 +9,9 @@
 #ifndef IEXTENSION_H_
 #define IEXTENSION_H_
 
-#include "../expression/IExpression.h"
-#include "../expression/ContextDependentSimple.h"
-#include "../expression/ExpressionCollection.h"
+#include "expression/IExpression.h"
+#include "expression/ContextDependentSimple.h"
+#include "expression/ExpressionCollection.h"
 
 namespace k202 {
 

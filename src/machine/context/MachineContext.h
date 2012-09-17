@@ -11,13 +11,13 @@
 
 #include <vector>
 #include "context/MachineContext.h"
-#include "../../core/Typedefs.h"
-#include "../../core/variant/Cast.h"
-#include "../../core/string/String.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/IToStringEnabled.h"
-#include "../../core/ApiMacro.h"
-#include "Reflection.h"
+#include "core/Typedefs.h"
+#include "core/variant/Cast.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/IToStringEnabled.h"
+#include "core/ApiMacro.h"
+#include "reflection/Reflection.h"
 
 namespace Machine {
 

@@ -11,9 +11,9 @@
 #include <boost/any.hpp>
 #include <vector>
 
-#include "Pointer.h"
-#include "../../reflection/model/Class.h"
-#include "../../reflection/Manager.h"
+#include "core/Pointer.h"
+#include "reflection/model/Class.h"
+#include "reflection/Manager.h"
 #include "testHelpers/XClass.h"
 
 /*##########################################################################*/

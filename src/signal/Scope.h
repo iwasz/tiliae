@@ -11,9 +11,9 @@
 
 #include <string>
 #include "Listener.h"
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Signal {
 

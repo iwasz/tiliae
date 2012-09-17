@@ -9,17 +9,16 @@
 #ifndef TILIAE_H_
 #define TILIAE_H_
 
+#include "core/Core.h"
 #include "beanWrapper/BeanWrapper.h"
 #include "common/Common.h"
-#include "container/Container.h"
-#include "core/Core.h"
+#include "reflection/Reflection.h"
 #include "editor/Editor.h"
 #include "factory/Factory.h"
 #include "k202/K202.h"
-#include "reflection/Reflection.h"
 #include "signal/Signal.h"
 #include "stateMachine/StateMachine.h"
-#include "xml/Xml.h"
+#include "container/Container.h"
 
 /**
  * \mainpage

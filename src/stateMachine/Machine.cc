@@ -8,12 +8,12 @@
 
 #include "Machine.h"
 #include "transition/Transition.h"
-#include "../common/logger/ILogger.h"
-#include "../core/Typedefs.h"
-#include "../k202/extension/CacheExtension.h"
-#include "../k202/K202.h"
+#include "common/logger/ILogger.h"
+#include "core/Typedefs.h"
+#include "k202/extension/CacheExtension.h"
+#include "k202/K202.h"
 #include <cassert>
-#include "../beanWrapper/beanWrapper/BeanWrapper.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
 
 using namespace Common;
 

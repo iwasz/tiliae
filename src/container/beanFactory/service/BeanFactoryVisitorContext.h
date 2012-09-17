@@ -9,9 +9,9 @@
 #ifndef BEANFACTORYVISITORCONTEXT_H_
 #define BEANFACTORYVISITORCONTEXT_H_
 
-#include "metaStructure/service/VisitorContext.h"
-#include "beanFactory/BeanFactory.h"
-#include "../BeanFactoryContainer.h"
+#include "container/metaStructure/service/VisitorContext.h"
+#include "container/beanFactory/BeanFactory.h"
+#include "container/beanFactory/BeanFactoryContainer.h"
 
 namespace Container {
 

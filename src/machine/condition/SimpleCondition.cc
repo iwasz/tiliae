@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include "SimpleCondition.h"
-#include "../../core/Typedefs.h"
+#include "core/Typedefs.h"
 
 namespace Machine {
 

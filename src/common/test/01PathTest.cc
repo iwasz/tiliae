@@ -13,8 +13,8 @@
 #include <boost/mpl/list.hpp>
 #include <boost/test/test_case_template.hpp>
 
-#include "../path/Path.h"
-#include "../path/ListPath.h"
+#include "common/path/Path.h"
+#include "common/path/ListPath.h"
 
 bool operator== (const Common::IPath &a, const std::string &b) { return a.toString () == b; }
 bool operator== (const std::string &a, const Common::IPath &b) { return a == b.toString (); }

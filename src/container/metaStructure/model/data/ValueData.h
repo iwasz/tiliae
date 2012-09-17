@@ -10,7 +10,7 @@
 #define VALUEDATA_H_
 
 #include "IData.h"
-#include "../../../../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Container {
 

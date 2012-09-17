@@ -10,12 +10,12 @@
 #define TILIAE_CLASSVISITOR_H_
 
 #include "IReflectionVisitor.h"
-#include "../Manager.h"
-#include "../../core/string/String.h"
-#include "../../core/Pointer.h"
-#include "../../core/ApiMacro.h"
-#include "../../core/Typedefs.h"
-#include "../wrapper/Deleter.h"
+#include "reflection/Manager.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
+#include "core/Typedefs.h"
+#include "reflection/wrapper/Deleter.h"
 
 namespace Reflection {
 

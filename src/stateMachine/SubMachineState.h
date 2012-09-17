@@ -10,7 +10,7 @@
 #define SUBMACHINESTATE_H_
 
 #include "State.h"
-#include "../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 class Machine;

@@ -9,11 +9,11 @@
 #include <boost/test/unit_test.hpp>
 #include "K202.h"
 #include "TestHelpers.h"
-#include "../Exceptions.h"
-#include "../../testHelpers/Bar.h"
-#include "../../core/variant/Variant.h"
-#include "../compiler/Compiler.h"
-#include "../../beanWrapper/beanWrapper/BeanWrapper.h"
+#include "Exceptions.h"
+#include "testHelpers/Bar.h"
+#include "core/variant/Variant.h"
+#include "compiler/Compiler.h"
+#include "beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (ExceptionsTest07);
 using namespace k202;

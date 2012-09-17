@@ -8,8 +8,8 @@
 //
 //#include <boost/test/unit_test.hpp>
 //#include <K202.h>
-//#include "../context/Context.h"
-//#include "../../core/Typedefs.h"
+//#include "context/Context.h"
+//#include "core/Typedefs.h"
 //
 //BOOST_AUTO_TEST_SUITE (ContextTest);
 //

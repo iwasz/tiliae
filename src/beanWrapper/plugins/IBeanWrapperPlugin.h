@@ -11,13 +11,13 @@
 
 #include <list>
 #include <vector>
-#include "path/IPath.h"
-#include "../../core/Pointer.h"
-#include "../../core/ApiMacro.h"
-#include "../../editor/IEditor.h"
-#include "Reflection.h"
-#include "../../core/Object.h"
-#include "../../core/DebugContext.h"
+#include "common/path/IPath.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
+#include "editor/IEditor.h"
+#include "reflection/Reflection.h"
+#include "core/Object.h"
+#include "core/DebugContext.h"
 
 /****************************************************************************/
 

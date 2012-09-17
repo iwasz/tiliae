@@ -10,8 +10,8 @@
 #define IOBJECT_H_
 
 #include <list>
-#include "../../core/Pointer.h"
-#include "../../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

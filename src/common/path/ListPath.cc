@@ -11,7 +11,7 @@
 #include <cassert>
 
 #include "ListPath.h"
-#include "../StringUtils.h"
+#include "common/StringUtils.h"
 
 namespace Common {
 

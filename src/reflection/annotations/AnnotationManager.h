@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "IAnnotation.h"
-#include "../../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 struct ICallableWrapper;

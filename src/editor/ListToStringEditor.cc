@@ -9,9 +9,9 @@
 #include <cassert>
 #include <string>
 #include "ListToStringEditor.h"
-#include "../core/variant/Cast.h"
-#include "../core/Typedefs.h"
-#include "../core/string/String.h"
+#include "core/variant/Cast.h"
+#include "core/Typedefs.h"
+#include "core/string/String.h"
 
 namespace Editor {
 using namespace Core;

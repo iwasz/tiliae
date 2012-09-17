@@ -10,11 +10,11 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
-#include "Reflection.h"
-#include "Core.h"
-#include "../../testHelpers/Bar.h"
-#include "../../core/Typedefs.h"
-#include "../../testHelpers/City.h"
+#include "reflection/Reflection.h"
+#include "core/Core.h"
+#include "testHelpers/Bar.h"
+#include "core/Typedefs.h"
+#include "testHelpers/City.h"
 
 BOOST_AUTO_TEST_SUITE (ConstructorTest);
 

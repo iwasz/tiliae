@@ -9,11 +9,11 @@
 #ifndef PARSER_H_
 #define PARSER_H_
 
-#include <Pointer.h>
+#include "core/Pointer.h"
 #include "expression/ExpressionCollection.h"
-#include "../extension/IExtension.h"
-#include "../../core/ApiMacro.h"
-#include "../../core/string/String.h"
+#include "extension/IExtension.h"
+#include "core/ApiMacro.h"
+#include "core/string/String.h"
 
 namespace k202 {
 class Context;

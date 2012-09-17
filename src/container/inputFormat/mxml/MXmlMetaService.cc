@@ -10,15 +10,15 @@
 #include <iostream>
 #include <queue>
 #include <boost/lexical_cast.hpp>
-#include "MXmlMetaService.h"
-#include "Pointer.h"
-#include "common/Exceptions.h"
-#include "metaStructure/MetaStructure.h"
+#include "container/inputFormat/mxml/MXmlMetaService.h"
+#include "core/Pointer.h"
+#include "container/common/Exceptions.h"
+#include "container/metaStructure/MetaStructure.h"
 
 #ifdef ANDROID
 #include <android/asset_manager.h>
 #include <android/log.h>
-#include "../../metaStructure/model/MetaFactory.h"
+#include "container/metaStructure/model/MetaFactory.h"
 #endif
 
 namespace Container {

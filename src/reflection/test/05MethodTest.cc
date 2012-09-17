@@ -10,12 +10,12 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
-#include "Reflection.h"
-#include "Core.h"
-#include "variant/Cast.h"
-#include "../../testHelpers/Address.h"
-#include "../../testHelpers/City.h"
-#include "../../testHelpers/Country.h"
+#include "reflection/Reflection.h"
+#include "core/Core.h"
+#include "core/variant/Cast.h"
+#include "testHelpers/Address.h"
+#include "testHelpers/City.h"
+#include "testHelpers/Country.h"
 
 BOOST_AUTO_TEST_SUITE (MethodTest);
 

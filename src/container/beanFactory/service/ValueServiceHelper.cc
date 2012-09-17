@@ -8,13 +8,12 @@
 
 #include <cassert>
 #include "ValueServiceHelper.h"
-#include "Defs.h"
-#include "common/Exceptions.h"
-#include "IEditor.h"
-#include "Typedefs.h"
-#include "variant/Cast.h"
-#include "IFactory.h"
-#include "ReflectionFactory.h"
+#include "container/Defs.h"
+#include "container/common/Exceptions.h"
+#include "editor/IEditor.h"
+#include "core/Typedefs.h"
+#include "core/variant/Cast.h"
+#include "factory/ReflectionFactory.h"
 
 namespace Container {
 using namespace Core;

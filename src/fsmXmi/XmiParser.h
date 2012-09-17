@@ -10,8 +10,8 @@
 #define XMIPARSER_H_
 
 #include <memory>
-#include "../core/Pointer.h"
-#include "../core/ApiMacro.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 class Model;

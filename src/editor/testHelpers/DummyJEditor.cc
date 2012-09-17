@@ -8,9 +8,9 @@
 
 #include "DummyJEditor.h"
 #include <cassert>
-#include "../../core/variant/Cast.h"
-#include "../../core/string/String.h"
-#include "../../core/variant/Variant.h"
+#include "core/variant/Cast.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
 
 bool DummyJEditor::edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {

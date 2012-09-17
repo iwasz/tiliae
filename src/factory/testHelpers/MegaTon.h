@@ -10,7 +10,7 @@
 #define MEGATON_H_
 
 #include <vector>
-#include "../../core/string/String.h"
+#include "core/string/String.h"
 
 /**
  * Very heavyweight class. Not to be copied.

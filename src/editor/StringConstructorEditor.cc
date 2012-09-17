@@ -8,8 +8,8 @@
 
 #include <string>
 #include "StringConstructorEditor.h"
-#include "../core/variant/Cast.h"
-#include "Reflection.h"
+#include "core/variant/Cast.h"
+#include "reflection/Reflection.h"
 
 namespace Editor {
 using namespace Reflection;

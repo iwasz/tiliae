@@ -9,10 +9,10 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
-#include "variant/Cast.h"
-#include "../annotations/AnnotationManager.h"
+#include "core/variant/Cast.h"
+#include "reflection/annotations/AnnotationManager.h"
 #include <vector>
-#include "../../reflection/reflectAnnotations/CollectionAnnotation.h"
+#include "reflection/reflectAnnotations/CollectionAnnotation.h"
 
 BOOST_AUTO_TEST_SUITE (AnnotationTest);
 

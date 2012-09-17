@@ -9,9 +9,9 @@
 #ifndef DUMMYIEDITOR_H_
 #define DUMMYIEDITOR_H_
 
-#include <Reflection.h>
-#include "IEditor.h"
-#include "../../core/ApiMacro.h"
+#include "reflection/Reflection.h"
+#include "editor/IEditor.h"
+#include "core/ApiMacro.h"
 
 /**
  * Kolejny przyklad, ale tym razem dla

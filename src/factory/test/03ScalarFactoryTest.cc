@@ -8,13 +8,13 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include <TestHelpers.h>
+#include "testHelpers/TestHelpers.h"
 
-#include "ScalarFactory.h"
-#include "../../testHelpers/Telephone.h"
-#include "../../testHelpers/City.h"
-#include "../../core/variant/Variant.h"
-#include "../ReflectionFactory.h"
+#include "factory/ScalarFactory.h"
+#include "testHelpers/Telephone.h"
+#include "testHelpers/City.h"
+#include "core/variant/Variant.h"
+#include "factory/ReflectionFactory.h"
 
 BOOST_AUTO_TEST_SUITE (ScalarFactoryTest03);
 using namespace Core;

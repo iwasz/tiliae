@@ -12,9 +12,9 @@
 //#include <boost/mpl/list.hpp>
 //#include <boost/test/test_case_template.hpp>
 //#include "common/OrderedVariantMap.h"
-//#include "../../../core/Typedefs.h"
-//#include "../../../core/variant/Cast.h"
-//#include "../../../core/variant/Variant.h"
+//#include "core/Typedefs.h"
+//#include "core/variant/Cast.h"
+//#include "core/variant/Variant.h"
 //
 ///****************************************************************************/
 //

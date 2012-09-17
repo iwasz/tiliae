@@ -9,8 +9,8 @@
 #ifndef STATE_MACHINE_EXCEPTIONS_H_
 #define STATE_MACHINE_EXCEPTIONS_H_
 
-#include "../core/Exception.h"
-#include "../core/ApiMacro.h"
+#include "core/Exception.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

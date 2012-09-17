@@ -9,14 +9,14 @@
 #ifndef CONSTRUCTOR_ANNOTATION_H_
 #define CONSTRUCTOR_ANNOTATION_H_
 
-#include "../wrapper/ConstructorPointer.h"
-#include "../visitor/IReflectionVisitor.h"
-#include "../annotations/AnnotationManager.h"
+#include "reflection/wrapper/ConstructorPointer.h"
+#include "reflection/visitor/IReflectionVisitor.h"
+#include "reflection/annotations/AnnotationManager.h"
 #include "IReflectionAnnotation.h"
 #include "ClassAnnotation.h"
-#include "../../core/string/String.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/ApiMacro.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 

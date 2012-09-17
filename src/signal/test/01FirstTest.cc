@@ -12,7 +12,7 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <K202.h>
-#include <Reflection.h>
+#include "reflection/Reflection.h"
 #include <Signal.h>
 
 BOOST_AUTO_TEST_SUITE (FirstTest);

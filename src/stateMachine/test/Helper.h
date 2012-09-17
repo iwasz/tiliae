@@ -9,7 +9,7 @@
 #ifndef HELPER_H_
 #define HELPER_H_
 
-#include <Reflection.h>
+#include "reflection/Reflection.h"
 
 /**
  * Helper structure.

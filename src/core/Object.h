@@ -9,7 +9,7 @@
 #ifndef OBJECT_539568_H
 #define OBJECT_539568_H
 
-#include "ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace Core {
 

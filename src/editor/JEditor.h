@@ -9,8 +9,8 @@
 #ifndef JEDITOR_H_
 #define JEDITOR_H_
 
-#include "IEditor.h"
-#include "../core/ApiMacro.h"
+#include "editor/IEditor.h"
+#include "core/ApiMacro.h"
 
 namespace Editor {
 

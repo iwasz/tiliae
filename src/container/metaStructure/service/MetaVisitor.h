@@ -11,9 +11,9 @@
 
 #include <list>
 
-#include "metaStructure/interface/IMetaService.h"
-#include "metaStructure/model/MetaStructure.h"
-#include "metaStructure/interface/IDataVisitor.h"
+#include "container/metaStructure/interface/IMetaService.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include "container/metaStructure/interface/IDataVisitor.h"
 
 
 namespace Container {

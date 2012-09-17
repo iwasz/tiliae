@@ -6,14 +6,13 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include <BeanWrapper.h>
-
+#include "beanWrapper/BeanWrapper.h"
 #include "BeanFactoryInitService.h"
-#include "metaStructure/model/MetaStructure.h"
+#include "container/metaStructure/model/MetaStructure.h"
 #include <cassert>
 #include <boost/make_shared.hpp>
-#include "../BeanFactory.h"
-#include "StrUtil.h"
+#include "container/beanFactory/BeanFactory.h"
+#include "core/StrUtil.h"
 
 namespace Container {
 

@@ -9,13 +9,13 @@
 #include <boost/test/unit_test.hpp>
 
 #include <iostream>
-#include <Pointer.h>
-#include <TestHelpers.h>
+#include "core/Pointer.h"
+#include "testHelpers/TestHelpers.h"
 
-#include "ContainerFactory.h"
-#include "../CompactMetaService.h"
+#include "container/ContainerFactory.h"
+#include "container/inputFormat/compact/CompactMetaService.h"
 #include "Conf.h"
-#include "metaStructure/model/MetaContainer.h"
+#include "container/metaStructure/model/MetaContainer.h"
 
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/split.hpp>

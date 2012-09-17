@@ -25,11 +25,11 @@
 #include "Compiler.h"
 #include "ByteCode.h"
 
-#include "../expression/Expression.h"
-#include "../expression/ExpressionCollection.h"
-#include "../Context.h"
-#include "../Exceptions.h"
-#include "../../core/string/String.h"
+#include "expression/Expression.h"
+#include "expression/ExpressionCollection.h"
+#include "Context.h"
+#include "Exceptions.h"
+#include "core/string/String.h"
 
 #define SHOW_DEBUG_COMPILER 0
 

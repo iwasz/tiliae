@@ -7,14 +7,14 @@
 // ****************************************************************************/
 //
 //#include <boost/test/unit_test.hpp>
-//#include "../context/Context.h"
+//#include "context/Context.h"
 //#include "State.h"
 //#include "Machine.h"
-//#include "../action/K202Action.h"
+//#include "action/K202Action.h"
 //#include "Helper.h"
-//#include "../../core/Pointer.h"
-//#include "../context/MachineContext.h"
-//#include "../../core/Typedefs.h"
+//#include "core/Pointer.h"
+//#include "context/MachineContext.h"
+//#include "core/Typedefs.h"
 //
 //BOOST_AUTO_TEST_SUITE (ConditionTest);
 //

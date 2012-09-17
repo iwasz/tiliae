@@ -7,8 +7,8 @@
  ****************************************************************************/
 
 #include <boost/test/unit_test.hpp>
-#include "../../common/Attributes.h"
-#include "../../metaStructure/model/MetaObject.h"
+#include "container/common/Attributes.h"
+#include "container/metaStructure/model/MetaObject.h"
 
 using namespace Container;
 

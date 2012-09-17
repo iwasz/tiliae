@@ -11,12 +11,12 @@
 
 #include <list>
 #include <string>
-#include "Manager.h"
+#include "reflection/Manager.h"
 #include "Helper.h"
-#include "../core/Object.h"
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
-#include "../core/ApiMacro.h"
+#include "core/Object.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
 
 namespace Signal {
 class Scope;

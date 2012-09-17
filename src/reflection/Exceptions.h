@@ -11,8 +11,8 @@
 
 #include <string>
 #include <boost/lexical_cast.hpp>
-#include "../core/Exception.h"
-#include "../core/ApiMacro.h"
+#include "core/Exception.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 

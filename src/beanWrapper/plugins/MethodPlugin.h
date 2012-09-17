@@ -10,11 +10,11 @@
 #define METHOD_PLUGIN_H
 
 #include "IBeanWrapperPlugin.h"
-#include "../../core/variant/Variant.h"
-#include "../../core/Typedefs.h"
-#include "../../reflection/model/Method.h"
-#include "../../core/Pointer.h"
-#include "../../core/ApiMacro.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "reflection/model/Method.h"
+#include "core/Pointer.h"
+#include "core/ApiMacro.h"
 
 namespace Reflection {
 class Class;

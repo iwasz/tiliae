@@ -10,9 +10,9 @@
 #define BOOLEANOBJECT_H_
 
 #include "IObject.h"
-#include "../../core/string/String.h"
-#include "../../core/Typedefs.h"
-#include "../../core/ApiMacro.h"
+#include "core/string/String.h"
+#include "core/Typedefs.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

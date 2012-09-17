@@ -10,7 +10,7 @@
 #define FSM_REGION_H_
 
 #include <vector>
-#include "../../core/Pointer.h"
+#include "core/Pointer.h"
 
 namespace Machine {
 class State;

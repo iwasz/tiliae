@@ -11,9 +11,9 @@
 
 #include "IState.h"
 #include "InputActions.h"
-#include "Reflection.h"
-#include "../core/string/String.h"
-#include "../core/ApiMacro.h"
+#include "reflection/Reflection.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

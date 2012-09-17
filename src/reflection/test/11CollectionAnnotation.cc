@@ -10,12 +10,12 @@
 #include <iostream>
 #include <vector>
 
-#include "../../core/Pointer.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../wrapper/MethodWrapper.h"
-#include "../reflectAnnotations/CollectionAnnotation.h"
-#include "../../core/Typedefs.h"
-#include "../../core/Iterator.h"
+#include "core/Pointer.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "reflection/wrapper/MethodWrapper.h"
+#include "reflection/reflectAnnotations/CollectionAnnotation.h"
+#include "core/Typedefs.h"
+#include "core/Iterator.h"
 
 using Core::IIterator;
 

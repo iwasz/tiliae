@@ -10,11 +10,11 @@
 #define ADDRESS_100A408_H
 
 #include <list>
-#include "Reflection.h"
+#include "reflection/Reflection.h"
 #include "Place.h"
-#include "../core/string/String.h"
-#include "../core/variant/Variant.h"
-#include "../core/ApiMacro.h"
+#include "core/string/String.h"
+#include "core/variant/Variant.h"
+#include "core/ApiMacro.h"
 
 class City;
 class Country;

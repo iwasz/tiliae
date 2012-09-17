@@ -10,9 +10,9 @@
 #define K202CONDITION_H_
 
 #include <K202.h>
-#include <Reflection.h>
+#include "reflection/Reflection.h"
 #include "condition/ICondition.h"
-#include "../../core/ApiMacro.h"
+#include "core/ApiMacro.h"
 
 namespace StateMachine {
 

@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include "TypeEditor.h"
-#include "../core/variant/Variant.h"
+#include "core/variant/Variant.h"
 
 namespace Editor {
 

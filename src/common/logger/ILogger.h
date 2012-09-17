@@ -10,8 +10,8 @@
 #define ILOGGER_H_
 
 #include <string>
-#include "../../core/string/String.h"
-#include "../../core/ApiMacro.h"
+#include "core/string/String.h"
+#include "core/ApiMacro.h"
 
 namespace Common {
 

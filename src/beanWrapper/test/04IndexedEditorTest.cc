@@ -9,12 +9,12 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/make_shared.hpp>
 #include <iostream>
-#include "../../editor/LexicalEditor.h"
-#include "../misc/IndexedEditor.h"
-#include "../../core/Typedefs.h"
-#include "../beanWrapper/BeanWrapper.h"
+#include "editor/LexicalEditor.h"
+#include "beanWrapper/misc/IndexedEditor.h"
+#include "core/Typedefs.h"
+#include "beanWrapper/BeanWrapper.h"
 #include <vector>
-#include <Reflection.h>
+#include "reflection/Reflection.h"
 
 /****************************************************************************/
 

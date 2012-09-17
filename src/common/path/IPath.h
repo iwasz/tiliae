@@ -9,11 +9,11 @@
 #ifndef IPATH_461984_H
 #define IPATH_461984_H
 
-#include "../../core/string/String.h"
-#include "../../core/Typedefs.h"
-#include "../../core/IToStringEnabled.h"
-#include "../../core/Exception.h"
-#include "../../core/ApiMacro.h"
+#include "core/string/String.h"
+#include "core/Typedefs.h"
+#include "core/IToStringEnabled.h"
+#include "core/Exception.h"
+#include "core/ApiMacro.h"
 
 namespace Common {
 

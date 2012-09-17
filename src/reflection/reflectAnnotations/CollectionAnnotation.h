@@ -16,18 +16,18 @@
 #include <set>
 #include <boost/make_shared.hpp>
 
-#include "../../core/variant/Variant.h"
-#include "../../core/Typedefs.h"
-#include "../wrapper/ICallableWrapper.h"
-#include "../model/Class.h"
-#include "../Manager.h"
-#include "../model/Method.h"
-#include "../model/Constructor.h"
-#include "../wrapper/AddWrapper.h"
-#include "../wrapper/GetWrapper.h"
-#include "../wrapper/SetWrapper.h"
-#include "../wrapper/IteratorWrapper.h"
-#include "../annotations/Macros.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "reflection/wrapper/ICallableWrapper.h"
+#include "reflection/model/Class.h"
+#include "reflection/Manager.h"
+#include "reflection/model/Method.h"
+#include "reflection/model/Constructor.h"
+#include "reflection/wrapper/AddWrapper.h"
+#include "reflection/wrapper/GetWrapper.h"
+#include "reflection/wrapper/SetWrapper.h"
+#include "reflection/wrapper/IteratorWrapper.h"
+#include "reflection/annotations/Macros.h"
 
 /*##########################################################################*/
 

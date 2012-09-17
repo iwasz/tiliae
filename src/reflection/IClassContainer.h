@@ -9,9 +9,9 @@
 #ifndef ICLASSCONTAINER_H_
 #define ICLASSCONTAINER_H_
 
-#include "../core/IToStringEnabled.h"
-#include "../core/string/String.h"
-#include "../core/Pointer.h"
+#include "core/IToStringEnabled.h"
+#include "core/string/String.h"
+#include "core/Pointer.h"
 
 namespace Reflection {
 

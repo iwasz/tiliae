@@ -10,9 +10,9 @@
 #include "State.h"
 #include "Machine.h"
 #include "Helper.h"
-#include "../context/Context.h"
-#include "../action/K202Action.h"
-#include "../condition/Condition.h"
+#include "context/Context.h"
+#include "action/K202Action.h"
+#include "condition/Condition.h"
 #include "extension/StackStateExtension.h"
 
 BOOST_AUTO_TEST_SUITE (ShutDownResetTest);

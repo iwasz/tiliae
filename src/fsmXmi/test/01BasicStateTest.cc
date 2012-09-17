@@ -14,7 +14,7 @@
 #include <iostream>
 #include "XmlTextReader.h"
 #include "XmlException.h"
-#include "../XmiParser.h"
+#include "XmiParser.h"
 
 /****************************************************************************/
 

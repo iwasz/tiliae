@@ -9,7 +9,7 @@
 #include <cassert>
 
 #include "LogicExpression.h"
-#include "../Exceptions.h"
+#include "Exceptions.h"
 #include "Type.h"
 
 namespace k202 {

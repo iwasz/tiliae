@@ -14,17 +14,17 @@
 #include <iostream>
 #include <iostream>
 #include <algorithm>
-#include "../testHelpers/MegaTonFactory.h"
-#include "../../core/variant/Variant.h"
-#include "../testHelpers/MegaTon.h"
-#include "../../core/variant/Cast.h"
-#include "../SingletonFactory.h"
-#include "../../core/Typedefs.h"
-#include "../../core/Pointer.h"
-#include "../ReflectionFactory.h"
-#include "../ProxyFactory.h"
-#include "../../testHelpers/City.h"
-#include "../testHelpers/SillyFactory.h"
+#include "factory/testHelpers/MegaTonFactory.h"
+#include "core/variant/Variant.h"
+#include "factory/testHelpers/MegaTon.h"
+#include "core/variant/Cast.h"
+#include "factory/SingletonFactory.h"
+#include "core/Typedefs.h"
+#include "core/Pointer.h"
+#include "factory/ReflectionFactory.h"
+#include "factory/ProxyFactory.h"
+#include "testHelpers/City.h"
+#include "factory/testHelpers/SillyFactory.h"
 
 /****************************************************************************/
 

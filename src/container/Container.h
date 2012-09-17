@@ -37,11 +37,11 @@
  *   - Container::FactoryService - sprawdza, czy user nie podał swojej customowej fabryki.
  */
 
-#include "ContainerFactory.h"
-#include "Defs.h"
-#include "beanFactory/BeanFactory.h"
+#include "container/ContainerFactory.h"
+#include "container/Defs.h"
+#include "container/beanFactory/BeanFactory.h"
 #include "common/Common.h"
 #include "inputFormat/InputFormat.h"
-#include "metaStructure/MetaStructure.h"
+#include "container/metaStructure/MetaStructure.h"
 
 #	endif /* CONTAINER_H_ */

@@ -9,12 +9,12 @@
 #ifndef REFLECTIONFACTORY_H_
 #define REFLECTIONFACTORY_H_
 
-#include <Reflection.h>
-#include "IFactory.h"
-#include "../core/ApiMacro.h"
-#include "../core/variant/Variant.h"
-#include "../core/Typedefs.h"
-#include "../core/allocator/IAllocator.h"
+#include "reflection/Reflection.h"
+#include "factory/IFactory.h"
+#include "core/ApiMacro.h"
+#include "core/variant/Variant.h"
+#include "core/Typedefs.h"
+#include "core/allocator/IAllocator.h"
 
 namespace Factory {
 

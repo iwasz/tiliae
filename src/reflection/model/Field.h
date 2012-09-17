@@ -11,7 +11,7 @@
 
 #include <vector>
 #include <string>
-#include "../wrapper/FieldWrapper.h"
+#include "reflection/wrapper/FieldWrapper.h"
 
 namespace Reflection {
 

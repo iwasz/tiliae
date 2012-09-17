@@ -9,8 +9,8 @@
 #include <cassert>
 #include <string>
 #include "DummyIEditor.h"
-#include "../../core/variant/Cast.h"
-#include "../../editor/IEditor.h"
+#include "core/variant/Cast.h"
+#include "editor/IEditor.h"
 
 using namespace Core;
 using Editor::EditorException;

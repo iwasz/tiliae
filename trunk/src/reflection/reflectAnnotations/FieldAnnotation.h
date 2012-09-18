@@ -48,20 +48,23 @@ private:
 
 }
 
-/**
+/*
  * Makro ogólnego przeznaczenia.
  */
 #define REFLECTION_FIELD_VALUE_ANNOTATION(CLS_NAME, CLS_TYPE, field)        \
                 Annotations::AnnotationManager::addFieldAnnotation (CLS_NAME, #field, Reflection::createFieldWrapper (&CLS_TYPE::field));
 
-
-/**
- *
- */
 #define REFLECTION_FIELD_REFERENCE_ANNOTATION(CLS_NAME, CLS_TYPE, field)        \
                 Annotations::AnnotationManager::addFieldAnnotation (CLS_NAME, #field, Reflection::createFieldWrapperRetByPtr (&CLS_TYPE::field));
 
+#define REFLECTION_FIELD_ENUM_ANNOTATION(CLS_NAME, CLS_TYPE, field)        \
+                Annotations::AnnotationManager::addFieldAnnotation (CLS_NAME, #field, Reflection::createFieldWrapperEnum (&CLS_TYPE::field));
 
+
+
+/*
+ *
+ */
 #define REFLECTION_FIELD_VALUE_ANNOTATION_BODY_PRIV(field)                                    \
                 REFLECTION_FIELD_VALUE_ANNOTATION(REFLECT_CLASS_NAME, CLASS, field)           \
 }
@@ -69,6 +72,12 @@ private:
 #define REFLECTION_FIELD_REFERENCE_ANNOTATION_BODY_PRIV(field)                                    \
                 REFLECTION_FIELD_REFERENCE_ANNOTATION(REFLECT_CLASS_NAME, CLASS, field)           \
 }
+
+#define REFLECTION_FIELD_ENUM_ANNOTATION_BODY_PRIV(field)                                    \
+                REFLECTION_FIELD_ENUM_ANNOTATION(REFLECT_CLASS_NAME, CLASS, field)           \
+}
+
+
 
 /**
  * Definicja makra adnotacji dla MethodAnnotation - każde
@@ -92,6 +101,15 @@ private:
 #define REFLECTION_FIELD_REFERENCE(field)
 #endif
 
+#ifdef REFLECTION_ENABLED
+#define REFLECTION_FIELD_ENUMERATION(field)                                                \
+                ANNOTATION_METHOD_HEADER_RECURENCE                                       \
+                REFLECTION_FIELD_ENUMERATION_ANNOTATION_BODY_PRIV(field)
+#else
+#define REFLECTION_FIELD_ENUMERATION(field)
+#endif
+
+
 
 /**
  * Do stosowania na przykład tak:
@@ -107,6 +125,12 @@ private:
 #define REFLECTION_FIELD_REFERENCE_INPLACE(field) field; REFLECTION_FIELD_REFERENCE(field)
 #else
 #define REFLECTION_FIELD_REFERENCE_INPLACE(field) field;
+#endif
+
+#ifdef REFLECTION_ENABLED
+#define REFLECTION_FIELD_ENUMERATION_INPLACE(field) field; REFLECTION_FIELD_ENUMERATION(field)
+#else
+#define REFLECTION_FIELD_ENUMERATION_INPLACE(field) field;
 #endif
 
 #endif /* METHODANNOTATION_H_ */

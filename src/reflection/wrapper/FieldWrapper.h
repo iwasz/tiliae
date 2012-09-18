@@ -20,9 +20,13 @@ struct IFieldWrapper {
         virtual std::type_info const &getType () const = 0;
 };
 
+/*##########################################################################*/
+
 template <typename T>
 struct FieldWrapper {
 };
+
+/****************************************************************************/
 
 template <typename T, typename C>
 struct FieldWrapper <T C::*> : public IFieldWrapper {
@@ -114,9 +118,55 @@ IFieldWrapper *createFieldWrapperRetByPtr (T t)
         return new FieldWrapperRetByPtr <T> (t);
 }
 
-
 /*##########################################################################*/
 
+template <typename T>
+struct FieldWrapperEnum {
+};
+
+template <typename T, typename C>
+struct FieldWrapperEnum <T C::*> : public IFieldWrapper {
+
+        typedef T C::*FieldPtr;
+        FieldWrapperEnum (FieldPtr p = 0) : ptr (p) {}
+        virtual ~FieldWrapperEnum () {}
+
+        Core::Variant get (Core::Variant const &object);
+        void set (Core::Variant const &object, Core::Variant const &value);
+
+        std::type_info const &getType () const { return typeid (typename Core::normalize<T>::type); }
+
+private:
+
+        FieldPtr ptr;
+
+};
+
+/****************************************************************************/
+
+template <typename T, typename C>
+Core::Variant FieldWrapperEnum <T C::*>::get (Core::Variant const &object)
+{
+        return Core::Variant (static_cast <unsigned int> (ocast <C const *> (object)->*ptr));
+}
+
+/****************************************************************************/
+
+template <typename T, typename C>
+void FieldWrapperEnum <T C::*>::set (Core::Variant const &object, Core::Variant const &value)
+{
+        ocast <C *> (object)->*ptr = static_cast <T> (vcast <int> (value));
+}
+
+/****************************************************************************/
+
+template <typename T>
+IFieldWrapper *createFieldWrapperEnum (T t)
+{
+        return new FieldWrapperEnum <T> (t);
+}
+
+/*##########################################################################*/
 
 } /* namespace Reflection */
 #endif /* FIELDWRAPPER_H_ */

@@ -244,6 +244,7 @@ void MetaContainer::updateParents ()
                 }
 
                 child->setParentMeta (parent);
+                // Tu kopiować inner meta i referencje.
         }
 
         if (linked) {

@@ -102,11 +102,11 @@ private:
 #endif
 
 #ifdef REFLECTION_ENABLED
-#define REFLECTION_FIELD_ENUMERATION(field)                                                \
+#define REFLECTION_FIELD_ENUM(field)                                                \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
-                REFLECTION_FIELD_ENUMERATION_ANNOTATION_BODY_PRIV(field)
+                REFLECTION_FIELD_ENUM_ANNOTATION_BODY_PRIV(field)
 #else
-#define REFLECTION_FIELD_ENUMERATION(field)
+#define REFLECTION_FIELD_ENUM(field)
 #endif
 
 
@@ -128,9 +128,9 @@ private:
 #endif
 
 #ifdef REFLECTION_ENABLED
-#define REFLECTION_FIELD_ENUMERATION_INPLACE(field) field; REFLECTION_FIELD_ENUMERATION(field)
+#define REFLECTION_FIELD_ENUM_INPLACE(field) field; REFLECTION_FIELD_ENUM(field)
 #else
-#define REFLECTION_FIELD_ENUMERATION_INPLACE(field) field;
+#define REFLECTION_FIELD_ENUM_INPLACE(field) field;
 #endif
 
 #endif /* METHODANNOTATION_H_ */

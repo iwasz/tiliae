@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+  <Foo id="mojBean" abstract="true">
+    <City set-as="city" name="Warszawa"/>
+  </Foo>
+
+  <mojBean id="childBean1" />
+  <mojBean id="childBean2" />
+</beans>

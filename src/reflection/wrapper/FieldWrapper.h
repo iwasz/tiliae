@@ -155,7 +155,7 @@ Core::Variant FieldWrapperEnum <T C::*>::get (Core::Variant const &object)
 template <typename T, typename C>
 void FieldWrapperEnum <T C::*>::set (Core::Variant const &object, Core::Variant const &value)
 {
-        ocast <C *> (object)->*ptr = static_cast <T> (vcast <int> (value));
+        ocast <C *> (object)->*ptr = static_cast <T> (vcast <unsigned int> (value));
 }
 
 /****************************************************************************/

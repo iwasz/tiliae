@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+  <Dummy3 id="test1" field1="TYPE1" field2="TYPE2" field3="TYPE3" />
+  <Dummy3 id="test2" field1="TYPE3" field2="TYPE2" field3="TYPE1" />
+  <Dummy3 id="test3" field1="TYPE3" field2="TYPE3" field3="TYPE3" />
+</beans>

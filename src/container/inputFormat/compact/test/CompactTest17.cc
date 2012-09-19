@@ -7,20 +7,18 @@
  ****************************************************************************/
 
 #include <boost/test/unit_test.hpp>
-
+#include <boost/algorithm/string/trim.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/erase.hpp>
 #include <iostream>
 #include "core/Pointer.h"
 #include "testHelpers/TestHelpers.h"
-
 #include "container/ContainerFactory.h"
 #include "container/inputFormat/compact/CompactMetaService.h"
 #include "Conf.h"
 #include "container/metaStructure/model/MetaContainer.h"
+#include "container/ContainerFactory.h"
 
-
-#include <boost/algorithm/string/trim.hpp>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/erase.hpp>
 /****************************************************************************/
 
 using namespace Core;
@@ -45,6 +43,9 @@ Core::Variant toType (std::string const &s)
         else if (s == "TYPE3") {
                 t = TYPE3;
         }
+        else {
+                throw 1;
+        }
 
         return Core::Variant (static_cast <unsigned int> (t));
 }
@@ -54,12 +55,9 @@ struct Dummy3 {
         REFLECTION_CONSTRUCTOR_ (void)
         Dummy3 () {}
 
-        REFLECTION_CONSTRUCTOR (Dummy3 *)
-        Dummy3 (Dummy3 *d) : field1 (d) {}
-
-        Dummy3 *REFLECTION_FIELD_VALUE_INPLACE (field1);
-        Dummy3 *REFLECTION_FIELD_VALUE_INPLACE (field2);
-        Dummy3 *REFLECTION_FIELD_VALUE_INPLACE (field3);
+        Type REFLECTION_FIELD_ENUM_INPLACE (field1);
+        Type REFLECTION_FIELD_ENUM_INPLACE (field2);
+        Type REFLECTION_FIELD_ENUM_INPLACE (field3);
 
         REFLECTION_END (Dummy3)
 };
@@ -69,18 +67,37 @@ struct Dummy3 {
  */
 BOOST_AUTO_TEST_CASE (test081TEnum)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit ();
-
-
-        Ptr <MetaContainer> metaContainer = CompactMetaService::parseFile (PATH + "076-add-to.xml")
+        Ptr <MetaContainer> metaContainer = CompactMetaService::parseFile (PATH + "081-enum.xml");
         Ptr <BeanFactoryContainer> container = ContainerFactory::create (metaContainer, true);
-        container->addConversion (typeid (Geometry::Point), Geometry::stringToPointVariant);
-        container->addConversion (typeid (Geometry::LineString), Geometry::stringToLineStringVariant);
+        container->addConversion (typeid (Type), toType);
         ContainerFactory::init (container.get (), metaContainer.get ());
 
-        container->addConversion (typeid (Geometry::Point), Geometry::stringToPointVariant);
+        Dummy3 *test1 = vcast <Dummy3 *> (container->getBean ("test1"));
+        BOOST_REQUIRE_EQUAL (test1->field1, TYPE1);
+        BOOST_REQUIRE_EQUAL (test1->field2, TYPE2);
+        BOOST_REQUIRE_EQUAL (test1->field3, TYPE3);
 
+        Dummy3 *test2 = vcast <Dummy3 *> (container->getBean ("test2"));
+        BOOST_REQUIRE_EQUAL (test2->field1, TYPE3);
+        BOOST_REQUIRE_EQUAL (test2->field2, TYPE2);
+        BOOST_REQUIRE_EQUAL (test2->field3, TYPE1);
+
+        Dummy3 *test3 = vcast <Dummy3 *> (container->getBean ("test3"));
+        BOOST_REQUIRE_EQUAL (test3->field1, TYPE3);
+        BOOST_REQUIRE_EQUAL (test3->field2, TYPE3);
+        BOOST_REQUIRE_EQUAL (test3->field3, TYPE3);
 }
 
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (test082ParentWithInner)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "082-parent-with-inner.xml"));
+        Foo *foo1 = vcast <Foo *> (cont->getBean ("childBean1"));
+        Foo *foo2 = vcast <Foo *> (cont->getBean ("childBean2"));
+
+        BOOST_REQUIRE_NE (foo1->getCity (), foo2->getCity ());
+}
 
 BOOST_AUTO_TEST_SUITE_END ();

@@ -9,15 +9,4 @@ Version: 0.1
 Libs: -L${libdir} -ltiliae
 
 Cflags: \
--I${includedir}/tiliae/core/ \
--I${includedir}/tiliae/beanWrapper \
--I${includedir}/tiliae/common \
--I${includedir}/tiliae/container \
--I${includedir}/tiliae/editor \
--I${includedir}/tiliae/factory \
--I${includedir}/tiliae/k202 \
--I${includedir}/tiliae/reflection \
--I${includedir}/tiliae/signal \
--I${includedir}/tiliae/stateMachine \
--I${includedir}/tiliae/tools \
--I${includedir}/tiliae/xml
+-I${includedir}/tiliae

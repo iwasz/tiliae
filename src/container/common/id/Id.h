@@ -6,8 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef ID_H_
-#define ID_H_
+#ifndef TILIAE_ID_H_
+#define TILIAE_ID_H_
 
 #include "SimpleIdGenerator.h"
 

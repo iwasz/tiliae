@@ -40,8 +40,8 @@
 #include "container/ContainerFactory.h"
 #include "container/Defs.h"
 #include "container/beanFactory/BeanFactory.h"
-#include "common/Common.h"
-#include "inputFormat/InputFormat.h"
+#include "container/common/Common.h"
+#include "container/inputFormat/InputFormat.h"
 #include "container/metaStructure/MetaStructure.h"
 
 #	endif /* CONTAINER_H_ */

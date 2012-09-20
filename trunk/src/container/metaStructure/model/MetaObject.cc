@@ -22,7 +22,8 @@ MetaObject::MetaObject () : parent (NULL),
                             innerMetas (NULL),
                             fields (NULL),
                             lastField (NULL),
-                            type (UNSPECIFIED)
+                            type (UNSPECIFIED),
+                            aliases (NULL)
 {
         setScope (SINGLETON);
 }
@@ -50,6 +51,7 @@ MetaObject::~MetaObject ()
 //        }
 
         delete innerMetas;
+        delete aliases;
 }
 
 /****************************************************************************/
@@ -313,6 +315,17 @@ Core::StringVector MetaObject::getDependsOn () const
 
         boost::split (ret, deps, boost::is_any_of (","), boost::token_compress_on);
         return ret;
+}
+
+/****************************************************************************/
+
+void MetaObject::addAlias (std::string const &aliasName, std::string const &aliasValue)
+{
+        if (!aliases) {
+                aliases = new Core::StringMap ();
+        }
+
+        aliases->operator[] (aliasName) = aliasValue;
 }
 
 /****************************************************************************/

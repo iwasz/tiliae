@@ -118,6 +118,12 @@ public:
         void addMapField (DataKey *dataKey);
         void addListField (DataKey *dataKey);
 
+/*--------------------------------------------------------------------------*/
+
+        void addAlias (std::string const &aliasName, std::string const &aliasValue);
+        // Uwaga! Może zwrócic NULL!
+        Core::StringMap const *getAliases () const { return aliases; }
+
 private:
 
         void addInnerMeta (MetaObject *m);
@@ -145,6 +151,7 @@ private:
         DataKey *fields;
         DataKey *lastField;
         Type type;
+        Core::StringMap *aliases;
 };
 
 TILIAE_API std::ostream &operator<< (std::ostream &o, MetaObject const &m);

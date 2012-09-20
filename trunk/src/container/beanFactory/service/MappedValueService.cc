@@ -53,7 +53,7 @@ void MappedValueService::onValueData (DataKey const *dk, ValueData const *data)
         }
 
         Variant ret = helper->create (data->getType (), data->getData ());
-        inputMap->set (toStr (dk->key), ret);
+        inputMap->set (currMappedMeta->resolveAlias (toStr (dk->key)), ret);
 }
 
 /****************************************************************************/
@@ -64,7 +64,7 @@ void MappedValueService::onRefData (DataKey const *dk, RefData const *data)
                 return;
         }
 
-        inputMap->set (toStr (dk->key), Core::Variant ());
+        inputMap->set (currMappedMeta->resolveAlias (toStr (dk->key)), Core::Variant ());
 }
 
 /****************************************************************************/
@@ -78,7 +78,7 @@ void MappedValueService::onNullData (DataKey const *dk, NullData const *data)
         Core::Variant v;
         v.setNull ();
 
-        inputMap->set (toStr (dk->key), v);
+        inputMap->set (currMappedMeta->resolveAlias (toStr (dk->key)), v);
 }
 
 }

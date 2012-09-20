@@ -11,6 +11,7 @@
 
 #include "Exceptions.h"
 #include "Attributes.h"
-#include "Id.h"
+#include "SparseVariantMap.h"
+#include "id/Id.h"
 
 #endif /* MISC_H_ */

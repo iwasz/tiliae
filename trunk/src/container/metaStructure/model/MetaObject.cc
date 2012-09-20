@@ -330,6 +330,25 @@ void MetaObject::addAlias (std::string const &aliasName, std::string const &alia
 
 /****************************************************************************/
 
+std::string MetaObject::resolveAlias (std::string const &aliasName) const
+{
+        if (aliases) {
+                Core::StringMap::const_iterator i = aliases->find (aliasName);
+
+                if (i != aliases->end ()) {
+                        return i->second;
+                }
+        }
+
+        if (parent) {
+                return parent->resolveAlias (aliasName);
+        }
+
+        return aliasName;
+}
+
+/****************************************************************************/
+
 std::ostream &operator<< (std::ostream &o, MetaObject const &m)
 {
         o << "MetaObject [" << m.getId () << "]";

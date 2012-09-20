@@ -121,8 +121,7 @@ public:
 /*--------------------------------------------------------------------------*/
 
         void addAlias (std::string const &aliasName, std::string const &aliasValue);
-        // Uwaga! Może zwrócic NULL!
-        Core::StringMap const *getAliases () const { return aliases; }
+        std::string resolveAlias (std::string const &aliasName) const;
 
 private:
 

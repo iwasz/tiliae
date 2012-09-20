@@ -100,4 +100,17 @@ BOOST_AUTO_TEST_CASE (test082ParentWithInner)
         BOOST_REQUIRE_NE (foo1->getCity (), foo2->getCity ());
 }
 
+/**
+ *
+ */
+BOOST_AUTO_TEST_CASE (test083PropAlias)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "083-prop-alias.xml"));
+        Foo *foo1 = vcast <Foo *> (cont->getBean ("childBean1"));
+        Foo *foo2 = vcast <Foo *> (cont->getBean ("childBean2"));
+
+        BOOST_REQUIRE_EQUAL (foo1->getCity ()->getName (), "Częstochowa");
+        BOOST_REQUIRE_EQUAL (foo2->getCity ()->getName (), "Szczebrzeszyn");
+}
+
 BOOST_AUTO_TEST_SUITE_END ();

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+  <Foo id="mojBean" abstract="true">
+    <City set-as="city" name="Warszawa"/>
+    <prop-alias name="cit" value="city.name" />
+  </Foo>
+
+  <mojBean id="childBean1" cit="Częstochowa" />
+  <mojBean id="childBean2" cit="Szczebrzeszyn"  />
+</beans>

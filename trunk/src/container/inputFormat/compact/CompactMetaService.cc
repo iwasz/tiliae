@@ -43,6 +43,7 @@ struct Impl {
 
         void onOpenNull (mxml_node_t *node);
         void onOpenImport (mxml_node_t *node);
+        void onOpenPropAlias (mxml_node_t *node);
 
         void onData (mxml_node_t *node);
 
@@ -174,6 +175,9 @@ void Impl::onOpenElement (mxml_node_t *node)
         else if (!strcmp (name, "null")) {
                 onOpenNull (node);
         }
+        else if (!strcmp (name, "prop-alias")) {
+                onOpenPropAlias (node);
+        }
         else if (!strcmp (name, "beans") || !strcmp (name, "cargs")) {
         }
         else {
@@ -190,7 +194,12 @@ void Impl::onCloseElement (mxml_node_t *node)
         if (!strcmp (name, "value")) {
                 onCloseValue (node);
         }
-        else if (!strcmp (name, "beans") || !strcmp (name, "null") || !strcmp (name, "ref") || !strcmp (name, "import") || !strcmp (name, "cargs")) {
+        else if (!strcmp (name, "beans") ||
+                 !strcmp (name, "null") ||
+                 !strcmp (name, "ref") ||
+                 !strcmp (name, "import") ||
+                 !strcmp (name, "prop-alias") ||
+                 !strcmp (name, "cargs")) {
                 // Ignore
         }
         else {
@@ -463,6 +472,25 @@ void Impl::onOpenImport (mxml_node_t *node)
         if ((argVal = mxmlElementGetAttr (node, "resource"))) {
                 imports.push (argVal);
         }
+}
+
+/****************************************************************************/
+
+void Impl::onOpenPropAlias (mxml_node_t *node)
+{
+        char const *argVal = NULL;
+        std::string name, value;
+
+        if ((argVal = mxmlElementGetAttr (node, "name"))) {
+                name = argVal;
+        }
+
+        if ((argVal = mxmlElementGetAttr (node, "value"))) {
+                value = argVal;
+        }
+
+        MetaObject *meta = getCurrentMeta ();
+        meta->addAlias (name, value);
 }
 
 /****************************************************************************/

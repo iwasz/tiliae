@@ -227,7 +227,7 @@ InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memory
         beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin ());
         beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::IMMEDIATE_CALL));
 
-        internals->strCon_BW_Proto = strCon = new BFStringConstructorEditor (singletons);
+        internals->strCon_BW_Proto = strCon = new BFStringConstructorEditor (singletons, memoryAllocator);
         chain = new Editor::ChainEditor (false);
         chain->addEditor (typeEditor);
         chain->addEditor (strCon);

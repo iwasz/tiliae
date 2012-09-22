@@ -261,7 +261,7 @@ void Impl::fillMetaArguments (mxml_node_t *node, MetaObject *meta)
                         meta->setScope (MetaObject::PROTOTYPE);
                 }
                 else if (!strcmp (argVal, "bean")) {
-                        meta->setScope (MetaObject::BEAN);
+                        meta->setScope (MetaObject::BEAN_PROTOTYPE);
                 }
                 else {
                         throw XmlMetaServiceException ("Impl::onOpenBean : wrong value for argument 'scope'. Correct values are : 'singleton', 'prototype' and 'bean'. You provided : " + std::string (argVal));

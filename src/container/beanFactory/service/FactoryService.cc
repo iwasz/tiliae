@@ -46,7 +46,7 @@ bool FactoryService::onMetaBegin (MetaObject const *data)
                 beanFactory->setFactory (factory, false);
         }
         else {
-                if (data->getScope () == MetaObject::SINGLETON) {
+                if (data->getScope () == MetaObject::SINGLETON || data->getScope () == MetaObject::BEAN_SINGLETON) {
                         factory = defaultSingletonFactory;
                 }
                 else {

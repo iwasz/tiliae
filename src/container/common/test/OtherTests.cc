@@ -47,8 +47,8 @@ BOOST_AUTO_TEST_CASE (testAttrNoParent)
         attributes.setInt (Attributes::SCOPE_ARGUMENT, MetaObject::PROTOTYPE);
         BOOST_CHECK_EQUAL (static_cast <MetaObject::Scope> (attributes.getInt (Attributes::SCOPE_ARGUMENT, false)), MetaObject::PROTOTYPE);
 
-        attributes.setInt (Attributes::SCOPE_ARGUMENT, MetaObject::BEAN);
-        BOOST_CHECK_EQUAL (static_cast <MetaObject::Scope> (attributes.getInt (Attributes::SCOPE_ARGUMENT, false)), MetaObject::BEAN);
+        attributes.setInt (Attributes::SCOPE_ARGUMENT, MetaObject::BEAN_PROTOTYPE);
+        BOOST_CHECK_EQUAL (static_cast <MetaObject::Scope> (attributes.getInt (Attributes::SCOPE_ARGUMENT, false)), MetaObject::BEAN_PROTOTYPE);
 
         std::string str = "test";
         attributes.setString (Attributes::ID_ARGUMENT, str.c_str ());

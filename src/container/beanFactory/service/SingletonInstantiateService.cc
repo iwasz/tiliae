@@ -31,7 +31,7 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         for (MetaMap::iterator i = inner.begin (); i != inner.end (); ++i) {
                 MetaObject *meta = i->second;
 
-                if (meta->getScope () != MetaObject::BEAN) {
+                if (meta->getScope () != MetaObject::BEAN_PROTOTYPE && meta->getScope () != MetaObject::BEAN_SINGLETON) {
                         continue;
                 }
 

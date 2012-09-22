@@ -87,11 +87,15 @@ public:
 private:
 
         Core::Variant getSingletonNoThrow (const char *name) const;
+        void deleteSingleton (Core::Variant &v);
 
 private:
 
         BeanFactoryMap factoryMap;
+        // Singletony z kluczami - można je pobrać po kluczu. Są kasowane kiedy kasujemy container.
         SparseVariantMap singletons;
+        // Singletony bez kluczy, które poprostu mają zostać skasowane kiedy kasujemy container.
+        Core::VariantVector additionalSingletons;
         InternalSingletons *internalSingletons;
         BeanFactoryContainer const *linked;
         Ptr <MetaContainer> metaContainer;

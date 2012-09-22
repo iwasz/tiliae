@@ -25,7 +25,7 @@ MetaObject::MetaObject () : parent (NULL),
                             type (UNSPECIFIED),
                             aliases (NULL)
 {
-        setScope (SINGLETON);
+        setIsParent (false);
 }
 
 /****************************************************************************/

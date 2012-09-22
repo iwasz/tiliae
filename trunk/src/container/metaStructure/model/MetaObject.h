@@ -56,7 +56,7 @@ typedef std::deque <MetaObject const *> MetaDeque;
 class TILIAE_API MetaObject {
 public:
 
-        enum Scope { SINGLETON, PROTOTYPE, BEAN };
+        enum Scope { SINGLETON, PROTOTYPE, BEAN_SINGLETON, BEAN_PROTOTYPE };
         enum Type { UNSPECIFIED, MAPPED, INDEXED };
 
         virtual ~MetaObject ();
@@ -91,6 +91,9 @@ public:
 
         const char *getParent () const { return attributes.getString (Attributes::PARENT_ARGUMENT, false); }
         void setParent (const char *parent) { attributes.setString (Attributes::PARENT_ARGUMENT, parent); }
+
+        bool getIsParent () const { return attributes.getBool (Attributes::IS_PARENT_ARGUMENT, false); }
+        void setIsParent (bool b) { attributes.setBool (Attributes::IS_PARENT_ARGUMENT, b); }
 
         const char *getInitMethod () const { return attributes.getString (Attributes::INITMETHOD_ARGUMENT); }
         void setInitMethod (const char *initMethod) { attributes.setString (Attributes::INITMETHOD_ARGUMENT, initMethod); }

@@ -44,13 +44,18 @@ void MetaContainer::add (MetaObject *val)
 
 void MetaContainer::addInner (MetaObject *outer, MetaObject *inner)
 {
+        if (outer->getScope () == MetaObject::SINGLETON &&
+            !inner->getAttributes ()->containsKey (Attributes::SCOPE_ARGUMENT)) {
+                inner->setScope (MetaObject::BEAN_SINGLETON);
+        }
+
         outer->addInnerMeta (inner);
         add (inner);
 }
 
 /****************************************************************************/
 
-MetaObject const *MetaContainer::get (const std::string &key) const
+MetaObject *MetaContainer::getPrv (const std::string &key)
 {
         MetaMap::const_iterator i;
         if ((i = metaMap.find (key.c_str ())) != metaMap.end ()) {
@@ -58,10 +63,17 @@ MetaObject const *MetaContainer::get (const std::string &key) const
         }
 
         if (getLinked ()) {
-                return getLinked ()->get (key);
+                return getLinked ()->getPrv (key);
         }
 
         return NULL;
+}
+
+/****************************************************************************/
+
+MetaObject const *MetaContainer::get (const std::string &key) const
+{
+        return const_cast <MetaContainer *> (this)->getPrv (key);
 }
 
 /****************************************************************************/
@@ -232,7 +244,7 @@ void MetaContainer::updateParents ()
                 }
 
                 std::string parentName = child->getParent ();
-                MetaObject const *parent = get (parentName);
+                MetaObject *parent = getPrv (parentName);
 
                 if (!parent) {
                         throw NoSuchBeanException ("MetaContainer::updateParents : Wrong 'parent' value. There is no bean with id =" + parentName);
@@ -244,7 +256,7 @@ void MetaContainer::updateParents ()
                 }
 
                 child->setParentMeta (parent);
-                // Tu kopiować inner meta i referencje.
+                parent->setIsParent (true);
         }
 
         if (linked) {

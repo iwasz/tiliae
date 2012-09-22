@@ -867,7 +867,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
         MetaObject *meta0 = factory.newMetaObject ();
         meta0->setId ("city");
         meta0->setClass ("City");
-        meta0->setScope (MetaObject::BEAN);
+        meta0->setScope (MetaObject::BEAN_PROTOTYPE);
         meta0->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
         metaCont->addInner (meta00, meta0);
 

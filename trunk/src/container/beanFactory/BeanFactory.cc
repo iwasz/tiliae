@@ -89,7 +89,8 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                         }
                 }
 
-                if ((flags & FORCE_SINGLETON || getSingleton ()) && !storedSingleton.isNone ()) {
+                MetaObject::Scope myScope = getScope ();
+                if ((flags & FORCE_SINGLETON || myScope == MetaObject::SINGLETON) && !storedSingleton.isNone ()) {
                         return storedSingleton;
                 }
 
@@ -175,18 +176,26 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                         bfc->decNested ();
                 }
 
-                if (flags & FORCE_SINGLETON || getSingleton ()) {
+                if (flags & FORCE_SINGLETON || myScope == MetaObject::SINGLETON) {
                         storedSingleton = output;
                 }
 
-                if (getSingleton ()) {
-                        Core::IAllocator *memoryAllocator = container->getMemoryAllocator ();
-                        char *idCopy = (char *)memoryAllocator->malloc (id.length () + 1);
-                        strcpy (idCopy, id.c_str ());
-
+                if (myScope == MetaObject::SINGLETON || myScope == MetaObject::BEAN_SINGLETON) {
                         // Dodaj do mapy singletonów
-                        container->addSingleton (idCopy, output);
+                        if (myScope == MetaObject::BEAN_SINGLETON) {
+                                container->addSingleton (NULL, output);
+                        }
+                        else {
+                                Core::IAllocator *memoryAllocator = container->getMemoryAllocator ();
+                                char *idCopy = (char *)memoryAllocator->malloc (id.length () + 1);
+                                strcpy (idCopy, id.c_str ());
 
+                                container->addSingleton (idCopy, output);
+                        }
+                }
+
+                bool amIAParent = attributes->getBool (Attributes::IS_PARENT_ARGUMENT, false);
+                if (myScope == MetaObject::SINGLETON && !amIAParent) {
                         BeanFactoryMap *map = &container->getBeanFactoryMap();
                         map->erase (id);
 
@@ -213,16 +222,11 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
 /****************************************************************************/
 
-bool BeanFactory::getSingleton () const
-{
-        return (static_cast <MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
-}
-
-/****************************************************************************/
-
 void BeanFactory::onBeforePropertiesSet (BeanFactory const *notifier) const
 {
-        if (static_cast <MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)) == MetaObject::BEAN) {
+        MetaObject::Scope myScope = getScope ();
+
+        if (myScope == MetaObject::BEAN_PROTOTYPE || myScope == MetaObject::BEAN_SINGLETON) {
                 flags |= FORCE_SINGLETON;
         }
 }
@@ -231,10 +235,12 @@ void BeanFactory::onBeforePropertiesSet (BeanFactory const *notifier) const
 
 void BeanFactory::onAfterPropertiesSet (BeanFactory const *notifier) const
 {
-        if (static_cast <MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)) == MetaObject::BEAN) {
+        MetaObject::Scope myScope = getScope ();
+
+        if (myScope == MetaObject::BEAN_PROTOTYPE || myScope == MetaObject::BEAN_SINGLETON) {
                 flags &= ~FORCE_SINGLETON;
 
-                if (!getSingleton ()) {
+                if (myScope != MetaObject::SINGLETON) {
                         storedSingleton = Core::Variant ();
                 }
         }
@@ -335,6 +341,13 @@ Core::Variant BeanFactory::getInput () const
         }
 
         return Core::Variant ();
+}
+
+/****************************************************************************/
+
+MetaObject::Scope BeanFactory::getScope () const
+{
+        return static_cast <MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT));
 }
 
 /*##########################################################################*/

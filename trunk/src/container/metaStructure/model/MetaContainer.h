@@ -76,6 +76,7 @@ private:
         void prepareBidirectionalIndex (BidirectionalMetaIndex *index, Graph *graph) const;
         const char *getDependencyName (IData *data) const;
         friend std::ostream &operator<< (std::ostream &o, MetaContainer const &m);
+        MetaObject *getPrv (const std::string &key);
 
 private:
 

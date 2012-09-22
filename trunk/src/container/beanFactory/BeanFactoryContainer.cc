@@ -34,27 +34,21 @@ BeanFactoryContainer::~BeanFactoryContainer ()
 
                 BeanFactory * bf = i->second;
 
+                bool bfIsParent = bf->getBoolAttribute (Attributes::IS_PARENT_ARGUMENT, false);
                 // Can be singleton + lazy-init here, but singletons deletes themselves.
-                if (!bf->getSingleton ()) {
+                if (bf->getScope () != MetaObject::SINGLETON ||
+                   (bf->getScope () == MetaObject::SINGLETON && bfIsParent)) {
                         delete bf;
                 }
         }
 
         for (SparseVariantMap::iterator i = singletons.begin (); i != singletons.end (); ++i) {
                 Core::Variant &v = i->second;
+                deleteSingleton (v);
+        }
 
-                if (v.getType () != Core::Variant::POINTER &&
-                    v.getType () != Core::Variant::POINTER_CONST &&
-                    v.getType () != Core::Variant::OBJECT &&
-                    v.getType () != Core::Variant::OBJECT_CONST) {
-                        continue;
-                }
-
-                Reflection::Class *cls = Reflection::Manager::classForType (v.getTypeInfo ());
-
-                if (cls) {
-                        cls->destruct (&v);
-                }
+        for (Core::VariantVector::iterator i = additionalSingletons.begin (); i != additionalSingletons.end (); ++i) {
+                deleteSingleton (*i);
         }
 
         delete internalSingletons;
@@ -62,15 +56,27 @@ BeanFactoryContainer::~BeanFactoryContainer ()
 
 /****************************************************************************/
 
+void BeanFactoryContainer::deleteSingleton (Core::Variant &v)
+{
+        if (v.getType () != Core::Variant::POINTER &&
+            v.getType () != Core::Variant::POINTER_CONST &&
+            v.getType () != Core::Variant::OBJECT &&
+            v.getType () != Core::Variant::OBJECT_CONST) {
+                return;
+        }
+
+        Reflection::Class *cls = Reflection::Manager::classForType (v.getTypeInfo ());
+
+        if (cls) {
+                cls->destruct (&v);
+        }
+}
+
+/****************************************************************************/
+
 std::string BeanFactoryContainer::toString () const
 {
         std::string ret = "BeanFactoryContainer (" + ToStringHelper::toString (factoryMap);
-
-//        if (singletons) {
-//                ret += ", ";
-//                ret += singletons.toString ();
-//        }
-
         ret += ")";
         return ret;
 }
@@ -164,7 +170,12 @@ bool BeanFactoryContainer::containsBean (const std::string &name) const
 
 void BeanFactoryContainer::addSingleton (const char *key, const Core::Variant &singleton)
 {
-        singletons.operator[] (key) = singleton;
+        if (key) {
+                singletons.operator[] (key) = singleton;
+        }
+        else {
+                additionalSingletons.push_back (singleton);
+        }
 }
 
 /****************************************************************************/

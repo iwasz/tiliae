@@ -36,7 +36,8 @@ public:
                 LAST_STRING,
                 ABSTRACT_ARGUMENT,
                 LAZYINIT_ARGUMENT,
-                SCOPE_ARGUMENT
+                SCOPE_ARGUMENT,
+                IS_PARENT_ARGUMENT
         };
 
         Attributes ();
@@ -85,6 +86,7 @@ private:
                 unsigned int lazyInitSet:1;
                 unsigned int scope:2;
                 unsigned int scopeSet:1;
+                unsigned int isParent:1;
         } intData;
 
 };

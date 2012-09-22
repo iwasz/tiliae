@@ -29,6 +29,7 @@
 #include "editor/StringFactoryMethodEditor.h"
 #include "editor/TypeEditor.h"
 #include "core/StrUtil.h"
+#include "container/metaStructure/model/MetaObject.h"
 
 
 namespace Wrapper {
@@ -127,7 +128,7 @@ public:
                 DELETE_EDITOR = 0x20
         };
 
-        bool getSingleton () const;
+        MetaObject::Scope getScope () const;
 
 private:
 

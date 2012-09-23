@@ -87,6 +87,7 @@ private:
                 unsigned int scope:2;
                 unsigned int scopeSet:1;
                 unsigned int isParent:1;
+                unsigned int isParentSet:1;
         } intData;
 
 };

@@ -23,6 +23,8 @@ Attributes::Attributes () : parent (NULL)
         intData.lazyInitSet = 0;
         intData.scope = 0;
         intData.scopeSet = 0;
+        intData.isParent = 0;
+        intData.isParentSet = 0;
 }
 
 /****************************************************************************/
@@ -70,6 +72,11 @@ void Attributes::setInt (AttributeName key, int value)
                 intData.scopeSet = 1;
                 break;
 
+        case IS_PARENT_ARGUMENT:
+                intData.isParent = value;
+                intData.isParentSet = 1;
+                break;
+
         default:
                 break;
         }
@@ -88,6 +95,9 @@ int Attributes::getIntPriv (AttributeName key) const
 
         case SCOPE_ARGUMENT:
                 return (intData.scopeSet) ? (intData.scope) : (-1);
+
+        case IS_PARENT_ARGUMENT:
+                return (intData.isParentSet) ? (intData.isParent) : (-1);
 
         default:
                 return -1;
@@ -131,7 +141,8 @@ bool Attributes::containsKey (AttributeName key, bool getFromParent) const
         }
         else if (iKey >= ABSTRACT_ARGUMENT && iKey <= SCOPE_ARGUMENT) {
                  foundInChild = ((iKey == ABSTRACT_ARGUMENT) && (intData.abstractSet)) ||
-                                ((iKey == LAZYINIT_ARGUMENT) && (intData.lazyInitSet)) ||
+                                 ((iKey == LAZYINIT_ARGUMENT) && (intData.lazyInitSet)) ||
+                                 ((iKey == IS_PARENT_ARGUMENT) && (intData.isParentSet)) ||
                                 ((iKey == SCOPE_ARGUMENT) && (intData.scopeSet));
         }
 
@@ -153,6 +164,7 @@ Attributes *Attributes::makeCopyOnHeap () const
         a->setInt (ABSTRACT_ARGUMENT, getInt (ABSTRACT_ARGUMENT));
         a->setInt (LAZYINIT_ARGUMENT, getInt (LAZYINIT_ARGUMENT));
         a->setInt (SCOPE_ARGUMENT, getInt (SCOPE_ARGUMENT));
+        a->setInt (IS_PARENT_ARGUMENT, getInt (IS_PARENT_ARGUMENT));
 
         return a;
 }

@@ -28,18 +28,13 @@ BeanFactoryContainer::BeanFactoryContainer () :
 
 BeanFactoryContainer::~BeanFactoryContainer ()
 {
-        for (BeanFactoryMap::iterator i = factoryMap.begin ();
-             i  != factoryMap.end ();
-             ++i) {
-
+        /*
+         * Kasuj wszystko co zostało. Singletony i ich inner beany kasują się same i usuwają z factoryMap,
+         * więc żadne inne dodatkowe sprawdzenia nie są potrzebne.
+         */
+        for (BeanFactoryMap::iterator i = factoryMap.begin (); i  != factoryMap.end (); ++i) {
                 BeanFactory * bf = i->second;
-
-                bool bfIsParent = bf->getBoolAttribute (Attributes::IS_PARENT_ARGUMENT, false);
-                // Can be singleton + lazy-init here, but singletons deletes themselves.
-                if (bf->getScope () != MetaObject::SINGLETON ||
-                   (bf->getScope () == MetaObject::SINGLETON && bfIsParent)) {
-                        delete bf;
-                }
+                 delete bf;
         }
 
         for (SparseVariantMap::iterator i = singletons.begin (); i != singletons.end (); ++i) {

@@ -2,7 +2,6 @@
 <beans>
 
   <VariantMap id="parentMap">
-
     <value set-as="a">Test1</value>
 
     <VariantMap set-as="b">

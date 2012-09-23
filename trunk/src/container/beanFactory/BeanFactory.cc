@@ -194,9 +194,32 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                         }
                 }
 
+                BeanFactoryMap *map = &container->getBeanFactoryMap();
+
+                /*
+                 * Skasuj moje innerFactories jeśli jest pewność, że nie nie będą potrzebne, czyli:
+                 * - Jeśli nie jestem rodzicem i moje dzieci mogą ich potrzebować.
+                 * - Jeśli nie jestem dzieckiem rodzica, który ma (może mieć - nie sprawdzam czy ma) inne dzieci, które mogą ich potrzebować.
+                 */
+                bool amIAParentOrChild = attributes->getBool (Attributes::IS_PARENT_ARGUMENT, true);
+                if (myScope == MetaObject::SINGLETON && !amIAParentOrChild) {
+                        if (innerBeanFactories) {
+                                for (BeanFactoryMap::iterator i = innerBeanFactories->begin (); i != innerBeanFactories->end (); ++i) {
+                                        std::string innerKey = i->first;
+                                        BeanFactory *innerFactory = i->second;
+
+                                        delete innerFactory;
+                                        map->erase (innerKey);
+                                }
+                        }
+                }
+
+                /*
+                 * Skasuj mnie samego jeśli jestem singletonem i nie jestem rodzicem (wówczas jestem potrzebny dzieciom).
+                 */
                 bool amIAParent = attributes->getBool (Attributes::IS_PARENT_ARGUMENT, false);
                 if (myScope == MetaObject::SINGLETON && !amIAParent) {
-                        BeanFactoryMap *map = &container->getBeanFactoryMap();
+                        map = &container->getBeanFactoryMap();
                         map->erase (id);
 
                         // Dodaj singleton

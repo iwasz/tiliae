@@ -25,7 +25,6 @@ MetaObject::MetaObject () : parent (NULL),
                             type (UNSPECIFIED),
                             aliases (NULL)
 {
-        setIsParent (false);
 }
 
 /****************************************************************************/

@@ -103,6 +103,11 @@ template <typename T>
 void ArrayRegionAllocator <T>::addNewRegion ()
 {
         endPointer = new T[regionSize];
+
+//#ifndef NDEBUG
+//        memset (endPointer, 0, regionSize * sizeof (T));
+//#endif
+
         regions.push_back (endPointer);
 }
 

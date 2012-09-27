@@ -46,7 +46,9 @@ BeanFactoryContainer::~BeanFactoryContainer ()
                 deleteSingleton (*i);
         }
 
-        delete internalSingletons;
+        if (!linked) {
+                delete internalSingletons;
+        }
 }
 
 /****************************************************************************/

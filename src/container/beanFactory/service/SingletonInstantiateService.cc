@@ -24,20 +24,20 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         BeanFactoryVisitorContext *bfCtx = getBVFContext ();
         BeanFactoryMap *bfMap = bfCtx->getBeanFactoryMap();
         BeanFactory *beanFactory = bfCtx->getCurrentBF ();
+        BeanFactoryContainer *container = bfCtx->getBeanFactoryContainer ();
 
         // Zagnieżdżanie beanów
         MetaMap inner = meta->getInnerMetas ();
 
         for (MetaMap::iterator i = inner.begin (); i != inner.end (); ++i) {
-                MetaObject *meta = i->second;
+                MetaObject *innerMeta = i->second;
 
-                if (meta->getScope () != MetaObject::BEAN_PROTOTYPE && meta->getScope () != MetaObject::BEAN_SINGLETON) {
+                if (innerMeta->getScope () != MetaObject::BEAN_PROTOTYPE && innerMeta->getScope () != MetaObject::BEAN_SINGLETON) {
                         continue;
                 }
 
-                BeanFactoryMap::iterator j = bfMap->find (meta->getId ());
-                assert (j != bfMap->end ());
-                BeanFactory *bf = j->second;
+                BeanFactory *bf = container->getBeanFactory (innerMeta->getId ());
+                assert (bf);
                 beanFactory->addInnerBeanFactory (bf);
         }
 

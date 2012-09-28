@@ -113,4 +113,53 @@ BOOST_AUTO_TEST_CASE (test083PropAlias)
         BOOST_REQUIRE_EQUAL (foo2->getCity ()->getName (), "Szczebrzeszyn");
 }
 
+/**
+ * Myślałem, że to nie będzie działać, ale jednak działa :
+ *
+ *  <A id="a">
+ *   <A1 set-as="a1" id="a1" />
+ *   <ref set-as="a2" bean="@a1" />
+ *  </A>
+ *
+ *  <a id="nowyA"/>
+ *
+ * TO JEST BŁĘDNE ROZUMOWANIE:
+ * Powyżej beany klasy A mają pola a1 i a2. W obydwu instancjach a1 powinno być równe a2. Jedak z powodu błędu w drugiej instancji a2 bedzie równe a1 i a2 z
+ * beana a. Wynika to stąd, że te wewnętrzne dodają do additionalSingletons (vector).
+ */
+BOOST_AUTO_TEST_CASE (test084InerSingletonInherit)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "084-inner-singleton.xml"));
+
+        Bar *bar1= vcast <Bar *> (cont->getBean ("mojBean"));
+        BOOST_REQUIRE_EQUAL (bar1->getCity4 (), bar1->getCity5 ());
+        BOOST_REQUIRE_EQUAL (bar1->getCity4 ()->getName (), "Warszawa");
+
+        Bar *bar2= vcast <Bar *> (cont->getBean ("childBean1"));
+        BOOST_REQUIRE_EQUAL (bar2->getCity4 (), bar2->getCity5 ());
+        BOOST_REQUIRE_NE (bar1->getCity4 (), bar2->getCity4 ());
+        BOOST_REQUIRE_EQUAL (bar2->getCity4 ()->getName (), "Kraków");
+
+        Bar *bar3= vcast <Bar *> (cont->getBean ("childBean2"));
+        BOOST_REQUIRE_EQUAL (bar3->getCity4 (), bar3->getCity5 ());
+        BOOST_REQUIRE_NE (bar1->getCity4 (), bar3->getCity4 ());
+        BOOST_REQUIRE_EQUAL (bar3->getCity4 ()->getName (), "Poznań");
+}
+
+/**
+ * Test na błąd, który pokazał się w Bajce - kiedy miałem zlinkowane kontenery, jeden z singletonów instanconował się
+ * 2 razy.
+ */
+BOOST_AUTO_TEST_CASE (test085LinkedContainers)
+{
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "085-linked-01.xml"), true);
+        Bar *bar1 = vcast <Bar *> (cont->getBean ("mojBean"));
+
+        Ptr <BeanFactoryContainer> cont2 = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "085-linked-02.xml"), false, cont.get ());
+        VariantList *list = vcast <VariantList *> (cont2->getBean ("lista"));
+        Bar *bar2 = vcast <Bar *> (list->front ());
+
+        BOOST_REQUIRE_EQUAL (bar1, bar2);
+}
+
 BOOST_AUTO_TEST_SUITE_END ();

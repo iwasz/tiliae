@@ -201,29 +201,31 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                  * - Jeśli nie jestem rodzicem i moje dzieci mogą ich potrzebować.
                  * - Jeśli nie jestem dzieckiem rodzica, który ma (może mieć - nie sprawdzam czy ma) inne dzieci, które mogą ich potrzebować.
                  */
-                bool amIAParentOrChild = attributes->getBool (Attributes::IS_PARENT_ARGUMENT, true);
-                if (myScope == MetaObject::SINGLETON && !amIAParentOrChild) {
-                        if (innerBeanFactories) {
-                                for (BeanFactoryMap::iterator i = innerBeanFactories->begin (); i != innerBeanFactories->end (); ++i) {
-                                        std::string innerKey = i->first;
-                                        BeanFactory *innerFactory = i->second;
+                if (!container->isStoreConfigurationForLinked ()) {
+                        bool amIAParentOrChild = attributes->getBool (Attributes::IS_PARENT_ARGUMENT, true);
+                        if (myScope == MetaObject::SINGLETON && !amIAParentOrChild) {
+                                if (innerBeanFactories) {
+                                        for (BeanFactoryMap::iterator i = innerBeanFactories->begin (); i != innerBeanFactories->end (); ++i) {
+                                                std::string innerKey = i->first;
+                                                BeanFactory *innerFactory = i->second;
 
-                                        delete innerFactory;
-                                        map->erase (innerKey);
+                                                delete innerFactory;
+                                                map->erase (innerKey);
+                                        }
                                 }
                         }
-                }
 
-                /*
-                 * Skasuj mnie samego jeśli jestem singletonem i nie jestem rodzicem (wówczas jestem potrzebny dzieciom).
-                 */
-                bool amIAParent = attributes->getBool (Attributes::IS_PARENT_ARGUMENT, false);
-                if (myScope == MetaObject::SINGLETON && !amIAParent) {
-                        map = &container->getBeanFactoryMap();
-                        map->erase (id);
+                        /*
+                         * Skasuj mnie samego jeśli jestem singletonem i nie jestem rodzicem (wówczas jestem potrzebny dzieciom).
+                         */
+                        bool amIAParent = attributes->getBool (Attributes::IS_PARENT_ARGUMENT, false);
+                        if (myScope == MetaObject::SINGLETON && !amIAParent) {
+                                map = &container->getBeanFactoryMap();
+                                map->erase (id);
 
-                        // Dodaj singleton
-                        delete this;
+                                // Dodaj singleton
+                                delete this;
+                        }
                 }
 
                 dcRollback (context);

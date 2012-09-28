@@ -123,7 +123,7 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 /****************************************************************************/
 
 Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCont,
-                                                     bool storeMetaContainer,
+                                                     bool storeConfigurationForLinked,
                                                      BeanFactoryContainer *linkedParent)
 {
         Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> ();
@@ -138,7 +138,7 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCon
                 metaCont->setLinked (linkedParent->getMetaContainer ());
         }
 
-        if (storeMetaContainer) {
+        if (storeConfigurationForLinked) {
                 container->setMetaContainer (metaCont);
         }
 
@@ -149,10 +149,10 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCon
 /****************************************************************************/
 
 Ptr <BeanFactoryContainer> ContainerFactory::createAndInit (Ptr <MetaContainer> metaCont,
-                                                            bool storeMetaContainer,
+                                                            bool storeConfigurationForLinked,
                                                             BeanFactoryContainer *linkedParent)
 {
-        Ptr <BeanFactoryContainer> container = create (metaCont, storeMetaContainer,linkedParent);
+        Ptr <BeanFactoryContainer> container = create (metaCont, storeConfigurationForLinked,linkedParent);
         init (container.get (), metaCont.get ());
         return container;
 }

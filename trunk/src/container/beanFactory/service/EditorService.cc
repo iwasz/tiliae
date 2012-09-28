@@ -229,14 +229,12 @@ void EditorService::onRefData (DataKey const *dk, RefData const *data)
                 }
                 // Szukaj singletonu zewnętrznego w mapie siongletons
                 else {
-                        SparseVariantMap *singletons = container->getSingletons ();
-                        SparseVariantMap::const_iterator i = singletons->find (referenceName.c_str ());
+                        Core::Variant trySingleton = container->getSingletonNoThrow (referenceName.c_str ());
 
-                        if (i != singletons->end ()) {
-                                element.singleton = i->second;
+                        if (!trySingleton.isNone ()) {
+                                element.singleton = trySingleton;
                                 element.type = Element::EXTERNAL_SINGLETON;
                         }
-
                 }
         }
 

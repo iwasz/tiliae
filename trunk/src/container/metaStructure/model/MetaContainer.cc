@@ -55,7 +55,7 @@ void MetaContainer::addInner (MetaObject *outer, MetaObject *inner)
 
 /****************************************************************************/
 
-MetaObject *MetaContainer::getPrv (const std::string &key)
+MetaObject *MetaContainer::getPrv (const std::string &key, bool *fromLinked)
 {
         MetaMap::const_iterator i;
         if ((i = metaMap.find (key.c_str ())) != metaMap.end ()) {
@@ -63,6 +63,10 @@ MetaObject *MetaContainer::getPrv (const std::string &key)
         }
 
         if (getLinked ()) {
+                if (fromLinked) {
+                        *fromLinked = true;
+                }
+
                 return getLinked ()->getPrv (key);
         }
 
@@ -71,9 +75,16 @@ MetaObject *MetaContainer::getPrv (const std::string &key)
 
 /****************************************************************************/
 
+MetaObject const *MetaContainer::getPrv (const std::string &key, bool *fromLinked) const
+{
+        return const_cast <MetaContainer *> (this)->getPrv (key, fromLinked);
+}
+
+/****************************************************************************/
+
 MetaObject const *MetaContainer::get (const std::string &key) const
 {
-        return const_cast <MetaContainer *> (this)->getPrv (key);
+        return getPrv (key);
 }
 
 /****************************************************************************/
@@ -202,9 +213,10 @@ void MetaContainer::fillGraph  (MetaObject const *meta, size_t metaNumber, MetaD
         Core::StringVector deps = getRuntimeDependencies (meta);
 
         for (Core::StringVector::const_iterator i = deps.begin (); i != deps.end (); ++i) {
-                MetaObject const *dependency = get (*i);
+                bool fromLinked = false;
+                MetaObject const *dependency = getPrv (*i, &fromLinked);
 
-                if (!dependency) {
+                if (!dependency || fromLinked) {
                         continue;
                 }
 
@@ -225,9 +237,9 @@ void MetaContainer::prepareBidirectionalIndex (BidirectionalMetaIndex *index, Gr
                 index->add (vertexDescriptor, i->second);
         }
 
-        if (linked) {
-                linked->prepareBidirectionalIndex (index, graph);
-        }
+//        if (linked) {
+//                linked->prepareBidirectionalIndex (index, graph);
+//        }
 
         return;
 }
@@ -259,9 +271,10 @@ void MetaContainer::updateParents ()
                 parent->setIsParent (true);
         }
 
-        if (linked) {
-                linked->updateParents ();
-        }
+//        Rodzic to już ma zrobione!
+//        if (linked) {
+//                linked->updateParents ();
+//        }
 }
 
 /****************************************************************************/

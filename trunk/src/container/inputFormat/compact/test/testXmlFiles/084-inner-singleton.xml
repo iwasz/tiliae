@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+  <Bar id="mojBean">
+    <cargs>
+      <null />
+    </cargs>
+
+    <City id="city" set-as="city4" name="Warszawa" />
+    <ref set-as="city5" bean="city" />
+  </Bar>
+
+  <mojBean id="childBean1" city4.name="Kraków"/>
+  <mojBean id="childBean2" city4.name="Poznań"/>
+</beans>

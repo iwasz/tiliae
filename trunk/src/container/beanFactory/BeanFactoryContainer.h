@@ -66,6 +66,7 @@ public:
          */
         void addSingleton (const char *key, const Core::Variant &singleton);
         Core::Variant getSingleton (const char *name) const;
+        Core::Variant getSingletonNoThrow (const char *name) const;
         SparseVariantMap *getSingletons () { return &singletons; }
 
         void setInternalSingletons (InternalSingletons *s) { internalSingletons = s; }
@@ -79,6 +80,12 @@ public:
         Ptr <MetaContainer> getMetaContainer () { return metaContainer; }
         void setMetaContainer (Ptr <MetaContainer> m) { metaContainer = m; }
 
+        /**
+         * Odpowiada na pytanie czy ten kontener zachowuje konfigurację (meta obiekty i fabryki beanów)
+         * na później dla swoich ewentualnych podlinkowanych kontenerów.
+         */
+        bool isStoreConfigurationForLinked () const { return bool (metaContainer); }
+
         void addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function);
         Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
 
@@ -86,7 +93,6 @@ public:
 
 private:
 
-        Core::Variant getSingletonNoThrow (const char *name) const;
         void deleteSingleton (Core::Variant &v);
 
 private:

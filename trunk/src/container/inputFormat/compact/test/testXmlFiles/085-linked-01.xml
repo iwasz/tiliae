@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+  <Bar id="mojBean">
+    <cargs>
+      <null />
+    </cargs>
+  </Bar>
+</beans>

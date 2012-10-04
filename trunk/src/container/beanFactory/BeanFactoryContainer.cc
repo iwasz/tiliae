@@ -205,5 +205,13 @@ void BeanFactoryContainer::addConversion (std::type_info const &type, Editor::St
         Editor::StringFactoryMethodEditor *conversionMethodEditor = dynamic_cast <Editor::StringFactoryMethodEditor *> (internalSingletons->mainMethodConversionEditor);
         conversionMethodEditor->addConversion (type, function);
 }
+/****************************************************************************/
+
+void BeanFactoryContainer::addConversion (std::type_info const &type, Editor::IEditor *editor)
+{
+        assert (internalSingletons->mainTypeEditor);
+        Editor::TypeEditor *typeEditor = dynamic_cast <Editor::TypeEditor *> (internalSingletons->mainTypeEditor);
+        typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), type, editor));
+}
 
 }

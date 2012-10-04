@@ -87,6 +87,8 @@ public:
         bool isStoreConfigurationForLinked () const { return bool (metaContainer); }
 
         void addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function);
+        void addConversion (std::type_info const &type, Editor::IEditor *editor);
+
         Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
 
         friend class ContainerFactory;

@@ -211,12 +211,12 @@ void *VCast <void *>::run (Variant const &v)
         case Variant::SMART:
         case Variant::SMART_OBJECT:
         case Variant::STRING:
-                return boost::static_pointer_cast <void> (v.sptr).get ();
+                return v.sptr.get ();
 
         case Variant::POINTER:
         case Variant::OBJECT:
         case Variant::STRING_POINTER:
-                return static_cast <void *> (v.ptr);
+                return v.ptr;
 
         case Variant::NIL:
                 return NULL;
@@ -249,7 +249,7 @@ void const *VCast <void const *>::run (Variant const &v)
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
         case Variant::STRING:
-                return boost::static_pointer_cast <void const> (v.sptr).get ();
+                return v.sptr.get ();
 
         case Variant::POINTER:
         case Variant::POINTER_CONST:
@@ -257,7 +257,7 @@ void const *VCast <void const *>::run (Variant const &v)
         case Variant::OBJECT_CONST:
         case Variant::STRING_POINTER:
         case Variant::STRING_POINTER_CONST:
-                return static_cast <void const *> (v.ptr);
+                return v.ptr;
 
         case Variant::NIL:
                 return NULL;
@@ -293,7 +293,7 @@ Ptr <void> VCast <Ptr <void> >::run (Variant const &v)
         case Variant::SMART:
         case Variant::SMART_OBJECT:
         case Variant::STRING:
-                return boost::static_pointer_cast <void> (v.sptr);
+                return v.sptr;
 
         case Variant::NIL:
                 return Ptr <void> ();
@@ -323,7 +323,7 @@ Ptr <void const> VCast <Ptr <void const> >::run (Variant const &v)
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
         case Variant::STRING:
-                return boost::static_pointer_cast <void const> (v.sptr);
+                return v.sptr;
 
         case Variant::NIL:
                 return Ptr <void const> ();

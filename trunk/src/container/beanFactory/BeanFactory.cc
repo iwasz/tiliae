@@ -132,6 +132,10 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 output = factory->create (factoryParams, context);
 
+#if 0
+                std::cerr << "BeanFactory:create. Container : " << container << ", id : " << id << ", output : " << output.toString () << std::endl;
+#endif
+
                 if (output.isNone ()) {
                         dcCommit (context);
                         dcError (context,  "Factory in BeanFactory failed. ID : " + id);

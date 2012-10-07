@@ -711,7 +711,7 @@ Ptr <MetaContainer> MXmlMetaService::parseFile (std::string const &path, Ptr <Me
                 throw XmlMetaServiceException ("MXmlMetaService::parse : could not open file. Message : " + std::string (strerror (errsv)) + ". Path : [" + path + "]");
         }
 
-        mxmlSAXLoadFile (NULL, fp, MXML_TEXT_CALLBACK, saxHandler, &impl);
+        mxmlSAXLoadFile (NULL, fp, MXML_OPAQUE_CALLBACK, saxHandler, &impl);
 
         fclose(fp);
 

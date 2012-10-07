@@ -6,8 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef MACROS_H_
-#define MACROS_H_
+#ifndef REFLECTION_MACROS_H_
+#define REFLECTION_MACROS_H_
 
 #include <iostream> // Wywalić
 #include <boost/preprocessor.hpp> // TODO Zamienić na pojedyncze hedery

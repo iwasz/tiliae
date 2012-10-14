@@ -13,13 +13,7 @@
 #include <boost/preprocessor.hpp> // TODO Zamienić na pojedyncze hedery
 #include <boost/current_function.hpp>
 #include "core/ApiMacro.h"
-
-/**
- * TODO Czy da się w klasie użyć jakiegoś magicznego makra w stylu __CLASS__,
- * ktore rozwija się do nazwy klasy? __PRETTY_FUNCTION__ jakoś to pokazuje!
- *
- * TODO Zamienić przedrostki REFLECT_ na ANNOTATION_
- */
+#include "PreprocessorDec.h"
 
 /**
  * Definicja : annotation_method : metoda generowana dla każdej metody w klasie.
@@ -76,12 +70,11 @@
 
 /*--------------------------------------------------------------------------*/
 
-#define ANNOTATION_METHOD_HEADER_ARG_RECURENCE(n)                                                    \
-                                                                                                     \
-TILIAE_LOCAL static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLECT_CLASS_NAME)        \
-{                                                                                                    \
-      /*std::cerr <<     REFLECT_CLASS_NAME << std::endl; */                                         \
-        BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,BOOST_PP_DEC(n)) (REFLECT_CLASS_NAME) ;
+#define ANNOTATION_METHOD_HEADER_ARG_RECURENCE(n)                                                               \
+                                                                                                                \
+TILIAE_LOCAL static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const char *REFLECT_CLASS_NAME)      \
+{                                                                                                               \
+        BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,TLPP_DEC(n)) (REFLECT_CLASS_NAME) ;
 
 /**
  * Generuje nagłówek metody adnotacyjnej (znajduje się na początku [każdego?] makra z jednym _)
@@ -107,7 +100,7 @@ TILIAE_LOCAL static void BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,n) (const
  * Uwaga! Tutaj jest __COUNTER__ pomniejszony 0 2! Ponieważ makro REFLECTION_END i _tX używają __COUNTER__ 1
  * raz (czyli zwiększenie jest o 2)!
  */
-#define GEN_ANNOTATION_METHOD_TAIL_NAME BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,BOOST_PP_DEC(BOOST_PP_DEC(__COUNTER__)))
+#define GEN_ANNOTATION_METHOD_TAIL_NAME BOOST_PP_CAT(REFLECT_ANNOTATION_METHOD_PREFIX,TLPP_DEC(TLPP_DEC(__COUNTER__)))
 
 /**
  * Koniec klasy.
@@ -170,7 +163,7 @@ namespace  {                                                                    
 namespace {                                                                              \
         static Token BOOST_PP_CAT(Token,__LINE__) (0);
 
-#define REFLECTION_TEMPLATE_END _te_implementation_arg(BOOST_PP_CAT(TOKEN,BOOST_PP_DEC(BOOST_PP_DEC(__COUNTER__))))
+#define REFLECTION_TEMPLATE_END _te_implementation_arg(BOOST_PP_CAT(TOKEN,TLPP_DEC(TLPP_DEC(__COUNTER__))))
 
 
 #ifdef REFLECTION_ENABLED

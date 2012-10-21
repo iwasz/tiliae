@@ -18,8 +18,8 @@ SET (BUILD_K202                0)
 SET (BUILD_SIGNAL              0)
 SET (BUILD_STATE_MACHINE       0)
 SET (BUILD_CONTAINER           1)
-SET (BUILD_DEMO                1)
-SET (BUILD_TESTS               1)
+SET (BUILD_DEMO                0)
+SET (BUILD_TESTS               0)
 
 #SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
@@ -47,7 +47,7 @@ INSTALL (
     FILES_MATCHING PATTERN "*.pc"
     PATTERN "*.svn*" EXCLUDE)
 
-if (UNIX)
+if (NOT ANDROID)
     SET (CMAKE_INSTALL_PREFIX "/home/iwasz/local") 
     SET (CMAKE_PREFIX_PATH "/home/iwasz/local")
 endif()
@@ -64,7 +64,6 @@ if (NOT ANDROID)
 
     pkg_check_modules (SPARSE_HASH REQUIRED "libsparsehash")
     INCLUDE_DIRECTORIES (${SPARSE_HASH_INCLUDE_DIRS})
-
 else ()
     find_library (MXML_LIBRARIES "mxml")
 endif ()

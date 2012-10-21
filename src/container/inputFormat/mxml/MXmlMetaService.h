@@ -33,6 +33,7 @@ public:
 
 #ifdef ANDROID
         static Ptr <MetaContainer> parseAndroidAsset (AAssetManager *assetManager, std::string const &path, Ptr <MetaContainer> container = Ptr <MetaContainer> ());
+        static void loadAsset (std::string *xml, AAssetManager *assetManager, std::string const &path);
 #endif
 
 };

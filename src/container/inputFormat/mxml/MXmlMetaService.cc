@@ -733,38 +733,11 @@ Ptr <MetaContainer> MXmlMetaService::parseAndroidAsset (AAssetManager *assetMana
                 container = boost::make_shared <MetaContainer> ();
         }
 
-        Impl impl (container.get ());
+        Core::ArrayRegionAllocator <char> *memoryAllocator = container->getMemoryAllocator ();
+        Impl impl (container.get (), memoryAllocator);
 
-        AAsset *asset = AAssetManager_open (assetManager, path.c_str (), AASSET_MODE_UNKNOWN);
-
-        if (!asset) {
-                throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not open resource. Path : [" + path + "]");
-        }
-
-        int bytesRead;
-        char buffer[BUFSIZ];
         std::string xml;
-
-        while ((bytesRead = AAsset_read (asset, buffer, BUFSIZ - 1))) {
-
-                if (bytesRead < 0) {
-                        throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not read from resource. Path : [" + path + "]");
-                }
-
-                buffer[bytesRead] = '\0';
-
-#if 0
-        __android_log_print(ANDROID_LOG_INFO, "bajka", "bytes read...");
-#endif
-
-                xml += buffer;
-        }
-
-        AAsset_close (asset);
-
-#if 0
-        __android_log_print(ANDROID_LOG_INFO, "bajka", xml.c_str());
-#endif
+        loadAsset (&xml, assetManager, path);
 
         mxmlSAXLoadString (NULL, xml.c_str (), MXML_TEXT_CALLBACK, saxHandler, &impl);
 
@@ -775,6 +748,41 @@ Ptr <MetaContainer> MXmlMetaService::parseAndroidAsset (AAssetManager *assetMana
         }
 
         return container;
+}
+
+/****************************************************************************/
+
+void MXmlMetaService::loadAsset (std::string *xml, AAssetManager *assetManager, std::string const &path)
+{
+	AAsset *asset = AAssetManager_open (assetManager, path.c_str (), AASSET_MODE_UNKNOWN);
+
+	if (!asset) {
+			throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not open resource. Path : [" + path + "]");
+	}
+
+	int bytesRead;
+	char buffer[BUFSIZ];
+
+	while ((bytesRead = AAsset_read (asset, buffer, BUFSIZ - 1))) {
+
+			if (bytesRead < 0) {
+					throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not read from resource. Path : [" + path + "]");
+			}
+
+			buffer[bytesRead] = '\0';
+
+	#if 0
+	__android_log_print(ANDROID_LOG_INFO, "bajka", "bytes read...");
+	#endif
+
+			*xml += buffer;
+	}
+
+	AAsset_close (asset);
+
+	#if 0
+	__android_log_print(ANDROID_LOG_INFO, "bajka", xml.c_str());
+	#endif
 }
 #endif
 

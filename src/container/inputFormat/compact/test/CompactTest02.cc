@@ -33,9 +33,9 @@ BOOST_AUTO_TEST_CASE (test006EmptyBean)
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "006-empty-bean.xml"));
 
         Variant vB = cont->getBean ("bean1");
-        BOOST_CHECK (ccast <String> (vB));
+        BOOST_CHECK (ccast <std::string> (vB));
 
-        String cit = vcast <String> (vB);
+        std::string cit = vcast <std::string> (vB);
         BOOST_CHECK (cit.empty ());
 }
 

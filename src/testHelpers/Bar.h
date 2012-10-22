@@ -11,14 +11,15 @@
 
 #include <list>
 #include <map>
+#include <string>
 #include "City.h"
 #include "reflection/Reflection.h"
-#include "core/string/String.h"
 #include "core/Pointer.h"
 #include "core/variant/Variant.h"
 #include "core/Exception.h"
 #include <vector>
 #include "core/ApiMacro.h"
+#include <boost/lexical_cast.hpp>
 
 /****************************************************************************/
 
@@ -30,14 +31,14 @@
 class TILIAE_API Bar {
 public:
 
-        REFLECTION_CONSTRUCTOR_ (const Core::String &, const std::string &, int, double, char, bool, char *)
-        Bar (const Core::String &f0, const std::string &f1, int f2, double f3, char f4, bool f5, char *f6) :
+        REFLECTION_CONSTRUCTOR_ (const std::string &, const std::string &, int, double, char, bool, char *)
+        Bar (const std::string &f0, const std::string &f1, int f2, double f3, char f4, bool f5, char *f6) :
     	    field0 (f0), field1 (f1), field2 (f2), field3 (f3), field4 (f4), field5 (f5), field6 (f6)
     	    {
     	    }
 
-        REFLECTION_CONSTRUCTOR (const Core::String &, const std::string &, Ptr <City>)
-        Bar (const Core::String &f0, const std::string &f1, Ptr <City> c) :
+        REFLECTION_CONSTRUCTOR (const std::string &, const std::string &, Ptr <City>)
+        Bar (const std::string &f0, const std::string &f1, Ptr <City> c) :
             field0 (f0), field1 (f1), city (c)
         {
                 field6 = NULL;
@@ -52,8 +53,8 @@ public:
 
         virtual ~Bar () {}
 
-        REFLECTION_METHOD (getField0) Core::String getField0 () const { return field0; }
-        REFLECTION_METHOD (setField0) void setField0 (const Core::String &field0) { this->field0 = field0; }
+        REFLECTION_METHOD (getField0) std::string getField0 () const { return field0; }
+        REFLECTION_METHOD (setField0) void setField0 (const std::string &field0) { this->field0 = field0; }
 
         REFLECTION_METHOD (getField1) std::string getField1 () const { return field1; }
         REFLECTION_METHOD (setField1) void setField1 (const std::string &field1) { this->field1 = field1; }
@@ -98,14 +99,13 @@ public:
         REFLECTION_METHOD (getButter2); Core::Variant getButter2() const { return butter2; }
         REFLECTION_METHOD (setButter2); void setButter2 (const Core::Variant &butter) { this->butter2 = butter; }
 
-        REFLECTION_METHOD (funcA); void funcA (int i) { field0 = Core::String ("funcA ") + i; }
-        REFLECTION_METHOD (funcB); void funcB (int i, const Core::String &s) { field0 = Core::String ("funcB ") + i + ", " + s; }
-//        REFLECTION_METHOD (funcC); void funcC (int i, double d, bool b) { field0 = Core::String ("funcC ") + i + ", " + d + ", " + b; }
-        REFLECTION_METHOD (funcD); bool funcD () { field0 = Core::String ("funcD "); return false; }
+        REFLECTION_METHOD (funcA); void funcA (int i) { field0 = std::string ("funcA ") + boost::lexical_cast <std::string> (i); }
+        REFLECTION_METHOD (funcB); void funcB (int i, const std::string &s) { field0 = std::string ("funcB ") + boost::lexical_cast <std::string> (i) + ", " + s; }
+        REFLECTION_METHOD (funcD); bool funcD () { field0 = std::string ("funcD "); return false; }
 
 private:
 
-        Core::String field0;
+        std::string field0;
         std::string field1;
         int field2;
         double field3;

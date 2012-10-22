@@ -9,6 +9,7 @@
 #include <boost/lexical_cast.hpp>
 #include "ReflectionFactory.h"
 #include "ScalarFactory.h"
+#include <cstring>
 
 namespace Factory {
 using namespace Core;
@@ -21,7 +22,9 @@ template <typename T>
 Variant convertValue (bool classArgs,
                       Type type,
                       std::string const &s,
+#ifdef WITH_CORE_STRING
                       Core::String const &us,
+#endif
                       long int i,
                       long unsigned int ui,
                       long double d)
@@ -33,8 +36,10 @@ Variant convertValue (bool classArgs,
                 switch (type) {
                 case STRING:
                         return Variant (boost::lexical_cast <T> (s));
+#ifdef WITH_CORE_STRING
                 case USTRING:
                         return Variant (boost::lexical_cast <T> (us));
+#endif
                 case INT:
                         return Variant (boost::lexical_cast <T> (i));
                 case UINT:
@@ -55,7 +60,9 @@ template <>
 Variant convertValue <std::string> (bool classArgs,
                                 Type type,
                                 std::string const &s,
+#ifdef WITH_CORE_STRING
                                 Core::String const &us,
+#endif
                                 long int i,
                                 long unsigned int ui,
                                 long double d)
@@ -67,8 +74,10 @@ Variant convertValue <std::string> (bool classArgs,
                 switch (type) {
                 case STRING:
                         return Variant (s);
+#ifdef WITH_CORE_STRING
                 case USTRING:
                         return Variant (Core::String (s));
+#endif
                 case INT:
                         return Variant (boost::lexical_cast <std::string> (i));
                 case UINT:
@@ -85,6 +94,7 @@ Variant convertValue <std::string> (bool classArgs,
 
 /****************************************************************************/
 
+#ifdef WITH_CORE_STRING
 template <>
 Variant convertValue <Core::String> (bool classArgs,
                                 Type type,
@@ -116,6 +126,7 @@ Variant convertValue <Core::String> (bool classArgs,
 
         return Variant ();
 }
+#endif
 
 /****************************************************************************/
 
@@ -123,7 +134,9 @@ template <>
 Variant convertValue <bool> (bool classArgs,
                 Type type,
                 std::string const &s,
+#ifdef WITH_CORE_STRING
                 Core::String const &us,
+#endif
                 long int i,
                 long unsigned int ui,
                 long double d)
@@ -135,6 +148,7 @@ Variant convertValue <bool> (bool classArgs,
 
                 switch (type) {
                 case STRING:
+#ifdef WITH_CORE_STRING
                 case USTRING:
                 {
                         std::string copy = ((type == STRING) ? (s) : (us.getBody ()));
@@ -146,6 +160,7 @@ Variant convertValue <bool> (bool classArgs,
                                 return Variant (false);
                         }
                 }
+#endif
                 case INT:
                         return Variant (bool (i));
                 case UINT:
@@ -194,7 +209,9 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugCo
         long int i = 0;
         unsigned long int ui = 0;
         std::string s;
+#ifdef WITH_CORE_STRING
         Core::String us;
+#endif
         Type type = NONE;
 
         // Skonwertuj od jednego z 4 pojemnych typów skalarnych.
@@ -217,6 +234,7 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugCo
                         type = STRING;
                         break;
 
+#ifdef WITH_CORE_STRING
                 case Variant::USTRING:
                         us = vcast <Core::String> (arg1).getBody ();
                         type = USTRING;
@@ -231,6 +249,7 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugCo
                         us = vcast <Core::String> (arg1).getBody ();
                         type = USTRING;
                         break;
+#endif
 
                 case Variant::BOOL:
                         i = vcast <bool> (arg1);
@@ -299,50 +318,58 @@ Core::Variant ScalarFactory::create (const VariantMap &parameters, Core::DebugCo
 
         }
 
+#ifdef WITH_CORE_STRING
+#define STR_PARAM_HACK s, us
+#else
+#define STR_PARAM_HACK s
+#endif
+
         if (className == "string" || className == "text") {
-                return convertValue <std::string> (classArgs, type, s, us, i, ui, d);
+                return convertValue <std::string> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
+#ifdef WITH_CORE_STRING
         else if (className == "String") {
                 return convertValue <Core::String> (classArgs, type, s, us, i, ui, d);
         }
+#endif
         else if (className == "int") {
-                return convertValue <int> (classArgs, type, s, us, i, ui, d);
+                return convertValue <int> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "bool") {
-                return convertValue <bool> (classArgs, type, s, us, i, ui, d);
+                return convertValue <bool> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "char") {
-                return convertValue <char> (classArgs, type, s, us, i, ui, d);
+                return convertValue <char> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "signed char") {
-                return convertValue <signed char> (classArgs, type, s, us, i, ui, d);
+                return convertValue <signed char> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "unsigned char") {
-                return convertValue <unsigned char> (classArgs, type, s, us, i, ui, d);
+                return convertValue <unsigned char> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "double") {
-                return convertValue <double> (classArgs, type, s, us, i, ui, d);
+                return convertValue <double> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "long double") {
-                return convertValue <long double> (classArgs, type, s, us, i, ui, d);
+                return convertValue <long double> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "float") {
-                return convertValue <float> (classArgs, type, s, us, i, ui, d);
+                return convertValue <float> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "unsigned int") {
-                return convertValue <unsigned int> (classArgs, type, s, us, i, ui, d);
+                return convertValue <unsigned int> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "long int") {
-                return convertValue <long int> (classArgs, type, s, us, i, ui, d);
+                return convertValue <long int> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "unsigned long int") {
-                return convertValue <unsigned long int> (classArgs, type, s, us, i, ui, d);
+                return convertValue <unsigned long int> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "short int") {
-                return convertValue <short int> (classArgs, type, s, us, i, ui, d);
+                return convertValue <short int> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
         else if (className == "unsigned short int") {
-                return convertValue <unsigned short int> (classArgs, type, s, us, i, ui, d);
+                return convertValue <unsigned short int> (classArgs, type, STR_PARAM_HACK, i, ui, d);
         }
 
         return Core::Variant ();

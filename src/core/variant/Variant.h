@@ -18,7 +18,9 @@
 #include "core/ApiMacro.h"
 
 namespace Core {
+#ifdef WITH_CORE_STRING
 class String;
+#endif
 class Variant;
 
 /**
@@ -403,9 +405,13 @@ public:
         explicit Variant (std::string const &d);
         explicit Variant (std::string *d);
         explicit Variant (std::string const *d);
+
+#ifdef WITH_CORE_STRING
         explicit Variant (Core::String const &d);
         explicit Variant (Core::String *d);
         explicit Variant (Core::String const *d);
+#endif
+
         /**
          * Uwaga - konstruktor Variant (const char *s) nie tworzy warianta o typie CHAR,
          * a twoarzy wariant o typie STD_STRING. Tak jest prościej, bo można podać stałą

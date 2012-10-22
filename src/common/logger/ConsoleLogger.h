@@ -10,6 +10,7 @@
 #define CONSOLELOGGER_H_
 
 #include "ILogger.h"
+#include <string>
 
 namespace Common {
 
@@ -20,7 +21,7 @@ class TILIAE_API ConsoleLogger : public ILogger {
 public:
 
         virtual ~ConsoleLogger () {}
-        virtual void log (const Core::String &message);
+        virtual void log (const std::string &message);
 
 };
 

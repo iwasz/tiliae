@@ -10,7 +10,6 @@
 #define PLACESS_100408_H
 
 #include "reflection/Reflection.h"
-#include "core/string/String.h"
 #include "core/variant/Variant.h"
 #include "core/ApiMacro.h"
 

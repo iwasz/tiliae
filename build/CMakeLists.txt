@@ -6,6 +6,16 @@ if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
 
+if (CMAKE_BUILD_TYPE)
+    if (NOT ${CMAKE_BUILD_TYPE} STREQUAL "Release")
+        message(FATAL_ERROR "CMAKE_BUILD_TYPE must be one of '' (None) or 'Release'")
+    endif()
+    
+    SET (RELEASE true)
+elseif()
+    SET (RELEASE false)        
+endif() 
+
 # Here we can set what to build actually (1=build, 0=do not build).
 SET (BUILD_CORE                1)
 SET (BUILD_COMMON              1)
@@ -18,21 +28,36 @@ SET (BUILD_K202                0)
 SET (BUILD_SIGNAL              0)
 SET (BUILD_STATE_MACHINE       0)
 SET (BUILD_CONTAINER           1)
-SET (BUILD_DEMO                0)
-SET (BUILD_TESTS               0)
+SET (BUILD_DEMO                1)
+SET (BUILD_TESTS               1)
+
+if (RELEASE OR ANDROID)
+    SET (BUILD_DEMO                0)
+    SET (BUILD_TESTS               0)
+endif()    
 
 #SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
 
-SET (CMAKE_VERBOSE_MAKEFILE 0) 
-ADD_DEFINITIONS (-g -fvisibility=hidden -DTILIAE_DLL -Wall)
-#ADD_DEFINITIONS (-DNDEBUG)
-ADD_DEFINITIONS (-O0)
-ADD_DEFINITIONS (-ffunction-sections -fdata-sections)
-ADD_DEFINITIONS (-DALLOW_CAST_TO_SMART)
+SET (CMAKE_VERBOSE_MAKEFILE 0)
+
+#SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DWITH_CORE_STRING")
+#SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DWITH_CORE_STRING")
+SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART")
+SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART")
+SET (CMAKE_C_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -Wall -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
+SET (CMAKE_CXX_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -Wall -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
 
 SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 SET (CMAKE_EXE_LINKER_FLAGS "-Wl,--no-undefined")
+
+if(CMAKE_PREFIX_PATH)
+message (${CMAKE_PREFIX_PATH})
+endif()
+
+if(CMAKE_PROGRAM_PATH)
+message (${CMAKE_PROGRAM_PATH})
+endif()
 
 INSTALL (
     DIRECTORY "${PROJECT_SOURCE_DIR}/../src/"
@@ -56,7 +81,7 @@ find_package (Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # TODO inaczej!
-if (NOT ANDROID)
+#if (NOT ANDROID)
     include (FindPkgConfig)
     pkg_check_modules (MXML REQUIRED "mxml")
     INCLUDE_DIRECTORIES (${MXML_INCLUDE_DIRS})
@@ -64,10 +89,9 @@ if (NOT ANDROID)
 
     pkg_check_modules (SPARSE_HASH REQUIRED "libsparsehash")
     INCLUDE_DIRECTORIES (${SPARSE_HASH_INCLUDE_DIRS})
-else ()
-    find_library (MXML_LIBRARIES "mxml")
-endif ()
-
+#else ()
+    #find_library (MXML_LIBRARIES "mxml")
+#endif ()
 
 ENABLE_TESTING ()
 

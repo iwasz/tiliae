@@ -63,6 +63,7 @@ public:
 
 };
 
+#ifdef WITH_CORE_STRING
 template <>
 class TILIAE_API LexicalEditor <Core::String, bool> : public IEditor {
 public:
@@ -71,6 +72,7 @@ public:
         virtual bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 
 };
+#endif
 
 }
 

@@ -25,27 +25,16 @@
 
 namespace Core{
 
-#if 1
 typedef std::list <std::string> StringList;
 typedef std::vector <std::string> StringVector;
 typedef std::set <std::string> StringSet;
 typedef std::map <std::string, std::string> StringMap;
 
+#ifdef WITH_CORE_STRING
 typedef std::list <Core::String> UStringList;
 typedef std::vector <Core::String> UStringVector;
 typedef std::set <Core::String> UStringSet;
 typedef std::map <std::string, Core::String> UStringMap;
-#else
-typedef std::list <std::string> StdStringList;
-typedef std::vector <std::string> StdStringVector;
-typedef std::set <std::string> StdStringSet;
-// TODO Uwaga, klucz ma być std:string - kiedy BeanWrapper będzie działał na std::stringach!
-typedef std::map <Core::String, std::string> StdStringMap;
-
-typedef std::list <Core::String> StringList;
-typedef std::vector <Core::String> StringVector;
-typedef std::set <Core::String> StringSet;
-typedef std::map <Core::String, Core::String> StringMap;
 #endif
 
 typedef std::list <Core::Variant> VariantList;

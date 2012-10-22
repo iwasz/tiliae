@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-	<String id="string1" />
+	<string id="string1" />
 
-	<String id="string2">
+	<string id="string2">
 		<cargs>
 			<value>testaaa</value>
 		</cargs>
-	</String>
+	</string>
 
 	<int id="int1" />
 

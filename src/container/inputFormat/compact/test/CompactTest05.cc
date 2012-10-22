@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE (test022ListWithCustomEditor)
         BOOST_CHECK (!v.isNone ());
         BOOST_CHECK (ccast <std::string> (v));
 
-        String s = vcast <std::string> (v);
+        std::string s = vcast <std::string> (v);
         BOOST_CHECK (s == "\"value0\",\"value1\",\"value2\",\"value3\",\"value4\"");
 }
 

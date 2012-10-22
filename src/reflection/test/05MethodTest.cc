@@ -47,10 +47,10 @@ BOOST_AUTO_TEST_CASE (testGetMethod)
         Variant ret1 = met1->invoke (Core::Variant (a));
         Variant ret2 = met2->invoke (Core::Variant (a));
 
-        BOOST_REQUIRE (ccast <String> (ret1));
-        BOOST_REQUIRE (ccast <String> (ret2));
-        BOOST_REQUIRE_EQUAL (vcast <String> (ret1), "ulica");
-        BOOST_REQUIRE_EQUAL (vcast <String> (ret2), "02-763");
+        BOOST_REQUIRE (ccast <std::string> (ret1));
+        BOOST_REQUIRE (ccast <std::string> (ret2));
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (ret1), "ulica");
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (ret2), "02-763");
 
 /*--------------------------------------------------------------------------*/
 
@@ -81,11 +81,11 @@ BOOST_AUTO_TEST_CASE (testInvokeMethodOnHandleVariant)
         Variant object = Core::Variant (&a);
 
         VariantVector params;
-        params.push_back (Core::Variant (String ("ulica")));
+        params.push_back (Core::Variant ("ulica"));
         met1->invoke (object, &params);
 
         params.clear ();
-        params.push_back (Core::Variant (String ("02-763")));
+        params.push_back (Core::Variant ("02-763"));
         met2->invoke (object, &params);
 
         BOOST_REQUIRE_EQUAL (a.getStreet (), "ulica");
@@ -121,11 +121,11 @@ BOOST_AUTO_TEST_CASE (testInvokeMethodOnVariantCreatedFromVal)
         BOOST_REQUIRE (pa == &a);
 
         VariantVector params;
-        params.push_back (Core::Variant (String ("ulica")));
+        params.push_back (Core::Variant ("ulica"));
         met1->invoke (object, &params);
 
         params.clear ();
-        params.push_back (Core::Variant (String ("02-763")));
+        params.push_back (Core::Variant ("02-763"));
         met2->invoke (object, &params);
 
 
@@ -137,8 +137,8 @@ BOOST_AUTO_TEST_CASE (testInvokeMethodOnVariantCreatedFromVal)
         BOOST_REQUIRE (met1);
         BOOST_REQUIRE (met2);
 
-        BOOST_REQUIRE_EQUAL (vcast <Core::String> (met1->invoke (object2)), "ulica");
-        BOOST_REQUIRE_EQUAL (vcast <Core::String> (met2->invoke (object2)), "02-763");
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (met1->invoke (object2)), "ulica");
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (met2->invoke (object2)), "02-763");
 }
 
 /**
@@ -169,11 +169,11 @@ BOOST_AUTO_TEST_CASE (testInvokeMethodNonConstVariant)
         const Variant object = Core::Variant (pa);
 
         VariantVector params;
-        params.push_back (Core::Variant (String ("ulica")));
+        params.push_back (Core::Variant ("ulica"));
         met1->invoke (object, &params);
 
         params.clear ();
-        params.push_back (Core::Variant (String ("02-763")));
+        params.push_back (Core::Variant ("02-763"));
         met2->invoke (object, &params);
 
         BOOST_REQUIRE_EQUAL (a.getString (), "ulica");
@@ -200,12 +200,12 @@ BOOST_AUTO_TEST_CASE (testInvokeMethodWithVariantArg)
         BOOST_REQUIRE (pa == &a);
 
         VariantVector params;
-        Variant tmp = Core::Variant (String ("ulica"));
+        Variant tmp = Core::Variant ("ulica");
         params.push_back (tmp);
         met1->invoke (object, &params);
 
         Variant v2 = pa->getProperty ();
-        BOOST_REQUIRE_EQUAL (vcast <String> (v2), "ulica");
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (v2), "ulica");
 }
 
 /**

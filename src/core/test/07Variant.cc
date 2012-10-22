@@ -295,7 +295,9 @@ BOOST_AUTO_TEST_CASE (testLCast)
                 BOOST_CHECK_EQUAL (lcast <float> (v), 666.0);
                 BOOST_CHECK_EQUAL (lcast <long double> (v), 666.0);
                 BOOST_CHECK_EQUAL (lcast <std::string> (v), "666");
+#ifdef WITH_CORE_STRING
                 BOOST_CHECK_EQUAL (lcast <Core::String> (v), "666");
+#endif
         }
 
         {
@@ -306,7 +308,9 @@ BOOST_AUTO_TEST_CASE (testLCast)
         {
                 Variant v (667);
                 BOOST_CHECK_EQUAL (lcast <std::string> (v), "667");
+#ifdef WITH_CORE_STRING
                 BOOST_CHECK_EQUAL (lcast <Core::String> (v), "667");
+#endif
         }
 }
 

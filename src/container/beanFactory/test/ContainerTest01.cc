@@ -121,8 +121,8 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 
         BOOST_CHECK (aska0->size ());
         BOOST_CHECK (aska0->containsKey ("name"));
-        BOOST_CHECK (ccast <Core::String> (aska0->get ("name")));
-        BOOST_CHECK (vcast <Core::String> (aska0->get ("name")) == "value0");
+        BOOST_CHECK (ccast <std::string> (aska0->get ("name")));
+        BOOST_CHECK (vcast <std::string> (aska0->get ("name")) == "value0");
 
 /*--------------------------------------------------------------------------*/
 
@@ -134,8 +134,8 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         OrderedVariantMap const *aska = vcast <OrderedVariantMap const *> (v);
 
         BOOST_CHECK (aska->containsKey ("title"));
-        BOOST_CHECK (ccast <Core::String> (aska->get ("title")));
-        BOOST_CHECK (vcast <Core::String> (aska->get ("title")) == "value11");
+        BOOST_CHECK (ccast <std::string> (aska->get ("title")));
+        BOOST_CHECK (vcast <std::string> (aska->get ("title")) == "value11");
 
         BOOST_CHECK (aska->containsKey ("body"));
 
@@ -149,8 +149,8 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         OrderedVariantMap const *aska2 = vcast <OrderedVariantMap const *> (v);
 
         BOOST_CHECK (aska2->containsKey ("name"));
-        BOOST_CHECK (ccast <Core::String> (aska2->get ("name")));
-        BOOST_CHECK (vcast <Core::String> (aska2->get ("name")) == "value22");
+        BOOST_CHECK (ccast <std::string> (aska2->get ("name")));
+        BOOST_CHECK (vcast <std::string> (aska2->get ("name")) == "value22");
 
 /*--------------------------------------------------------------------------*/
 
@@ -162,8 +162,8 @@ BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
         OrderedVariantMap const *aska3 = vcast <OrderedVariantMap const *> (v);
 
         BOOST_CHECK (aska3->containsKey ("street"));
-        BOOST_CHECK (ccast <Core::String> (aska3->get ("street")));
-        BOOST_CHECK (vcast <Core::String> (aska3->get ("street")) == "value33");
+        BOOST_CHECK (ccast <std::string> (aska3->get ("street")));
+        BOOST_CHECK (vcast <std::string> (aska3->get ("street")) == "value33");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

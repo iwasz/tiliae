@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE (test061LinkedContainers)
 {
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "061-linked-01.xml"), true);
 
-        String b1 = vcast <String> (cont->getBean ("bean1"));
+        std::string b1 = vcast <std::string> (cont->getBean ("bean1"));
 
         Ptr <BeanFactoryContainer> cont2 = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "061-linked-02.xml"), false, cont.get ());
 

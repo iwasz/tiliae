@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (testConstructor)
         constr = cls->getConstructor (7);
         BOOST_REQUIRE (constr);
 
-        args.push_back (Core::Variant (String ("test1")));
+        args.push_back (Core::Variant ("test1"));
         args.push_back (Core::Variant ("test2"));
         args.push_back (Core::Variant (12));
         args.push_back (Core::Variant (12.3));
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (testConstructor)
         BOOST_REQUIRE (constr);
 
         args.clear ();
-        args.push_back (Core::Variant (String ("test7")));
+        args.push_back (Core::Variant ("test7"));
         args.push_back (Core::Variant ("test78"));
         // Dodaj pusty.
         args.push_back (Core::Variant (Ptr <City> ()));
@@ -88,14 +88,14 @@ BOOST_AUTO_TEST_CASE (testConstructor)
         BOOST_REQUIRE (constr);
 
         args.clear ();
-        args.push_back (Core::Variant (String ("test99")));
+        args.push_back (Core::Variant ("test99"));
 
         obj = constr->newInstance (&args);
         BOOST_REQUIRE (!obj.isNone ());
         BOOST_REQUIRE (ccast <Bar *> (obj));
 
         bar = vcast <Bar *> (obj);
-        BOOST_REQUIRE (vcast <String> (bar->getButter()) == "test99");
+        BOOST_REQUIRE (vcast <std::string> (bar->getButter()) == "test99");
 
 /*--------------------------------------------------------------------------*/
 
@@ -104,14 +104,14 @@ BOOST_AUTO_TEST_CASE (testConstructor)
         BOOST_REQUIRE (constr);
 
         args.clear ();
-        args.push_back (Core::Variant (String ("test789")));
+        args.push_back (Core::Variant ("test789"));
 
         obj = constr->newInstance (&args);
         BOOST_REQUIRE (!obj.isNone ());
         BOOST_REQUIRE (ccast <Bar *> (obj));
 
         bar = vcast <Bar *> (obj);
-        BOOST_REQUIRE (vcast <String> (bar->getButter()) == "test789");
+        BOOST_REQUIRE (vcast <std::string> (bar->getButter()) == "test789");
 
 /*--------------------------------------------------------------------------*/
 
@@ -124,8 +124,8 @@ BOOST_AUTO_TEST_CASE (testConstructor)
 //        BOOST_REQUIRE (constr);
 
         args.clear ();
-        args.push_back (Core::Variant (String ("test5")));
-        args.push_back (Core::Variant (String ("test6")));
+        args.push_back (Core::Variant ("test5"));
+        args.push_back (Core::Variant ("test6"));
         args.push_back (Core::Variant ((City*)NULL));
 
 //        obj = constr->newInstance (args);

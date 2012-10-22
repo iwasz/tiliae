@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef WITH_CORE_STRING
 #ifndef _STRING_ADAPTER_TILIAE_H_
 #define _STRING_ADAPTER_TILIAE_H_
 
@@ -436,4 +437,4 @@ extern TILIAE_API std::istream &operator>> (std::istream &is, Core::String &utf8
 } // Namespace.
 
 #endif
-
+#endif

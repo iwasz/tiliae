@@ -508,6 +508,8 @@ BOOST_AUTO_TEST_CASE (testStdString)
         }
 }
 
+#ifdef WITH_CORE_STRING
+
 /**
  * Testuje wszystkie możliwe przypadki kastowania warianta z i na typ.
  */
@@ -577,5 +579,6 @@ BOOST_AUTO_TEST_CASE (testCoreString)
                 BOOST_REQUIRE (ccast <Core::String const &> (v));
         }
 }
+#endif
 
 BOOST_AUTO_TEST_SUITE_END ();

@@ -81,7 +81,7 @@ typedef std::stack <X *> XStack;
 // TODO
 //REFLECTION_FACTORY (XStack);
 
-typedef std::map <Core::String, X *> XMap;
+typedef std::map <std::string, X *> XMap;
 // TODO
 //REFLECTION_FACTORY (XMap);
 

@@ -84,9 +84,13 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
         BOOST_CHECK (vl->size () == 3);
         Core::VariantList::const_iterator i = vl->begin ();
 
+#ifdef WITH_CORE_STRING
         BOOST_CHECK (vcast <String> (*i++) == "value2");
+#else
+        ++i;
+#endif
+
         BOOST_CHECK (vcast <std::string> (*i++) == "value3");
-//        BOOST_CHECK (vcast <int> (vl->get (2)) == 6667);
 
 /****************************************************************************/
 

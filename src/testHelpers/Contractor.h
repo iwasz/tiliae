@@ -14,7 +14,7 @@
 #include "Telephone.h"
 #include "Gender.h"
 #include "reflection/Reflection.h"
-#include "core/string/String.h"
+#include <string>
 #include "core/ApiMacro.h"
 
 /**
@@ -32,11 +32,11 @@ public:
 
         virtual ~Contractor () {}
 
-        REFLECTION_METHOD (getName) Core::String getName () const { return name; }
-        REFLECTION_METHOD (setName) void setName (const Core::String &name) { this->name = name; }
+        REFLECTION_METHOD (getName) std::string getName () const { return name; }
+        REFLECTION_METHOD (setName) void setName (const std::string &name) { this->name = name; }
 
-        REFLECTION_METHOD (getSymbol) Core::String getSymbol () const { return symbol; }
-        REFLECTION_METHOD (setSymbol) void setSymbol (const Core::String &symbol) { this->symbol = symbol; }
+        REFLECTION_METHOD (getSymbol) std::string getSymbol () const { return symbol; }
+        REFLECTION_METHOD (setSymbol) void setSymbol (const std::string &symbol) { this->symbol = symbol; }
 
         REFLECTION_METHOD (getAddressList)  AddressList *getAddressList () const { return addressList; }
         REFLECTION_METHOD (setAddressList) void setAddressList (AddressList *addressList) { this->addressList = addressList; }
@@ -58,8 +58,8 @@ public:
 
 private:
 
-        Core::String name;
-        Core::String symbol;
+        std::string name;
+        std::string symbol;
 
         /**
          *  Lista adresikow.

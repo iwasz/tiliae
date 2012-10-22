@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef WITH_CORE_STRING
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 #include "core/string/String.h"
@@ -761,3 +762,4 @@ BOOST_AUTO_TEST_CASE (testAt)
 }
 
 BOOST_AUTO_TEST_SUITE_END ();
+#endif

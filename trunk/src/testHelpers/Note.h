@@ -10,7 +10,7 @@
 #define NOTE_181772_H
 
 #include "reflection/Reflection.h"
-#include "core/string/String.h"
+#include <string>
 #include "core/ApiMacro.h"
 
 /****************************************************************************/
@@ -20,16 +20,16 @@ public:
 
         REFLECTION_CONSTRUCTOR_ (void);
 
-        REFLECTION_METHOD (getTitle) Core::String getTitle () const { return title; }
-        REFLECTION_METHOD (setTitle) void setTitle (const Core::String &title) { this->title = title; }
+        REFLECTION_METHOD (getTitle) std::string getTitle () const { return title; }
+        REFLECTION_METHOD (setTitle) void setTitle (const std::string &title) { this->title = title; }
 
-        REFLECTION_METHOD (getBody) Core::String getBody () const { return body; }
-        REFLECTION_METHOD (setBody) void setBody (const Core::String &body) { this->body = body; }
+        REFLECTION_METHOD (getBody) std::string getBody () const { return body; }
+        REFLECTION_METHOD (setBody) void setBody (const std::string &body) { this->body = body; }
 
 private:
 
-        Core::String title;
-        Core::String body;
+        std::string title;
+        std::string body;
 
         REFLECTION_END (Note)
 

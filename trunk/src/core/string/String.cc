@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef WITH_CORE_STRING
 #include <wctype.h>
 #include <sstream>
 #include <boost/lexical_cast.hpp>
@@ -582,3 +583,4 @@ std::ostream &operator<< (std::ostream &o, const Core::String &s)
 }
 
 } // nms
+#endif

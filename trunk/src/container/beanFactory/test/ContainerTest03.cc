@@ -44,7 +44,10 @@ BOOST_AUTO_TEST_CASE (testCreateVariantMap)
 
         BOOST_CHECK_EQUAL (map->size (), 7U);
 
+#ifdef WITH_CORE_STRING
         BOOST_CHECK (vcast <Core::String> (map->operator[] ("field0")) == "value0");
+#endif
+
         BOOST_CHECK (vcast <std::string> (map->operator[] ("field1")) == "value1");
         BOOST_CHECK (vcast <int> (map->operator[] ("field2")) == 6667);
         BOOST_CHECK (vcast <double> (map->operator[] ("field3")) == 123.45);
@@ -97,7 +100,9 @@ BOOST_AUTO_TEST_CASE (testCreateVariantList)
         BOOST_CHECK (list->size () == 7);
 
         VariantList::const_iterator i = list->begin ();
+#ifdef WITH_CORE_STRING
         BOOST_CHECK_EQUAL (vcast <String> (*i++), "value0");
+#endif
         BOOST_CHECK_EQUAL (vcast <std::string> (*i++), "value1");
         BOOST_CHECK_EQUAL (vcast <int> (*i++), 6665);
         BOOST_CHECK_EQUAL (vcast <double> (*i++), 123.45);

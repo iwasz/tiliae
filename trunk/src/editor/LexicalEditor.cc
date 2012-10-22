@@ -27,6 +27,7 @@ bool LexicalEditor <std::string, bool>::convert (const Core::Variant &input, Cor
 
 /****************************************************************************/
 
+#ifdef WITH_CORE_STRING
 bool LexicalEditor <Core::String, bool>::convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
         assert (output);
@@ -41,5 +42,6 @@ bool LexicalEditor <Core::String, bool>::convert (const Core::Variant &input, Co
         *output = Core::Variant (b);
         return true;
 }
+#endif
 
 }

@@ -39,13 +39,13 @@ using namespace Editor;
 BOOST_AUTO_TEST_CASE (testSimple)
 {
         BeanWrapper *bw = BeanWrapper::create ();
-        bw->setEditor (new LexicalEditor <int, Core::String>);
+        bw->setEditor (new LexicalEditor <int, std::string>);
 
         Country country;
 
         bw->setWrappedObject (Variant (&country));
 
-//        bw->set ("name", Variant (Core::String ("Warszawa")));
+//        bw->set ("name", Variant (std::string ("Warszawa")));
         bw->set ("name", Variant (int (123)));
 
         BOOST_REQUIRE_EQUAL (country.getName (), "123");
@@ -71,9 +71,11 @@ BOOST_AUTO_TEST_CASE (testComplex_Object)
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char),   new Editor::LexicalEditor <std::string, char> ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool),   new Editor::LexicalEditor <std::string, bool> ()));
 
+#ifdef WITH_CORE_STRING
         // Core::String <-> std::string
         editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), new Editor::LexicalEditor <Core::String, std::string> ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
+#endif
 
         // StringCon.
         Ptr <StringConstructorEditor> strCon = boost::make_shared <StringConstructorEditor> ();
@@ -132,9 +134,11 @@ BOOST_AUTO_TEST_CASE (testComplex_Map)
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char),   new Editor::LexicalEditor <std::string, char> ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool),   new Editor::LexicalEditor <std::string, bool> ()));
 
+#ifdef WITH_CORE_STRING
         // Core::String <-> std::string
         editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), new Editor::LexicalEditor <Core::String, std::string> ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
+#endif
 
         // StringCon.
         Ptr <StringConstructorEditor> strCon = boost::make_shared <StringConstructorEditor> ();
@@ -198,9 +202,11 @@ BOOST_AUTO_TEST_CASE (testComplex_Vector)
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (char),   new Editor::LexicalEditor <std::string, char> ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (bool),   new Editor::LexicalEditor <std::string, bool> ()));
 
+#ifdef WITH_CORE_STRING
         // Core::String <-> std::string
         editor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), new Editor::LexicalEditor <Core::String, std::string> ()));
         editor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
+#endif
 
         // StringCon.
         Ptr <StringConstructorEditor> strCon = boost::make_shared <StringConstructorEditor> ();

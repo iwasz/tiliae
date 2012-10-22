@@ -12,7 +12,7 @@
 
 namespace Common {
 
-void ConsoleLogger::log (const Core::String &message)
+void ConsoleLogger::log (const std::string &message)
 {
         std::cerr << message << std::endl;
 }

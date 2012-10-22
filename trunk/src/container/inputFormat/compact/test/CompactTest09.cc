@@ -67,12 +67,12 @@ BOOST_AUTO_TEST_CASE (test045BaseTypesConstructors)
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "045-base-types-constructors.xml"));
 
         Variant vB = cont->getBean ("string1");
-        BOOST_CHECK (ccast <String> (vB));
-        BOOST_CHECK_EQUAL (vcast <String> (vB), "");
+        BOOST_CHECK (ccast <std::string> (vB));
+        BOOST_CHECK_EQUAL (vcast <std::string> (vB), "");
 
         vB = cont->getBean ("string2");
-        BOOST_CHECK (ccast <String> (vB));
-        BOOST_CHECK_EQUAL (vcast <String> (vB), "testaaa");
+        BOOST_CHECK (ccast <std::string> (vB));
+        BOOST_CHECK_EQUAL (vcast <std::string> (vB), "testaaa");
 
         vB = cont->getBean ("int1");
         BOOST_CHECK (ccast <int> (vB));

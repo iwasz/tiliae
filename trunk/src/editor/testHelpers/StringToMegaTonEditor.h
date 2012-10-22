@@ -27,12 +27,12 @@ struct StringToMegatonEditor : public Editor::JEditor {
         virtual bool edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL)
         {
                 // Sprawdzanie typow parametrow.
-                assert (ccast <Core::String> (input));
+                assert (ccast <std::string> (input));
                 assert (output);
                 assert (ccast <MegaTon *> (*output));
 //                ASSERT (output-getContaining () == Core::HANDLE, "");
 
-                Core::String inStr = vcast <Core::String> (input);
+                std::string inStr = vcast <std::string> (input);
                 MegaTon *mt = vcast <MegaTon *> (*output);
 
                 mt->setHeavyProperty (inStr);

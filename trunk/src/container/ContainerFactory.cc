@@ -207,9 +207,11 @@ InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memory
         typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (long), new Editor::StreamEditor <std::string, long> ()));
         typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (unsigned long), new Editor::StreamEditor <std::string, unsigned long> ()));
 
+#ifdef WITH_CORE_STRING
         // Core::String <-> std::string
         typeEditor->addType (Editor::TypeEditor::Type (typeid (Core::String), typeid (std::string), new Editor::LexicalEditor <Core::String, std::string> ()));
         typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), typeid (Core::String), new Editor::LexicalEditor <std::string, Core::String> ()));
+#endif
 
         // StringCon.
         BFStringConstructorEditor *strCon = new BFStringConstructorEditor (singletons, memoryAllocator);

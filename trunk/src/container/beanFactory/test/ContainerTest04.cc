@@ -49,7 +49,11 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
         BOOST_CHECK (vl->size () == 7);
 
         VariantList::const_iterator i = vl->begin ();
+#ifdef WITH_CORE_STRING
         BOOST_CHECK (vcast <String> (*i++) == "value2");
+#else
+        ++i;
+#endif
         BOOST_CHECK (vcast <std::string> (*i++) == "value3");
         BOOST_CHECK (vcast <int> (*i++) == 6667);
         BOOST_CHECK (vcast <double> (*i++) == 123.45);

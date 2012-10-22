@@ -163,6 +163,7 @@ Variant::Variant (const char *s) :
 }
 
 /****************************************************************************/
+#ifdef WITH_CORE_STRING
 
 Variant::Variant (Core::String const &j) :
         type (USTRING),
@@ -185,6 +186,7 @@ Variant::Variant (Core::String const *j) :
 {
 }
 
+#endif
 /****************************************************************************/
 
 bool Variant::isObject () const
@@ -338,6 +340,7 @@ std::string Variant::toString () const
         case STRING_POINTER_CONST:
                 ret += "STRING_POINTER_CONST, value=[" + *static_cast <std::string const *> (cptr);
                 break;
+#ifdef WITH_CORE_STRING
         case USTRING:
                 ret += "USTRING, value=[" + static_pointer_cast <Core::String> (sptr)->getBody ();
                 break;
@@ -347,6 +350,7 @@ std::string Variant::toString () const
         case USTRING_POINTER_CONST:
                 ret += "USTRING_POINTER_CONST, value=[" + static_cast <Core::String const *> (cptr)->getBody ();
                 break;
+#endif
         case NIL:
                 ret += "NULL [";
                 break;

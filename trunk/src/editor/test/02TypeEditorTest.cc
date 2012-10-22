@@ -30,8 +30,10 @@ BOOST_AUTO_TEST_CASE (testJEditor)
 
         editor.addType (TypeEditor::Type (typeid (std::string), typeid (int), new LexicalEditor <std::string, int> ()));
         editor.addType (TypeEditor::Type (typeid (int), typeid (std::string), new LexicalEditor <int, std::string> ()));
+#ifdef WITH_CORE_STRING
         editor.addType (TypeEditor::Type (typeid (Core::String), typeid (std::string), new LexicalEditor <Core::String, std::string> ()));
         editor.addType (TypeEditor::Type (typeid (std::string), typeid (Core::String), new LexicalEditor <std::string, Core::String> ()));
+#endif
 
 /*--------------------------------------------------------------------------*/
 
@@ -39,9 +41,11 @@ BOOST_AUTO_TEST_CASE (testJEditor)
         editor.convert (Variant (std::string ("123")), &out);
         BOOST_REQUIRE_EQUAL (vcast <int> (out), 123);
 
+#ifdef WITH_CORE_STRING
         out = Variant (Core::String (""));
         editor.convert (Variant (std::string ("123")), &out);
         BOOST_REQUIRE_EQUAL (vcast <Core::String> (out), "123");
+#endif
 }
 
 /****************************************************************************/

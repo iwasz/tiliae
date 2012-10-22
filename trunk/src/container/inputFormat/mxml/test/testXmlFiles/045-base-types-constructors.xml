@@ -2,9 +2,9 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" 
         "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
-        <bean id="string1" class="String"/>
+        <bean id="string1" class="string"/>
         
-        <bean id="string2" class="String">
+        <bean id="string2" class="string">
                 <constructor-arg><value>testaaa</value></constructor-arg>
         </bean>
         

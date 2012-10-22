@@ -10,7 +10,7 @@
 #define COUNTRY_920296_H
 
 #include <list>
-#include "core/string/String.h"
+#include <string>
 #include "core/Pointer.h"
 #include "reflection/Reflection.h"
 #include <vector>
@@ -23,12 +23,12 @@ public:
 
         REFLECTION_CONSTRUCTOR_ (void)
 
-        REFLECTION_METHOD (getName) Core::String getName () const { return name; }
-        REFLECTION_METHOD (setName) void setName (const Core::String &name) { this->name = name; }
+        REFLECTION_METHOD (getName) std::string getName () const { return name; }
+        REFLECTION_METHOD (setName) void setName (const std::string &name) { this->name = name; }
 
 private:
 
-        Core::String name;
+        std::string name;
 
         REFLECTION_END (Country)
 

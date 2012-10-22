@@ -63,8 +63,10 @@ BOOST_AUTO_TEST_CASE (testInstantiateStandardTypes)
         cls = Manager::classForName ("Variant");
         BOOST_REQUIRE (cls);
 
+#ifdef WITH_CORE_STRING
         cls = Manager::classForName ("String");
         BOOST_REQUIRE (cls);
+#endif
 
         cls = Manager::classForName ("string");
         BOOST_REQUIRE (cls);
@@ -72,8 +74,10 @@ BOOST_AUTO_TEST_CASE (testInstantiateStandardTypes)
         cls = Manager::classForName ("VariantVector");
         BOOST_REQUIRE (cls);
 
+#ifdef WITH_CORE_STRING
         cls = Manager::classForName ("UStringVector");
         BOOST_REQUIRE (cls);
+#endif
 
         cls = Manager::classForName ("StringVector");
         BOOST_REQUIRE (cls);
@@ -84,11 +88,13 @@ BOOST_AUTO_TEST_CASE (testInstantiateStandardTypes)
         cls = Manager::classForName ("VariantMap");
         BOOST_REQUIRE (cls);
 
+#ifdef WITH_CORE_STRING
         cls = Manager::classForName ("UStringList");
         BOOST_REQUIRE (cls);
 
         cls = Manager::classForName ("UStringMap");
         BOOST_REQUIRE (cls);
+#endif
 
         cls = Manager::classForName ("StringList");
         BOOST_REQUIRE (cls);

@@ -37,10 +37,12 @@ BOOST_AUTO_TEST_CASE (testWOArgument)
         v = fact.create (params);
         BOOST_REQUIRE_EQUAL (vcast <double> (v), 0.0);
 
+#ifdef WITH_CORE_STRING
         params.clear ();
         params[Factory::ReflectionFactory::CLASS_NAME] = Core::Variant ("String");
         v = fact.create (params);
         BOOST_REQUIRE_EQUAL (vcast <Core::String> (v), "");
+#endif
 
         params.clear ();
         params[Factory::ReflectionFactory::CLASS_NAME] = Core::Variant ("string");
@@ -64,15 +66,15 @@ BOOST_AUTO_TEST_CASE (testWithArgument)
         BOOST_REQUIRE_EQUAL (vcast <int> (v), 123);
 
         classArgs.clear ();
-        classArgs.push_back (Core::Variant (Core::String ("123")));
+        classArgs.push_back (Core::Variant ("123"));
         v = fact.create (params);
         BOOST_REQUIRE_EQUAL (vcast <int> (v), 123);
 
-        params[Factory::ReflectionFactory::CLASS_NAME] = Core::Variant ("String");
+        params[Factory::ReflectionFactory::CLASS_NAME] = Core::Variant ("string");
         classArgs.clear ();
         classArgs.push_back (Core::Variant ("123"));
         v = fact.create (params);
-        BOOST_REQUIRE_EQUAL (vcast <Core::String> (v), "123");
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (v), "123");
 }
 
 BOOST_AUTO_TEST_SUITE_END ();

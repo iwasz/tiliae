@@ -23,14 +23,14 @@ public:
                 thousantsOfElements.resize (1000);
         }
 
-        Core::String getHeavyProperty() const { return heavyProperty; }
-        void setHeavyProperty(const Core::String &heavyProperty) { this->heavyProperty = heavyProperty; }
+        std::string getHeavyProperty() const { return heavyProperty; }
+        void setHeavyProperty(const std::string &heavyProperty) { this->heavyProperty = heavyProperty; }
 
 private:
 
         typedef int kg;
         std::vector <kg> thousantsOfElements;
-        Core::String heavyProperty;
+        std::string heavyProperty;
 };
 
 #endif /* MEGATON_H_ */

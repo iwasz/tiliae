@@ -12,7 +12,7 @@
 #include <list>
 #include <map>
 #include "reflection/Reflection.h"
-#include "core/string/String.h"
+#include <string>
 #include <vector>
 #include "core/ApiMacro.h"
 

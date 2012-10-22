@@ -124,6 +124,7 @@ std::string const *VCast<std::string const *>::run (Variant const &v)
 
 /*##########################################################################*/
 
+#ifdef WITH_CORE_STRING
 Core::String const &VCast<Core::String>::run (Variant const &v)
 {
         switch (v.type) {
@@ -202,6 +203,7 @@ Core::String const *VCast<Core::String const *>::run (Variant const &v)
                 exit (1); // make copiler happy
         }
 }
+#endif
 
 /****************************************************************************/
 
@@ -374,12 +376,14 @@ std::string LCast <std::string>::run (Core::Variant const &v)
                 return boost::lexical_cast <std::string> (v.si);
         case Variant::UNSIGNED_SHORT_INT:
                 return boost::lexical_cast <std::string> (v.usi);
+#ifdef WITH_CORE_STRING
         case Variant::USTRING:
                 return static_pointer_cast <Core::String> (v.sptr)->getBody ();
         case Variant::USTRING_POINTER:
                 return static_cast <Core::String *> (v.ptr)->getBody ();
         case Variant::USTRING_POINTER_CONST:
                 return static_cast <Core::String const *> (v.cptr)->getBody ();
+#endif
         case Variant::STRING:
                 return *static_pointer_cast <std::string> (v.sptr);
         case Variant::STRING_POINTER:
@@ -391,6 +395,7 @@ std::string LCast <std::string>::run (Core::Variant const &v)
         }
 }
 
+#ifdef WITH_CORE_STRING
 Core::String LCast <Core::String>::run (Core::Variant const &v)
 {
         switch (v.type) {
@@ -434,6 +439,7 @@ Core::String LCast <Core::String>::run (Core::Variant const &v)
                 throw VariantCastException ("Bad lcast to Core::String unsupported type. Variant info : " + v.toString () + ".");
         }
 }
+#endif
 
 /****************************************************************************/
 

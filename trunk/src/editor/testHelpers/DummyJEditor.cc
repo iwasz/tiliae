@@ -14,10 +14,10 @@
 
 bool DummyJEditor::edit (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context)
 {
-//        assert (ccast <Core::String> (input));
+//        assert (ccast <std::string> (input));
 //        assert (output);
-//        assert (ccast <Core::String &> (*output) ||
-//                ccast <Core::String *> (*output));
+//        assert (ccast <std::string &> (*output) ||
+//                ccast <std::string *> (*output));
 
         /*
          * A ta asercja jest bardzo kontrowersyjna. Jezeli bedzie odkomentowana,
@@ -60,8 +60,8 @@ bool DummyJEditor::edit (const Core::Variant &input, Core::Variant *output, Core
          * ad 2. i 3.
          */
 
-        Core::String inStr = vcast <Core::String> (input);
-        Core::String *outStr = vcast <Core::String *> (*output);
+        std::string inStr = vcast <std::string> (input);
+        std::string *outStr = vcast <std::string *> (*output);
 
         *outStr = getLeft () + inStr + getRight ();
         return true;

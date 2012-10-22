@@ -78,12 +78,14 @@ T LCast <T>::run (Core::Variant const &v)
                 return static_cast <T> (v.si);
         case Variant::UNSIGNED_SHORT_INT:
                 return static_cast <T> (v.usi);
+#ifdef WITH_CORE_STRING
         case Variant::USTRING:
                 return boost::lexical_cast <T> (static_pointer_cast <Core::String> (v.sptr)->c_str ());
         case Variant::USTRING_POINTER:
                 return boost::lexical_cast <T> (static_cast <Core::String *> (v.ptr)->c_str ());
         case Variant::USTRING_POINTER_CONST:
                 return boost::lexical_cast <T> (static_cast <Core::String const *> (v.cptr)->c_str ());
+#endif
         case Variant::STRING:
                 return boost::lexical_cast <T> (*static_pointer_cast <std::string> (v.sptr));
         case Variant::STRING_POINTER:
@@ -100,10 +102,12 @@ struct TILIAE_API LCast <std::string> {
         static std::string run (Core::Variant const &v);
 };
 
+#ifdef WITH_CORE_STRING
 template <>
 struct TILIAE_API LCast <Core::String> {
         static Core::String run (Core::Variant const &v);
 };
+#endif
 
 /*##########################################################################*/
 /*# Domyślny                                                               #*/
@@ -1249,6 +1253,7 @@ struct TILIAE_API VCast<std::string const *> {
 
 /****************************************************************************/
 
+#ifdef WITH_CORE_STRING
 template<>
 struct TILIAE_API VCast<Core::String> {
 
@@ -1308,6 +1313,7 @@ struct TILIAE_API VCast<Core::String const *> {
                         v.type == Variant::NIL;
         }
 };
+#endif
 
 /****************************************************************************/
 

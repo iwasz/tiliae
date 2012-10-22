@@ -86,7 +86,9 @@ BOOST_AUTO_TEST_CASE (test013VariantList)
         BOOST_CHECK (list->size () == 8);
 
         BOOST_CHECK (vcast <std::string> (list->operator[] (0)) == "value01");
+#ifdef WITH_CORE_STRING
         BOOST_CHECK (vcast <Core::String> (list->operator[] (1)) == "value02");
+#endif
         BOOST_CHECK (vcast <std::string> (list->operator[] (2)) == "value03");
         BOOST_CHECK (vcast <int> (list->operator[] (3)) == 6670);
         BOOST_CHECK (vcast <double> (list->operator[] (4)) == 12.34);

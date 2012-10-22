@@ -202,9 +202,11 @@ void Manager::addStandardTypes ()
         REFLECTION_CONSTRUCTOR_ANNOTATION ("Variant", Core::Variant, void);
         REFLECTION_CONSTRUCTOR_ANNOTATION ("Variant", Core::Variant, const Core::Variant &);
 
+#ifdef WITH_CORE_STRING
         REFLECTION_CLASS_ANNOTATION ("String", Core::String);
         REFLECTION_CONSTRUCTOR_ANNOTATION ("String", Core::String, void);
         REFLECTION_CONSTRUCTOR_ANNOTATION ("String", Core::String, const Core::String &);
+#endif
 
         REFLECTION_CLASS_ANNOTATION ("string", std::string);
         REFLECTION_CONSTRUCTOR_ANNOTATION ("string", std::string, void);
@@ -215,10 +217,12 @@ void Manager::addStandardTypes ()
         CollectionAnnotation <VariantVector>::run ("VariantVector");
         CollectionAnnotation <VariantMap>::run ("VariantMap");
 
+#ifdef WITH_CORE_STRING
         CollectionAnnotation <UStringList>::run ("UStringList");
         CollectionAnnotation <UStringVector>::run ("UStringVector");
         CollectionAnnotation <UStringSet>::run ("UStringSet");
         CollectionAnnotation <UStringMap>::run ("UStringMap");
+#endif
 
         CollectionAnnotation <StringVector>::run ("StringVector");
         CollectionAnnotation <StringList>::run ("StringList");

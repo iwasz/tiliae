@@ -35,7 +35,9 @@
 #include "editor/LexicalEditor.h"
 
 using Core::Variant;
+#ifdef WITH_CORE_STRING
 using Core::String;
+#endif
 
 /****************************************************************************/
 
@@ -113,8 +115,8 @@ BOOST_AUTO_TEST_CASE (testDemonstrateEditors)
 
 BOOST_AUTO_TEST_CASE (testJEditor)
 {
-        String in = "moja żona";
-        String out;
+        std::string in = "moja żona";
+        std::string out;
         Variant vOut = Core::Variant (&out);
 
         DummyJEditor editor;
@@ -146,7 +148,7 @@ BOOST_AUTO_TEST_CASE (testIEditor)
  */
 BOOST_AUTO_TEST_CASE (testMegaTonEditor)
 {
-        String in = "alibaba, baba ali";
+        std::string in = "alibaba, baba ali";
         MegaTon out;
         Variant vOut = Core::Variant (&out);
 
@@ -161,7 +163,7 @@ BOOST_AUTO_TEST_CASE (testMegaTonEditor)
  */
 BOOST_AUTO_TEST_CASE (testMegaTonFactoryEditor)
 {
-        String in = "man with a movie camera";
+        std::string in = "man with a movie camera";
         Variant out;
         BOOST_REQUIRE (!ccast <MegaTon *> (out));
 
@@ -180,7 +182,7 @@ BOOST_AUTO_TEST_CASE (testMegaTonFactoryEditor)
  */
 BOOST_AUTO_TEST_CASE (testMegaTonSingletonFactoryEditor)
 {
-        String in = "fantomas";
+        std::string in = "fantomas";
         Variant out;
         BOOST_REQUIRE (!ccast <MegaTon *> (out));
 
@@ -196,7 +198,7 @@ BOOST_AUTO_TEST_CASE (testMegaTonSingletonFactoryEditor)
         Variant out2;
         BOOST_REQUIRE (!ccast <MegaTon *> (out2));
 
-        editor.convert (Core::Variant (String ("ttteeest")), &out2);
+        editor.convert (Core::Variant (std::string ("ttteeest")), &out2);
 
         BOOST_REQUIRE (ccast <MegaTon *> (out2));
         BOOST_REQUIRE (vcast <MegaTon *> (out)->getHeavyProperty () == "ttteeest");
@@ -475,6 +477,7 @@ BOOST_AUTO_TEST_CASE (testConvertMapToList)
 
 /****************************************************************************/
 
+#ifdef WITH_CORE_STRING
 Core::String listOfListsToString (const std::list <StringList *> &list)
 {
         String ret;
@@ -506,14 +509,17 @@ Core::String listOfListsToString (const std::list <StringList *> &list)
 
         return ret;
 }
+#endif
 
 /**
  *
  */
+#ifdef WITH_CORE_STRING
 void printListOfLists (const std::list <StringList *> &list)
 {
         std::cerr << listOfListsToString (list) << std::endl;
 }
+#endif
 
 #if 0
 /**
@@ -785,21 +791,21 @@ BOOST_AUTO_TEST_CASE (testNoopEditor)
 {
         NoopEditor noop;
 
-        Variant in = Core::Variant (String ("kupa"));
+        Variant in = Core::Variant (std::string ("kupa"));
         Variant out;
 
         noop.convert (in, &out);
 
-        BOOST_REQUIRE (vcast <String> (out) == "kupa");
+        BOOST_REQUIRE (vcast <std::string> (out) == "kupa");
 }
 
 /****************************************************************************/
 
 BOOST_AUTO_TEST_CASE (testStringToIntEditor)
 {
-        LexicalEditor <Core::String, int> editor;
+        LexicalEditor <std::string, int> editor;
 
-        Variant in = Core::Variant (String ("12345"));
+        Variant in = Core::Variant ("12345");
         Variant out;
 
         editor.convert (in, &out);
@@ -811,9 +817,9 @@ BOOST_AUTO_TEST_CASE (testStringToIntEditor)
 
 BOOST_AUTO_TEST_CASE (testStringToDoubleEditor)
 {
-        LexicalEditor <Core::String, double> editor;
+        LexicalEditor <std::string, double> editor;
 
-        Variant in = Core::Variant (String ("12.5"));
+        Variant in = Core::Variant ("12.5");
         Variant out;
 
         editor.convert (in, &out);
@@ -826,9 +832,9 @@ BOOST_AUTO_TEST_CASE (testStringToDoubleEditor)
 
 BOOST_AUTO_TEST_CASE (testStringToCharEditor)
 {
-        LexicalEditor <Core::String, char> editor;
+        LexicalEditor <std::string, char> editor;
 
-        Variant in = Core::Variant (String ("a"));
+        Variant in = Core::Variant ("a");
         Variant out;
 
         editor.convert (in, &out);
@@ -840,15 +846,15 @@ BOOST_AUTO_TEST_CASE (testStringToCharEditor)
 
 BOOST_AUTO_TEST_CASE (testStringToBoolEditor)
 {
-        LexicalEditor <Core::String, bool> editor;
+        LexicalEditor <std::string, bool> editor;
 
-        Variant in = Core::Variant (String ("true"));
+        Variant in = Core::Variant ("true");
         Variant out;
 
         editor.convert (in, &out);
         BOOST_REQUIRE (vcast <bool> (out));
 
-        in = Core::Variant (String ("false"));
+        in = Core::Variant ("false");
         editor.convert (in, &out);
         BOOST_REQUIRE (!vcast <bool> (out));
 }
@@ -926,10 +932,10 @@ BOOST_AUTO_TEST_CASE (testProxyEditor)
         Ptr <IEditor> proxy = boost::make_shared <ProxyEditor> (bracket, input);
 
         proxy->convert (Variant (), &output);
-        BOOST_REQUIRE (vcast <Core::String> (output) == "[iwasz]");
+        BOOST_REQUIRE (vcast <std::string> (output) == "[iwasz]");
 
         proxy->convert (Core::Variant (String ("asia")), &output);
-        BOOST_REQUIRE (vcast <Core::String> (output) == "[asia]");
+        BOOST_REQUIRE (vcast <std::string> (output) == "[asia]");
 }
 #endif
 

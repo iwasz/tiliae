@@ -11,7 +11,7 @@
 
 #include <list>
 #include "reflection/Reflection.h"
-#include "core/string/String.h"
+#include <string>
 #include "core/ApiMacro.h"
 
 /****************************************************************************/

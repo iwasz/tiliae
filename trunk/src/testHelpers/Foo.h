@@ -11,7 +11,7 @@
 
 #include "City.h"
 #include "reflection/Reflection.h"
-#include "core/string/String.h"
+#include <string>
 #include "core/ApiMacro.h"
 #include "Address.h"
 
@@ -31,11 +31,11 @@ public:
 
         virtual ~Foo () {}
 
-        REFLECTION_METHOD (getField0) Core::String getField0 () const { return field0; }
-        REFLECTION_METHOD (setField0) void setField0 (const Core::String &field0) { this->field0 = field0; }
+        REFLECTION_METHOD (getField0) std::string getField0 () const { return field0; }
+        REFLECTION_METHOD (setField0) void setField0 (const std::string &field0) { this->field0 = field0; }
 
-        REFLECTION_METHOD (getField1) Core::String getField1 () const { return field1; }
-        REFLECTION_METHOD (setField1) void setField1 (const Core::String &field1) { this->field1 = field1; }
+        REFLECTION_METHOD (getField1) std::string getField1 () const { return field1; }
+        REFLECTION_METHOD (setField1) void setField1 (const std::string &field1) { this->field1 = field1; }
 
         REFLECTION_METHOD (getField2) int getField2 () const { return field2; }
         REFLECTION_METHOD (setField2) void setField2 (int field2) { this->field2 = field2; }
@@ -67,8 +67,8 @@ public:
 
 private:
 
-        Core::String field0;
-        Core::String field1;
+        std::string field0;
+        std::string field1;
         int field2;
         double field3;
         char field4;

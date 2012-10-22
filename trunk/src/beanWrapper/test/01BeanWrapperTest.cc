@@ -11,7 +11,6 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-
 #include "core/variant/Cast.h"
 #include "beanWrapper/IBeanWrapper.h"
 #include "beanWrapper/BeanWrapper.h"
@@ -62,10 +61,10 @@ BOOST_AUTO_TEST_CASE (testSinglePlugin)
         BOOST_REQUIRE_EQUAL (ii, 666);
 
         // A teraz zmieniamy obiekt warpowany!
-        Variant s = Core::Variant (String ("ala ma kota"));
+        Variant s = Core::Variant (std::string ("ala ma kota"));
         beanWrapper->set ("this", s);
         Variant t = beanWrapper->get ("this");
-        String S = vcast <String> (t);
+        std::string S = vcast <std::string> (t);
         BOOST_REQUIRE_EQUAL (S, "ala ma kota");
 
         delete beanWrapper;
@@ -116,15 +115,15 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
 
 //        BOOST_REQUIRE (!beanWrapper->get ("").isNone ());
         BOOST_REQUIRE (!beanWrapper->get ("postalCode").isNone ());
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("postalCode")) == "02-673");
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("street")) == "katalonska");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("postalCode")) == "02-673");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("street")) == "katalonska");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("city.name")) == "Warszawa");
-        BOOST_REQUIRE (vcast <Core::String> (beanWrapper->get ("country.name")) == "Polska");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("country.name")) == "Polska");
 
-        beanWrapper->set ("postalCode", Core::Variant (String ("ala")));
-        beanWrapper->set ("street", Core::Variant (String ("ma")));
+        beanWrapper->set ("postalCode", Core::Variant (std::string ("ala")));
+        beanWrapper->set ("street", Core::Variant (std::string ("ma")));
         beanWrapper->set ("city.name", Core::Variant ("kota"));
-        beanWrapper->set ("country.name", Core::Variant (String ("psa")));
+        beanWrapper->set ("country.name", Core::Variant (std::string ("psa")));
 
         BOOST_REQUIRE (address.getPostalCode () == "ala");
         BOOST_REQUIRE (address.getStreet () == "ma");
@@ -152,15 +151,15 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
          * Set może zrzucić i getException i setException!
          */
         bool ret;
-        ret = beanWrapper->set ("adres.postalCode", Core::Variant (String ("ala")));
+        ret = beanWrapper->set ("adres.postalCode", Core::Variant (std::string ("ala")));
         BOOST_REQUIRE_EQUAL(ret, false);
-        ret = beanWrapper->set ("adres.street", Core::Variant (String ("ma")));
+        ret = beanWrapper->set ("adres.street", Core::Variant (std::string ("ma")));
         BOOST_REQUIRE_EQUAL(ret, false);
-        ret = beanWrapper->set ("adres.city.name", Core::Variant (String ("kota")));
+        ret = beanWrapper->set ("adres.city.name", Core::Variant (std::string ("kota")));
         BOOST_REQUIRE_EQUAL(ret, false);
-        ret = beanWrapper->set ("adres.country.name", Core::Variant (String ("psa")));
+        ret = beanWrapper->set ("adres.country.name", Core::Variant (std::string ("psa")));
         BOOST_REQUIRE_EQUAL(ret, false);
-        ret = beanWrapper->set ("adres.country.aname", Core::Variant (String ("psa")));
+        ret = beanWrapper->set ("adres.country.aname", Core::Variant (std::string ("psa")));
         BOOST_REQUIRE_EQUAL(ret, false);
 
 /*--------------------------------------------------------------------------*/
@@ -191,10 +190,10 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
          * warianta, a poniewaz wariant jest value, to obiekt
          * wrapowany sie tez skopiuje.
          */
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("postalCode")) == "asia");
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("street")) == "krzyczy");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("postalCode")) == "asia");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("street")) == "krzyczy");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("city.name")) == "kiedy idzie");
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("country.name")) == "do sklepu");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("country.name")) == "do sklepu");
 
         // Mozna uzywac obiektu tylko, gdy wyciagniemy go spowrotem w ten sposob:
         Address fromWrapper = vcast <Address> (beanWrapper->getWrappedObject ());
@@ -241,11 +240,11 @@ BOOST_AUTO_TEST_CASE (testGetPutPlugin)
 
         VariantMap vMap;
         vMap["strMap"] = Core::Variant (stringMap);
-        vMap["a"] = Core::Variant (String ("aa"));
+        vMap["a"] = Core::Variant (std::string ("aa"));
 
         beanWrapper->setWrappedObject (Core::Variant (vMap));
 
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("a")) == "aa");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("a")) == "aa");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("strMap.key1")) == "value1");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("strMap.key2")) == "value2");
 
@@ -352,13 +351,13 @@ void BeanWrapperTest::testNestedSimpleBeanWrappersGet ()
 
         Ptr <BeanWrapper> beanWrapper = BeanWrapper::create (Core::Variant (vMap));
 
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("sMap.key1")) == "value1");
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("sMap.key2")) == "value2");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key1")) == "value1");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key2")) == "value2");
 
         shared_ptr <IBeanWrapper> beanWrapper2 = SimpleBeanWrapper::create (Core::Variant (beanWrapper));
 
-        BOOST_REQUIRE (vcast <String> (beanWrapper2->get ("sMap.key1")) == "value1");
-        BOOST_REQUIRE (vcast <String> (beanWrapper2->get ("sMap.key2")) == "value2");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper2->get ("sMap.key1")) == "value1");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper2->get ("sMap.key2")) == "value2");
 }
 
 /**
@@ -377,17 +376,17 @@ void BeanWrapperTest::testNestedSimpleBeanWrappersSet ()
         IBeanWrapper *beanWrapper = SimpleBeanWrapper::create (Core::Variant (vMap));
         IBeanWrapper *beanWrapper2 = SimpleBeanWrapper::create (Core::Variant (beanWrapper));
 
-        beanWrapper->set ("sMap.key1", Core::Variant (String ("suzuki")));
-        beanWrapper->set ("sMap.key2", Core::Variant (String ("honda")));
+        beanWrapper->set ("sMap.key1", Core::Variant (std::string ("suzuki")));
+        beanWrapper->set ("sMap.key2", Core::Variant (std::string ("honda")));
 
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("sMap.key1")) == "suzuki");
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("sMap.key2")) == "honda");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key1")) == "suzuki");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key2")) == "honda");
 
-        beanWrapper2->set ("sMap.key1", Core::Variant (String ("yamaha")));
-        beanWrapper2->set ("sMap.key2", Core::Variant (String ("kawasaki")));
+        beanWrapper2->set ("sMap.key1", Core::Variant (std::string ("yamaha")));
+        beanWrapper2->set ("sMap.key2", Core::Variant (std::string ("kawasaki")));
 
-        BOOST_REQUIRE (vcast <String> (beanWrapper2->get ("sMap.key1")) == "yamaha");
-        BOOST_REQUIRE (vcast <String> (beanWrapper2->get ("sMap.key2")) == "kawasaki");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper2->get ("sMap.key1")) == "yamaha");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper2->get ("sMap.key2")) == "kawasaki");
 }
 
 /**
@@ -450,24 +449,24 @@ void BeanWrapperTest::testNestedBeanWrappers ()
 
         IBeanWrapper *beanWrapper = SimpleBeanWrapper::create (Core::Variant (vMap));
 
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("sMap.key1")) == "value1");
-        BOOST_REQUIRE (vcast <String> (beanWrapper->get ("sMap.key2")) == "value2");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key1")) == "value1");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("sMap.key2")) == "value2");
 
         IBeanWrapper *beanWrapper2 = SimpleBeanWrapper::create (Core::Variant (beanWrapper));
 
-        BOOST_REQUIRE (vcast <String> (beanWrapper2->get ("sMap.key1")) == "value1");
-        BOOST_REQUIRE (vcast <String> (beanWrapper2->get ("sMap.key2")) == "value2");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper2->get ("sMap.key1")) == "value1");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper2->get ("sMap.key2")) == "value2");
 
 
         /**
          *  Tu sprawdzamy zwykly get, czy dziala od poczatku (nic nie ustawialem
          *  za pomocaIBeanWrapper::set
          */
-        //BOOST_REQUIRE (vcast <String> (beanWrapper->get ("wrapper.sMap.key1")) == "value1");
-        //BOOST_REQUIRE (vcast <String> (beanWrapper->get ("wrapper.sMap.key2")) == "value2");
+        //BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("wrapper.sMap.key1")) == "value1");
+        //BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("wrapper.sMap.key2")) == "value2");
 
-        //BOOST_REQUIRE (vcast <String> (beanWrapper->get ("wrapper.vMap.sMap.key1")) == "value1");
-        //BOOST_REQUIRE (vcast <String> (beanWrapper->get ("wrapper.vMap.sMap.key2")) == "value2");
+        //BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("wrapper.vMap.sMap.key1")) == "value1");
+        //BOOST_REQUIRE (vcast <std::string> (beanWrapper->get ("wrapper.vMap.sMap.key2")) == "value2");
 
 /*##########################################################################*/
 
@@ -476,11 +475,11 @@ void BeanWrapperTest::testNestedBeanWrappers ()
          *  Najpierw ustawiam property za pomoca IBeanWrapper::set, a potem pobieram
          *  getem.
          */
-        //beanWrapper->set ("wrapper.sMap.key1", Core::Variant (String ("kupa")));
+        //beanWrapper->set ("wrapper.sMap.key1", Core::Variant (std::string ("kupa")));
         //std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << stringMap.get ("key1") << std::endl;
         //BOOST_REQUIRE (stringMap.get ("key1") == "kupa");
 
-        //beanWrapper->set ("wrapper.vMap.sMap.key1", Core::Variant (String ("miekkaKupa")));
+        //beanWrapper->set ("wrapper.vMap.sMap.key1", Core::Variant (std::string ("miekkaKupa")));
         //std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << stringMap.get ("key1") << std::endl;
         //BOOST_REQUIRE (stringMap.get ("key1") == "miekkaKupa");
 
@@ -523,7 +522,7 @@ BOOST_AUTO_TEST_CASE (testListPlugin)
         bool b5 = can_cast <const String *> (v1);
 #endif
 
-        String s = vcast <std::string> (v1);
+        std::string s = vcast <std::string> (v1);
         BOOST_REQUIRE (s == "value0");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("1")) == "value1");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("2")) == "value2");
@@ -598,11 +597,11 @@ BOOST_AUTO_TEST_CASE (testMapPlugin)
         // Musi byc wariant handle, bo tylko takie da sie polimorficznie rzutować (na IList *).
         beanWrapper.setWrappedObject (Core::Variant (&stringMap));
 
-        BOOST_REQUIRE (vcast <String> (beanWrapper.get ("key1")) == "value1");
-        BOOST_REQUIRE (vcast <String> (beanWrapper.get ("key2")) == "value2");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("key1")) == "value1");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("key2")) == "value2");
 
-        beanWrapper.set ("key4", vcast <Variant> (String ("value4")));
-        BOOST_REQUIRE (vcast <String> (beanWrapper.get ("key4")) == "value4");
+        beanWrapper.set ("key4", vcast <Variant> (std::string ("value4")));
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("key4")) == "value4");
 
 /*--------------------------------------------------------------------------*/
 
@@ -614,16 +613,16 @@ BOOST_AUTO_TEST_CASE (testMapPlugin)
 //        BOOST_REQUIRE (can_cast <const IMap *> (vvv));
 
         vMap["strMap", Core::Variant (stringMap));
-        vMap["a", Core::Variant (String ("aa")));
+        vMap["a", Core::Variant (std::string ("aa")));
         Variant obj = vcast<Variant> (&vMap);
-        BOOST_REQUIRE (vcast <String> (beanWrapper.get (&obj, "a")) == "aa");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get (&obj, "a")) == "aa");
 
         // To samo co setWrappedObject
         beanWrapper.set ("", Core::Variant (&vMap));
 
-        BOOST_REQUIRE (vcast <String> (beanWrapper.get ("a")) == "aa");
-//        BOOST_REQUIRE (vcast <String> (beanWrapper.get ("strMap.key1")) == "value1");
-//        BOOST_REQUIRE (vcast <String> (beanWrapper.get ("strMap.key2")) == "value2");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("a")) == "aa");
+//        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("strMap.key1")) == "value1");
+//        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("strMap.key2")) == "value2");
 }
 #endif
 /**
@@ -657,10 +656,10 @@ BOOST_AUTO_TEST_CASE (testMethodPlugin)
 
 //        BOOST_REQUIRE (!beanWrapper.get ("").isNone ());
 //        BOOST_REQUIRE (beanWrapper->get ("postalCode").getType () != Core::NONE);
-        BOOST_REQUIRE (vcast <String> (beanWrapper.get ("getPostalCode")) == "02-673");
-        BOOST_REQUIRE (vcast <String> (beanWrapper.get ("getStreet")) == "katalonska");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("getPostalCode")) == "02-673");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("getStreet")) == "katalonska");
         BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("city.getName")) == "Warszawa");
-        BOOST_REQUIRE (vcast <String> (beanWrapper.get ("country.getName")) == "Polska");
+        BOOST_REQUIRE (vcast <std::string> (beanWrapper.get ("country.getName")) == "Polska");
 }
 
 /****************************************************************************/
@@ -694,16 +693,16 @@ BOOST_AUTO_TEST_CASE (testMethodPluginMethodMode)
 //        BOOST_REQUIRE (!beanWrapper.get ("").isNone ());
         Variant ret = beanWrapper.get ("getPostalCode");
         Ptr <Handler> handler = vcast <Ptr <Handler> > (ret);
-        BOOST_REQUIRE (vcast <String> (handler->invoke ()) == "02-673");
+        BOOST_REQUIRE (vcast <std::string> (handler->invoke ()) == "02-673");
 
         handler = vcast <Ptr <Handler> > (beanWrapper.get ("getStreet"));
-        BOOST_REQUIRE (vcast <String> (handler->invoke ()) == "katalonska");
+        BOOST_REQUIRE (vcast <std::string> (handler->invoke ()) == "katalonska");
 
         handler = vcast <Ptr <Handler> > (beanWrapper.get ("city.getName"));
         BOOST_REQUIRE (vcast <std::string> (handler->invoke ()) == "Warszawa");
 
         handler = vcast <Ptr <Handler> > (beanWrapper.get ("country.getName"));
-        BOOST_REQUIRE (vcast <String> (handler->invoke ()) == "Polska");
+        BOOST_REQUIRE (vcast <std::string> (handler->invoke ()) == "Polska");
 }
 
 /**
@@ -749,10 +748,10 @@ BOOST_AUTO_TEST_CASE (testAbstractObjects)
          * Place dawał type_info dotyczące typu Place * (typ wskaźnika), a nie typu
          * Address * (faktyczny typ obiektu wskazywanego).
          */
-        BOOST_REQUIRE_EQUAL (vcast <String> (beanWrapper->get ("place.street")), "testowy01");
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("place.street")), "testowy01");
 
         // Place2 jest typu Ptr <Place> a wskazuje na obiekt typu Address.
-        BOOST_REQUIRE_EQUAL (vcast <String> (beanWrapper->get ("place2.street")), "test02-66");
+        BOOST_REQUIRE_EQUAL (vcast <std::string> (beanWrapper->get ("place2.street")), "test02-66");
         delete beanWrapper;
 }
 

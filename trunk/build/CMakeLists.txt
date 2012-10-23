@@ -1,5 +1,4 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8 FATAL_ERROR)
-
 project (tiliae)
 
 if(COMMAND cmake_policy)
@@ -39,25 +38,16 @@ endif()
 #SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
 
-SET (CMAKE_VERBOSE_MAKEFILE 0)
-
-#SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DWITH_CORE_STRING")
-#SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DWITH_CORE_STRING")
-SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART")
-SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART")
+SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DWITH_CORE_STRING")
+SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DWITH_CORE_STRING")
+#SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART")
+#SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART")
 SET (CMAKE_C_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -Wall -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
 SET (CMAKE_CXX_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -Wall -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
 
 SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 SET (CMAKE_EXE_LINKER_FLAGS "-Wl,--no-undefined")
-
-if(CMAKE_PREFIX_PATH)
-message (${CMAKE_PREFIX_PATH})
-endif()
-
-if(CMAKE_PROGRAM_PATH)
-message (${CMAKE_PROGRAM_PATH})
-endif()
+SET (CMAKE_VERBOSE_MAKEFILE 0)
 
 INSTALL (
     DIRECTORY "${PROJECT_SOURCE_DIR}/../src/"
@@ -80,18 +70,13 @@ endif()
 find_package (Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-# TODO inaczej!
-#if (NOT ANDROID)
-    include (FindPkgConfig)
-    pkg_check_modules (MXML REQUIRED "mxml")
-    INCLUDE_DIRECTORIES (${MXML_INCLUDE_DIRS})
-    link_directories(${MXML_LIBRARY_DIRS})
+include (FindPkgConfig)
+pkg_check_modules (MXML REQUIRED "mxml")
+INCLUDE_DIRECTORIES (${MXML_INCLUDE_DIRS})
+link_directories(${MXML_LIBRARY_DIRS})
 
-    pkg_check_modules (SPARSE_HASH REQUIRED "libsparsehash")
-    INCLUDE_DIRECTORIES (${SPARSE_HASH_INCLUDE_DIRS})
-#else ()
-    #find_library (MXML_LIBRARIES "mxml")
-#endif ()
+pkg_check_modules (SPARSE_HASH REQUIRED "libsparsehash")
+INCLUDE_DIRECTORIES (${SPARSE_HASH_INCLUDE_DIRS})
 
 ENABLE_TESTING ()
 
@@ -439,3 +424,5 @@ IF(BUILD_DEMO)
     TARGET_LINK_LIBRARIES (demo tiliae)
 
 ENDIF ()
+
+configure_file (${CMAKE_CURRENT_SOURCE_DIR}/pc/tiliae.pc.in ${CMAKE_CURRENT_BINARY_DIR}/pc/tiliae.pc @ONLY)

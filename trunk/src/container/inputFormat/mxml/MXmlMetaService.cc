@@ -757,7 +757,7 @@ void MXmlMetaService::loadAsset (std::string *xml, AAssetManager *assetManager, 
 	AAsset *asset = AAssetManager_open (assetManager, path.c_str (), AASSET_MODE_UNKNOWN);
 
 	if (!asset) {
-			throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not open resource. Path : [" + path + "]");
+                throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not open resource. Path : [" + path + "]");
 	}
 
 	int bytesRead;
@@ -765,17 +765,17 @@ void MXmlMetaService::loadAsset (std::string *xml, AAssetManager *assetManager, 
 
 	while ((bytesRead = AAsset_read (asset, buffer, BUFSIZ - 1))) {
 
-			if (bytesRead < 0) {
-					throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not read from resource. Path : [" + path + "]");
-			}
+                if (bytesRead < 0) {
+                                throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not read from resource. Path : [" + path + "]");
+                }
 
-			buffer[bytesRead] = '\0';
+                buffer[bytesRead] = '\0';
 
-	#if 0
-	__android_log_print(ANDROID_LOG_INFO, "bajka", "bytes read...");
-	#endif
+                #if 0
+                __android_log_print(ANDROID_LOG_INFO, "bajka", "bytes read...");
+                #endif
 
-			*xml += buffer;
+                *xml += buffer;
 	}
 
 	AAsset_close (asset);

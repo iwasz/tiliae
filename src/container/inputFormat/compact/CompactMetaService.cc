@@ -15,13 +15,7 @@
 #include "container/common/Exceptions.h"
 #include "container/metaStructure/MetaStructure.h"
 #include "reflection/Manager.h"
-
-#ifdef ANDROID
-#include <android/asset_manager.h>
-#include <android/log.h>
-#include "container/metaStructure/model/MetaFactory.h"
 #include "container/inputFormat/mxml/MXmlMetaService.h"
-#endif
 
 namespace Container {
 
@@ -722,18 +716,10 @@ Ptr <MetaContainer> CompactMetaService::parseFile (std::string const &path, Ptr 
 
         Core::ArrayRegionAllocator <char> *memoryAllocator = container->getMemoryAllocator ();
         Impl impl (container.get (), memoryAllocator);
-        FILE *fp;
 
-        fp = fopen (path.c_str (), "r");
-
-        if (!fp) {
-                int errsv = errno;
-                throw XmlMetaServiceException ("MXmlMetaService::parse : could not open file. Message : " + std::string (strerror (errsv)) + ". Path : [" + path + "]");
-        }
-
-        mxmlSAXLoadFile (NULL, fp, MXML_OPAQUE_CALLBACK, saxHandler, &impl);
-
-        fclose(fp);
+        std::string xml;
+        MXmlMetaService::loadDataSource (&xml, path);
+        mxmlSAXLoadString (NULL, xml.c_str (), MXML_OPAQUE_CALLBACK, saxHandler, &impl);
 
         while (!impl.imports.empty ()) {
                 std::string path = impl.imports.front ();
@@ -752,32 +738,5 @@ std::string Impl::generateId (MetaObject *m) const
         std::string prefix = (clazz.empty ()) ? (m->getParent ()) : (clazz);
         return prefix + "_" + boost::lexical_cast <std::string> (singetinNumber++);
 }
-
-/****************************************************************************/
-
-#ifdef ANDROID
-Ptr <MetaContainer> CompactMetaService::parseAndroidAsset (AAssetManager *assetManager, std::string const &path, Ptr <MetaContainer> container)
-{
-        if (!container) {
-                container = boost::make_shared <MetaContainer> ();
-        }
-
-        Core::ArrayRegionAllocator <char> *memoryAllocator = container->getMemoryAllocator ();
-        Impl impl (container.get (), memoryAllocator);
-
-        std::string xml;
-        MXmlMetaService::loadAsset (&xml, assetManager, path);
-
-        mxmlSAXLoadString (NULL, xml.c_str (), MXML_TEXT_CALLBACK, saxHandler, &impl);
-
-        while (!impl.imports.empty ()) {
-                std::string path = impl.imports.front ();
-                impl.imports.pop ();
-                parseAndroidAsset (assetManager, path, container);
-        }
-
-        return container;
-}
-#endif
 
 } /* namespace Container */

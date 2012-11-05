@@ -7,7 +7,7 @@
         <!-- To samo co w teście 20, ale w inny sposób. -->
         <bean id="mojBean" class="Bar">
                 <constructor-arg>
-                    <value type="String">value0</value>
+                    <value type="string">value0</value>
                 </constructor-arg>
                 <constructor-arg value="value1"/>
                 <constructor-arg ref="zcity"/>

@@ -30,11 +30,13 @@ public:
          * Tworzy strukture meta-obiektów na podstawie definicji w pliku XML.
          */
         static Ptr <MetaContainer> parseFile (std::string const &path, Ptr <MetaContainer> container = Ptr <MetaContainer> ());
+        static void loadDataSource (std::string *xml, std::string const &path);
 
 #ifdef ANDROID
         static Ptr <MetaContainer> parseAndroidAsset (AAssetManager *assetManager, std::string const &path, Ptr <MetaContainer> container = Ptr <MetaContainer> ());
         static void loadAsset (std::string *xml, AAssetManager *assetManager, std::string const &path);
 #endif
+
 
 };
 

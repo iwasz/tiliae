@@ -3,7 +3,7 @@
         "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
         <bean id="mojBean" class="Bar">
-                <constructor-arg><value type="String">value01</value></constructor-arg>
+                <constructor-arg><value type="string">value01</value></constructor-arg>
                 <constructor-arg><value>value02</value></constructor-arg>
                 <constructor-arg><null/></constructor-arg>
                

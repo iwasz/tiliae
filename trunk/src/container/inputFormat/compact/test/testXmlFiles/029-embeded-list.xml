@@ -2,7 +2,7 @@
 <beans>
 	<Bar id="mojBean">
 		<cargs>
-			<value type="String">value01</value>
+			<value type="string">value01</value>
 			<value>value02</value>
 			<null />
 		</cargs>

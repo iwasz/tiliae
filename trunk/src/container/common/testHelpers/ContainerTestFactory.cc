@@ -769,7 +769,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
 
         MetaObject *child = factory.newMetaObject ();
 
-        child->addConstructorArg (factory.newValueDataNewString ("value2", "String"));
+        child->addConstructorArg (factory.newValueDataNewString ("value2", "string"));
         child->addConstructorArg (factory.newValueDataNewString ("value3", "text"));
         child->addConstructorArg (factory.newRefDataNewString ("ncity"));
 
@@ -782,7 +782,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
 /*--------------------------------------------------------------------------*/
 
         MetaObject *child1 = factory.newMetaObject ();
-        child1->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
+        child1->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "string")));
         child1->setId ("ncity");
         child1->setClass ("City");
         child1->setScope (MetaObject::PROTOTYPE);

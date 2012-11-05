@@ -38,8 +38,8 @@ endif()
 #SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
 
-SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DWITH_CORE_STRING")
-SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DWITH_CORE_STRING")
+SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
+SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
 #SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART")
 #SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART")
 SET (CMAKE_C_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -Wall -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
@@ -109,6 +109,7 @@ IF(BUILD_COMMON)
     AUX_SOURCE_DIRECTORY (../src/common/logger LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/common/path LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (../src/common/collection LIB_SOURCES)
+    AUX_SOURCE_DIRECTORY (../src/common/dataSource LIB_SOURCES)
 ENDIF(BUILD_COMMON)
 ## --------------------------------------------------------
 ## Reflection

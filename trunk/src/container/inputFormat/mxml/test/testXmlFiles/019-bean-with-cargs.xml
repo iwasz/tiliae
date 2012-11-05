@@ -4,7 +4,7 @@
 <beans>
         <bean id="mojBean" class="Bar">
                 <constructor-arg>
-                        <value type="String">value0</value>
+                        <value type="string">value0</value>
                 </constructor-arg>
 
                 <constructor-arg>

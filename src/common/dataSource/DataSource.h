@@ -34,7 +34,7 @@ public:
         /**
          * Otwórz źródło.
          */
-        void open (const char* filename, OpenMode mode);
+        void open (const char* filename, OpenMode mode = MODE_UNKNOWN);
 
         /**
          * Close the asset, freeing all associated resources.

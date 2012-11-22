@@ -16,12 +16,6 @@
 #include "container/metaStructure/MetaStructure.h"
 #include "common/dataSource/DataSource.h"
 
-//#ifdef ANDROID
-//#include <android/asset_manager.h>
-//#include <android/log.h>
-//#include "container/metaStructure/model/MetaFactory.h"
-//#endif
-
 namespace Container {
 
 namespace {
@@ -728,7 +722,7 @@ void MXmlMetaService::loadDataSource (std::string *xml, std::string const &path)
         int bytesRead;
         char buffer[BUFSIZ + 1];
 
-        while ((bytesRead = ds.read (buffer, 1, BUFSIZ))) {
+        while ((bytesRead = ds.read (buffer, BUFSIZ))) {
 
                 if (bytesRead < 0) {
                         throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not read from resource. Path : [" + path + "]");
@@ -740,67 +734,5 @@ void MXmlMetaService::loadDataSource (std::string *xml, std::string const &path)
 
         ds.close ();
 }
-
-/****************************************************************************/
-
-//#ifdef ANDROID
-//Ptr <MetaContainer> MXmlMetaService::parseAndroidAsset (AAssetManager *assetManager, std::string const &path, Ptr <MetaContainer> container)
-//{
-//        if (!container) {
-//                container = boost::make_shared <MetaContainer> ();
-//        }
-//
-//        Core::ArrayRegionAllocator <char> *memoryAllocator = container->getMemoryAllocator ();
-//        Impl impl (container.get (), memoryAllocator);
-//
-//        std::string xml;
-//        loadAsset (&xml, assetManager, path);
-//
-//        mxmlSAXLoadString (NULL, xml.c_str (), MXML_TEXT_CALLBACK, saxHandler, &impl);
-//
-//        while (!impl.imports.empty ()) {
-//                std::string path = impl.imports.front ();
-//                impl.imports.pop ();
-//                parseAndroidAsset (assetManager, path, container);
-//        }
-//
-//        return container;
-//}
-//
-///****************************************************************************/
-//
-//void MXmlMetaService::loadAsset (std::string *xml, AAssetManager *assetManager, std::string const &path)
-//{
-//	AAsset *asset = AAssetManager_open (assetManager, path.c_str (), AASSET_MODE_UNKNOWN);
-//
-//	if (!asset) {
-//                throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not open resource. Path : [" + path + "]");
-//	}
-//
-//	int bytesRead;
-//	char buffer[BUFSIZ];
-//
-//	while ((bytesRead = AAsset_read (asset, buffer, BUFSIZ - 1))) {
-//
-//                if (bytesRead < 0) {
-//                                throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not read from resource. Path : [" + path + "]");
-//                }
-//
-//                buffer[bytesRead] = '\0';
-//
-//                #if 0
-//                __android_log_print(ANDROID_LOG_INFO, "bajka", "bytes read...");
-//                #endif
-//
-//                *xml += buffer;
-//	}
-//
-//	AAsset_close (asset);
-//
-//	#if 0
-//	__android_log_print(ANDROID_LOG_INFO, "bajka", xml.c_str());
-//	#endif
-//}
-//#endif
 
 } /* namespace Container */

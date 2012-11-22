@@ -19,7 +19,7 @@ struct DataSource::Impl {
 
 /****************************************************************************/
 
-DataSource::DataSource () : impl (new Impl) {}
+DataSource::DataSource (void *userData) : impl (new Impl) {}
 
 /****************************************************************************/
 
@@ -57,7 +57,7 @@ void DataSource::close ()
 
 int DataSource::read (void* buf, size_t size, size_t count)
 {
-        return fread (buf, size, count, impl->fp);
+        return fread (buf, 1, count, impl->fp);
 }
 
 /****************************************************************************/

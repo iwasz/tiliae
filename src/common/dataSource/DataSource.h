@@ -21,7 +21,7 @@ namespace Common {
 class TILIAE_API DataSource {
 public:
 
-        DataSource ();
+        DataSource (void *userData = NULL);
         ~DataSource ();
 
         enum OpenMode {
@@ -45,7 +45,7 @@ public:
          * Czytaj count elementów, z których kazdy ma size bajtów.
          * Zwraca ilość odczytanych elementów. Lub 0 jeśli błąd lub EOF.
          */
-        int read (void* buf, size_t size, size_t count);
+        int read (void* buf, size_t count);
 
         /**
          *

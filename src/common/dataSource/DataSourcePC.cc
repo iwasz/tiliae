@@ -55,7 +55,7 @@ void DataSource::close ()
 
 /****************************************************************************/
 
-int DataSource::read (void* buf, size_t size, size_t count)
+int DataSource::read (void* buf, size_t count)
 {
         return fread (buf, 1, count, impl->fp);
 }

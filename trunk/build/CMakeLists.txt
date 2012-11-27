@@ -216,9 +216,8 @@ if (ANDROID)
     add_library (tiliae STATIC ${LIB_SOURCES})
 else ()
     add_library (tiliae SHARED ${LIB_SOURCES})
+    TARGET_LINK_LIBRARIES (tiliae ${MXML_LIBRARIES})
 endif ()
-
-TARGET_LINK_LIBRARIES (tiliae ${MXML_LIBRARIES})
 
 INSTALL (
     TARGETS tiliae

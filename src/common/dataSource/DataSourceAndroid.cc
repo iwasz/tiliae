@@ -37,6 +37,10 @@ DataSource::~DataSource ()
 
 void DataSource::open (const char* filename, OpenMode mode)
 {
+        if (!filename) {
+                throw DataSourceException (std::string ("DataSource::open() : open failed, path is NULL."));
+        }
+
         impl->asset = AAssetManager_open (impl->assetManager, filename, (int)mode);
 
         if (!impl->asset) {

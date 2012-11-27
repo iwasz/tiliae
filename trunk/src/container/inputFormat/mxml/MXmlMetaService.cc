@@ -716,7 +716,6 @@ Ptr <MetaContainer> MXmlMetaService::parseFile (std::string const &path, Ptr <Me
 void MXmlMetaService::loadDataSource (std::string *xml, std::string const &path)
 {
         Common::DataSource ds;
-
         ds.open (path.c_str (), Common::DataSource::MODE_UNKNOWN);
 
         int bytesRead;

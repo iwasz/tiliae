@@ -16,6 +16,7 @@
 #include "container/metaStructure/MetaStructure.h"
 #include "reflection/Manager.h"
 #include "container/inputFormat/mxml/MXmlMetaService.h"
+#include "common/dataSource/DataSource.h"
 
 namespace Container {
 
@@ -718,7 +719,8 @@ Ptr <MetaContainer> CompactMetaService::parseFile (std::string const &path, Ptr 
         Impl impl (container.get (), memoryAllocator);
 
         std::string xml;
-        MXmlMetaService::loadDataSource (&xml, path);
+        Common::DataSource ds;
+        MXmlMetaService::loadDataSource (&ds, &xml, path);
         mxmlSAXLoadString (NULL, xml.c_str (), MXML_OPAQUE_CALLBACK, saxHandler, &impl);
 
         while (!impl.imports.empty ()) {

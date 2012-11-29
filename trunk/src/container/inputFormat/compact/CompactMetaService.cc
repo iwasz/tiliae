@@ -709,7 +709,7 @@ void Impl::validateId (std::string const &name) const
 
 /****************************************************************************/
 
-Ptr <MetaContainer> CompactMetaService::parseFile (std::string const &path, Ptr <MetaContainer> container)
+Ptr <MetaContainer> CompactMetaService::parseFile (Common::DataSource *ds, std::string const &path, Ptr <MetaContainer> container)
 {
         if (!container) {
                 container = boost::make_shared <MetaContainer> ();
@@ -719,17 +719,28 @@ Ptr <MetaContainer> CompactMetaService::parseFile (std::string const &path, Ptr 
         Impl impl (container.get (), memoryAllocator);
 
         std::string xml;
-        Common::DataSource ds;
-        MXmlMetaService::loadDataSource (&ds, &xml, path);
+
+        ds->open (path.c_str (), Common::DataSource::MODE_UNKNOWN);
+        MXmlMetaService::loadDataSource (ds, &xml);
+        ds->close ();
+
         mxmlSAXLoadString (NULL, xml.c_str (), MXML_OPAQUE_CALLBACK, saxHandler, &impl);
 
         while (!impl.imports.empty ()) {
                 std::string path = impl.imports.front ();
                 impl.imports.pop ();
-                parseFile (path, container);
+                parseFile (ds, path, container);
         }
 
         return container;
+}
+
+/****************************************************************************/
+
+Ptr <MetaContainer> CompactMetaService::parseFile (std::string const &path, Ptr <MetaContainer> container)
+{
+        Common::DataSource standardDs;
+        return parseFile (&standardDs, path, container);
 }
 
 /****************************************************************************/

@@ -23,6 +23,10 @@ struct DataSource::Impl {
 
 DataSource::DataSource (void *userData) : impl (new Impl)
 {
+        if (!userData) {
+                throw DataSourceException (std::string ("DataSource::DataSource : android datasource implementation requires AAssetManager * as argument."));
+        }
+
         impl->assetManager = static_cast <AAssetManager *> (userData);
 }
 

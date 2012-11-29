@@ -699,7 +699,8 @@ Ptr <MetaContainer> MXmlMetaService::parseFile (std::string const &path, Ptr <Me
         Impl impl (container.get (), memoryAllocator);
 
         std::string xml;
-        loadDataSource (&xml, path);
+        Common::DataSource ds;
+        loadDataSource (&ds, &xml, path);
         mxmlSAXLoadString (NULL, xml.c_str (), MXML_OPAQUE_CALLBACK, saxHandler, &impl);
 
         while (!impl.imports.empty ()) {
@@ -713,9 +714,8 @@ Ptr <MetaContainer> MXmlMetaService::parseFile (std::string const &path, Ptr <Me
 
 /****************************************************************************/
 
-void MXmlMetaService::loadDataSource (std::string *xml, std::string const &path)
+void MXmlMetaService::loadDataSource (Common::DataSource *ds, std::string *xml, std::string const &path)
 {
-        Common::DataSource ds;
         ds.open (path.c_str (), Common::DataSource::MODE_UNKNOWN);
 
         int bytesRead;
@@ -724,7 +724,7 @@ void MXmlMetaService::loadDataSource (std::string *xml, std::string const &path)
         while ((bytesRead = ds.read (buffer, BUFSIZ))) {
 
                 if (bytesRead < 0) {
-                        throw XmlMetaServiceException ("MXmlMetaService::parseAndroidAsset : could not read from resource. Path : [" + path + "]");
+                        throw XmlMetaServiceException ("MXmlMetaService::loadDataSource : could not read from resource. Path : [" + path + "]");
                 }
 
                 buffer[bytesRead] = '\0';

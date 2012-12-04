@@ -565,6 +565,13 @@ void Impl::onData (mxml_node_t *node)
 
                 ValueData *valueData;
 
+//                if (elem->data && typeid (*elem->data) == typeid (ValueData)) {
+//                        valueData = static_cast <ValueData *> (elem->data);
+//                }
+//                else {
+//                        return;
+//                }
+
                 if (!(valueData = dynamic_cast <ValueData *> (elem->data))) {
                      return;
                 }

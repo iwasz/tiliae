@@ -33,7 +33,14 @@ public:
 
         virtual ~ArrayRegionAllocator ();
 
+        /**
+         * Allocate size elements of type T.
+         */
         T *mallocT (size_t size);
+
+        /**
+         * Allocate size * sizeof (T) bytes.
+         */
         void *malloc (size_t size) { return mallocT (size); }
 
         /// Returns free memory in current region (in T units) or 0 if there is no region yet.
@@ -62,8 +69,11 @@ ArrayRegionAllocator <T>::~ArrayRegionAllocator ()
 }
 
 template <typename T>
-T *ArrayRegionAllocator <T>::mallocT (size_t size)
+T *ArrayRegionAllocator <T>::mallocT (size_t sizeReq)
 {
+        size_t size = sizeReq * sizeof (T);
+        size += ((size % 4) ? (4 - size % 4) : (0));
+
         // Check if size is smaller or equal to regionSize.
         throwIfNotExceeded (size);
 
@@ -77,7 +87,7 @@ T *ArrayRegionAllocator <T>::mallocT (size_t size)
 
         // Allocate
         T *ret = endPointer;
-        endPointer += size * sizeof (T);
+        endPointer += size;
         return ret;
 }
 

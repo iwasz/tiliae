@@ -34,6 +34,7 @@ DataSource::DataSource (void *userData) : impl (new Impl)
 
 DataSource::~DataSource ()
 {
+        close ();
         delete impl;
 }
 
@@ -56,8 +57,10 @@ void DataSource::open (const char* filename, OpenMode mode)
 
 void DataSource::close()
 {
-        AAsset_close (impl->asset);
-        impl->asset = NULL;
+        if (impl->asset) {
+                AAsset_close (impl->asset);
+                impl->asset = NULL;
+        }
 }
 
 /****************************************************************************/

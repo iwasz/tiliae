@@ -69,10 +69,16 @@ ArrayRegionAllocator <T>::~ArrayRegionAllocator ()
 }
 
 template <typename T>
+#ifdef ANDROID
 T *ArrayRegionAllocator <T>::mallocT (size_t sizeReq)
+#else
+T *ArrayRegionAllocator <T>::mallocT (size_t size)
+#endif
 {
+#ifdef ANDROID
         size_t size = sizeReq * sizeof (T);
         size += ((size % 4) ? (4 - size % 4) : (0));
+#endif
 
         // Check if size is smaller or equal to regionSize.
         throwIfNotExceeded (size);

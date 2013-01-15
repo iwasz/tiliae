@@ -6,9 +6,10 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include "Script.h"
+#include <k202/Script.h>
 #include "Listener.h"
 #include "Scope.h"
+#include "Manager.h"
 
 //#define DBG
 
@@ -52,8 +53,8 @@ Listener::~Listener ()
         std::cerr << "Remove listener signal=[" + signalName + "]. Scope : " << ((scope) ? ("true") : ("false"));
         #endif
 
-        foreach (Scope *scope, getScopeList ()) {
-
+        for (ScopeList::const_iterator i = getScopeList ().begin (); i != getScopeList ().end (); ++i) {
+                Scope *scope = *i;
                 scope->removeListener (this);
 
                 #ifdef DBG

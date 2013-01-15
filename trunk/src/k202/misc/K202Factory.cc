@@ -11,8 +11,8 @@
 #include "core/Typedefs.h"
 #include "testHelpers/City.h"
 #include "core/ApiMacro.h"
-#include "K202.h"
-#include "compiler/Compiler.h"
+#include "k202/K202.h"
+#include "k202/compiler/Compiler.h"
 
 namespace k202 {
 

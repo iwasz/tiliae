@@ -10,8 +10,8 @@
 #define PARSER_H_
 
 #include "core/Pointer.h"
-#include "expression/ExpressionCollection.h"
-#include "extension/IExtension.h"
+#include "k202/expression/ExpressionCollection.h"
+#include "k202/extension/IExtension.h"
 #include "core/ApiMacro.h"
 #include "core/string/String.h"
 
@@ -53,7 +53,9 @@ private:
 
         // Semantic actions
         void onStringLiteral (const std::string &str);
+#ifdef WITH_CORE_STRING
         void onUStringLiteral (const Core::String &str);
+#endif
         void onDoubleLiteral (double d);
         void onIntLiteral (int i);
         void onBoolLiteral (const std::string &str);

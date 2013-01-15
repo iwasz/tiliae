@@ -6,13 +6,13 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include <beanWrapper/BeanWrapper.h>
-#include <plugins/IBeanWrapperPlugin.h>
-#include <plugins/PropertyRWBeanWrapperPlugin.h>
-#include <plugins/GetPutMethodRWBeanWrapperPlugin.h>
-#include <plugins/ListPlugin.h>
-#include <plugins/MapPlugin.h>
-#include <plugins/MethodPlugin.h>
+#include <beanWrapper/beanWrapper/BeanWrapper.h>
+#include <beanWrapper/plugins/IBeanWrapperPlugin.h>
+#include <beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h>
+#include <beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h>
+#include <beanWrapper/plugins/ListPlugin.h>
+#include <beanWrapper/plugins/MapPlugin.h>
+#include <beanWrapper/plugins/MethodPlugin.h>
 
 #include "K202.h"
 #include "Script.h"

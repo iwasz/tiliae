@@ -9,7 +9,7 @@
 #ifndef _SIG_HELPER_H_
 #define _SIG_HELPER_H_
 
-#include <path/Path.h>
+#include <common/path/Path.h>
 
 namespace Signal {
 

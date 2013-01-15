@@ -9,7 +9,7 @@
 #ifndef CACHEEXPRESSION_H_
 #define CACHEEXPRESSION_H_
 
-#include "expression/IExpression.h"
+#include "k202/expression/IExpression.h"
 #include "core/Typedefs.h"
 
 namespace k202 {

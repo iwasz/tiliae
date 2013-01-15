@@ -28,11 +28,12 @@ namespace k202 {
 class TILIAE_API Context {
 public:
 
-        Context () : paramVector (NULL), argsMap (NULL), domain (NULL) {}
+        Context () : paramVector (NULL), argsMap (NULL), domain (NULL), bwrap (NULL) {}
         virtual ~Context () {}
 
-        Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return bwrap; }
-        void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> b) { bwrap = b; }
+        Wrapper::IBeanWrapper *getBeanWrapper () { return bwrap; }
+        Wrapper::IBeanWrapper const *getBeanWrapper () const { return bwrap; }
+        void setBeanWrapper (Wrapper::IBeanWrapper *b) { bwrap = b; }
 
         Core::Variant *getDomain () const { return domain; }
         void setDomain (Core::Variant *domain) { this->domain = domain; }
@@ -58,7 +59,7 @@ private:
         Core::VariantVector *paramVector;
         Core::VariantMap *argsMap;
         Core::Variant *domain;
-        Ptr <Wrapper::IBeanWrapper> bwrap;
+        Wrapper::IBeanWrapper *bwrap;
         Core::Variant mapAsVariant;
 
 };

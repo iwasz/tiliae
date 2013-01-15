@@ -17,8 +17,8 @@ std::string ByteCode::toString () const
 {
         std::string ret = std::string ("ByteCode (");
 
-        foreach (Ptr <IExpression> ex, expressions) {
-                ret += ex->toString () + ", ";
+        for (ExpressionList::const_iterator i = expressions.begin (); i != expressions.end (); ++i) {
+                ret += (*i)->toString () + ", ";
         }
 
         if (!expressions.empty ()) {

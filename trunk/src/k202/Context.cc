@@ -49,7 +49,7 @@ Core::Variant Context::getArg (const std::string &path, bool conditional) const
         Core::Variant ret;
 
         if (domain && !domain->isNone ()) {
-                ret = bwrap.get ()->get (domain, path, &err, &bwContext);
+                ret = bwrap->get (domain, path, &err, &bwContext);
 
                 if (!err) {
                         return ret;

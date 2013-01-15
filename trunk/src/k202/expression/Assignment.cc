@@ -10,8 +10,8 @@
 #include <boost/shared_ptr.hpp>
 #include "Assignment.h"
 #include "ContextDependentSimple.h"
-#include "Exceptions.h"
-#include "Context.h"
+#include "k202/Exceptions.h"
+#include "k202/Context.h"
 
 namespace k202 {
 

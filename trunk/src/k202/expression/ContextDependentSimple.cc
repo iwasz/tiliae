@@ -8,8 +8,8 @@
 
 #include <cassert>
 #include <boost/lexical_cast.hpp>
-#include "ContextDependentSimple.h"
-#include "Context.h"
+#include "k202/expression/ContextDependentSimple.h"
+#include "k202/Context.h"
 #include "core/string/String.h"
 #include "core/Typedefs.h"
 
@@ -44,8 +44,8 @@ std::string Function::toString () const
                 ret += std::string (", ") + boost::lexical_cast <std::string> (getArgs ().size ()) + " args : ";
         }
 
-        foreach (Ptr <IExpression> e, getArgs ()) {
-                ret += e->toString () + ", ";
+        for (ExpressionList::const_iterator i = getArgs ().begin (); i != getArgs ().end (); ++i) {
+                ret += (*i)->toString () + ", ";
         }
 
         if (!getArgs ().empty ()) {
@@ -61,8 +61,8 @@ Core::Variant Function::evaluate (Context *ctx)
 {
         Core::VariantVector args;
 
-        foreach (Ptr <IExpression> e, getArgs ()) {
-                args.push_back (e->evaluate (ctx));
+        for (ExpressionList::const_iterator i = getArgs ().begin (); i != getArgs ().end (); ++i) {
+                args.push_back ((*i)->evaluate (ctx));
         }
 
         return ctx->callFunction (name, args);

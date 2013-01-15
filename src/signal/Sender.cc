@@ -7,6 +7,7 @@
  ****************************************************************************/
 
 #include "Sender.h"
+#include "Manager.h"
 
 namespace Signal {
 

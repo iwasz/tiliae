@@ -17,6 +17,7 @@
 #include "core/variant/Variant.h"
 #include "core/Typedefs.h"
 #include "core/ApiMacro.h"
+#include "k202/K202.h"
 
 namespace Signal {
 class Scope;

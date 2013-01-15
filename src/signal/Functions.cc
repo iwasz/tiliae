@@ -8,6 +8,7 @@
 
 #include "Functions.h"
 #include "Scope.h"
+#include "Manager.h"
 
 namespace Signal {
 

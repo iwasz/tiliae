@@ -22,14 +22,16 @@
 #include <iostream>
 #include <sstream>
 
-#include "Compiler.h"
-#include "ByteCode.h"
+#include "k202/compiler/Compiler.h"
+#include "k202/ByteCode.h"
 
-#include "expression/Expression.h"
-#include "expression/ExpressionCollection.h"
-#include "Context.h"
-#include "Exceptions.h"
+#include "k202/expression/Expression.h"
+#include "k202/expression/ExpressionCollection.h"
+#include "k202/Context.h"
+#include "k202/Exceptions.h"
+#ifdef WITH_CORE_STRING
 #include "core/string/String.h"
+#endif
 
 #define SHOW_DEBUG_COMPILER 0
 
@@ -142,7 +144,9 @@ struct Parser : qi::grammar <Iterator, void(), ascii::space_type>
                                     property_expression      [boost::bind (&Compiler::onProperty, cmpl, _1)] |
                                     cond_property_expression [boost::bind (&Compiler::onConditionalProperty, cmpl, _1)] |
                                     string_literal           [boost::bind (&Compiler::onStringLiteral, cmpl, _1)] |
+#ifdef WITH_CORE_STRING
                                     (qi::lit ('u') > string_literal)           [boost::bind (&Compiler::onUStringLiteral, cmpl, _1)] |
+#endif
                                     double_literal           [boost::bind (&Compiler::onDoubleLiteral, cmpl, _1)] |   // Double literal
                                     qi::int_                 [boost::bind (&Compiler::onIntLiteral, cmpl, _1)] |      // Integer literal
                                     qi::string ("true")      [boost::bind (&Compiler::onBoolLiteral, cmpl, _1)] |     // Boolean literal
@@ -318,10 +322,12 @@ void Compiler::onStringLiteral (const std::string &str)
         stack.push_back (Literal <std::string>::create (str, "StringLiteral"));
 }
 
+#ifdef WITH_CORE_STRING
 void Compiler::onUStringLiteral (const Core::String &str)
 {
         stack.push_back (Literal <Core::String>::create (str, "StringLiteral"));
 }
+#endif
 
 void Compiler::onDoubleLiteral (double d)
 {

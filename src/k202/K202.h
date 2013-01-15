@@ -78,8 +78,9 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <Wrapper::IBeanWrapper> getBeanWrapper () const { return ctx.getBeanWrapper (); }
-        REFLECTION_SETTER (setBeanWrapper) void setBeanWrapper (Ptr <Wrapper::IBeanWrapper> b) { ctx.setBeanWrapper (b); }
+        Wrapper::IBeanWrapper const *getBeanWrapper () const { return ctx.getBeanWrapper (); }
+        Wrapper::IBeanWrapper *getBeanWrapper () { return ctx.getBeanWrapper (); }
+        REFLECTION_SETTER (setBeanWrapper) void setBeanWrapper (Wrapper::IBeanWrapper *b) { ctx.setBeanWrapper (b); }
 
 private:
 

@@ -6,12 +6,12 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include <Script.h>
+#include <k202/Script.h>
 #include <cassert>
 
-#include "reflection/Manager.h"
+#include "Manager.h"
 #include "Listener.h"
-#include "K202.h"
+#include "k202/K202.h"
 #include "Sender.h"
 #include "Scope.h"
 

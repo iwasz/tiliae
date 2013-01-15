@@ -7,8 +7,8 @@
  ****************************************************************************/
 
 #include <boost/lexical_cast.hpp>
-#include "NArryExpression.h"
-#include "Exceptions.h"
+#include "k202/expression/NArryExpression.h"
+#include "k202/Exceptions.h"
 
 namespace k202 {
 

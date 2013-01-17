@@ -112,7 +112,8 @@ size_t ArrayRegionAllocator <T>::calculateFreeMemory ()
                 return 0;
         }
 
-        return (regionSize * sizeof (T) - (endPointer - regions.back ())) / sizeof (T);
+//        return (regionSize * sizeof (T) - (endPointer - regions.back ())) / sizeof (T);
+        return (regionSize  - (endPointer - regions.back ()));
 }
 
 template <typename T>

@@ -11,6 +11,7 @@
 
 #include "core/Exception.h"
 #include "core/ApiMacro.h"
+#include <sys/types.h>
 
 namespace Common {
 

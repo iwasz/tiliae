@@ -81,7 +81,7 @@ include (FindPkgConfig)
 pkg_check_modules (MXML REQUIRED "mxml")
 INCLUDE_DIRECTORIES (${MXML_INCLUDE_DIRS})
 link_directories(${MXML_LIBRARY_DIRS})
-message(${MXML_INCLUDE_DIRS})
+#message(${MXML_INCLUDE_DIRS})
 
 pkg_check_modules (SPARSE_HASH REQUIRED "libsparsehash")
 INCLUDE_DIRECTORIES (${SPARSE_HASH_INCLUDE_DIRS})

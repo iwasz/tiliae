@@ -1,188 +1,8 @@
-/* =Normalize.css v2.0.1 by Nicolas Gallagher - http://necolas.github.com/normalize.css/
--------------------------------------------------------------- */
-article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display:block}
-audio,canvas,video{display:inline-block}
-audio:not([controls]){display:none;height:0}
-[hidden]{display:none}
-html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
-a:focus{outline:thin dotted}
-a:active,a:hover{outline:0}
-h1{font-size:2em}
-abbr[title]{border-bottom:1px dotted}
-b,strong{font-weight:bold}
-dfn{font-style:italic}
-mark{background:#ff0;color:#000}
-code,kbd,pre,samp{font-family:monospace, serif;font-size:1em}
-pre{white-space:pre-wrap;word-wrap:break-word}
-q{quotes:\201C \201D \2018 \2019}
-small{font-size:80%}
-sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
-sup{top:-.5em}
-sub{bottom:-.25em}
-img{border:0}
-svg:not(:root){overflow:hidden}
-fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:.35em .625em .75em}
-button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
-button,input{line-height:normal}
-button,html input[type=button],/* 1 */
-input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
-button[disabled],input[disabled]{cursor:default}
-input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}
-input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}
-input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}
-textarea{overflow:auto;vertical-align:top}
-table{border-collapse:collapse;border-spacing:0}
-body,figure{margin:0}
-legend,button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
-
-*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box;word-wrap:break-word}
-body{font-size:100%;line-height:1.6875}
-img{max-width:100%;height:auto}
-
-/* =Google Fonts
--------------------------------------------------------------- */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 900;
-  src: local('Lato Black'), local('Lato-Black'), url(http://themes.googleusercontent.com/static/fonts/lato/v6/G2uphNnNqGFMHLRsO_72ngLUuEpTyoUstqEm5AMlJo4.woff) format('woff');
-}
-@font-face {
-  font-family: 'Russo One';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Russo One'), local('RussoOne-Regular'), url(http://themes.googleusercontent.com/static/fonts/russoone/v1/RO6e96EC9m6OLO0tr7J3z7O3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
-}
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 300;
-  src: local('Lato Light'), local('Lato-Light'), url(http://themes.googleusercontent.com/static/fonts/lato/v6/kcf5uOXucLcbFOydGU24WALUuEpTyoUstqEm5AMlJo4.woff) format('woff');
-}
-
-
 /* The standard CSS for doxygen 1.8.3.1 */
 
-body {
-	color: #555;
-	text-shadow: 1px 1px 0 #eee;
-	font-family: Arial, sans-serif;
-	background-image: url('http://www.iwasz.pl/wp-content/themes/gridiculous/images/solid.png');
-	background-repeat: repeat;
-	background-position: top left;
-	background-attachment: fixed;
-	}
-
-a {
-	color: #333;
+body, table, div, p, dl {
+	font: 400 14px/19px Roboto,sans-serif;
 }
-
-a, h1, h2, h3, h4, h5, h6 {
-	color: #333;
-	font-family: 'Lato', sans-serif;
-}
-
-
-a:hover {
-	color: #000;
-}
-
-ul ul,
-ol ol {
-	margin: 0;
-	}
-
-pre,
-code {
-	width: 100%;
-	padding: 10px;
-	font-size: 14px;
-	font-family: "Monaco", monospace;
-	padding: 1em;
-	margin: 1em 0;
-	border: 1px dashed #A8B8D9;
-	}
-
-pre {
-	white-space: pre;
-	word-wrap: normal;
-
-	}
-
-
-	.widget #calendar_wrap {
-		padding: 0 20px 20px;
-		}
-
-.fl {
-	float: left;
-	}
-
-.fr {
-	float: right;
-	}
-
-/* =HTML5 Defaults
--------------------------------------------------------------- */
-del {
-	color: red;
-	text-decoration: line-through;
-	}
-
-ins {
-	border-bottom: 1px solid green;
-	text-decoration: none;
-	color: green;
-	}
-
-/* =Inputs
--------------------------------------------------------------- */
-input,
-textarea {
-	padding: 8px;
-	border: 1px solid #bbb;
-	outline: none;
-	font-weight: normal;
-	color: #555;
-	}
-
-	input:focus,
-	textarea:focus {
-		border-color: #AAA;
-		-moz-box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-		-webkit-box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-		box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
-		}
-
-	input[type=text],
-	input[type=password],
-	input[type=email],
-	input[type=url],
-	input[type=number] {
-		width: 240px;
-		}
-
-	textarea {
-		width: 100%;
-		}
-
-input[type="submit"] {
-	margin-top: 0 !important;
-	}
-
-select {
-	display: inline-block;
-	height: 28px;
-	line-height: 28px;
-	border: 1px solid #aaa;
-	padding: 4px;
-	color: #555;
-	}
-
-	.widget select {
-		margin: 0 20px 20px;
-		width: 70%;
-		}
 
 /* @group Heading Levels */
 
@@ -314,7 +134,7 @@ a.qindexHL {
 }
 
 a.el {
-	font-weight: normal;
+	font-weight: bold;
 }
 
 a.elRef {
@@ -431,9 +251,16 @@ div.groupText {
 	font-style: italic;
 }
 
+body {
+	background-color: white;
+	color: black;
+        margin: 0;
+}
+
 div.contents {
-	margin: 0px auto 0px auto;
-	width: 900px;
+	margin-top: 10px;
+	margin-left: 12px;
+	margin-right: 8px;
 }
 
 td.indexkey {
@@ -582,7 +409,7 @@ th.dirtab {
 hr {
 	height: 0px;
 	border: none;
-
+	border-top: 1px solid #4A6AAA;
 }
 
 hr.footer {
@@ -610,12 +437,14 @@ table.memberdecls {
 }
 
 .memberdecls td.glow, .fieldtable tr.glow {
+	background-color: cyan;
 	box-shadow: 0 0 15px cyan;
 }
 
 .mdescLeft, .mdescRight,
 .memItemLeft, .memItemRight,
 .memTemplItemLeft, .memTemplItemRight, .memTemplParams {
+	background-color: #F9FAFC;
 	border: none;
 	margin: 4px;
 	padding: 1px 0 0 8px;
@@ -627,7 +456,8 @@ table.memberdecls {
 }
 
 .memSeparator {
-        line-height: 0px;
+        border-bottom: 1px solid #DEE4F0;
+        line-height: 1px;
         margin: 0px;
         padding: 0px;
 }
@@ -699,16 +529,53 @@ table.memberdecls {
 }
 
 .memproto, dl.reflist dt {
+        border-top: 1px solid #A8B8D9;
+        border-left: 1px solid #A8B8D9;
+        border-right: 1px solid #A8B8D9;
         padding: 6px 0px 6px 0px;
         color: #253555;
         font-weight: bold;
+        text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.9);
+        background-image:url('nav_f.png');
+        background-repeat:repeat-x;
+        background-color: #E2E8F2;
+        /* opera specific markup */
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+        border-top-right-radius: 4px;
+        border-top-left-radius: 4px;
+        /* firefox specific markup */
+        -moz-box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 5px;
+        -moz-border-radius-topright: 4px;
+        -moz-border-radius-topleft: 4px;
+        /* webkit specific markup */
+        -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+        -webkit-border-top-right-radius: 4px;
+        -webkit-border-top-left-radius: 4px;
 
 }
 
 .memdoc, dl.reflist dd {
         border-bottom: 1px solid #A8B8D9;      
+        border-left: 1px solid #A8B8D9;      
+        border-right: 1px solid #A8B8D9; 
         padding: 6px 10px 2px 10px;
-        border-top-width: 0;        
+        background-color: #FBFCFD;
+        border-top-width: 0;
+        background-image:url('nav_g.png');
+        background-repeat:repeat-x;
+        background-color: #FFFFFF;
+        /* opera specific markup */
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+        /* firefox specific markup */
+        -moz-border-radius-bottomleft: 4px;
+        -moz-border-radius-bottomright: 4px;
+        -moz-box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 5px;
+        /* webkit specific markup */
+        -webkit-border-bottom-left-radius: 4px;
+        -webkit-border-bottom-right-radius: 4px;
+        -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
 }
 
 dl.reflist dt {
@@ -840,6 +707,7 @@ div.directory {
 
 .directory tr.even {
 	padding-left: 6px;
+	background-color: #F7F8FB;
 }
 
 .directory img {
@@ -940,6 +808,9 @@ table.fieldtable {
 }
 
 .fieldtable th {
+        background-image:url('nav_f.png');
+        background-repeat:repeat-x;
+        background-color: #E2E8F2;
         font-size: 90%;
         color: #253555;
         padding-bottom: 4px;
@@ -1150,7 +1021,7 @@ dl.section dd {
  
 #projectname
 {
-	font: 300% Russo One, sans-serif;
+	font: 300% Tahoma, Arial,sans-serif;
 	margin: 0px;
 	padding: 2px 0px;
 }

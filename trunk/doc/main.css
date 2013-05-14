@@ -1,0 +1,461 @@
+body, html {
+	background-color: #e4e3e0;
+	margin: 0px;
+	padding: 0px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: normal;
+	font-size: 13px;
+	font-weight: 300;
+	color: #3b3531;
+}
+
+a {
+	color: #d0592a;
+	text-decoration: none;
+}
+
+#content_pane {
+	margin: 0px auto 0px auto;
+	width: 900px;
+	background-color: #e4e3e0;
+	
+}
+
+#page_content_main {
+	padding: 100px 0px 0px 0px;
+}
+
+#footer {
+	margin: 30px 0px 0px 0px;
+	width: 900px;
+	height: 44px;
+	text-align: center;
+	color: #b6b5b2;
+	font-weight: 400;
+	font-size: 14px;
+}
+
+#nav {
+	margin: 0px auto 0px auto;
+	width: 900px;
+	height: 55px;
+	font-weight: 400;
+	text-align: center;
+}
+
+
+#nav_menu {
+	text-transform: uppercase;
+	font-size: 24px;
+	margin: 20px auto 0px auto;
+	width: 900px;
+	text-align: center;
+}
+
+#nav_logo {
+	margin: 20px auto 0px auto;
+}
+
+.menu_item {
+	margin: 0px 30px 0px 0px;
+	font-weight: 300;
+	cursor: pointer;
+}
+
+.menu_item a {
+	color: #5b5b5a;;
+	text-decoration: none;
+}
+
+
+.menu_item a:hover {
+	color: #d0592a;
+}
+
+.dl_box {
+	width: 300px;
+	margin-bottom: 30px;
+}
+
+.dl_header {
+	width: 100%;
+	height: 18px;
+	padding: 10px 0px 0px 0px;
+	border-bottom: 1px solid #989898;
+	text-align:right;
+
+}
+
+.dl_dl {
+	text-align: center;
+	font-size: 24px;
+	text-transform: uppercase;
+	padding: 15px 0px 0px 0px;
+	margin: 0px 0px 30px 0px;
+	color: #d0592a;
+}
+
+.dl_dl2 {
+	padding: 10px 20px 0px 20px;
+}
+
+.dl_dl2 a {
+	text-transform: uppercase;
+	font-size: 20px;
+}
+
+#dl_mac {
+	
+	background: transparent url('/img/dl_mac.png') no-repeat;
+}
+#dl_win {
+	
+	background: transparent url('/img/dl_win.png') no-repeat;
+}
+
+#forum_page {
+}
+
+#docs_page td {
+	font-weight: 300;
+}
+
+#docs_page h2, b {
+	font-weight: 300;
+}
+
+#docs_page {
+	font-size: 16px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px;
+}
+
+#docs_col1 {
+	float: left;
+	width: 450px;
+	padding: 0px 0px 0px 0px;
+	text-align: center;
+}	
+
+#docs_col2 {
+	text-align: center;
+	float: left;
+	width: 450px;
+	padding: 0px 0px 0px 0px;
+}	
+
+.header {
+	display: none;
+}
+
+.memname {
+	color: #d0592a;
+}
+
+.params {
+	color: #9b9991;
+}
+
+.textblock {
+	margin: 0px 0px 20px 0px;
+}
+
+
+
+#navrow1 {
+	display: none;
+}
+
+#navrow2 {
+	display: none;
+}
+
+#downloads_page {
+}
+
+#download_text {
+	text-align: center;
+	font-size: 22px;
+	margin: 50px 0px 100px 0px;
+}
+
+#modules_page {
+}
+
+#gallery_page {
+	margin: 40px 0px 0px 0px;
+}
+
+
+#gallery_end {
+	clear: both;
+}
+
+#gallery_page .entry {
+	width: 900px;
+	margin: 0px 0px 50px 0px;
+	
+}
+
+#gallery_page .entry h1 {
+	font-size: 24px;
+	text-transform: uppercase;
+	font-weight: 300;
+	color: #d0592a;
+	margin: 0px 0px 0px 0px;
+}
+
+#gallery_page .entry p {
+	margin: 10px 0px 10px 0px;
+	font-size: 16px;
+}
+
+.glink {
+	margin: 10px 0px 0px 0px;
+	text-transform: uppercase;
+	font-size: 18px;
+}
+
+#learning_article h1 {
+	font-size: 32px;
+	text-transform: uppercase;
+	font-weight: 300;
+	color: #d0592a;
+	margin: 0px 0px 20px 0px;
+}
+
+
+#learning_page {
+	padding: 0px 0px 0px 0px;
+	font-size: 16px;
+	width: 900px;
+}
+
+#learning_index {
+	margin: 20px 0px 0px 20px;
+	
+}
+
+#learning_index li {
+	margin: 5px 0px 0px 0px;
+}
+
+#learning_index .chapter {
+	margin: 20px 0px 0px 0px;
+}
+
+#learning_article {
+	padding: 5px 20px 20px 20px;
+}
+
+#learning_article  pre .newcode{
+}
+
+#learning_article  pre {
+	color: white;
+	width: 100%;
+	padding: 10px;
+	background-color: #3b3531;
+	font-size: 12px;
+	font-family: "Monaco", monospace;
+}
+
+#learning_article  p {
+	margin: 0px 0px 25px 0px;
+}
+
+#learning_article  img {
+	margin: 10px auto 0px auto;
+}
+
+#learning_article  h2 {
+	margin: 50px 0px 25px 0px;
+	font-size: 24px;
+	text-transform: uppercase;
+	font-weight: 300;
+	color: #d0592a;
+}
+
+#learning_intro {
+	padding: 0px 30px 0px 30px;
+}
+
+#community_page {
+}
+
+#comm_motherland {
+	float: left;
+}
+
+#comm_calltoarms {
+	float: left;
+	width: 325px;
+	padding: 0px 0px 0px 15px;
+}
+
+#comm_right {
+	float: left;
+	padding: 0px 0px 0px 60px;
+}
+
+.gen_headline {
+	font-size: 27px;
+	text-transform: uppercase;
+	font-weight: 300;
+	color: #d0592a;
+	margin: 0px 0px 15px 0px;
+
+}
+
+.comm_irc {
+	margin: 10px 0px 0px 0px;
+	font-size: 22px;
+}
+
+.gen_text {
+	font-size: 16px;
+}
+
+
+#feature_page {
+}
+
+.feature {
+	padding: 30px 0px 0px 0px;
+	clear: both;
+}
+
+.feature2 {
+	padding: 30px 0px 0px 0px;
+	clear: both;
+}
+
+.feature_img {
+	float: left;
+}
+
+
+.feature_txt {
+	padding: 0px 0px 0px 20px;
+	float: left;
+}
+
+.feature_txt h1 {
+	font-size: 24px;
+	text-transform: uppercase;
+	font-weight: 300;
+	color: #d0592a;
+}
+
+.feature2 .feature_txt {
+	float: right;
+	padding: 0px 20px 0px 0px;
+}
+
+.feature2 .feature_img {
+	float: right;
+}
+
+.feature2 .feature_txt p {
+	text-align: right;
+}
+
+.feature2 .feature_txt h1 {
+	text-align: right;
+}
+
+
+.feature_txt p {
+	font-size: 16px;
+	width: 450px;
+}
+
+#home_page {
+}
+
+#home_splash {
+	width; 100%;
+	margin: 0px;
+	padding: 0px;
+	text-align:center;
+}
+
+#home_footer {
+	width; 100%;
+	margin: 0px;
+	padding: 0px;
+	text-align:center;
+}
+
+#home_header {
+	background: transparent url('/img/home_header.png') no-repeat;
+	height: 237px;
+	width: 900px;
+}
+
+#home_main {
+	font-size: 15px;
+	padding: 20px 0px 0px 0px;
+	color: #9d9d9d;
+}
+
+#home_left {
+	padding: 30px 0px 0px 25px;
+	float: left;
+	width: 300px;
+	height: 300px;
+}
+
+#home_right {
+	float: left;
+	width: 550px;
+}
+
+#home_main b {
+	font-weight: normal;
+	color: #dedede;
+}
+
+#modules_blurb {
+padding: 10px;
+margin: 0px 0px 30px 0px;
+}
+
+.module {
+	margin: 0px 0px 10px 30px;
+	padding: 10px;
+	width: 700px;
+	background-color: #323232;
+}
+
+.module_title {
+	color: white;
+	margin: 0px 0px 10px 0px;
+	text-transform: uppercase;
+}
+
+.module_desc {
+	margin: 0px 0px 20px 0px;
+}
+
+.module_downloads {
+	color: #787878;
+	margin: 0px 0px 10px 0px;
+}
+
+.sourceblock {
+	background-color: #3b3531;
+	padding: 10px;
+	color: white;
+	font-family: "Monaco", monospace;
+	font-size: 12px;
+}
+
+.st0 { color: #e6db74;}
+.kw1 { color: #f92672;}
+.me2 { color: #fd971f;}
+.kw3 { color: #f92672;}
+.nu0 { color: #ae80ff;}
+.sy0 { color: #e6db74;}
+.co1 { color: #86776d;}
+.me1 { color: #e6db74;}

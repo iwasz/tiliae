@@ -8,9 +8,9 @@
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include <K202.h>
+#include <k202/K202.h>
 #include "reflection/Reflection.h"
-#include <Signal.h>
+#include <signal/Signal.h>
 
 using namespace Core;
 using namespace Signal;

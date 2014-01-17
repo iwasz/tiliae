@@ -10,7 +10,7 @@
 #include <iostream>
 #include <cassert>
 #include "core/variant/Cast.h"
-#include "K202.h"
+#include "k202/K202.h"
 #include "TestHelpers.h"
 #include "core/string/String.h"
 #include "core/Pointer.h"

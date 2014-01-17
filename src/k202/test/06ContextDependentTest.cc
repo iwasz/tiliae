@@ -7,9 +7,9 @@
  ****************************************************************************/
 
 #include <boost/test/unit_test.hpp>
-#include "K202.h"
+#include "k202/K202.h"
 #include "TestHelpers.h"
-#include "extension/CacheExtension.h"
+#include "k202/extension/CacheExtension.h"
 #include "core/variant/Variant.h"
 #include "testHelpers/Address.h"
 #include "testHelpers/City.h"

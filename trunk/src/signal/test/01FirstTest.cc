@@ -11,9 +11,9 @@
  
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include <K202.h>
+#include <k202/K202.h>
 #include "reflection/Reflection.h"
-#include <Signal.h>
+#include <signal/Signal.h>
 
 BOOST_AUTO_TEST_SUITE (FirstTest);
 using namespace Core;

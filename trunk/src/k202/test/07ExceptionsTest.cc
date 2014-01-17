@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include <boost/test/unit_test.hpp>
-#include "K202.h"
+#include "k202/K202.h"
 #include "TestHelpers.h"
 #include "Exceptions.h"
 #include "testHelpers/Bar.h"

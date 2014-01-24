@@ -15,22 +15,10 @@
 #include "reflection/Reflection.h"
 #include "editor/Editor.h"
 #include "factory/Factory.h"
-
-#ifdef BUILD_K202
-#include "k202/K202.h"
-#endif
-
-#ifdef BUILD_SIGNAL
-#include "signal/Signal.h"
-#endif
-
-#ifdef BUILD_STATE_MACHINE
-#include "stateMachine/StateMachine.h"
-#endif
-
-#ifdef BUILD_CONTAINER
+//#include "k202/K202.h"
+//#include "signal/Signal.h"
+//#include "stateMachine/StateMachine.h"
 #include "container/Container.h"
-#endif
 
 /**
  * \mainpage

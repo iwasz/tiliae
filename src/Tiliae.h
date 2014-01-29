@@ -15,9 +15,9 @@
 #include "reflection/Reflection.h"
 #include "editor/Editor.h"
 #include "factory/Factory.h"
-//#include "k202/K202.h"
-//#include "signal/Signal.h"
-//#include "stateMachine/StateMachine.h"
+#include "k202/K202.h"
+#include "signal/Signal.h"
+#include "stateMachine/StateMachine.h"
 #include "container/Container.h"
 
 /**

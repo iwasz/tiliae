@@ -24,7 +24,7 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testPlaceholder)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         VariantVector paramList;
         paramList.push_back (Core::Variant (6667));
@@ -33,12 +33,12 @@ BOOST_AUTO_TEST_CASE (testPlaceholder)
         paramList.clear ();
         paramList.push_back (Core::Variant (1));
         paramList.push_back (Core::Variant (2.6));
-        paramList.push_back (Core::Variant (String ("kupa")));
+        paramList.push_back (Core::Variant (std::string ("kupa")));
         paramList.push_back (Core::Variant (std::string ("siku")));
 
         TestRuntime <int>::test (k202, "%0", 1, Variant (), paramList);
         TestRuntime <double>::test (k202, "%1", 2.6, Variant (), paramList);
-        TestRuntime <String>::test (k202, "%2", "kupa", Variant (), paramList);
+        TestRuntime <std::string>::test (k202, "%2", "kupa", Variant (), paramList);
         TestRuntime <std::string>::test (k202, "%3", "siku", Variant (), paramList);
 }
 
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (testPlaceholder)
 
 BOOST_AUTO_TEST_CASE (testProperty)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         VariantMap argsMap;
         Address a;
@@ -55,13 +55,13 @@ BOOST_AUTO_TEST_CASE (testProperty)
         argsMap["address"] = Core::Variant (&a);
         Variant vv = Core::Variant (&argsMap);
 
-        TestRuntime <String>::test (k202, "$address.street", "Katalonska", vv);
-        TestRuntime <String>::test (k202, "${address.postalCode}", "05-500", vv);
+        TestRuntime <std::string>::test (k202, "$address.street", "Katalonska", vv);
+        TestRuntime <std::string>::test (k202, "${address.postalCode}", "05-500", vv);
         TestRuntime <Address *>::test (k202, "$address", &a, vv);
 
         {
                 Ptr <CacheExtension> cache = CacheExtension::create ();
-                Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create (), cache);
+                Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()), cache);
 
                 VariantMap argsMap;
                 Address a;
@@ -70,15 +70,15 @@ BOOST_AUTO_TEST_CASE (testProperty)
                 argsMap["address"] = Core::Variant (&a);
                 Variant vv = Core::Variant (&argsMap);
 
-                TestRuntime <String>::test (k202, "$!address.street", "Katalonska", vv);
-                TestRuntime <String>::test (k202, "$!address.street", "Katalonska", vv);
-                TestRuntime <String>::test (k202, "$!address.street", "Katalonska", vv);
+                TestRuntime <std::string>::test (k202, "$!address.street", "Katalonska", vv);
+                TestRuntime <std::string>::test (k202, "$!address.street", "Katalonska", vv);
+                TestRuntime <std::string>::test (k202, "$!address.street", "Katalonska", vv);
                 a.setStreet ("XXX");
-                TestRuntime <String>::test (k202, "$!address.street", "Katalonska", vv);
+                TestRuntime <std::string>::test (k202, "$!address.street", "Katalonska", vv);
                 cache->clearCache();
-                TestRuntime <String>::test (k202, "$!address.street", "XXX", vv);
+                TestRuntime <std::string>::test (k202, "$!address.street", "XXX", vv);
 
-                TestRuntime <String>::test (k202, "${address.postalCode}", "05-500", vv);
+                TestRuntime <std::string>::test (k202, "${address.postalCode}", "05-500", vv);
                 TestRuntime <Address *>::test (k202, "$!address", &a, vv);
         }
 }
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE (testProperty)
 
 BOOST_AUTO_TEST_CASE (testPropertyArgsMap)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         VariantMap argsMap;
         Address a;
@@ -95,8 +95,8 @@ BOOST_AUTO_TEST_CASE (testPropertyArgsMap)
         a.setPostalCode ("05-500");
         argsMap["address"] = Core::Variant (&a);
 
-        TestRuntime <String>::test (k202, "$address.street", "Katalonska", Variant (), VariantVector (), argsMap);
-        TestRuntime <String>::test (k202, "${address.postalCode}", "05-500", Variant (), VariantVector (), argsMap);
+        TestRuntime <std::string>::test (k202, "$address.street", "Katalonska", Variant (), VariantVector (), argsMap);
+        TestRuntime <std::string>::test (k202, "${address.postalCode}", "05-500", Variant (), VariantVector (), argsMap);
         TestRuntime <Address *>::test (k202, "$address", &a, Variant (), VariantVector (), argsMap);
 }
 
@@ -104,15 +104,15 @@ BOOST_AUTO_TEST_CASE (testPropertyArgsMap)
 
 BOOST_AUTO_TEST_CASE (testPropertyDomain)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         Address a;
         a.setStreet ("Katalonska");
         a.setPostalCode ("05-500");
         Variant v = Core::Variant (&a);
 
-        TestRuntime <String>::test (k202, "$street", "Katalonska", v);
-        TestRuntime <String>::test (k202, "${postalCode}", "05-500", v);
+        TestRuntime <std::string>::test (k202, "$street", "Katalonska", v);
+        TestRuntime <std::string>::test (k202, "${postalCode}", "05-500", v);
         TestRuntime <Address *>::test (k202, "${this}", &a, v);
 
         StringList vec;
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE (testPropertyDomain)
 
 BOOST_AUTO_TEST_CASE (testConditionalProperty)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         VariantMap argsMap;
         Address a;
@@ -155,8 +155,8 @@ BOOST_AUTO_TEST_CASE (testConditionalProperty)
         argsMap["address"] = Core::Variant (&a);
         Variant vv = Core::Variant (&argsMap);
 
-        TestRuntime <String>::test (k202, "$!address.street", "Katalonska", vv);
-        TestRuntime <String>::test (k202, "$!address.postalCode", "05-500", vv);
+        TestRuntime <std::string>::test (k202, "$!address.street", "Katalonska", vv);
+        TestRuntime <std::string>::test (k202, "$!address.postalCode", "05-500", vv);
         TestRuntime <Address *>::test (k202, "$!address", &a, vv);
 
         assert (k202->run ("$!kupa", vv).isNone ());
@@ -171,7 +171,7 @@ BOOST_AUTO_TEST_CASE (testConditionalProperty)
 
 BOOST_AUTO_TEST_CASE (testConditionalPropertyArgsMap)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         VariantMap argsMap;
         Address a;
@@ -179,8 +179,8 @@ BOOST_AUTO_TEST_CASE (testConditionalPropertyArgsMap)
         a.setPostalCode ("05-500");
         argsMap["address"] = Core::Variant (&a);
 
-        TestRuntime <String>::test (k202, "$!address.street", "Katalonska", Variant (), VariantVector (), argsMap);
-        TestRuntime <String>::test (k202, "$!address.postalCode", "05-500", Variant (), VariantVector (), argsMap);
+        TestRuntime <std::string>::test (k202, "$!address.street", "Katalonska", Variant (), VariantVector (), argsMap);
+        TestRuntime <std::string>::test (k202, "$!address.postalCode", "05-500", Variant (), VariantVector (), argsMap);
         TestRuntime <Address *>::test (k202, "$!address", &a, Variant (), VariantVector (), argsMap);
 
         assert (k202->run ("$!kupa", Variant (), VariantVector (), argsMap).isNone ());
@@ -193,15 +193,15 @@ BOOST_AUTO_TEST_CASE (testConditionalPropertyArgsMap)
 
 BOOST_AUTO_TEST_CASE (testConditionalPropertyDomain)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         Address a;
         a.setStreet ("Katalonska");
         a.setPostalCode ("05-500");
         Variant v = Core::Variant (&a);
 
-        TestRuntime <String>::test (k202, "$!street", "Katalonska", v);
-        TestRuntime <String>::test (k202, "$!postalCode", "05-500", v);
+        TestRuntime <std::string>::test (k202, "$!street", "Katalonska", v);
+        TestRuntime <std::string>::test (k202, "$!postalCode", "05-500", v);
         TestRuntime <Address *>::test (k202, "$!this", &a, v);
 
         StringList vec;

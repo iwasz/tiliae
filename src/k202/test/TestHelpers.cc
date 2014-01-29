@@ -7,8 +7,8 @@
  ****************************************************************************/
 
 #include "TestHelpers.h"
-#include "compiler/Compiler.h"
-#include "ByteCode.h"
+#include "k202/compiler/Compiler.h"
+#include "k202/ByteCode.h"
 
 using namespace k202;
 

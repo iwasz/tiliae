@@ -20,7 +20,7 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testAssignment)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         VariantMap argsMap;
         Variant vv = Core::Variant (&argsMap);
@@ -33,9 +33,6 @@ BOOST_AUTO_TEST_CASE (testAssignment)
 
         TestRuntime <std::string>::test (k202, "$a = 'test'", "test", vv);
         TestRuntime <std::string>::test (k202, "$a", "test", vv);
-
-        TestRuntime <Core::String>::test (k202, "$a = u'test'", "test", vv);
-        TestRuntime <Core::String>::test (k202, "$a", "test", vv);
 
         TestRuntime <std::string>::test (k202, "$a = 'test2'", "test2", vv);
         TestRuntime <std::string>::test (k202, "$a", "test2", vv);

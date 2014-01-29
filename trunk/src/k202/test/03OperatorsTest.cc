@@ -21,7 +21,7 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testLogicNegation)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         TestRuntime <bool>::test (k202, "true", true);
         TestRuntime <bool>::test (k202, "!true", false);
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (testLogicNegation)
 
 BOOST_AUTO_TEST_CASE (testLogicAnd)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         TestRuntime <bool>::test (k202, "true && true", true);
         TestRuntime <bool>::test (k202, "true && false", false);
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE (testLogicAnd)
 
 BOOST_AUTO_TEST_CASE (testLogicOr)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         TestRuntime <bool>::test (k202, "true || true", true);
         TestRuntime <bool>::test (k202, "true || false", true);
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE (testLogicOr)
 BOOST_AUTO_TEST_CASE (testLogicEq)
 {
         try {
-                Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+                Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
                 TestRuntime <bool>::test (k202, "true == true", true);
                 TestRuntime <bool>::test (k202, "true == false", false);
@@ -125,30 +125,30 @@ BOOST_AUTO_TEST_CASE (testLogicEq)
                 paramList.push_back (Core::Variant (12));
                 paramList.push_back (Core::Variant (true));
                 paramList.push_back (Core::Variant (12));
-                paramList.push_back (Core::Variant (Core::String ("test1")));
-                paramList.push_back (Core::Variant (Core::String ("lskdjfkl")));
-                paramList.push_back (Core::Variant (Core::String ("test1")));
+                paramList.push_back (Core::Variant (std::string ("test1")));
+                paramList.push_back (Core::Variant (std::string ("lskdjfkl")));
+                paramList.push_back (Core::Variant (std::string ("test1")));
 
                 TestRuntime <bool>::test (k202, "%0 == 13", false, Variant (), paramList);
                 TestRuntime <bool>::test (k202, "%0 == 12", true, Variant (), paramList);
-                TestRuntime <bool>::test (k202, "%3 == u'test3'", false, Variant (), paramList);
-                TestRuntime <bool>::test (k202, "%3 == u'test1'", true, Variant (), paramList);
-                TestRuntime <bool>::test (k202, "%3 == u'test1' == %1", true, Variant (), paramList);
+                TestRuntime <bool>::test (k202, "%3 == 'test3'", false, Variant (), paramList);
+                TestRuntime <bool>::test (k202, "%3 == 'test1'", true, Variant (), paramList);
+                TestRuntime <bool>::test (k202, "%3 == 'test1' == %1", true, Variant (), paramList);
 
                 VariantMap argsMap;
-                argsMap["a"] = Core::Variant (Core::String ("testA"));
-                argsMap["b"] = Core::Variant (Core::String ("testB"));
-                argsMap["c"] = Core::Variant (Core::String ("testC"));
-                argsMap["d"] = Core::Variant (Core::String ("testD"));
-                argsMap["e"] = Core::Variant (Core::String ("testA"));
+                argsMap["a"] = Core::Variant (std::string ("testA"));
+                argsMap["b"] = Core::Variant (std::string ("testB"));
+                argsMap["c"] = Core::Variant (std::string ("testC"));
+                argsMap["d"] = Core::Variant (std::string ("testD"));
+                argsMap["e"] = Core::Variant (std::string ("testA"));
                 Variant vv = Core::Variant (&argsMap);
 
-                TestRuntime <bool>::test (k202, "$a == u'testA'", true, vv);
-                TestRuntime <bool>::test (k202, "u'testB' == $b", true, vv);
-                TestRuntime <bool>::test (k202, "$c == u'kjashfd'", false, vv);
-                TestRuntime <bool>::test (k202, "$d == u'testD' == true", true, vv);
-                TestRuntime <bool>::test (k202, "($a == u'testA') == true", true, vv);
-                TestRuntime <bool>::test (k202, "true == ($d == u'testD')", true, vv);
+                TestRuntime <bool>::test (k202, "$a == 'testA'", true, vv);
+                TestRuntime <bool>::test (k202, "'testB' == $b", true, vv);
+                TestRuntime <bool>::test (k202, "$c == 'kjashfd'", false, vv);
+                TestRuntime <bool>::test (k202, "$d == 'testD' == true", true, vv);
+                TestRuntime <bool>::test (k202, "($a == 'testA') == true", true, vv);
+                TestRuntime <bool>::test (k202, "true == ($d == 'testD')", true, vv);
 
                 TestRuntime <bool>::test (k202, "$!prop == none", true);
                 TestRuntime <bool>::test (k202, "$!prop == 1", false);
@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE (testLogicEq)
 
 BOOST_AUTO_TEST_CASE (testLogicNe)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         TestRuntime <bool>::test (k202, "true != true", false);
         TestRuntime <bool>::test (k202, "true != false", true);
@@ -185,30 +185,30 @@ BOOST_AUTO_TEST_CASE (testLogicNe)
         paramList.push_back (Core::Variant (12));
         paramList.push_back (Core::Variant (true));
         paramList.push_back (Core::Variant (12));
-        paramList.push_back (Core::Variant (Core::String ("test1")));
-        paramList.push_back (Core::Variant (Core::String ("lskdjfkl")));
-        paramList.push_back (Core::Variant (Core::String ("test1")));
+        paramList.push_back (Core::Variant (std::string ("test1")));
+        paramList.push_back (Core::Variant (std::string ("lskdjfkl")));
+        paramList.push_back (Core::Variant (std::string ("test1")));
 
         TestRuntime <bool>::test (k202, "%0 != 13", true, Variant (), paramList);
         TestRuntime <bool>::test (k202, "%0 != 12", false, Variant (), paramList);
-        TestRuntime <bool>::test (k202, "%3 != u'test3'", true, Variant (), paramList);
-        TestRuntime <bool>::test (k202, "%3 != u'test1'", false, Variant (), paramList);
-        TestRuntime <bool>::test (k202, "%3 != u'test1' != %1", true, Variant (), paramList);
+        TestRuntime <bool>::test (k202, "%3 != 'test3'", true, Variant (), paramList);
+        TestRuntime <bool>::test (k202, "%3 != 'test1'", false, Variant (), paramList);
+        TestRuntime <bool>::test (k202, "%3 != 'test1' != %1", true, Variant (), paramList);
 
         VariantMap argsMap;
-        argsMap["a"] = Core::Variant (Core::String ("testA"));
-        argsMap["b"] = Core::Variant (Core::String ("testB"));
-        argsMap["c"] = Core::Variant (Core::String ("testC"));
-        argsMap["d"] = Core::Variant (Core::String ("testD"));
-        argsMap["e"] = Core::Variant (Core::String ("testA"));
+        argsMap["a"] = Core::Variant (std::string ("testA"));
+        argsMap["b"] = Core::Variant (std::string ("testB"));
+        argsMap["c"] = Core::Variant (std::string ("testC"));
+        argsMap["d"] = Core::Variant (std::string ("testD"));
+        argsMap["e"] = Core::Variant (std::string ("testA"));
         Variant vv = Core::Variant (&argsMap);
 
-        TestRuntime <bool>::test (k202, "$a != u'testA'", false, vv);
-        TestRuntime <bool>::test (k202, "u'testB' != $b", false, vv);
-        TestRuntime <bool>::test (k202, "$c != u'kjashfd'", true, vv);
-        TestRuntime <bool>::test (k202, "$d != u'testD' != true", true, vv);
-        TestRuntime <bool>::test (k202, "($a != u'testA') != true", true, vv);
-        TestRuntime <bool>::test (k202, "true != ($d != u'testD')", true, vv);
+        TestRuntime <bool>::test (k202, "$a != 'testA'", false, vv);
+        TestRuntime <bool>::test (k202, "'testB' != $b", false, vv);
+        TestRuntime <bool>::test (k202, "$c != 'kjashfd'", true, vv);
+        TestRuntime <bool>::test (k202, "$d != 'testD' != true", true, vv);
+        TestRuntime <bool>::test (k202, "($a != 'testA') != true", true, vv);
+        TestRuntime <bool>::test (k202, "true != ($d != 'testD')", true, vv);
 
         TestRuntime <bool>::test (k202, "$!prop != none", false);
         TestRuntime <bool>::test (k202, "$!prop != 1", true);

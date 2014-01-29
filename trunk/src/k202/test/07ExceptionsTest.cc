@@ -9,10 +9,10 @@
 #include <boost/test/unit_test.hpp>
 #include "k202/K202.h"
 #include "TestHelpers.h"
-#include "Exceptions.h"
+#include "k202/Exceptions.h"
 #include "testHelpers/Bar.h"
 #include "core/variant/Variant.h"
-#include "compiler/Compiler.h"
+#include "k202/compiler/Compiler.h"
 #include "beanWrapper/beanWrapper/BeanWrapper.h"
 
 BOOST_AUTO_TEST_SUITE (ExceptionsTest07);
@@ -23,7 +23,7 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testExceptions)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ()));
 
         Bar bar = Bar (Variant ());
         Variant vv = Core::Variant (&bar);

@@ -37,7 +37,7 @@ struct Receiver {
         REFLECTION_METHOD (onClicked1) void onClicked1 () { iValue = 667; }
         REFLECTION_METHOD (handler2) void handler2 (int i) { iValue = i; }
 
-        REFLECTION_METHOD (handler3) int handler3 (int i, const Core::String &nam)
+        REFLECTION_METHOD (handler3) int handler3 (int i, const std::string &nam)
         {
                 iValue = i;
                 sValue = nam;
@@ -46,7 +46,7 @@ struct Receiver {
 
         Listener onClicked, onSig0, onSig1, onSig2;
         int iValue;
-        Core::String sValue;
+        std::string sValue;
 
         REFLECTION_END (Receiver);
 };
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE (testBasic)
 
         scope = findScope ("sig2");
         recv.iValue = 0;
-        v.push_back (Core::Variant (String ("ojojojoj!")));
+        v.push_back (Core::Variant (std::string ("ojojojoj!")));
         Variant ret = scope->emit (v, VariantMap ());
 
         BOOST_CHECK_EQUAL (recv.iValue, 8876);

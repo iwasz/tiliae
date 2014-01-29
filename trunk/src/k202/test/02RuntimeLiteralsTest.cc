@@ -24,10 +24,9 @@ using namespace Core;
 
 BOOST_AUTO_TEST_CASE (testStringLiteral)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ())));
 
         TestRuntime <std::string>::test (k202, "'test'", "test");
-        TestRuntime <Core::String>::test (k202, "u'test'", "test");
         TestRuntime <std::string>::test (k202, "'t e s  t'", "t e s  t");
         TestRuntime <std::string>::test (k202, "'   bbb    '", "   bbb    ");
         TestRuntime <std::string>::test (k202, "''", "");
@@ -49,7 +48,7 @@ BOOST_AUTO_TEST_CASE (testStringLiteral)
 
 BOOST_AUTO_TEST_CASE (testIntLiteral)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ())));
 
         TestRuntime <int>::test (k202, "1", 1);
         TestRuntime <int>::test (k202, " 2", 2);
@@ -66,7 +65,7 @@ BOOST_AUTO_TEST_CASE (testIntLiteral)
 
 BOOST_AUTO_TEST_CASE (testDoubleLiteral)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ())));
 
         TestRuntime <double>::test (k202, "1.0", 1.0);
         TestRuntime <double>::test (k202, " 2.0", 2.0);
@@ -85,7 +84,7 @@ BOOST_AUTO_TEST_CASE (testDoubleLiteral)
 
 BOOST_AUTO_TEST_CASE (testBoolLiteral)
 {
-        Ptr <K202> k202 = K202::create (Wrapper::BeanWrapper::create ());
+        Ptr <K202> k202 = K202::create (Ptr <Wrapper::BeanWrapper> (Ptr <Wrapper::BeanWrapper> (Wrapper::BeanWrapper::create ())));
 
         TestRuntime <bool>::test (k202, "true", true);
         TestRuntime <bool>::test (k202, "false", false);

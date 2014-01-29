@@ -12,9 +12,9 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <cassert>
-#include "compiler/Compiler.h"
+#include "k202/compiler/Compiler.h"
 #include "TestHelpers.h"
-#include "extension/CacheExtension.h"
+#include "k202/extension/CacheExtension.h"
 
 BOOST_AUTO_TEST_SUITE (ParserTest01);
 using namespace k202;

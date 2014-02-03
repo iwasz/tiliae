@@ -26,6 +26,8 @@ Ptr <K202> K202::create (Ptr <Wrapper::IBeanWrapper> b, Ptr <IExtension> ext)
 {
         // Nie można użyć make_shared
         Ptr <K202> k = Ptr <K202> (new K202);
+        // TODO to jest źle. Typem argumentu b poino być IBeanWrapper *
+//        k->ctx.setBeanWrapper ((b) ? (b.get ()) : (BeanWrapper::create ()));
         k->ctx.setBeanWrapper (BeanWrapper::create ());
         k->compiler = Compiler::create ();
         k->compiler->setExtension (ext);

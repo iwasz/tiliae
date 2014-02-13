@@ -359,80 +359,74 @@ Core::Variant MethodPtrWrapper <T (C::*) (A1, A2, A3)>::call (Core::Variant cons
 /****************************************************************************/
 
 template<typename C, typename A1, typename A2, typename A3>
-struct MethodPtrWrapper <void (C::*) (A1, A2)> : public ICallableWrapper {
+struct MethodPtrWrapper <void (C::*) (A1, A2, A3)> : public ICallableWrapper {
 
-        typedef void (C::*MethodPtr) (A1, A2);
+        typedef void (C::*MethodPtr) (A1, A2, A3);
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
         virtual ~MethodPtrWrapper () {}
 
-        Core::Variant call (Core::Variant const &object, Core::VariantVector *args);/* { throwConstMethod (); exit (1); }*/
+        Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
-        unsigned int getArity () const { return 1; }
+        unsigned int getArity () const { return 3; }
 
 private:
         MethodPtr ptr;
 };
 
-template<typename C, typename A1, typename A2>
-Core::Variant MethodPtrWrapper <void (C::*) (A1, A2)>::call (Core::Variant const &object, Core::VariantVector *args)
+template<typename C, typename A1, typename A2, typename A3>
+Core::Variant MethodPtrWrapper <void (C::*) (A1, A2, A3)>::call (Core::Variant const &object, Core::VariantVector *args)
 {
-        checkArgList (args, 2);
-        Core::VariantVector::iterator i = args->begin ();
-        Core::VariantVector::iterator j = args->begin (); ++j;
-        (ocast <C*> (object)->*ptr) (vcast <A1> (*i), vcast <A2> (*j));
+        checkArgList (args, 3);
+        (ocast <C*> (object)->*ptr) (vcast <A1> (args->operator[] (0)), vcast <A2> (args->operator[] (1)), vcast <A3> (args->operator[] (2)));
         return Core::Variant ();
 }
 
 /****************************************************************************/
 
-template<typename T, typename C, typename A1, typename A2>
-struct MethodPtrWrapper <T (C::*) (A1, A2) const> : public ICallableWrapper {
+template<typename T, typename C, typename A1, typename A2, typename A3>
+struct MethodPtrWrapper <T (C::*) (A1, A2, A3) const> : public ICallableWrapper {
 
-        typedef T (C::*MethodPtr) (A1, A2)const;
+        typedef T (C::*MethodPtr) (A1, A2, A3)const;
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
         virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
-        unsigned int getArity () const { return 1; }
+        unsigned int getArity () const { return 3; }
 
 private:
         MethodPtr ptr;
 };
 
-template<typename T, typename C, typename A1, typename A2>
-Core::Variant MethodPtrWrapper <T (C::*) (A1, A2) const>::call (Core::Variant const &object, Core::VariantVector *args)
+template<typename T, typename C, typename A1, typename A2, typename A3>
+Core::Variant MethodPtrWrapper <T (C::*) (A1, A2, A3) const>::call (Core::Variant const &object, Core::VariantVector *args)
 {
-        checkArgList (args, 2);
-        Core::VariantVector::iterator i = args->begin ();
-        Core::VariantVector::iterator j = args->begin (); ++j;
-        return Core::Variant ((ocast <C const *> (object)->*ptr) (vcast <A1> (*i), vcast <A2> (*j)));
+        checkArgList (args, 3);
+        return Core::Variant ((ocast <C const *> (object)->*ptr) (vcast <A1> (args->operator[] (0)), vcast <A2> (args->operator[] (1)), vcast <A3> (args->operator[] (2))));
 }
 
 /****************************************************************************/
 
-template<typename C, typename A1, typename A2>
-struct MethodPtrWrapper <void (C::*) (A1, A2) const> : public ICallableWrapper {
+template<typename C, typename A1, typename A2, typename A3>
+struct MethodPtrWrapper <void (C::*) (A1, A2, A3) const> : public ICallableWrapper {
 
-        typedef void (C::*MethodPtr) (A1, A2)const;
+        typedef void (C::*MethodPtr) (A1, A2, A3)const;
         MethodPtrWrapper (MethodPtr p = 0) : ptr (p) {}
         virtual ~MethodPtrWrapper () {}
 
         Core::Variant call (Core::Variant const &object, Core::VariantVector *args);
         std::type_info const &getType () const { return typeid (typename Core::normalize<A1>::type); }
-        unsigned int getArity () const { return 1; }
+        unsigned int getArity () const { return 3; }
 
 private:
         MethodPtr ptr;
 };
 
-template<typename C, typename A1, typename A2>
-Core::Variant MethodPtrWrapper <void (C::*) (A1, A2) const>::call (Core::Variant const &object, Core::VariantVector *args)
+template<typename C, typename A1, typename A2, typename A3>
+Core::Variant MethodPtrWrapper <void (C::*) (A1, A2, A3) const>::call (Core::Variant const &object, Core::VariantVector *args)
 {
-        checkArgList (args, 2);
-        Core::VariantVector::iterator i = args->begin ();
-        Core::VariantVector::iterator j = args->begin (); ++j;
-        (ocast <C const *> (object)->*ptr) (vcast <A1> (*i), vcast <A2> (*j));
+        checkArgList (args, 3);
+        (ocast <C const *> (object)->*ptr) (vcast <A1> (args->operator[] (0)), vcast <A2> (args->operator[] (1)), vcast <A3> (args->operator[] (2)));
         return Core::Variant ();
 }
 

@@ -187,6 +187,7 @@ Variant::Variant (Core::String const *j) :
 }
 
 #endif
+
 /****************************************************************************/
 
 bool Variant::isObject () const
@@ -208,10 +209,13 @@ bool Variant::isHandle () const
            type == SMART_OBJECT_CONST           ||
            type == STRING                       ||
            type == STRING_POINTER               ||
-           type == STRING_POINTER_CONST         ||
-           type == USTRING                      ||
+           type == STRING_POINTER_CONST
+#ifdef WITH_CORE_STRING
+           || type == USTRING                      ||
            type == USTRING_POINTER              ||
-           type == USTRING_POINTER_CONST;
+           type == USTRING_POINTER_CONST
+#endif
+           ;
 }
 
 /****************************************************************************/
@@ -236,19 +240,25 @@ bool Variant::isNull () const
     case POINTER:
     case OBJECT:
     case STRING_POINTER:
-    case USTRING_POINTER:
+#ifdef WITH_CORE_STRING
+            case USTRING_POINTER:
+#endif
             return !ptr;
     case POINTER_CONST:
     case OBJECT_CONST:
     case STRING_POINTER_CONST:
+#ifdef WITH_CORE_STRING
     case USTRING_POINTER_CONST:
+#endif
             return !cptr;
     case SMART:
     case SMART_OBJECT:
     case SMART_CONST:
     case SMART_OBJECT_CONST:
     case STRING:
+#ifdef WITH_CORE_STRING
     case USTRING:
+#endif
             return !sptr;
 
     case NIL:

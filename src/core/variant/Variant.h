@@ -373,9 +373,11 @@ public:
                 STRING,                      /// std::string - przez wartość.
                 STRING_POINTER,              /// std::string - wskaźnik.
                 STRING_POINTER_CONST,        /// std::string - wskaźnik do stałej.
+#ifdef WITH_CORE_STRING
                 USTRING,                     /// Core::String - przez wartość.
                 USTRING_POINTER,             /// Core::String - wskaźnik.
                 USTRING_POINTER_CONST        /// Core::String - wskaźnik do stałej.
+#endif
         };
 
         template <typename T> friend struct VCast;
@@ -427,10 +429,12 @@ public:
          */
         template<typename S>
         explicit Variant (S const &);
+
         template<typename S>
         explicit Variant (S *);
         template<typename S>
         explicit Variant (S const *);
+
         template<typename S>
         explicit Variant (boost::shared_ptr<S> const &);
         template<typename S>
@@ -579,12 +583,14 @@ template <typename S>
 struct VHelpPtr <S, true> {
         enum { TYPE = Variant::OBJECT };
         static Core::Object *get (S *p) { return static_cast <Core::Object *> (p); }
+        static std::type_info const *type (S *p) { return (p) ? (&typeid (*p)) : (&typeid (S)); }
 };
 
 template <typename S>
 struct VHelpPtr <S, false> {
         enum { TYPE = Variant::POINTER };
         static S *get (S *p) { return p; }
+        static std::type_info const *type (S *p) { return &typeid (S); }
 };
 
 template <typename S>
@@ -595,7 +601,7 @@ struct VHelp <S *> {
 template<typename S>
 Variant::Variant (S *p) :
         type ((Type)VHelp <S *>::Impl::TYPE),
-        ti ((p) ? (&typeid (*p)) : (&typeid (S))),
+        ti (VHelp <S *>::Impl::type (p)),
         ptr (VHelp <S *>::Impl::get (p))
 {
 }
@@ -610,12 +616,14 @@ template <typename S>
 struct VHelpCPtr <S, true> {
         enum { TYPE = Variant::OBJECT_CONST };
         static void const *get (S const *p) { return static_cast <Core::Object const *> (p); }
+        static std::type_info const *type (S const *p) { return (p) ? (&typeid (*p)) : (&typeid (S)); }
 };
 
 template <typename S>
 struct VHelpCPtr <S, false> {
         enum { TYPE = Variant::POINTER_CONST };
         static void const *get (S const *p) { return p; }
+        static std::type_info const *type (S const *p) { return &typeid (S); }
 };
 
 template <typename S>
@@ -626,7 +634,7 @@ struct VHelp <S const *> {
 template<typename S>
 Variant::Variant (S const *p) :
         type ((Type)VHelp <S const *>::Impl::TYPE),
-        ti ((p) ? (&typeid (*p)) : (&typeid (S))),
+        ti (VHelp <S const *>::Impl::type (p)),
         cptr (VHelp <S const *>::Impl::get (p))
 {
 }

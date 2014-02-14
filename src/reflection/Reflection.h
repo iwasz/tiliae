@@ -227,6 +227,7 @@
 #include "reflectAnnotations/ReflectAnnotations.h"
 #include "reflection/Manager.h"
 #include "Exceptions.h"
+#include "ReflectionTools.h"
 
 namespace Reflection {
 

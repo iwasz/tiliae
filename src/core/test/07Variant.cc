@@ -11,7 +11,7 @@
 
 #include "core/variant/Cast.h"
 #include "core/Object.h"
-#include <boost/make_shared.hpp>
+#include <memory>
 #include "core/Typedefs.h"
 
 BOOST_AUTO_TEST_SUITE (Variant07);
@@ -123,8 +123,8 @@ BOOST_AUTO_TEST_CASE (testConstCorrectnessRef)
 
 BOOST_AUTO_TEST_CASE (testConstCorrectnessSmartPtr)
 {
-        Ptr <TestClass> a = make_shared <TestClass> ();
-        Ptr <TestClass const> c = make_shared <TestClass const> ();
+        Ptr <TestClass> a = std::make_shared <TestClass> ();
+        Ptr <TestClass const> c = std::make_shared <TestClass const> ();
 
         Variant va (a);              // Odpowiednik A*
         Variant const vac (a);       // Odpowiednik A * const
@@ -273,13 +273,13 @@ BOOST_AUTO_TEST_CASE (testTypeId)
         }
 
         {
-                shared_ptr <A> a (new A);
+                std::shared_ptr <A> a (new A);
                 Variant v (a); // Tworzy handler SMART
                 BOOST_REQUIRE (v.getTypeInfo () == ti);
         }
 
         {
-                shared_ptr <A const> a (new A);
+                std::shared_ptr <A const> a (new A);
                 Variant v (a); // Tworzy handler SMART_CONST
                 BOOST_REQUIRE (v.getTypeInfo () == ti);
         }
@@ -353,8 +353,8 @@ BOOST_AUTO_TEST_CASE (testVoidPtr)
         std::string str = "slkjfuioewui3";
         int i = 7908;
         int const *pi = &i;
-        Ptr <int> si = boost::make_shared <int> (98734);
-        Ptr <int const> csi = boost::make_shared <int const> (98734);
+        Ptr <int> si = std::make_shared <int> (98734);
+        Ptr <int const> csi = std::make_shared <int const> (98734);
 
         {
                 Variant v (&str);

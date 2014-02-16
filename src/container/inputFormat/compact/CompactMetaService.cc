@@ -719,7 +719,7 @@ void Impl::validateId (std::string const &name) const
 Ptr <MetaContainer> CompactMetaService::parseFile (Common::DataSource *ds, std::string const &path, Ptr <MetaContainer> container)
 {
         if (!container) {
-                container = boost::make_shared <MetaContainer> ();
+                container = std::make_shared <MetaContainer> ();
         }
 
         Core::ArrayRegionAllocator <char> *memoryAllocator = container->getMemoryAllocator ();

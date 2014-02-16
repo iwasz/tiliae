@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE (testVector)
 
         BOOST_REQUIRE_EQUAL (v.size (), 7U);
 
-        Ptr <IIterator> i = boost::make_shared <TIterator<std::vector <int> > > (v.begin (), v.end ());
+        Ptr <IIterator> i = std::make_shared <TIterator<std::vector <int> > > (v.begin (), v.end ());
 
         BOOST_REQUIRE (i->hasNext ());
         BOOST_REQUIRE_EQUAL (vcast <int> (i->next ()), 6);
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (testList)
 
         BOOST_REQUIRE_EQUAL (l.size (), 7U);
 
-        Ptr <IIterator> i = boost::make_shared <TIterator<std::list <int> > > (l.begin (), l.end ());
+        Ptr <IIterator> i = std::make_shared <TIterator<std::list <int> > > (l.begin (), l.end ());
 
         BOOST_REQUIRE (i->hasNext ());
         BOOST_REQUIRE_EQUAL (vcast <int> (i->next ()), 6);
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE (testMap)
         m["b"] = 2;
         m["c"] = 3;
 
-        Ptr <IIterator> i = boost::make_shared <TIterator<std::map <std::string, int> > > (m.begin (), m.end ());
+        Ptr <IIterator> i = std::make_shared <TIterator<std::map <std::string, int> > > (m.begin (), m.end ());
 
         BOOST_REQUIRE (i->hasNext ());
         std::pair <std::string const, int> p = vcast <std::pair <std::string const, int> > (i->next ());

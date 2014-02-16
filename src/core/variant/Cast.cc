@@ -47,7 +47,7 @@ std::string const &VCast<std::string>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::STRING:
-                return *boost::static_pointer_cast <std::string> (v.sptr);
+                return *std::static_pointer_cast <std::string> (v.sptr);
         case Variant::STRING_POINTER:
                 return *static_cast <std::string*> (v.ptr);
         case Variant::STRING_POINTER_CONST:
@@ -64,7 +64,7 @@ std::string &VCast<std::string &>::run (Variant &v)
 {
         switch (v.type) {
         case Variant::STRING:
-                return *boost::static_pointer_cast <std::string> (v.sptr);
+                return *std::static_pointer_cast <std::string> (v.sptr);
         case Variant::STRING_POINTER:
                 return *static_cast <std::string*> (v.ptr);
         default:
@@ -79,7 +79,7 @@ std::string const &VCast<std::string const &>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::STRING:
-                return *boost::static_pointer_cast <std::string> (v.sptr);
+                return *std::static_pointer_cast <std::string> (v.sptr);
         case Variant::STRING_POINTER:
                 return *static_cast <std::string*> (v.ptr);
         case Variant::STRING_POINTER_CONST:
@@ -96,7 +96,7 @@ std::string *VCast<std::string *>::run (Variant &v)
 {
         switch (v.type) {
         case Variant::STRING:
-                return boost::static_pointer_cast <std::string> (v.sptr).get ();
+                return std::static_pointer_cast <std::string> (v.sptr).get ();
         case Variant::STRING_POINTER:
                 return static_cast <std::string*> (v.ptr);
         default:
@@ -111,7 +111,7 @@ std::string const *VCast<std::string const *>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::STRING:
-                return boost::static_pointer_cast <std::string> (v.sptr).get ();
+                return std::static_pointer_cast <std::string> (v.sptr).get ();
         case Variant::STRING_POINTER:
                 return static_cast <std::string*> (v.ptr);
         case Variant::STRING_POINTER_CONST:
@@ -129,7 +129,7 @@ Core::String const &VCast<Core::String>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::USTRING:
-                return *boost::static_pointer_cast <Core::String> (v.sptr);
+                return *std::static_pointer_cast <Core::String> (v.sptr);
         case Variant::USTRING_POINTER:
                 return *static_cast <Core::String*> (v.ptr);
         case Variant::USTRING_POINTER_CONST:
@@ -146,7 +146,7 @@ Core::String &VCast<Core::String &>::run (Variant &v)
 {
         switch (v.type) {
         case Variant::USTRING:
-                return *boost::static_pointer_cast <Core::String> (v.sptr);
+                return *std::static_pointer_cast <Core::String> (v.sptr);
         case Variant::USTRING_POINTER:
                 return *static_cast <Core::String*> (v.ptr);
         default:
@@ -161,7 +161,7 @@ Core::String const &VCast<Core::String const &>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::USTRING:
-                return *boost::static_pointer_cast <Core::String> (v.sptr);
+                return *std::static_pointer_cast <Core::String> (v.sptr);
         case Variant::USTRING_POINTER:
                 return *static_cast <Core::String*> (v.ptr);
         case Variant::USTRING_POINTER_CONST:
@@ -178,7 +178,7 @@ Core::String *VCast<Core::String *>::run (Variant &v)
 {
         switch (v.type) {
         case Variant::USTRING:
-                return boost::static_pointer_cast <Core::String> (v.sptr).get ();
+                return std::static_pointer_cast <Core::String> (v.sptr).get ();
         case Variant::USTRING_POINTER:
                 return static_cast <Core::String*> (v.ptr);
         default:
@@ -193,7 +193,7 @@ Core::String const *VCast<Core::String const *>::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::USTRING:
-                return boost::static_pointer_cast <Core::String> (v.sptr).get ();
+                return std::static_pointer_cast <Core::String> (v.sptr).get ();
         case Variant::USTRING_POINTER:
                 return static_cast <Core::String*> (v.ptr);
         case Variant::USTRING_POINTER_CONST:
@@ -448,28 +448,28 @@ Core::String LCast <Core::String>::run (Core::Variant const &v)
 //        Variant ret;
 //
 //        if (input.getType () == Variant::POINTER) {
-//                ret.sptr = boost::shared_ptr<void> (input.ptr);
+//                ret.sptr = std::shared_ptr<void> (input.ptr);
 //                ret.type = Variant::SMART;
 //                ret.ti = input.ti;
 //                return ret;
 //        }
 //
 //        if (input.getType () == Variant::POINTER_CONST) {
-//                ret.sptr = boost::shared_ptr<void> (const_cast <void *> (input.cptr));
+//                ret.sptr = std::shared_ptr<void> (const_cast <void *> (input.cptr));
 //                ret.type = Variant::SMART_CONST;
 //                ret.ti = input.ti;
 //                return ret;
 //        }
 //
 //        if (input.getType () == Variant::OBJECT) {
-//                ret.sptr = boost::shared_ptr<void> (input.ptr);
+//                ret.sptr = std::shared_ptr<void> (input.ptr);
 //                ret.type = Variant::SMART_OBJECT;
 //                ret.ti = input.ti;
 //                return ret;
 //        }
 //
 //        if (input.getType () == Variant::OBJECT_CONST) {
-//                ret.sptr = boost::shared_ptr<void> (const_cast <void *> (input.cptr));
+//                ret.sptr = std::shared_ptr<void> (const_cast <void *> (input.cptr));
 //                ret.type = Variant::SMART_OBJECT_CONST;
 //                ret.ti = input.ti;
 //                return ret;

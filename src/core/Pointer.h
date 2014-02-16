@@ -11,7 +11,7 @@
  * o nazwie Ptr.h. Dla uproszczenia zostawiam wiec Pointer.h
  */
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/type_traits/remove_reference.hpp>
 #include <boost/type_traits/remove_cv.hpp>
 #include <boost/type_traits/integral_constant.hpp>
@@ -23,7 +23,7 @@
 namespace Core {
 
 /**
- * Krótsza nazwa dla boost::shared_ptr.
+ * Krótsza nazwa dla std::shared_ptr.
  * Jest to zrobione po to, żeby uprościć korzystaine z shared_ptr, który imho ma
  * za długą nazwę. Przyzwyczaiłem się do Ptr. Dlaczego #define jest lepsze niż moja
  * klasa Ptr? Ponieważ:
@@ -35,11 +35,11 @@ namespace Core {
  * będzie.
  * \ingroup CoreAPI
  */
-#define Ptr ::boost::shared_ptr
+#define Ptr ::std::shared_ptr
 
-using boost::dynamic_pointer_cast;
-using boost::const_pointer_cast;
-using boost::static_pointer_cast;
+using std::dynamic_pointer_cast;
+using std::const_pointer_cast;
+using std::static_pointer_cast;
 
 /*--------------------------------------------------------------------------*/
 

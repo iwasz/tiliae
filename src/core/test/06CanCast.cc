@@ -28,7 +28,7 @@ std::ostream &operator << (std::ostream &s, A const &a) { s << "A(" << a.i << ")
 // Niekompletny, zdefiniowany dopiero na końcu.
 class I;
 extern I globalI;
-extern shared_ptr <I> globalP;
+extern std::shared_ptr <I> globalP;
 
 struct B : public Object {
         virtual ~B () {}
@@ -61,8 +61,8 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (ccast <A const *> (v));
                 BOOST_REQUIRE (ccast <A &> (v));
                 BOOST_REQUIRE (ccast <A const &> (v));
-                BOOST_REQUIRE (ccast <shared_ptr<A> > (v));
-                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A const> > (v));
         }
 
         {
@@ -73,8 +73,8 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (ccast <A const *> (v));
                 BOOST_REQUIRE (ccast <A &> (v));
                 BOOST_REQUIRE (ccast <A const &> (v));
-                BOOST_REQUIRE (ccast <shared_ptr<A> > (v));
-                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A const> > (v));
         }
 
         {
@@ -87,11 +87,11 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (ccast <A &> (v));
                 BOOST_REQUIRE (ccast <A const &> (v));
 #ifdef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE (ccast <shared_ptr<A> > (v));
-                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A const> > (v));
 #else
-                BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A const> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<A> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<A const> > (v)));
 #endif
         }
 
@@ -105,11 +105,11 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (!(ccast <A &> (v)));
                 BOOST_REQUIRE (ccast <A const &> (v));
 #ifdef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE (!ccast <shared_ptr<A> > (v));
-                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
+                BOOST_REQUIRE (!ccast <std::shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A const> > (v));
 #else
-                BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A const> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<A> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<A const> > (v)));
 #endif
         }
 
@@ -122,8 +122,8 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (ccast <A const *> (v));
                 BOOST_REQUIRE (ccast <A &> (v));
                 BOOST_REQUIRE (ccast <A const &> (v));
-                BOOST_REQUIRE (ccast <shared_ptr<A> > (v));
-                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A const> > (v));
         }
 
         {
@@ -136,16 +136,16 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (!(ccast <A &> (v)));
                 BOOST_REQUIRE (ccast <A const &> (v));
 #ifdef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE (!ccast <shared_ptr<A> > (v));
-                BOOST_REQUIRE (ccast <shared_ptr<A const> > (v));
+                BOOST_REQUIRE (!ccast <std::shared_ptr<A> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<A const> > (v));
 #else
-                BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A const> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<A> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<A const> > (v)));
 #endif
         }
 
         {
-                shared_ptr <A> a (new A (668));
+                std::shared_ptr <A> a (new A (668));
 //                std::cerr << a.use_count () << std::endl;
                 Variant v (a); // Tworzy handler SMART
 //                std::cerr << a.use_count () << std::endl;
@@ -154,20 +154,20 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE (ccast <A const *> (v));
                 BOOST_REQUIRE (ccast <A &> (v));
                 BOOST_REQUIRE (ccast <A const &> (v));
-                BOOST_REQUIRE ((ccast <shared_ptr<A> > (v)));
-                BOOST_REQUIRE ((ccast <shared_ptr<A const> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<A> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<A const> > (v)));
         }
 
         {
-                shared_ptr <A const> a (new A (668));
+                std::shared_ptr <A const> a (new A (668));
                 Variant v (a); // Tworzy handler SMART_CONST
                 BOOST_REQUIRE (ccast <A> (v));
                 BOOST_REQUIRE (!(ccast <A *> (v)));
                 BOOST_REQUIRE (ccast <A const *> (v));
                 BOOST_REQUIRE (!(ccast <A &> (v)));
                 BOOST_REQUIRE (ccast <A const &> (v));
-                BOOST_REQUIRE (!(ccast <shared_ptr<A> > (v)));
-                BOOST_REQUIRE ((ccast <shared_ptr<A const> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<A> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<A const> > (v)));
         }
 }
 
@@ -184,11 +184,11 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE ((ccast <I &> (v)));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
 #ifdef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE (ccast <shared_ptr<I> > (v));
-                BOOST_REQUIRE (ccast <shared_ptr<I const> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<I> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<I const> > (v));
 #else
-                BOOST_REQUIRE (!(ccast <shared_ptr<I> > (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<I> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<I const> > (v)));
 #endif
         }
 
@@ -199,11 +199,11 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE (ccast <I const *> (v));
                 BOOST_REQUIRE (!(ccast <I &> (v)));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<I> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<I> > (v)));
 #ifdef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE (ccast <shared_ptr<I const> > (v));
+                BOOST_REQUIRE (ccast <std::shared_ptr<I const> > (v));
 #else
-                BOOST_REQUIRE (!(ccast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<I const> > (v)));
 #endif
         }
 
@@ -214,8 +214,8 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE (ccast <I const *> (v));
                 BOOST_REQUIRE (ccast <I &> (v));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
-                BOOST_REQUIRE ((ccast <shared_ptr<I> > (v)));
-                BOOST_REQUIRE ((ccast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<I> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<I const> > (v)));
         }
 
         {
@@ -225,30 +225,30 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE (ccast <I const *> (v));
                 BOOST_REQUIRE ((ccast <I &> (v)));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
-                BOOST_REQUIRE ((ccast <shared_ptr<I> > (v)));
-                BOOST_REQUIRE ((ccast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<I> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<I const> > (v)));
         }
 
         {
-                extern shared_ptr<I> func3 ();
+                extern std::shared_ptr<I> func3 ();
                 Variant v (func3 ()); // Tworzy handler SMART
                 BOOST_REQUIRE (ccast <I *> (v));
                 BOOST_REQUIRE (ccast <I const *> (v));
                 BOOST_REQUIRE ((ccast <I &> (v)));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
-                BOOST_REQUIRE ((ccast <shared_ptr<I> > (v)));
-                BOOST_REQUIRE ((ccast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<I> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<I const> > (v)));
         }
 
         {
-                extern shared_ptr<I const> func4 ();
+                extern std::shared_ptr<I const> func4 ();
                 Variant v (func4 ()); // Tworzy handler CONST_SMART
                 BOOST_REQUIRE (!ccast <I *> (v));
                 BOOST_REQUIRE (ccast <I const *> (v));
                 BOOST_REQUIRE (!(ccast <I &> (v)));
                 BOOST_REQUIRE ((ccast <I const &> (v)));
-                BOOST_REQUIRE (!(ccast <shared_ptr<I> > (v)));
-                BOOST_REQUIRE ((ccast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE (!(ccast <std::shared_ptr<I> > (v)));
+                BOOST_REQUIRE ((ccast <std::shared_ptr<I const> > (v)));
         }
 }
 
@@ -265,8 +265,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE (occast <B const *> (v));
                 BOOST_REQUIRE ((occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B const> > (v)));
         }
 
         {
@@ -277,8 +277,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE (occast <B const *> (v));
                 BOOST_REQUIRE ((occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B const> > (v)));
         }
 
         {
@@ -291,11 +291,11 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE ((occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
 #ifdef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE (occast <shared_ptr<B> > (v));
-                BOOST_REQUIRE (occast <shared_ptr<B const> > (v));
+                BOOST_REQUIRE (occast <std::shared_ptr<B> > (v));
+                BOOST_REQUIRE (occast <std::shared_ptr<B const> > (v));
 #else
-                BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE (!(occast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE (!(occast <std::shared_ptr<B const> > (v)));
 #endif
         }
 
@@ -309,11 +309,11 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE (!occast <B &> (v));
                 BOOST_REQUIRE ((occast <B const &> (v)));
 #ifdef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE (!occast <shared_ptr<B> > (v));
-                BOOST_REQUIRE (occast <shared_ptr<B const> > (v));
+                BOOST_REQUIRE (!occast <std::shared_ptr<B> > (v));
+                BOOST_REQUIRE (occast <std::shared_ptr<B const> > (v));
 #else
-                BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE (!(occast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE (!(occast <std::shared_ptr<B const> > (v)));
 #endif
         }
 
@@ -326,8 +326,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE (occast <B const *> (v));
                 BOOST_REQUIRE (occast <B &> (v));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B const> > (v)));
         }
 
         {
@@ -339,32 +339,32 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE (occast <B const *> (v));
                 BOOST_REQUIRE (occast <B &> (v));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B const> > (v)));
         }
 
         {
-                shared_ptr <C> a (new C (668));
+                std::shared_ptr <C> a (new C (668));
                 Variant v (a); // Tworzy handler SMART_OBJECT
                 BOOST_REQUIRE ((occast <B> (v)));
                 BOOST_REQUIRE (occast <B *> (v));
                 BOOST_REQUIRE (occast <B const *> (v));
                 BOOST_REQUIRE ((occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B const> > (v)));
         }
 
         {
-                shared_ptr <C const> a (new C (668));
+                std::shared_ptr <C const> a (new C (668));
                 Variant v (a); // Tworzy handler SMART_OBJECT
                 BOOST_REQUIRE ((occast <B> (v)));
                 BOOST_REQUIRE (!(occast <B *> (v)));
                 BOOST_REQUIRE (occast <B const *> (v));
                 BOOST_REQUIRE (!(occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE ((occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE (!(occast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE ((occast <std::shared_ptr<B const> > (v)));
         }
 
 /****************************************************************************/
@@ -378,11 +378,11 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE ((occast <B &> (v)));
                 BOOST_REQUIRE ((occast <B const &> (v)));
 #ifdef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE (occast <shared_ptr<B> > (v));
-                BOOST_REQUIRE (occast <shared_ptr<B const> > (v));
+                BOOST_REQUIRE (occast <std::shared_ptr<B> > (v));
+                BOOST_REQUIRE (occast <std::shared_ptr<B const> > (v));
 #else
-                BOOST_REQUIRE (!(occast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE (!(occast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE (!(occast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE (!(occast <std::shared_ptr<B const> > (v)));
 #endif
         }
 
@@ -410,11 +410,11 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic2)
             BOOST_REQUIRE ((occast <C &> (v)));
             BOOST_REQUIRE ((occast <C const &> (v)));
 #ifdef ALLOW_CAST_TO_SMART
-            BOOST_REQUIRE (occast <shared_ptr<C> > (v));
-            BOOST_REQUIRE (occast <shared_ptr<C const> > (v));
+            BOOST_REQUIRE (occast <std::shared_ptr<C> > (v));
+            BOOST_REQUIRE (occast <std::shared_ptr<C const> > (v));
 #else
-            BOOST_REQUIRE (!occast <shared_ptr<C> > (v));
-            BOOST_REQUIRE (!occast <shared_ptr<C const> > (v));
+            BOOST_REQUIRE (!occast <std::shared_ptr<C> > (v));
+            BOOST_REQUIRE (!occast <std::shared_ptr<C const> > (v));
 #endif
     }
 
@@ -427,19 +427,19 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic2)
             BOOST_REQUIRE (!occast <I const *> (v));
             BOOST_REQUIRE (!occast <A &> (v));
             BOOST_REQUIRE (!occast <A const &> (v));
-            BOOST_REQUIRE (!occast <shared_ptr<A> > (v));
-            BOOST_REQUIRE (!occast <shared_ptr<A const> > (v));
+            BOOST_REQUIRE (!occast <std::shared_ptr<A> > (v));
+            BOOST_REQUIRE (!occast <std::shared_ptr<A const> > (v));
     }
 
 }
 
 class I { int i; };
 I globalI;
-shared_ptr <I> globalP (new I);
+std::shared_ptr <I> globalP (new I);
 
 I &func () { return globalI; }
 I const &func2 () { return globalI; }
-shared_ptr<I> func3 () { return globalP; }
-shared_ptr<I const> func4 () { return globalP; }
+std::shared_ptr<I> func3 () { return globalP; }
+std::shared_ptr<I const> func4 () { return globalP; }
 
 BOOST_AUTO_TEST_SUITE_END ();

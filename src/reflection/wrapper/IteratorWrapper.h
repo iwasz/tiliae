@@ -50,7 +50,7 @@ template <typename T>
 Core::Variant IteratorWrapper <std::vector<T> >::call (Core::Variant const &object, Core::VariantVector *args)
 {
         std::vector<T> const *vec = vcast <std::vector<T> const *> (object);
-        return Core::Variant (boost::make_shared <TIterator <std::vector <T> > > (vec->begin (), vec->end ()));
+        return Core::Variant (std::make_shared <TIterator <std::vector <T> > > (vec->begin (), vec->end ()));
 }
 
 /****************************************************************************/
@@ -68,7 +68,7 @@ template <typename T>
 Core::Variant IteratorWrapper <std::list <T> >::call (Core::Variant const &object, Core::VariantVector *args)
 {
         std::list<T> const *vec = vcast <std::list<T> const *> (object);
-        return Core::Variant (boost::make_shared <TIterator <std::list <T> > > (vec->begin (), vec->end ()));
+        return Core::Variant (std::make_shared <TIterator <std::list <T> > > (vec->begin (), vec->end ()));
 }
 
 /****************************************************************************/
@@ -86,7 +86,7 @@ template <typename T>
 Core::Variant IteratorWrapper <std::set <T> >::call (Core::Variant const &object, Core::VariantVector *args)
 {
         std::set<T> const *vec = vcast <std::set<T> const *> (object);
-        return Core::Variant (boost::make_shared <TIterator <std::set <T> > > (vec->begin (), vec->end ()));
+        return Core::Variant (std::make_shared <TIterator <std::set <T> > > (vec->begin (), vec->end ()));
 }
 
 /****************************************************************************/
@@ -104,7 +104,7 @@ template <typename K, typename V>
 Core::Variant IteratorWrapper <std::map <K, V> >::call (Core::Variant const &object, Core::VariantVector *args)
 {
         std::map <K, V> const *vec = vcast <std::map <K, V> const *> (object);
-        return Core::Variant (boost::make_shared <TIterator <std::map <K, V> > > (vec->begin (), vec->end ()));
+        return Core::Variant (std::make_shared <TIterator <std::map <K, V> > > (vec->begin (), vec->end ()));
 }
 
 } // nam

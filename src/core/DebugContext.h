@@ -66,9 +66,9 @@ private:
 #endif
 
 #ifndef NDEBUG
-extern void dcBegin (Core::DebugContext *dc);
-extern void dcCommit (Core::DebugContext *dc);
-extern void dcRollback (Core::DebugContext *dc);
+extern TILIAE_API void dcBegin (Core::DebugContext *dc);
+extern TILIAE_API void dcCommit (Core::DebugContext *dc);
+extern TILIAE_API void dcRollback (Core::DebugContext *dc);
 #else
 #define dcBegin(a)
 #define dcCommit(a)

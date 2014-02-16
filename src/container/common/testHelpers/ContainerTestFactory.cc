@@ -34,7 +34,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure01 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -76,7 +76,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure02 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -118,7 +118,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure03 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -148,7 +148,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure04 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -176,7 +176,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure04 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure05 ()
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *meta00 = factory.newMetaObject ();
@@ -226,7 +226,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure06 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -277,7 +277,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure07 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -343,7 +343,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure09 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -372,7 +372,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure10 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -404,7 +404,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure11 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -434,7 +434,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure12 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -466,7 +466,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure13 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -515,7 +515,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure14 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -562,7 +562,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure15 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -591,7 +591,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure15 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure16 ()
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -669,7 +669,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure18 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -715,7 +715,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure19 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -762,7 +762,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure19 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -797,7 +797,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure21 ()
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -830,7 +830,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure22 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -852,7 +852,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure22 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *meta00 = factory.newMetaObject ();
@@ -887,7 +887,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
  */
 Ptr <MetaContainer> ContainerTestFactory::createMetaStructure24 ()
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*------Level0-meta-globalne------------------------------------------------*/
@@ -962,7 +962,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure25 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -1005,7 +1005,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/

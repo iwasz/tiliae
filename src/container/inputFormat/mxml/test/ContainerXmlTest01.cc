@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest01);
 BOOST_AUTO_TEST_CASE (test001SimplestBeanFirst)
 {
         try {
-                Ptr <MetaContainer> metaContainer = boost::make_shared <MetaContainer> ();
+                Ptr <MetaContainer> metaContainer = std::make_shared <MetaContainer> ();
                 MXmlMetaService::parseFile (PATH + "001-simplest-bean.xml", metaContainer);
 
                 Ptr <BeanFactoryContainer> beanContainer = ContainerFactory::createAndInit (metaContainer);

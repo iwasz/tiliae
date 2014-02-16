@@ -9,9 +9,8 @@
 #ifndef VARIANT_H_
 #define VARIANT_H_
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <boost/type_traits/is_convertible.hpp>
-#include <boost/make_shared.hpp>
 #include <string> // toString
 
 #include "core/Object.h"
@@ -436,9 +435,9 @@ public:
         explicit Variant (S const *);
 
         template<typename S>
-        explicit Variant (boost::shared_ptr<S> const &);
+        explicit Variant (std::shared_ptr<S> const &);
         template<typename S>
-        explicit Variant (boost::shared_ptr<S const> const &);
+        explicit Variant (std::shared_ptr<S const> const &);
 
 /*--------------------------------------------------------------------------*/
 
@@ -514,7 +513,7 @@ private:
 private:
         Type type;
         std::type_info const *ti;
-        boost::shared_ptr<void> sptr;
+        std::shared_ptr<void> sptr;
 
         union {
                 bool b;
@@ -551,13 +550,13 @@ struct VHelpCRef {
 template <typename S>
 struct VHelpCRef <S, true> {
         enum { TYPE = Variant::SMART_OBJECT };
-        static boost::shared_ptr <void> get (S const &p) { return boost::static_pointer_cast <Core::Object> (boost::make_shared <S> (p)); }
+        static std::shared_ptr <void> get (S const &p) { return std::static_pointer_cast <Core::Object> (std::make_shared <S> (p)); }
 };
 
 template <typename S>
 struct VHelpCRef <S, false> {
         enum { TYPE = Variant::SMART };
-        static boost::shared_ptr <void> get (S const &p) { return boost::make_shared <S> (p); }
+        static std::shared_ptr <void> get (S const &p) { return std::make_shared <S> (p); }
 };
 
 template <typename S>
@@ -569,7 +568,7 @@ template<typename S>
 Variant::Variant (S const &p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)),
         ti (&typeid (p)),
-        sptr (boost::make_shared <S> (p))
+        sptr (std::make_shared <S> (p))
 {
 }
 
@@ -648,25 +647,25 @@ struct VHelpSPtr {
 template <typename S>
 struct VHelpSPtr <S, true> {
         enum { TYPE = Variant::SMART_OBJECT };
-        static boost::shared_ptr<void> get (boost::shared_ptr<S> const &p) { return boost::static_pointer_cast <Core::Object> (p); }
+        static std::shared_ptr<void> get (std::shared_ptr<S> const &p) { return std::static_pointer_cast <Core::Object> (p); }
 };
 
 template <typename S>
 struct VHelpSPtr <S, false> {
         enum { TYPE = Variant::SMART };
-        static boost::shared_ptr<void> get (boost::shared_ptr<S> const &p) { return p; }
+        static std::shared_ptr<void> get (std::shared_ptr<S> const &p) { return p; }
 };
 
 template <typename S>
-struct VHelp <boost::shared_ptr<S> > {
+struct VHelp <std::shared_ptr<S> > {
         typedef VHelpSPtr <S, boost::is_convertible <S *, Core::Object *>::value> Impl;
 };
 
 template<typename S>
-Variant::Variant (boost::shared_ptr<S> const &p) :
-        type ((Type)VHelp <boost::shared_ptr<S> >::Impl::TYPE),
+Variant::Variant (std::shared_ptr<S> const &p) :
+        type ((Type)VHelp <std::shared_ptr<S> >::Impl::TYPE),
         ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
-        sptr (VHelp <boost::shared_ptr<S> >::Impl::get (p))
+        sptr (VHelp <std::shared_ptr<S> >::Impl::get (p))
 {
 }
 
@@ -679,25 +678,25 @@ struct VHelpCSPtr {
 template <typename S>
 struct VHelpCSPtr <S, true> {
         enum { TYPE = Variant::SMART_OBJECT_CONST };
-        static boost::shared_ptr<void> get (boost::shared_ptr<S const> const &p) { return boost::static_pointer_cast <Core::Object> (boost::const_pointer_cast <S> (p)); }
+        static std::shared_ptr<void> get (std::shared_ptr<S const> const &p) { return std::static_pointer_cast <Core::Object> (std::const_pointer_cast <S> (p)); }
 };
 
 template <typename S>
 struct VHelpCSPtr <S, false> {
         enum { TYPE = Variant::SMART_CONST };
-        static boost::shared_ptr<void> get (boost::shared_ptr<S const> const &p) { return boost::const_pointer_cast <S> (p); }
+        static std::shared_ptr<void> get (std::shared_ptr<S const> const &p) { return std::const_pointer_cast <S> (p); }
 };
 
 template <typename S>
-struct VHelp <boost::shared_ptr<S const> > {
+struct VHelp <std::shared_ptr<S const> > {
         typedef VHelpCSPtr <S, boost::is_convertible <S *, Core::Object *>::value> Impl;
 };
 
 template<typename S>
-Variant::Variant (boost::shared_ptr<S const> const &p) :
-        type ((Type)VHelp <boost::shared_ptr<S const> >::Impl::TYPE),
+Variant::Variant (std::shared_ptr<S const> const &p) :
+        type ((Type)VHelp <std::shared_ptr<S const> >::Impl::TYPE),
         ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
-        sptr (VHelp <boost::shared_ptr<S const> >::Impl::get (p))
+        sptr (VHelp <std::shared_ptr<S const> >::Impl::get (p))
 {
 }
 

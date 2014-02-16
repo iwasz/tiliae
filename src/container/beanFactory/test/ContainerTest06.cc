@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_SUITE (ContainerTest06);
  */
 BOOST_AUTO_TEST_CASE (testBeanWithCustomFactory)
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE (testInitMethod)
  */
 BOOST_AUTO_TEST_CASE (testEmptyListEmptyMap)
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *child = factory.newMetaObject ();

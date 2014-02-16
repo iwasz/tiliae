@@ -126,7 +126,7 @@ Ptr <BeanFactoryContainer> ContainerFactory::create (Ptr <MetaContainer> metaCon
                                                      bool storeConfigurationForLinked,
                                                      BeanFactoryContainer *linkedParent)
 {
-        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> ();
+        Ptr <BeanFactoryContainer> container = std::make_shared <BeanFactoryContainer> ();
 
         if (!linkedParent) {
                 container->setInternalSingletons (createSingletons (container->getMemoryAllocator (), container->getSingletons ()));

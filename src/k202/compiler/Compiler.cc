@@ -371,7 +371,7 @@ void Compiler::onPlaceholder (unsigned int placeholder)
         std::cerr << "Parser::onPlaceholder : " << placeholder << std::endl;
 #endif
 
-        stack.push_back (boost::make_shared <Placeholder> (placeholder));
+        stack.push_back (std::make_shared <Placeholder> (placeholder));
 }
 
 void Compiler::onProperty (const std::string &str)

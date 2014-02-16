@@ -28,7 +28,7 @@ std::ostream &operator << (std::ostream &s, A const &a) { s << "A(" << a.i << ")
 // Niekompletny, zdefiniowany dopiero na końcu.
 class I;
 extern I globalI;
-extern shared_ptr <I> globalP;
+extern std::shared_ptr <I> globalP;
 
 struct B : public Object {
         virtual ~B () {}
@@ -56,8 +56,8 @@ BOOST_AUTO_TEST_CASE (testBasic)
         A *pa = (A *) 0x01;
         I *pi = (I *) 0x01;
         int i = 12;
-        shared_ptr<A> sa;
-        shared_ptr<I> si;
+        std::shared_ptr<A> sa;
+        std::shared_ptr<I> si;
 
         {
                 Variant v (pa);
@@ -73,12 +73,12 @@ BOOST_AUTO_TEST_CASE (testBasic)
         }
         {
                 Variant v (sa);
-                BOOST_REQUIRE_EQUAL (vcast <shared_ptr <A> > (v).get (), (A*)0);
+                BOOST_REQUIRE_EQUAL (vcast <std::shared_ptr <A> > (v).get (), (A*)0);
                 BOOST_REQUIRE_EQUAL (vcast <A *> (v), (A*)0);
         }
         {
                 Variant v (si);
-                BOOST_REQUIRE_EQUAL (vcast <shared_ptr <I> > (v).get (), (I*)0);
+                BOOST_REQUIRE_EQUAL (vcast <std::shared_ptr <I> > (v).get (), (I*)0);
                 BOOST_REQUIRE_EQUAL (vcast <I *> (v), (I*)0);
 
                 // Tu zrobić asercję na zrzucanie wyjątku.
@@ -106,8 +106,8 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE_EQUAL (vcast <A const &> (v), A (668));
 //                BOOST_REQUIRE_THROW ((vcast <shared_ptr<A> > (v)), Core::VariantCastException);
 //                BOOST_REQUIRE_THROW ((vcast <shared_ptr<A const> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<A> > (v)), A (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<A const> > (v)), A (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<A> > (v)), A (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<A const> > (v)), A (668));
         }
 
         {
@@ -118,8 +118,8 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE_EQUAL (*(vcast <A const *> (v)), A (668));
                 BOOST_REQUIRE_EQUAL (vcast <A &> (v), A (668));
                 BOOST_REQUIRE_EQUAL (vcast <A const &> (v), A (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<A> > (v)), A (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<A const> > (v)), A (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<A> > (v)), A (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<A const> > (v)), A (668));
         }
 
         {
@@ -132,8 +132,8 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE_EQUAL (vcast <A &> (v), A (668));
                 BOOST_REQUIRE_EQUAL (vcast <A const &> (v), A (668));
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<A> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<A const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<A> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<A const> > (v)), Core::VariantCastException);
 #endif
         }
 
@@ -147,8 +147,8 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE_THROW ((vcast <A &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <A const &> (v), A (668));
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<A> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<A const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<A> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<A const> > (v)), Core::VariantCastException);
 #endif
         }
 
@@ -161,8 +161,8 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE_EQUAL (*(vcast <A const *> (v)), A (668));
                 BOOST_REQUIRE_EQUAL (vcast <A &> (v), A (668));
                 BOOST_REQUIRE_EQUAL (vcast <A const &> (v), A (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<A> > (v)), A (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<A const> > (v)), A (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<A> > (v)), A (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<A const> > (v)), A (668));
         }
 
         {
@@ -175,13 +175,13 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE_THROW ((vcast <A &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <A const &> (v), A (668));
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<A> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<A const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<A> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<A const> > (v)), Core::VariantCastException);
 #endif
         }
 
         {
-                shared_ptr <A> a (new A (668));
+                std::shared_ptr <A> a (new A (668));
 //                std::cerr << a.use_count () << std::endl;
                 Variant v (a); // Tworzy handler SMART
 //                std::cerr << a.use_count () << std::endl;
@@ -190,20 +190,20 @@ BOOST_AUTO_TEST_CASE (testCustomCompleteType)
                 BOOST_REQUIRE_EQUAL (vcast <A const *> (v), a.get ());
                 BOOST_REQUIRE_EQUAL (vcast <A &> (v), A (668));
                 BOOST_REQUIRE_EQUAL (vcast <A const &> (v), A (668));
-                BOOST_REQUIRE_EQUAL ((vcast <shared_ptr<A> > (v)), a);
-                BOOST_REQUIRE_EQUAL ((vcast <shared_ptr<A const> > (v)), a);
+                BOOST_REQUIRE_EQUAL ((vcast <std::shared_ptr<A> > (v)), a);
+                BOOST_REQUIRE_EQUAL ((vcast <std::shared_ptr<A const> > (v)), a);
         }
 
         {
-                shared_ptr <A const> a (new A (668));
+                std::shared_ptr <A const> a (new A (668));
                 Variant v (a); // Tworzy handler SMART_CONST
                 BOOST_REQUIRE_EQUAL (vcast <A> (v), A (668));
                 BOOST_REQUIRE_THROW ((vcast <A *> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <A const *> (v), a.get ());
                 BOOST_REQUIRE_THROW ((vcast <A &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <A const &> (v), A (668));
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<A> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL ((vcast <shared_ptr<A const> > (v)), a);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<A> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_EQUAL ((vcast <std::shared_ptr<A const> > (v)), a);
         }
 }
 
@@ -220,8 +220,8 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE_EQUAL (&(vcast <I &> (v)), pa);
                 BOOST_REQUIRE_EQUAL (&(vcast <I const &> (v)), pa);
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<I> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<I const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<I> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<I const> > (v)), Core::VariantCastException);
 #endif
         }
 
@@ -233,8 +233,8 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE_THROW ((vcast <I &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (&(vcast <I const &> (v)), pa);
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<I> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<I const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<I> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<I const> > (v)), Core::VariantCastException);
 #endif
         }
 
@@ -244,8 +244,8 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE_NE (vcast <I const *> (v), &globalI); // Bo tu jest kopia
                 BOOST_REQUIRE_NO_THROW (vcast <I &> (v));
                 BOOST_REQUIRE_NE (&(vcast <I const &> (v)), &globalI);
-                BOOST_REQUIRE_NO_THROW ((vcast <shared_ptr<I> > (v)));
-                BOOST_REQUIRE_NO_THROW ((vcast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE_NO_THROW ((vcast <std::shared_ptr<I> > (v)));
+                BOOST_REQUIRE_NO_THROW ((vcast <std::shared_ptr<I const> > (v)));
         }
 
         {
@@ -255,30 +255,30 @@ BOOST_AUTO_TEST_CASE (testCustomINCompleteType)
                 BOOST_REQUIRE_NE (vcast <I const *> (v), &globalI);
                 BOOST_REQUIRE_NO_THROW ((vcast <I &> (v)));
                 BOOST_REQUIRE_NE (&(vcast <I const &> (v)), &globalI);
-                BOOST_REQUIRE_NO_THROW ((vcast <shared_ptr<I> > (v)));
-                BOOST_REQUIRE_NO_THROW ((vcast <shared_ptr<I const> > (v)));
+                BOOST_REQUIRE_NO_THROW ((vcast <std::shared_ptr<I> > (v)));
+                BOOST_REQUIRE_NO_THROW ((vcast <std::shared_ptr<I const> > (v)));
         }
 
         {
-                extern shared_ptr<I> func3 ();
+                extern std::shared_ptr<I> func3 ();
                 Variant v (func3 ()); // Tworzy handler SMART
                 BOOST_REQUIRE_EQUAL (vcast <I *> (v), globalP.get ());
                 BOOST_REQUIRE_EQUAL (vcast <I const *> (v), globalP.get ());
                 BOOST_REQUIRE_EQUAL (&(vcast <I &> (v)), globalP.get ());
                 BOOST_REQUIRE_EQUAL (&(vcast <I const &> (v)), globalP.get ());
-                BOOST_REQUIRE_EQUAL ((vcast <shared_ptr<I> > (v)), globalP);
-                BOOST_REQUIRE_EQUAL ((vcast <shared_ptr<I const> > (v)), globalP);
+                BOOST_REQUIRE_EQUAL ((vcast <std::shared_ptr<I> > (v)), globalP);
+                BOOST_REQUIRE_EQUAL ((vcast <std::shared_ptr<I const> > (v)), globalP);
         }
 
         {
-                extern shared_ptr<I const> func4 ();
+                extern std::shared_ptr<I const> func4 ();
                 Variant v (func4 ()); // Tworzy handler CONST_SMART
                 BOOST_REQUIRE_THROW (vcast <I *> (v), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <I const *> (v), globalP.get ());
                 BOOST_REQUIRE_THROW ((vcast <I &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (&(vcast <I const &> (v)), globalP.get ());
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<I> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL ((vcast <shared_ptr<I const> > (v)), globalP);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<I> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_EQUAL ((vcast <std::shared_ptr<I const> > (v)), globalP);
         }
 }
 
@@ -295,8 +295,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE_NE (ocast <B const *> (v), &a);
                 BOOST_REQUIRE_NO_THROW ((ocast <B &> (v)));
                 BOOST_REQUIRE_NE (&(ocast <B const &> (v)), &a);
-                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <std::shared_ptr<B const> > (v)));
         }
 
         {
@@ -307,8 +307,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE_EQUAL (*ocast <B const *> (v), C (668));
                 BOOST_REQUIRE_NO_THROW ((ocast <B &> (v)));
                 BOOST_REQUIRE_EQUAL ((ocast <B const &> (v)), C (668));
-                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <std::shared_ptr<B const> > (v)));
         }
 
         {
@@ -321,8 +321,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE_EQUAL (&(ocast <B &> (v)), &c);
                 BOOST_REQUIRE_EQUAL (&(ocast <B const &> (v)), &c);
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((ocast <std::shared_ptr<B> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((ocast <std::shared_ptr<B const> > (v)), Core::VariantCastException);
 #endif
         }
 
@@ -336,8 +336,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE_THROW (ocast <B &> (v), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (&(ocast <B const &> (v)), &c);
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((ocast <std::shared_ptr<B> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((ocast <std::shared_ptr<B const> > (v)), Core::VariantCastException);
 #endif
         }
 
@@ -350,8 +350,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE_EQUAL (*ocast <B const *> (v), c);
                 BOOST_REQUIRE_NO_THROW (ocast <B &> (v));
                 BOOST_REQUIRE_EQUAL ((ocast <B const &> (v)), c);
-                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <std::shared_ptr<B const> > (v)));
         }
 
         {
@@ -363,32 +363,32 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE_EQUAL (*ocast <B const *> (v), c);
                 BOOST_REQUIRE_NO_THROW (ocast <B &> (v));
                 BOOST_REQUIRE_EQUAL ((ocast <B const &> (v)), c);
-                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B> > (v)));
-                BOOST_REQUIRE_NO_THROW ((ocast <shared_ptr<B const> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <std::shared_ptr<B> > (v)));
+                BOOST_REQUIRE_NO_THROW ((ocast <std::shared_ptr<B const> > (v)));
         }
 
         {
-                shared_ptr <C> a (new C (668));
+                std::shared_ptr <C> a (new C (668));
                 Variant v (a); // Tworzy handler SMART_OBJECT
                 BOOST_REQUIRE_EQUAL (&(ocast <B> (v)), a.get ());
                 BOOST_REQUIRE_EQUAL (ocast <B *> (v), a.get ());
                 BOOST_REQUIRE_EQUAL (ocast <B const *> (v), a.get ());
                 BOOST_REQUIRE_EQUAL (&(ocast <B &> (v)), a.get ());
                 BOOST_REQUIRE_EQUAL (&(ocast <B const &> (v)), a.get ());
-                BOOST_REQUIRE_EQUAL ((ocast <shared_ptr<B> > (v)), a);
-                BOOST_REQUIRE_EQUAL ((ocast <shared_ptr<B const> > (v)), a);
+                BOOST_REQUIRE_EQUAL ((ocast <std::shared_ptr<B> > (v)), a);
+                BOOST_REQUIRE_EQUAL ((ocast <std::shared_ptr<B const> > (v)), a);
         }
 
         {
-                shared_ptr <C const> a (new C (668));
+                std::shared_ptr <C const> a (new C (668));
                 Variant v (a); // Tworzy handler SMART_OBJECT
                 BOOST_REQUIRE_EQUAL (&(ocast <B> (v)), a.get ());
                 BOOST_REQUIRE_THROW ((ocast <B *> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (ocast <B const *> (v), a.get ());
                 BOOST_REQUIRE_THROW ((ocast <B &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (&(ocast <B const &> (v)), a.get ());
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL ((ocast <shared_ptr<B const> > (v)), a);
+                BOOST_REQUIRE_THROW ((ocast <std::shared_ptr<B> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_EQUAL ((ocast <std::shared_ptr<B const> > (v)), a);
         }
 
 /****************************************************************************/
@@ -403,8 +403,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic)
                 BOOST_REQUIRE_EQUAL (&(ocast <B &> (v)), &c);
                 BOOST_REQUIRE_EQUAL (&(ocast <B const &> (v)), &c);
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((ocast <shared_ptr<B const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((ocast <std::shared_ptr<B> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((ocast <std::shared_ptr<B const> > (v)), Core::VariantCastException);
 #endif
         }
 
@@ -432,8 +432,8 @@ BOOST_AUTO_TEST_CASE (testCustomPolymorphic2)
             BOOST_REQUIRE_EQUAL (&(ocast <C &> (v)), &c);
             BOOST_REQUIRE_EQUAL (&(ocast <C const &> (v)), &c);
 #ifndef ALLOW_CAST_TO_SMART
-            BOOST_REQUIRE_THROW ((ocast <shared_ptr<C> > (v)), Core::VariantCastException);
-            BOOST_REQUIRE_THROW ((ocast <shared_ptr<C const> > (v)), Core::VariantCastException);
+            BOOST_REQUIRE_THROW ((ocast <std::shared_ptr<C> > (v)), Core::VariantCastException);
+            BOOST_REQUIRE_THROW ((ocast <std::shared_ptr<C const> > (v)), Core::VariantCastException);
 #endif
     }
 }
@@ -454,10 +454,10 @@ BOOST_AUTO_TEST_CASE (testVCastObject)
 //                BOOST_REQUIRE_THROW ((vcast <C &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <C const &> (v), C (668));
                 BOOST_REQUIRE_EQUAL (vcast <C &> (v), C (668));
-//                BOOST_REQUIRE_THROW ((vcast <shared_ptr<C> > (v)), Core::VariantCastException);
-//                BOOST_REQUIRE_THROW ((vcast <shared_ptr<C const> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<C> > (v)), C (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<C const> > (v)), C (668));
+//                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<C> > (v)), Core::VariantCastException);
+//                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<C const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<C> > (v)), C (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<C const> > (v)), C (668));
         }
 
         {
@@ -468,8 +468,8 @@ BOOST_AUTO_TEST_CASE (testVCastObject)
                 BOOST_REQUIRE_EQUAL (*(vcast <C const *> (v)), C (668));
                 BOOST_REQUIRE_EQUAL (vcast <C const &> (v), C (668));
                 BOOST_REQUIRE_EQUAL (vcast <C &> (v), C (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<C> > (v)), C (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<C const> > (v)), C (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<C> > (v)), C (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<C const> > (v)), C (668));
         }
 
         {
@@ -482,8 +482,8 @@ BOOST_AUTO_TEST_CASE (testVCastObject)
                 BOOST_REQUIRE_EQUAL (vcast <C &> (v), C (668));
                 BOOST_REQUIRE_EQUAL (vcast <C const &> (v), C (668));
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<C> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<C const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<C> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<C const> > (v)), Core::VariantCastException);
 #endif
         }
 
@@ -497,8 +497,8 @@ BOOST_AUTO_TEST_CASE (testVCastObject)
                 BOOST_REQUIRE_THROW ((vcast <C &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <C const &> (v), C (668));
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<C> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<C const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<C> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<C const> > (v)), Core::VariantCastException);
 #endif
         }
 
@@ -512,8 +512,8 @@ BOOST_AUTO_TEST_CASE (testVCastObject)
                 BOOST_REQUIRE_EQUAL (*(vcast <C const *> (v)), C (668));
                 BOOST_REQUIRE_EQUAL (vcast <C const &> (v), C (668));
                 BOOST_REQUIRE_EQUAL (vcast <C &> (v), C (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<C> > (v)), C (668));
-                BOOST_REQUIRE_EQUAL (*(vcast <shared_ptr<C const> > (v)), C (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<C> > (v)), C (668));
+                BOOST_REQUIRE_EQUAL (*(vcast <std::shared_ptr<C const> > (v)), C (668));
         }
 
         {
@@ -526,13 +526,13 @@ BOOST_AUTO_TEST_CASE (testVCastObject)
                 BOOST_REQUIRE_THROW ((vcast <C &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <C const &> (v), C (668));
 #ifndef ALLOW_CAST_TO_SMART
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<C> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<C const> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<C> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<C const> > (v)), Core::VariantCastException);
 #endif
         }
 
         {
-                shared_ptr <C> a (new C (668));
+                std::shared_ptr <C> a (new C (668));
 //                std::cerr << a.use_count () << std::endl;
                 Variant v (a); // Tworzy handler SMART
 //                std::cerr << a.use_count () << std::endl;
@@ -541,31 +541,31 @@ BOOST_AUTO_TEST_CASE (testVCastObject)
                 BOOST_REQUIRE_EQUAL (vcast <C const *> (v), a.get ());
                 BOOST_REQUIRE_EQUAL (vcast <C &> (v), C (668));
                 BOOST_REQUIRE_EQUAL (vcast <C const &> (v), C (668));
-                BOOST_REQUIRE_EQUAL ((vcast <shared_ptr<C> > (v)), a);
-                BOOST_REQUIRE_EQUAL ((vcast <shared_ptr<C const> > (v)), a);
+                BOOST_REQUIRE_EQUAL ((vcast <std::shared_ptr<C> > (v)), a);
+                BOOST_REQUIRE_EQUAL ((vcast <std::shared_ptr<C const> > (v)), a);
         }
 
         {
-                shared_ptr <C const> a (new C (668));
+                std::shared_ptr <C const> a (new C (668));
                 Variant v (a); // Tworzy handler SMART_CONST
                 BOOST_REQUIRE_EQUAL (vcast <C> (v), C (668));
                 BOOST_REQUIRE_THROW ((vcast <C *> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <C const *> (v), a.get ());
                 BOOST_REQUIRE_THROW ((vcast <C &> (v)), Core::VariantCastException);
                 BOOST_REQUIRE_EQUAL (vcast <C const &> (v), C (668));
-                BOOST_REQUIRE_THROW ((vcast <shared_ptr<C> > (v)), Core::VariantCastException);
-                BOOST_REQUIRE_EQUAL ((vcast <shared_ptr<C const> > (v)), a);
+                BOOST_REQUIRE_THROW ((vcast <std::shared_ptr<C> > (v)), Core::VariantCastException);
+                BOOST_REQUIRE_EQUAL ((vcast <std::shared_ptr<C const> > (v)), a);
         }
 }
 
 
 class I { int i; };
 I globalI;
-shared_ptr <I> globalP (new I);
+std::shared_ptr <I> globalP (new I);
 
 I &func () { return globalI; }
 I const &func2 () { return globalI; }
-shared_ptr<I> func3 () { return globalP; }
-shared_ptr<I const> func4 () { return globalP; }
+std::shared_ptr<I> func3 () { return globalP; }
+std::shared_ptr<I const> func4 () { return globalP; }
 
 BOOST_AUTO_TEST_SUITE_END ();

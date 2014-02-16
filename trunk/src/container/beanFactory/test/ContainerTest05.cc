@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
  */
 BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *child = factory.newMetaObject ();
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
  */
 BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 {
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
 /*--------------------------------------------------------------------------*/

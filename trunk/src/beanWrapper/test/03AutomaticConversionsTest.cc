@@ -61,8 +61,8 @@ BOOST_AUTO_TEST_CASE (testComplex_Object)
 
         /*--------------------------------------------------------------------------*/
 
-        Ptr <Editor::TypeEditor> editor = boost::make_shared <Editor::TypeEditor> ();
-        Ptr <Editor::IEditor> noop = boost::make_shared <Editor::NoopEditor> ();
+        Ptr <Editor::TypeEditor> editor = std::make_shared <Editor::TypeEditor> ();
+        Ptr <Editor::IEditor> noop = std::make_shared <Editor::NoopEditor> ();
         editor->setEqType (noop.get ());
         editor->setNullType (noop.get ());
 
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE (testComplex_Object)
 #endif
 
         // StringCon.
-        Ptr <StringConstructorEditor> strCon = boost::make_shared <StringConstructorEditor> ();
+        Ptr <StringConstructorEditor> strCon = std::make_shared <StringConstructorEditor> ();
 
         ChainEditor *chain = new ChainEditor;
         chain->addEditor (editor.get ());
@@ -124,8 +124,8 @@ BOOST_AUTO_TEST_CASE (testComplex_Map)
 
         /*--------------------------------------------------------------------------*/
 
-        Ptr <Editor::TypeEditor> editor = boost::make_shared <Editor::TypeEditor> ();
-        Ptr <Editor::IEditor> noop = boost::make_shared <Editor::NoopEditor> ();
+        Ptr <Editor::TypeEditor> editor = std::make_shared <Editor::TypeEditor> ();
+        Ptr <Editor::IEditor> noop = std::make_shared <Editor::NoopEditor> ();
         editor->setEqType (noop.get ());
         editor->setNullType (noop.get ());
 
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_CASE (testComplex_Map)
 #endif
 
         // StringCon.
-        Ptr <StringConstructorEditor> strCon = boost::make_shared <StringConstructorEditor> ();
+        Ptr <StringConstructorEditor> strCon = std::make_shared <StringConstructorEditor> ();
 
         ChainEditor *chain = new ChainEditor;
         chain->addEditor (editor.get ());
@@ -192,8 +192,8 @@ BOOST_AUTO_TEST_CASE (testComplex_Vector)
 
         /*--------------------------------------------------------------------------*/
 
-        Ptr <Editor::TypeEditor> editor = boost::make_shared <Editor::TypeEditor> ();
-        Ptr <Editor::IEditor> noop = boost::make_shared <Editor::NoopEditor> ();
+        Ptr <Editor::TypeEditor> editor = std::make_shared <Editor::TypeEditor> ();
+        Ptr <Editor::IEditor> noop = std::make_shared <Editor::NoopEditor> ();
         editor->setEqType (noop.get ());
         editor->setNullType (noop.get ());
 
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE (testComplex_Vector)
 #endif
 
         // StringCon.
-        Ptr <StringConstructorEditor> strCon = boost::make_shared <StringConstructorEditor> ();
+        Ptr <StringConstructorEditor> strCon = std::make_shared <StringConstructorEditor> ();
 
         ChainEditor *chain = new ChainEditor;
         chain->addEditor (editor.get ());
@@ -241,7 +241,7 @@ static Core::Variant convertStringToInt (std::string const &input)
 
 static Core::Variant convertStringToCity (std::string const &input)
 {
-        return Core::Variant (boost::make_shared <City> (input));
+        return Core::Variant (std::make_shared <City> (input));
 }
 
 BOOST_AUTO_TEST_CASE (testWithConversionFuinctions)

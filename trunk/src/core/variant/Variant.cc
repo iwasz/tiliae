@@ -7,8 +7,6 @@
  ****************************************************************************/
 
 #include <boost/lexical_cast.hpp>
-#include <boost/make_shared.hpp>
-
 #include "Variant.h"
 #include "core/string/String.h"
 
@@ -134,7 +132,7 @@ Variant::Variant (unsigned short int const &j) :
 Variant::Variant (std::string const &j) :
         type (STRING),
         ti (&typeid (std::string &)),
-        sptr (boost::make_shared <std::string> (j))
+        sptr (std::make_shared <std::string> (j))
 {
 }
 
@@ -157,7 +155,7 @@ Variant::Variant (std::string const *j) :
 Variant::Variant (const char *s) :
         type (STRING),
         ti (&typeid (std::string &)),
-        sptr (boost::make_shared <std::string> ((s) ? (s) : ("")))
+        sptr (std::make_shared <std::string> ((s) ? (s) : ("")))
 {
 
 }
@@ -168,7 +166,7 @@ Variant::Variant (const char *s) :
 Variant::Variant (Core::String const &j) :
         type (USTRING),
         ti (&typeid (Core::String &)),
-        sptr (boost::make_shared <Core::String> (j))
+        sptr (std::make_shared <Core::String> (j))
 {
 }
 
@@ -342,7 +340,7 @@ std::string Variant::toString () const
                 ret += "UNSIGNED_SHORT_INT, value=[" + lexical_cast <std::string> (usi);
                 break;
         case STRING:
-                ret += "STRING, value=[" + *static_pointer_cast <std::string> (sptr);
+                ret += "STRING, value=[" + *std::static_pointer_cast <std::string> (sptr);
                 break;
         case STRING_POINTER:
                 ret += "STRING_POINTER, value=[" + *static_cast <std::string *> (ptr);

@@ -692,7 +692,7 @@ MetaObject *Impl::popCurrentMeta ()
 Ptr <MetaContainer> MXmlMetaService::parseFile (Common::DataSource *ds, std::string const &path, Ptr <MetaContainer> container)
 {
         if (!container) {
-                container = boost::make_shared <MetaContainer> ();
+                container = std::make_shared <MetaContainer> ();
         }
 
         Core::ArrayRegionAllocator <char> *memoryAllocator = container->getMemoryAllocator ();

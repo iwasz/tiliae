@@ -19,7 +19,7 @@ namespace Reflection {
 class Method;
 class Class;
 
-class ReflectionTools {
+class TILIAE_API ReflectionTools {
 public:
 
         /**

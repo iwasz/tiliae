@@ -99,16 +99,16 @@ BOOST_AUTO_TEST_CASE (testGreedyGetPut)
 //
 ///*--------------------------------------------------------------------------*/
 //
-//        Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> (Core::Variant (&a));
-//        Ptr <BeanWrapperPluginList> pluginList = boost::make_shared <BeanWrapperPluginList> ();
+//        Ptr <BeanWrapper> beanWrapper = std::make_shared <BeanWrapper> (Core::Variant (&a));
+//        Ptr <BeanWrapperPluginList> pluginList = std::make_shared <BeanWrapperPluginList> ();
 //
-//        Ptr <IBeanWrapperPlugin> plugin = boost::make_shared <PropertyRWBeanWrapperPlugin> ();
+//        Ptr <IBeanWrapperPlugin> plugin = std::make_shared <PropertyRWBeanWrapperPlugin> ();
 //        pluginList->push_back (plugin);
 //
-//        plugin = boost::make_shared <GetPutMethodRWBeanWrapperPlugin> (true);
+//        plugin = std::make_shared <GetPutMethodRWBeanWrapperPlugin> (true);
 //        pluginList->push_back (plugin);
 //
-//        plugin = boost::make_shared <MethodPlugin> (MethodPlugin::METHOD);
+//        plugin = std::make_shared <MethodPlugin> (MethodPlugin::METHOD);
 //        pluginList->push_back (plugin);
 //
 //        beanWrapper->setPluginList (pluginList);
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (testGreedyGetPut)
 
 BOOST_AUTO_TEST_CASE (testMethodVoid)
 {
-        Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
+        Ptr <BeanWrapper> beanWrapper = std::make_shared <BeanWrapper> ();
         beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin);
         beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin);
         beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::IMMEDIATE_CALL));

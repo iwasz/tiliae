@@ -25,7 +25,7 @@ struct TILIAE_API CityFactory : public Factory::IFactory {
         virtual ~CityFactory () {}
         virtual Core::Variant create (const Core::VariantMap &parameters, Core::DebugContext *context = NULL) const
         {
-                return Core::Variant (boost::make_shared <City> ());
+                return Core::Variant (std::make_shared <City> ());
         }
 
         REFLECTION_END_ (CityFactory)

@@ -82,7 +82,7 @@ Variant MethodPlugin::get (const Variant &bean,
 
                         if (mode & METHOD) {
                                 path->cutFirstSegment ();
-                                return Core::Variant (boost::make_shared <Handler> (bean, method));
+                                return Core::Variant (std::make_shared <Handler> (bean, method));
                         }
                 }
         }

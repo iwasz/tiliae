@@ -48,9 +48,9 @@ endif ()
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
 
 SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
-SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
+SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -Wall -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11 ")
 SET (CMAKE_C_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -Wall -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
-SET (CMAKE_CXX_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -Wall -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
+SET (CMAKE_CXX_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -Wall -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG -std=c++11 ")
 
 SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 SET (CMAKE_EXE_LINKER_FLAGS "-Wl,--no-undefined")

@@ -104,20 +104,20 @@ BOOST_AUTO_TEST_CASE (testIterComplex)
 
 /*##########################################################################*/
 
-        Ptr <StringVector> stringList = boost::make_shared <StringVector> ();
+        Ptr <StringVector> stringList = std::make_shared <StringVector> ();
         stringList->push_back ("value0");
         stringList->push_back ("value1");
         stringList->push_back ("value2");
         stringList->push_back ("value3");
 
-        Ptr <VariantList> vList = boost::make_shared <VariantList> ();
+        Ptr <VariantList> vList = std::make_shared <VariantList> ();
         vList->push_back (Variant ("string"));
         vList->push_back (Variant (stringList));
 
-        Ptr <VariantMap> vMap = boost::make_shared <VariantMap> ();
+        Ptr <VariantMap> vMap = std::make_shared <VariantMap> ();
         (*vMap)["key1"] = Variant (vList);
 
-        Ptr <VariantMap> vMap2 = boost::make_shared <VariantMap> ();
+        Ptr <VariantMap> vMap2 = std::make_shared <VariantMap> ();
         vMap2->operator [] ("key2") = Variant (vMap);
 
         // Musi byc wariant handle, bo tylko takie da sie polimorficznie rzutować (na IList *).

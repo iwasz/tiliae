@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
 {
 /*------Meta struktura------------------------------------------------------*/
 
-        Ptr <MetaContainer> metaCont = boost::make_shared <MetaContainer> ();
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *meta = factory.newMetaObject ();

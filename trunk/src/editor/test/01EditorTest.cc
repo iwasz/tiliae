@@ -870,16 +870,16 @@ BOOST_AUTO_TEST_CASE (testSimpleMapEditor)
         SimpleMapEditor simple;
 
         Ptr <EditorMap> mapEd (new EditorMap);
-        mapEd->operator[] ("key1") = boost::make_shared <FactoryEditor> (boost::make_shared <DummyJEditor> ("[", "]"), sillyFactory);
-        mapEd->operator[] ("key2") = boost::make_shared <FactoryEditor> (boost::make_shared <DummyJEditor> ("]", "["), sillyFactory);
-        mapEd->operator[] ("key3") = boost::make_shared <FactoryEditor> (boost::make_shared <DummyJEditor> ("{", "}"), sillyFactory);
-        mapEd->operator[] ("key4") = boost::make_shared <FactoryEditor> (boost::make_shared <DummyJEditor> ("(", ")"), sillyFactory);
-        mapEd->operator[] ("key5") = boost::make_shared <FactoryEditor> (boost::make_shared <DummyJEditor> ("<", ">"), sillyFactory);
-        mapEd->operator[] ("key6") = boost::make_shared <FactoryEditor> (boost::make_shared <DummyJEditor> ("A", "B"), sillyFactory);
-        mapEd->operator[] ("key7") = boost::make_shared <FactoryEditor> (boost::make_shared <DummyJEditor> ("a", "b"), sillyFactory);
+        mapEd->operator[] ("key1") = std::make_shared <FactoryEditor> (std::make_shared <DummyJEditor> ("[", "]"), sillyFactory);
+        mapEd->operator[] ("key2") = std::make_shared <FactoryEditor> (std::make_shared <DummyJEditor> ("]", "["), sillyFactory);
+        mapEd->operator[] ("key3") = std::make_shared <FactoryEditor> (std::make_shared <DummyJEditor> ("{", "}"), sillyFactory);
+        mapEd->operator[] ("key4") = std::make_shared <FactoryEditor> (std::make_shared <DummyJEditor> ("(", ")"), sillyFactory);
+        mapEd->operator[] ("key5") = std::make_shared <FactoryEditor> (std::make_shared <DummyJEditor> ("<", ">"), sillyFactory);
+        mapEd->operator[] ("key6") = std::make_shared <FactoryEditor> (std::make_shared <DummyJEditor> ("A", "B"), sillyFactory);
+        mapEd->operator[] ("key7") = std::make_shared <FactoryEditor> (std::make_shared <DummyJEditor> ("a", "b"), sillyFactory);
 
         simple.setEditors (mapEd);
-        simple.setDefaultEditor (boost::make_shared <FactoryEditor> (boost::make_shared <DummyJEditor> ("&", "&"), sillyFactory));
+        simple.setDefaultEditor (std::make_shared <FactoryEditor> (std::make_shared <DummyJEditor> ("&", "&"), sillyFactory));
 
 /*--------------------------------------------------------------------------*/
 
@@ -929,7 +929,7 @@ BOOST_AUTO_TEST_CASE (testProxyEditor)
         Variant output = Core::Variant (String (""));
 
         Ptr <IEditor> bracket (new DummyJEditor ("[", "]"));
-        Ptr <IEditor> proxy = boost::make_shared <ProxyEditor> (bracket, input);
+        Ptr <IEditor> proxy = std::make_shared <ProxyEditor> (bracket, input);
 
         proxy->convert (Variant (), &output);
         BOOST_REQUIRE (vcast <std::string> (output) == "[iwasz]");

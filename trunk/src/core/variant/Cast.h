@@ -135,7 +135,7 @@ T const &VCast<T>::run (Variant const &v)
         case Variant::SMART_CONST:
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return *(boost::static_pointer_cast<T const> (v.sptr).get ());
+                return *(std::static_pointer_cast<T const> (v.sptr).get ());
 
         case Variant::POINTER:
         case Variant::OBJECT:
@@ -1373,7 +1373,7 @@ T &VCast<T &>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART:
         case Variant::SMART_OBJECT:
-                return *(boost::static_pointer_cast<T> (v.sptr).get ());
+                return *(std::static_pointer_cast<T> (v.sptr).get ());
 
         case Variant::POINTER:
         case Variant::OBJECT:
@@ -1416,7 +1416,7 @@ T const &VCast<T const &>::run (Variant const &v)
         case Variant::SMART_CONST:
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return *(boost::static_pointer_cast<T const> (v.sptr).get ());
+                return *(std::static_pointer_cast<T const> (v.sptr).get ());
 
         case Variant::POINTER:
         case Variant::OBJECT:
@@ -1491,7 +1491,7 @@ T *VCast <T *>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART:
         case Variant::SMART_OBJECT:
-                return boost::static_pointer_cast<T> (v.sptr).get ();
+                return std::static_pointer_cast<T> (v.sptr).get ();
 
         case Variant::POINTER:
         case Variant::OBJECT:
@@ -1548,7 +1548,7 @@ T const *VCast <T const *>::run (Variant const &v)
         case Variant::SMART_CONST:
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return boost::static_pointer_cast<T const> (v.sptr).get ();
+                return std::static_pointer_cast<T const> (v.sptr).get ();
 
         default:
                 throwExceptionHanle ("T const*, wrong v.type", v, typeid (T &));
@@ -1565,17 +1565,17 @@ bool VCast<T const *>::can (Variant const &v)
 /*## shared_ptr ############################################################*/
 
 template<typename T>
-struct VCast<boost::shared_ptr<T> > {
+struct VCast<std::shared_ptr<T> > {
 
-        static boost::shared_ptr<T> run (Variant const &v);
+        static std::shared_ptr<T> run (Variant const &v);
         static bool can (Variant const &v);
 };
 
 template<typename T>
-boost::shared_ptr<T> VCast<boost::shared_ptr<T> >::run (Variant const &v)
+std::shared_ptr<T> VCast<std::shared_ptr<T> >::run (Variant const &v)
 {
         if (v.type == Variant::NIL) {
-                return boost::shared_ptr<T> ();
+                return std::shared_ptr<T> ();
         }
 
         if (v.getTypeInfo () != typeid (T &)) {
@@ -1586,11 +1586,11 @@ boost::shared_ptr<T> VCast<boost::shared_ptr<T> >::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART:
         case Variant::SMART_OBJECT:
-                return boost::static_pointer_cast<T> (v.sptr);
+                return std::static_pointer_cast<T> (v.sptr);
 
         case Variant::POINTER:
         case Variant::OBJECT:
-                return boost::shared_ptr <T> (static_cast<T *> (v.ptr));
+                return std::shared_ptr <T> (static_cast<T *> (v.ptr));
 
         default:
                 throwExceptionHanle ("T*, wrong v.type", v, typeid (T &));
@@ -1601,12 +1601,12 @@ boost::shared_ptr<T> VCast<boost::shared_ptr<T> >::run (Variant const &v)
                 throwExceptionHanle ("shared_ptr<T>, wrong v.type", v, typeid (T &));
         }
 
-        return boost::static_pointer_cast<T> (v.sptr);
+        return std::static_pointer_cast<T> (v.sptr);
 #endif
 }
 
 template<typename T>
-bool VCast<boost::shared_ptr<T> >::can (Variant const &v)
+bool VCast<std::shared_ptr<T> >::can (Variant const &v)
 {
 #ifdef ALLOW_CAST_TO_SMART
         return ((v.type == Variant::SMART || v.type == Variant::SMART_OBJECT || v.type == Variant::POINTER || v.type == Variant::OBJECT) && v.ti == &typeid (T &)) || (v.type == Variant::NIL);
@@ -1618,17 +1618,17 @@ bool VCast<boost::shared_ptr<T> >::can (Variant const &v)
 /****************************************************************************/
 
 template<typename T>
-struct VCast<boost::shared_ptr<T const> > {
+struct VCast<std::shared_ptr<T const> > {
 
-        static boost::shared_ptr<T const> run (Variant const &v);
+        static std::shared_ptr<T const> run (Variant const &v);
         static bool can (Variant const &v);
 };
 
 template<typename T>
-boost::shared_ptr<T const> VCast<boost::shared_ptr<T const> >::run (Variant const &v)
+std::shared_ptr<T const> VCast<std::shared_ptr<T const> >::run (Variant const &v)
 {
         if (v.type == Variant::NIL) {
-                return boost::shared_ptr<T const> ();
+                return std::shared_ptr<T const> ();
         }
 
         if (v.getTypeInfo () != typeid (T &)) {
@@ -1640,16 +1640,16 @@ boost::shared_ptr<T const> VCast<boost::shared_ptr<T const> >::run (Variant cons
         case Variant::SMART_CONST:
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return boost::static_pointer_cast<T> (v.sptr);
+                return std::static_pointer_cast<T> (v.sptr);
 
 #ifdef ALLOW_CAST_TO_SMART
         case Variant::POINTER:
         case Variant::OBJECT:
-                return boost::shared_ptr <T const> (static_cast <T const *> (v.ptr));
+                return std::shared_ptr <T const> (static_cast <T const *> (v.ptr));
 
         case Variant::POINTER_CONST:
         case Variant::OBJECT_CONST:
-                return boost::shared_ptr <T const> (static_cast <T const *> (v.cptr));
+                return std::shared_ptr <T const> (static_cast <T const *> (v.cptr));
 #endif
 
         default:
@@ -1659,7 +1659,7 @@ boost::shared_ptr<T const> VCast<boost::shared_ptr<T const> >::run (Variant cons
 }
 
 template<typename T>
-bool VCast<boost::shared_ptr<T const> >::can (Variant const &v)
+bool VCast<std::shared_ptr<T const> >::can (Variant const &v)
 {
 	return ((v.type == Variant::SMART ||
                 v.type == Variant::SMART_CONST ||
@@ -1693,7 +1693,7 @@ T const &OCast<T>::run (Variant const &v)
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
                 try {
-                        return *(boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
+                        return *(boost::polymorphic_cast <T *> (std::static_pointer_cast<Object> (v.sptr).get ()));
                 }
                 catch (std::exception const &e) {
                         throwExceptionOcast (v, typeid (T&), v.sptr.get ());
@@ -1726,7 +1726,7 @@ bool OCast<T>::can (Variant const &v)
     switch (v.type) {
     case Variant::SMART_OBJECT:
     case Variant::SMART_OBJECT_CONST:
-            return dynamic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
+            return dynamic_cast <T *> (std::static_pointer_cast<Object> (v.sptr).get ());
 
     case Variant::OBJECT:
             return dynamic_cast <T *> (static_cast<Object *> (v.ptr));
@@ -1754,7 +1754,7 @@ T &OCast<T &>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART_OBJECT:
                 try {
-                        return *(boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ()));
+                        return *(boost::polymorphic_cast <T *> (std::static_pointer_cast<Object> (v.sptr).get ()));
                 }
                 catch (std::exception const &e) {
                         throwExceptionOcast (v, typeid (T&), v.sptr.get ());
@@ -1778,7 +1778,7 @@ bool OCast<T&>::can (Variant const &v)
 {
 	switch (v.type) {
      case Variant::SMART_OBJECT:
-             return dynamic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
+             return dynamic_cast <T *> (std::static_pointer_cast<Object> (v.sptr).get ());
 
      case Variant::OBJECT:
              return dynamic_cast <T *> (static_cast<Object *> (v.ptr));
@@ -1804,7 +1804,7 @@ T const &OCast<T const &>::run (Variant const &v)
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
                 try {
-                        return *(boost::polymorphic_cast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ()));
+                        return *(boost::polymorphic_cast <T const *> (std::static_pointer_cast<Object const> (v.sptr).get ()));
                 }
                 catch (std::exception const &e) {
                         throwExceptionOcast (v, typeid (T&), const_cast <void const *> (v.sptr.get ()));
@@ -1837,7 +1837,7 @@ bool OCast<T const &>::can (Variant const &v)
     switch (v.type) {
     case Variant::SMART_OBJECT:
     case Variant::SMART_OBJECT_CONST:
-            return dynamic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
+            return dynamic_cast <T *> (std::static_pointer_cast<Object> (v.sptr).get ());
 
     case Variant::OBJECT:
             return dynamic_cast <T *> (static_cast<Object *> (v.ptr));
@@ -1865,7 +1865,7 @@ T *OCast <T *>::run (Variant const &v)
         switch (v.type) {
         case Variant::SMART_OBJECT:
                 try {
-                        return boost::polymorphic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
+                        return boost::polymorphic_cast <T *> (std::static_pointer_cast<Object> (v.sptr).get ());
                 }
                 catch (std::exception const &e) {
                         throwExceptionOcast (v, typeid (T&), v.sptr.get ());
@@ -1890,7 +1890,7 @@ bool OCast<T *>::can (Variant const &v)
 {
         switch (v.type) {
         case Variant::SMART_OBJECT:
-             return dynamic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
+             return dynamic_cast <T *> (std::static_pointer_cast<Object> (v.sptr).get ());
 
         case Variant::OBJECT:
              return dynamic_cast <T *> (static_cast<Object *> (v.ptr));
@@ -1916,7 +1916,7 @@ T const *OCast <T const *>::run (Variant const &v)
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
                 try {
-                        return boost::polymorphic_cast <T const *> (boost::static_pointer_cast<Object const> (v.sptr).get ());
+                        return boost::polymorphic_cast <T const *> (std::static_pointer_cast<Object const> (v.sptr).get ());
                 }
                 catch (std::exception const &e) {
                         throwExceptionOcast (v, typeid (T&), const_cast <void const *> (v.sptr.get ()));
@@ -1950,7 +1950,7 @@ bool OCast<T const *>::can (Variant const &v)
     switch (v.type) {
     case Variant::SMART_OBJECT:
     case Variant::SMART_OBJECT_CONST:
-            return dynamic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ());
+            return dynamic_cast <T *> (std::static_pointer_cast<Object> (v.sptr).get ());
 
     case Variant::OBJECT:
             return dynamic_cast <T *> (static_cast<Object *> (v.ptr));
@@ -1966,76 +1966,76 @@ bool OCast<T const *>::can (Variant const &v)
 /*** shared_ptr *************************************************************/
 
 template<typename T>
-struct OCast<boost::shared_ptr<T> > : public VCast<boost::shared_ptr<T> > {
+struct OCast<std::shared_ptr<T> > : public VCast<std::shared_ptr<T> > {
 
-        static boost::shared_ptr<T> run (Variant const &v);
+        static std::shared_ptr<T> run (Variant const &v);
         static bool can (Variant const &v);
 };
 
 template<typename T>
-boost::shared_ptr<T> OCast<boost::shared_ptr<T> >::run (Variant const &v)
+std::shared_ptr<T> OCast<std::shared_ptr<T> >::run (Variant const &v)
 {
         if (v.type == Variant::SMART_OBJECT) {
-                return dynamic_pointer_cast <T> (boost::static_pointer_cast<Object> (v.sptr));
+                return dynamic_pointer_cast <T> (std::static_pointer_cast<Object> (v.sptr));
         }
 
 #ifdef ALLOW_CAST_TO_SMART
         if (v.type == Variant::OBJECT) {
-                return boost::shared_ptr <T> (dynamic_cast <T *> (static_cast<Object *> (v.ptr)));
+                return std::shared_ptr <T> (dynamic_cast <T *> (static_cast<Object *> (v.ptr)));
         }
 #endif
 
-        return VCast<boost::shared_ptr <T> >::run (v);
+        return VCast<std::shared_ptr <T> >::run (v);
 }
 
 
 template<typename T>
-bool OCast<boost::shared_ptr<T> >::can (Variant const &v)
+bool OCast<std::shared_ptr<T> >::can (Variant const &v)
 {
-	return (v.type == Variant::SMART_OBJECT && dynamic_cast <T *> (boost::static_pointer_cast<Object> (v.sptr).get ())) ||
+	return (v.type == Variant::SMART_OBJECT && dynamic_cast <T *> (std::static_pointer_cast<Object> (v.sptr).get ())) ||
 #ifdef ALLOW_CAST_TO_SMART
                 (v.type == Variant::OBJECT && dynamic_cast <T *> (static_cast<Object *> (v.ptr))) ||
 #endif
-			VCast<boost::shared_ptr<T> >::can (v);
+			VCast<std::shared_ptr<T> >::can (v);
 }
 
 /****************************************************************************/
 
 template<typename T>
-struct OCast<boost::shared_ptr<T const> > : public VCast<boost::shared_ptr<T const> > {
+struct OCast<std::shared_ptr<T const> > : public VCast<std::shared_ptr<T const> > {
 
-        static boost::shared_ptr<T const> run (Variant const &v);
+        static std::shared_ptr<T const> run (Variant const &v);
         static bool can (Variant const &v);
 };
 
 template<typename T>
-boost::shared_ptr<T const> OCast<boost::shared_ptr<T const> >::run (Variant const &v)
+std::shared_ptr<T const> OCast<std::shared_ptr<T const> >::run (Variant const &v)
 {
         switch (v.type) {
         case Variant::SMART_OBJECT:
         case Variant::SMART_OBJECT_CONST:
-                return dynamic_pointer_cast <T const>  (boost::static_pointer_cast<Object const> (v.sptr));
+                return dynamic_pointer_cast <T const>  (std::static_pointer_cast<Object const> (v.sptr));
 
 #ifdef ALLOW_CAST_TO_SMART
         case Variant::OBJECT:
-                return boost::shared_ptr <T const> (dynamic_cast <T const *> (static_cast<Object const *> (v.ptr)));
+                return std::shared_ptr <T const> (dynamic_cast <T const *> (static_cast<Object const *> (v.ptr)));
 
         case Variant::OBJECT_CONST:
-                return boost::shared_ptr <T const> (dynamic_cast <T const *> (static_cast<Object const *> (v.cptr)));
+                return std::shared_ptr <T const> (dynamic_cast <T const *> (static_cast<Object const *> (v.cptr)));
 #endif
 
         default:
-                return VCast<boost::shared_ptr<T const> >::run (v);
+                return VCast<std::shared_ptr<T const> >::run (v);
         };
 }
 
 template<typename T>
-bool OCast<boost::shared_ptr<T const> >::can (Variant const &v)
+bool OCast<std::shared_ptr<T const> >::can (Variant const &v)
 {
     switch (v.type) {
     case Variant::SMART_OBJECT:
     case Variant::SMART_OBJECT_CONST:
-            return dynamic_cast <T const *>  (boost::static_pointer_cast<Object const> (v.sptr).get ());
+            return dynamic_cast <T const *>  (std::static_pointer_cast<Object const> (v.sptr).get ());
 
 #ifdef ALLOW_CAST_TO_SMART
         case Variant::OBJECT:
@@ -2046,7 +2046,7 @@ bool OCast<boost::shared_ptr<T const> >::can (Variant const &v)
 #endif
 
     default:
-            return VCast<boost::shared_ptr<T const> >::can (v);
+            return VCast<std::shared_ptr<T const> >::can (v);
     };
 }
 
@@ -2078,13 +2078,13 @@ struct PolyHelper <T const *> {
 };
 
 template<typename T>
-struct PolyHelper <boost::shared_ptr<T> > {
-        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <boost::shared_ptr<T> >, VCast<boost::shared_ptr<T> > >::type Type;
+struct PolyHelper <std::shared_ptr<T> > {
+        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <std::shared_ptr<T> >, VCast<std::shared_ptr<T> > >::type Type;
 };
 
 template<typename T>
-struct PolyHelper <boost::shared_ptr<T const> > {
-        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <boost::shared_ptr<T const> >, VCast<boost::shared_ptr<T const> > >::type Type;
+struct PolyHelper <std::shared_ptr<T const> > {
+        typedef typename boost::mpl::if_c <boost::is_base_of <Object, T>::value, OCast <std::shared_ptr<T const> >, VCast<std::shared_ptr<T const> > >::type Type;
 };
 
 

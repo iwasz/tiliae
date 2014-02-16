@@ -30,7 +30,7 @@ public:
 
         /**
          * wrapInSharedPtr == false -> return new T.
-         * wrapInSharedPtr == true -> return boost::shared_ptr <T> (new T).
+         * wrapInSharedPtr == true -> return std::shared_ptr <T> (new T).
          */
         ReflectionFactory (Core::IAllocator *a = NULL) : allocator (a) {}
         virtual ~ReflectionFactory () {}

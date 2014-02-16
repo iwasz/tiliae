@@ -90,7 +90,7 @@
 //
 //        visitor->reset ();
 //
-//        Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> ();
+//        Ptr <BeanFactoryContainer> container = std::make_shared <BeanFactoryContainer> ();
 //        container->setSingletons (singletons);
 //        container->addSingleton (DEFAULT_BEAN_WRAPPER, Core::Variant (beanWrapper));
 //        container->setBeanFactoryMap (map);
@@ -179,7 +179,7 @@
 //
 //                visitor->reset ();
 //
-//                Ptr <BeanFactoryContainer> container = boost::make_shared <BeanFactoryContainer> ();
+//                Ptr <BeanFactoryContainer> container = std::make_shared <BeanFactoryContainer> ();
 //                container->setSingletons (singletons);
 //                container->addSingleton (DEFAULT_BEAN_WRAPPER, Core::Variant (beanWrapper));
 //                container->setBeanFactoryMap (map);

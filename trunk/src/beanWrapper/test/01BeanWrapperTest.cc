@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
 
         // OK...
 
-        Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
+        Ptr <BeanWrapper> beanWrapper = std::make_shared <BeanWrapper> ();
         beanWrapper->addPlugin (new PropertyRWBeanWrapperPlugin);
 
         Country country;
@@ -222,7 +222,7 @@ BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
  */
 BOOST_AUTO_TEST_CASE (testGetPutPlugin)
 {
-        Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
+        Ptr <BeanWrapper> beanWrapper = std::make_shared <BeanWrapper> ();
         beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin);
 
 /*##########################################################################*/
@@ -267,7 +267,7 @@ BOOST_AUTO_TEST_CASE (testGetPutPlugin)
  */
 BOOST_AUTO_TEST_CASE (testGetPutPlugin2)
 {
-        Ptr <BeanWrapper> beanWrapper = boost::make_shared <BeanWrapper> ();
+        Ptr <BeanWrapper> beanWrapper = std::make_shared <BeanWrapper> ();
         beanWrapper->addPlugin (new GetPutMethodRWBeanWrapperPlugin);
 
 /*##########################################################################*/

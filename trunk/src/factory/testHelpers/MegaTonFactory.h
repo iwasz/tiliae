@@ -22,7 +22,7 @@ struct MegaTonFactory : public Factory::IFactory {
         virtual ~MegaTonFactory () {}
         virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::DebugContext *context = NULL) const
         {
-                return Core::Variant (boost::make_shared <MegaTon> ());
+                return Core::Variant (std::make_shared <MegaTon> ());
         }
 };
 

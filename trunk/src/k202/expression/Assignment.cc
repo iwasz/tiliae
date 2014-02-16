@@ -33,7 +33,7 @@ Core::Variant Assignment::evaluate (Context *ctx)
         Ptr <Property> prop;
 
         try {
-                prop = boost::dynamic_pointer_cast <Property> (lhs);
+                prop = std::dynamic_pointer_cast <Property> (lhs);
         }
         catch (const std::bad_cast &) {
                 throw RuntimeException ("RuntimeException : Assignment::evaluate : lhs is not a Property expression.");

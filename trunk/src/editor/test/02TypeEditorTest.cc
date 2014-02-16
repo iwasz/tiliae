@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (testJEditor)
 
 BOOST_AUTO_TEST_CASE (testStringConstruct)
 {
-        Ptr <StringConstructorEditor> editor = boost::make_shared <StringConstructorEditor> ();
+        Ptr <StringConstructorEditor> editor = std::make_shared <StringConstructorEditor> ();
 
 ///*--------------------------------------------------------------------------*/
 
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (testStringConstruct)
 
 BOOST_AUTO_TEST_CASE (testStreamEditor)
 {
-        Ptr <StreamEditor<std::string, unsigned int> > editor = boost::make_shared <StreamEditor<std::string, unsigned int> > ();
+        Ptr <StreamEditor<std::string, unsigned int> > editor = std::make_shared <StreamEditor<std::string, unsigned int> > ();
 
         Variant out;
         editor->convert (Variant ("123"), &out);
@@ -101,7 +101,7 @@ struct City2 {
 
 static Core::Variant convertStringToCity (std::string const &input)
 {
-        return Core::Variant (boost::make_shared <City2> (input));
+        return Core::Variant (std::make_shared <City2> (input));
 }
 
 BOOST_AUTO_TEST_CASE (testConversionFunctionEditor)

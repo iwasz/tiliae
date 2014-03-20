@@ -49,7 +49,7 @@ struct InternalSingletons {
         Wrapper::BeanWrapper *beanWrapperSimple;
         Wrapper::BeanWrapper *beanWrapperConversionForSingletons;
         Wrapper::BeanWrapper *beanWrapperConversionForPrototypes;
-
+        Wrapper::BeanWrapper *beanWrapperForMethods;
 };
 
 } /* namespace Container */

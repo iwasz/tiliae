@@ -34,6 +34,7 @@
 
 namespace Wrapper {
 class IBeanWrapper;
+class Handler;
 };
 
 namespace Container {
@@ -134,6 +135,7 @@ private:
 
         void notifyBeforePropertiesSet () const;
         void notifyAfterPropertiesSet () const;
+        bool fireMethod (Ptr <Wrapper::Handler> handler, Core::DebugContext *context, Core::VariantVector *list = 0, bool initMethodErrorMessage = true) const;
 
 private:
 

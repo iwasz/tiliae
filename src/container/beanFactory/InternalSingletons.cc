@@ -64,6 +64,9 @@ Core::Variant InternalSingletons::get (std::string const &key) const
         else if (key == DEFAULT_PROTOTYPE_FACTORY_NAME) {
                 return Core::Variant (defaultPrototypeFactory);
         }
+        else if (key == BEAN_WRAPPER_FOR_METHODS) {
+                return Core::Variant (beanWrapperForMethods);
+        }
 
         return Core::Variant ();
 }

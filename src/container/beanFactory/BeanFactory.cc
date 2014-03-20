@@ -16,6 +16,7 @@
 #include "container/Defs.h"
 #include "factory/ReflectionFactory.h"
 #include "BeanFactoryContainer.h"
+#include "beanWrapper/plugins/MethodPlugin.h"
 
 namespace Container {
 
@@ -164,15 +165,51 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 // Uruchomienie metody init-method
                 if (attributes->containsKey (Attributes::INITMETHOD_ARGUMENT)) {
+                        assert (beanWrapper);
                         std::string initMethodName = getStringAttribute (Attributes::INITMETHOD_ARGUMENT);
+                        beanWrapper->setWrappedObject (output);
+                        Core::Variant v = beanWrapper->get (initMethodName, &err, context);
+
+                        if (err || v.isNone ()) {
+                                dcCommit (context);
+                                dcError (context, "Cannot retrieve init-method of bean. Bean ID : " + id + ", init method name : [" + initMethodName + "]");
+                                return Core::Variant ();
+                        }
+
+                        Ptr <Wrapper::Handler> handler = vcast <Ptr <Wrapper::Handler>> (v);
+
+                        if (!fireMethod (handler, context)) {
+                                return Core::Variant ();
+                        }
+                }
+                else if (container && !container->getGlobalInitMethod ().empty ()) {
                         assert (beanWrapper);
                         beanWrapper->setWrappedObject (output);
-                        beanWrapper->get (initMethodName, &err, context);
+                        Core::Variant v = beanWrapper->get (container->getGlobalInitMethod (), &err, context);
 
-                        if (err) {
-                                dcCommit (context);
-                                dcError (context, "Invocation of init method in BeanFactory failed. ID : " + id);
-                                return Core::Variant ();
+                        if (!err && !v.isNone ()) {
+                                Ptr <Wrapper::Handler> handler = vcast <Ptr <Wrapper::Handler>> (v);
+
+                                if (!fireMethod (handler, context)) {
+                                        return Core::Variant ();
+                                }
+                        }
+                }
+
+                // Uruchomienie global id aware method
+                if (container && !container->getGlobalIdAwareMethod ().empty ()) {
+                        assert (beanWrapper);
+                        beanWrapper->setWrappedObject (output);
+                        Core::Variant v = beanWrapper->get (container->getGlobalIdAwareMethod (), &err, context);
+
+                        if (!err && !v.isNone ()) {
+                                Ptr <Wrapper::Handler> handler = vcast <Ptr <Wrapper::Handler>> (v);
+                                Core::VariantVector params;
+                                params.push_back (Core::Variant (id));
+
+                                if (!fireMethod (handler, context, &params, false)) {
+                                        return Core::Variant ();
+                                }
                         }
                 }
 
@@ -377,6 +414,44 @@ Core::Variant BeanFactory::getInput () const
 MetaObject::Scope BeanFactory::getScope () const
 {
         return static_cast <MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT));
+}
+
+/****************************************************************************/
+
+bool BeanFactory::fireMethod (Ptr <Wrapper::Handler> handler, Core::DebugContext *context, Core::VariantVector *list, bool initMethodErrorMessage) const
+{
+        std::string methodName;
+
+        if (initMethodErrorMessage) {
+                methodName = "init-method";
+        }
+        else {
+                methodName = "globalIdAwareMethod";
+        }
+
+        try {
+                handler->invoke (list);
+        }
+        catch (Core::Exception const &e) {
+                if (context) {
+                        context->addContext (e.getContext ());
+                }
+                dcCommit (context);
+                dcError (context, "Invocation of " + methodName + " method in BeanFactory failed. Core::Exception has been thrown . ID : " + id);
+                return false;
+        }
+        catch (std::exception const &e) {
+                dcCommit (context);
+                dcError (context, "Invocation of " + methodName + " in BeanFactory failed. ID : " + id + ". std::exception has been thrown : " + e.what ());
+                return false;
+        }
+        catch (...) {
+                dcCommit (context);
+                dcError (context, "Invocation of " + methodName + " in BeanFactory failed. ID : " + id + ". Unknown exception has been thrown");
+                return false;
+        }
+
+        return true;
 }
 
 /*##########################################################################*/

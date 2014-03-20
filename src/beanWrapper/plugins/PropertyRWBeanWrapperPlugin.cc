@@ -93,6 +93,12 @@ Variant PropertyRWBeanWrapperPlugin::get (const Variant &bean,
                 setError (error);
                 return Variant ();
         }
+        catch (...) {
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                path->toString () + "'). Exception from 'get' method has been thrown");
+                setError (error);
+                return Variant ();
+        }
 }
 
 /****************************************************************************/
@@ -194,6 +200,11 @@ bool PropertyRWBeanWrapperPlugin::set (Core::Variant *bean,
         catch (std::exception const &e) {
                 dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
                                 path->toString () + "'). Exception from 'set' method has been thrown : " + e.what () + ".");
+                return false;
+        }
+        catch (...) {
+                dcError (ctx, "PropertyRWBeanWrapperPlugin (Path : '" +
+                                path->toString () + "'). Exception from 'set' method has been thrown.");
                 return false;
         }
 

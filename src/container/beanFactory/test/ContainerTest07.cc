@@ -79,4 +79,166 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
         BOOST_REQUIRE (!exception);
 }
 
+/**
+ * Test globalnej init-metody. Pierwszeństwo ma metoda skonfigurowana bezpośrednio w beanie za pomocą
+ * atrybutu init-method w XML. Jeśli nie jest konfigurowana, system patrzy czy podano globalInitMethod
+ * w tagu <beans> (atrybut init-method dla <beans>). Jeśli tak, to próbue ją odpalić dla każdego beana,
+ * ale jesli jej nie ma, to nie zgłasza błędu.
+ */
+BOOST_AUTO_TEST_CASE (testGlobalInitMethod)
+{
+/*------Meta struktura------------------------------------------------------*/
+
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        metaCont->setGlobalInitMethod ("init");
+        MetaFactory factory (metaCont->getMemoryAllocator ());
+
+        MetaObject *meta = factory.newMetaObject ();
+        meta->setId ("bean");
+        meta->setClass ("City");
+        meta->setScope (MetaObject::SINGLETON);
+        meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
+        metaCont->add (meta);
+
+/*------Kontener------------------------------------------------------------*/
+
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+
+/*------Testy---------------------------------------------------------------*/
+
+        Variant v = cont->getBean ("bean");
+        BOOST_CHECK (!v.isNone ());
+
+        City *c = vcast <City *> (v);
+        BOOST_CHECK_EQUAL (c->getName (), "Warszawa_INIT");
+}
+
+/**
+ * Testowanie zachowania gdy global init method jest wadliwa (zrzuca wyjątek). Proram
+ * powinien zrzucić ładny wyjątek też.
+ */
+BOOST_AUTO_TEST_CASE (testFaultyGlobalInitMethod)
+{
+/*------Meta struktura------------------------------------------------------*/
+
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        metaCont->setGlobalInitMethod ("initThrow");
+        MetaFactory factory (metaCont->getMemoryAllocator ());
+
+        MetaObject *meta = factory.newMetaObject ();
+        meta->setId ("bean");
+        meta->setClass ("City");
+        meta->setScope (MetaObject::SINGLETON);
+        meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
+        metaCont->add (meta);
+
+/*------Kontener------------------------------------------------------------*/
+
+        BOOST_CHECK_THROW (ContainerFactory::createAndInit (metaCont), Core::Exception);
+
+/*------Testy---------------------------------------------------------------*/
+}
+
+/**
+ * Jeśli ustawiono globalną metodę init-method (w tagu <beans>), to kazdy bean jest
+ * testowany pod kątem występowania tej metody i jesli system ją znajdzie, to ją wywołuje.
+ * Natomiast jesli jej nie znajdzie, to nic się nie powinno stać i to testuje ten test.
+ */
+BOOST_AUTO_TEST_CASE (testNoInitMethodFound)
+{
+/*------Meta struktura------------------------------------------------------*/
+
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        metaCont->setGlobalInitMethod ("initAaaaa");
+        MetaFactory factory (metaCont->getMemoryAllocator ());
+
+        MetaObject *meta = factory.newMetaObject ();
+        meta->setId ("bean");
+        meta->setClass ("City");
+        meta->setScope (MetaObject::SINGLETON);
+        meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
+        metaCont->add (meta);
+
+/*------Kontener------------------------------------------------------------*/
+
+        BOOST_REQUIRE_NO_THROW (ContainerFactory::createAndInit (metaCont));
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+
+/*------Testy---------------------------------------------------------------*/
+
+        Variant v = cont->getBean ("bean");
+        BOOST_CHECK (!v.isNone ());
+
+        City *c = vcast <City *> (v);
+        BOOST_CHECK_EQUAL (c->getName (), "Warszawa");
+}
+
+/**
+ * Za pomocą id-aware-method ustawia się metodę, która jest wywoływana dla kazdego stworzonego beana
+ * (gdy jej nie ma, to nie szkodzi, nei bedzie błędu). Ta metda jest uruchamiana i dostaje jeden
+ * argument typu std::string z ID danego beana.
+ */
+BOOST_AUTO_TEST_CASE (testGlobalIdAwareMethod)
+{
+/*------Meta struktura------------------------------------------------------*/
+
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        metaCont->setGlobalIdAwareMethod ("setName");
+        MetaFactory factory (metaCont->getMemoryAllocator ());
+
+        MetaObject *meta = factory.newMetaObject ();
+        meta->setId ("beanWwa");
+        meta->setClass ("City");
+        meta->setScope (MetaObject::SINGLETON);
+        metaCont->add (meta);
+
+/*------Kontener------------------------------------------------------------*/
+
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+
+/*------Testy---------------------------------------------------------------*/
+
+        Variant v = cont->getBean ("beanWwa");
+        BOOST_CHECK (!v.isNone ());
+
+        City *c = vcast <City *> (v);
+        BOOST_CHECK_EQUAL (c->getName (), "beanWwa");
+}
+
+/**
+ * Testuje co się stanie, gdy bean nie ma metody ustawionej w setGlobalIdAwareMethod. Powinno przejść
+ * bez żadnego błędu.
+ */
+BOOST_AUTO_TEST_CASE (testGlobalIdAwareMethodNonExistent)
+{
+/*------Meta struktura------------------------------------------------------*/
+
+        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        metaCont->setGlobalIdAwareMethod ("setNameAaaa");
+        MetaFactory factory (metaCont->getMemoryAllocator ());
+
+        MetaObject *meta = factory.newMetaObject ();
+        meta->setId ("bean");
+        meta->setClass ("City");
+        meta->setScope (MetaObject::SINGLETON);
+        meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
+        metaCont->add (meta);
+
+/*------Kontener------------------------------------------------------------*/
+
+        BOOST_REQUIRE_NO_THROW (ContainerFactory::createAndInit (metaCont));
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+
+/*------Testy---------------------------------------------------------------*/
+
+        Variant v = cont->getBean ("bean");
+        BOOST_CHECK (!v.isNone ());
+
+        City *c = vcast <City *> (v);
+        BOOST_CHECK_EQUAL (c->getName (), "Warszawa");
+}
+
+
+//TODO : testy : Jak się zachowują inkludowane pliki - ja chcę, żeby w kazdym trzeba było ustawć globalXXX. testy z XML.
+
 BOOST_AUTO_TEST_SUITE_END ();

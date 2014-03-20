@@ -56,6 +56,8 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
         InternalSingletons *internals = bfCont->getInternalSingletons ();
         context.setMetaContainer (metaCont);
         Core::ArrayRegionAllocator <char> *memoryAllocator = bfCont->getMemoryAllocator ();
+        bfCont->setGlobalInitMethod (metaCont->getGlobalInitMethod ());
+        bfCont->setGlobalIdAwareMethod (metaCont->getGlobalIdAwareMethod ());
 
         try {
 
@@ -63,7 +65,8 @@ void ContainerFactory::init (BeanFactoryContainer *bfCont, MetaContainer *metaCo
 
                 BeanFactoryInitService bfService;
                 bfService.setContext (&context);
-                bfService.setDefaultBeanWrapper (internals->beanWrapperConversionForSingletons);
+//                bfService.setDefaultBeanWrapper (internals->beanWrapperConversionForSingletons);
+                bfService.setDefaultBeanWrapper (internals->beanWrapperForMethods);
                 iteration.addService (&bfService);
 
                 MappedValueService valMapService;
@@ -243,6 +246,12 @@ InternalSingletons *ContainerFactory::createSingletons (Core::IAllocator *memory
         beanWrapper->setEditor (chain);
 
         internals->beanWrapperConversionForPrototypes = beanWrapper;
+
+/*--------------------------------------------------------------------------*/
+
+        beanWrapper = new BeanWrapper (true);
+        beanWrapper->addPlugin (new MethodPlugin (MethodPlugin::METHOD));
+        internals->beanWrapperForMethods = beanWrapper;
 
 /*--------------------------------------------------------------------------*/
 

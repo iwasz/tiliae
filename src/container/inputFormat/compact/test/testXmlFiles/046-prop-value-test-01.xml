@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 
-	<String id="pathxx">
+	<string id="pathxx">
 		<cargs>
 			<value>pathXXX</value>
 		</cargs>
-	</String>
+	</string>
 
 	<!-- To symujuje beana, któremu w wielu różnych miejscach trzeba ustawić -->
 	<!-- ten sam napis. Normalnie użylibyśmy wielu tagów value z taką samą wartością, -->

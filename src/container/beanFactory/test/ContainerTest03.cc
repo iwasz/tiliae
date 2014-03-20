@@ -100,9 +100,7 @@ BOOST_AUTO_TEST_CASE (testCreateVariantList)
         BOOST_CHECK (list->size () == 7);
 
         VariantList::const_iterator i = list->begin ();
-#ifdef WITH_CORE_STRING
-        BOOST_CHECK_EQUAL (vcast <String> (*i++), "value0");
-#endif
+        BOOST_CHECK_EQUAL (vcast <std::string> (*i++), "value0");
         BOOST_CHECK_EQUAL (vcast <std::string> (*i++), "value1");
         BOOST_CHECK_EQUAL (vcast <int> (*i++), 6665);
         BOOST_CHECK_EQUAL (vcast <double> (*i++), 123.45);

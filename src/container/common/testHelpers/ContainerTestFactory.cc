@@ -441,7 +441,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure12 ()
 
         MetaObject *child = factory.newMetaObject ();
 
-        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value0", "String")));
+        child->addListField (factory.newDataKey (factory.newValueDataNewString ("value0", "string")));
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("value1", "text")));
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("6665", "int")));
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("123.45", "double")));

@@ -67,6 +67,12 @@ public:
          */
         MetaDeque topologicalSort ();
 
+        std::string const &getGlobalInitMethod () const { return globalInitMethod; }
+        void setGlobalInitMethod (std::string const &s) { globalInitMethod = s; }
+
+        std::string const &getGlobalIdAwareMethod () const { return globalIdAwareMethod; }
+        void setGlobalIdAwareMethod (std::string const &s) { globalIdAwareMethod = s; }
+
 private:
 
         typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::directedS> Graph;
@@ -84,6 +90,8 @@ private:
         MetaMap metaMap;
         Ptr <MetaContainer> linked;
         Core::ArrayRegionAllocator <char> memoryAllocator;
+        std::string globalInitMethod;
+        std::string globalIdAwareMethod;
 };
 
 TILIAE_API std::ostream &operator<< (std::ostream &o, MetaContainer const &m);

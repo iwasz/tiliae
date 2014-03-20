@@ -91,6 +91,12 @@ public:
 
         Core::ArrayRegionAllocator <char> *getMemoryAllocator () { return &memoryAllocator; }
 
+        std::string const &getGlobalInitMethod () const { return globalInitMethod; }
+        void setGlobalInitMethod (std::string const &s) { globalInitMethod = s; }
+
+        std::string const &getGlobalIdAwareMethod () const { return globalIdAwareMethod; }
+        void setGlobalIdAwareMethod (std::string const &s) { globalIdAwareMethod = s; }
+
         friend class ContainerFactory;
 
 private:
@@ -110,7 +116,8 @@ private:
         Editor::StringFactoryMethodEditor *conversionMethodEditor;
         Editor::TypeEditor *typeEditor;
         Core::ArrayRegionAllocator <char> memoryAllocator;
-
+        std::string globalInitMethod;
+        std::string globalIdAwareMethod;
 };
 
 }

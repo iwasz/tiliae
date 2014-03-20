@@ -26,6 +26,7 @@ const unsigned int MAX_BEAN_NESTING = 1000;
 extern const char *REFERENCE_TO_CONTAINER_ITSELF;
 extern const char *MAIN_TYPE_EDITOR;
 extern const char *MAIN_METHOD_CONVERSION_EDITOR;
+extern const char *BEAN_WRAPPER_FOR_METHODS;
 
 }
 

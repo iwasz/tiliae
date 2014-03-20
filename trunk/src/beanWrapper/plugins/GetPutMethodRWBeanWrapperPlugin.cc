@@ -92,6 +92,12 @@ Variant GetPutMethodRWBeanWrapperPlugin::get (const Variant &bean,
                         setError (error);
                         return Variant ();
                 }
+                catch (...) {
+                        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
+                                        path->toString () + "'). Unknown exception from 'get' method has been thrown");
+                        setError (error);
+                        return Variant ();
+                }
 
                 if (!ret.isNone ()) {
                         // Zdejmij token kiedy uda sie zwrocic (znalezc) wlasciwy obiekt.
@@ -235,6 +241,11 @@ bool GetPutMethodRWBeanWrapperPlugin::set (Core::Variant *bean,
                 catch (std::exception const &e) {
                         dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
                                         path->toString () + "'). Exception from 'set' method has been thrown : " + e.what ());
+                        return false;
+                }
+                catch (...) {
+                        dcError (ctx, "GetPutMethodRWBeanWrapperPlugin (Path : '" +
+                                        path->toString () + "'). Exception from 'set' method has been thrown");
                         return false;
                 }
 

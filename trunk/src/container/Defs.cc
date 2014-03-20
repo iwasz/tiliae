@@ -51,6 +51,7 @@ const char *BEAN_WRAPPER_W_CONVERSION_FOR_SINGLETONS = "#beanWrapperConversionFo
 const char *BEAN_WRAPPER_W_CONVERSION_FOR_PROTOTYPES = "#beanWrapperConversionForPrototypes";
 
 const char *BEAN_WRAPPER_SIMPLE = "#beanWrapperSimple";
+const char *BEAN_WRAPPER_FOR_METHODS = "#beanWrapperForMethods";
 
 /**
  * Kiedy nie podamy value, to jaki ma być typ.

@@ -28,6 +28,7 @@ public:
         ~City () {}
 
         REFLECTION_METHOD (init) void init () { name += "_INIT"; }
+        REFLECTION_METHOD (initThrow) void initThrow () { throw Core::Exception ("aaa"); }
 
         REFLECTION_METHOD (getName) std::string getName () const { return name; }
         REFLECTION_METHOD (setName) void setName (const std::string &name) { this->name = name; }

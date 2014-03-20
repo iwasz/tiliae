@@ -3,7 +3,7 @@
         "file:///home/iwasz/program/projects/tiliae/sandBox/sandBox/tiliae-container-1.0.dtd">
 <beans>
 
-    <bean id="pathxx" class="String">
+    <bean id="pathxx" class="string">
         <constructor-arg>
             <value>pathXXX</value>
         </constructor-arg>

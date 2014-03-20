@@ -150,17 +150,15 @@ Variant convertValue <bool> (bool classArgs,
                 case STRING:
 #ifdef WITH_CORE_STRING
                 case USTRING:
+#endif
                 {
-                        std::string copy = ((type == STRING) ? (s) : (us.getBody ()));
-
-                        if (copy == "1" || copy == "true" || copy == "on" || copy == "yes") {
+                        if (s == "1" || s == "true" || s == "on" || s == "yes") {
                                 return Variant (true);
                         }
                         else {
                                 return Variant (false);
                         }
                 }
-#endif
                 case INT:
                         return Variant (bool (i));
                 case UINT:

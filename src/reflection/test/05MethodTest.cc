@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE (testGetMethod)
 /*--------------------------------------------------------------------------*/
 
         cls = Manager::classForName ("City");
-        BOOST_REQUIRE_EQUAL (3U, cls->getMethodList ().size ());
+        BOOST_REQUIRE_EQUAL (4U, cls->getMethodList ().size ());
 }
 
 /**

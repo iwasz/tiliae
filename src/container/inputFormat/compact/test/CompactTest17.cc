@@ -162,4 +162,65 @@ BOOST_AUTO_TEST_CASE (test085LinkedContainers)
         BOOST_REQUIRE_EQUAL (bar1, bar2);
 }
 
+BOOST_AUTO_TEST_CASE (test086GlobalInitMethod)
+{
+/*------Kontener------------------------------------------------------------*/
+
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "086-global-init-method.xml"));
+
+/*------Testy---------------------------------------------------------------*/
+
+        Variant v = cont->getBean ("city");
+        BOOST_CHECK (!v.isNone ());
+
+        City *c = vcast <City *> (v);
+        BOOST_CHECK_EQUAL (c->getName (), "Warszawa_INIT");
+}
+
+BOOST_AUTO_TEST_CASE (test087GlobalIdMethod)
+{
+/*------Kontener------------------------------------------------------------*/
+
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "087-global-id-method.xml"));
+
+/*------Testy---------------------------------------------------------------*/
+
+        Variant v = cont->getBean ("Warszawa");
+        BOOST_CHECK (!v.isNone ());
+
+        City *c = vcast <City *> (v);
+        BOOST_CHECK_EQUAL (c->getName (), "Warszawa");
+
+        v = cont->getBean ("Polska");
+        BOOST_CHECK (!v.isNone ());
+
+        Country *ct = vcast <Country *> (v);
+        BOOST_CHECK_EQUAL (ct->getName (), "Polska");
+
+}
+
+/**
+ * <beans init-method> działa na wszystkie pliki
+ */
+BOOST_AUTO_TEST_CASE (test088GlobalInitMethodIncluded)
+{
+/*------Kontener------------------------------------------------------------*/
+
+        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "088-import-global-init-method.xml"));
+
+/*------Testy---------------------------------------------------------------*/
+
+        Variant v = cont->getBean ("city1");
+        BOOST_CHECK (!v.isNone ());
+
+        City *c = vcast <City *> (v);
+        BOOST_CHECK_EQUAL (c->getName (), "Warszawa_INIT");
+
+        v = cont->getBean ("city2");
+        BOOST_CHECK (!v.isNone ());
+
+        c = vcast <City *> (v);
+        BOOST_CHECK_EQUAL (c->getName (), "Warszawa_INIT");
+}
+
 BOOST_AUTO_TEST_SUITE_END ();

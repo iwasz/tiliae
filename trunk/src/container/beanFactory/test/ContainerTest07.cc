@@ -238,7 +238,4 @@ BOOST_AUTO_TEST_CASE (testGlobalIdAwareMethodNonExistent)
         BOOST_CHECK_EQUAL (c->getName (), "Warszawa");
 }
 
-
-//TODO : testy : Jak się zachowują inkludowane pliki - ja chcę, żeby w kazdym trzeba było ustawć globalXXX. testy z XML.
-
 BOOST_AUTO_TEST_SUITE_END ();

@@ -46,6 +46,7 @@ struct Impl {
         void onOpenNull (mxml_node_t *node);
         void onOpenImport (mxml_node_t *node);
         void onOpenPropAlias (mxml_node_t *node);
+        void onOpenBeans (mxml_node_t *node);
 
         void onData (mxml_node_t *node);
 
@@ -180,7 +181,10 @@ void Impl::onOpenElement (mxml_node_t *node)
         else if (!strcmp (name, "prop-alias")) {
                 onOpenPropAlias (node);
         }
-        else if (!strcmp (name, "beans") || !strcmp (name, "cargs")) {
+        else if (!strcmp (name, "beans")) {
+                onOpenBeans (node);
+        }
+        else if (!strcmp (name, "cargs")) {
         }
         else {
                 onOpenBean (node);
@@ -484,15 +488,51 @@ void Impl::onOpenPropAlias (mxml_node_t *node)
         std::string name, value;
 
         if ((argVal = mxmlElementGetAttr (node, "name"))) {
+                if (!argVal) {
+                        throw XmlMetaServiceException ("Impl::onOpenPropAlias : <alias> without a name.");
+                }
+
                 name = argVal;
         }
 
         if ((argVal = mxmlElementGetAttr (node, "value"))) {
+                if (!argVal) {
+                        throw XmlMetaServiceException ("Impl::onOpenPropAlias : <alias> without a value.");
+                }
+
                 value = argVal;
         }
 
         MetaObject *meta = getCurrentMeta ();
         meta->addAlias (name, value);
+}
+
+/****************************************************************************/
+
+void Impl::onOpenBeans (mxml_node_t *node)
+{
+        char const *argVal = NULL;
+        std::string name, value;
+
+        if ((argVal = mxmlElementGetAttr (node, "init-method"))) {
+                if (argVal) {
+                        if (!metaContainer->getGlobalInitMethod ().empty ()) {
+                                throw XmlMetaServiceException ("Impl::onOpenBeans : globalInitMethod already set. You may set it only once.");
+                        }
+
+                        metaContainer->setGlobalInitMethod (argVal);
+                }
+        }
+
+        if ((argVal = mxmlElementGetAttr (node, "id-method"))) {
+                if (argVal) {
+                        if (!metaContainer->getGlobalIdAwareMethod ().empty ()) {
+                                throw XmlMetaServiceException ("Impl::onOpenBeans : globalIdAwareMethod already set. You may set it only once.");
+                        }
+
+                        metaContainer->setGlobalIdAwareMethod (argVal);
+                }
+        }
 }
 
 /****************************************************************************/

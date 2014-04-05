@@ -50,6 +50,11 @@ bool StreamEditor <From, To>::convert (const Core::Variant &input, Core::Variant
                 }
 
                 ss >> x;
+
+                if (ss.fail ()) {
+                        throw Core::Exception ("StreamEditor stringstream::fail () == true");
+                }
+
                 *output = Core::Variant (x);
         }
         catch (std::exception const &e) {

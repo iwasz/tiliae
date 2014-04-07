@@ -167,15 +167,15 @@ namespace {                                                                     
 
 
 #ifdef REFLECTION_ENABLED
-#define REFLECTION_END(Clazz) _e_implementation_arg(Clazz, BOOST_PP_CAT(ServiceClass,BOOST_PP_CAT(__COUNTER__, __LINE__)))
+ #define REFLECTION_END(Clazz) _e_implementation_arg(Clazz, BOOST_PP_CAT(Clazz,BOOST_PP_CAT(__COUNTER__, __LINE__)))
+ #define REFLECTION_END_TOKEN(Clazz,Token) _e_implementation_arg(Clazz, BOOST_PP_CAT(Token,BOOST_PP_CAT(__COUNTER__, __LINE__)))
+ #define REFLECTION_END_(Clazz) REFLECTION_CONSTRUCTOR_(void); REFLECTION_END(Clazz)
+ #define REFLECTION_END_TOKEN_(Clazz,Token) REFLECTION_CONSTRUCTOR_(void); REFLECTION_END_TOKEN(Clazz,Token)
 #else
-#define REFLECTION_END(Clazz)
-#endif
-
-#ifdef REFLECTION_ENABLED
-#define REFLECTION_END_(Clazz) REFLECTION_CONSTRUCTOR_(void); REFLECTION_END(Clazz)
-#else
-#define REFLECTION_END_(Clazz)
+ #define REFLECTION_END(Clazz)
+ #define REFLECTION_END_TOKEN(Clazz,Token)
+ #define REFLECTION_END_(Clazz)
+ #define REFLECTION_END_TOKEN_(Clazz,Token)
 #endif
 
 /**

@@ -61,7 +61,7 @@ namespace B {
 
         struct Testowa {
 //                __ne (B::Testowa, BTestowa)
-                REFLECTION_END_ (B::Testowa)
+                REFLECTION_END_TOKEN_ (B::Testowa, B_Testowa)
         };
 
 }
@@ -70,7 +70,7 @@ namespace C {
 
         struct Testowa {
 //                __ne (C::Testowa, CTestowa)
-                REFLECTION_END_ (C::Testowa)
+                REFLECTION_END_TOKEN_ (C::Testowa, C_Testowa)
         };
 
 }
@@ -80,7 +80,7 @@ namespace D {
         struct Testowa {
                 REFLECTION_CONSTRUCTOR_ (void)
                 REFLECTION_METHOD (f) void f () {}
-                REFLECTION_END (D::Testowa)
+                REFLECTION_END_TOKEN (D::Testowa, D_Testowa)
         };
 
 }
@@ -243,7 +243,7 @@ namespace F {
 
                 T t;
 
-                REFLECTION_END (Template<int>)
+                REFLECTION_END_TOKEN (Template<int>, Template_int)
         };
 
 /*--------------------------------------------------------------------------*/
@@ -260,7 +260,7 @@ namespace F {
 
                 T t;
 
-                REFLECTION_END (Template01<int>)
+                REFLECTION_END_TOKEN (Template01<int>, Template01_int)
         };
 
 /*--------------------------------------------------------------------------*/

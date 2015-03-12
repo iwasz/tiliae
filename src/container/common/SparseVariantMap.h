@@ -10,7 +10,7 @@
 #define SPARSEVARIANTMAP_H_
 
 #include <hash_fun.h>
-#include <sparsehash/sparse_hash_map>
+#include <google/sparse_hash_map>
 #include "core/variant/Variant.h"
 #include "core/StrUtil.h"
 

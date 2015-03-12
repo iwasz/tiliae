@@ -1,6 +1,8 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8 FATAL_ERROR)
 project (tiliae)
 
+set (CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
@@ -82,10 +84,15 @@ include (FindPkgConfig)
 pkg_check_modules (MXML REQUIRED "mxml")
 INCLUDE_DIRECTORIES (${MXML_INCLUDE_DIRS})
 link_directories(${MXML_LIBRARY_DIRS})
-#message(${MXML_INCLUDE_DIRS})
 
-pkg_check_modules (SPARSE_HASH REQUIRED "libsparsehash")
-INCLUDE_DIRECTORIES (${SPARSE_HASH_INCLUDE_DIRS})
+
+FIND_PATH (SPARSEHASH_INCLUDE_DIR "google/sparse_hash_map")
+
+IF (NOT SPARSEHASH_INCLUDE_DIR)
+    MESSAGE (FATAL_ERROR "libsparsehash not found.")
+ELSE ()
+    INCLUDE_DIRECTORIES (${SPARSEHASH_INCLUDE_DIR})
+ENDIF ()
 
 ENABLE_TESTING ()
 

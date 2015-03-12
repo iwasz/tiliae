@@ -27,7 +27,7 @@ using namespace boost;
 #include <vector>
 #include <list>
 
-#include <sparsehash/sparse_hash_map>
+#include <google/sparse_hash_map>
 using google::sparse_hash_map;      // namespace where class lives by default
 
 //struct TILIAE_API AllocationException : public Core::Exception {

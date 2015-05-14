@@ -1,8 +1,6 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8 FATAL_ERROR)
 project (tiliae)
 
-set (CMAKE_EXPORT_COMPILE_COMMANDS 1)
-
 if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
@@ -27,7 +25,7 @@ if (WITH_CORE_STRING)
     add_definitions (-DWITH_CORE_STRING)
 endif ()
 
-if (ANDROID)
+if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     SET (BUILD_DEMO                0)
     SET (BUILD_TESTS               0)
 endif()    
@@ -47,7 +45,7 @@ SET (CMAKE_CXX_FLAGS_RELEASE "-fvisibility=hidden -DTILIAE_DLL -ffunction-sectio
 
 SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 SET (CMAKE_EXE_LINKER_FLAGS "-Wl,--no-undefined")
-SET (CMAKE_VERBOSE_MAKEFILE 1)
+SET (CMAKE_VERBOSE_MAKEFILE 0)
 
 INSTALL (
     DIRECTORY "${PROJECT_SOURCE_DIR}/../src/"
@@ -74,15 +72,10 @@ include (FindPkgConfig)
 pkg_check_modules (MXML REQUIRED "mxml")
 INCLUDE_DIRECTORIES (${MXML_INCLUDE_DIRS})
 link_directories(${MXML_LIBRARY_DIRS})
+#message(${MXML_INCLUDE_DIRS})
 
-
-FIND_PATH (SPARSEHASH_INCLUDE_DIR "google/sparse_hash_map")
-
-IF (NOT SPARSEHASH_INCLUDE_DIR)
-    MESSAGE (FATAL_ERROR "libsparsehash not found.")
-ELSE ()
-    INCLUDE_DIRECTORIES (${SPARSEHASH_INCLUDE_DIR})
-ENDIF ()
+#pkg_check_modules (SPARSE_HASH REQUIRED "libsparsehash")
+#INCLUDE_DIRECTORIES (${SPARSE_HASH_INCLUDE_DIRS})
 
 ENABLE_TESTING ()
 

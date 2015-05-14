@@ -7,16 +7,6 @@ if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
 endif(COMMAND cmake_policy)
 
-if (CMAKE_BUILD_TYPE)
-    if (NOT ${CMAKE_BUILD_TYPE} STREQUAL "Release")
-        message(FATAL_ERROR "CMAKE_BUILD_TYPE must be one of '' (None) or 'Release'")
-    endif()
-    
-    SET (RELEASE true)
-elseif()
-    SET (RELEASE false)        
-endif() 
-
 # Here we can set what to build actually (1=build, 0=do not build).
 SET (BUILD_CORE                ON CACHE BOOL "")
 SET (BUILD_COMMON              ON CACHE BOOL "")
@@ -25,8 +15,8 @@ SET (BUILD_TEST_HELPERS        ON CACHE BOOL "") # Buduje tylko gdy BUILD_TESTS 
 SET (BUILD_FACTORY             ON CACHE BOOL "")
 SET (BUILD_EDITOR              ON CACHE BOOL "")
 SET (BUILD_BEAN_WRAPPER        ON CACHE BOOL "")
-SET (BUILD_K202                OFF CACHE BOOL "")
-SET (BUILD_SIGNAL              OFF CACHE BOOL "")
+SET (BUILD_K202                ON CACHE BOOL "")
+SET (BUILD_SIGNAL              ON CACHE BOOL "")
 SET (BUILD_STATE_MACHINE       OFF CACHE BOOL "")
 SET (BUILD_CONTAINER           ON CACHE BOOL "")
 SET (BUILD_DEMO                ON CACHE BOOL "")
@@ -37,7 +27,7 @@ if (WITH_CORE_STRING)
     add_definitions (-DWITH_CORE_STRING)
 endif ()
 
-if (RELEASE OR ANDROID)
+if (ANDROID)
     SET (BUILD_DEMO                0)
     SET (BUILD_TESTS               0)
 endif()    
@@ -49,15 +39,15 @@ endif ()
 #SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
 
-SET (CMAKE_C_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
-SET (CMAKE_CXX_FLAGS "-g -fvisibility=hidden -DTILIAE_DLL -O0 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11 ")
-SET (CMAKE_C_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
-SET (CMAKE_CXX_FLAGS_RELEASE "-g0 -fvisibility=hidden -DTILIAE_DLL -O3 -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG -std=c++11 ")
+SET (CMAKE_C_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
+SET (CMAKE_CXX_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11 ")
+SET (CMAKE_C_FLAGS_RELEASE "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
+SET (CMAKE_CXX_FLAGS_RELEASE "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG -std=c++11 ")
 #ADD_DEFINITIONS (-Wall)
 
 SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
 SET (CMAKE_EXE_LINKER_FLAGS "-Wl,--no-undefined")
-SET (CMAKE_VERBOSE_MAKEFILE 0)
+SET (CMAKE_VERBOSE_MAKEFILE 1)
 
 INSTALL (
     DIRECTORY "${PROJECT_SOURCE_DIR}/../src/"

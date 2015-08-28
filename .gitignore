@@ -22,3 +22,6 @@ build/reflection_test
 build/signal_test
 
 *~
+tiliae.kdev4
+.settings/
+.kdev4/

@@ -28,19 +28,19 @@ endif ()
 if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     SET (BUILD_DEMO                0)
     SET (BUILD_TESTS               0)
-endif()    
+endif()
 
 if (WITH_CORE_STRING)
     add_definitions (-DWITH_CORE_STRING)
 endif ()
 
-#SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy") 
+#SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy")
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
 
 SET (CMAKE_C_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
-SET (CMAKE_CXX_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
+SET (CMAKE_CXX_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11")
 SET (CMAKE_C_FLAGS_RELEASE "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
-SET (CMAKE_CXX_FLAGS_RELEASE "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG -std=c++11 -stdlib=libc++")
+SET (CMAKE_CXX_FLAGS_RELEASE "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG -std=c++11")
 #ADD_DEFINITIONS (-Wall)
 
 SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
@@ -49,19 +49,19 @@ SET (CMAKE_VERBOSE_MAKEFILE 0)
 
 INSTALL (
     DIRECTORY "${PROJECT_SOURCE_DIR}/src/"
-    DESTINATION "include/tiliae" 
+    DESTINATION "include/tiliae"
     FILES_MATCHING PATTERN "*.h"
     PATTERN "*.svn*" EXCLUDE
     PATTERN "*test*" EXCLUDE)
 
 INSTALL (
-    DIRECTORY "${PROJECT_SOURCE_DIR}/pc/"
+    DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/pc/"
     DESTINATION "lib/pkgconfig"
     FILES_MATCHING PATTERN "*.pc"
     PATTERN "*.svn*" EXCLUDE)
 
 #if (NOT ANDROID)
-#    SET (CMAKE_INSTALL_PREFIX "/home/iwasz/local") 
+#    SET (CMAKE_INSTALL_PREFIX "/home/iwasz/local")
 #    SET (CMAKE_PREFIX_PATH "/home/iwasz/local")
 #endif()
 
@@ -89,7 +89,7 @@ IF(BUILD_CORE)
     AUX_SOURCE_DIRECTORY (src/core LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/core/variant LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/core/string LIB_SOURCES)
-    AUX_SOURCE_DIRECTORY (src/core/allocator LIB_SOURCES)      
+    AUX_SOURCE_DIRECTORY (src/core/allocator LIB_SOURCES)
 ENDIF(BUILD_CORE)
 ## --------------------------------------------------------
 ## TestHelpers
@@ -125,7 +125,7 @@ ENDIF(BUILD_REFLECTION)
 ## BeanWrapper
 ## --------------------------------------------------------
 IF(BUILD_BEAN_WRAPPER)
-    ADD_DEFINITIONS (-DBUILD_BEAN_WRAPPER)    
+    ADD_DEFINITIONS (-DBUILD_BEAN_WRAPPER)
     AUX_SOURCE_DIRECTORY (src/beanWrapper LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/beanWrapper/beanWrapper LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/beanWrapper/plugins LIB_SOURCES)
@@ -136,13 +136,13 @@ ENDIF(BUILD_BEAN_WRAPPER)
 ## --------------------------------------------------------
 IF(BUILD_FACTORY)
     ADD_DEFINITIONS (-DBUILD_FACTORY)
-    AUX_SOURCE_DIRECTORY (src/factory LIB_SOURCES)   
+    AUX_SOURCE_DIRECTORY (src/factory LIB_SOURCES)
 ENDIF(BUILD_FACTORY)
 ## --------------------------------------------------------
 ## Editor
 ## --------------------------------------------------------
 IF(BUILD_EDITOR)
-    ADD_DEFINITIONS (-DBUILD_EDITOR)    
+    ADD_DEFINITIONS (-DBUILD_EDITOR)
     AUX_SOURCE_DIRECTORY (src/editor LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/editor/scalar LIB_SOURCES)
 ENDIF(BUILD_EDITOR)
@@ -150,7 +150,7 @@ ENDIF(BUILD_EDITOR)
 ## K202 expression script
 ## --------------------------------------------------------
 IF(BUILD_K202)
-    ADD_DEFINITIONS (-DBUILD_K202)        
+    ADD_DEFINITIONS (-DBUILD_K202)
     AUX_SOURCE_DIRECTORY (src/k202 LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/k202/compiler LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/k202/expression LIB_SOURCES)
@@ -158,10 +158,10 @@ IF(BUILD_K202)
     AUX_SOURCE_DIRECTORY (src/k202/extension LIB_SOURCES)
 ENDIF(BUILD_K202)
 ## --------------------------------------------------------
-## Signal                  
+## Signal
 ## --------------------------------------------------------
 IF(BUILD_SIGNAL)
-    ADD_DEFINITIONS (-DBUILD_SIGNAL)        
+    ADD_DEFINITIONS (-DBUILD_SIGNAL)
     AUX_SOURCE_DIRECTORY (src/signal LIB_SOURCES)
 ENDIF(BUILD_SIGNAL)
 ## --------------------------------------------------------
@@ -184,11 +184,11 @@ ENDIF(BUILD_STATE_MACHINE)
 IF(BUILD_CONTAINER)
     ADD_DEFINITIONS (-DBUILD_CONTAINER)
     AUX_SOURCE_DIRECTORY (src/container LIB_SOURCES)
-    
+
     AUX_SOURCE_DIRECTORY (src/container/beanFactory LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/container/beanFactory/factory LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/container/beanFactory/service LIB_SOURCES)
-       
+
     AUX_SOURCE_DIRECTORY (src/container/common LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/container/common/interface LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (src/container/common/id LIB_SOURCES)
@@ -219,7 +219,7 @@ endif ()
 
 INSTALL (
     TARGETS tiliae
-    DESTINATION lib 
+    DESTINATION lib
     PERMISSIONS
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
@@ -228,7 +228,6 @@ INSTALL (
 ## --------------------------------------------------------
 ## Testy.
 ## --------------------------------------------------------
-#ADD_DEFINITIONS (-DREFLECTION_ENABLED)
 
 IF(BUILD_CORE AND BUILD_TESTS)
 
@@ -236,13 +235,13 @@ IF(BUILD_CORE AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (src/core/test SOURCES)
     add_executable (core_test ${SOURCES})
     SET_TARGET_PROPERTIES (core_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    
+
     TARGET_LINK_LIBRARIES (core_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (core_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (core_test tiliae)
 
     ADD_TEST (core_test core_test)
-    
+
     #To jest programik do optymalizacji pod kątem wielkości binarek
     IF (0)
         SET(SOURCES)
@@ -250,16 +249,16 @@ IF(BUILD_CORE AND BUILD_TESTS)
         add_executable (sizeLight ${SOURCES})
         TARGET_LINK_LIBRARIES (sizeLight tiliaecore)
     ENDIF()
-    
+
 ENDIF()
 ## --------------------------------------------------------
 IF(BUILD_COMMON AND BUILD_TESTS)
 
     SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (src/common/test TEST_SOURCES)   
+    AUX_SOURCE_DIRECTORY (src/common/test TEST_SOURCES)
     add_executable (common_test ${TEST_SOURCES})
     SET_TARGET_PROPERTIES (common_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    
+
     TARGET_LINK_LIBRARIES (common_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (common_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (common_test tiliae)
@@ -289,7 +288,7 @@ IF(BUILD_TOOLS AND BUILD_TESTS)
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (src/tools/test TEST_SOURCES)
 
-    add_executable (tools_test ${TEST_SOURCES})  
+    add_executable (tools_test ${TEST_SOURCES})
     SET_TARGET_PROPERTIES (tools_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (tools_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (tools_test tiliae)
@@ -318,7 +317,7 @@ IF(BUILD_FACTORY AND BUILD_TESTS)
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (src/factory/test TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (src/factory/testHelpers TEST_SOURCES)
-    
+
     add_executable (factory_test ${TEST_SOURCES})
     SET_TARGET_PROPERTIES (factory_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (factory_test boost_unit_test_framework)
@@ -383,7 +382,7 @@ IF(BUILD_STATE_MACHINE AND BUILD_TESTS)
     add_executable (machine_test ${TEST_SOURCES})
     SET_TARGET_PROPERTIES (machine_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (machine_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (machine_test boost_prg_exec_monitor)    
+    TARGET_LINK_LIBRARIES (machine_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (machine_test tiliae)
 
     ADD_TEST (machine_test machine_test)
@@ -400,7 +399,7 @@ IF(BUILD_CONTAINER AND BUILD_TESTS)
     AUX_SOURCE_DIRECTORY (src/container/inputFormat/compact/test TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (src/container/metaStructure/test TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (src/editor/testHelpers TEST_SOURCES)
-     
+
     add_executable (container_test ${TEST_SOURCES})
     SET_TARGET_PROPERTIES (container_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (container_test boost_unit_test_framework)
@@ -416,7 +415,7 @@ IF(BUILD_DEMO)
 
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (demo/ DEMO_SOURCES)
-         
+
     add_executable (demo ${DEMO_SOURCES})
     SET_TARGET_PROPERTIES (demo PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
     TARGET_LINK_LIBRARIES (demo boost_unit_test_framework)

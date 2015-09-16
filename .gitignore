@@ -25,3 +25,6 @@ build/signal_test
 tiliae.kdev4
 .settings/
 .kdev4/
+CMakeLists.txt.user
+
+build/tiliae.cbp

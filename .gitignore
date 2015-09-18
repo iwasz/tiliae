@@ -29,3 +29,6 @@ CMakeLists.txt.user
 
 build/tiliae.cbp
 build-clang
+CMakeLists.txt.user
+benchmark/clangReflection/build
+benchmark/classicReflection/build/

@@ -1,0 +1,111 @@
+for i in `seq -w 10`; do echo $i; cp Address.h "Address$i.h"; cp Address.cc "Address$i.cc"; sed -i "s/Address/Address$i/g" "Address$i.h"; sed -i "s/Address/Address$i/g" "Address$i.cc"; sed -i "s/ADDRESS_H_/ADDRESS_H$i/g" "Address$i.h"; done
+
+
++---------+
+| 1 class |
++---------+
+
+Classic
+~~~~~~~
+make clean; time make
+[100%] Building CXX object CMakeFiles/classicReflection.dir/main.o
+Linking CXX executable classicReflection
+[100%] Built target classicReflection
+
+real	0m1.902s
+user	0m1.702s
+sys	0m0.195s
+
+"Clang"
+~~~~~~~
+make clean; time make
+[ 50%] Building CXX object CMakeFiles/clangReflection.dir/main.o
+[100%] Building CXX object CMakeFiles/clangReflection.dir/Reflection.o
+Linking CXX executable clangReflection
+[100%] Built target clangReflection
+
+real	0m2.110s
+user	0m1.901s
+sys	0m0.205s
+
++-----------+
+| 2 classes |
++-----------+
+
+Classic
+~~~~~~~
+make clean ; time make
+[ 33%] Building CXX object CMakeFiles/classicReflection.dir/Address01.o
+[ 66%] Building CXX object CMakeFiles/classicReflection.dir/Address.o
+[100%] Building CXX object CMakeFiles/classicReflection.dir/main.o
+Linking CXX executable classicReflection
+[100%] Built target classicReflection
+
+real	0m5.809s
+user	0m5.386s
+sys	0m0.392s
+
+"Clang"
+~~~~~~~
+make clean; time make
+[ 25%] Building CXX object CMakeFiles/clangReflection.dir/Address01.o
+[ 50%] Building CXX object CMakeFiles/clangReflection.dir/Reflection.o
+[ 75%] Building CXX object CMakeFiles/clangReflection.dir/Address.o
+[100%] Building CXX object CMakeFiles/clangReflection.dir/main.o
+Linking CXX executable clangReflection
+[100%] Built target clangReflection
+
+real	0m2.479s
+user	0m2.213s
+sys	0m0.257s
+
++------------+
+| 10 classes |
++------------+
+
+Classic
+~~~~~~~
+make clean ; time make
+Scanning dependencies of target classicReflection
+[  8%] Building CXX object CMakeFiles/classicReflection.dir/Address01.o
+[ 16%] Building CXX object CMakeFiles/classicReflection.dir/Address09.o
+[ 25%] Building CXX object CMakeFiles/classicReflection.dir/Address02.o
+[ 33%] Building CXX object CMakeFiles/classicReflection.dir/Address05.o
+[ 41%] Building CXX object CMakeFiles/classicReflection.dir/Address06.o
+[ 50%] Building CXX object CMakeFiles/classicReflection.dir/Address04.o
+[ 58%] Building CXX object CMakeFiles/classicReflection.dir/Address08.o
+[ 66%] Building CXX object CMakeFiles/classicReflection.dir/Address03.o
+[ 75%] Building CXX object CMakeFiles/classicReflection.dir/Address.o
+[ 83%] Building CXX object CMakeFiles/classicReflection.dir/Address10.o
+[ 91%] Building CXX object CMakeFiles/classicReflection.dir/main.o
+[100%] Building CXX object CMakeFiles/classicReflection.dir/Address07.o
+Linking CXX executable classicReflection
+[100%] Built target classicReflection
+
+real	0m22.445s
+user	0m20.821s
+sys	0m1.521s
+
+"Clang"
+~~~~~~~
+make clean ; time make
+[  7%] Building CXX object CMakeFiles/clangReflection.dir/Address01.o
+[ 15%] Building CXX object CMakeFiles/clangReflection.dir/Address09.o
+[ 23%] Building CXX object CMakeFiles/clangReflection.dir/Address02.o
+[ 30%] Building CXX object CMakeFiles/clangReflection.dir/Reflection.o
+[ 38%] Building CXX object CMakeFiles/clangReflection.dir/Address05.o
+[ 46%] Building CXX object CMakeFiles/clangReflection.dir/Address06.o
+[ 53%] Building CXX object CMakeFiles/clangReflection.dir/Address04.o
+[ 61%] Building CXX object CMakeFiles/clangReflection.dir/Address08.o
+[ 69%] Building CXX object CMakeFiles/clangReflection.dir/Address03.o
+[ 76%] Building CXX object CMakeFiles/clangReflection.dir/Address.o
+[ 84%] Building CXX object CMakeFiles/clangReflection.dir/Address10.o
+[ 92%] Building CXX object CMakeFiles/clangReflection.dir/main.o
+[100%] Building CXX object CMakeFiles/clangReflection.dir/Address07.o
+Linking CXX executable clangReflection
+[100%] Built target clangReflection
+
+real	0m4.343s
+user	0m3.827s
+sys	0m0.499s
+

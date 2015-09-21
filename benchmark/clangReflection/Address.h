@@ -12,7 +12,15 @@
 //#include "AddressType.h"
 #include <string>
 
+
+#define reflect /**__tiliae_reflect__*/
+#define reflect /**__tiliae_reflect__*/
+
+
+//struct __attribute__((annotate("part-Address"))) Address {
+
 struct Address {
+        Address () {}
         int id;
         std::string city;
         std::string street;
@@ -22,7 +30,8 @@ struct Address {
         std::string streetNumber;
         std::string building;
         std::string unit;
-//        AddressType prr_ (addressType);
+        int func (int a, int b, int c) { return 0; }
+        //        AddressType prr_ (addressType);
 };
 
 #endif /* ADDRESS_H_ */

@@ -1,6 +1,6 @@
 # Wymagaj tej wersji - dopier w niej jest nowe makro FindPkgConfig
 CMAKE_MINIMUM_REQUIRED (VERSION 2.4.7 FATAL_ERROR)
-
+SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project (clangReflection)
 
 #TODO !!! -Wall

@@ -13,6 +13,7 @@
 #include <string>
 
 struct Address10 {
+	Address10(int) {}
         int id;
         std::string city;
         std::string street;

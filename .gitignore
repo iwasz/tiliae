@@ -32,3 +32,4 @@ build-clang
 CMakeLists.txt.user
 benchmark/clangReflection/build
 benchmark/classicReflection/build/
+parser/build

@@ -58,63 +58,121 @@ include_directories(${LLVM_INCLUDE_DIR})
 link_directories(${LLVM_LIBDIR})
 
 # TODO
-include_directories("/home/iwasz/workspace/llvm/tools/clang/include")
-include_directories("/home/iwasz/workspace/llvm/build/tools/clang/include/")
+#include_directories("/home/iwasz/workspace/llvm/tools/clang/include")
+#include_directories("/home/iwasz/workspace/llvm/build/tools/clang/include/")
 
 
 add_executable (${CMAKE_PROJECT_NAME} main.cc)
 
+
 target_link_libraries(${CMAKE_PROJECT_NAME}
-        ${LLVM_LDFLAGS}
-        clangAnalysis
-        clangApplyReplacements
-        clangARCMigrate
-        clangAST
-        clangASTMatchers
-        clangBasic
-        clangCodeGen
-        clangDriver
-        clangDynamicASTMatchers
-        clangEdit
-        clangFormat
-        clangFrontend
-        clangFrontendTool
-        clangIndex
-        clangLex
-        clangParse
-        clangQuery
-        clangRename
-        clangRewrite
-        clangRewriteFrontend
-        clangSema
-        clangSerialization
-        clangStaticAnalyzerCheckers
-        clangStaticAnalyzerCore
-        clangStaticAnalyzerFrontend
-        clangTidy
-        clangTidyGoogleModule
-        clangTidyLLVMModule
-        clangTidyMiscModule
-        clangTidyModernizeModule
-        clangTidyReadabilityModule
-        clangTidyUtils
-        clangTooling
-        clangToolingCore
-        ${LLVM_LIBS}
-        ${Boost_LIBRARIES}
-        rt
-        dl
-        tinfo
-        pthread
-        z
-        m
-    )
+  clangFrontend
+  clangSerialization
+  clangDriver
+  clangParse
+  clangSema
+  clangAnalysis
+  clangAST
+  clangASTMatchers
+  clangBasic
+  clangEdit
+  clangLex
+  clangTooling
+)
+
+target_link_libraries(${CMAKE_PROJECT_NAME}
+  LLVMX86AsmParser # MC, MCParser, Support, X86Desc, X86Info
+  LLVMX86Desc # MC, Support, X86AsmPrinter, X86Info
+  LLVMX86AsmPrinter # MC, Support, X86Utils
+  LLVMX86Info # MC, Support, Target
+  LLVMX86Utils # Core, Support
+  LLVMipo
+  LLVMScalarOpts
+  LLVMInstCombine
+  LLVMTransformUtils
+  LLVMipa
+  LLVMAnalysis
+  LLVMTarget
+  LLVMOption # Support
+  LLVMMCParser # MC, Support
+  LLVMMC # Object, Support
+  LLVMObject # BitReader, Core, Support
+  LLVMBitReader # Core, Support
+  LLVMCore # Support
+  LLVMSupport
+)
+
+include(FindCurses)
+
+target_link_libraries(${CMAKE_PROJECT_NAME}
+    pthread
+    z
+    dl
+    ${CURSES_LIBRARIES}
+)
+
+
+
+
+
+
 
 #target_link_libraries(${CMAKE_PROJECT_NAME}
 #        ${LLVM_LDFLAGS}
-#        clang
+#        clangAnalysis
+#        clangApplyReplacements
+#        clangARCMigrate
+#        clangAST
+#        clangASTMatchers
+#        clangBasic
+#        clangCodeGen
+#        clangDriver
+#        clangDynamicASTMatchers
+#        clangEdit
+#        clangFormat
+#        clangFrontend
+#        clangFrontendTool
+#        clangIndex
+#        clangLex
+#        clangParse
+#        clangQuery
+#        clangRename
+#        clangRewrite
+#        clangRewriteFrontend
+#        clangSema
+#        clangSerialization
+#        clangStaticAnalyzerCheckers
+#        clangStaticAnalyzerCore
+#        clangStaticAnalyzerFrontend
+#        clangTidy
+#        clangTidyGoogleModule
+#        clangTidyLLVMModule
+#        clangTidyMiscModule
+#        clangTidyModernizeModule
+#        clangTidyReadabilityModule
+#        clangTidyUtils
+#        clangTooling
+#        clangToolingCore
 #        ${LLVM_LIBS}
 #        ${Boost_LIBRARIES}
+#        rt
+#        dl
+#        tinfo
+#        pthread
+#        z
+#        m
+#    )
+
+#target_link_libraries(${CMAKE_PROJECT_NAME}
+#        ${LLVM_LDFLAGS}
+#        rt
+#        dl
+#        tinfo
+#        pthread
+#        z
+#        m
+#        ${LLVM_LIBS}
+#        clang
 #    )
 
 

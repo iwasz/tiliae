@@ -27,5 +27,5 @@ extern void instrumentation01 ();
 
 int main ()
 {
-        instrumentation01 ();
+//        instrumentation01 ();
 }

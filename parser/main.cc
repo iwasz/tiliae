@@ -73,7 +73,7 @@ std::ofstream outputFile;
  * @brief The CXXRecordDeclStmtHandler class
  */
 class CXXRecordDeclStmtHandler : public MatchFinder::MatchCallback {
-public:
+    public:
         virtual void run (const MatchFinder::MatchResult &Result);
 };
 
@@ -117,6 +117,38 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
         outputFile << "\t\tClass *clazz = new Class (\"" << className << "\", typeid (" << className << " &), new Reflection::PtrDeleter <" << className << ">);\n";
         outputFile << "\t\tManager::add (clazz);\n";
 
+        /*---------------------------------------------------------------------------*/
+
+        if (decl->hasDefaultConstructor ()) {
+                outputFile << "\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << className
+                           << ", void>::Level1Wrapper::newConstructorPointer ()));\n";
+        }
+
+        for (CXXConstructorDecl const *constructor : decl->ctors ()) {
+
+                if (constructor->isImplicit () || constructor->param_size () == 0) {
+                        continue;
+                }
+
+                outputFile << "\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << className << ", ";
+
+                for (clang::FunctionDecl::param_const_iterator i = constructor->param_begin (); i != constructor->param_end ();) {
+                        SplitQualType tSplit = (*i)->getType ().split ();
+                        outputFile << QualType::getAsString (tSplit);
+
+                        if (++i == constructor->param_end ()) {
+                                break;
+                        }
+                        else {
+                                outputFile << ", ";
+                        }
+                }
+
+                outputFile << ">::Level1Wrapper::newConstructorPointer ()));\n";
+        }
+
+        /*---------------------------------------------------------------------------*/
+
         for (const auto &field : decl->fields ()) {
                 const StringRef &name = field->getName ();
 
@@ -128,6 +160,7 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
 
                 llvm::outs () << "    field : [" << QualType::getAsString (T_split) << "] [" << name << "]\n";
         }
+
         /*---------------------------------------------------------------------------*/
 
         for (CXXMethodDecl const *method : decl->methods ()) {
@@ -138,40 +171,20 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
                 IdentifierInfo const *identifier = method->getIdentifier ();
 
                 if (identifier) {
-                        llvm::outs () << "    method : [" << identifier->getName () << " (";
+//                        llvm::outs () << "    method : [" << identifier->getName () << " (";
+                        outputFile << "\t\tclazz->addMethod (new Method (\"" << identifier->getName ().str()
+                                   << "\", createMethodWrapper (&" << className << "::" << identifier->getName ().str() << ")));\n";
                 }
                 else {
                         continue;
                 }
 
-                for (ParmVarDecl const *param : method->parameters ()) {
-                        SplitQualType T_split = param->getType ().split ();
-                        llvm::outs () << QualType::getAsString (T_split) << ",";
-                }
+//                for (ParmVarDecl const *param : method->parameters ()) {
+//                        SplitQualType T_split = param->getType ().split ();
+//                        llvm::outs () << QualType::getAsString (T_split) << ",";
+//                }
 
-                llvm::outs () << ")\n";
-        }
-
-        /*---------------------------------------------------------------------------*/
-
-        if (decl->hasDefaultConstructor ()) {
-                llvm::outs () << "    default constructor\n";
-        }
-
-        for (CXXConstructorDecl const *constructor : decl->ctors ()) {
-
-                if (constructor->isImplicit ()) {
-                        continue;
-                }
-
-                llvm::outs () << "    constructor : (";
-
-                for (ParmVarDecl const *param : constructor->parameters ()) {
-                        SplitQualType T_split = param->getType ().split ();
-                        llvm::outs () << QualType::getAsString (T_split) << ",";
-                }
-
-                llvm::outs () << ")\n";
+//                llvm::outs () << ")\n";
         }
 
         //    decl->get
@@ -185,7 +198,7 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
  * @brief The FindNamedClassConsumer class
  */
 class FindNamedClassConsumer : public clang::ASTConsumer {
-public:
+    public:
         explicit FindNamedClassConsumer (/*ASTContext *Context*/) /*: Visitor(Context)*/
         {
                 //                Matcher.addMatcher(cxxRecordDecl (isDefinition (), matchesName ("A.*")).bind("cxxRecordDecl"), &handlerForClasses);
@@ -198,7 +211,7 @@ public:
                 Matcher.matchAST (Context);
         }
 
-private:
+    private:
         //  FindNamedClassVisitor Visitor;
         CXXRecordDeclStmtHandler handlerForClasses;
 
@@ -209,7 +222,7 @@ private:
  * @brief The FindNamedClassAction class
  */
 class FindNamedClassAction : public clang::ASTFrontendAction {
-public:
+    public:
         virtual std::unique_ptr<clang::ASTConsumer>
         CreateASTConsumer (clang::CompilerInstance &Compiler, llvm::StringRef InFile)
         {

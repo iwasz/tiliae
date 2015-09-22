@@ -21,6 +21,8 @@
 
 struct Address {
         Address () {}
+        Address (int i) {}
+        Address (double d, float f) {}
         int id;
         std::string city;
         std::string street;
@@ -31,6 +33,7 @@ struct Address {
         std::string building;
         std::string unit;
         int func (int a, int b, int c) { return 0; }
+        void fun (int i) {}
         //        AddressType prr_ (addressType);
 };
 

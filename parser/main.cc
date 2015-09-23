@@ -1,3 +1,7 @@
+/**
+ * Limitations :
+ * - Namespace information is discarded. this means that class names must be unique in reflection manager.
+ */
 #include <clang/AST/ASTConsumer.h>
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
@@ -124,6 +128,13 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
                            << ", void>::Level1Wrapper::newConstructorPointer ()));\n";
         }
 
+        for (CXXBaseSpecifier const &bse : decl->bases ()) {
+                QualType qt = bse.getType ();
+                outputFile << "\t\tclazz->addBaseClassName (\"" << qt->getAsCXXRecordDecl ()->getName ().str () << "\");\n";
+//                SplitQualType tSplit = qt.split ();
+//                                outputFile << "\t\tclazz->addBaseClassName (\"" << QualType::getAsString (tSplit) << "\");\n";
+        }
+
         for (CXXConstructorDecl const *constructor : decl->ctors ()) {
 
                 if (constructor->isImplicit () || constructor->param_size () == 0) {
@@ -152,19 +163,18 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
         for (const auto &field : decl->fields ()) {
                 const StringRef &name = field->getName ();
 
-                if (field->getAccess () != AS_public) {
-                        continue;
-                }
+//                if (field->getAccess () != AS_public) {
+//                        continue;
+//                }
 
-                SplitQualType T_split = field->getType ().split ();
-
-                llvm::outs () << "    field : [" << QualType::getAsString (T_split) << "] [" << name << "]\n";
+                // SplitQualType tSplit = field->getType ().split ();
+                outputFile << "\t\tclazz->addField (new Field (\"" << name.str () << "\", Reflection::createFieldWrapper (&" << className << "::" << name.str () << ")));\n";
         }
 
         /*---------------------------------------------------------------------------*/
 
         for (CXXMethodDecl const *method : decl->methods ()) {
-                if (method->isImplicit ()) {
+                if (method->isImplicit () || method->getAccess () != AS_public) {
                         continue;
                 }
 
@@ -246,6 +256,7 @@ int main (int argc, const char **argv)
         outputFile << "#include <reflection/Reflection.h>\n";
         outputFile << "#include \"" << OptionsParser.getSourcePathList ().front () << "\"\n";
         outputFile << "\n";
+        outputFile << "namespace {\n";
         outputFile << "using namespace Core;\n";
         outputFile << "using namespace Reflection;\n";
         outputFile << "\n";
@@ -254,6 +265,18 @@ int main (int argc, const char **argv)
 
         int ret = Tool.run (newFrontendActionFactory<FindNamedClassAction> ().get ());
 
-        outputFile << "}" << std::endl;
+        outputFile << "}\n";
+        outputFile << "\n";
+        outputFile << R"(
+                struct Sentinel__ {
+                        Sentinel__ ()
+                        {
+                                createReflectionDatabase__ ();
+                        }
+                };
+
+                static Sentinel__ sentinel__;
+        )";
+        outputFile << "} // namespace\n" << std::endl;
         return ret;
 }

@@ -47,12 +47,14 @@ ADD_CUSTOM_COMMAND (OUTPUT ${CMAKE_BINARY_DIR}/reflectionDatabase/ReflectionData
 LIST (APPEND SOURCES ${CMAKE_BINARY_DIR}/reflectionDatabase/ReflectionDatabase.cc)
 # http://stackoverflow.com/questions/19642590/libtooling-cant-find-stddef-h-nor-other-headers
 # http://clang.llvm.org/docs/FAQ.html#i-get-errors-about-some-headers-being-missing-stddef-h-stdarg-h
+# http://clang.llvm.org/docs/LibTooling.html#libtooling-builtin-includes
+#
 # Programs wiritten with libtooling expect that they are fired from within clang root directory.
 # Every such program would look for system headers (like stdarg.h) in a path relative to clang
-# root. So heres workaround since we are outside the clang root:
-#ADD_DEFINITIONS (-isystem /home/liwaszkiewicz/local/share/llvm/lib/clang/3.8.0/include)
-# Powyższe powoduje, że parser działa, ale kod się nie kopiluje :( może z powodu clang-3.6.0 -> 3.8.0?
+# root. So here's workaround since we are outside the clang root:
+# (fixes libtooling app, breaks the build) ADD_DEFINITIONS (-isystem /home/liwaszkiewicz/local/share/llvm/lib/clang/3.8.0/include)
 
+# Powyższe powoduje, że parser działa, ale kod się nie kopiluje :( może z powodu clang-3.6.0 -> 3.8.0?
 
 # +-------------------------------+
 # | Main target                   |

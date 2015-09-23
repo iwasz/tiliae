@@ -32,7 +32,7 @@ namespace StateMachine {
  */
 class TILIAE_API MachineContext : public Core::IToStringEnabled {
 public:
-        d__
+        REFLECTION_CLASS
 
         enum Scope { MACHINE, RUN, TRANSITION };
 

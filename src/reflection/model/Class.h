@@ -47,6 +47,7 @@ public:
 
         ClassList getBaseClassList() const;
         void addBaseClassNames (const Core::StringVector &names);
+        void addBaseClassName (std::string const &s) { baseClassNames.push_back (s); }
 
         const ConstructorList &getConstructorList() const { return constructorList; }
         Constructor *getConstructor (std::type_info const &type) const;

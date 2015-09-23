@@ -33,7 +33,7 @@ namespace Machine {
  */
 class TILIAE_API MachineContext : public Core::IToStringEnabled {
 public:
-        d__
+        REFLECTION_CLASS
 
         virtual ~MachineContext () {}
 

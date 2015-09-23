@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8 FATAL_ERROR)
 PROJECT (tiliaeparser)
-SET (CMAKE_VERBOSE_MAKEFILE 1)
+SET (CMAKE_VERBOSE_MAKEFILE 0)
 
 FIND_PROGRAM (LLVM_CONFIG_PATH NAME "llvm-config" HINTS "${LLVM_ROOT}/bin")
 
@@ -15,7 +15,7 @@ MESSAGE (STATUS "Found LLVM_CONFIG_PATH as ${LLVM_CONFIG_PATH}")
 # switch to the variable named VARNAME.
 #
 # Example usage: llvm_config(LLVM_CXXFLAGS "--cxxflags")
-function(llvm_config VARNAME switch)
+function (llvm_config VARNAME switch)
         set(CONFIG_COMMAND "${LLVM_CONFIG_PATH}" "${switch}")
 
         execute_process(
@@ -57,15 +57,9 @@ add_definitions (-std=c++11)
 include_directories(${LLVM_INCLUDE_DIR})
 link_directories(${LLVM_LIBDIR})
 
-# TODO
-#include_directories("/home/iwasz/workspace/llvm/tools/clang/include")
-#include_directories("/home/iwasz/workspace/llvm/build/tools/clang/include/")
+ADD_EXECUTABLE (${CMAKE_PROJECT_NAME} main.cc)
 
-
-add_executable (${CMAKE_PROJECT_NAME} main.cc)
-
-
-target_link_libraries(${CMAKE_PROJECT_NAME}
+TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME}
   clangFrontend
   clangSerialization
   clangDriver
@@ -80,7 +74,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
   clangTooling
 )
 
-target_link_libraries(${CMAKE_PROJECT_NAME}
+TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME}
   LLVMX86AsmParser # MC, MCParser, Support, X86Desc, X86Info
   LLVMX86Desc # MC, Support, X86AsmPrinter, X86Info
   LLVMX86AsmPrinter # MC, Support, X86Utils
@@ -102,94 +96,11 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
   LLVMSupport
 )
 
-include(FindCurses)
+INCLUDE (FindCurses)
 
-target_link_libraries(${CMAKE_PROJECT_NAME}
+TARGET_LINK_LIBRARIES (${CMAKE_PROJECT_NAME}
     pthread
     z
     dl
     ${CURSES_LIBRARIES}
 )
-
-
-
-
-
-
-
-#target_link_libraries(${CMAKE_PROJECT_NAME}
-#        ${LLVM_LDFLAGS}
-#        clangAnalysis
-#        clangApplyReplacements
-#        clangARCMigrate
-#        clangAST
-#        clangASTMatchers
-#        clangBasic
-#        clangCodeGen
-#        clangDriver
-#        clangDynamicASTMatchers
-#        clangEdit
-#        clangFormat
-#        clangFrontend
-#        clangFrontendTool
-#        clangIndex
-#        clangLex
-#        clangParse
-#        clangQuery
-#        clangRename
-#        clangRewrite
-#        clangRewriteFrontend
-#        clangSema
-#        clangSerialization
-#        clangStaticAnalyzerCheckers
-#        clangStaticAnalyzerCore
-#        clangStaticAnalyzerFrontend
-#        clangTidy
-#        clangTidyGoogleModule
-#        clangTidyLLVMModule
-#        clangTidyMiscModule
-#        clangTidyModernizeModule
-#        clangTidyReadabilityModule
-#        clangTidyUtils
-#        clangTooling
-#        clangToolingCore
-#        ${LLVM_LIBS}
-#        ${Boost_LIBRARIES}
-#        rt
-#        dl
-#        tinfo
-#        pthread
-#        z
-#        m
-#    )
-
-#target_link_libraries(${CMAKE_PROJECT_NAME}
-#        ${LLVM_LDFLAGS}
-#        rt
-#        dl
-#        tinfo
-#        pthread
-#        z
-#        m
-#        ${LLVM_LIBS}
-#        clang
-#    )
-
-
-
-
-
-
-
-
-
-#SET (LLVM_USED_LIBS clangTooling)
-
-
-##target_link_libraries(decl
-##  clangBasic
-##  clangCodeGen
-##  clangDriver
-##  clangFrontend
-##  clangTooling
-##  )

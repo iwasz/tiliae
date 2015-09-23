@@ -28,7 +28,7 @@ class Compiler;
  */
 class TILIAE_API K202 {
 public:
-        d__
+        REFLECTION_CLASS
 
         virtual ~K202 () {}
 

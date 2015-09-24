@@ -14,15 +14,15 @@
 
 
 #define reflect /**__tiliae_reflect__*/
-#define reflect /**__tiliae_reflect__*/
 
 
-//struct __attribute__((annotate("part-Address"))) Address {
+#define tilref __attribute__((annotate("__reflect__")))
 
-struct Address {
-        Address () {}
-        Address (int i) {}
-        Address (double d, float f) {}
+
+struct tilref Address {
+//        Address () {}
+//        Address (int i) {}
+//        Address (double d, float f) {}
         int id;
         std::string city;
         std::string street;

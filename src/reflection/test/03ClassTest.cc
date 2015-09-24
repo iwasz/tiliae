@@ -116,12 +116,12 @@ BOOST_AUTO_TEST_CASE (testTwoClasesSameName)
 namespace E {
 
         struct Testowa01 {
-                d__
+                REFLECTION_CLASS
                 REFLECTION_END (Testowa01)
         };
 
         struct Testowa02 : public Core::Object {
-                d__
+                REFLECTION_CLASS
                 virtual ~Testowa02 () {}
 
                 REFLECTION_METHOD (f) virtual void f () = 0;

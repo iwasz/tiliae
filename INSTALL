@@ -1,5 +1,5 @@
 * Build and install
-I have never tried to compile the whole thing under other operating system than Linux (particularly Ubuntu). Under Linux, the thing goes as follows:
+I have never tried to compile the whole thing under other operating system other than Linux (particularly Ubuntu). Under Linux, the thing goes as follows:
 
 1. Install cmake build system:
 #apt-get install cmake
@@ -24,5 +24,4 @@ so they are of no use for most of you. I'll try to update it to English, and may
 are quite many unit tests which are also good source of examples. Most descriptive (and advanced) tests are located in 
 tiliae/base/container/inputFormat/xml/test.
 
-* Feel free to email me : iwasz [at] tiliae [dot] eu
 

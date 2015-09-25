@@ -13,13 +13,14 @@
 #include <iosfwd>
 #include "editor/JEditor.h"
 #include "core/ApiMacro.h"
+#include "ReflectionParserAnnotation.h"
 
 namespace Editor {
 
 /**
  * Konwertuje liste StringList na String.
  */
-class TILIAE_API ListToStringEditor : public JEditor {
+class TILIAE_API __tiliae_reflect__ ListToStringEditor : public JEditor {
 public:
 
         ListToStringEditor () : delimiter (","), quotation ("\"") {}
@@ -37,8 +38,6 @@ private:
 
         std::string delimiter;
         std::string quotation;
-
-        REFLECTION_END_ (ListToStringEditor)
 };
 
 }

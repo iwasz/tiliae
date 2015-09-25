@@ -34,3 +34,4 @@ benchmark/clangReflection/build
 benchmark/classicReflection/build/
 parser/build
 parser/lib
+build

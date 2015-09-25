@@ -1,6 +1,4 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8 FATAL_ERROR)
-PROJECT (tiliaeparser)
-SET (CMAKE_VERBOSE_MAKEFILE 0)
 
 FIND_PROGRAM (LLVM_CONFIG_PATH NAME "llvm-config" HINTS "${LLVM_ROOT}/bin")
 
@@ -51,15 +49,12 @@ llvm_config(LLVM_LIBDIR "--libdir")
 llvm_config(LLVM_INCLUDE_DIR "--includedir")
 llvm_config(LLVM_SYSTEM_LIBS "--system-libs")
 
+ADD_EXECUTABLE (tiliaeparser main.cc)
+SET_TARGET_PROPERTIES (tiliaeparser PROPERTIES COMPILE_FLAGS "${LLVM_CXXFLAGS} -std=c++11")
+SET_TARGET_PROPERTIES (tiliaeparser PROPERTIES INCLUDE_DIRECTORIES "${LLVM_INCLUDE_DIR}")
+SET_TARGET_PROPERTIES (tiliaeparser PROPERTIES LINK_DIRECTORIES "${LLVM_LIBDIR}")
 
-add_definitions(${LLVM_CXXFLAGS})
-add_definitions (-std=c++11)
-include_directories(${LLVM_INCLUDE_DIR})
-link_directories(${LLVM_LIBDIR})
-
-ADD_EXECUTABLE (${CMAKE_PROJECT_NAME} main.cc)
-
-TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME}
+TARGET_LINK_LIBRARIES(tiliaeparser
   clangFrontend
   clangSerialization
   clangDriver
@@ -74,17 +69,15 @@ TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME}
   clangTooling
 )
 
-TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME}
+TARGET_LINK_LIBRARIES(tiliaeparser
   LLVMX86AsmParser # MC, MCParser, Support, X86Desc, X86Info
   LLVMX86Desc # MC, Support, X86AsmPrinter, X86Info
   LLVMX86AsmPrinter # MC, Support, X86Utils
   LLVMX86Info # MC, Support, Target
   LLVMX86Utils # Core, Support
-  LLVMipo
   LLVMScalarOpts
   LLVMInstCombine
   LLVMTransformUtils
-  LLVMipa
   LLVMAnalysis
   LLVMTarget
   LLVMOption # Support
@@ -98,9 +91,14 @@ TARGET_LINK_LIBRARIES(${CMAKE_PROJECT_NAME}
 
 INCLUDE (FindCurses)
 
-TARGET_LINK_LIBRARIES (${CMAKE_PROJECT_NAME}
+TARGET_LINK_LIBRARIES (tiliaeparser
     pthread
     z
     dl
     ${CURSES_LIBRARIES}
+)
+
+add_custom_command(
+    TARGET tiliaeparser POST_BUILD
+    COMMAND ln -sf ${LLVM_LIBDIR} ${CMAKE_BINARY_DIR}/lib
 )

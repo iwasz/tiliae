@@ -1,36 +1,6 @@
-* What is it?
-Tiliae is an experimental set of libraries which aims to port some advanced features of Java to C++. Libraries include:
+mkdir -p build
+cd build
+cmake -DCMAKE_BUILD_TYPE='Debug' -DCMAKE_INSTALL_PREFIX:PATH=$HOME/local -DBUILD_SHARED_LIBS=on -DBUILD_TESTS=0 -DBUILD_DEMO=0 -DLLVM_ROOT="/home/liwaszkiewicz/local/share/llvm/" ..
 
-* core - Most notably the Variant type which is similar to Boost.Any, but supports polymorphism (i.e. dynamic casts). It makes life a lot easier.
-* reflection - Reflection implementation in C++. Unlike other similar projects it does not require any external tools. Only preprocessor macros are involved. I call these macros 'annotations'. Annotated class (with reflection support) looks something like this:
-
-#include <Reflection.h>
-
-struct Clazz {
-	__c (void) // this stands for unary constructor
-
-	_m (function) // this is for method
-	std::string function (int x, double y, Foo *prop);
-
-	_e (Clazz) // and _e macro  must be put as a last 'annotation'
-};
-
-* beanWrapper - Just like BeanWrapper for Java. Of course only annotated classes are supported. One can get/set properties using 'paths' such as 'prop.a.b', or 'prop.1.2' - for indexed types. As for now setter/getter pairs are supported among with lists/vectors and maps. Unlimited nesting.
-
-* k202 - Very simple expression language. Some examples of expressions : 
-${bean.prop}
-$bean.func (%0, %1)
-${prop.a.b} = 'kupa' // etc...
-
-* signal - Simple signal library.
-* stateMachine - Finite State Machine implementation.
-* container - IoC container inspired by Spring. Some valid XML examples (see tiliae/base/container/inputFormat/xml/test for more):
-
-<beans>
-  <bean id="city" class="City">
-    <property name="name" value="Warszawa"/>
-  </bean>
-</beans>
-
-* Feel free to email me : iwasz [at] tiliae [dot] eu
-
+Important:
+LLVM_ROOT is the root install directory of LLVM. Be it downloaded copy from the Net, be it compiled version from the sources. I followed the latter path, and built myself 3.8.0.

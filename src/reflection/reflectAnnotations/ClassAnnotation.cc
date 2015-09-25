@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #include <sstream>
 #include "ClassAnnotation.h"
 
@@ -28,3 +29,4 @@ void ClassAnnotation::deleteDuplicate ()
 }
 
 } // notebook
+#endif

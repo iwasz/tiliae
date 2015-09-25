@@ -13,13 +13,11 @@
 #include "ClassContainer.h"
 #include "Exceptions.h"
 #include "annotations/AnnotationManager.h"
-#define REFLECTION_ENABLED
 #include "reflectAnnotations/BaseClassAnnotation.h"
 #include "reflectAnnotations/MethodAnnotation.h"
 #include "reflectAnnotations/ConstructorAnnotation.h"
 #include "reflectAnnotations/ClassAnnotation.h"
 #include "reflectAnnotations/CollectionAnnotation.h"
-#undef REFLECTION_ENABLED
 #include "model/Class.h"
 #include "model/Constructor.h"
 #include "model/Method.h"
@@ -81,6 +79,7 @@ void Manager::init ()
 
         addStandardTypes ();
 
+#ifdef REFLECTION_ENABLED
         ClassVisitor classVisitor;
         ClassInternalsVisitor methodVisitor;
 
@@ -121,7 +120,7 @@ void Manager::init ()
                          * Class, z którego mogą korzystać pozostałe adnotacje. Każda adnotacja
                          * zawiera jaiieś tam informacj i każda ziwera inne. Adnotacja REFLECTION_METHOD, czy REFLECTION_BASE_CLASS
                          * nie zawiera wszystkich potrzebnych informacji do stworzenia nowego
-                         * obiektu typu Class. Może uda się to zmienić? A jeśli nie to wyjebać
+                         * obiektu typu Class. Może uda się to zmienić? A jeśli nie to wywalić
                          * adnotacje REFLECTION_METHOD_ i REFLECTION_BASE_CLASS_.
                          */
                         throw AnnotationException ("No ClassAnnotation (1). You shoud use macro with double '__' as the first macro in annotated class. " + annotation->toString ());
@@ -136,81 +135,49 @@ void Manager::init ()
 
                 annotation->accept (&methodVisitor, clazz);
         }
+#endif
 
         manager.initialized = true;
 }
 
 /****************************************************************************/
 
+#define REFLECTION_ADD(type) { Class *clazz = new Class (#type, typeid (type &), new Reflection::PtrDeleter <type>);                        \
+Manager::add (clazz);                                                                                                                     \
+clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <type, type>::Level1Wrapper::newConstructorPointer ()));   \
+clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <type, void>::Level1Wrapper::newConstructorPointer ())); }
+
+
 void Manager::addStandardTypes ()
 {
-//        // Simple types - scalars
-        REFLECTION_CLASS_ANNOTATION ("int", int);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("int", int, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("int", int, int);
+        // Simple types - scalars
+        REFLECTION_ADD (int);
+        REFLECTION_ADD (bool);
+        REFLECTION_ADD (char);
+        REFLECTION_ADD (signed char);
+        REFLECTION_ADD (unsigned char);
+        REFLECTION_ADD (double);
+        REFLECTION_ADD (long double);
+        REFLECTION_ADD (float);
+        REFLECTION_ADD (unsigned int);
+        REFLECTION_ADD (long int);
+        REFLECTION_ADD (unsigned long int);
+        REFLECTION_ADD (short int);
+        REFLECTION_ADD (unsigned short int);
 
-        REFLECTION_CLASS_ANNOTATION ("bool", bool);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("bool", bool, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("bool", bool, bool);
+        {
+        Class *clazz = new Class ("Variant", typeid (Core::Variant &), new Reflection::PtrDeleter <Core::Variant>);
+        Manager::add (clazz);
+        clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <Core::Variant, Core::Variant const &>::Level1Wrapper::newConstructorPointer ()));
+        clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <Core::Variant, void>::Level1Wrapper::newConstructorPointer ()));
+        }
 
-        REFLECTION_CLASS_ANNOTATION ("char", char);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("char", char, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("char", char, char);
-
-        REFLECTION_CLASS_ANNOTATION ("signed char", signed char);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("signed char", signed char, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("signed char", signed char, signed char);
-
-        REFLECTION_CLASS_ANNOTATION ("unsigned char", unsigned char);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("unsigned char", unsigned char, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("unsigned char", unsigned char, unsigned char);
-
-        REFLECTION_CLASS_ANNOTATION ("double", double);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("double", double, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("double", double, double);
-
-        REFLECTION_CLASS_ANNOTATION ("long double", long double);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("long double", long double, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("long double", long double, long double);
-
-        REFLECTION_CLASS_ANNOTATION ("float", float);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("float", float, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("float", float, float);
-
-        REFLECTION_CLASS_ANNOTATION ("unsigned int", unsigned int);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("unsigned int", unsigned int, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("unsigned int", unsigned int, unsigned int);
-
-        REFLECTION_CLASS_ANNOTATION ("long int", long int);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("long int", long int, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("long int", long int, long int);
-
-        REFLECTION_CLASS_ANNOTATION ("unsigned long int", unsigned long int);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("unsigned long int", unsigned long int, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("unsigned long int", unsigned long int, unsigned long int);
-
-        REFLECTION_CLASS_ANNOTATION ("short int", short int);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("short int", short int, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("short int", short int, short int);
-
-        REFLECTION_CLASS_ANNOTATION ("unsigned short int", unsigned short int);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("unsigned short int", unsigned short int, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("unsigned short int", unsigned short int, unsigned short int);
-
-        // Variant
-        REFLECTION_CLASS_ANNOTATION ("Variant", Core::Variant);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("Variant", Core::Variant, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("Variant", Core::Variant, const Core::Variant &);
-
-#ifdef WITH_CORE_STRING
-        REFLECTION_CLASS_ANNOTATION ("String", Core::String);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("String", Core::String, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("String", Core::String, const Core::String &);
-#endif
-
-        REFLECTION_CLASS_ANNOTATION ("string", std::string);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("string", std::string, void);
-        REFLECTION_CONSTRUCTOR_ANNOTATION ("string", std::string, std::string);
+        {
+        Class *clazz = new Class ("string", typeid (std::string &), new Reflection::PtrDeleter <std::string>);
+        Manager::add (clazz);
+        clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <std::string, std::string const &>::Level1Wrapper::newConstructorPointer ()));
+        clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <std::string, void>::Level1Wrapper::newConstructorPointer ()));
+        }
 
         // Collection
         CollectionAnnotation <VariantList>::run ("VariantList");

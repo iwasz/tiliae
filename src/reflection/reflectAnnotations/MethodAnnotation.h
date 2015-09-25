@@ -18,6 +18,8 @@
 #include "reflection/wrapper/SetterWrapper.h"
 #include "core/Pointer.h"
 
+#ifdef REFLECTION_ENABLED
+
 namespace Reflection {
 
 /**
@@ -51,6 +53,8 @@ private:
 };
 
 }
+
+#endif
 
 /**
  * Makro ogólnego przeznaczenia.

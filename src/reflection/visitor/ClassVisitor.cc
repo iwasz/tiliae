@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #include <boost/make_shared.hpp>
 #include "ClassVisitor.h"
 #include "reflection/reflectAnnotations/BaseClassAnnotation.h"
@@ -97,3 +98,4 @@ Class *ClassVisitor::createClass (const std::string &className, std::type_info c
 }
 
 }
+#endif

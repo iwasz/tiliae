@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #include <boost/make_shared.hpp>
 #include "ClassInternalsVisitor.h"
 #include "reflection/reflectAnnotations/MethodAnnotation.h"
@@ -47,3 +48,4 @@ Core::Variant ClassInternalsVisitor::visit (BaseClassAnnotation *a, Class *cls)
 }
 
 }
+#endif

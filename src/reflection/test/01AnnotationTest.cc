@@ -22,6 +22,8 @@ using namespace boost;
 using namespace Core;
 using namespace Reflection;
 
+#ifdef REFLECTION_ENABLED
+
 /**
  * Klasa testujaca mechanizmy okolo klasy Class.
  */
@@ -30,6 +32,7 @@ BOOST_AUTO_TEST_CASE (testNumberOfAnnotations)
         int noOfAnnotations = Annotations::AnnotationManager::instance ().getAnnotationList ().size ();
         BOOST_REQUIRE (noOfAnnotations > 0);
 }
+#endif
 
 struct Obj {
         virtual ~Obj () {}

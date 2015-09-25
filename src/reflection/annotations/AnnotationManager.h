@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #ifndef TILIAE_ANNOTATIONMANAGER_H_
 #define TILIAE_ANNOTATIONMANAGER_H_
 
@@ -59,3 +60,4 @@ private:
 }
 
 #endif /* ANNOTATIONMANAGER_H_ */
+#endif

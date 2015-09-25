@@ -18,6 +18,8 @@
 #include "core/variant/Variant.h"
 #include "core/ApiMacro.h"
 
+#ifdef REFLECTION_ENABLED
+
 namespace Reflection {
 
 /**
@@ -56,6 +58,8 @@ private:
 };
 
 }
+
+#endif
 
 /**
  * Makro ogólnego przeznaczenia.

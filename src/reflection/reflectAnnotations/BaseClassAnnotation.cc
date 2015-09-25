@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #include "BaseClassAnnotation.h"
 
 namespace Reflection {
@@ -29,3 +30,5 @@ std::string BaseClassAnnotation::getHash () const
 }
 
 }
+
+#endif

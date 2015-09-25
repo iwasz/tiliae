@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #include <sstream>
 #include "ConstructorAnnotation.h"
 
@@ -26,3 +27,4 @@ std::string ConstructorAnnotation::getHash () const
 }
 
 } // notebook
+#endif

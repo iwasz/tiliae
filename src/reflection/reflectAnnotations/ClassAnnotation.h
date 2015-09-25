@@ -16,6 +16,8 @@
 #include "core/variant/Variant.h"
 #include "reflection/wrapper/Deleter.h"
 
+#ifdef REFLECTION_ENABLED
+
 namespace Reflection {
 
 /**
@@ -58,6 +60,8 @@ private:
 };
 
 }
+
+#endif
 
 /**
  * Makro ogólnego przeznaczenia.

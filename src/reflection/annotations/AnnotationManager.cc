@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #include <iostream>
 #include <boost/lexical_cast.hpp>
 #include "AnnotationManager.h"
@@ -88,3 +89,4 @@ void AnnotationManager::addFieldAnnotation (std::string const &clsName, std::str
 }
 
 }
+#endif

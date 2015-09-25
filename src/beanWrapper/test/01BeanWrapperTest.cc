@@ -77,8 +77,10 @@ BOOST_AUTO_TEST_CASE (testSinglePlugin)
  */
 BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
 {
+#ifdef REFLECTION_ENABLED
         int noOfAnnotations = Annotations::AnnotationManager::instance ().getAnnotationList ().size ();
         BOOST_CHECK (noOfAnnotations > 0);
+#endif
 
 //        std::cerr << Annotations::AnnotationManager::instance ().toString() << std::endl;
 //        std::cerr << Reflection::Manager::instance ().toString() << std::endl;

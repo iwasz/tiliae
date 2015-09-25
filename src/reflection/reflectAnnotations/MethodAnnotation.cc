@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #include "MethodAnnotation.h"
 #include <boost/lexical_cast.hpp>
 
@@ -18,3 +19,4 @@ std::string MethodAnnotation::toString () const
 }
 
 }
+#endif

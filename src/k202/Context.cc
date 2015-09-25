@@ -30,7 +30,7 @@ Core::Variant Context::getParam (unsigned int idx) const
                 throw RuntimeException ("RuntimeException : Context::paramList is null but Context::getParam invoked.");
         }
 
-        if (paramVector->size () <= idx || idx < 0) {
+        if (paramVector->size () <= idx) {
                 throw RuntimeException (std::string ("RuntimeException : Context::paramList has ") +
                                 boost::lexical_cast <std::string> (paramVector->size ()) +
                                 " elements, but [" + boost::lexical_cast <std::string> (idx) +

@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #ifndef METHOD_VISITOR_H_
 #define METHOD_VISITOR_H_
 
@@ -35,3 +36,4 @@ public:
 }
 
 #endif /* CLASSVISITOR_H_ */
+#endif

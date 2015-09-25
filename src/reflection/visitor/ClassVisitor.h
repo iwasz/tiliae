@@ -6,6 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
+#ifdef REFLECTION_ENABLED
 #ifndef TILIAE_CLASSVISITOR_H_
 #define TILIAE_CLASSVISITOR_H_
 
@@ -50,3 +51,4 @@ private:
 }
 
 #endif /* CLASSVISITOR_H_ */
+#endif

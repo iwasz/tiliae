@@ -10,6 +10,7 @@
 #define OBJECT_539568_H
 
 #include "core/ApiMacro.h"
+#include "ReflectionParserAnnotation.h"
 
 namespace Core {
 
@@ -24,7 +25,7 @@ namespace Core {
  * zainicjowania warianta.
  * \ingroup CoreAPI
  */
-class TILIAE_API Object {
+class TILIAE_API __tiliae_reflect__ Object {
 public:
 
         virtual ~Object () {}

@@ -17,6 +17,7 @@
 #include "core/Typedefs.h"
 #include "core/Pointer.h"
 #include "core/ApiMacro.h"
+#include "ReflectionParserAnnotation.h"
 
 namespace Signal {
 
@@ -28,7 +29,7 @@ namespace Signal {
  * jedna wersja emit, która przyjmuje wskaźnik do scope jako argument).
  * \ingroup Signal
  */
-class TILIAE_API Sender {
+class TILIAE_API __tiliae_reflect__ Sender {
 public:
         REFLECTION_CONSTRUCTOR_ (void)
 

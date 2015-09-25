@@ -4,3 +4,8 @@ cmake -DCMAKE_BUILD_TYPE='Debug' -DCMAKE_INSTALL_PREFIX:PATH=$HOME/local -DBUILD
 
 Important:
 LLVM_ROOT is the root install directory of LLVM. Be it downloaded copy from the Net, be it compiled version from the sources. I followed the latter path, and built myself 3.8.0.
+
+Todo:
+- Add LLVM buid instructions (or instalation instructions). I.e. tiliaeparser binary should be installed in the same prefix directory as LLVM (whether built from sources or installed from binary packages / tars). 
+This is because every appliaction using libTooling from clang looks for CLANG speciffic headers in ../lib. So if clang was instaled in /usr/bin, its lib directory will be in /usr/lib (and its include directory is 
+inside the lib dir), hence tiliaeparser will look for the headers in /usr/lib/clang/3.8.0/include/

@@ -12,6 +12,7 @@
 #include <k202/K202.h>
 #include "reflection/Reflection.h"
 #include "core/ApiMacro.h"
+#include "ReflectionParserAnnotation.h"
 
 namespace k202 {
 
@@ -19,7 +20,7 @@ namespace k202 {
  * Helper class. Executes custom query. Does not store
  * Script object.
  */
-class TILIAE_API K202Proxy {
+class TILIAE_API __tiliae_reflect__ K202Proxy {
 public:
         REFLECTION_CONSTRUCTOR_ (void)
 

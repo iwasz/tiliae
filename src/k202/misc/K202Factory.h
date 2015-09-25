@@ -12,13 +12,14 @@
 
 #include "reflection/Reflection.h"
 #include "factory/IFactory.h"
+#include "ReflectionParserAnnotation.h"
 
 namespace k202 {
 
 /**
  * K202 IOC container supprot.
  */
-struct TILIAE_API K202Factory : public Factory::IFactory {
+struct TILIAE_API __tiliae_reflect__ K202Factory : public Factory::IFactory {
 
         virtual ~K202Factory () {}
         virtual Core::Variant create (const Core::VariantMap &parameters, Core::DebugContext *context = NULL) const;

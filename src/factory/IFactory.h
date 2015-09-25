@@ -19,6 +19,7 @@
 #include "core/ApiMacro.h"
 #include "core/Pointer.h"
 #include "core/DebugContext.h"
+#include "ReflectionParserAnnotation.h"
 
 namespace Factory {
 
@@ -50,7 +51,7 @@ namespace Factory {
  * wyjątków jest nieefektywne (a w ChainFactory dużo by ich leciało bez sensu). Do
  * informowania o statusie operacji służy ostatni parametr context.
  */
-struct TILIAE_API IFactory : public Core::Object {
+struct TILIAE_API __tiliae_reflect__ IFactory : public Core::Object {
 
         virtual ~IFactory () {}
         virtual Core::Variant create (const Core::VariantMap &parameters = Core::VariantMap (), Core::DebugContext *context = NULL) const = 0;

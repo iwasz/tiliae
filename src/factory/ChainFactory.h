@@ -12,6 +12,7 @@
 #include "factory/IFactory.h"
 #include "core/ApiMacro.h"
 #include "reflection/Reflection.h"
+#include "ReflectionParserAnnotation.h"
 
 namespace Factory {
 
@@ -20,7 +21,7 @@ namespace Factory {
  * kolejności) i próbuje po kolei je uruchamiać. Pierwsza która zwróci coś
  * co nie jest Variant.isNone, wygrywa i ten wynik zostaje zwrócony.
  */
-class TILIAE_API ChainFactory : public IFactory {
+class TILIAE_API __tiliae_reflect__ ChainFactory : public IFactory {
 public:
 
         REFLECTION_CONSTRUCTOR_ (void)

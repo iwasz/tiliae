@@ -16,6 +16,7 @@
 #include "extension/IExtension.h"
 #include "reflection/Reflection.h"
 #include "beanWrapper/IBeanWrapper.h"
+#include "ReflectionParserAnnotation.h"
 
 namespace k202 {
 
@@ -26,7 +27,7 @@ class Compiler;
  * Odpowiedzialność : Centralna klasa/serwis udostępniająca zewnętrzne API
  * do uruchamiania (i niejawnego kompilowania) skryptów.
  */
-class TILIAE_API K202 {
+class TILIAE_API __tiliae_reflect__ K202 {
 public:
         REFLECTION_CLASS
 

@@ -260,7 +260,7 @@ public:
         explicit FindNamedClassConsumer (/*ASTContext *Context*/) /*: Visitor(Context)*/
         {
                 //                Matcher.addMatcher(cxxRecordDecl (isDefinition (), matchesName ("A.*")).bind("cxxRecordDecl"), &handlerForClasses);
-                Matcher.addMatcher (cxxRecordDecl (isDefinition ()).bind ("cxxRecordDecl"), &handlerForClasses);
+                Matcher.addMatcher (recordDecl (isDefinition ()).bind ("cxxRecordDecl"), &handlerForClasses);
         }
 
         virtual void HandleTranslationUnit (clang::ASTContext &Context)

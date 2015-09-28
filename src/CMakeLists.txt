@@ -39,9 +39,7 @@ endif ()
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
 
 SET (CMAKE_C_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
-SET (CMAKE_CXX_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11")
-SET (CMAKE_C_FLAGS_RELEASE "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG")
-SET (CMAKE_CXX_FLAGS_RELEASE "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -DNDEBUG -std=c++11")
+SET (CMAKE_CXX_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
 #ADD_DEFINITIONS (-Wall)
 
 SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
@@ -217,6 +215,7 @@ if (ANDROID)
 else ()
     add_library (tiliae SHARED ${LIB_SOURCES})
     TARGET_LINK_LIBRARIES (tiliae ${MXML_LIBRARIES})
+    TARGET_LINK_LIBRARIES (tiliae c++abi)
     add_dependencies (tiliae tiliaeparser)
 endif ()
 

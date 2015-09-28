@@ -7,11 +7,11 @@ INCLUDE_DIRECTORIES ("./")
 ADD_DEFINITIONS (-Wall)
 
 #SET (CMAKE_C_FLAGS "-ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
-#SET (CMAKE_CXX_FLAGS "-ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11")
+#SET (CMAKE_CXX_FLAGS "-ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
 #SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined,-gc-sections")
 #SET (CMAKE_EXE_LINKER_FLAGS "-Wl,--no-undefined,-gc-sections")
 
-SET (CMAKE_CXX_FLAGS "-DALLOW_CAST_TO_SMART -std=c++11")
+SET (CMAKE_CXX_FLAGS "-DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
 SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 ## --------------------------------------------------------
@@ -28,6 +28,7 @@ IF (BUILD_TEST_HELPERS AND BUILD_TESTS)
 
         AUX_SOURCE_DIRECTORY (testHelpers SOURCES)
         ADD_LIBRARY (testHelpers ${SOURCES})
+        TARGET_LINK_LIBRARIES (testHelpers c++abi)
 ENDIF ()
 
 IF(BUILD_CORE AND BUILD_TESTS)
@@ -40,6 +41,7 @@ IF(BUILD_CORE AND BUILD_TESTS)
     TARGET_LINK_LIBRARIES (core_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (core_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (core_test tiliae)
+    TARGET_LINK_LIBRARIES (core_test c++abi)
 
     ADD_TEST (core_test core_test)
 
@@ -49,6 +51,7 @@ IF(BUILD_CORE AND BUILD_TESTS)
         AUX_SOURCE_DIRECTORY (core/testSize SOURCES)
         add_executable (sizeLight ${SOURCES})
         TARGET_LINK_LIBRARIES (sizeLight tiliaecore)
+        TARGET_LINK_LIBRARIES (sizeLight c++abi)
     ENDIF()
 
 ENDIF()
@@ -63,6 +66,7 @@ IF(BUILD_COMMON AND BUILD_TESTS)
     TARGET_LINK_LIBRARIES (common_test boost_unit_test_framework)
     TARGET_LINK_LIBRARIES (common_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (common_test tiliae)
+    TARGET_LINK_LIBRARIES (common_test c++abi)
 
     ADD_TEST (common_test common_test)
 
@@ -82,6 +86,7 @@ IF(BUILD_REFLECTION AND BUILD_TESTS)
     TARGET_LINK_LIBRARIES (reflection_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (reflection_test tiliae)
     TARGET_LINK_LIBRARIES (reflection_test testHelpers)
+    TARGET_LINK_LIBRARIES (reflection_test c++abi)
 
     ADD_TEST (reflection_test reflection_test)
 
@@ -96,6 +101,7 @@ IF(BUILD_TOOLS AND BUILD_TESTS)
 #    SET_TARGET_PROPERTIES (tools_test PROPERTIES COMPILE_FLAGS -DWITH_ANNOTATIONS)
     TARGET_LINK_LIBRARIES (tools_test boost_prg_exec_monitor)
     TARGET_LINK_LIBRARIES (tools_test tiliae)
+    TARGET_LINK_LIBRARIES (tools_test c++abi)
 
     ADD_TEST (tools_test tools_test)
 
@@ -119,6 +125,8 @@ IF(BUILD_BEAN_WRAPPER AND BUILD_TESTS)
         TARGET_LINK_LIBRARIES (bwrap_test boost_prg_exec_monitor)
         TARGET_LINK_LIBRARIES (bwrap_test tiliae)
         TARGET_LINK_LIBRARIES (bwrap_test testHelpers)
+        TARGET_LINK_LIBRARIES (bwrap_test c++abi)
+
         ADD_TEST (bwrap_test bwrap_test)
 ENDIF()
 ## --------------------------------------------------------

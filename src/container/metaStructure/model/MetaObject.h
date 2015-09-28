@@ -12,7 +12,7 @@
 #include <google/sparse_hash_map>
 #include <deque>
 #include <stack>
-#include <hash_fun.h>
+//#include <hash_fun.h>
 #include "container/common/Attributes.h"
 #include "core/Typedefs.h"
 #include "core/ApiMacro.h"
@@ -24,7 +24,7 @@
 namespace Container {
 class MetaObject;
 
-typedef google::sparse_hash_map <const char*, MetaObject *, __gnu_cxx::hash<const char*>, Eqstr> MetaMap;
+typedef google::sparse_hash_map <const char*, MetaObject *, std::hash<const char*>, Eqstr> MetaMap;
 
 struct BidirectionalMetaIndex {
 

@@ -6,7 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #ifndef METHOD_VISITOR_H_
 #define METHOD_VISITOR_H_
 

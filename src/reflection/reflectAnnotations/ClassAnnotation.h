@@ -16,7 +16,7 @@
 #include "core/variant/Variant.h"
 #include "reflection/wrapper/Deleter.h"
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 
 namespace Reflection {
 
@@ -66,7 +66,7 @@ private:
 /**
  * Makro ogólnego przeznaczenia.
  */
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #define REFLECTION_CLASS_ANNOTATION(CLS_NAME, CLS_TYPE)                       \
                                                                                \
 Annotations::AnnotationManager::instance ().addAnnotation                      \
@@ -82,7 +82,7 @@ Annotations::AnnotationManager::instance ().addAnnotation                      \
 #define REFLECTION_CLASS_ANNOTATION_BODY_PRIV                                 \
 REFLECTION_CLASS_ANNOTATION(REFLECT_CLASS_NAME, CLASS)
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #define REFLECTION_CLASS                                                   \
                                                                            \
                 ANNOTATION_METHOD_HEADER                                   \

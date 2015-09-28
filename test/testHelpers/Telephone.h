@@ -6,34 +6,37 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef NOTE_181772_H
-#define NOTE_181772_H
+#ifndef TELEPHONE_633075_H
+#define TELEPHONE_633075_H
 
+#include <list>
 #include "reflection/Reflection.h"
 #include <string>
 #include "core/ApiMacro.h"
 
 /****************************************************************************/
 
-class TILIAE_API Note {
+class TILIAE_API __tiliae_reflect__ Telephone  {
 public:
 
-        REFLECTION_CONSTRUCTOR_ (void);
+        REFLECTION_CONSTRUCTOR_ (const std::string &);
+        Telephone (const std::string &n) : name (n) {}
 
-        REFLECTION_METHOD (getTitle) std::string getTitle () const { return title; }
-        REFLECTION_METHOD (setTitle) void setTitle (const std::string &title) { this->title = title; }
-
-        REFLECTION_METHOD (getBody) std::string getBody () const { return body; }
-        REFLECTION_METHOD (setBody) void setBody (const std::string &body) { this->body = body; }
+        REFLECTION_METHOD (getName) std::string getName () const { return name; }
+        REFLECTION_METHOD (setName) void setName (const std::string &name) { this->name = name; }
 
 private:
 
-        std::string title;
-        std::string body;
+        std::string name;
 
-        REFLECTION_END (Note)
+        REFLECTION_END (Telephone)
 
 };
+
+/****************************************************************************/
+
+typedef std::list <Ptr <Telephone> > TelephoneList;
+REFLECTION_COLLECTION(TelephoneList)
 
 #endif
 

@@ -18,7 +18,7 @@
 #include "core/variant/Variant.h"
 #include "core/ApiMacro.h"
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 
 namespace Reflection {
 
@@ -83,7 +83,7 @@ REFLECTION_CONSTRUCTOR_ANNOTATION(REFLECT_CLASS_NAME, CLASS, __VA_ARGS__)
  * to nie jest w standardzie :( Gcc działa bez problemu, ale nie wiem od
  * której wersji :(
  */
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #define REFLECTION_CONSTRUCTOR(...)                                                      \
                                                                                          \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
@@ -92,7 +92,7 @@ REFLECTION_CONSTRUCTOR_ANNOTATION(REFLECT_CLASS_NAME, CLASS, __VA_ARGS__)
 #define REFLECTION_CONSTRUCTOR(...)
 #endif
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #define REFLECTION_CONSTRUCTOR_(...)                                                     \
                                                                                          \
                 ANNOTATION_METHOD_HEADER                                                 \

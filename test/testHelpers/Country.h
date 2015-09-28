@@ -6,21 +6,22 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef TELEPHONE_633075_H
-#define TELEPHONE_633075_H
+#ifndef COUNTRY_920296_H
+#define COUNTRY_920296_H
 
 #include <list>
-#include "reflection/Reflection.h"
 #include <string>
+#include "core/Pointer.h"
+#include "reflection/Reflection.h"
+#include <vector>
 #include "core/ApiMacro.h"
 
 /****************************************************************************/
 
-class TILIAE_API Telephone  {
+class TILIAE_API __tiliae_reflect__ Country {
 public:
 
-        REFLECTION_CONSTRUCTOR_ (const std::string &);
-        Telephone (const std::string &n) : name (n) {}
+        REFLECTION_CONSTRUCTOR_ (void)
 
         REFLECTION_METHOD (getName) std::string getName () const { return name; }
         REFLECTION_METHOD (setName) void setName (const std::string &name) { this->name = name; }
@@ -29,14 +30,15 @@ private:
 
         std::string name;
 
-        REFLECTION_END (Telephone)
+        REFLECTION_END (Country)
 
 };
 
-/****************************************************************************/
+typedef std::vector <Ptr <Country> > CountryVector;
+REFLECTION_COLLECTION (CountryVector)
 
-typedef std::list <Ptr <Telephone> > TelephoneList;
-REFLECTION_COLLECTION(TelephoneList)
+typedef std::list <Ptr <Country> > CountryList;
+REFLECTION_COLLECTION (CountryList)
 
 #endif
 

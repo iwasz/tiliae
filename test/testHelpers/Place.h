@@ -6,39 +6,32 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef COUNTRY_920296_H
-#define COUNTRY_920296_H
+#ifndef PLACESS_100408_H
+#define PLACESS_100408_H
 
-#include <list>
-#include <string>
-#include "core/Pointer.h"
 #include "reflection/Reflection.h"
-#include <vector>
+#include "core/variant/Variant.h"
 #include "core/ApiMacro.h"
 
-/****************************************************************************/
-
-class TILIAE_API Country {
+/**
+ * Klasa bazowa dla adresu : do testów.
+ */
+class TILIAE_API __tiliae_reflect__ Place : public Core::Object {
 public:
-
         REFLECTION_CONSTRUCTOR_ (void)
 
-        REFLECTION_METHOD (getName) std::string getName () const { return name; }
-        REFLECTION_METHOD (setName) void setName (const std::string &name) { this->name = name; }
+        virtual ~Place () {}
+        REFLECTION_METHOD (init) int init () { static int cnt = 0; return ++cnt; }
+        REFLECTION_METHOD (init2) int init2 () { static int cnt2 = 0; return ++cnt2; }
+
+        REFLECTION_METHOD (getPlace) Core::Variant getPlace () const { return place; }
+        REFLECTION_METHOD (setPlace) void setPlace (const Core::Variant &p) { place = p; }
 
 private:
 
-        std::string name;
+        Core::Variant place;
 
-        REFLECTION_END (Country)
-
+        REFLECTION_END(Place)
 };
 
-typedef std::vector <Ptr <Country> > CountryVector;
-REFLECTION_COLLECTION (CountryVector)
-
-typedef std::list <Ptr <Country> > CountryList;
-REFLECTION_COLLECTION (CountryList)
-
 #endif
-

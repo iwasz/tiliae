@@ -8,7 +8,7 @@ endif(COMMAND cmake_policy)
 SET (BUILD_CORE                ON CACHE BOOL "")
 SET (BUILD_COMMON              ON CACHE BOOL "")
 SET (BUILD_REFLECTION          ON CACHE BOOL "")
-SET (BUILD_TEST_HELPERS        ON CACHE BOOL "") # Buduje tylko gdy BUILD_TESTS true
+SET (BUILD_TEST_HELPERS        ON CACHE BOOL "Buduje tylko gdy BUILD_TESTS true")
 SET (BUILD_FACTORY             ON CACHE BOOL "")
 SET (BUILD_EDITOR              ON CACHE BOOL "")
 SET (BUILD_BEAN_WRAPPER        ON CACHE BOOL "")
@@ -16,9 +16,11 @@ SET (BUILD_K202                ON CACHE BOOL "")
 SET (BUILD_SIGNAL              ON CACHE BOOL "")
 SET (BUILD_STATE_MACHINE       OFF CACHE BOOL "")
 SET (BUILD_CONTAINER           ON CACHE BOOL "")
-SET (BUILD_DEMO                OFF CACHE BOOL "")
-SET (BUILD_TESTS               OFF CACHE BOOL "")
-SET (WITH_CORE_STRING          OFF CACHE BOOL "")
+SET (BUILD_DEMO                OFF CACHE BOOL "Whether to build demo, or not.")
+SET (BUILD_TESTS               OFF CACHE BOOL "Whether to build tests, or not.")
+SET (WITH_CORE_STRING          OFF CACHE BOOL "Deprecated.")
+SET (WITH_PARSER               ON CACHE BOOL "Reflection with custom clang parser.")
+SET (WITH_ANNOTATIONS          OFF CACHE BOOL "Reflection with annotations.")
 
 if (WITH_CORE_STRING)
     add_definitions (-DWITH_CORE_STRING)
@@ -51,18 +53,15 @@ INSTALL (
     DESTINATION "include/tiliae"
     FILES_MATCHING PATTERN "*.h"
     PATTERN "*.svn*" EXCLUDE
+    PATTERN "*.git*" EXCLUDE
     PATTERN "*test*" EXCLUDE)
 
 INSTALL (
     DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/pc/"
     DESTINATION "lib/pkgconfig"
     FILES_MATCHING PATTERN "*.pc"
-    PATTERN "*.svn*" EXCLUDE)
-
-#if (NOT ANDROID)
-#    SET (CMAKE_INSTALL_PREFIX "/home/iwasz/local")
-#    SET (CMAKE_PREFIX_PATH "/home/iwasz/local")
-#endif()
+    PATTERN "*.svn*" EXCLUDE
+    PATTERN "*.git*" EXCLUDE)
 
 find_package (Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -71,10 +70,18 @@ include (FindPkgConfig)
 pkg_check_modules (MXML REQUIRED "mxml")
 INCLUDE_DIRECTORIES (${MXML_INCLUDE_DIRS})
 link_directories(${MXML_LIBRARY_DIRS})
-#add_definitions (-DREFLECTION_ENABLED)
-INCLUDE_DIRECTORIES (./)
 
-ENABLE_TESTING ()
+IF (WITH_ANNOTATIONS)
+        MESSAGE (STATUS "Building reflection with annotations.")
+        ADD_DEFINITIONS (-DWITH_ANNOTATIONS)
+ENDIF ()
+
+IF (WITH_PARSER)
+        MESSAGE (STATUS "Building reflection with parser.")
+        ADD_DEFINITIONS (-DWITH_PARSER)
+ENDIF ()
+
+INCLUDE_DIRECTORIES (./)
 
 ## --------------------------------------------------------
 ## Core
@@ -86,13 +93,6 @@ IF(BUILD_CORE)
     AUX_SOURCE_DIRECTORY (core/string LIB_SOURCES)
     AUX_SOURCE_DIRECTORY (core/allocator LIB_SOURCES)
 ENDIF(BUILD_CORE)
-## --------------------------------------------------------
-## TestHelpers
-## --------------------------------------------------------
-IF(BUILD_TEST_HELPERS AND BUILD_TESTS)
-    ADD_DEFINITIONS (-DBUILD_TEST_HELPERS)
-    AUX_SOURCE_DIRECTORY (testHelpers LIB_SOURCES)
-ENDIF()
 ## --------------------------------------------------------
 ## Common
 ## --------------------------------------------------------
@@ -201,27 +201,17 @@ IF(BUILD_CONTAINER)
     AUX_SOURCE_DIRECTORY (container/metaStructure/model/meta LIB_SOURCES)
 ENDIF(BUILD_CONTAINER)
 
-# +-------------------------------+
-# | Generate reflection database. |
-# +-------------------------------+
-FILE (MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/reflectionDatabase)
-
-SET (REFLECTION_PARSER "${CMAKE_BINARY_DIR}/parser/tiliaeparser")
-MESSAGE (STATUS "Using REFLECTION_PARSER : ${REFLECTION_PARSER}")
-
-ADD_CUSTOM_COMMAND (OUTPUT ${CMAKE_BINARY_DIR}/reflectionDatabase/ReflectionDatabase.cc
-        COMMAND ${REFLECTION_PARSER} -p compile_commands.json ${CMAKE_SOURCE_DIR}/src/Reflection.cc -o ${CMAKE_BINARY_DIR}/reflectionDatabase/ReflectionDatabase.cc
-        DEPENDS ${CMAKE_SOURCE_DIR}/src/Reflection.cc tiliaeparser
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-
-LIST (APPEND LIB_SOURCES ${CMAKE_BINARY_DIR}/reflectionDatabase/ReflectionDatabase.cc)
-LIST (APPEND LIB_SOURCES Reflection.cc)
-
-SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 ## --------------------------------------------------------
 ## Biblioteka Tiliae - all in one.
 ## --------------------------------------------------------
 
+IF (WITH_PARSER)
+        TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "Reflection.cc" PARSER_OUTPUT_FILE)
+        LIST (APPEND LIB_SOURCES ${PARSER_OUTPUT_FILE})
+        LIST (APPEND LIB_SOURCES "Reflection.cc")
+ENDIF ()
+
+SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if (ANDROID)
     add_library (tiliae STATIC ${LIB_SOURCES})
 else ()
@@ -237,203 +227,5 @@ INSTALL (
     OWNER_READ OWNER_WRITE OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE
     WORLD_READ WORLD_EXECUTE)
-
-## --------------------------------------------------------
-## Testy.
-## --------------------------------------------------------
-
-IF(BUILD_CORE AND BUILD_TESTS)
-
-    SET(SOURCES)
-    AUX_SOURCE_DIRECTORY (core/test SOURCES)
-    add_executable (core_test ${SOURCES})
-#    SET_TARGET_PROPERTIES (core_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-
-    TARGET_LINK_LIBRARIES (core_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (core_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (core_test tiliae)
-
-    ADD_TEST (core_test core_test)
-
-    #To jest programik do optymalizacji pod kątem wielkości binarek
-    IF (0)
-        SET(SOURCES)
-        AUX_SOURCE_DIRECTORY (core/test/testSize SOURCES)
-        add_executable (sizeLight ${SOURCES})
-        TARGET_LINK_LIBRARIES (sizeLight tiliaecore)
-    ENDIF()
-
-ENDIF()
-## --------------------------------------------------------
-IF(BUILD_COMMON AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (common/test TEST_SOURCES)
-    add_executable (common_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (common_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-
-    TARGET_LINK_LIBRARIES (common_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (common_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (common_test tiliae)
-
-    ADD_TEST (common_test common_test)
-
-ENDIF()
-## --------------------------------------------------------
-IF(BUILD_REFLECTION AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (reflection/test TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (reflection/test/testHelpers TEST_SOURCES)
-
-    add_executable (reflection_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (reflection_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (reflection_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (reflection_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (reflection_test tiliae)
-
-    ADD_TEST (reflection_test reflection_test)
-
-ENDIF()
-## --------------------------------------------------------
-IF(BUILD_TOOLS AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (tools/test TEST_SOURCES)
-
-    add_executable (tools_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (tools_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (tools_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (tools_test tiliae)
-
-    ADD_TEST (tools_test tools_test)
-
-ENDIF()
-## --------------------------------------------------------
-IF(BUILD_BEAN_WRAPPER AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (beanWrapper/test TEST_SOURCES)
-
-    add_executable (bwrap_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (bwrap_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (bwrap_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (bwrap_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (bwrap_test tiliae)
-
-    ADD_TEST (bwrap_test bwrap_test)
-
-ENDIF()
-## --------------------------------------------------------
-IF(BUILD_FACTORY AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (factory/test TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (factory/testHelpers TEST_SOURCES)
-
-    add_executable (factory_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (factory_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (factory_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (factory_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (factory_test tiliae)
-
-    ADD_TEST (factory_test factory_test)
-
-ENDIF()
-## --------------------------------------------------------
-IF(BUILD_EDITOR AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (editor/test TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (editor/testHelpers TEST_SOURCES)
-
-    add_executable (editor_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (editor_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (editor_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (editor_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (editor_test tiliae)
-
-    ADD_TEST (editor_test editor_test)
-
-ENDIF()
-## --------------------------------------------------------
-IF(BUILD_K202 AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (k202/test TEST_SOURCES)
-
-    add_executable (k202_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (k202_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (k202_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (k202_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (k202_test tiliae)
-
-    ADD_TEST (k202_test k202_test)
-
-ENDIF()
-## --------------------------------------------------------
-IF(BUILD_SIGNAL AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (signal/test TEST_SOURCES)
-
-    add_executable (signal_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (signal_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (signal_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (signal_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (signal_test tiliae)
-
-    ADD_TEST (signal_test signal_test)
-
-ENDIF()
-## --------------------------------------------------------
-IF(BUILD_STATE_MACHINE AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (stateMachine/test TEST_SOURCES)
-
-    add_executable (machine_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (machine_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (machine_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (machine_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (machine_test tiliae)
-
-    ADD_TEST (machine_test machine_test)
-
-ENDIF()
-## container test -----------------------------------------
-IF(BUILD_CONTAINER AND BUILD_TESTS)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (container/beanFactory/test TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (container/common/test TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (container/common/testHelpers TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (container/inputFormat/mxml/test TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (container/inputFormat/compact/test TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (container/metaStructure/test TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (editor/testHelpers TEST_SOURCES)
-
-    add_executable (container_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (container_test PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (container_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (container_test tiliae)
-
-    ADD_TEST (container_test container_test)
-
-ENDIF()
-
-## DEMO ---------------------------------------------------
-
-IF(BUILD_DEMO)
-
-    SET(TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (../demo/ DEMO_SOURCES)
-
-    add_executable (demo ${DEMO_SOURCES})
-#    SET_TARGET_PROPERTIES (demo PROPERTIES COMPILE_FLAGS -DREFLECTION_ENABLED)
-    TARGET_LINK_LIBRARIES (demo boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (demo tiliae)
-
-ENDIF ()
 
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/../pc/tiliae.pc.in ${CMAKE_CURRENT_BINARY_DIR}/pc/tiliae.pc @ONLY)

@@ -21,6 +21,9 @@
 #include "core/ApiMacro.h"
 #include <boost/lexical_cast.hpp>
 
+// TODO Czemu parser generuje z _Bool, dowiedzieć się, usunąć.
+#define _Bool bool
+
 /****************************************************************************/
 
 //#define MARK(a) std::cerr << #a << std::endl;
@@ -28,14 +31,14 @@
 
 /****************************************************************************/
 
-class TILIAE_API Bar {
+class TILIAE_API __tiliae_reflect__ Bar {
 public:
 
         REFLECTION_CONSTRUCTOR_ (const std::string &, const std::string &, int, double, char, bool, char *)
         Bar (const std::string &f0, const std::string &f1, int f2, double f3, char f4, bool f5, char *f6) :
-    	    field0 (f0), field1 (f1), field2 (f2), field3 (f3), field4 (f4), field5 (f5), field6 (f6)
-    	    {
-    	    }
+            field0 (f0), field1 (f1), field2 (f2), field3 (f3), field4 (f4), field5 (f5), field6 (f6)
+            {
+            }
 
         REFLECTION_CONSTRUCTOR (const std::string &, const std::string &, Ptr <City>)
         Bar (const std::string &f0, const std::string &f1, Ptr <City> c) :

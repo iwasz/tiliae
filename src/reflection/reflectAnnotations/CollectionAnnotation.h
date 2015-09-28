@@ -49,7 +49,7 @@
  * Dozwolone kolekcji, to wszystkie typy, dla których stworzyłem częściową specjalizację
  * szablonu ClassAnotation (w tym pliku poniżej).
  */
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #define REFLECTION_COLLECTION(type) \
         ANNOTATION_RUN_ONCE_AT_STARTUP(::Reflection::CollectionAnnotation <type >::run (#type);)
 #else
@@ -74,7 +74,7 @@
  * Dozwolone kolekcji, to wszystkie typy, dla których stworzyłem częściową specjalizację
  * szablonu ClassAnotation (w tym pliku poniżej).
  */
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #define REFLECTION_COLLECTION_NAME(type,name) \
         ANNOTATION_RUN_ONCE_AT_STARTUP(::Reflection::CollectionAnnotation <type >::run (name);)
 #else

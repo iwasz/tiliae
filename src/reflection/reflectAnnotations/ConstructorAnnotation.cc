@@ -6,7 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #include <sstream>
 #include "ConstructorAnnotation.h"
 

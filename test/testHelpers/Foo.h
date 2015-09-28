@@ -17,7 +17,7 @@
 
 /****************************************************************************/
 
-class TILIAE_API Foo {
+class TILIAE_API __tiliae_reflect__ Foo {
 public:
 
         REFLECTION_CONSTRUCTOR_ (void)

@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE (testSinglePlugin)
  */
 BOOST_AUTO_TEST_CASE (testSetterGetterPlugin)
 {
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
         int noOfAnnotations = Annotations::AnnotationManager::instance ().getAnnotationList ().size ();
         BOOST_CHECK (noOfAnnotations > 0);
 #endif

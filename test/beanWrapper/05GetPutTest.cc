@@ -20,6 +20,7 @@
 #include "beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h"
 #include "beanWrapper/plugins/MethodPlugin.h"
 #include "testHelpers/City.h"
+#include "A.h"
 
 /****************************************************************************/
 
@@ -30,47 +31,6 @@ using namespace Common;
 using namespace Editor;
 
 /****************************************************************************/
-
-class A {
-public:
-        REFLECTION_CONSTRUCTOR_ (void)
-        virtual ~A () {}
-
-        REFLECTION_METHOD (init) void init () {}
-
-        REFLECTION_METHOD (getField) std::string const &getField () const { return field; }
-        REFLECTION_METHOD (setField) void setField (std::string const &field) { this->field = field; }
-
-        /// Szuka we wszystkich, zwraca pierwszy znaleziony.
-        REFLECTION_METHOD (get) virtual Core::Variant get (const std::string &name) const
-        {
-                if (name == "name") {
-                        return Variant (field);
-                }
-                else if (name == "pole.name") {
-                        return Variant ("ala ma kota");
-                }
-
-                return Variant ();
-        }
-
-        /// Ustawia w transition.
-        REFLECTION_METHOD (set) virtual void set (const std::string &name, const Core::Variant &object)
-        {
-                if (name == "name") {
-                        field = vcast <std::string> (object);
-                }
-                else if (name == "pole.name") {
-                        field = vcast <std::string> (object);
-                }
-        }
-
-private:
-
-       std::string field;
-
-       REFLECTION_END (A)
-};
 
 /**
  * Wyszedł na jaw błąd, który uniemożliwia jednoczesne stosowanie GetPut i Method

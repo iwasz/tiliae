@@ -22,7 +22,7 @@ using namespace boost;
 using namespace Core;
 using namespace Reflection;
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 
 /**
  * Klasa testujaca mechanizmy okolo klasy Class.

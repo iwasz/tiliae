@@ -79,7 +79,7 @@ void Manager::init ()
 
         addStandardTypes ();
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
         ClassVisitor classVisitor;
         ClassInternalsVisitor methodVisitor;
 

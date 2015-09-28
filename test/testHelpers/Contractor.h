@@ -20,7 +20,7 @@
 /**
  *  Firma
  */
-class TILIAE_API Contractor {
+class TILIAE_API __tiliae_reflect__ Contractor {
 public:
 
         REFLECTION_CONSTRUCTOR_ (void)

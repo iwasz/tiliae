@@ -9,7 +9,6 @@
 #include "K202Factory.h"
 #include "core/variant/Variant.h"
 #include "core/Typedefs.h"
-#include "testHelpers/City.h"
 #include "core/ApiMacro.h"
 #include "k202/K202.h"
 #include "k202/compiler/Compiler.h"

@@ -16,7 +16,7 @@
 #include <vector>
 #include "core/ApiMacro.h"
 
-class TILIAE_API City {
+class TILIAE_API __tiliae_reflect__ City {
 public:
 
         REFLECTION_CONSTRUCTOR_ (void)

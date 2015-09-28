@@ -6,7 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #ifndef TILIAE_CLASSVISITOR_H_
 #define TILIAE_CLASSVISITOR_H_
 

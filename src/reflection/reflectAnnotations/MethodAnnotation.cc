@@ -6,7 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #include "MethodAnnotation.h"
 #include <boost/lexical_cast.hpp>
 

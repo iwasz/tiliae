@@ -17,7 +17,7 @@
 #include "core/variant/Variant.h"
 #include "core/ApiMacro.h"
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 
 namespace Reflection {
 
@@ -78,7 +78,7 @@ private:
  *
  * Klasy bazowe podajemy jako stringi.
  */
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #define REFLECTION_BASE_CLASS(...)                                                       \
                                                                                          \
                 ANNOTATION_METHOD_HEADER_RECURENCE                                       \
@@ -91,7 +91,7 @@ private:
  * Tak samo jak REFLECTION_BASE_CLASS, ale bez wywoływania poprzedniej metody. Można użyć
  * jako pierwszą adnotację w klasie.
  */
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #define REFLECTION_BASE_CLASS_(...)                                                      \
                                                                                          \
                 ANNOTATION_METHOD_HEADER                                                 \

@@ -6,7 +6,7 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifdef REFLECTION_ENABLED
+#ifdef WITH_ANNOTATIONS
 #include <boost/make_shared.hpp>
 #include "ClassVisitor.h"
 #include "reflection/reflectAnnotations/BaseClassAnnotation.h"

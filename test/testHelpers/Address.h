@@ -22,7 +22,7 @@ class Country;
 /**
  *  Obiekt domeny : adres - no taki pocztowy.
  */
-class TILIAE_API Address : public Place {
+class TILIAE_API __tiliae_reflect__ Address : public Place {
 public:
 
         REFLECTION_CONSTRUCTOR_(void)

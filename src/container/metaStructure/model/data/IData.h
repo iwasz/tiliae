@@ -15,7 +15,7 @@
 #include "core/ApiMacro.h"
 
 namespace Container {
-class DataKey;
+struct DataKey;
 
 /**
  * Jest to najbardziej elementarna (atomowa) część meta-struktur.

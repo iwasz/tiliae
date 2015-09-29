@@ -13,8 +13,8 @@
 #include "reflection/annotations/AnnotationManager.h"
 #include <vector>
 #include "reflection/reflectAnnotations/CollectionAnnotation.h"
-
 #include "reflection/Reflection.h"
+#include "testHelpers/Reflection_output.cc.h"
 
 BOOST_AUTO_TEST_SUITE (AnnotationTest);
 

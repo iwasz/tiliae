@@ -25,22 +25,6 @@ using namespace Container;
 
 BOOST_AUTO_TEST_SUITE (CompactXmlTest14);
 
-class A02c;
-
-struct A01c {
-        REFLECTION_CONSTRUCTOR_ (void)
-        A02c *a02;
-        REFLECTION_METHOD (setA02) void setA02 (A02c *a) { a02 = a; }
-        REFLECTION_END (A01c)
-};
-
-struct A02c {
-        REFLECTION_CONSTRUCTOR_ (void)
-        A01c *a01;
-        REFLECTION_METHOD (setA01) void setA01 (A01c *a) { a01 = a; }
-        REFLECTION_END (A02c)
-};
-
 /**
  * Testuje round-references, bo tak na prawdę, to sam nie wiem co się stanie.
  */

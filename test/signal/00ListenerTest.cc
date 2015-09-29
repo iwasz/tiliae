@@ -18,26 +18,6 @@ using namespace Signal;
 
 BOOST_AUTO_TEST_SUITE (ListenerTest);
 
-struct Receiver2 {
-
-        REFLECTION_CONSTRUCTOR_(void);
-
-        Receiver2 () : onSig3 (this, "$handler2 (3)", "/scope/sig3"),
-                        onSig4 (this, "$handler2 (4)", "/sig4"),
-                        iValue (0)
-                        {}
-
-        REFLECTION_METHOD (handler2) void handler2 (int i)
-        {
-                iValue = i;
-        }
-
-        Listener onSig3, onSig4;
-        int iValue;
-
-        REFLECTION_END (Receiver2);
-};
-
 /**
  * Testuje wysyłanie, ale trochę omijając API.
  */
@@ -71,15 +51,6 @@ BOOST_AUTO_TEST_CASE (testBasic)
 }
 
 /****************************************************************************/
-
-struct Receiver3 {
-
-        Receiver3 () : clck1 (this, "1"),
-                        clck2 (this, "2", "/scpe/clck2") {}
-
-        Listener clck1, clck2;
-        REFLECTION_END_ (Receiver3);
-};
 
 /**
  * Listenery z relatywnym sygnałem można podpiąć do wielu scopów,

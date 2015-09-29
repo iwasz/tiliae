@@ -12,7 +12,7 @@
 
 #include "reflection/Reflection.h"
 #include "core/Core.h"
-#include "testHelpers/TestHelpers"
+#include "testHelpers/TestHelpers.h"
 
 BOOST_AUTO_TEST_SUITE (ClassTest);
 

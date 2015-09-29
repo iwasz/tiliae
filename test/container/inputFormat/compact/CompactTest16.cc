@@ -91,21 +91,6 @@ BOOST_AUTO_TEST_CASE (test079AddToWithRef)
         BOOST_REQUIRE_NE (bar2, bar3);
 }
 
-struct Dummy1;
-
-typedef std::vector <Dummy1 *> DummyVector;
-REFLECTION_COLLECTION (DummyVector)
-
-struct Dummy1 {
-
-        REFLECTION_CONSTRUCTOR_ (void)
-        Dummy1 () {}
-
-        DummyVector REFLECTION_FIELD_REFERENCE_INPLACE (vector);
-
-        REFLECTION_END (Dummy1)
-};
-
 BOOST_AUTO_TEST_CASE (test080AddToWithRef)
 {
         Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "080-add-to-with-ref.xml"));

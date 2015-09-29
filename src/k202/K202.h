@@ -57,7 +57,7 @@ public:
         Core::Variant run (const std::string &sourceCode,
                            const Core::Variant &domain = Core::Variant (),
                            const Core::VariantVector &paramVector = Core::VariantVector (),
-                           const Core::VariantMap &argsMap = Core::VariantMap ());
+                           const Core::VariantMap &argsMap = Core::VariantMap ()) __tiliae_no_reflect__;
 
         /**
          * Automatycznie skompiluje Instruction, jeśli nie jest jeszcze skopilowana.
@@ -69,18 +69,18 @@ public:
         Core::Variant run (Ptr <Script> script,
                            Core::Variant *domain = NULL,
                            const Core::VariantVector &paramVector = Core::VariantVector (),
-                           const Core::VariantMap &argsMap = Core::VariantMap ());
+                           const Core::VariantMap &argsMap = Core::VariantMap ()) __tiliae_no_reflect__;
 
         // Tworzy nowy obiekt instrukcji.
         Ptr <Script> prepare (const std::string &sourceCode,
                         const Core::Variant &domain = Core::Variant (),
                         const Core::VariantVector &paramVector = Core::VariantVector (),
-                        const Core::VariantMap &argsMap = Core::VariantMap ());
+                        const Core::VariantMap &argsMap = Core::VariantMap ()) __tiliae_no_reflect__;
 
 /*--------------------------------------------------------------------------*/
 
-        Wrapper::IBeanWrapper const *getBeanWrapper () const { return ctx.getBeanWrapper (); }
-        Wrapper::IBeanWrapper *getBeanWrapper () { return ctx.getBeanWrapper (); }
+        Wrapper::IBeanWrapper const *getBeanWrapper () const __tiliae_no_reflect__ { return ctx.getBeanWrapper (); }
+        Wrapper::IBeanWrapper *getBeanWrapper () __tiliae_no_reflect__ { return ctx.getBeanWrapper (); }
         REFLECTION_SETTER (setBeanWrapper) void setBeanWrapper (Wrapper::IBeanWrapper *b) { ctx.setBeanWrapper (b); }
 
 private:

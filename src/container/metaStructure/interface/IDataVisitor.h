@@ -17,7 +17,7 @@ class NullData;
 class RefData;
 class MetaObject;
 class MetaContainer;
-class DataKey;
+struct DataKey;
 
 /**
  * Implementacja paternu Visitor. Ten visitor będzie odwiedzał

@@ -17,7 +17,7 @@
  * Kolejny przyklad, ale tym razem dla
  * klasy typu IEditor, czyli tej najgłówniejszej.
  */
-struct TILIAE_API DummyIEditor : public Editor::IEditor {
+struct TILIAE_API __tiliae_reflect__ DummyIEditor : public Editor::IEditor {
 
         bool convert (const Core::Variant &input, Core::Variant *output, Core::DebugContext *context = NULL);
 

@@ -14,7 +14,7 @@
 #include "core/Pointer.h"
 #include "reflection/model/Class.h"
 #include "reflection/Manager.h"
-#include "testHelpers/XClass.h"
+#include "testHelpers/TestHelpers.h"
 
 /*##########################################################################*/
 
@@ -85,7 +85,10 @@ BOOST_AUTO_TEST_CASE (testSetAndGetReferenceAnnotation)
         BOOST_REQUIRE (f);
         Variant ret = f->get (vo);
         BOOST_REQUIRE (!ret.isNone ());
+
+#ifdef WITH_ANNOTATION
         BOOST_REQUIRE_EQUAL (vcast <X0 *> (ret), testClass.getX0 ());
+#endif
 }
 
 /**

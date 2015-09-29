@@ -20,7 +20,7 @@
 /**
  * Klasa tymczasowa - zastapi ja BeanFactory + ProxyFactory.
  */
-struct TILIAE_API CityFactory : public Factory::IFactory {
+struct TILIAE_API __tiliae_reflect__ CityFactory : public Factory::IFactory {
 
         virtual ~CityFactory () {}
         virtual Core::Variant create (const Core::VariantMap &parameters, Core::DebugContext *context = NULL) const

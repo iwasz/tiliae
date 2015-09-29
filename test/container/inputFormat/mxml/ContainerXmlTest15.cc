@@ -27,17 +27,6 @@ using namespace Container;
 
 BOOST_AUTO_TEST_SUITE (ContainerXmlTest15);
 
-struct A03 {
-        REFLECTION_CONSTRUCTOR_ (void)
-
-        REFLECTION_METHOD (setCont)
-        void setCont (BeanFactoryContainer *c) { cont = c; }
-
-        BeanFactoryContainer *cont;
-
-        REFLECTION_END (A03)
-};
-
 /**
  * Testuje ustawianie referencji do samego kontenera (smartPtr).
  */
@@ -51,17 +40,6 @@ BOOST_AUTO_TEST_CASE (test071ReferenceToContainerPtr)
         BeanFactoryContainer *cont2 = a->cont;
         BOOST_REQUIRE_EQUAL (cont2, cont.get ());
 }
-
-struct A04 {
-        REFLECTION_CONSTRUCTOR_ (void)
-
-        REFLECTION_METHOD (setCont)
-        void setCont (BeanFactoryContainer *c) { cont = c; }
-
-        BeanFactoryContainer *cont;
-
-        REFLECTION_END (A04)
-};
 
 /**
  * Testuje ustawianie referencji do samego kontenera (zwykły wskaźnik BeanFactoryContainer *) - ten test się zdublował
@@ -94,24 +72,6 @@ BOOST_AUTO_TEST_CASE (test073ReferenceToExternalSingleton)
         BOOST_REQUIRE_EQUAL (map->operator [] ("ex1"), "Benek pies");
         BOOST_REQUIRE_EQUAL (map->operator [] ("ex2"), "Borys pies");
 }
-
-struct Source {
-        REFLECTION_CONSTRUCTOR_ (void)
-
-        REFLECTION_METHOD (setCont)
-        void setCont (BeanFactoryContainer *c) { cont = c; }
-
-        BeanFactoryContainer *cont;
-
-        REFLECTION_METHOD (init)
-        void init ()
-        {
-                cont->addSingleton ("external1", Core::Variant ("Benek pies"));
-                cont->addSingleton ("external2", Core::Variant ("Borys pies"));
-        }
-
-        REFLECTION_END (Source)
-};
 
 /**
  *

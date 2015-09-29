@@ -9,7 +9,7 @@
 #ifndef IACTION_H_
 #define IACTION_H_
 
-#include "context/MachineContext.h"
+#include "machine/context/MachineContext.h"
 #include "reflection/reflectAnnotations/CollectionAnnotation.h"
 #include "core/ApiMacro.h"
 

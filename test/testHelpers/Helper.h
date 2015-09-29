@@ -14,7 +14,7 @@
 /**
  * Helper structure.
  */
-struct HelperAT {
+struct __tiliae_reflect__ HelperAT {
         REFLECTION_CONSTRUCTOR_ (void)
         HelperAT () : cnt (0) {}
 

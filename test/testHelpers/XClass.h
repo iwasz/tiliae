@@ -19,14 +19,13 @@
 #include "reflection/reflectAnnotations/FieldAnnotation.h"
 #include "reflection/reflectAnnotations/ConstructorAnnotation.h"
 #include "reflection/reflectAnnotations/FactoryMethodAnnotation.h"
-#include "reflection/reflectAnnotations/DefaultAnnotationMacros.h"
 
 struct X0 {};
 
 /**
  *
  */
-struct X {
+struct __tiliae_reflect__ X {
 
         // Konstruktor bezargumentowy.
         REFLECTION_CONSTRUCTOR_ (void);
@@ -56,7 +55,7 @@ struct X {
 
         X0 *getX0 () { return &x0; }
 
-private:
+//private:
 
         REFLECTION_FIELD_REFERENCE (x0);
         X0 x0;

@@ -22,6 +22,16 @@ link_directories (${Boost_LIBRARY_DIRS})
 #MESSAGE ("---> ${Boost_LIBRARY_DIRS}")
 #MESSAGE ("---> ${Boost_LIBRARIES}")
 
+IF (WITH_ANNOTATIONS)
+        MESSAGE (STATUS "Building reflection with annotations.")
+        ADD_DEFINITIONS (-DWITH_ANNOTATIONS)
+ENDIF ()
+
+IF (WITH_PARSER)
+        MESSAGE (STATUS "Building reflection with parser.")
+        ADD_DEFINITIONS (-DWITH_PARSER)
+ENDIF ()
+
 ## --------------------------------------------------------
 ## Testy.
 ## --------------------------------------------------------
@@ -33,6 +43,12 @@ IF (BUILD_TEST_HELPERS AND BUILD_TESTS)
 #                LIST (APPEND SOURCES ${PARSER_OUTPUT_FILE})
 #                LIST (APPEND SOURCES "testHelpers/Reflection.cc")
 #        ENDIF ()
+
+IF (WITH_PARSER)
+        TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "testHelpers/Reflection_input.cc" "testHelpers/Reflection_output.cc.h")
+        LIST (APPEND SOURCES "testHelpers/Reflection_input.cc")
+        LIST (APPEND SOURCES "testHelpers/Reflection_output.cc.h")
+ENDIF ()
 
         AUX_SOURCE_DIRECTORY (testHelpers SOURCES)
         ADD_LIBRARY (testHelpers ${SOURCES})
@@ -77,25 +93,22 @@ IF(BUILD_COMMON AND BUILD_TESTS)
 
 ENDIF()
 ## --------------------------------------------------------
-IF (0)
 IF(BUILD_REFLECTION AND BUILD_TESTS)
 
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (reflection TEST_SOURCES)
-    AUX_SOURCE_DIRECTORY (reflection/testHelpers TEST_SOURCES)
 
     add_executable (reflection_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (reflection_test PROPERTIES COMPILE_FLAGS -DWITH_ANNOTATIONS)
-    TARGET_LINK_LIBRARIES (reflection_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (reflection_test boost_prg_exec_monitor)
+    TARGET_LINK_LIBRARIES (reflection_test c++abi)
+    TARGET_LINK_LIBRARIES (reflection_test ${Boost_LIBRARIES})
     TARGET_LINK_LIBRARIES (reflection_test tiliae)
     TARGET_LINK_LIBRARIES (reflection_test testHelpers)
-    TARGET_LINK_LIBRARIES (reflection_test c++abi)
 
     ADD_TEST (reflection_test reflection_test)
 
 ENDIF()
 ## --------------------------------------------------------
+IF (0)
 IF(BUILD_TOOLS AND BUILD_TESTS)
 
     SET(TEST_SOURCES)

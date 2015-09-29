@@ -28,8 +28,6 @@ using namespace Container;
 
 BOOST_AUTO_TEST_SUITE (CompactXmlTest17);
 
-enum Type { TYPE1, TYPE2, TYPE3 };
-
 Core::Variant toType (std::string const &s)
 {
         Type t;
@@ -49,18 +47,6 @@ Core::Variant toType (std::string const &s)
 
         return Core::Variant (static_cast <unsigned int> (t));
 }
-
-struct Dummy3 {
-
-        REFLECTION_CONSTRUCTOR_ (void)
-        Dummy3 () {}
-
-        Type REFLECTION_FIELD_ENUM_INPLACE (field1);
-        Type REFLECTION_FIELD_ENUM_INPLACE (field2);
-        Type REFLECTION_FIELD_ENUM_INPLACE (field3);
-
-        REFLECTION_END (Dummy3)
-};
 
 /**
  *

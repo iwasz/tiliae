@@ -79,17 +79,6 @@ BOOST_AUTO_TEST_CASE (test023BeanWithCustomFactory)
 }
 
 /**
- * Używana w następnym tescie.
- */
-class TestFactory : public Factory::IFactory {
-public:
-
-        virtual ~TestFactory () {}
-        Core::Variant create (const Core::VariantMap &parameters, Core::DebugContext *context = NULL) const { return Core::Variant (new Core::StringMap); }
-        REFLECTION_END_(TestFactory)
-};
-
-/**
  *
  */
 BOOST_AUTO_TEST_CASE (test024MapAndListWithCustomFactory)

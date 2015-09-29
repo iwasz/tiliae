@@ -9,9 +9,9 @@
 #ifndef K202CONDITION_H_
 #define K202CONDITION_H_
 
-#include <K202.h>
+#include "k202/K202.h"
 #include "reflection/Reflection.h"
-#include "condition/ICondition.h"
+//#include "condition/ICondition.h"
 #include "core/ApiMacro.h"
 
 namespace Machine {

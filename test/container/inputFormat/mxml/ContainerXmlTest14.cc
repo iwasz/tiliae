@@ -11,7 +11,6 @@
 #include <iostream>
 #include "core/Pointer.h"
 #include "testHelpers/TestHelpers.h"
-
 #include "container/ContainerFactory.h"
 #include "container/metaStructure/model/MetaStructure.h"
 #include "container/common/testHelpers/ContainerTestFactory.h"
@@ -25,22 +24,6 @@ using namespace Container;
 /****************************************************************************/
 
 BOOST_AUTO_TEST_SUITE (ContainerXmlTest14);
-
-class A02;
-
-struct A01 {
-        REFLECTION_CONSTRUCTOR_ (void)
-        A02 *a02;
-        REFLECTION_METHOD (setA02) void setA02 (A02 *a) { a02 = a; }
-        REFLECTION_END (A01)
-};
-
-struct A02 {
-        REFLECTION_CONSTRUCTOR_ (void)
-        A01 *a01;
-        REFLECTION_METHOD (setA01) void setA01 (A01 *a) { a01 = a; }
-        REFLECTION_END (A02)
-};
 
 /**
  * Testuje round-references, bo tak na prawdę, to sam nie wiem co się stanie.

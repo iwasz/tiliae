@@ -20,38 +20,6 @@ using namespace Core;
 using namespace Signal;
 
 /**
- * Odbiera. W konstruktorze, lub gdzieś indziej należy włączyć
- * nasłuch, czyli inaczej "podłączyć" sygnał.
- */
-struct Receiver {
-
-        REFLECTION_CONSTRUCTOR_(void);
-
-        Receiver () : onClicked (this, "$onClicked1 ()", "clicked"),
-                        onSig0 (this, "$handler2 (668)", "sig0"),
-                        onSig1 (this, "$handler2 (%0)", "sig1"),
-                        onSig2 (this, "$handler3 (%0, %1)", "sig2"),
-                        iValue (0)
-                        {}
-
-        REFLECTION_METHOD (onClicked1) void onClicked1 () { iValue = 667; }
-        REFLECTION_METHOD (handler2) void handler2 (int i) { iValue = i; }
-
-        REFLECTION_METHOD (handler3) int handler3 (int i, const std::string &nam)
-        {
-                iValue = i;
-                sValue = nam;
-                return 666;
-        }
-
-        Listener onClicked, onSig0, onSig1, onSig2;
-        int iValue;
-        std::string sValue;
-
-        REFLECTION_END (Receiver);
-};
-
-/**
  * Testuje wysyłanie, ale trochę omijając API.
  * 1. Tworzy obiekt typu Receiver (klasa wyżej).
  * 2. Ten obiekt ma 4 listenery, każdy ma od razu podpięty scope (ponieważ ma podaną nazwę sygnału).

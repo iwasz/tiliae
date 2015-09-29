@@ -58,21 +58,6 @@ BOOST_AUTO_TEST_CASE (test072TopologicalSort)
 //        std::cerr << sorted << std::endl;
 }
 
-struct Dummy {
-
-        REFLECTION_CONSTRUCTOR_ (void)
-        Dummy () {}
-
-        REFLECTION_CONSTRUCTOR (Dummy *)
-        Dummy (Dummy *d) : field1 (d) {}
-
-        Dummy *REFLECTION_FIELD_VALUE_INPLACE (field1);
-        Dummy *REFLECTION_FIELD_VALUE_INPLACE (field2);
-        Dummy *REFLECTION_FIELD_VALUE_INPLACE (field3);
-
-        REFLECTION_END (Dummy)
-};
-
 BOOST_AUTO_TEST_CASE (test073TopologicalSort)
 {
         Ptr <MetaContainer> m = CompactMetaService::parseFile (PATH + "073-topological-sort.xml");

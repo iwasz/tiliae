@@ -16,8 +16,10 @@
 #include "clang/Tooling/CommonOptionsParser.h"
 #include "clang/AST/Comment.h"
 #include <fstream>
+#include <utility>
 
 const char *TILIAE_REFLECT_ANNOTATION_STRING = "__tiliae_reflect__";
+const char *TILIAE_REFLECT_TOKEN_ANNOTATION_STRING = "__tiliae_reflect_token__";
 const char *TILIAE_NO_REFLECT_ANNOTATION_STRING = "__tiliae_no_reflect__";
 
 using namespace clang;
@@ -85,11 +87,13 @@ std::ofstream outputFile;
  * @brief Checks if tehre is an AnnotateAttr in attrRange, and if it's getText() equals to name.
  * @param attrRange
  * @param name
- * @return
+ * @return if it has annotation with given name and secdond annotation's name if there is any.
+ * TODO Refactor
  */
-static bool hasAnnotation (clang::Decl::attr_range const &attrRange, std::string const &name)
+static std::pair <bool, std::string> hasAnnotation (clang::Decl::attr_range const &attrRange, std::string const &name)
 {
         bool annotationFound = false;
+        std::string secondName;
 
         for (Attr const *attr : attrRange) {
                 if (attr->getKind () != clang::attr::Annotate) {
@@ -100,18 +104,24 @@ static bool hasAnnotation (clang::Decl::attr_range const &attrRange, std::string
 
                 if (annoAttr->getAnnotation ().str () == name) {
                         annotationFound = true;
+                }
+                else if (secondName.empty ()) {
+                        secondName = annoAttr->getAnnotation ().str ();
+                }
+
+                if (annotationFound && !secondName.empty ()) {
                         break;
                 }
         }
 
-        return annotationFound;
+        return std::make_pair (annotationFound, secondName);
 }
 
 /**
  * @brief The CXXRecordDeclStmtHandler class
  */
 class CXXRecordDeclStmtHandler : public MatchFinder::MatchCallback {
-public:
+    public:
         virtual void run (const MatchFinder::MatchResult &Result);
 };
 
@@ -136,7 +146,10 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
         //                return;
         //        }
 
-        if (!hasAnnotation (decl->attrs (), TILIAE_REFLECT_ANNOTATION_STRING)) {
+        auto tiliaeReflectioAnnotation = hasAnnotation (decl->attrs (), TILIAE_REFLECT_ANNOTATION_STRING);
+        auto tiliaeReflectioTokenAnnotation = hasAnnotation (decl->attrs (), TILIAE_REFLECT_TOKEN_ANNOTATION_STRING);
+
+        if (!tiliaeReflectioAnnotation.first && !tiliaeReflectioTokenAnnotation.first) {
                 return;
         }
 
@@ -157,6 +170,11 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
         //        llvm::outs () << "\n";
 
         std::string className = decl->getName ();
+
+        if (tiliaeReflectioTokenAnnotation.first) {
+                className = tiliaeReflectioTokenAnnotation.second;
+        }
+
         //        Type const *classType = decl->getTypeForDecl ();
         //        SplitQualType tSplit = qt.split ();
         //        outputFile << "\t\tclazz->addBaseClassName (\"" << QualType::getAsString (tSplit) << "\");\n";
@@ -172,11 +190,6 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
 
         /*---------------------------------------------------------------------------*/
 
-        if (decl->hasDefaultConstructor ()) {
-                outputFile << "\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName
-                           << ", void>::Level1Wrapper::newConstructorPointer ()));\n";
-        }
-
         for (CXXBaseSpecifier const &bse : decl->bases ()) {
                 QualType qt = bse.getType ();
                 outputFile << "\t\tclazz->addBaseClassName (\"" << qt->getAsCXXRecordDecl ()->getName ().str () << "\");\n";
@@ -184,7 +197,12 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
 
         for (CXXConstructorDecl const *constructor : decl->ctors ()) {
 
-                if (constructor->isImplicit () || constructor->param_size () == 0) {
+                if (decl->hasDefaultConstructor () && constructor->isDefaultConstructor() && constructor->getAccess () == AS_public) {
+                        outputFile << "\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName
+                                   << ", void>::Level1Wrapper::newConstructorPointer ()));\n";
+                }
+
+                if (constructor->isImplicit () || constructor->param_size () == 0 || constructor->getAccess () != AS_public) {
                         continue;
                 }
 
@@ -222,7 +240,7 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
 
         for (CXXMethodDecl const *method : decl->methods ()) {
 
-                if (method->isImplicit () || method->getAccess () != AS_public || hasAnnotation (method->attrs (), TILIAE_NO_REFLECT_ANNOTATION_STRING)) {
+                if (method->isImplicit () || method->getAccess () != AS_public || hasAnnotation (method->attrs (), TILIAE_NO_REFLECT_ANNOTATION_STRING).first || method->isStatic ()) {
                         continue;
                 }
 
@@ -256,7 +274,7 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
  * @brief The FindNamedClassConsumer class
  */
 class FindNamedClassConsumer : public clang::ASTConsumer {
-public:
+    public:
         explicit FindNamedClassConsumer (/*ASTContext *Context*/) /*: Visitor(Context)*/
         {
                 //                Matcher.addMatcher(cxxRecordDecl (isDefinition (), matchesName ("A.*")).bind("cxxRecordDecl"), &handlerForClasses);
@@ -269,7 +287,7 @@ public:
                 Matcher.matchAST (Context);
         }
 
-private:
+    private:
         //  FindNamedClassVisitor Visitor;
         CXXRecordDeclStmtHandler handlerForClasses;
 
@@ -280,7 +298,7 @@ private:
  * @brief The FindNamedClassAction class
  */
 class FindNamedClassAction : public clang::ASTFrontendAction {
-public:
+    public:
         virtual std::unique_ptr<clang::ASTConsumer>
         CreateASTConsumer (clang::CompilerInstance &Compiler, llvm::StringRef InFile)
         {
@@ -301,7 +319,7 @@ int main (int argc, const char **argv)
         ClangTool Tool (OptionsParser.getCompilations (), OptionsParser.getSourcePathList ());
         outputFile.open (outputFilename);
 
-// clang-format off
+        // clang-format off
         outputFile <<
 R"(/*
  * This file was aut-generated by tiliaeparser. Do not modify. Unless.
@@ -326,7 +344,7 @@ R"(/*
         outputFile << "}\n";
         outputFile << "\n";
 
-// clang-format off
+        // clang-format off
         outputFile << R"(
 struct Sentinel__ {
         Sentinel__ ()

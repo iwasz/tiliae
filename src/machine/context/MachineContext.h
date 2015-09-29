@@ -10,7 +10,7 @@
 #define MACHINECONTEXT_H_
 
 #include <vector>
-#include "context/MachineContext.h"
+#include "machine/context/MachineContext.h"
 #include "core/Typedefs.h"
 #include "core/variant/Cast.h"
 #include "core/string/String.h"

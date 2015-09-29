@@ -12,9 +12,7 @@
 
 #include "reflection/Reflection.h"
 #include "core/Core.h"
-#include "testHelpers/Address.h"
-#include "testHelpers/City.h"
-#include "testHelpers/Country.h"
+#include "testHelpers/TestHelpers"
 
 BOOST_AUTO_TEST_SUITE (ClassTest);
 
@@ -49,42 +47,6 @@ BOOST_AUTO_TEST_CASE (testBaseClassTest)
         BOOST_REQUIRE_EQUAL (cls2->getName (), "Place");
 }
 
-namespace A {
-
-        struct Testowa {
-                REFLECTION_END_ (Testowa)
-        };
-
-}
-
-namespace B {
-
-        struct Testowa {
-//                __ne (B::Testowa, BTestowa)
-                REFLECTION_END_TOKEN_ (B::Testowa, B_Testowa)
-        };
-
-}
-
-namespace C {
-
-        struct Testowa {
-//                __ne (C::Testowa, CTestowa)
-                REFLECTION_END_TOKEN_ (C::Testowa, C_Testowa)
-        };
-
-}
-
-namespace D {
-
-        struct Testowa {
-                REFLECTION_CONSTRUCTOR_ (void)
-                REFLECTION_METHOD (f) void f () {}
-                REFLECTION_END_TOKEN (D::Testowa, D_Testowa)
-        };
-
-}
-
 /**
  *
  */
@@ -111,47 +73,6 @@ BOOST_AUTO_TEST_CASE (testTwoClasesSameName)
         BOOST_REQUIRE (cls2);
 
         BOOST_REQUIRE (cls != cls2);
-}
-
-namespace E {
-
-        struct Testowa01 {
-                REFLECTION_CLASS
-                REFLECTION_END (Testowa01)
-        };
-
-        struct Testowa02 : public Core::Object {
-                REFLECTION_CLASS
-                virtual ~Testowa02 () {}
-
-                REFLECTION_METHOD (f) virtual void f () = 0;
-
-                REFLECTION_END (Testowa02)
-        };
-
-        struct Testowa03 : public Testowa02 {
-                REFLECTION_CONSTRUCTOR_ (void)
-                REFLECTION_BASE_CLASS ("Testowa02")
-
-                virtual ~Testowa03 () {}
-
-                virtual void f () {}
-                REFLECTION_METHOD (g) virtual void g () {}
-
-                REFLECTION_END (Testowa03)
-        };
-
-        struct Testowa04 : public Testowa03 {
-                REFLECTION_CONSTRUCTOR_ (void)
-                REFLECTION_BASE_CLASS ("Testowa03")
-
-                virtual ~Testowa04 () {}
-
-                REFLECTION_METHOD (h) virtual void h () {}
-
-                REFLECTION_END (Testowa04)
-        };
-
 }
 
 /**
@@ -227,64 +148,6 @@ BOOST_AUTO_TEST_CASE (testVirtualClass)
 }
 
 /*##########################################################################*/
-
-namespace F {
-
-        template <typename T>
-        struct Template {
-
-                REFLECTION_CONSTRUCTOR_ (void)
-
-                virtual ~Template () {}
-
-                REFLECTION_METHOD (f) virtual void f () {}
-
-        private:
-
-                T t;
-
-                REFLECTION_END_TOKEN (Template<int>, Template_int)
-        };
-
-/*--------------------------------------------------------------------------*/
-
-        template <typename T>
-        struct Template01 {
-
-                REFLECTION_CONSTRUCTOR_ (void)
-
-                virtual ~Template01 () {}
-
-                REFLECTION_METHOD (setT) void setT (const T &t) { this->t = t; }
-                REFLECTION_METHOD (getT) const T &getT () const { return t; }
-
-                T t;
-
-                REFLECTION_END_TOKEN (Template01<int>, Template01_int)
-        };
-
-/*--------------------------------------------------------------------------*/
-
-#if 0
-        template <typename T>
-        struct Template02 {
-
-                REFLECTION_CONSTRUCTOR_ (void)
-
-                virtual ~Template02 () {}
-
-                REFLECTION_METHOD (setT) void setT (const T &t) { this->t = t; }
-                REFLECTION_METHOD (getT) const T &getT () const { return t; }
-
-                T t;
-
-                REFLECTION_TEMPLATE_BEGIN
-                REFLECTION_TEMPLATE (Template02<int>)
-                REFLECTION_TEMPLATE (Template02<double>)
-                REFLECTION_TEMPLATE_END
-        };
-#endif
-}
 
 #if 0
 /**

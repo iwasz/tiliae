@@ -205,9 +205,9 @@ ENDIF(BUILD_CONTAINER)
 ## --------------------------------------------------------
 
 IF (WITH_PARSER)
-        TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "Reflection_input.cc" "Reflection_output.cc")
+        TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "Reflection_input.cc" "Reflection_output.cc.h")
         LIST (APPEND LIB_SOURCES "Reflection_input.cc")
-        LIST (APPEND LIB_SOURCES "Reflection_output.cc")
+        LIST (APPEND LIB_SOURCES "Reflection_output.c")
 ENDIF ()
 
 SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)

@@ -88,38 +88,6 @@ BOOST_AUTO_TEST_CASE (testSetAndGetReferenceAnnotation)
         BOOST_REQUIRE_EQUAL (vcast <X0 *> (ret), testClass.getX0 ());
 }
 
-#define FV(x) REFLECTION_FIELD_VALUE_INPLACE(x)
-#define FR(x) REFLECTION_FIELD_REFERENCE_INPLACE(x)
-
-struct IY : public Core::Object {
-        virtual ~IY () {}
-};
-
-struct Y2 : public IY {
-        virtual ~Y2 () {}
-};
-
-/**
- *
- */
-struct Y : public IY {
-
-        REFLECTION_CONSTRUCTOR_ (void);
-
-        virtual ~Y () {}
-
-        IY *getY () { return y; }
-
-private:
-
-        double FV (d);
-        std::string FV (s);
-        int FV (i);
-        IY *FV (y);
-
-        REFLECTION_END(Y)
-};
-
 /**
  *
  */

@@ -61,8 +61,9 @@ INSTALL (
     PATTERN "*.svn*" EXCLUDE
     PATTERN "*.git*" EXCLUDE)
 
-find_package (Boost REQUIRED)
+find_package (Boost REQUIRED COMPONENTS system prg_exec_monitor unit_test_framework)
 include_directories(${Boost_INCLUDE_DIRS})
+link_directories (${Boost_LIBRARY_DIRS})
 
 include (FindPkgConfig)
 pkg_check_modules (MXML REQUIRED "mxml")
@@ -204,9 +205,9 @@ ENDIF(BUILD_CONTAINER)
 ## --------------------------------------------------------
 
 IF (WITH_PARSER)
-        TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "Reflection.cc" PARSER_OUTPUT_FILE)
-        LIST (APPEND LIB_SOURCES ${PARSER_OUTPUT_FILE})
-        LIST (APPEND LIB_SOURCES "Reflection.cc")
+        TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "Reflection_input.cc" "Reflection_output.cc")
+        LIST (APPEND LIB_SOURCES "Reflection_input.cc")
+        LIST (APPEND LIB_SOURCES "Reflection_output.cc")
 ENDIF ()
 
 SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)

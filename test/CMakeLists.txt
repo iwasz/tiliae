@@ -13,6 +13,14 @@ ADD_DEFINITIONS (-Wall)
 
 SET (CMAKE_CXX_FLAGS "-DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
 SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+SET (CMAKE_VERBOSE_MAKEFILE OFF)
+
+find_package (Boost REQUIRED COMPONENTS system prg_exec_monitor unit_test_framework)
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories (${Boost_LIBRARY_DIRS})
+#MESSAGE ("---> ${Boost_INCLUDE_DIRS}")
+#MESSAGE ("---> ${Boost_LIBRARY_DIRS}")
+#MESSAGE ("---> ${Boost_LIBRARIES}")
 
 ## --------------------------------------------------------
 ## Testy.
@@ -20,11 +28,11 @@ SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 IF (BUILD_TEST_HELPERS AND BUILD_TESTS)
         SET(SOURCES)
 
-        IF (WITH_PARSER)
-                TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "testHelpers/Reflection.cc" PARSER_OUTPUT_FILE)
-                LIST (APPEND SOURCES ${PARSER_OUTPUT_FILE})
-                LIST (APPEND SOURCES "testHelpers/Reflection.cc")
-        ENDIF ()
+#        IF (WITH_PARSER)
+#                TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "testHelpers/Reflection.cc" PARSER_OUTPUT_FILE)
+#                LIST (APPEND SOURCES ${PARSER_OUTPUT_FILE})
+#                LIST (APPEND SOURCES "testHelpers/Reflection.cc")
+#        ENDIF ()
 
         AUX_SOURCE_DIRECTORY (testHelpers SOURCES)
         ADD_LIBRARY (testHelpers ${SOURCES})
@@ -38,10 +46,9 @@ IF(BUILD_CORE AND BUILD_TESTS)
     add_executable (core_test ${SOURCES})
 #    SET_TARGET_PROPERTIES (core_test PROPERTIES COMPILE_FLAGS -DWITH_ANNOTATIONS)
 
-    TARGET_LINK_LIBRARIES (core_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (core_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (core_test tiliae)
     TARGET_LINK_LIBRARIES (core_test c++abi)
+    TARGET_LINK_LIBRARIES (core_test ${Boost_LIBRARIES})
+    TARGET_LINK_LIBRARIES (core_test tiliae)
 
     ADD_TEST (core_test core_test)
 
@@ -61,19 +68,16 @@ IF(BUILD_COMMON AND BUILD_TESTS)
     SET(TEST_SOURCES)
     AUX_SOURCE_DIRECTORY (common TEST_SOURCES)
     add_executable (common_test ${TEST_SOURCES})
-#    SET_TARGET_PROPERTIES (common_test PROPERTIES COMPILE_FLAGS -DWITH_ANNOTATIONS)
 
-    TARGET_LINK_LIBRARIES (common_test boost_unit_test_framework)
-    TARGET_LINK_LIBRARIES (common_test boost_prg_exec_monitor)
-    TARGET_LINK_LIBRARIES (common_test tiliae)
     TARGET_LINK_LIBRARIES (common_test c++abi)
+    TARGET_LINK_LIBRARIES (common_test ${Boost_LIBRARIES})
+    TARGET_LINK_LIBRARIES (common_test tiliae)
 
     ADD_TEST (common_test common_test)
 
 ENDIF()
-
-IF (0)
 ## --------------------------------------------------------
+IF (0)
 IF(BUILD_REFLECTION AND BUILD_TESTS)
 
     SET(TEST_SOURCES)
@@ -106,17 +110,15 @@ IF(BUILD_TOOLS AND BUILD_TESTS)
     ADD_TEST (tools_test tools_test)
 
 ENDIF()
-endif ()
 ## --------------------------------------------------------
-
 IF(BUILD_BEAN_WRAPPER AND BUILD_TESTS)
         SET(TEST_SOURCES)
 
-        IF (WITH_PARSER)
-                TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "beanWrapper/Reflection.cc" PARSER_OUTPUT_FILE)
-                LIST (APPEND TEST_SOURCES ${PARSER_OUTPUT_FILE})
-                LIST (APPEND TEST_SOURCES "beanWrapper/Reflection.cc")
-        ENDIF ()
+#        IF (WITH_PARSER)
+#                TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "beanWrapper/Reflection.cc" PARSER_OUTPUT_FILE)
+#                LIST (APPEND TEST_SOURCES ${PARSER_OUTPUT_FILE})
+#                LIST (APPEND TEST_SOURCES "beanWrapper/Reflection.cc")
+#        ENDIF ()
 
         AUX_SOURCE_DIRECTORY (beanWrapper TEST_SOURCES)
 
@@ -130,7 +132,6 @@ IF(BUILD_BEAN_WRAPPER AND BUILD_TESTS)
         ADD_TEST (bwrap_test bwrap_test)
 ENDIF()
 ## --------------------------------------------------------
-if (0)
 IF(BUILD_FACTORY AND BUILD_TESTS)
 
     SET(TEST_SOURCES)

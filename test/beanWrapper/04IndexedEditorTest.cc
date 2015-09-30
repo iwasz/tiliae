@@ -15,6 +15,7 @@
 #include "beanWrapper/BeanWrapper.h"
 #include <vector>
 #include "reflection/Reflection.h"
+#include "testHelpers/TestHelpers.h"
 
 /****************************************************************************/
 
@@ -25,9 +26,6 @@ using namespace Common;
 using namespace Editor;
 
 /****************************************************************************/
-
-typedef std::vector <int> IntVector;
-REFLECTION_COLLECTION (IntVector);
 
 /**
  * Testuje IndexedEditor z ustawionym tylko jednym edytorem.

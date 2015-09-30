@@ -11,6 +11,7 @@
 #include <k202/K202.h>
 #include "reflection/Reflection.h"
 #include <signal/Signal.h>
+#include "testHelpers/TestHelpers.h"
 
 using namespace Core;
 using namespace Signal;

@@ -126,16 +126,16 @@ private:
         REFLECTION_END (Bar)
 };
 
-typedef std::vector <Ptr <Bar> > BarVector;
+typedef __tiliae_reflect__ std::vector <Ptr <Bar> > BarVector;
 REFLECTION_COLLECTION (BarVector)
 
-typedef std::list <Ptr <Bar> > BarList;
+typedef __tiliae_reflect__ std::list <Ptr <Bar> > BarList;
 REFLECTION_COLLECTION (BarList)
 
-typedef std::list <Bar *> BarListPtr;
+typedef __tiliae_reflect__ std::list <Bar *> BarListPtr;
 REFLECTION_COLLECTION (BarListPtr)
 
-typedef std::map <std::string, Ptr <Bar> > BarMap;
+typedef __tiliae_reflect__ std::map <std::string, Ptr <Bar> > BarMap;
 REFLECTION_COLLECTION (BarMap)
 
 #endif /* FOO_H_ */

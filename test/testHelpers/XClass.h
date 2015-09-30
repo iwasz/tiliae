@@ -65,23 +65,9 @@ struct __tiliae_reflect__ X {
 };
 
 typedef std::list <X *> XList;
-// TODO
-//REFLECTION_FACTORY (XList);
-
 typedef std::vector <X *> XVector;
-// TODO
-//REFLECTION_FACTORY (XVector);
-
 typedef std::set <X *> XSet;
-// TODO
-//REFLECTION_FACTORY (XSet);
-
 typedef std::stack <X *> XStack;
-// TODO
-//REFLECTION_FACTORY (XStack);
-
 typedef std::map <std::string, X *> XMap;
-// TODO
-//REFLECTION_FACTORY (XMap);
 
 #endif /* XCLASS_H_ */

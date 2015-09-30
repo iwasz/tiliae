@@ -12,6 +12,7 @@
 #include "reflection/Reflection.h"
 #include <signal/Signal.h>
 #include <cassert>
+#include "testHelpers/Reflection_output.cc.h"
 
 using namespace Core;
 using namespace Signal;

@@ -34,10 +34,10 @@ private:
 
 };
 
-typedef std::vector <Ptr <Country> > CountryVector;
+typedef __tiliae_reflect__ std::vector <Ptr <Country> > CountryVector;
 REFLECTION_COLLECTION (CountryVector)
 
-typedef std::list <Ptr <Country> > CountryList;
+typedef __tiliae_reflect__ std::list <Ptr <Country> > CountryList;
 REFLECTION_COLLECTION (CountryList)
 
 #endif

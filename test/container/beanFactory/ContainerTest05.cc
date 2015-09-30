@@ -14,11 +14,11 @@
 
 #include "container/ContainerFactory.h"
 #include "container/metaStructure/model/MetaStructure.h"
-#include "container/common/testHelpers/ContainerTestFactory.h"
+#include "container/testHelpers/ContainerTestFactory.h"
 #include <boost/make_shared.hpp>
-#include "editor/testHelpers/DummyIEditor.h"
 #include "beanWrapper/misc/IndexedEditor.h"
 #include "container/metaStructure/model/MetaFactory.h"
+#include "testHelpers/TestHelpers.h"
 
 /****************************************************************************/
 

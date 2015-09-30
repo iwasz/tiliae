@@ -35,7 +35,7 @@ private:
 
 /****************************************************************************/
 
-typedef std::list <Ptr <Telephone> > TelephoneList;
+typedef __tiliae_reflect__ std::list <Ptr <Telephone> > TelephoneList;
 REFLECTION_COLLECTION(TelephoneList)
 
 #endif

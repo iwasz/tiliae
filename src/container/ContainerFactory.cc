@@ -10,7 +10,6 @@
 #include "core/Pointer.h"
 #include "editor/NoopEditor.h"
 #include "container/metaStructure/model/MetaStructure.h"
-#include "container/common/testHelpers/ContainerTestFactory.h"
 #include "container/metaStructure/service/PrintService.h"
 #include "container/metaStructure/service/MetaVisitor.h"
 #include "container/beanFactory/service/ValueServiceHelper.h"

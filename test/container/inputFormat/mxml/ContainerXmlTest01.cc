@@ -15,7 +15,7 @@
 
 #include "container/ContainerFactory.h"
 #include "container/metaStructure/model/MetaStructure.h"
-#include "container/common/testHelpers/ContainerTestFactory.h"
+#include "container/testHelpers/ContainerTestFactory.h"
 #include "container/inputFormat/mxml/MXmlMetaService.h"
 #include "Conf.h"
 

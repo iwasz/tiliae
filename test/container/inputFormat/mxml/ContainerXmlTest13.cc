@@ -14,7 +14,7 @@
 
 #include "container/ContainerFactory.h"
 #include "container/metaStructure/model/MetaStructure.h"
-#include "container/common/testHelpers/ContainerTestFactory.h"
+#include "container/testHelpers/ContainerTestFactory.h"
 #include "Conf.h"
 #include "container/inputFormat/mxml/MXmlMetaService.h"
 
@@ -119,9 +119,6 @@ BOOST_AUTO_TEST_CASE (test063SingletonInit)
         // Czyli to jest 6ste wywołanie:
         BOOST_CHECK_EQUAL (p->init (), 6);
 }
-
-typedef std::vector <int> IntVector;
-REFLECTION_COLLECTION (IntVector)
 
 /**
  *

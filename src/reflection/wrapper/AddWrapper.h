@@ -27,7 +27,11 @@ namespace Reflection {
  * (stąd nazwa Set) do wrapowanej kolekcji. Interfejs jest oczywiście typu ICallableWrapper.
  */
 template <typename T>
-struct AddWrapper {};
+struct AddWrapper : public ICallableWrapper {
+        virtual Core::Variant call (Core::Variant const &, Core::VariantVector *) { throw Core::Exception ("Not implemented.") ;}
+        virtual std::type_info const &getType () const { throw Core::Exception ("Not implemented.") ;}
+        virtual unsigned int getArity () const { throw Core::Exception ("Not implemented.") ;}
+};
 
 /**
  * Wrapper dla wektorów. Wymaga unsigned int jako indexu.

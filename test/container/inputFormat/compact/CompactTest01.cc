@@ -14,7 +14,7 @@
 
 #include "container/ContainerFactory.h"
 #include "container/metaStructure/model/MetaStructure.h"
-#include "container/common/testHelpers/ContainerTestFactory.h"
+#include "container/testHelpers/ContainerTestFactory.h"
 #include "container/inputFormat/compact/CompactMetaService.h"
 #include "Conf.h"
 #include "testHelpers/TestHelpers.h"

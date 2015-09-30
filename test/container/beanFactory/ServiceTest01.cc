@@ -16,7 +16,7 @@
 //#include <BeanWrapper.h>
 //
 //#include "container/metaStructure/model/MetaStructure.h"
-//#include "container/common/testHelpers/ContainerTestFactory.h"
+//#include "container/testHelpers/ContainerTestFactory.h"
 //#include "container/beanFactory/service/BeanFactoryService.h"
 //#include "container/metaStructure/service/PrintService.h"
 //#include "container/metaStructure/service/MetaVisitor.h"

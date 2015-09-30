@@ -61,8 +61,7 @@ private:
         REFLECTION_END (Address)
 };
 
-
-typedef std::list <Ptr <Address> > AddressList;
+typedef __tiliae_reflect__ std::list <Ptr <Address> > AddressList;
 REFLECTION_COLLECTION (AddressList)
 
 #endif

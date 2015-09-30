@@ -8,12 +8,13 @@
 
 #define BOOST_TEST_MODULE SignalTests
 #define BOOST_TEST_DYN_LINK
- 
+
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <k202/K202.h>
 #include "reflection/Reflection.h"
 #include <signal/Signal.h>
+#include "testHelpers/TestHelpers.h"
 
 BOOST_AUTO_TEST_SUITE (FirstTest);
 using namespace Core;
@@ -56,5 +57,5 @@ BOOST_AUTO_TEST_CASE (testBasic)
         BOOST_CHECK_EQUAL (recv.sValue, "ojojojoj!");
         BOOST_CHECK_EQUAL (vcast <int> (ret), 666);
 }
- 
+
 BOOST_AUTO_TEST_SUITE_END ();

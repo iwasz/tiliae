@@ -25,6 +25,7 @@
 #include "factory/ProxyFactory.h"
 #include "testHelpers/City.h"
 #include "factory/testHelpers/SillyFactory.h"
+#include "testHelpers/Reflection_output.cc.h"
 
 /****************************************************************************/
 

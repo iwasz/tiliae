@@ -15,6 +15,7 @@
 #include "k202/compiler/Compiler.h"
 #include "TestHelpers.h"
 #include "k202/extension/CacheExtension.h"
+#include "testHelpers/Reflection_output.cc.h"
 
 BOOST_AUTO_TEST_SUITE (ParserTest01);
 using namespace k202;
@@ -107,16 +108,16 @@ BOOST_AUTO_TEST_CASE (testOperatorPrecedence)
         TestHelpers::testParser (compiler, "%0 == (%1 != %2)", "ByteCode (LogicEq (Placeholder (0), LogicNe (Placeholder (1), Placeholder (2))))");
         TestHelpers::testParser (compiler, "%0 != (%1 == %2)", "ByteCode (LogicNe (Placeholder (0), LogicEq (Placeholder (1), Placeholder (2))))");
 
-	/*
-	 * 3. == i != wiaza mocniej niz &&
-	 */
+        /*
+         * 3. == i != wiaza mocniej niz &&
+         */
         TestHelpers::testParser (compiler, "%0 == %1 && %2", "ByteCode (LogicAnd (LogicEq (Placeholder (0), Placeholder (1)), Placeholder (2)))");
-	TestHelpers::testParser (compiler, "%0 && %1 == %2", "ByteCode (LogicAnd (Placeholder (0), LogicEq (Placeholder (1), Placeholder (2))))");
+        TestHelpers::testParser (compiler, "%0 && %1 == %2", "ByteCode (LogicAnd (Placeholder (0), LogicEq (Placeholder (1), Placeholder (2))))");
         TestHelpers::testParser (compiler, "(%0 == %1) && %2", "ByteCode (LogicAnd (LogicEq (Placeholder (0), Placeholder (1)), Placeholder (2)))");
-	TestHelpers::testParser (compiler, "%0 && (%1 == %2)", "ByteCode (LogicAnd (Placeholder (0), LogicEq (Placeholder (1), Placeholder (2))))");
+        TestHelpers::testParser (compiler, "%0 && (%1 == %2)", "ByteCode (LogicAnd (Placeholder (0), LogicEq (Placeholder (1), Placeholder (2))))");
 
-	// Mocniej niz funkcja.
-	TestHelpers::testParser (compiler, "$funcA (%0, %1) == $funcB (%2, %3)", "ByteCode (LogicEq (Function (funcA, 2 args : Placeholder (0), Placeholder (1)), Function (funcB, 2 args : Placeholder (2), Placeholder (3))))");
+        // Mocniej niz funkcja.
+        TestHelpers::testParser (compiler, "$funcA (%0, %1) == $funcB (%2, %3)", "ByteCode (LogicEq (Function (funcA, 2 args : Placeholder (0), Placeholder (1)), Function (funcB, 2 args : Placeholder (2), Placeholder (3))))");
 
         // && Wiaze mocniej niz ||
         TestHelpers::testParser (compiler, "%0 && %1 || %2", "ByteCode (LogicOr (LogicAnd (Placeholder (0), Placeholder (1)), Placeholder (2)))");
@@ -124,7 +125,7 @@ BOOST_AUTO_TEST_CASE (testOperatorPrecedence)
         TestHelpers::testParser (compiler, "(%0 && %1) || %2", "ByteCode (LogicOr (LogicAnd (Placeholder (0), Placeholder (1)), Placeholder (2)))");
         TestHelpers::testParser (compiler, "%0 || (%1 && %2)", "ByteCode (LogicOr (Placeholder (0), LogicAnd (Placeholder (1), Placeholder (2))))");
         TestHelpers::testParser (compiler, "%0 && (%1 || %2)", "ByteCode (LogicAnd (Placeholder (0), LogicOr (Placeholder (1), Placeholder (2))))");
-	TestHelpers::testParser (compiler, "(%0 || %1) && %2", "ByteCode (LogicAnd (LogicOr (Placeholder (0), Placeholder (1)), Placeholder (2)))");
+        TestHelpers::testParser (compiler, "(%0 || %1) && %2", "ByteCode (LogicAnd (LogicOr (Placeholder (0), Placeholder (1)), Placeholder (2)))");
 
         /*
          * ! right-to-left

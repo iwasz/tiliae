@@ -41,13 +41,13 @@ private:
 
 };
 
-typedef std::vector <City *> CityVector;
+typedef __tiliae_reflect__ std::vector <City *> CityVector;
 REFLECTION_COLLECTION_NAME (CityVector, "CityVector")
 
-typedef std::list <City *> CityList;
+typedef __tiliae_reflect__ std::list <City *> CityList;
 REFLECTION_COLLECTION_NAME (CityList, "CityList")
 
-typedef std::map <std::string, City *> CityMap;
+typedef __tiliae_reflect__ std::map <std::string, City *> CityMap;
 REFLECTION_COLLECTION (CityMap)
 
 #endif

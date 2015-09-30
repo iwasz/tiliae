@@ -50,9 +50,9 @@ public:
         std::string const &getPath () const { return path; }
 
         Core::Variant emit (const Core::VariantVector &paramVector,
-                            const Core::VariantMap &params = Core::VariantMap ());
+                            const Core::VariantMap &params = Core::VariantMap ()) __tiliae_no_reflect__;
 
-        Core::Variant emit ();
+        Core::Variant emit () __tiliae_no_reflect__;
 
         Ptr <Core::VariantVector const> getParamVector () const { return paramVector; }
         REFLECTION_METHOD (setParamVector) void setParamVector (Ptr <Core::VariantVector> pv) { paramVector = pv; }

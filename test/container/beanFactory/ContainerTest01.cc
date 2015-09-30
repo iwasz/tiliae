@@ -13,8 +13,10 @@
 #include "testHelpers/TestHelpers.h"
 #include "container/ContainerFactory.h"
 #include "container/metaStructure/model/MetaStructure.h"
-#include "container/common/testHelpers/ContainerTestFactory.h"
+#include "container/testHelpers/ContainerTestFactory.h"
 #include "common/collection/OrderedVariantMap.h"
+#include "testHelpers/Reflection_output.cc.h" // testHelpers
+#include "Reflection_output.cc.h" // Main
 
 /****************************************************************************/
 

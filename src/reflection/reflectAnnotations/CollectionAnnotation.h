@@ -90,7 +90,7 @@ struct CollectionAnnotation {};
 
 template <typename T>
 struct CollectionAnnotation <std::vector <T> > {
-	static void run (std::string const &className);
+        static void run (std::string const &className);
 };
 
 template <typename T>
@@ -131,7 +131,7 @@ void CollectionAnnotation <std::vector <T> >::run (std::string const &className)
 
 template <typename T>
 struct CollectionAnnotation <std::list <T> > {
-	static void run (std::string const &className);
+        static void run (std::string const &className);
 };
 
 template <typename T>
@@ -171,7 +171,7 @@ void CollectionAnnotation <std::list <T> >::run (std::string const &className)
 
 template <typename T>
 struct CollectionAnnotation <std::set <T> > {
-	static void run (std::string const &className);
+        static void run (std::string const &className);
 };
 
 template <typename T>
@@ -207,7 +207,7 @@ void CollectionAnnotation <std::set <T> >::run (std::string const &className)
 
 template <typename K, typename V>
 struct CollectionAnnotation <std::map <K, V> > {
-	static void run (std::string const &className);
+        static void run (std::string const &className);
 };
 
 template <typename K, typename V>
@@ -236,7 +236,8 @@ void CollectionAnnotation <std::map <K, V> >::run (std::string const &className)
 
         w = new IteratorWrapper <std::map <K, V> > ();
         method = new Method ("iterator", w);
-        clazz->addMethod (method);}
+        clazz->addMethod (method);
+}
 
 } // notebook
 

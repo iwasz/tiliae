@@ -6,9 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef TESTHELPERS_H_
-#define TESTHELPERS_H_
-#endif /* TESTHELPERS_H_ */
+#ifndef AAATESTHELPERS_H_
+#define AAATESTHELPERS_H_
 
 #include "ReflectionParserAnnotation.h"
 #include "Address.h"
@@ -28,6 +27,7 @@
 #include "TestFactories.h"
 #include "DummyIEditor.h"
 #include "container/beanFactory/BeanFactoryContainer.h"
+#include "A.h"
 
 // Those are only tests, so I can do this:
 using namespace Container;
@@ -296,7 +296,7 @@ struct __tiliae_reflect__ Source {
 
 struct Dummy1;
 
-typedef std::vector <Dummy1 *> DummyVector;
+typedef __tiliae_reflect__ std::vector <Dummy1 *> DummyVector;
 REFLECTION_COLLECTION (DummyVector)
 
 struct __tiliae_reflect__ Dummy1 {
@@ -415,3 +415,7 @@ struct __tiliae_reflect__ Receiver3 {
         REFLECTION_END_ (Receiver3);
 };
 
+typedef __tiliae_reflect__ std::vector <int> IntVector;
+REFLECTION_COLLECTION (IntVector);
+
+#endif /* TESTHELPERS_H_ */

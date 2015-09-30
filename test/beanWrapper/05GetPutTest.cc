@@ -19,8 +19,7 @@
 #include "beanWrapper/plugins/PropertyRWBeanWrapperPlugin.h"
 #include "beanWrapper/plugins/GetPutMethodRWBeanWrapperPlugin.h"
 #include "beanWrapper/plugins/MethodPlugin.h"
-#include "testHelpers/City.h"
-#include "A.h"
+#include "testHelpers/Reflection_output.cc.h"
 
 /****************************************************************************/
 
@@ -39,7 +38,7 @@ using namespace Editor;
  */
 BOOST_AUTO_TEST_CASE (testComplexGetPut)
 {
-        A a;
+        T::A a;
         a.setField ("testowy");
         BeanWrapper *bw = BeanWrapper::create (Variant (&a));
 

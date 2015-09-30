@@ -19,7 +19,6 @@
 #include "core/string/String.h"
 #include "editor/IEditor.h"
 #include "editor/testHelpers/DummyJEditor.h"
-#include "editor/testHelpers/DummyIEditor.h"
 #include "editor/testHelpers/StringToMegaTonEditor.h"
 #include "core/variant/Cast.h"
 #include "factory/testHelpers/MegaTon.h"
@@ -33,6 +32,7 @@
 #include "testHelpers/Country.h"
 #include "editor/NoopEditor.h"
 #include "editor/LexicalEditor.h"
+#include "testHelpers/Reflection_output.cc.h"
 
 using Core::Variant;
 #ifdef WITH_CORE_STRING

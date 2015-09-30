@@ -75,6 +75,9 @@ private:
         bool field5;
         char *field6;
         City *city;
+
+public:
+
         City *REFLECTION_FIELD_VALUE_INPLACE (city2);
         Ptr <City> REFLECTION_FIELD_VALUE_INPLACE (city3);
 

@@ -118,9 +118,6 @@ BOOST_AUTO_TEST_CASE (test063SingletonInit)
         BOOST_CHECK_EQUAL (p->init2 (), 6);
 }
 
-typedef std::vector <int> IntVector;
-REFLECTION_COLLECTION (IntVector)
-
 /**
  *
  */

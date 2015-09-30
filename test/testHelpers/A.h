@@ -1,8 +1,13 @@
+#ifndef AATESTOWAKLASAQD
+#define AATESTOWAKLASAQD
+
 #include "reflection/Reflection.h"
 #include "core/variant/Variant.h"
 #include "core/variant/Cast.h"
 
 using namespace Core;
+
+namespace T {
 
 class __tiliae_reflect__ A {
 public:
@@ -44,3 +49,7 @@ private:
 
        REFLECTION_END (A)
 };
+
+}
+
+#endif

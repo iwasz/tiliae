@@ -42,7 +42,7 @@ static cl::extrahelp MoreHelp ("\nMore help text...");
 
 std::ofstream outputFile;
 
-//static const clang::FileEntry * getFileEntryForDecl(const clang::Decl * decl, clang::SourceManager * sourceManager)
+// static const clang::FileEntry * getFileEntryForDecl(const clang::Decl * decl, clang::SourceManager * sourceManager)
 //{
 //    if (!decl || !sourceManager) {
 //        return 0;
@@ -53,7 +53,7 @@ std::ofstream outputFile;
 //    return sourceManager->getFileEntryForID(fileID);
 //}
 
-//static const char * getFileNameForDecl(const clang::Decl * decl, clang::SourceManager * sourceManager)
+// static const char * getFileNameForDecl(const clang::Decl * decl, clang::SourceManager * sourceManager)
 //{
 //    const clang::FileEntry * fileEntry = getFileEntryForDecl(decl, sourceManager);
 //    if (!fileEntry) {
@@ -90,7 +90,7 @@ std::ofstream outputFile;
  * @return if it has annotation with given name and secdond annotation's name if there is any.
  * TODO Refactor
  */
-static std::pair <bool, std::string> hasAnnotation (clang::Decl::attr_range const &attrRange, std::string const &name)
+static std::pair<bool, std::string> hasAnnotation (clang::Decl::attr_range const &attrRange, std::string const &name)
 {
         bool annotationFound = false;
         std::string secondName;
@@ -121,8 +121,8 @@ static std::pair <bool, std::string> hasAnnotation (clang::Decl::attr_range cons
  * @brief The CXXRecordDeclStmtHandler class
  */
 class CXXRecordDeclStmtHandler : public MatchFinder::MatchCallback {
-    public:
-        virtual void run (const MatchFinder::MatchResult &Result);
+public:
+        virtual void run (const MatchFinder::MatchResult &result);
 };
 
 void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
@@ -185,20 +185,21 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
         //        return;
 
         outputFile << "\t{\n";
-        outputFile << "\t\tClass *clazz = new Class (\"" << className << "\", typeid (" << fullName << " &), new Reflection::PtrDeleter <" << fullName << ">);\n";
-        outputFile << "\t\tManager::add (clazz);\n";
+        outputFile << "\t\tClass *clazz = new Class (\"" << className << "\", typeid (" << fullName << " &), new Reflection::PtrDeleter <" << fullName
+                   << ">);\n";
+        outputFile << "\t\tif (!Manager::add (clazz)) {\n\t\t\tdelete clazz;\n\t\t}\n\t\telse {\n";
 
         /*---------------------------------------------------------------------------*/
 
         for (CXXBaseSpecifier const &bse : decl->bases ()) {
                 QualType qt = bse.getType ();
-                outputFile << "\t\tclazz->addBaseClassName (\"" << qt->getAsCXXRecordDecl ()->getName ().str () << "\");\n";
+                outputFile << "\t\t\tclazz->addBaseClassName (\"" << qt->getAsCXXRecordDecl ()->getName ().str () << "\");\n";
         }
 
         for (CXXConstructorDecl const *constructor : decl->ctors ()) {
 
-                if (decl->hasDefaultConstructor () && constructor->isDefaultConstructor() && constructor->getAccess () == AS_public) {
-                        outputFile << "\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName
+                if (decl->hasDefaultConstructor () && constructor->isDefaultConstructor () && constructor->getAccess () == AS_public) {
+                        outputFile << "\t\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName
                                    << ", void>::Level1Wrapper::newConstructorPointer ()));\n";
                 }
 
@@ -206,7 +207,7 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
                         continue;
                 }
 
-                outputFile << "\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName << ", ";
+                outputFile << "\t\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName << ", ";
 
                 for (clang::FunctionDecl::param_const_iterator i = constructor->param_begin (); i != constructor->param_end ();) {
                         SplitQualType tSplit = (*i)->getType ().split ();
@@ -233,14 +234,16 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
                 }
 
                 // SplitQualType tSplit = field->getType ().split ();
-                outputFile << "\t\tclazz->addField (new Field (\"" << name.str () << "\", Reflection::createFieldWrapper (&" << fullName << "::" << name.str () << ")));\n";
+                outputFile << "\t\t\tclazz->addField (new Field (\"" << name.str () << "\", Reflection::createFieldWrapper (&" << fullName << "::" << name.str ()
+                           << ")));\n";
         }
 
         /*---------------------------------------------------------------------------*/
 
         for (CXXMethodDecl const *method : decl->methods ()) {
 
-                if (method->isImplicit () || method->getAccess () != AS_public || hasAnnotation (method->attrs (), TILIAE_NO_REFLECT_ANNOTATION_STRING).first || method->isStatic ()) {
+                if (method->isImplicit () || method->getAccess () != AS_public || hasAnnotation (method->attrs (), TILIAE_NO_REFLECT_ANNOTATION_STRING).first
+                    || method->isStatic ()) {
                         continue;
                 }
 
@@ -248,8 +251,8 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
 
                 if (identifier) {
                         //                        llvm::outs () << "    method : [" << identifier->getName () << " (";
-                        outputFile << "\t\tclazz->addMethod (new Method (\"" << identifier->getName ().str ()
-                                   << "\", createMethodWrapper (&" << fullName << "::" << identifier->getName ().str () << ")));\n";
+                        outputFile << "\t\t\tclazz->addMethod (new Method (\"" << identifier->getName ().str () << "\", createMethodWrapper (&" << fullName
+                                   << "::" << identifier->getName ().str () << ")));\n";
                 }
                 else {
                         continue;
@@ -267,6 +270,37 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
 
         //          Rewrite.InsertText(IncVar->getLocStart(), "/* increment */",
         //          true, true);
+        outputFile << "\t\t}\n";
+        outputFile << "\t}\n";
+}
+
+class CXXTypedefStmtHandler : public MatchFinder::MatchCallback {
+public:
+        virtual void run (const MatchFinder::MatchResult &Result);
+};
+
+void CXXTypedefStmtHandler::run (const MatchFinder::MatchResult &result)
+{
+        const TypedefDecl *decl = result.Nodes.getNodeAs<TypedefDecl> ("cxxTypedefDecl");
+        std::string typedefName = decl->getName ();
+        std::string typedefQualifiedName = decl->getQualifiedNameAsString ();
+
+        outputFile << "\t{\n";
+        outputFile << "\t\tClass *clazz = new Class (\"" << typedefName << "\", typeid (" << typedefQualifiedName << "&), new PtrDeleter <" << typedefQualifiedName << " >);\n";
+        outputFile << "\t\tif (!Manager::add (clazz)) {;\n";
+        outputFile << "\t\t\tdelete clazz;\n";
+        outputFile << "\t\t}\n\t\telse { \n";
+        outputFile << "\t\t\tIConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <" << typedefQualifiedName << ", void>::Level1Wrapper::newConstructorPointer ();\n";
+        outputFile << "\t\t\tclazz->addConstructor (new Constructor (cp));\n\n";
+        outputFile << "\t\t\tICallableWrapper *w = new AddWrapper <" << typedefQualifiedName << " > ();\n";
+        outputFile << "\t\t\tclazz->addMethod (new Method (\"add\", w));\n\n";
+        outputFile << "\t\t\tw = new GetWrapper <" << typedefQualifiedName << " > ();\n";
+        outputFile << "\t\t\tclazz->addMethod (new Method (\"get\", w));\n\n";
+        outputFile << "\t\t\tw = new SetWrapper <" << typedefQualifiedName << " > ();\n";
+        outputFile << "\t\t\tclazz->addMethod (new Method (\"set\", w));\n\n";
+        outputFile << "\t\t\tw = new IteratorWrapper <" << typedefQualifiedName << " > ();\n";
+        outputFile << "\t\t\tclazz->addMethod (new Method (\"iterator\", w));\n";
+        outputFile << "\t\t}\n";
         outputFile << "\t}\n";
 }
 
@@ -274,11 +308,13 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
  * @brief The FindNamedClassConsumer class
  */
 class FindNamedClassConsumer : public clang::ASTConsumer {
-    public:
+public:
         explicit FindNamedClassConsumer (/*ASTContext *Context*/) /*: Visitor(Context)*/
         {
                 //                Matcher.addMatcher(cxxRecordDecl (isDefinition (), matchesName ("A.*")).bind("cxxRecordDecl"), &handlerForClasses);
-                Matcher.addMatcher (recordDecl (isDefinition ()).bind ("cxxRecordDecl"), &handlerForClasses);
+                Matcher.addMatcher (recordDecl (isDefinition (), hasAttr (clang::attr::Annotate)).bind ("cxxRecordDecl"), &handlerForClasses);
+//                Matcher.addMatcher (typedefDecl (isDefinition (), hasAttr (clang::attr::Annotate)).bind ("cxxRecordDecl"), &handlerForTypedefs);
+                Matcher.addMatcher (typedefDecl (hasAttr (clang::attr::Annotate)).bind ("cxxTypedefDecl"), &handlerForTypedefs);
         }
 
         virtual void HandleTranslationUnit (clang::ASTContext &Context)
@@ -287,10 +323,10 @@ class FindNamedClassConsumer : public clang::ASTConsumer {
                 Matcher.matchAST (Context);
         }
 
-    private:
+private:
         //  FindNamedClassVisitor Visitor;
         CXXRecordDeclStmtHandler handlerForClasses;
-
+        CXXTypedefStmtHandler handlerForTypedefs;
         MatchFinder Matcher;
 };
 
@@ -298,12 +334,10 @@ class FindNamedClassConsumer : public clang::ASTConsumer {
  * @brief The FindNamedClassAction class
  */
 class FindNamedClassAction : public clang::ASTFrontendAction {
-    public:
-        virtual std::unique_ptr<clang::ASTConsumer>
-        CreateASTConsumer (clang::CompilerInstance &Compiler, llvm::StringRef InFile)
+public:
+        virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer (clang::CompilerInstance &Compiler, llvm::StringRef InFile)
         {
-                return std::unique_ptr<clang::ASTConsumer> (
-                        new FindNamedClassConsumer (/*&Compiler.getASTContext()*/));
+                return std::unique_ptr<clang::ASTConsumer> (new FindNamedClassConsumer (/*&Compiler.getASTContext()*/));
         }
 };
 

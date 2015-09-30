@@ -11,10 +11,10 @@
 #include <iostream>
 #include "core/Pointer.h"
 #include "testHelpers/TestHelpers.h"
-#include "factory/testHelpers/TestFactories.h"
+#include "testHelpers/TestFactories.h"
 #include "container/ContainerFactory.h"
 #include "container/metaStructure/model/MetaStructure.h"
-#include "container/common/testHelpers/ContainerTestFactory.h"
+#include "container/testHelpers/ContainerTestFactory.h"
 #include <boost/make_shared.hpp>
 #include "container/metaStructure/model/MetaFactory.h"
 

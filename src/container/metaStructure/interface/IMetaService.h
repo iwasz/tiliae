@@ -16,7 +16,7 @@ namespace Container {
 
 class ValueData;
 class NullData;
-class RefData;
+struct RefData;
 struct DataKey;
 class MetaObject;
 class  MetaContainer;

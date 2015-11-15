@@ -13,7 +13,7 @@ ADD_DEFINITIONS (-Wall)
 
 SET (CMAKE_CXX_FLAGS "-DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
 SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-SET (CMAKE_VERBOSE_MAKEFILE OFF)
+SET (CMAKE_VERBOSE_MAKEFILE ON)
 
 find_package (Boost REQUIRED COMPONENTS system prg_exec_monitor unit_test_framework)
 include_directories(${Boost_INCLUDE_DIRS})
@@ -39,7 +39,7 @@ IF (BUILD_TEST_HELPERS AND BUILD_TESTS)
         SET(SOURCES)
 
         IF (WITH_PARSER)
-                TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "testHelpers/Reflection_input.cc" "testHelpers/Reflection_output.cc.h")
+                TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "testHelpers" "testHelpers/Reflection_input.cc" "testHelpers/Reflection_output.cc.h")
                 LIST (APPEND SOURCES "testHelpers/Reflection_input.cc")
                 LIST (APPEND SOURCES "testHelpers/Reflection_output.cc.h")
         ENDIF ()

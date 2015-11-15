@@ -2,5 +2,5 @@
 <beans init-method="init">
   <City id="city1" name="Warszawa" />
   <!-- Ścieżka relatywna do CWD programu, a program jest w build -->
-  <import resource="../src/container/inputFormat/compact/test/testXmlFiles/088-import-global-init-method-01.xml" />
+  <import resource="../../test/container/inputFormat/compact/testXmlFiles/088-import-global-init-method-01.xml" />
 </beans>

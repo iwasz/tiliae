@@ -31,6 +31,7 @@ using namespace llvm;
 // only ones displayed.
 static llvm::cl::OptionCategory MyToolCategory ("tiliaeparser options");
 static cl::opt<std::string> outputFilename ("o", cl::desc ("Specify output filename"), cl::value_desc ("filename"));
+static cl::opt<std::string> functionSuffix ("s", cl::desc ("Specify generated function suffix"), cl::value_desc ("function suffix"));
 
 // CommonOptionsParser declares HelpMessage with a description of the common
 // command-line options related to the compilation database and input files.
@@ -196,46 +197,62 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
                 outputFile << "\t\t\tclazz->addBaseClassName (\"" << qt->getAsCXXRecordDecl ()->getName ().str () << "\");\n";
         }
 
-        for (CXXConstructorDecl const *constructor : decl->ctors ()) {
-
-                if (decl->hasDefaultConstructor () && constructor->isDefaultConstructor () && constructor->getAccess () == AS_public) {
+        if (!decl->isAbstract ()) {
+                // Looks like implicit default constructor is not returned in decl->ctors () !?
+                if (decl->hasDefaultConstructor () && !decl->hasUserProvidedDefaultConstructor ()) {
                         outputFile << "\t\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName
                                    << ", void>::Level1Wrapper::newConstructorPointer ()));\n";
                 }
 
-                if (constructor->isImplicit () || constructor->param_size () == 0 || constructor->getAccess () != AS_public) {
-                        continue;
-                }
+                for (CXXConstructorDecl const *constructor : decl->ctors ()) {
 
-                outputFile << "\t\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName << ", ";
+//                        if (className == "Country") {
+//                                llvm::outs () << "Constructor! hasDef = [" << decl->hasDefaultConstructor () << "], isDef = ["
+//                                              << constructor->isDefaultConstructor () << "], accessPub = [" << (constructor->getAccess () == AS_public)
+//                                              << "], isImplicit = [" << constructor->isImplicit () << "], params0 = [" << (constructor->param_size () == 0)
+//                                              << "]\n";
+//                        }
 
-                for (clang::FunctionDecl::param_const_iterator i = constructor->param_begin (); i != constructor->param_end ();) {
-                        SplitQualType tSplit = (*i)->getType ().split ();
-                        outputFile << QualType::getAsString (tSplit);
-
-                        if (++i == constructor->param_end ()) {
-                                break;
+                        if (decl->hasDefaultConstructor () && constructor->isDefaultConstructor () && constructor->getAccess () == AS_public) {
+                                outputFile << "\t\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName
+                                           << ", void>::Level1Wrapper::newConstructorPointer ()));\n";
                         }
-                        else {
-                                outputFile << ", ";
-                        }
-                }
 
-                outputFile << ">::Level1Wrapper::newConstructorPointer ()));\n";
+                        if (constructor->isImplicit () || constructor->param_size () == 0 || constructor->getAccess () != AS_public) {
+                                continue;
+                        }
+
+                        outputFile << "\t\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName << ", ";
+
+                        for (clang::FunctionDecl::param_const_iterator i = constructor->param_begin (); i != constructor->param_end ();) {
+                                SplitQualType tSplit = (*i)->getType ().split ();
+                                outputFile << QualType::getAsString (tSplit);
+
+                                if (++i == constructor->param_end ()) {
+                                        break;
+                                }
+                                else {
+                                        outputFile << ", ";
+                                }
+                        }
+
+                        outputFile << ">::Level1Wrapper::newConstructorPointer ()));\n";
+                }
         }
 
         /*---------------------------------------------------------------------------*/
 
-        for (const auto &field : decl->fields ()) {
+        for (const FieldDecl *field : decl->fields ()) {
                 const StringRef &name = field->getName ();
+                QualType qType = field->getType ();
 
-                if (field->getAccess () != AS_public) {
+                if (field->getAccess () != AS_public || qType.isConstQualified ()) {
                         continue;
                 }
 
                 // SplitQualType tSplit = field->getType ().split ();
-                outputFile << "\t\t\tclazz->addField (new Field (\"" << name.str () << "\", Reflection::createFieldWrapper (&" << fullName << "::" << name.str ()
-                           << ")));\n";
+                outputFile << "\t\t\tclazz->addField (new Field (\"" << name.str () << "\", Reflection::createFieldWrapper (&" << fullName
+                           << "::" << name.str () << ")));\n";
         }
 
         /*---------------------------------------------------------------------------*/
@@ -286,11 +303,13 @@ void CXXTypedefStmtHandler::run (const MatchFinder::MatchResult &result)
         std::string typedefQualifiedName = decl->getQualifiedNameAsString ();
 
         outputFile << "\t{\n";
-        outputFile << "\t\tClass *clazz = new Class (\"" << typedefName << "\", typeid (" << typedefQualifiedName << "&), new PtrDeleter <" << typedefQualifiedName << " >);\n";
+        outputFile << "\t\tClass *clazz = new Class (\"" << typedefName << "\", typeid (" << typedefQualifiedName << "&), new PtrDeleter <"
+                   << typedefQualifiedName << " >);\n";
         outputFile << "\t\tif (!Manager::add (clazz)) {;\n";
         outputFile << "\t\t\tdelete clazz;\n";
         outputFile << "\t\t}\n\t\telse { \n";
-        outputFile << "\t\t\tIConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <" << typedefQualifiedName << ", void>::Level1Wrapper::newConstructorPointer ();\n";
+        outputFile << "\t\t\tIConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <" << typedefQualifiedName
+                   << ", void>::Level1Wrapper::newConstructorPointer ();\n";
         outputFile << "\t\t\tclazz->addConstructor (new Constructor (cp));\n\n";
         outputFile << "\t\t\tICallableWrapper *w = new AddWrapper <" << typedefQualifiedName << " > ();\n";
         outputFile << "\t\t\tclazz->addMethod (new Method (\"add\", w));\n\n";
@@ -313,7 +332,8 @@ public:
         {
                 //                Matcher.addMatcher(cxxRecordDecl (isDefinition (), matchesName ("A.*")).bind("cxxRecordDecl"), &handlerForClasses);
                 Matcher.addMatcher (recordDecl (isDefinition (), hasAttr (clang::attr::Annotate)).bind ("cxxRecordDecl"), &handlerForClasses);
-//                Matcher.addMatcher (typedefDecl (isDefinition (), hasAttr (clang::attr::Annotate)).bind ("cxxRecordDecl"), &handlerForTypedefs);
+                //                Matcher.addMatcher (typedefDecl (isDefinition (), hasAttr (clang::attr::Annotate)).bind ("cxxRecordDecl"),
+                //                &handlerForTypedefs);
                 Matcher.addMatcher (typedefDecl (hasAttr (clang::attr::Annotate)).bind ("cxxTypedefDecl"), &handlerForTypedefs);
         }
 
@@ -357,6 +377,7 @@ int main (int argc, const char **argv)
         outputFile <<
 R"(/*
  * This file was aut-generated by tiliaeparser. Do not modify. Unless.
+ * Include only once.
  * https://github.com/iwasz/tiliae
  */
 
@@ -370,7 +391,7 @@ R"(/*
         outputFile << "using namespace Core;\n";
         outputFile << "using namespace Reflection;\n";
         outputFile << "\n";
-        outputFile << "void createReflectionDatabase__ ()\n";
+        outputFile << "void createReflectionDatabase_" << functionSuffix << " ()\n";
         outputFile << "{\n";
 
         int ret = Tool.run (newFrontendActionFactory<FindNamedClassAction> ().get ());
@@ -378,19 +399,14 @@ R"(/*
         outputFile << "}\n";
         outputFile << "\n";
 
-        // clang-format off
-        outputFile << R"(
-struct Sentinel__ {
-        Sentinel__ ()
-        {
-                createReflectionDatabase__ ();
-        }
-};
-
-static Sentinel__ sentinel__;
-)";
-/* clang-format on */
-
+        outputFile << "struct Sentinel_" << functionSuffix << " {\n";
+        outputFile << "        Sentinel_" << functionSuffix << " ()\n";
+        outputFile << "        {\n";
+        outputFile << "                createReflectionDatabase_" << functionSuffix << " ();\n";
+        outputFile << "        }\n";
+        outputFile << "};\n";
+        outputFile << "\n";
+        outputFile << "static Sentinel_" << functionSuffix << " sentinel_" << functionSuffix << ";\n";
         outputFile << "} // namespace\n" << std::endl;
-return ret;
+        return ret;
 }

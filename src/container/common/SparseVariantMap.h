@@ -16,7 +16,9 @@
 
 namespace Container {
 
-typedef google::sparse_hash_map <const char*, Core::Variant, std::hash<const char*>, Eqstr> SparseVariantMap;
+
+// typedef google::sparse_hash_map <const char*, Core::Variant, std::hash<const char*>, Eqstr> SparseVariantMap;
+typedef std::map<const char *, Core::Variant, StrLess> SparseVariantMap;
 
 } // namsp
 

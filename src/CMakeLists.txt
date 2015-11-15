@@ -38,13 +38,13 @@ endif ()
 #SET (TARGET_PLATFORM "" CACHE STRING "Na jaka platforme budujemy")
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
 
-SET (CMAKE_C_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART ")
-SET (CMAKE_CXX_FLAGS "-fvisibility=hidden -DTILIAE_DLL -ffunction-sections -fdata-sections -DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
+SET (CMAKE_C_FLAGS " -DTILIAE_DLL -DALLOW_CAST_TO_SMART ")
+SET (CMAKE_CXX_FLAGS "-DTILIAE_DLL -DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
 #ADD_DEFINITIONS (-Wall)
 
-SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
-SET (CMAKE_EXE_LINKER_FLAGS "-Wl,--no-undefined")
-SET (CMAKE_VERBOSE_MAKEFILE 0)
+#SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
+#SET (CMAKE_EXE_LINKER_FLAGS "-Wl,--no-undefined")
+SET (CMAKE_VERBOSE_MAKEFILE ON)
 
 INSTALL (
     DIRECTORY "${PROJECT_SOURCE_DIR}/src/"
@@ -205,7 +205,7 @@ ENDIF(BUILD_CONTAINER)
 ## --------------------------------------------------------
 
 IF (WITH_PARSER)
-        TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "Reflection_input.cc" "Reflection_output.cc.h")
+        TILIAE_PARSE ("${CMAKE_BINARY_DIR}/parser/tiliaeparser" "tiliae" "Reflection_input.cc" "Reflection_output.cc.h")
         LIST (APPEND LIB_SOURCES "Reflection_input.cc")
         LIST (APPEND LIB_SOURCES "Reflection_output.cc.h")
 ENDIF ()
@@ -219,6 +219,11 @@ else ()
     TARGET_LINK_LIBRARIES (tiliae c++abi)
     add_dependencies (tiliae tiliaeparser)
 endif ()
+
+
+#IF (WITH_PARSER)
+#        TILIAE_PARSE (tiliae "${CMAKE_BINARY_DIR}/parser/tiliaeparser")
+#ENDIF()
 
 INSTALL (
     TARGETS tiliae

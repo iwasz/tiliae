@@ -27,4 +27,8 @@ struct Eqstr {
         }
 };
 
+struct StrLess {
+        bool operator() (const char *x, const char *y) const { return std::strcmp (x, y) < 0; }
+};
+
 #endif /* STRUTIL_H_ */

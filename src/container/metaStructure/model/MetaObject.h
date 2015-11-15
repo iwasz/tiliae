@@ -24,7 +24,10 @@
 namespace Container {
 class MetaObject;
 
-typedef google::sparse_hash_map <const char*, MetaObject *, std::hash<const char*>, Eqstr> MetaMap;
+// TODO czemu nie działa z guglową?
+//typedef google::sparse_hash_map <const char*, MetaObject *, std::hash<const char*>, Eqstr> MetaMap;
+typedef std::map<const char *, MetaObject *, StrLess> MetaMap;
+
 
 struct BidirectionalMetaIndex {
 

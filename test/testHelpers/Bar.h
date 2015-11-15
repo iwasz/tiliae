@@ -106,6 +106,9 @@ public:
         REFLECTION_METHOD (funcB); void funcB (int i, const std::string &s) { field0 = std::string ("funcB ") + boost::lexical_cast <std::string> (i) + ", " + s; }
         REFLECTION_METHOD (funcD); bool funcD () { field0 = std::string ("funcD "); return false; }
 
+        City *REFLECTION_FIELD_VALUE_INPLACE (city4);
+        City *REFLECTION_FIELD_VALUE_INPLACE (city5);
+
 private:
 
         std::string field0;
@@ -118,8 +121,6 @@ private:
         Ptr <City> city;
         Ptr <City> city2;
         Ptr <City> city3;
-        City *REFLECTION_FIELD_VALUE_INPLACE (city4);
-        City *REFLECTION_FIELD_VALUE_INPLACE (city5);
         Core::Variant butter;
         Core::Variant butter2;
 

@@ -1011,6 +1011,11 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
 /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
+        const char *city100 = "city100";
+        const char *city200 = "city200";
+
+//        const char *city100 = factory.newString ("city100");
+//        const char *city200 = factory.newString ("city200");
 
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("value0", "String")));
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("value1", "text")));
@@ -1019,6 +1024,8 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("f", "char")));
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("true", "bool")));
         child->addListField (factory.newDataKey (factory.newNullData ()));
+//        child->addListField (factory.newDataKey (factory.newRefData (city100)));
+//        child->addListField (factory.newDataKey (factory.newRefData (city200)));
         child->addListField (factory.newDataKey (factory.newRefDataNewString ("city100")));
         child->addListField (factory.newDataKey (factory.newRefDataNewString ("city200")));
         child->setId ("syn");

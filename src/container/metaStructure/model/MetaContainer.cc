@@ -33,7 +33,7 @@ void MetaContainer::add (MetaObject *val)
                 throw ConfigurationException ("MetaContainer::add : ID is empty. Root level beans must have proper ID.");
         }
 
-	if (get (val->getId ())) {
+        if (get (val->getId ())) {
                 throw ConfigurationException ("MetaContainer::add : There is already a bean with ID [" + id + "].");
         }
 
@@ -57,9 +57,19 @@ void MetaContainer::addInner (MetaObject *outer, MetaObject *inner)
 
 MetaObject *MetaContainer::getPrv (const std::string &key, bool *fromLinked)
 {
-        MetaMap::const_iterator i;
-        if ((i = metaMap.find (key.c_str ())) != metaMap.end ()) {
-                return i->second;
+//        Zostawiam dla potomności : to poniżej to porządny babol, bo key.c_str () może zwrócić inny wskaźnik
+//        niż jest klucz w mapie. Najśmieszniejsze, że dla libstdc++ działało, a dla libc++ nie. Ten błąd to tak
+//        jakby porównać dwa łańcuchy const char * za pomocą operatora == zamiast strcmp:
+//
+//        MetaMap::const_iterator i;
+//        if ((i = metaMap.find (key.c_str ())) != metaMap.end ()) {
+//                return i->second;
+//        }
+
+        for (MetaMap::value_type const &v : metaMap) {
+                if (v.first == key) {
+                        return v.second;
+                }
         }
 
         if (getLinked ()) {

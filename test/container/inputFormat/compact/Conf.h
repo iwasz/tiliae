@@ -9,6 +9,6 @@
 #ifndef COMPACT_CONF_H_
 #define COMPACT_CONF_H_
 
-const std::string PATH = "../src/container/inputFormat/compact/test/testXmlFiles/";
+const std::string PATH = "../../test/container/inputFormat/compact/testXmlFiles/";
 
 #endif /* CONF_H_ */

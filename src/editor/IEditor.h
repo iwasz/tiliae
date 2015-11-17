@@ -32,7 +32,7 @@ namespace Editor {
  *  przekazywane w postaci wariantow. IEditor moze (ale nie musi)
  *  tworzyc obiekt docelowy.
  */
-class TILIAE_API IEditor : public Core::Object {
+class TILIAE_API __tiliae_reflect__ IEditor : public Core::Object {
 public:
 
         virtual ~IEditor () {}

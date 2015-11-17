@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-    <import resource="../../test/container/inputFormat/mxml/testXmlFiles/060-import-01.xml"/>
+    <import resource="../../test/container/inputFormat/compact/testXmlFiles/060-import-01.xml"/>
     <StringList id="bean1" />    
-    <import resource="../../test/container/inputFormat/mxml/testXmlFiles/060-import-03.xml"/>
+    <import resource="../../test/container/inputFormat/compact/testXmlFiles/060-import-03.xml"/>
 </beans>

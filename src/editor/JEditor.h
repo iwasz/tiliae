@@ -32,7 +32,7 @@ namespace Editor {
  *
  * TODO Wymyslic nazwe
  */
-class TILIAE_API JEditor : public IEditor {
+class TILIAE_API __tiliae_reflect__ JEditor : public IEditor {
 public:
 
         /**
@@ -46,7 +46,7 @@ public:
         {
                 if (input.isNone () || input.isNull ()) {
                         dcError (context, "Input argument must not be none variant (!isNone ()) and must not be null variant (!isNull ()).");
-                	return false;
+                        return false;
                 }
 
                 if (!output) {

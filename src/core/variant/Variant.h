@@ -385,33 +385,24 @@ public:
 
 /*--------------------------------------------------------------------------*/
 
-        // NONE
-        Variant ();
+         Variant ();
 
-        // VALUE
-        explicit Variant (bool const &d);
-        explicit Variant (char const &d);
-        explicit Variant (unsigned char const &d);
-        explicit Variant (double const &d);
-        explicit Variant (long double const &d);
-        explicit Variant (float const &d);
-        explicit Variant (int const &d);
-        explicit Variant (unsigned int const &d);
-        explicit Variant (long int const &d);
-        explicit Variant (unsigned long int const &d);
-        explicit Variant (short int const &d);
-        explicit Variant (unsigned short int const &d);
+        explicit Variant (bool d);
+        explicit Variant (char d);
+        explicit Variant (unsigned char d);
+        explicit Variant (double d);
+        explicit Variant (long double d);
+        explicit Variant (float d);
+        explicit Variant (int d);
+        explicit Variant (unsigned int d);
+        explicit Variant (long int d);
+        explicit Variant (unsigned long int d);
+        explicit Variant (short int d);
+        explicit Variant (unsigned short int d);
 
-        // Handler
         explicit Variant (std::string const &d);
         explicit Variant (std::string *d);
         explicit Variant (std::string const *d);
-
-#ifdef WITH_CORE_STRING
-        explicit Variant (Core::String const &d);
-        explicit Variant (Core::String *d);
-        explicit Variant (Core::String const *d);
-#endif
 
         /**
          * Uwaga - konstruktor Variant (const char *s) nie tworzy warianta o typie CHAR,
@@ -506,9 +497,9 @@ public:
          */
         void setNull ();
 
-private:
+//private:
 
-        friend Core::Variant convertVariantToSmart (Core::Variant const &input);
+//        friend Core::Variant convertVariantToSmart (Core::Variant const &input);
 
 private:
         Type type;
@@ -536,6 +527,49 @@ private:
 
 /****************************************************************************/
 
+//static Core::Variant convert (T &t) { return Core::Variant (&t); }
+
+struct PtrHelp {
+        static Core::Variant convert (bool t) { return Core::Variant (t); }
+        static Core::Variant convert (char t) { return Core::Variant (t); }
+        static Core::Variant convert (unsigned char t) { return Core::Variant (t); }
+        static Core::Variant convert (double t) { return Core::Variant (t); }
+        static Core::Variant convert (long double t) { return Core::Variant (t); }
+        static Core::Variant convert (float t) { return Core::Variant (t); }
+        static Core::Variant convert (int t) { return Core::Variant (t); }
+        static Core::Variant convert (unsigned int t) { return Core::Variant (t); }
+        static Core::Variant convert (long int t) { return Core::Variant (t); }
+        static Core::Variant convert (unsigned long int t) { return Core::Variant (t); }
+        static Core::Variant convert (short int t) { return Core::Variant (t); }
+        static Core::Variant convert (unsigned short int t) { return Core::Variant (t); }
+        static Core::Variant convert (std::string const &t) { return Core::Variant (t); }
+        static Core::Variant convert (std::string *t) { return Core::Variant (t); }
+        static Core::Variant convert (std::string const *t) { return Core::Variant (t); }
+        static Core::Variant convert (const char *t) { return Core::Variant (t); }
+
+        template <typename S>
+        static Core::Variant convert (S *t) { return Core::Variant (t); }
+
+        template <typename S>
+        static Core::Variant convert (S const *t) { return Core::Variant (t); }
+
+        template <typename S>
+        static Core::Variant convert (std::shared_ptr<S> const &t) { return Core::Variant (t); }
+
+        template <typename S>
+        static Core::Variant convert (std::shared_ptr<S const> const &t) { return Core::Variant (t); }
+
+
+        // TE DWIE SĄ INNE OD POZOSTAŁYCH
+        template <typename S>
+        static Core::Variant convert (S &t) { return Core::Variant (&t); }
+
+        template <typename S>
+        static Core::Variant convert (S const &t) { return Core::Variant (&t); }
+};
+
+/****************************************************************************/
+
 template <typename S>
 struct VHelp {
 };
@@ -543,35 +577,45 @@ struct VHelp {
 
 /****************************************************************************/
 
-template <typename S, bool b>
-struct VHelpCRef {
-};
-
-template <typename S>
-struct VHelpCRef <S, true> {
-        enum { TYPE = Variant::SMART_OBJECT };
-        static std::shared_ptr <void> get (S const &p) { return std::static_pointer_cast <Core::Object> (std::make_shared <S> (p)); }
-};
-
-template <typename S>
-struct VHelpCRef <S, false> {
-        enum { TYPE = Variant::SMART };
-        static std::shared_ptr <void> get (S const &p) { return std::make_shared <S> (p); }
-};
-
-template <typename S>
-struct VHelp <S const &> {
-        typedef VHelpCRef <S, boost::is_convertible <S *, Core::Object *>::value> Impl;
-};
-
 template<typename S>
 Variant::Variant (S const &p) :
         type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)),
         ti (&typeid (p)),
         sptr (std::make_shared <S> (p))
 {
+//        printf ("c");
 }
 
+/****************************************************************************/
+#if 0
+template <typename S, bool b>
+struct VHelpCRef {
+};
+
+template <typename S>
+struct VHelpCRef <S, true> {
+        static Core::Object *get (S &p) { return static_cast <Core::Object *> (&p); }
+};
+
+template <typename S>
+struct VHelpCRef <S, false> {
+        static S *get (S &p) { return &p; }
+};
+
+template <typename S>
+struct VHelp <S &> {
+        typedef VHelpCRef <S, boost::is_convertible <S *, Core::Object *>::value> Impl;
+};
+
+template<typename S>
+Variant::Variant (S &p) :
+        type ((boost::is_convertible <S *, Core::Object *>::value) ? (OBJECT) : (POINTER)),
+        ti (&typeid (p)),
+        ptr (VHelp <S &>::Impl::get (p))
+{
+//        printf (".");
+}
+#endif
 /****************************************************************************/
 
 template <typename S, bool b>

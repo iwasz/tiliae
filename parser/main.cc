@@ -250,9 +250,15 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
                         continue;
                 }
 
-                // SplitQualType tSplit = field->getType ().split ();
-                outputFile << "\t\t\tclazz->addField (new Field (\"" << name.str () << "\", Reflection::createFieldWrapper (&" << fullName
-                           << "::" << name.str () << ")));\n";
+                if (qType.getTypePtr()->isEnumeralType()) {
+                        outputFile << "\t\t\tclazz->addField (new Field (\"" << name.str () << "\", Reflection::createFieldWrapperEnum (&" << fullName
+                                   << "::" << name.str () << ")));\n";
+                }
+                else {
+                        // SplitQualType tSplit = field->getType ().split ();
+                        outputFile << "\t\t\tclazz->addField (new Field (\"" << name.str () << "\", Reflection::createFieldWrapper (&" << fullName
+                                   << "::" << name.str () << ")));\n";
+                }
         }
 
         /*---------------------------------------------------------------------------*/

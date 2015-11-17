@@ -21,7 +21,7 @@ Variant::Variant () :
 
 /****************************************************************************/
 
-Variant::Variant (bool const &j) :
+Variant::Variant (bool j) :
         type (BOOL),
         ti (&typeid (bool &)),
         b (j)
@@ -30,7 +30,7 @@ Variant::Variant (bool const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (char const &j) :
+Variant::Variant (char j) :
         type (CHAR),
         ti (&typeid (char &)),
         c (j)
@@ -39,7 +39,7 @@ Variant::Variant (char const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (unsigned char const &j) :
+Variant::Variant (unsigned char j) :
         type (UNSIGNED_CHAR),
         ti (&typeid (unsigned char &)),
         uc (j)
@@ -48,7 +48,7 @@ Variant::Variant (unsigned char const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (double const &j) :
+Variant::Variant (double j) :
         type (DOUBLE),
         ti (&typeid (double &)),
         d (j)
@@ -57,7 +57,7 @@ Variant::Variant (double const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (long double const &j) :
+Variant::Variant (long double j) :
         type (LONG_DOUBLE),
         ti (&typeid (long double &)),
         ld (j)
@@ -66,7 +66,7 @@ Variant::Variant (long double const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (float const &j) :
+Variant::Variant (float j) :
         type (FLOAT),
         ti (&typeid (float &)),
         f (j)
@@ -75,7 +75,7 @@ Variant::Variant (float const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (int const &j) :
+Variant::Variant (int j) :
         type (INT),
         ti (&typeid (int &)),
         i (j)
@@ -84,7 +84,7 @@ Variant::Variant (int const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (unsigned int const &j) :
+Variant::Variant (unsigned int j) :
         type (UNSIGNED_INT),
         ti (&typeid (unsigned int &)),
         ui (j)
@@ -93,7 +93,7 @@ Variant::Variant (unsigned int const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (long int const &j) :
+Variant::Variant (long int j) :
         type (LONG_INT),
         ti (&typeid (long int &)),
         li (j)
@@ -102,7 +102,7 @@ Variant::Variant (long int const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (unsigned long int const &j) :
+Variant::Variant (unsigned long int j) :
         type (UNSIGNED_LONG_INT),
         ti (&typeid (unsigned long int &)),
         uli (j)
@@ -111,7 +111,7 @@ Variant::Variant (unsigned long int const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (short int const &j) :
+Variant::Variant (short int j) :
         type (SHORT_INT),
         ti (&typeid (short int &)),
         si (j)
@@ -120,7 +120,7 @@ Variant::Variant (short int const &j) :
 
 /****************************************************************************/
 
-Variant::Variant (unsigned short int const &j) :
+Variant::Variant (unsigned short int j) :
         type (UNSIGNED_SHORT_INT),
         ti (&typeid (unsigned short int &)),
         usi (j)
@@ -128,6 +128,13 @@ Variant::Variant (unsigned short int const &j) :
 }
 
 /****************************************************************************/
+
+//Variant::Variant (std::string &j) :
+//        type (STRING),
+//        ti (&typeid (std::string &)),
+//        sptr (std::make_shared <std::string> (j))
+//{
+//}
 
 Variant::Variant (std::string const &j) :
         type (STRING),
@@ -220,14 +227,14 @@ bool Variant::isHandle () const
 
 bool Variant::isValue () const
 {
-	return !isHandle () && type != NONE;
+        return !isHandle () && type != NONE;
 }
 
 /****************************************************************************/
 
 bool Variant::isNone () const
 {
-	return type == NONE;
+        return type == NONE;
 }
 
 /****************************************************************************/
@@ -263,7 +270,7 @@ bool Variant::isNull () const
             return true;
 
     default:
-    	return false;
+        return false;
     }
 }
 
@@ -374,8 +381,8 @@ std::string Variant::toString () const
 
 std::ostream &operator << (std::ostream &s, Core::Variant const &v)
 {
-	s << "Variant (" << v.toString () << ")";
-	return s;
+        s << "Variant (" << v.toString () << ")";
+        return s;
 }
 
 } // namespace

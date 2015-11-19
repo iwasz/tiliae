@@ -13,7 +13,7 @@ ADD_DEFINITIONS (-Wall)
 
 SET (CMAKE_CXX_FLAGS "-DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
 SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-SET (CMAKE_VERBOSE_MAKEFILE ON)
+SET (CMAKE_VERBOSE_MAKEFILE OFF)
 
 find_package (Boost REQUIRED COMPONENTS system prg_exec_monitor unit_test_framework)
 include_directories(${Boost_INCLUDE_DIRS})

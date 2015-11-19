@@ -20,7 +20,8 @@ namespace Container {
  * Nulle.
  * \ingroup Container
  */
-struct TILIAE_API NullData : public IData {
+class TILIAE_API NullData : public IData {
+public:
 
         virtual ~NullData () {}
 

@@ -16,7 +16,7 @@
 #include "container/testHelpers/ContainerTestFactory.h"
 #include "common/collection/OrderedVariantMap.h"
 #include "testHelpers/Reflection_output.cc.h" // testHelpers
-#include "Reflection_output.cc.h" // Main
+#include "Reflection_output_tiliae.cc.h" // Main
 
 /****************************************************************************/
 

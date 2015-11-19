@@ -18,7 +18,8 @@ namespace Container {
  * Implementuje ref-y.
  * \ingroup Container
  */
-struct TILIAE_API RefData : public IData {
+class TILIAE_API RefData : public IData {
+public:
 
         virtual ~RefData () {}
 

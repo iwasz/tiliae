@@ -39,7 +39,7 @@ endif ()
 #SET_PROPERTY (CACHE TARGET_PLATFORM PROPERTY STRINGS Linux Windows Android iPhone)
 
 SET (CMAKE_C_FLAGS " -DTILIAE_DLL -DALLOW_CAST_TO_SMART ")
-SET (CMAKE_CXX_FLAGS "-DTILIAE_DLL -DALLOW_CAST_TO_SMART -std=c++11 -stdlib=libc++")
+SET (CMAKE_CXX_FLAGS "-DTILIAE_DLL -DALLOW_CAST_TO_SMART -std=c++11")
 #ADD_DEFINITIONS (-Wall)
 
 #SET (CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
@@ -80,7 +80,7 @@ IF (WITH_PARSER)
         ADD_DEFINITIONS (-DWITH_PARSER)
 ENDIF ()
 
-INCLUDE_DIRECTORIES (./)
+INCLUDE_DIRECTORIES (./ /usr/include/libcxxabi)
 
 ## --------------------------------------------------------
 ## Core

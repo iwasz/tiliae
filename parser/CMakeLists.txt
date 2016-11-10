@@ -1,6 +1,7 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8 FATAL_ERROR)
+#SET (CMAKE_VERBOSE_MAKEFILE ON)
 
-FIND_PROGRAM (LLVM_CONFIG_PATH NAME "llvm-config" HINTS "${LLVM_ROOT}/bin")
+FIND_PROGRAM (LLVM_CONFIG_PATH NAME "llvm-config-3.9" HINTS "${LLVM_ROOT}/bin")
 
 IF (NOT LLVM_CONFIG_PATH)
         MESSAGE(FATAL_ERROR "llvm-config not found -- ${LLVM_CONFIG_PATH}")
@@ -67,26 +68,7 @@ TARGET_LINK_LIBRARIES(tiliaeparser
   clangEdit
   clangLex
   clangTooling
-)
-
-TARGET_LINK_LIBRARIES(tiliaeparser
-  LLVMX86AsmParser # MC, MCParser, Support, X86Desc, X86Info
-  LLVMX86Desc # MC, Support, X86AsmPrinter, X86Info
-  LLVMX86AsmPrinter # MC, Support, X86Utils
-  LLVMX86Info # MC, Support, Target
-  LLVMX86Utils # Core, Support
-  LLVMScalarOpts
-  LLVMInstCombine
-  LLVMTransformUtils
-  LLVMAnalysis
-  LLVMTarget
-  LLVMOption # Support
-  LLVMMCParser # MC, Support
-  LLVMMC # Object, Support
-  LLVMObject # BitReader, Core, Support
-  LLVMBitReader # Core, Support
-  LLVMCore # Support
-  LLVMSupport
+  LLVM
 )
 
 INCLUDE (FindCurses)

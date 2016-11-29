@@ -146,7 +146,7 @@ Core::Variant MethodPtrWrapper <T (C::*) (A1)>::call (Core::Variant const &objec
 {
         checkArgList (args, 1);
         Core::VariantVector::iterator i = args->begin ();
-        return Core::Variant ((ocast <C*> (object)->*ptr) (vcast <A1> (*i)));
+        return Core::Variant ((ocast <C*> (object)->*ptr) (ocast <A1> (*i)));
 }
 
 /****************************************************************************/
@@ -171,7 +171,7 @@ Core::Variant MethodPtrWrapper <void (C::*) (A1)>::call (Core::Variant const &ob
 {
         checkArgList (args, 1);
         Core::VariantVector::iterator i = args->begin ();
-        (ocast <C*> (object)->*ptr) (vcast <A1> (*i));
+        (ocast <C*> (object)->*ptr) (ocast <A1> (*i));
         return Core::Variant ();
 }
 
@@ -197,7 +197,7 @@ Core::Variant MethodPtrWrapper <T (C::*) (A1) const>::call (Core::Variant const 
 {
         checkArgList (args, 1);
         Core::VariantVector::iterator i = args->begin ();
-        return Core::Variant ((ocast <C const *> (object)->*ptr) (vcast <A1> (*i)));
+        return Core::Variant ((ocast <C const *> (object)->*ptr) (ocast <A1> (*i)));
 }
 
 /****************************************************************************/
@@ -222,7 +222,7 @@ Core::Variant MethodPtrWrapper <void (C::*) (A1) const>::call (Core::Variant con
 {
         checkArgList (args, 1);
         Core::VariantVector::iterator i = args->begin ();
-        (ocast <C const *> (object)->*ptr) (vcast <A1> (*i));
+        (ocast <C const *> (object)->*ptr) (ocast <A1> (*i));
         return Core::Variant ();
 }
 
@@ -249,7 +249,7 @@ Core::Variant MethodPtrWrapper <T (C::*) (A1, A2)>::call (Core::Variant const &o
         checkArgList (args, 2);
         Core::VariantVector::iterator i = args->begin ();
         Core::VariantVector::iterator j = args->begin (); ++j;
-        return Core::Variant ((ocast <C*> (object)->*ptr) (vcast <A1> (*i), vcast <A2> (*j)));
+        return Core::Variant ((ocast <C*> (object)->*ptr) (ocast <A1> (*i), ocast <A2> (*j)));
 }
 
 /****************************************************************************/
@@ -275,7 +275,7 @@ Core::Variant MethodPtrWrapper <void (C::*) (A1, A2)>::call (Core::Variant const
         checkArgList (args, 2);
         Core::VariantVector::iterator i = args->begin ();
         Core::VariantVector::iterator j = args->begin (); ++j;
-        (ocast <C*> (object)->*ptr) (vcast <A1> (*i), vcast <A2> (*j));
+        (ocast <C*> (object)->*ptr) (ocast <A1> (*i), ocast <A2> (*j));
         return Core::Variant ();
 }
 
@@ -302,7 +302,7 @@ Core::Variant MethodPtrWrapper <T (C::*) (A1, A2) const>::call (Core::Variant co
         checkArgList (args, 2);
         Core::VariantVector::iterator i = args->begin ();
         Core::VariantVector::iterator j = args->begin (); ++j;
-        return Core::Variant ((ocast <C const *> (object)->*ptr) (vcast <A1> (*i), vcast <A2> (*j)));
+        return Core::Variant ((ocast <C const *> (object)->*ptr) (ocast <A1> (*i), ocast <A2> (*j)));
 }
 
 /****************************************************************************/
@@ -328,7 +328,7 @@ Core::Variant MethodPtrWrapper <void (C::*) (A1, A2) const>::call (Core::Variant
         checkArgList (args, 2);
         Core::VariantVector::iterator i = args->begin ();
         Core::VariantVector::iterator j = args->begin (); ++j;
-        (ocast <C const *> (object)->*ptr) (vcast <A1> (*i), vcast <A2> (*j));
+        (ocast <C const *> (object)->*ptr) (ocast <A1> (*i), ocast <A2> (*j));
         return Core::Variant ();
 }
 
@@ -353,7 +353,7 @@ template<typename T, typename C, typename A1, typename A2, typename A3>
 Core::Variant MethodPtrWrapper <T (C::*) (A1, A2, A3)>::call (Core::Variant const &object, Core::VariantVector *args)
 {
         checkArgList (args, 3);
-        return Core::Variant ((ocast <C*> (object)->*ptr) (vcast <A1> (args->operator[] (0)), vcast <A2> (args->operator[] (1)), vcast <A3> (args->operator[] (2))));
+        return Core::Variant ((ocast <C*> (object)->*ptr) (ocast <A1> (args->operator[] (0)), ocast <A2> (args->operator[] (1)), ocast <A3> (args->operator[] (2))));
 }
 
 /****************************************************************************/
@@ -377,7 +377,7 @@ template<typename C, typename A1, typename A2, typename A3>
 Core::Variant MethodPtrWrapper <void (C::*) (A1, A2, A3)>::call (Core::Variant const &object, Core::VariantVector *args)
 {
         checkArgList (args, 3);
-        (ocast <C*> (object)->*ptr) (vcast <A1> (args->operator[] (0)), vcast <A2> (args->operator[] (1)), vcast <A3> (args->operator[] (2)));
+        (ocast <C*> (object)->*ptr) (ocast <A1> (args->operator[] (0)), ocast <A2> (args->operator[] (1)), ocast <A3> (args->operator[] (2)));
         return Core::Variant ();
 }
 
@@ -402,7 +402,7 @@ template<typename T, typename C, typename A1, typename A2, typename A3>
 Core::Variant MethodPtrWrapper <T (C::*) (A1, A2, A3) const>::call (Core::Variant const &object, Core::VariantVector *args)
 {
         checkArgList (args, 3);
-        return Core::Variant ((ocast <C const *> (object)->*ptr) (vcast <A1> (args->operator[] (0)), vcast <A2> (args->operator[] (1)), vcast <A3> (args->operator[] (2))));
+        return Core::Variant ((ocast <C const *> (object)->*ptr) (ocast <A1> (args->operator[] (0)), ocast <A2> (args->operator[] (1)), ocast <A3> (args->operator[] (2))));
 }
 
 /****************************************************************************/
@@ -426,7 +426,7 @@ template<typename C, typename A1, typename A2, typename A3>
 Core::Variant MethodPtrWrapper <void (C::*) (A1, A2, A3) const>::call (Core::Variant const &object, Core::VariantVector *args)
 {
         checkArgList (args, 3);
-        (ocast <C const *> (object)->*ptr) (vcast <A1> (args->operator[] (0)), vcast <A2> (args->operator[] (1)), vcast <A3> (args->operator[] (2)));
+        (ocast <C const *> (object)->*ptr) (ocast <A1> (args->operator[] (0)), ocast <A2> (args->operator[] (1)), ocast <A3> (args->operator[] (2)));
         return Core::Variant ();
 }
 

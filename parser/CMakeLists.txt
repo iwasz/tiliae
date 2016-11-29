@@ -83,6 +83,6 @@ TARGET_LINK_LIBRARIES (tiliaeparser
 # lib and include are mandatory.
 add_custom_command(
     TARGET tiliaeparser POST_BUILD
-    COMMAND ln -sf ${LLVM_LIBDIR} ${CMAKE_BINARY_DIR}/lib
-    COMMAND ln -sf ${LLVM_INCLUDE_DIR} ${CMAKE_BINARY_DIR}/include
+    COMMAND ln -sf ${LLVM_LIBDIR} ${CMAKE_BINARY_DIR}/
+    COMMAND ln -sf ${LLVM_INCLUDE_DIR} ${CMAKE_BINARY_DIR}/
 )

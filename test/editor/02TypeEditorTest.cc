@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE (testConversionFunctionEditor)
         }
 
         {
-                int i;
+                int i = 0;
                 Variant out (i);
                 editor.convert (Variant ("12345"), &out);
                 BOOST_REQUIRE_EQUAL (vcast <int> (out), 12345);

@@ -1011,8 +1011,8 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
 /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
-        const char *city100 = "city100";
-        const char *city200 = "city200";
+        // const char *city100 = "city100";
+        // const char *city200 = "city200";
 
 //        const char *city100 = factory.newString ("city100");
 //        const char *city200 = factory.newString ("city200");

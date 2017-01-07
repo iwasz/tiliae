@@ -49,7 +49,7 @@ class TestX : public Obj {
 
         int i ;
         std::string s;
-        float f;
+        // float f;
 };
 
 BOOST_AUTO_TEST_CASE (testResearch)

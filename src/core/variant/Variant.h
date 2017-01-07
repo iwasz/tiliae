@@ -9,12 +9,12 @@
 #ifndef VARIANT_H_
 #define VARIANT_H_
 
-#include <memory>
 #include <boost/type_traits/is_convertible.hpp>
+#include <memory>
 #include <string> // toString
 
-#include "core/Object.h"
 #include "core/ApiMacro.h"
+#include "core/Object.h"
 
 namespace Core {
 #ifdef WITH_CORE_STRING
@@ -275,7 +275,9 @@ class Variant;
  * - # wartości zwracane z funkcji
  * - # unia w wariant
  * - valgrind
- * - # ustalić co z shared_ptr w wariancie i poprawić lub udokumentować. Z dokumentacji wynika, że OK : This constructor has been changed to a template in order to remember the actual pointer type passed. The destructor will call delete with the same pointer, complete with its original type, even when T does not have a virtual destructor, or is void]
+ * - # ustalić co z shared_ptr w wariancie i poprawić lub udokumentować. Z dokumentacji wynika, że OK : This constructor has been changed to a template in order
+ * to remember the actual pointer type passed. The destructor will call delete with the same pointer, complete with its original type, even when T does not have
+ * a virtual destructor, or is void]
  *
  * Dopisać do dokumentacji że :
  * - Nie można kastować na char * - taki kast w ogóle nie istnieje (bo to jest wariant value).
@@ -297,7 +299,6 @@ class Variant;
  */
 class TILIAE_API Variant {
 public:
-
         /**
          * Typy elementów w wariancie.
          */
@@ -369,13 +370,13 @@ public:
                 UNSIGNED_LONG_INT,
                 SHORT_INT,
                 UNSIGNED_SHORT_INT,
-                STRING,                      /// std::string - przez wartość.
-                STRING_POINTER,              /// std::string - wskaźnik.
-                STRING_POINTER_CONST,        /// std::string - wskaźnik do stałej.
+                STRING,               /// std::string - przez wartość.
+                STRING_POINTER,       /// std::string - wskaźnik.
+                STRING_POINTER_CONST, /// std::string - wskaźnik do stałej.
 #ifdef WITH_CORE_STRING
-                USTRING,                     /// Core::String - przez wartość.
-                USTRING_POINTER,             /// Core::String - wskaźnik.
-                USTRING_POINTER_CONST        /// Core::String - wskaźnik do stałej.
+                USTRING,              /// Core::String - przez wartość.
+                USTRING_POINTER,      /// Core::String - wskaźnik.
+                USTRING_POINTER_CONST /// Core::String - wskaźnik do stałej.
 #endif
         };
 
@@ -383,9 +384,9 @@ public:
         template <typename T> friend struct OCast;
         template <typename T> friend struct LCast;
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
-         Variant ();
+        Variant ();
 
         explicit Variant (bool d);
         explicit Variant (char d);
@@ -417,20 +418,15 @@ public:
          * argumentu. Dlatego należy mieć włączone -Wall, żeby kompilator miał szansę wykryć
          * taki błąd.
          */
-        template<typename S>
-        explicit Variant (S const &);
+        template <typename S> explicit Variant (S const &);
 
-        template<typename S>
-        explicit Variant (S *);
-        template<typename S>
-        explicit Variant (S const *);
+        template <typename S> explicit Variant (S *);
+        template <typename S> explicit Variant (S const *);
 
-        template<typename S>
-        explicit Variant (std::shared_ptr<S> const &);
-        template<typename S>
-        explicit Variant (std::shared_ptr<S const> const &);
+        template <typename S> explicit Variant (std::shared_ptr<S> const &);
+        template <typename S> explicit Variant (std::shared_ptr<S const> const &);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         /**
          * Zwraca typ warianta - czyli jedną z wartości z Variant::Type.
@@ -497,9 +493,9 @@ public:
          */
         void setNull ();
 
-//private:
+        // private:
 
-//        friend Core::Variant convertVariantToSmart (Core::Variant const &input);
+        //        friend Core::Variant convertVariantToSmart (Core::Variant const &input);
 
 private:
         Type type;
@@ -527,7 +523,7 @@ private:
 
 /****************************************************************************/
 
-//static Core::Variant convert (T &t) { return Core::Variant (&t); }
+// static Core::Variant convert (T &t) { return Core::Variant (&t); }
 
 struct PtrHelp {
         static Core::Variant convert (bool t) { return Core::Variant (t); }
@@ -547,43 +543,35 @@ struct PtrHelp {
         static Core::Variant convert (std::string const *t) { return Core::Variant (t); }
         static Core::Variant convert (const char *t) { return Core::Variant (t); }
 
-        template <typename S>
-        static Core::Variant convert (S *t) { return Core::Variant (t); }
+        template <typename S> static Core::Variant convert (S *t) { return Core::Variant (t); }
 
-        template <typename S>
-        static Core::Variant convert (S const *t) { return Core::Variant (t); }
+        template <typename S> static Core::Variant convert (S const *t) { return Core::Variant (t); }
 
-        template <typename S>
-        static Core::Variant convert (std::shared_ptr<S> const &t) { return Core::Variant (t); }
+        template <typename S> static Core::Variant convert (std::shared_ptr<S> const &t) { return Core::Variant (t); }
 
-        template <typename S>
-        static Core::Variant convert (std::shared_ptr<S const> const &t) { return Core::Variant (t); }
-
+        template <typename S> static Core::Variant convert (std::shared_ptr<S const> const &t) { return Core::Variant (t); }
 
         // TE DWIE SĄ INNE OD POZOSTAŁYCH
-        template <typename S>
-        static Core::Variant convert (S &t) { return Core::Variant (&t); }
+        template <typename S> static Core::Variant convert (S &t) { return Core::Variant (&t); }
 
-        template <typename S>
-        static Core::Variant convert (S const &t) { return Core::Variant (&t); }
+        template <typename S> static Core::Variant convert (S const &t) { return Core::Variant (&t); }
+
+        static Core::Variant convert (Core::Variant const &v) { return v; }
+        static Core::Variant convert (Core::Variant &v) { return v; }
+};
+
+/****************************************************************************/
+
+template <typename S> struct VHelp {
 };
 
 /****************************************************************************/
 
 template <typename S>
-struct VHelp {
-};
-
-
-/****************************************************************************/
-
-template<typename S>
-Variant::Variant (S const &p) :
-        type ((boost::is_convertible <S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)),
-        ti (&typeid (p)),
-        sptr (std::make_shared <S> (p))
+Variant::Variant (S const &p)
+    : type ((boost::is_convertible<S *, Core::Object *>::value) ? (SMART_OBJECT) : (SMART)), ti (&typeid (p)), sptr (std::make_shared<S> (p))
 {
-//        printf ("c");
+        //        printf ("c");
 }
 
 /****************************************************************************/
@@ -618,134 +606,109 @@ Variant::Variant (S &p) :
 #endif
 /****************************************************************************/
 
-template <typename S, bool b>
-struct VHelpPtr {
+template <typename S, bool b> struct VHelpPtr {
 };
 
-template <typename S>
-struct VHelpPtr <S, true> {
+template <typename S> struct VHelpPtr<S, true> {
         enum { TYPE = Variant::OBJECT };
-        static Core::Object *get (S *p) { return static_cast <Core::Object *> (p); }
+        static Core::Object *get (S *p) { return static_cast<Core::Object *> (p); }
         static std::type_info const *type (S *p) { return (p) ? (&typeid (*p)) : (&typeid (S)); }
 };
 
-template <typename S>
-struct VHelpPtr <S, false> {
+template <typename S> struct VHelpPtr<S, false> {
         enum { TYPE = Variant::POINTER };
         static S *get (S *p) { return p; }
         static std::type_info const *type (S *p) { return &typeid (S); }
 };
 
-template <typename S>
-struct VHelp <S *> {
-        typedef VHelpPtr <S, boost::is_convertible <S *, Core::Object *>::value> Impl;
+template <typename S> struct VHelp<S *> {
+        typedef VHelpPtr<S, boost::is_convertible<S *, Core::Object *>::value> Impl;
 };
 
-template<typename S>
-Variant::Variant (S *p) :
-        type ((Type)VHelp <S *>::Impl::TYPE),
-        ti (VHelp <S *>::Impl::type (p)),
-        ptr (VHelp <S *>::Impl::get (p))
-{
-}
+template <typename S> Variant::Variant (S *p) : type ((Type)VHelp<S *>::Impl::TYPE), ti (VHelp<S *>::Impl::type (p)), ptr (VHelp<S *>::Impl::get (p)) {}
 
 /****************************************************************************/
 
-template <typename S, bool b>
-struct VHelpCPtr {
+template <typename S, bool b> struct VHelpCPtr {
 };
 
-template <typename S>
-struct VHelpCPtr <S, true> {
+template <typename S> struct VHelpCPtr<S, true> {
         enum { TYPE = Variant::OBJECT_CONST };
-        static void const *get (S const *p) { return static_cast <Core::Object const *> (p); }
+        static void const *get (S const *p) { return static_cast<Core::Object const *> (p); }
         static std::type_info const *type (S const *p) { return (p) ? (&typeid (*p)) : (&typeid (S)); }
 };
 
-template <typename S>
-struct VHelpCPtr <S, false> {
+template <typename S> struct VHelpCPtr<S, false> {
         enum { TYPE = Variant::POINTER_CONST };
         static void const *get (S const *p) { return p; }
         static std::type_info const *type (S const *p) { return &typeid (S); }
 };
 
-template <typename S>
-struct VHelp <S const *> {
-        typedef VHelpCPtr <S, boost::is_convertible <S *, Core::Object *>::value> Impl;
+template <typename S> struct VHelp<S const *> {
+        typedef VHelpCPtr<S, boost::is_convertible<S *, Core::Object *>::value> Impl;
 };
 
-template<typename S>
-Variant::Variant (S const *p) :
-        type ((Type)VHelp <S const *>::Impl::TYPE),
-        ti (VHelp <S const *>::Impl::type (p)),
-        cptr (VHelp <S const *>::Impl::get (p))
+template <typename S>
+Variant::Variant (S const *p) : type ((Type)VHelp<S const *>::Impl::TYPE), ti (VHelp<S const *>::Impl::type (p)), cptr (VHelp<S const *>::Impl::get (p))
 {
 }
 
 /****************************************************************************/
 
-template <typename S, bool b>
-struct VHelpSPtr {
+template <typename S, bool b> struct VHelpSPtr {
 };
 
-template <typename S>
-struct VHelpSPtr <S, true> {
+template <typename S> struct VHelpSPtr<S, true> {
         enum { TYPE = Variant::SMART_OBJECT };
-        static std::shared_ptr<void> get (std::shared_ptr<S> const &p) { return std::static_pointer_cast <Core::Object> (p); }
+        static std::shared_ptr<void> get (std::shared_ptr<S> const &p) { return std::static_pointer_cast<Core::Object> (p); }
 };
 
-template <typename S>
-struct VHelpSPtr <S, false> {
+template <typename S> struct VHelpSPtr<S, false> {
         enum { TYPE = Variant::SMART };
         static std::shared_ptr<void> get (std::shared_ptr<S> const &p) { return p; }
 };
 
-template <typename S>
-struct VHelp <std::shared_ptr<S> > {
-        typedef VHelpSPtr <S, boost::is_convertible <S *, Core::Object *>::value> Impl;
+template <typename S> struct VHelp<std::shared_ptr<S>> {
+        typedef VHelpSPtr<S, boost::is_convertible<S *, Core::Object *>::value> Impl;
 };
 
-template<typename S>
-Variant::Variant (std::shared_ptr<S> const &p) :
-        type ((Type)VHelp <std::shared_ptr<S> >::Impl::TYPE),
-        ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
-        sptr (VHelp <std::shared_ptr<S> >::Impl::get (p))
+template <typename S>
+Variant::Variant (std::shared_ptr<S> const &p)
+    : type ((Type)VHelp<std::shared_ptr<S>>::Impl::TYPE),
+      ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
+      sptr (VHelp<std::shared_ptr<S>>::Impl::get (p))
 {
 }
 
 /****************************************************************************/
 
-template <typename S, bool b>
-struct VHelpCSPtr {
+template <typename S, bool b> struct VHelpCSPtr {
 };
 
-template <typename S>
-struct VHelpCSPtr <S, true> {
+template <typename S> struct VHelpCSPtr<S, true> {
         enum { TYPE = Variant::SMART_OBJECT_CONST };
-        static std::shared_ptr<void> get (std::shared_ptr<S const> const &p) { return std::static_pointer_cast <Core::Object> (std::const_pointer_cast <S> (p)); }
+        static std::shared_ptr<void> get (std::shared_ptr<S const> const &p) { return std::static_pointer_cast<Core::Object> (std::const_pointer_cast<S> (p)); }
 };
 
-template <typename S>
-struct VHelpCSPtr <S, false> {
+template <typename S> struct VHelpCSPtr<S, false> {
         enum { TYPE = Variant::SMART_CONST };
-        static std::shared_ptr<void> get (std::shared_ptr<S const> const &p) { return std::const_pointer_cast <S> (p); }
+        static std::shared_ptr<void> get (std::shared_ptr<S const> const &p) { return std::const_pointer_cast<S> (p); }
+};
+
+template <typename S> struct VHelp<std::shared_ptr<S const>> {
+        typedef VHelpCSPtr<S, boost::is_convertible<S *, Core::Object *>::value> Impl;
 };
 
 template <typename S>
-struct VHelp <std::shared_ptr<S const> > {
-        typedef VHelpCSPtr <S, boost::is_convertible <S *, Core::Object *>::value> Impl;
-};
-
-template<typename S>
-Variant::Variant (std::shared_ptr<S const> const &p) :
-        type ((Type)VHelp <std::shared_ptr<S const> >::Impl::TYPE),
-        ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
-        sptr (VHelp <std::shared_ptr<S const> >::Impl::get (p))
+Variant::Variant (std::shared_ptr<S const> const &p)
+    : type ((Type)VHelp<std::shared_ptr<S const>>::Impl::TYPE),
+      ti ((p.get ()) ? (&typeid (*p.get ())) : (&typeid (S))),
+      sptr (VHelp<std::shared_ptr<S const>>::Impl::get (p))
 {
 }
 
-extern TILIAE_API std::ostream &operator << (std::ostream &s, Core::Variant const &v);
+extern TILIAE_API std::ostream &operator<< (std::ostream &s, Core::Variant const &v);
 
 } // namespace
 
-#       endif /* VARIANT_H_ */
+#endif /* VARIANT_H_ */

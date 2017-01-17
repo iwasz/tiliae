@@ -6,15 +6,15 @@
  * - Add more control, like reflect_whole class (+ no_reflect on its member for fine grained controll), and reflect_only_explicitly_annotated.
  */
 
-#include <clang/AST/ASTConsumer.h>
+#include "clang/AST/Comment.h"
 #include "clang/AST/RecursiveASTVisitor.h"
-#include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
+#include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendAction.h"
-#include "clang/Tooling/Tooling.h"
 #include "clang/Tooling/CommonOptionsParser.h"
-#include "clang/AST/Comment.h"
+#include "clang/Tooling/Tooling.h"
+#include <clang/AST/ASTConsumer.h>
 #include <fstream>
 #include <utility>
 
@@ -194,7 +194,11 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
 
         for (CXXBaseSpecifier const &bse : decl->bases ()) {
                 QualType qt = bse.getType ();
-                outputFile << "\t\t\tclazz->addBaseClassName (\"" << qt->getAsCXXRecordDecl ()->getName ().str () << "\");\n";
+                CXXRecordDecl *baseRecordDecl = qt->getAsCXXRecordDecl ();
+
+                if (!hasAnnotation (baseRecordDecl->attrs (), TILIAE_NO_REFLECT_ANNOTATION_STRING).first) {
+                        outputFile << "\t\t\tclazz->addBaseClassName (\"" << baseRecordDecl->getName ().str () << "\");\n";
+                }
         }
 
         if (!decl->isAbstract ()) {
@@ -206,12 +210,14 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
 
                 for (CXXConstructorDecl const *constructor : decl->ctors ()) {
 
-//                        if (className == "Country") {
-//                                llvm::outs () << "Constructor! hasDef = [" << decl->hasDefaultConstructor () << "], isDef = ["
-//                                              << constructor->isDefaultConstructor () << "], accessPub = [" << (constructor->getAccess () == AS_public)
-//                                              << "], isImplicit = [" << constructor->isImplicit () << "], params0 = [" << (constructor->param_size () == 0)
-//                                              << "]\n";
-//                        }
+                        //                        if (className == "Country") {
+                        //                                llvm::outs () << "Constructor! hasDef = [" << decl->hasDefaultConstructor () << "], isDef = ["
+                        //                                              << constructor->isDefaultConstructor () << "], accessPub = [" << (constructor->getAccess
+                        //                                              () == AS_public)
+                        //                                              << "], isImplicit = [" << constructor->isImplicit () << "], params0 = [" <<
+                        //                                              (constructor->param_size () == 0)
+                        //                                              << "]\n";
+                        //                        }
 
                         if (decl->hasDefaultConstructor () && constructor->isDefaultConstructor () && constructor->getAccess () == AS_public) {
                                 outputFile << "\t\t\tclazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <" << fullName
@@ -250,7 +256,7 @@ void CXXRecordDeclStmtHandler::run (const MatchFinder::MatchResult &Result)
                         continue;
                 }
 
-                if (qType.getTypePtr()->isEnumeralType()) {
+                if (qType.getTypePtr ()->isEnumeralType ()) {
                         outputFile << "\t\t\tclazz->addField (new Field (\"" << name.str () << "\", Reflection::createFieldWrapperEnum (&" << fullName
                                    << "::" << name.str () << ")));\n";
                 }
@@ -388,7 +394,7 @@ R"(/*
  */
 
 )";
-/* clang-format on */
+        /* clang-format on */
 
         outputFile << "#include <reflection/Reflection.h>\n";
         outputFile << "#include \"" << OptionsParser.getSourcePathList ().front () << "\"\n";

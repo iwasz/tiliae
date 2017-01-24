@@ -55,4 +55,13 @@ private:
 
 }
 
+#ifdef USE_ASSERT_THROW
+#define assertThrow(b, msg)                                                                                                                                    \
+        if (!(b)) {                                                                                                                                            \
+                throw Core::Exception ((msg));                                                                                                        \
+        }
+#else
+#define assertThrow(b, msg)
+#endif
+
 #	endif /* EXCEPTION_H_ */

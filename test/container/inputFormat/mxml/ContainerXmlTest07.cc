@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest07);
  */
 BOOST_AUTO_TEST_CASE (test031MapInCarg)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "031-map-in-carg.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "031-map-in-carg.xml");
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (test031MapInCarg)
  */
 BOOST_AUTO_TEST_CASE (test032ListInCarg)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "032-list-in-carg.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "032-list-in-carg.xml");
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE (test032ListInCarg)
  */
 BOOST_AUTO_TEST_CASE (test033BeanInList)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "033-bean-in-list.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "033-bean-in-list.xml");
 
         Variant v = cont->getBean ("myList");
         BOOST_CHECK (!v.isNone ());
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE (test033BeanInList)
  */
 BOOST_AUTO_TEST_CASE (test034MapInList)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "034-map-in-list.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "034-map-in-list.xml");
 
         Variant v = cont->getBean ("myList");
         BOOST_CHECK (!v.isNone ());
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE (test034MapInList)
  */
 BOOST_AUTO_TEST_CASE (test035ListInList)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "035-list-in-list.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "035-list-in-list.xml");
 
         Variant v = cont->getBean ("myList");
         BOOST_CHECK (!v.isNone ());

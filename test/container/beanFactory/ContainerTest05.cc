@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_SUITE (ContainerTest05);
 BOOST_AUTO_TEST_CASE (testCreateCountryListWithReferenceDoubleIter)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure19 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (testCreateCountryListWithReferenceDoubleIter)
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRefWithReferenceDoubleIter)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure20 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE (testValueWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE (testBeanWithCustomEditor)
 
 /*--------------------------------------------------------------------------*/
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
 /****************************************************************************/
 

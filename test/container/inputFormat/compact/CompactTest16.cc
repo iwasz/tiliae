@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest16);
  */
 BOOST_AUTO_TEST_CASE (test076AddTo)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "076-add-to.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "076-add-to.xml"));
         Bar *bar = vcast <Bar *> (cont->getBean ("bar"));
         StringVector *vec = vcast <StringVector *> (bar->getButter ());
 
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE (test076AddTo)
  */
 BOOST_AUTO_TEST_CASE (test077AddTo)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "077-add-to.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "077-add-to.xml"));
         Bar *bar = vcast <Bar *> (cont->getBean ("bar"));
         VariantMap *vec1 = vcast <VariantMap *> (bar->getButter ());
         VariantMap *vec2 = vcast <VariantMap *> (vec1->operator[] ("a"));
@@ -67,13 +67,13 @@ BOOST_AUTO_TEST_CASE (test077AddTo)
  */
 BOOST_AUTO_TEST_CASE (test078Abstract)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "078-abstract.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "078-abstract.xml"));
         BOOST_REQUIRE_THROW (cont->getBean ("bar"), Core::Exception);
 }
 
 BOOST_AUTO_TEST_CASE (test079AddToWithRef)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "079-add-to-with-ref.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "079-add-to-with-ref.xml"));
         Bar *bar = vcast <Bar *> (cont->getBean ("bar"));
         VariantVector *vec = vcast <VariantVector *> (bar->getButter ());
 
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE (test079AddToWithRef)
 
 BOOST_AUTO_TEST_CASE (test080AddToWithRef)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "080-add-to-with-ref.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "080-add-to-with-ref.xml"));
         Dummy1 *bar = vcast <Dummy1 *> (cont->getBean ("bar"));
 
         BOOST_REQUIRE_EQUAL (bar->vector.size (), 5u);

@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest06);
  */
 BOOST_AUTO_TEST_CASE (test026TestSingleton)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "026-test-singleton.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "026-test-singleton.xml"));
 
         Variant vNS1 = cont->getBean ("cityNonSingleton");
         BOOST_CHECK (ccast <City *> (vNS1));
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE (test026TestSingleton)
  */
 BOOST_AUTO_TEST_CASE (test027EmbededBean)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "027-embeded-bean.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "027-embeded-bean.xml"));
 
         Variant v = cont->getBean ("kinkreet");
         BOOST_CHECK (!v.isNone ());
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE (test027EmbededBean)
  */
 BOOST_AUTO_TEST_CASE (test028EmbededMap)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "028-embeded-map.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "028-embeded-map.xml"));
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE (test028EmbededMap)
  */
 BOOST_AUTO_TEST_CASE (test029EmbededList)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "029-embeded-list.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "029-embeded-list.xml"));
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE (test029EmbededList)
  */
 BOOST_AUTO_TEST_CASE (test030BeanInCarg)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "030-bean-in-carg.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "030-bean-in-carg.xml"));
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());

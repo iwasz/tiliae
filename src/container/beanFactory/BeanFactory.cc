@@ -8,31 +8,31 @@
 
 #include "container/beanFactory/BeanFactory.h"
 
-#include <boost/lexical_cast.hpp>
+#include "BeanFactoryContainer.h"
+#include "BeanFactoryContext.h"
+#include "beanWrapper/IBeanWrapper.h"
+#include "beanWrapper/plugins/MethodPlugin.h"
+#include "container/Defs.h"
 #include "container/metaStructure/model/MetaObject.h"
 #include "core/variant/Cast.h"
-#include "beanWrapper/IBeanWrapper.h"
-#include "BeanFactoryContext.h"
-#include "container/Defs.h"
 #include "factory/ReflectionFactory.h"
-#include "BeanFactoryContainer.h"
-#include "beanWrapper/plugins/MethodPlugin.h"
+#include <boost/lexical_cast.hpp>
 
 namespace Container {
 
 /****************************************************************************/
 
-BeanFactory::BeanFactory (BeanFactoryContainer *c) :
-        flags (0x00),
-        cArgs (NULL),
-        attributes (NULL),
-        cArgsEditor (NULL),
-        editor (NULL),
-        factory (NULL),
-        beanWrapper (NULL),
-        outerBeanFactory (NULL),
-        innerBeanFactories (NULL),
-        container (c)
+BeanFactory::BeanFactory (BeanFactoryContainer *c)
+    : flags (0x00),
+      cArgs (NULL),
+      attributes (NULL),
+      cArgsEditor (NULL),
+      editor (NULL),
+      factory (NULL),
+      beanWrapper (NULL),
+      outerBeanFactory (NULL),
+      innerBeanFactories (NULL),
+      container (c)
 {
 }
 
@@ -78,7 +78,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 {
         try {
                 // Check nesting level.
-                BeanFactoryContext *bfc = dynamic_cast <BeanFactoryContext *> (context);
+                BeanFactoryContext *bfc = dynamic_cast<BeanFactoryContext *> (context);
 
                 if (bfc) {
                         bfc->incNested ();
@@ -86,7 +86,8 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                         if (bfc->getNested () > MAX_BEAN_NESTING) {
                                 // Nie bawimy się w fatale, bo to jest tak krytyczmny bład, że trzeba przerwać działanie programu.
                                 throw TooDeepNestingException ("BeanFactory::create. Id : [" + id + "]. Too deep "
-                                      "bean nesting. Max level of nested beans is : " + boost::lexical_cast <std::string> (MAX_BEAN_NESTING));
+                                                                                                    "bean nesting. Max level of nested beans is : "
+                                                               + boost::lexical_cast<std::string> (MAX_BEAN_NESTING));
                         }
                 }
 
@@ -139,7 +140,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
 
                 if (output.isNone ()) {
                         dcCommit (context);
-                        dcError (context,  "Factory in BeanFactory failed. ID : " + id);
+                        dcError (context, "Factory in BeanFactory failed. ID : " + id);
                         return Core::Variant ();
                 }
 
@@ -176,7 +177,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                                 return Core::Variant ();
                         }
 
-                        Ptr <Wrapper::Handler> handler = vcast <Ptr <Wrapper::Handler>> (v);
+                        Ptr<Wrapper::Handler> handler = vcast<Ptr<Wrapper::Handler>> (v);
 
                         if (!fireMethod (handler, context)) {
                                 return Core::Variant ();
@@ -188,7 +189,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                         Core::Variant v = beanWrapper->get (container->getGlobalInitMethod (), &err, context);
 
                         if (!err && !v.isNone ()) {
-                                Ptr <Wrapper::Handler> handler = vcast <Ptr <Wrapper::Handler>> (v);
+                                Ptr<Wrapper::Handler> handler = vcast<Ptr<Wrapper::Handler>> (v);
 
                                 if (!fireMethod (handler, context)) {
                                         return Core::Variant ();
@@ -203,7 +204,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                         Core::Variant v = beanWrapper->get (container->getGlobalIdAwareMethod (), &err, context);
 
                         if (!err && !v.isNone ()) {
-                                Ptr <Wrapper::Handler> handler = vcast <Ptr <Wrapper::Handler>> (v);
+                                Ptr<Wrapper::Handler> handler = vcast<Ptr<Wrapper::Handler>> (v);
                                 Core::VariantVector params;
                                 params.push_back (Core::Variant (id));
 
@@ -235,7 +236,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                         }
                 }
 
-                BeanFactoryMap *map = &container->getBeanFactoryMap();
+                BeanFactoryMap *map = &container->getBeanFactoryMap ();
 
                 /*
                  * Skasuj moje innerFactories jeśli jest pewność, że nie nie będą potrzebne, czyli:
@@ -261,7 +262,7 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                          */
                         bool amIAParent = attributes->getBool (Attributes::IS_PARENT_ARGUMENT, false);
                         if (myScope == MetaObject::SINGLETON && !amIAParent) {
-                                map = &container->getBeanFactoryMap();
+                                map = &container->getBeanFactoryMap ();
                                 map->erase (id);
 
                                 // Dodaj singleton
@@ -278,9 +279,8 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
         }
         catch (Core::Exception &e) {
                 dcCommit (context);
-                dcError (context, "BeanFactory::create. Id : [" + id +
-                                "] fullyInitialized : [" + boost::lexical_cast <std::string> (flags & FULLY_INITIALIZED) + "]. Exception caught : " +
-                                e.what ());
+                dcError (context, "BeanFactory::create. Id : [" + id + "] fullyInitialized : [" + boost::lexical_cast<std::string> (flags & FULLY_INITIALIZED)
+                                 + "]. Exception caught : " + e.what ());
         }
 
         return Core::Variant ();
@@ -318,9 +318,7 @@ void BeanFactory::notifyAfterPropertiesSet () const
 {
         if (innerBeanFactories) {
 
-                for (BeanFactoryMap::const_iterator i = innerBeanFactories->begin ();
-                     i  != innerBeanFactories->end ();
-                     ++i) {
+                for (BeanFactoryMap::const_iterator i = innerBeanFactories->begin (); i != innerBeanFactories->end (); ++i) {
 
                         i->second->onAfterPropertiesSet (this);
                 }
@@ -333,9 +331,7 @@ void BeanFactory::notifyBeforePropertiesSet () const
 {
         if (innerBeanFactories) {
 
-                for (BeanFactoryMap::const_iterator i = innerBeanFactories->begin ();
-                     i  != innerBeanFactories->end ();
-                     ++i) {
+                for (BeanFactoryMap::const_iterator i = innerBeanFactories->begin (); i != innerBeanFactories->end (); ++i) {
 
                         i->second->onBeforePropertiesSet (this);
                 }
@@ -355,7 +351,9 @@ std::string BeanFactory::toString () const
         }
 
         if (innerBeanFactories && !innerBeanFactories->empty ()) {
-                if (comma) { ret += ", "; }
+                if (comma) {
+                        ret += ", ";
+                }
                 ret += "inner=" + ToStringHelper::toString (*innerBeanFactories);
         }
 
@@ -411,14 +409,11 @@ Core::Variant BeanFactory::getInput () const
 
 /****************************************************************************/
 
-MetaObject::Scope BeanFactory::getScope () const
-{
-        return static_cast <MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT));
-}
+MetaObject::Scope BeanFactory::getScope () const { return static_cast<MetaObject::Scope> (attributes->getInt (Attributes::SCOPE_ARGUMENT)); }
 
 /****************************************************************************/
 
-bool BeanFactory::fireMethod (Ptr <Wrapper::Handler> handler, Core::DebugContext *context, Core::VariantVector *list, bool initMethodErrorMessage) const
+bool BeanFactory::fireMethod (Ptr<Wrapper::Handler> handler, Core::DebugContext *context, Core::VariantVector *list, bool initMethodErrorMessage) const
 {
         std::string methodName;
 
@@ -460,9 +455,7 @@ std::string ToStringHelper::toString (const BeanFactoryMap &bfm)
 {
         std::string ret = "BeanFactoryMap (";
 
-        for (BeanFactoryMap::const_iterator i = bfm.begin ();
-             i  != bfm.end ();
-             ++i) {
+        for (BeanFactoryMap::const_iterator i = bfm.begin (); i != bfm.end (); ++i) {
 
                 ret += i->second->toString () + ", ";
         }
@@ -473,5 +466,4 @@ std::string ToStringHelper::toString (const BeanFactoryMap &bfm)
 
         return ret + ")";
 }
-
 }

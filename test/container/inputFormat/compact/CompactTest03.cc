@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest03);
  */
 BOOST_AUTO_TEST_CASE (test011VariantMap)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "011-variant-map.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "011-variant-map.xml"));
 
         Variant v = cont->getBean ("mojaMapa");
         BOOST_CHECK (!v.isNone ());
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (test011VariantMap)
  */
 BOOST_AUTO_TEST_CASE (test012StringList)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "012-string-list.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "012-string-list.xml"));
 
         Variant v = cont->getBean ("mojaLista");
 
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE (test012StringList)
  */
 BOOST_AUTO_TEST_CASE (test013VariantList)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "013-variant-list.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "013-variant-list.xml"));
 
         Variant v = cont->getBean ("mojaLista");
         BOOST_CHECK (!v.isNone ());
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE (test013VariantList)
  */
 BOOST_AUTO_TEST_CASE (test014FirstRefTest)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "014-first-ref-test.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "014-first-ref-test.xml"));
 
         Variant v = cont->getBean ("kinkreet");
         BOOST_CHECK (!v.isNone ());
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE (test014FirstRefTest)
  */
 BOOST_AUTO_TEST_CASE (test015RefTagTest)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "015-ref-tag-test.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "015-ref-tag-test.xml"));
 
         Variant v = cont->getBean ("kinkreet0");
         BOOST_CHECK (!v.isNone ());

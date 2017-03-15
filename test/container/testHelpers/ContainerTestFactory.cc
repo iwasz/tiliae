@@ -7,11 +7,11 @@
  ****************************************************************************/
 
 #include "ContainerTestFactory.h"
-#include "container/metaStructure/model/MetaStructure.h"
 #include "container/ContainerFactory.h"
 #include "container/beanFactory/BeanFactory.h"
-#include <boost/make_shared.hpp>
 #include "container/inputFormat/mxml/MXmlMetaService.h"
+#include "container/metaStructure/model/MetaStructure.h"
+#include <boost/make_shared.hpp>
 
 using namespace Container;
 using namespace Core;
@@ -19,25 +19,25 @@ using namespace Core;
 /****************************************************************************/
 
 Container::ContainerFactory ContainerTestFactory::cf;
-Ptr <Container::BeanFactoryContainer> ContainerTestFactory::container;
+Ptr<Container::BeanFactoryContainer> ContainerTestFactory::container;
 
 /****************************************************************************/
 
-Ptr <BeanFactoryContainer> ContainerTestFactory::getContainer (const std::string &xmlFilePath)
+BeanFactoryContainer *ContainerTestFactory::getContainer (const std::string &xmlFilePath)
 {
         return ContainerFactory::createAndInit (MXmlMetaService::parseFile (xmlFilePath));
 }
 
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure01 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure01 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *parent = factory.newMetaObject ();
 
@@ -53,7 +53,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure01 ()
 
         metaCont->add (parent);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -70,30 +70,30 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure01 ()
 
 /****************************************************************************/
 
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure02 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure02 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *parent = factory.newMetaObject ();
         parent->setId ("ojciec");
         parent->setAbstract (true);
         metaCont->add (parent);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
         child->setId ("syn");
         child->setParent ("ojciec");
         metaCont->add (child);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *meta = factory.newMetaObject ();
         meta->setId ("aska");
@@ -112,16 +112,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure02 ()
 
 /****************************************************************************/
 
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure03 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure03 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -142,16 +142,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure03 ()
 
 /****************************************************************************/
 
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure04 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure04 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -174,9 +174,9 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure04 ()
  * Tworzy metastrukturę zawierającą same MappedMeta, ale mamy tu dziedziczenie,
  * wartości i referencje.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure05 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure05 ()
 {
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *meta00 = factory.newMetaObject ();
@@ -220,16 +220,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure05 ()
 
 /****************************************************************************/
 
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure06 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure06 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -244,7 +244,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure06 ()
         child->setId ("syn");
         metaCont->add (child);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         child = factory.newMetaObject ();
 
@@ -254,7 +254,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure06 ()
         child->setId ("ociec");
         metaCont->add (child);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         child = factory.newMetaObject ();
 
@@ -271,16 +271,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure06 ()
  *
  * @return
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure07 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure07 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -305,20 +305,20 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure07 ()
  *
  * @return
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure08 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure08 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = createMetaStructure07 ();
+        Ptr<MetaContainer> metaCont = createMetaStructure07 ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         /*
          * Modyfikujemy bean mojBean stworzony w metodzie createMetaStructure07
          */
 
-        MetaObject *meta = const_cast <MetaObject *> (metaCont->get ("mojBean"));
+        MetaObject *meta = const_cast<MetaObject *> (metaCont->get ("mojBean"));
         meta->addMapField (factory.newDataKeyNewString ("city", factory.newRefDataNewString ("city")));
 
         /*
@@ -337,16 +337,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure08 ()
 /**
  * Tworzy metastrukturę definiującą mapę typu StringMap.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure09 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure09 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -366,16 +366,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure09 ()
 /**
  * Tworzy metastrukturę definiującą mapę typu VariantMap.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure10 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure10 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -398,16 +398,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure10 ()
 /**
  * Tworzy metastrukturę definiującą listę StringList.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure11 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure11 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -428,16 +428,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure11 ()
 /**
  * Tworzy metastrukturę definiującą listę VariantList.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure12 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure12 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -460,16 +460,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure12 ()
 /**
  * Tworzy metastrukturę definiującą listę CountryList.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure13 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure13 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
         child->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Polska", "String")));
@@ -492,7 +492,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure13 ()
         child->setScope (MetaObject::PROTOTYPE);
         metaCont->add (child);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *meta = factory.newMetaObject ();
         meta->addListField (factory.newDataKey (factory.newRefDataNewString ("country1")));
@@ -509,16 +509,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure13 ()
 /**
  * Tworzy metastrukturę definiującą listę CountryMap (czyli klucze String, wartosci Country *).
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure14 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure14 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
         child->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
@@ -538,7 +538,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure14 ()
         child->setClass ("City");
         metaCont->add (child);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *meta = factory.newMetaObject ();
         meta->addMapField (factory.newDataKeyNewString ("field0", factory.newRefDataNewString ("city1")));
@@ -556,16 +556,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure14 ()
  *
  * @return
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure15 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure15 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -589,12 +589,12 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure15 ()
 /**
  *
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure16 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure16 ()
 {
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -607,7 +607,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure16 ()
 
         metaCont->add (child);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child1 = factory.newMetaObject ();
         child1->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
@@ -622,20 +622,20 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure16 ()
 /**
  *
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure17 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure17 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = createMetaStructure07 ();
+        Ptr<MetaContainer> metaCont = createMetaStructure07 ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         /*
          * Modyfikujemy bean mojBean stworzony w metodzie createMetaStructure07
          */
 
-        MetaObject *meta = const_cast <MetaObject *> (metaCont->get ("mojBean"));
+        MetaObject *meta = const_cast<MetaObject *> (metaCont->get ("mojBean"));
         meta->addMapField (factory.newDataKeyNewString ("city", factory.newRefDataNewString ("ncity")));
 
         /*
@@ -663,16 +663,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure17 ()
  * do których są referencje w mapie, występują po definicji samej
  * mapy.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure18 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure18 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
         child->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
@@ -692,7 +692,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure18 ()
         child->setClass ("City");
         metaCont->add (child);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *meta = factory.newMetaObject ();
         meta->addMapField (factory.newDataKeyNewString ("field0", factory.newRefDataNewString ("ncity1")));
@@ -709,16 +709,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure18 ()
 /**
  * Tworzy metastrukturę definiującą listę CountryList.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure19 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure19 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
         child->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Polska", "String")));
@@ -741,7 +741,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure19 ()
         child->setScope (MetaObject::PROTOTYPE);
         metaCont->add (child);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *meta = factory.newMetaObject ();
         meta->addListField (factory.newDataKey (factory.newRefDataNewString ("ncountry1")));
@@ -760,12 +760,12 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure19 ()
  * jest zaczyna się na literę n, co powoduje, że zostanie przetworzony
  * >>>PO<<< mojBean.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure20 ()
 {
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -779,7 +779,7 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
 
         metaCont->add (child);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child1 = factory.newMetaObject ();
         child1->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "string")));
@@ -795,12 +795,12 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure20 ()
  * Singleton - taki jak w 07.
  * @return
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure21 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure21 ()
 {
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -824,16 +824,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure21 ()
 /**
  * Prosty bean z init method.
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure22 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure22 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
 
@@ -850,9 +850,9 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure22 ()
 /**
  * Test inner-outer
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure23 ()
 {
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *meta00 = factory.newMetaObject ();
@@ -885,12 +885,12 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure23 ()
 /**
  * Test inner-outer
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure24 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure24 ()
 {
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*------Level0-meta-globalne------------------------------------------------*/
+        /*------Level0-meta-globalne------------------------------------------------*/
 
         MetaObject *meta00 = factory.newMetaObject ();
         meta00->setId ("city100");
@@ -898,56 +898,56 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure24 ()
         meta00->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
         metaCont->add (meta00);
 
-/*------Level1-inner-mata-city100-------------------------------------------*/
+        /*------Level1-inner-mata-city100-------------------------------------------*/
 
-                MetaObject *meta01 = factory.newMetaObject ();
-                meta01->setId ("city110");
-                meta01->setClass ("City");
-                meta01->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
-                metaCont->addInner (meta00, meta01);
+        MetaObject *meta01 = factory.newMetaObject ();
+        meta01->setId ("city110");
+        meta01->setClass ("City");
+        meta01->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
+        metaCont->addInner (meta00, meta01);
 
-                        // Taka sama nazwa!
-                        MetaObject *meta02 = factory.newMetaObject ();
-                        meta02->setId ("cityA");
-                        meta02->setClass ("City");
-                        metaCont->addInner (meta01, meta02);
+        // Taka sama nazwa!
+        MetaObject *meta02 = factory.newMetaObject ();
+        meta02->setId ("cityA");
+        meta02->setClass ("City");
+        metaCont->addInner (meta01, meta02);
 
-                        meta02 = factory.newMetaObject ();
-                        meta02->setId ("cityB");
-                        meta02->setClass ("City");
-                        metaCont->addInner (meta01, meta02);
+        meta02 = factory.newMetaObject ();
+        meta02->setId ("cityB");
+        meta02->setClass ("City");
+        metaCont->addInner (meta01, meta02);
 
-                meta01 = factory.newMetaObject ();
-                meta01->setId ("city120");
-                meta01->setClass ("City");
-                meta01->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
-                metaCont->addInner (meta00, meta01);
+        meta01 = factory.newMetaObject ();
+        meta01->setId ("city120");
+        meta01->setClass ("City");
+        meta01->addMapField (factory.newDataKeyNewString ("name", factory.newValueDataNewString ("Warszawa", "String")));
+        metaCont->addInner (meta00, meta01);
 
-/*------Level2-inner-meta-city110-i-city120---------------------------------*/
+        /*------Level2-inner-meta-city110-i-city120---------------------------------*/
 
-                        meta02 = factory.newMetaObject ();
-                        meta02->setId ("cityA");
-                        meta02->setClass ("City");
-                        metaCont->addInner (meta01, meta02);
+        meta02 = factory.newMetaObject ();
+        meta02->setId ("cityA");
+        meta02->setClass ("City");
+        metaCont->addInner (meta01, meta02);
 
-                        meta02 = factory.newMetaObject ();
-                        meta02->setId ("cityB");
-                        meta02->setClass ("City");
-                        metaCont->addInner (meta01, meta02);
+        meta02 = factory.newMetaObject ();
+        meta02->setId ("cityB");
+        meta02->setClass ("City");
+        metaCont->addInner (meta01, meta02);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         meta00 = factory.newMetaObject ();
         meta00->setId ("city200");
         meta00->setClass ("City");
         metaCont->add (meta00);
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
-                meta01 = factory.newMetaObject ();
-                meta01->setId ("city110");
-                meta01->setClass ("City");
-                metaCont->addInner (meta00, meta01);
+        meta01 = factory.newMetaObject ();
+        meta01->setId ("city110");
+        meta01->setClass ("City");
+        metaCont->addInner (meta00, meta01);
 
         return metaCont;
 }
@@ -956,16 +956,16 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure24 ()
  * Jeden skomplikowany meta i 2 małe.
  * @return
  */
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure25 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure25 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
         child->addMapField (factory.newDataKeyNewString ("field0", factory.newValueDataNewString ("value0", "String")));
@@ -999,23 +999,23 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure25 ()
 }
 /****************************************************************************/
 
-Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
+Ptr<MetaContainer> ContainerTestFactory::createMetaStructure26 ()
 {
         /*
          * 1. Najpierw utworzymy MetaContainer i dodamy do niego
          * 2 elementy jeden elementy typu list.
          */
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         MetaObject *child = factory.newMetaObject ();
         // const char *city100 = "city100";
         // const char *city200 = "city200";
 
-//        const char *city100 = factory.newString ("city100");
-//        const char *city200 = factory.newString ("city200");
+        //        const char *city100 = factory.newString ("city100");
+        //        const char *city200 = factory.newString ("city200");
 
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("value0", "String")));
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("value1", "text")));
@@ -1024,8 +1024,8 @@ Ptr <MetaContainer> ContainerTestFactory::createMetaStructure26 ()
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("f", "char")));
         child->addListField (factory.newDataKey (factory.newValueDataNewString ("true", "bool")));
         child->addListField (factory.newDataKey (factory.newNullData ()));
-//        child->addListField (factory.newDataKey (factory.newRefData (city100)));
-//        child->addListField (factory.newDataKey (factory.newRefData (city200)));
+        //        child->addListField (factory.newDataKey (factory.newRefData (city100)));
+        //        child->addListField (factory.newDataKey (factory.newRefData (city200)));
         child->addListField (factory.newDataKey (factory.newRefDataNewString ("city100")));
         child->addListField (factory.newDataKey (factory.newRefDataNewString ("city200")));
         child->setId ("syn");

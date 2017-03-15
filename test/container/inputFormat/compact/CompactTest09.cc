@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest09);
  */
 BOOST_AUTO_TEST_CASE (test041InitMethod)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "041-init-method.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "041-init-method.xml"));
 
         Variant vB = cont->getBean ("city");
         BOOST_CHECK (ccast <City *> (vB));
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (test043MultipleIdBean)
  */
 BOOST_AUTO_TEST_CASE (test045BaseTypesConstructors)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "045-base-types-constructors.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "045-base-types-constructors.xml"));
 
         Variant vB = cont->getBean ("string1");
         BOOST_CHECK (ccast <std::string> (vB));

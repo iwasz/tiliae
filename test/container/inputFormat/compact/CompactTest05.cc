@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest05);
  */
 BOOST_AUTO_TEST_CASE (test022ListWithCustomEditor)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "022-list-with-custom-editor.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "022-list-with-custom-editor.xml"));
 
         Variant v = cont->getBean ("mojString");
         BOOST_CHECK (!v.isNone ());
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (test022ListWithCustomEditor)
  */
 BOOST_AUTO_TEST_CASE (test023BeanWithCustomFactory)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "023-bean-with-custom-factory.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "023-bean-with-custom-factory.xml"));
 
         Variant v = cont->getBean ("city");
         BOOST_CHECK (!v.isNone ());
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (test023BeanWithCustomFactory)
  */
 BOOST_AUTO_TEST_CASE (test024MapAndListWithCustomFactory)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "024-map-and-list-with-custom-factory.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "024-map-and-list-with-custom-factory.xml"));
 
         Variant v = cont->getBean ("myMap");
         BOOST_CHECK (!v.isNone ());
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (test024MapAndListWithCustomFactory)
  */
 BOOST_AUTO_TEST_CASE (test025ValueWithCustomEditor)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "025-value-with-custom-editor.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "025-value-with-custom-editor.xml"));
 
         Variant v = cont->getBean ("mojaMapa");
         BOOST_CHECK (!v.isNone ());

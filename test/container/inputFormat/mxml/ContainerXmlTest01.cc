@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE (test001SimplestBeanFirst)
                 Ptr <MetaContainer> metaContainer = std::make_shared <MetaContainer> ();
                 MXmlMetaService::parseFile (PATH + "001-simplest-bean.xml", metaContainer);
 
-                Ptr <BeanFactoryContainer> beanContainer = ContainerFactory::createAndInit (metaContainer);
+                BeanFactoryContainer *beanContainer = ContainerFactory::createAndInit (metaContainer);
                 Variant v = beanContainer->getBean ("city");
 
                 BOOST_REQUIRE (!v.isNone ());
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE (test001SimplestBean)
 {
         //boost::unit_test::unit_test_monitor.register_exception_translator <Core::Exception> (my_exception1_translator);
 
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "001-simplest-bean.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "001-simplest-bean.xml");
 
         Variant vB = cont->getBean ("city");
         BOOST_CHECK (!vB.isNone ());
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE (test001SimplestBean)
  */
 BOOST_AUTO_TEST_CASE (test002SimplestBeanValueString)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "002-simplest-bean-value-string.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "002-simplest-bean-value-string.xml");
 
         Variant vB = cont->getBean ("city");
         BOOST_CHECK (ccast <City *> (vB));
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE (test002SimplestBeanValueString)
  */
 BOOST_AUTO_TEST_CASE (test003SimplestBeanValueText)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "003-simplest-bean-value-text.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "003-simplest-bean-value-text.xml");
 
         Variant vB = cont->getBean ("city");
         BOOST_CHECK (ccast <City *> (vB));
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE (test003SimplestBeanValueText)
  */
 BOOST_AUTO_TEST_CASE (test004SimplestBeanValueEmpty)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "004-simplest-bean-value-empty.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "004-simplest-bean-value-empty.xml");
 
         Variant vB = cont->getBean ("city");
         BOOST_CHECK (ccast <City *> (vB));
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (test004SimplestBeanValueEmpty)
  */
 BOOST_AUTO_TEST_CASE (test005LittleBitMoreComplicatedBean)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "005-little-more-complicated-bean.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "005-little-more-complicated-bean.xml");
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());

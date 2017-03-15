@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest04);
  */
 BOOST_AUTO_TEST_CASE (test016CityMap)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "016-city-map.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "016-city-map.xml");
 
         Variant v = cont->getBean ("mojaMapa");
         BOOST_CHECK (!v.isNone ());
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (test016CityMap)
  */
 BOOST_AUTO_TEST_CASE (test017CityList)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "017-city-list.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "017-city-list.xml");
 
         Variant v = cont->getBean ("miasta");
         BOOST_CHECK (!v.isNone ());
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (test017CityList)
  */
 BOOST_AUTO_TEST_CASE (test018EmptyListEmptyMap)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "018-empty-list-empty-map.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "018-empty-list-empty-map.xml");
 
         // Lista
 
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE (test018EmptyListEmptyMap)
  */
 BOOST_AUTO_TEST_CASE (test019BeanWithCArgs)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "019-bean-with-cargs.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "019-bean-with-cargs.xml");
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE (test019BeanWithCArgs)
  */
 BOOST_AUTO_TEST_CASE (test020CArgsAndRef)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "020-cargs-and-ref.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "020-cargs-and-ref.xml");
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());

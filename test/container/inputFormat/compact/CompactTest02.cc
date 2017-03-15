@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest02);
  */
 BOOST_AUTO_TEST_CASE (test006EmptyBean)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "006-empty-bean.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "006-empty-bean.xml"));
 
         Variant vB = cont->getBean ("bean1");
         BOOST_CHECK (ccast <std::string> (vB));
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (test006EmptyBean)
  */
 BOOST_AUTO_TEST_CASE (test007ParentTest)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "007-parent-test.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "007-parent-test.xml"));
 
         Variant v = cont->getBean ("childBean");
         BOOST_CHECK (!v.isNone ());
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (test007ParentTest)
  */
 BOOST_AUTO_TEST_CASE (test008StringMap)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "008-string-map.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "008-string-map.xml"));
 
         Variant v = cont->getBean ("mojaMapa");
         BOOST_CHECK (!v.isNone ());
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE (test008StringMap)
  */
 BOOST_AUTO_TEST_CASE (test009StringMapComplex)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "009-string-map-complex.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "009-string-map-complex.xml"));
 
         Variant v = cont->getBean ("mojaMapa");
         BOOST_CHECK (!v.isNone ());

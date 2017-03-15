@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest14);
 BOOST_AUTO_TEST_CASE (test066RoundReferences)
 {
         BOOST_REQUIRE_THROW (ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "066-round-references.xml")), RoundReferenceException);
-//        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "066-round-references.xml"));
+//        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "066-round-references.xml"));
 //
 //        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a01")), RoundReferenceException);
 //        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a02")), RoundReferenceException);
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (test066RoundReferences)
 BOOST_AUTO_TEST_CASE (test067RoundReferencesLazy)
 {
         BOOST_REQUIRE_THROW (ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "067-round-references-lazy.xml")), RoundReferenceException);
-//        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "067-round-references-lazy.xml"));
+//        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "067-round-references-lazy.xml"));
 //
 //        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a01")), RoundReferenceException);
 //        BOOST_REQUIRE_THROW (vcast <A01c *> (cont->getBean ("a02")), RoundReferenceException);
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE (test069NestedParent)
         bool exception = false;
 
         try {
-                Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "069-parent-nested.xml"));
+                BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "069-parent-nested.xml"));
                 cont->getBean ("a_main");
         }
         catch (Core::Exception const &e) {
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE (test070DefaultSingleton)
         bool exception = false;
 
         try {
-                Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "001-simplest-bean.xml"));
+                BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "001-simplest-bean.xml"));
                 Core::Variant v1 = cont->getBean ("city");
                 Core::Variant v2 = cont->getBean ("city");
 

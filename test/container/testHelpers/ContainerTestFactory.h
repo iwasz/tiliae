@@ -23,7 +23,7 @@ class BeanFactoryContainer;
  */
 struct ContainerTestFactory {
 
-        static Ptr <Container::BeanFactoryContainer> getContainer (const std::string &xmlFilePath);
+        static Container::BeanFactoryContainer *getContainer (const std::string &xmlFilePath);
 
         static Ptr <Container::MetaContainer> createMetaStructure01 ();
         static Ptr <Container::MetaContainer> createMetaStructure02 ();

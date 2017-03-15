@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest11);
  */
 BOOST_AUTO_TEST_CASE (test051PropertyOrder)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "051-property-order.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "051-property-order.xml"));
 
         Variant vB = cont->getBean ("bean1");
         BOOST_CHECK (!vB.isNone());
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (test051PropertyOrder)
  */
 BOOST_AUTO_TEST_CASE (test052NestedBeanWithId)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "052-nested-bean-with-id.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "052-nested-bean-with-id.xml"));
 
         Variant vB = cont->getBean ("bean1");
         BOOST_CHECK (!vB.isNone());
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE (test052NestedBeanWithId)
  */
 BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "053-bean-scope-first-tests.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "053-bean-scope-first-tests.xml"));
 
         Variant v = cont->getBean ("listaSingleton");
         BarList *barList = vcast <BarList *> (v);
@@ -190,7 +190,7 @@ BOOST_AUTO_TEST_CASE (test053BeanScopeFirstTests)
  */
 BOOST_AUTO_TEST_CASE (test054InnerBeanParent)
 {
-//        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "054-inner-bean-parent.xml");
+//        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "054-inner-bean-parent.xml");
 //        Variant v = cont->getBean ("listaSingleton");
 //        Ptr <BarList> barList = vcast <Ptr <BarList> > (v);
 //        BOOST_CHECK (barList);
@@ -202,7 +202,7 @@ BOOST_AUTO_TEST_CASE (test054InnerBeanParent)
  */
 BOOST_AUTO_TEST_CASE (test055MapMetaOverwrite)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "055-map-meta-overwrite.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "055-map-meta-overwrite.xml"));
 
         Variant vB = cont->getBean ("parentMap");
         BOOST_CHECK_EQUAL (vcast <StringMap *> (vB)->operator[] ("a"), "Test2");

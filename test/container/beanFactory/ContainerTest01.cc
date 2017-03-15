@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE (testCreateContainer)
 //        boost::unit_test::unit_test_monitor.register_exception_translator<Core::Exception> (&my_exception1_translator);
 
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure26 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
         metaCont = ContainerTestFactory::createMetaStructure05 ();
         cont = ContainerFactory::createAndInit (metaCont);
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE (testCreateContainer)
 BOOST_AUTO_TEST_CASE (testSimpleMetaStructure)
 {
         Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure05 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
         /*
          * Po pierwsze sprawdź, czy metaStruktura się dobrze poparentowała.

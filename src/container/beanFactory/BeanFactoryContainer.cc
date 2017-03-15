@@ -7,22 +7,16 @@
  ****************************************************************************/
 
 #include "BeanFactoryContainer.h"
-#include "core/variant/Cast.h"
 #include "BeanFactoryContext.h"
+#include "InternalSingletons.h"
 #include "container/Defs.h"
+#include "core/variant/Cast.h"
 #include "reflection/Manager.h"
 #include "reflection/model/Class.h"
-#include "InternalSingletons.h"
 
 namespace Container {
 
-BeanFactoryContainer::BeanFactoryContainer () :
-                internalSingletons (NULL),
-                linked (NULL),
-                conversionMethodEditor (NULL),
-                typeEditor (NULL)
-{
-}
+BeanFactoryContainer::BeanFactoryContainer () : internalSingletons (NULL), linked (NULL), conversionMethodEditor (NULL), typeEditor (NULL) {}
 
 /****************************************************************************/
 
@@ -32,9 +26,9 @@ BeanFactoryContainer::~BeanFactoryContainer ()
          * Kasuj wszystko co zostało. Singletony i ich inner beany kasują się same i usuwają z factoryMap,
          * więc żadne inne dodatkowe sprawdzenia nie są potrzebne.
          */
-        for (BeanFactoryMap::iterator i = factoryMap.begin (); i  != factoryMap.end (); ++i) {
-                BeanFactory * bf = i->second;
-                 delete bf;
+        for (BeanFactoryMap::iterator i = factoryMap.begin (); i != factoryMap.end (); ++i) {
+                BeanFactory *bf = i->second;
+                delete bf;
         }
 
         for (SparseVariantMap::iterator i = singletons.begin (); i != singletons.end (); ++i) {
@@ -55,10 +49,8 @@ BeanFactoryContainer::~BeanFactoryContainer ()
 
 void BeanFactoryContainer::deleteSingleton (Core::Variant &v)
 {
-        if (v.getType () != Core::Variant::POINTER &&
-            v.getType () != Core::Variant::POINTER_CONST &&
-            v.getType () != Core::Variant::OBJECT &&
-            v.getType () != Core::Variant::OBJECT_CONST) {
+        if (v.getType () != Core::Variant::POINTER && v.getType () != Core::Variant::POINTER_CONST && v.getType () != Core::Variant::OBJECT
+            && v.getType () != Core::Variant::OBJECT_CONST) {
                 return;
         }
 
@@ -80,10 +72,7 @@ std::string BeanFactoryContainer::toString () const
 
 /****************************************************************************/
 
-void BeanFactoryContainer::reset ()
-{
-        factoryMap.clear ();
-}
+void BeanFactoryContainer::reset () { factoryMap.clear (); }
 
 /****************************************************************************/
 
@@ -113,7 +102,8 @@ Core::Variant BeanFactoryContainer::getBean (const std::string &name) const
                 throw ContainerException (context, "BeanFactoryContainer::getBean : can't find definition of bean [" + name + "].");
         }
 
-        return ret;}
+        return ret;
+}
 
 /****************************************************************************/
 
@@ -154,7 +144,7 @@ Core::Variant BeanFactoryContainer::getSingletonNoThrow (const char *name) const
 
 bool BeanFactoryContainer::containsBean (const std::string &name) const
 {
-        bool ret = (singletons.find (name.c_str()) != singletons.end ()) || (factoryMap.find (name) != factoryMap.end ());
+        bool ret = (singletons.find (name.c_str ()) != singletons.end ()) || (factoryMap.find (name) != factoryMap.end ());
 
         if (!ret && linked) {
                 return linked->containsBean (name);
@@ -202,7 +192,8 @@ BeanFactory *BeanFactoryContainer::getBeanFactory (const std::string &id, BeanFa
 void BeanFactoryContainer::addConversion (std::type_info const &type, Editor::StringFactoryMethodEditor::ConversionFunctionPtr function)
 {
         assert (internalSingletons->mainMethodConversionEditor);
-        Editor::StringFactoryMethodEditor *conversionMethodEditor = dynamic_cast <Editor::StringFactoryMethodEditor *> (internalSingletons->mainMethodConversionEditor);
+        Editor::StringFactoryMethodEditor *conversionMethodEditor
+                = dynamic_cast<Editor::StringFactoryMethodEditor *> (internalSingletons->mainMethodConversionEditor);
         conversionMethodEditor->addConversion (type, function);
 }
 /****************************************************************************/
@@ -210,8 +201,7 @@ void BeanFactoryContainer::addConversion (std::type_info const &type, Editor::St
 void BeanFactoryContainer::addConversion (std::type_info const &type, Editor::IEditor *editor)
 {
         assert (internalSingletons->mainTypeEditor);
-        Editor::TypeEditor *typeEditor = dynamic_cast <Editor::TypeEditor *> (internalSingletons->mainTypeEditor);
+        Editor::TypeEditor *typeEditor = dynamic_cast<Editor::TypeEditor *> (internalSingletons->mainTypeEditor);
         typeEditor->addType (Editor::TypeEditor::Type (typeid (std::string), type, editor));
 }
-
 }

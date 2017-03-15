@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest08);
  */
 BOOST_AUTO_TEST_CASE (test036BeanInMap)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "036-bean-in-map.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "036-bean-in-map.xml"));
 
         Variant v = cont->getBean ("myMap");
         BOOST_CHECK (!v.isNone ());
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (test036BeanInMap)
  */
 BOOST_AUTO_TEST_CASE (test037MapInMap)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "037-map-in-map.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "037-map-in-map.xml"));
 
         Variant v = cont->getBean ("myMap");
         BOOST_CHECK (!v.isNone ());
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE (test037MapInMap)
  */
 BOOST_AUTO_TEST_CASE (test038ListInMap)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "038-list-in-map.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "038-list-in-map.xml"));
 
         Variant v = cont->getBean ("myMap");
         BOOST_CHECK (!v.isNone ());
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE (test038ListInMap)
  */
 BOOST_AUTO_TEST_CASE (test039ComplicatedBeans)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "039-complicated-beans.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "039-complicated-beans.xml"));
 
         Variant v = cont->getBean ("myMap");
         BOOST_CHECK (!v.isNone ());
@@ -133,7 +133,7 @@ BOOST_AUTO_TEST_CASE (test039ComplicatedBeans)
  */
 BOOST_AUTO_TEST_CASE (test040MultipleNesting)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "040-multiple-nesting.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "040-multiple-nesting.xml"));
 
         Variant v = cont->getBean ("myBean");
         BOOST_REQUIRE (!v.isNone ());

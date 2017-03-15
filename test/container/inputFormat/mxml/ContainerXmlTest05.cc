@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest05);
  */
 BOOST_AUTO_TEST_CASE (test021CArgsAndRefArgs)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "021-cargs-and-ref-args.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "021-cargs-and-ref-args.xml");
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE (test021CArgsAndRefArgs)
  */
 BOOST_AUTO_TEST_CASE (test022ListWithCustomEditor)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "022-list-with-custom-editor.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "022-list-with-custom-editor.xml");
 
         Variant v = cont->getBean ("mojString");
         BOOST_CHECK (!v.isNone ());
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (test022ListWithCustomEditor)
  */
 BOOST_AUTO_TEST_CASE (test023BeanWithCustomFactory)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "023-bean-with-custom-factory.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "023-bean-with-custom-factory.xml");
 
         Variant v = cont->getBean ("city");
         BOOST_CHECK (!v.isNone ());
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE (test023BeanWithCustomFactory)
  */
 BOOST_AUTO_TEST_CASE (test024MapAndListWithCustomFactory)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "024-map-and-list-with-custom-factory.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "024-map-and-list-with-custom-factory.xml");
 
         Variant v = cont->getBean ("myMap");
         BOOST_CHECK (!v.isNone ());
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE (test024MapAndListWithCustomFactory)
  */
 BOOST_AUTO_TEST_CASE (test025ValueWithCustomEditor)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "025-value-with-custom-editor.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "025-value-with-custom-editor.xml");
 
         Variant v = cont->getBean ("mojaMapa");
         BOOST_CHECK (!v.isNone ());

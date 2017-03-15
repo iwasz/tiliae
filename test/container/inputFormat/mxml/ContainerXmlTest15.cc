@@ -8,15 +8,15 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <iostream>
 #include "core/Pointer.h"
 #include "testHelpers/TestHelpers.h"
+#include <iostream>
 
+#include "Conf.h"
 #include "container/ContainerFactory.h"
+#include "container/inputFormat/mxml/MXmlMetaService.h"
 #include "container/metaStructure/model/MetaStructure.h"
 #include "container/testHelpers/ContainerTestFactory.h"
-#include "Conf.h"
-#include "container/inputFormat/mxml/MXmlMetaService.h"
 
 /****************************************************************************/
 
@@ -32,13 +32,13 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest15);
  */
 BOOST_AUTO_TEST_CASE (test071ReferenceToContainerPtr)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "071-reference-to-container.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "071-reference-to-container.xml");
 
-        A03 *a = vcast <A03 *> (cont->getBean ("a"));
+        A03 *a = vcast<A03 *> (cont->getBean ("a"));
         BOOST_REQUIRE (a);
 
         BeanFactoryContainer *cont2 = a->cont;
-        BOOST_REQUIRE_EQUAL (cont2, cont.get ());
+        BOOST_REQUIRE_EQUAL (cont2, cont);
 }
 
 /**
@@ -46,13 +46,13 @@ BOOST_AUTO_TEST_CASE (test071ReferenceToContainerPtr)
  */
 BOOST_AUTO_TEST_CASE (test072ReferenceToContainer)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "072-reference-to-container.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "072-reference-to-container.xml");
 
-        A04 *a = vcast <A04 *> (cont->getBean ("a"));
+        A04 *a = vcast<A04 *> (cont->getBean ("a"));
         BOOST_REQUIRE (a);
 
         BeanFactoryContainer *cont2 = a->cont;
-        BOOST_REQUIRE_EQUAL (cont2, cont.get ());
+        BOOST_REQUIRE_EQUAL (cont2, cont);
 }
 
 /**
@@ -61,16 +61,16 @@ BOOST_AUTO_TEST_CASE (test072ReferenceToContainer)
  */
 BOOST_AUTO_TEST_CASE (test073ReferenceToExternalSingleton)
 {
-        Ptr <MetaContainer> metaContainer = MXmlMetaService::parseFile (PATH + "073-reference-to-external.xml");
-        Ptr <BeanFactoryContainer> container = ContainerFactory::create (metaContainer);
+        Ptr<MetaContainer> metaContainer = MXmlMetaService::parseFile (PATH + "073-reference-to-external.xml");
+        BeanFactoryContainer *container = ContainerFactory::create (metaContainer);
         container->addSingleton ("external1", Core::Variant ("Benek pies"));
         container->addSingleton ("external2", Core::Variant ("Borys pies"));
-        ContainerFactory::init (container.get (), metaContainer.get ());
+        ContainerFactory::init (container, metaContainer.get ());
 
-        Core::StringMap *map = vcast <Core::StringMap *> (container->getBean ("map"));
+        Core::StringMap *map = vcast<Core::StringMap *> (container->getBean ("map"));
 
-        BOOST_REQUIRE_EQUAL (map->operator [] ("ex1"), "Benek pies");
-        BOOST_REQUIRE_EQUAL (map->operator [] ("ex2"), "Borys pies");
+        BOOST_REQUIRE_EQUAL (map->operator[] ("ex1"), "Benek pies");
+        BOOST_REQUIRE_EQUAL (map->operator[] ("ex2"), "Borys pies");
 }
 
 /**
@@ -78,17 +78,17 @@ BOOST_AUTO_TEST_CASE (test073ReferenceToExternalSingleton)
  */
 BOOST_AUTO_TEST_CASE (test074ExternalSourceOfSingletons)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "074-external-source.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "074-external-source.xml");
 
-        Core::StringMap *map = vcast <Core::StringMap *> (cont->getBean ("map"));
+        Core::StringMap *map = vcast<Core::StringMap *> (cont->getBean ("map"));
 
-        BOOST_REQUIRE_EQUAL (map->operator [] ("ex1"), "Benek pies");
-        BOOST_REQUIRE_EQUAL (map->operator [] ("ex2"), "Borys pies");
+        BOOST_REQUIRE_EQUAL (map->operator[] ("ex1"), "Benek pies");
+        BOOST_REQUIRE_EQUAL (map->operator[] ("ex2"), "Borys pies");
 }
 
 BOOST_AUTO_TEST_CASE (test075DependsOn)
 {
-        Ptr <MetaContainer> mc = MXmlMetaService::parseFile (PATH + "075-depends-on.xml");
+        Ptr<MetaContainer> mc = MXmlMetaService::parseFile (PATH + "075-depends-on.xml");
         MetaDeque sorted = mc->topologicalSort ();
 
         MetaDeque::const_iterator i = sorted.begin ();

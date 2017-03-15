@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (test073TopologicalSort)
 
 BOOST_AUTO_TEST_CASE (test074AbstractMeta)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "074-abstract-meta.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "074-abstract-meta.xml"));
         BOOST_REQUIRE_THROW (cont->getBean ("a"), Core::Exception);
         cont->getBean ("b");
 }

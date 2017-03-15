@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest14);
 BOOST_AUTO_TEST_CASE (test066RoundReferences)
 {
         BOOST_REQUIRE_THROW (ContainerTestFactory::getContainer (PATH + "066-round-references.xml"), RoundReferenceException);
-//        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "066-round-references.xml");
+//        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "066-round-references.xml");
 //
 //        A01 *a01 = vcast <A01 *> (cont->getBean ("a01"));
 //        A02 *a02 = vcast <A02 *> (cont->getBean ("a02"));
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE (test066RoundReferences)
 BOOST_AUTO_TEST_CASE (test067RoundReferencesLazy)
 {
         BOOST_REQUIRE_THROW (ContainerTestFactory::getContainer (PATH + "067-round-references-lazy.xml"), RoundReferenceException);
-//        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "067-round-references-lazy.xml");
+//        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "067-round-references-lazy.xml");
 //
 //        A01 *a01 = vcast <A01 *> (cont->getBean ("a01"));
 //        A02 *a02 = vcast <A02 *> (cont->getBean ("a02"));
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (test067RoundReferencesLazy)
 BOOST_AUTO_TEST_CASE (test068RoundReferencesPrototype)
 {
         BOOST_REQUIRE_THROW (ContainerTestFactory::getContainer (PATH + "068-round-references-prototype.xml"), RoundReferenceException);
-//        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "068-round-references-prototype.xml");
+//        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "068-round-references-prototype.xml");
 //
 //        BOOST_REQUIRE_THROW (vcast <A01 *> (cont->getBean ("a01")), TooDeepNestingException);
 //        BOOST_REQUIRE_THROW (vcast <A01 *> (cont->getBean ("a02")), TooDeepNestingException);
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE (test069NestedParent)
         bool exception = false;
 
         try {
-                Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "069-parent-nested.xml");
+                BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "069-parent-nested.xml");
                 cont->getBean ("a_main");
         }
         catch (Core::Exception const &e) {
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE (test070DefaultSingleton)
         bool exception = false;
 
         try {
-                Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "001-simplest-bean.xml");
+                BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "001-simplest-bean.xml");
                 Core::Variant v1 = cont->getBean ("city");
                 Core::Variant v2 = cont->getBean ("city");
 

@@ -31,11 +31,11 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest13);
  */
 BOOST_AUTO_TEST_CASE (test061LinkedContainers)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "061-linked-01.xml"), true);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "061-linked-01.xml"), true);
 
         std::string b1 = vcast <std::string> (cont->getBean ("bean1"));
 
-        Ptr <BeanFactoryContainer> cont2 = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "061-linked-02.xml"), false, cont.get ());
+        BeanFactoryContainer *cont2 = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "061-linked-02.xml"), false, cont);
 
         StringList *list = vcast <StringList *> (cont2->getBean ("bean2"));
         BOOST_CHECK (list);
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE (test061LinkedContainers)
 BOOST_AUTO_TEST_CASE (test062LinkedContainers)
 {
         // Stwórz kontener i umieść w nim jego meta-kontener.
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "062-linked-01.xml"), true);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "062-linked-01.xml"), true);
 
         Address *b1 = vcast <Address *> (cont->getBean ("bean1"));
         BOOST_CHECK (b1);
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE (test062LinkedContainers)
         BOOST_CHECK_EQUAL (b3->getString(), "Napis");
 
         // Utwórz podlinkowany kontener. Nie zapamiętuj jego metaKontenera (nie będziemy do niego linkowac nic).
-        Ptr <BeanFactoryContainer> cont2 = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "062-linked-02.xml"), false, cont.get ());
+        BeanFactoryContainer *cont2 = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "062-linked-02.xml"), false, cont);
 
         Address *b4 = vcast <Address *> (cont2->getBean ("bean4"));
         BOOST_CHECK (b4);
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE (test062LinkedContainers)
 BOOST_AUTO_TEST_CASE (test063SingletonInit)
 {
         // Poniżej init uruchamia się w place i place2 (2)
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "063-singleton-init.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "063-singleton-init.xml"));
 
         // place jest singletonem (lazy-init==false) i jest już utworzone, więc init się nie wywołuje.
         Place *p = vcast <Place *> (cont->getBean ("place"));
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE (test063SingletonInit)
  */
 BOOST_AUTO_TEST_CASE (test064ListWithConversion)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "064-list-with-conversion.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "064-list-with-conversion.xml"));
 
         Variant v = cont->getBean ("mojaLista");
         BOOST_CHECK (!v.isNone ());
@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_CASE (test064ListWithConversion)
  */
 BOOST_AUTO_TEST_CASE (test065BeanWithConversion)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "065-bean-with-conversion.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "065-bean-with-conversion.xml"));
 
         Variant v = cont->getBean ("foo");
         BOOST_CHECK (!v.isNone ());

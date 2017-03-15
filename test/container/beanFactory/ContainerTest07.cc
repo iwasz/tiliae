@@ -8,14 +8,14 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <iostream>
 #include "core/Pointer.h"
 #include "testHelpers/TestHelpers.h"
+#include <iostream>
 
 #include "container/ContainerFactory.h"
+#include "container/metaStructure/model/MetaFactory.h"
 #include "container/metaStructure/model/MetaStructure.h"
 #include "container/testHelpers/ContainerTestFactory.h"
-#include "container/metaStructure/model/MetaFactory.h"
 
 /****************************************************************************/
 
@@ -34,9 +34,9 @@ BOOST_AUTO_TEST_SUITE (ContainerTest07);
  */
 BOOST_AUTO_TEST_CASE (testParentsOrder)
 {
-/*------Meta struktura------------------------------------------------------*/
+        /*------Meta struktura------------------------------------------------------*/
 
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
         MetaObject *meta = factory.newMetaObject ();
@@ -58,15 +58,14 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
         meta->setParent ("x_parent");
         metaCont->add (meta);
 
-/*------Kontener------------------------------------------------------------*/
+        /*------Kontener------------------------------------------------------------*/
 
         bool exception = false;
 
         try {
-                Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+                BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
-/*------Testy---------------------------------------------------------------*/
-
+                /*------Testy---------------------------------------------------------------*/
 
                 Variant v = cont->getBean ("a_main");
                 BOOST_CHECK (!v.isNone ());
@@ -87,9 +86,9 @@ BOOST_AUTO_TEST_CASE (testParentsOrder)
  */
 BOOST_AUTO_TEST_CASE (testGlobalInitMethod)
 {
-/*------Meta struktura------------------------------------------------------*/
+        /*------Meta struktura------------------------------------------------------*/
 
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         metaCont->setGlobalInitMethod ("init");
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
@@ -100,16 +99,16 @@ BOOST_AUTO_TEST_CASE (testGlobalInitMethod)
         meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         metaCont->add (meta);
 
-/*------Kontener------------------------------------------------------------*/
+        /*------Kontener------------------------------------------------------------*/
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
-/*------Testy---------------------------------------------------------------*/
+        /*------Testy---------------------------------------------------------------*/
 
         Variant v = cont->getBean ("bean");
         BOOST_CHECK (!v.isNone ());
 
-        City *c = vcast <City *> (v);
+        City *c = vcast<City *> (v);
         BOOST_CHECK_EQUAL (c->getName (), "Warszawa_INIT");
 }
 
@@ -119,9 +118,9 @@ BOOST_AUTO_TEST_CASE (testGlobalInitMethod)
  */
 BOOST_AUTO_TEST_CASE (testFaultyGlobalInitMethod)
 {
-/*------Meta struktura------------------------------------------------------*/
+        /*------Meta struktura------------------------------------------------------*/
 
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         metaCont->setGlobalInitMethod ("initThrow");
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
@@ -132,11 +131,11 @@ BOOST_AUTO_TEST_CASE (testFaultyGlobalInitMethod)
         meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         metaCont->add (meta);
 
-/*------Kontener------------------------------------------------------------*/
+        /*------Kontener------------------------------------------------------------*/
 
         BOOST_CHECK_THROW (ContainerFactory::createAndInit (metaCont), Core::Exception);
 
-/*------Testy---------------------------------------------------------------*/
+        /*------Testy---------------------------------------------------------------*/
 }
 
 /**
@@ -146,9 +145,9 @@ BOOST_AUTO_TEST_CASE (testFaultyGlobalInitMethod)
  */
 BOOST_AUTO_TEST_CASE (testNoInitMethodFound)
 {
-/*------Meta struktura------------------------------------------------------*/
+        /*------Meta struktura------------------------------------------------------*/
 
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         metaCont->setGlobalInitMethod ("initAaaaa");
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
@@ -159,17 +158,17 @@ BOOST_AUTO_TEST_CASE (testNoInitMethodFound)
         meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         metaCont->add (meta);
 
-/*------Kontener------------------------------------------------------------*/
+        /*------Kontener------------------------------------------------------------*/
 
         BOOST_REQUIRE_NO_THROW (ContainerFactory::createAndInit (metaCont));
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
-/*------Testy---------------------------------------------------------------*/
+        /*------Testy---------------------------------------------------------------*/
 
         Variant v = cont->getBean ("bean");
         BOOST_CHECK (!v.isNone ());
 
-        City *c = vcast <City *> (v);
+        City *c = vcast<City *> (v);
         BOOST_CHECK_EQUAL (c->getName (), "Warszawa");
 }
 
@@ -180,9 +179,9 @@ BOOST_AUTO_TEST_CASE (testNoInitMethodFound)
  */
 BOOST_AUTO_TEST_CASE (testGlobalIdAwareMethod)
 {
-/*------Meta struktura------------------------------------------------------*/
+        /*------Meta struktura------------------------------------------------------*/
 
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         metaCont->setGlobalIdAwareMethod ("setName");
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
@@ -192,16 +191,16 @@ BOOST_AUTO_TEST_CASE (testGlobalIdAwareMethod)
         meta->setScope (MetaObject::SINGLETON);
         metaCont->add (meta);
 
-/*------Kontener------------------------------------------------------------*/
+        /*------Kontener------------------------------------------------------------*/
 
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
-/*------Testy---------------------------------------------------------------*/
+        /*------Testy---------------------------------------------------------------*/
 
         Variant v = cont->getBean ("beanWwa");
         BOOST_CHECK (!v.isNone ());
 
-        City *c = vcast <City *> (v);
+        City *c = vcast<City *> (v);
         BOOST_CHECK_EQUAL (c->getName (), "beanWwa");
 }
 
@@ -211,9 +210,9 @@ BOOST_AUTO_TEST_CASE (testGlobalIdAwareMethod)
  */
 BOOST_AUTO_TEST_CASE (testGlobalIdAwareMethodNonExistent)
 {
-/*------Meta struktura------------------------------------------------------*/
+        /*------Meta struktura------------------------------------------------------*/
 
-        Ptr <MetaContainer> metaCont = std::make_shared <MetaContainer> ();
+        Ptr<MetaContainer> metaCont = std::make_shared<MetaContainer> ();
         metaCont->setGlobalIdAwareMethod ("setNameAaaa");
         MetaFactory factory (metaCont->getMemoryAllocator ());
 
@@ -224,17 +223,17 @@ BOOST_AUTO_TEST_CASE (testGlobalIdAwareMethodNonExistent)
         meta->addMapField (factory.newDataKey ("name", factory.newValueDataNewString ("Warszawa", "String")));
         metaCont->add (meta);
 
-/*------Kontener------------------------------------------------------------*/
+        /*------Kontener------------------------------------------------------------*/
 
         BOOST_REQUIRE_NO_THROW (ContainerFactory::createAndInit (metaCont));
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
-/*------Testy---------------------------------------------------------------*/
+        /*------Testy---------------------------------------------------------------*/
 
         Variant v = cont->getBean ("bean");
         BOOST_CHECK (!v.isNone ());
 
-        City *c = vcast <City *> (v);
+        City *c = vcast<City *> (v);
         BOOST_CHECK_EQUAL (c->getName (), "Warszawa");
 }
 

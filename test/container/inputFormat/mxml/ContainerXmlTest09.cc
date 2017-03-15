@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest09);
  */
 BOOST_AUTO_TEST_CASE (test041InitMethod)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "041-init-method.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "041-init-method.xml");
 
         Variant vB = cont->getBean ("city");
         BOOST_CHECK (ccast <City *> (vB));
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (test041InitMethod)
  */
 BOOST_AUTO_TEST_CASE (test042EmptyMapKey)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "042-map-with-empty-key.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "042-map-with-empty-key.xml");
 
         Variant vB = cont->getBean ("mojaMapa");
         BOOST_CHECK (ccast <StringMap *> (vB));
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE (test043MultipleIdBean)
  */
 BOOST_AUTO_TEST_CASE (test044PropertyInMap)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "044-property-in-map.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "044-property-in-map.xml");
 
         Variant vB = cont->getBean ("mojaMapa");
         BOOST_CHECK (ccast <StringMap *> (vB));
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE (test044PropertyInMap)
  */
 BOOST_AUTO_TEST_CASE (test045BaseTypesConstructors)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "045-base-types-constructors.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "045-base-types-constructors.xml");
 
         Variant vB = cont->getBean ("string1");
         BOOST_CHECK (ccast <std::string> (vB));

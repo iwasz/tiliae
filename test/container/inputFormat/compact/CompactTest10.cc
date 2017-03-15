@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE (CompactXmlTest10);
  */
 BOOST_AUTO_TEST_CASE (test046PropValue)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "046-prop-value-test-01.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "046-prop-value-test-01.xml"));
         Variant vB = cont->getBean ("bean1");
 
         StringMap *cit = vcast <StringMap *> (vB);
@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (test046PropValue)
  */
 BOOST_AUTO_TEST_CASE (test047CompoundProperties)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "047-compound-properties-basic.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "047-compound-properties-basic.xml"));
 
         Variant vB = cont->getBean ("multi");
         BOOST_CHECK (ccast <Bar *> (vB));
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (test047CompoundProperties)
  */
 BOOST_AUTO_TEST_CASE (test048PropertyOrder)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "048-property-order.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "048-property-order.xml"));
 
         Variant vB = cont->getBean ("multi01");
         BOOST_CHECK (ccast <Bar *> (vB));
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE (test049PropertyOrder)
  */
 BOOST_AUTO_TEST_CASE (test050PropertyOrderParent)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "050-property-order-parent.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "050-property-order-parent.xml"));
 
         Variant vB = cont->getBean ("parentMap");
         BOOST_REQUIRE (ccast <VariantMap *> (vB));

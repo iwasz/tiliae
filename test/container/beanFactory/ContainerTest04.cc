@@ -8,9 +8,9 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <iostream>
 #include "core/Pointer.h"
 #include "testHelpers/TestHelpers.h"
+#include <iostream>
 
 #include "container/ContainerFactory.h"
 #include "container/metaStructure/model/MetaStructure.h"
@@ -31,14 +31,14 @@ BOOST_AUTO_TEST_SUITE (ContainerTest04);
  */
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure15 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        Ptr<MetaContainer> metaCont = ContainerTestFactory::createMetaStructure15 ();
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
-/****************************************************************************/
+        /****************************************************************************/
 
         BOOST_CHECK (cont->getBeanFactoryMap ().size () == 1);
 
-/****************************************************************************/
+        /****************************************************************************/
 
         BeanFactory *bf = cont->getBeanFactory ("mojBean");
         BOOST_CHECK (bf);
@@ -50,21 +50,21 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
 
         VariantList::const_iterator i = vl->begin ();
 #ifdef WITH_CORE_STRING
-        BOOST_CHECK (vcast <String> (*i++) == "value2");
+        BOOST_CHECK (vcast<String> (*i++) == "value2");
 #else
         ++i;
 #endif
-        BOOST_CHECK (vcast <std::string> (*i++) == "value3");
-        BOOST_CHECK (vcast <int> (*i++) == 6667);
-        BOOST_CHECK (vcast <double> (*i++) == 123.45);
-        BOOST_CHECK (vcast <char> (*i++) == 'f');
-        BOOST_CHECK (vcast <bool> (*i++) == true);
+        BOOST_CHECK (vcast<std::string> (*i++) == "value3");
+        BOOST_CHECK (vcast<int> (*i++) == 6667);
+        BOOST_CHECK (vcast<double> (*i++) == 123.45);
+        BOOST_CHECK (vcast<char> (*i++) == 'f');
+        BOOST_CHECK (vcast<bool> (*i++) == true);
         BOOST_CHECK ((*i++).isNull ());
 
         IEditor *cargsEditor = bf->getCArgsEditor ();
         BOOST_CHECK (cargsEditor);
 
-/****************************************************************************/
+        /****************************************************************************/
 
         Variant v;
 
@@ -76,9 +76,9 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
         }
 
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Bar *> (v));
+        BOOST_CHECK (ccast<Bar *> (v));
 
-        Ptr <Bar> foo = vcast <Ptr <Bar> > (v);
+        Ptr<Bar> foo = vcast<Ptr<Bar>> (v);
 
         BOOST_CHECK_EQUAL (foo->getField0 (), "value2");
         BOOST_CHECK_EQUAL (foo->getField1 (), "value3");
@@ -94,20 +94,20 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgs)
  */
 BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure16 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        Ptr<MetaContainer> metaCont = ContainerTestFactory::createMetaStructure16 ();
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
-/****************************************************************************/
+        /****************************************************************************/
 
         BOOST_CHECK (cont->getBeanFactoryMap ().size () == 2);
 
-/****************************************************************************/
+        /****************************************************************************/
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Bar *> (v));
+        BOOST_CHECK (ccast<Bar *> (v));
 
-        Ptr <Bar> foo = vcast <Ptr <Bar> > (v);
+        Ptr<Bar> foo = vcast<Ptr<Bar>> (v);
 
         BOOST_CHECK (foo->getField0 () == "value2");
         BOOST_CHECK (foo->getField1 () == "value3");
@@ -121,16 +121,16 @@ BOOST_AUTO_TEST_CASE (testCreateOneSimpleWithCArgsAndRef)
  */
 BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
 {
-       Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure17 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        Ptr<MetaContainer> metaCont = ContainerTestFactory::createMetaStructure17 ();
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
-/****************************************************************************/
+        /****************************************************************************/
 
         Variant v = cont->getBean ("mojBean");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <Foo *> (v));
+        BOOST_CHECK (ccast<Foo *> (v));
 
-        Ptr <Foo> foo = vcast <Ptr <Foo> > (v);
+        Ptr<Foo> foo = vcast<Ptr<Foo>> (v);
 
         BOOST_CHECK (foo->getField0 () == "value0");
         BOOST_CHECK (foo->getField1 () == "value1");
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
         BOOST_CHECK (foo->getField5 () == true);
         BOOST_CHECK (!foo->getField6 ());
 
-/****************************************************************************/
+        /****************************************************************************/
 
         BOOST_CHECK (foo->getCity ());
         BOOST_CHECK (foo->getCity ()->getName () == "Warszawa");
@@ -154,29 +154,28 @@ BOOST_AUTO_TEST_CASE (testCreateBeanWithReferenceDoubleIter)
  */
 BOOST_AUTO_TEST_CASE (testCreateMapWithReferenceDoubleIter)
 {
-        Ptr <MetaContainer> metaCont = ContainerTestFactory::createMetaStructure18 ();
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (metaCont);
+        Ptr<MetaContainer> metaCont = ContainerTestFactory::createMetaStructure18 ();
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (metaCont);
 
-/****************************************************************************/
+        /****************************************************************************/
 
         City cit;
         City *cit0 = &cit;
         Variant v1 = Core::Variant (cit0);
         BOOST_CHECK (!v1.isNone ());
-        BOOST_CHECK (ccast <City *> (v1));
-        BOOST_CHECK (ccast <City const *> (v1));
-
+        BOOST_CHECK (ccast<City *> (v1));
+        BOOST_CHECK (ccast<City const *> (v1));
 
         Variant v = cont->getBean ("ncity1");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <City *> (v));
-        BOOST_CHECK (ccast <City const *> (v));
+        BOOST_CHECK (ccast<City *> (v));
+        BOOST_CHECK (ccast<City const *> (v));
 
         v = cont->getBean ("mojaMapka");
         BOOST_CHECK (!v.isNone ());
-        BOOST_CHECK (ccast <CityMap *> (v));
+        BOOST_CHECK (ccast<CityMap *> (v));
 
-        CityMap *map = vcast <CityMap *> (v);
+        CityMap *map = vcast<CityMap *> (v);
 
         BOOST_CHECK (map->size () == 3);
         BOOST_CHECK (map->find ("field0") != map->end ());

@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (test056NonExistentParent)
  */
 BOOST_AUTO_TEST_CASE (test057ListScopeTests)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "057-list-scope.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "057-list-scope.xml"));
 
         Variant v = cont->getBean ("listaSingleton");
         BarList *barList = vcast <BarList *> (v);
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE (test057ListScopeTests)
  */
 BOOST_AUTO_TEST_CASE (test058MapScopeTests)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "058-map-scope.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "058-map-scope.xml"));
 
         Variant v = cont->getBean ("listaSingleton");
         BarList *barList = vcast <BarList *> (v);
@@ -180,7 +180,7 @@ BOOST_AUTO_TEST_CASE (test058MapScopeTests)
  */
 BOOST_AUTO_TEST_CASE (test059ImportSimple)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "059-import.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "059-import.xml"));
 
         StringList *list = vcast <StringList *> (cont->getBean ("bean1"));
         BOOST_CHECK (list);
@@ -194,7 +194,7 @@ BOOST_AUTO_TEST_CASE (test059ImportSimple)
  */
 BOOST_AUTO_TEST_CASE (test060ImportAdvanced)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "060-import.xml"));
+        BeanFactoryContainer *cont = ContainerFactory::createAndInit (CompactMetaService::parseFile (PATH + "060-import.xml"));
 
         StringList * list = vcast <StringList *> (cont->getBean ("bean1"));
         BOOST_CHECK (list);

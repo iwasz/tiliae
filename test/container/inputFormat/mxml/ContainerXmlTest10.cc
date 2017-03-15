@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest10);
  */
 BOOST_AUTO_TEST_CASE (test046PropValue)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "046-prop-value-test-01.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "046-prop-value-test-01.xml");
 //TODO odkomentować, kiedy będzie zaimplementowane
 //                Variant vB = cont->getBean ("bean");
 
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (test046PropValue)
  */
 BOOST_AUTO_TEST_CASE (test047CompoundProperties)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "047-compound-properties-basic.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "047-compound-properties-basic.xml");
 
         Variant vB = cont->getBean ("multi");
         BOOST_CHECK (ccast <Bar *> (vB));
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE (test047CompoundProperties)
  */
 BOOST_AUTO_TEST_CASE (test048PropertyOrder)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "048-property-order.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "048-property-order.xml");
 
         Variant vB = cont->getBean ("multi01");
         BOOST_CHECK (ccast <Bar *> (vB));
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (test048PropertyOrder)
  */
 BOOST_AUTO_TEST_CASE (test049PropertyOrder)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "049-property-order.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "049-property-order.xml");
         BOOST_CHECK_THROW ((cont->getBean ("multi")), Core::Exception);
 }
 
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE (test049PropertyOrder)
  */
 BOOST_AUTO_TEST_CASE (test050PropertyOrderParent)
 {
-        Ptr <BeanFactoryContainer> cont = ContainerTestFactory::getContainer (PATH + "050-property-order-parent.xml");
+        BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "050-property-order-parent.xml");
 
         Variant vB = cont->getBean ("parentMap");
         BOOST_REQUIRE (ccast <VariantMap *> (vB));

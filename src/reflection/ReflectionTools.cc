@@ -6,12 +6,11 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#include <cassert>
-#include <boost/algorithm/string/case_conv.hpp>
-
 #include "ReflectionTools.h"
 #include "model/Class.h"
 #include "model/Method.h"
+#include <boost/algorithm/string/case_conv.hpp>
+#include <cassert>
 
 namespace Reflection {
 using Core::Variant;
@@ -21,14 +20,19 @@ using Core::Variant;
 Method *ReflectionTools::findGetter (Class *cls, const std::string &name)
 {
         assert (cls);
+        Method *m = cls->getMethod (getGetterName (name));
 
-        std::string methodName = getGetterName (name);
+        if (m) {
+                return m;
+        }
 
-#       if 0
-        std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << methodName << std::endl;
-#endif
+        m = cls->getMethod (getGetterName (name, true));
 
-        return cls->getMethod (methodName);
+        if (m) {
+                return m;
+        }
+
+        return nullptr;
 }
 
 /****************************************************************************/
@@ -37,7 +41,7 @@ Method *ReflectionTools::findMethod (Class *cls, const std::string &name)
 {
         assert (cls);
 
-#       if 0
+#if 0
         std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << methodName << std::endl;
 #endif
 
@@ -46,22 +50,31 @@ Method *ReflectionTools::findMethod (Class *cls, const std::string &name)
 
 /****************************************************************************/
 
-std::string ReflectionTools::getGetterName (const std::string &fieldName)
+std::string ReflectionTools::getGetterName (const std::string &fieldName, bool is)
 {
-        std::string methodName = "get" + fieldName;
-        methodName[3] = std::toupper (methodName[3]);
+        std::string methodName;
+
+        if (is) {
+                methodName = "is" + fieldName;
+                methodName[2] = std::toupper (methodName[2]);
+        }
+        else {
+                methodName = "get" + fieldName;
+                methodName[3] = std::toupper (methodName[3]);
+        }
+
         return methodName;
 }
 
 /****************************************************************************/
 
-Method *ReflectionTools::findSetter (Class *cls,  const std::string &name)
+Method *ReflectionTools::findSetter (Class *cls, const std::string &name)
 {
         assert (cls);
 
         std::string methodName = getSetterName (name);
 
-#       if 0
+#if 0
         std::cerr << "--> " << __FILE__ << "," << __FUNCTION__ << " @ " << __LINE__ << " : " << methodName << std::endl;
 #endif
 
@@ -82,8 +95,7 @@ std::string ReflectionTools::getSetterName (const std::string &fieldName)
 
 std::string ReflectionTools::getFieldName (const std::string &getterOrSetterName)
 {
-        if (getterOrSetterName.size () < 4)
-                return std::string ();
+        if (getterOrSetterName.size () < 4) return std::string ();
 
         std::string name = getterOrSetterName.substr (0, 3);
         name.replace (0, 1, boost::algorithm::to_lower_copy (name.substr (0, 1)));
@@ -106,12 +118,9 @@ MethodList ReflectionTools::getMethodsWithPrefix (Class *cls, const std::string 
                 Method *method = *i;
                 std::string methodName = method->getName ();
 
-                if (methodName.size () >= prefixLen + 1 &&
-                    methodName.substr (0, prefixLen) == prefix &&
-                    std::isupper (methodName[prefixLen])) {
+                if (methodName.size () >= prefixLen + 1 && methodName.substr (0, prefixLen) == prefix && std::isupper (methodName[prefixLen])) {
 
                         getters.push_back (method);
-
                 }
         }
 
@@ -120,17 +129,10 @@ MethodList ReflectionTools::getMethodsWithPrefix (Class *cls, const std::string 
 
 /****************************************************************************/
 
-MethodList ReflectionTools::getGetters (Class *cls)
-{
-        return getMethodsWithPrefix (cls, "get");
-}
+MethodList ReflectionTools::getGetters (Class *cls) { return getMethodsWithPrefix (cls, "get"); }
 
 /****************************************************************************/
 
-MethodList ReflectionTools::getSetters (Class *cls)
-{
-        return getMethodsWithPrefix (cls, "set");
-}
+MethodList ReflectionTools::getSetters (Class *cls) { return getMethodsWithPrefix (cls, "set"); }
 
 } // namespace
-

@@ -1,6 +1,14 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8 FATAL_ERROR)
 
-project (tiliae)
+if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
+if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0048 NEW)
+endif(COMMAND cmake_policy)
+
+project (tiliae VERSION 0.9)
 
 FUNCTION (TILIAE_PARSE PARSER_PATH SUFFIX INPUT_FILE OUTPUT_FILE)
         ADD_CUSTOM_COMMAND (OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/${OUTPUT_FILE}"

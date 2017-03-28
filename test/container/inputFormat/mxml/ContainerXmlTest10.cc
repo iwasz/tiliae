@@ -34,6 +34,7 @@ BOOST_AUTO_TEST_SUITE (ContainerXmlTest10);
 BOOST_AUTO_TEST_CASE (test046PropValue)
 {
         BeanFactoryContainer *cont = ContainerTestFactory::getContainer (PATH + "046-prop-value-test-01.xml");
+        (void *)cont; // Prevent this stupid warning message
 //TODO odkomentować, kiedy będzie zaimplementowane
 //                Variant vB = cont->getBean ("bean");
 

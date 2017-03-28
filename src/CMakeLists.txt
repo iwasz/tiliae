@@ -15,7 +15,7 @@ SET (BUILD_CONTAINER           ON CACHE BOOL "")
 SET (BUILD_DEMO                OFF CACHE BOOL "Whether to build demo, or not.")
 SET (BUILD_TESTS               OFF CACHE BOOL "Whether to build tests, or not.")
 SET (WITH_CORE_STRING          OFF CACHE BOOL "Deprecated.")
-SET (WITH_PARSER               ON CACHE BOOL "Reflection with custom clang parser.")
+#SET (WITH_PARSER               ON CACHE BOOL "Reflection with custom clang parser.")
 SET (WITH_ANNOTATIONS          OFF CACHE BOOL "Reflection with annotations.")
 
 if (WITH_CORE_STRING)
@@ -516,8 +516,13 @@ if (ANDROID)
 else ()
     add_library (tiliae SHARED ${LIB_SOURCES})
     TARGET_LINK_LIBRARIES (tiliae ${MXML_LIBRARIES})
+IF (WITH_CPPABI)
     TARGET_LINK_LIBRARIES (tiliae c++abi)
+ENDIF ()	
+	
+IF (WITH_PARSER)
     add_dependencies (tiliae tiliaeparser)
+ENDIF ()
 endif ()
 
 

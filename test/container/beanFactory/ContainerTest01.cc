@@ -61,6 +61,7 @@ BOOST_AUTO_TEST_CASE (testCreateContainer)
         metaCont = ContainerTestFactory::createMetaStructure05 ();
         cont = ContainerFactory::createAndInit (metaCont);
         // Jeśli do tej pory się nie wywaliło, to test jest OK i test uważamy za zaliczony.
+        (void *)cont; // Prevent this stupid warning message
 }
 
 /**

@@ -6,8 +6,8 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-#ifndef TYPEDEFS_H_
-#define TYPEDEFS_H_
+#ifndef TILIAE_TYPEDEFS_H_
+#define TILIAE_TYPEDEFS_H_
 
 #include <list>
 #include <vector>

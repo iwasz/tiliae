@@ -535,19 +535,15 @@ INSTALL (
 
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/../pc/tiliae.pc.in ${CMAKE_CURRENT_BINARY_DIR}/pc/tiliae.pc @ONLY)
 
-ADD_CUSTOM_TARGET("publish" DEPENDS tiliae COMMAND mkdir -p /tmp/installdir)
-#ADD_CUSTOM_TARGET("publish" DEPENDS tiliae COMMAND make install DESTDIR=/tmp/installdir)
+ADD_CUSTOM_TARGET("publish" DEPENDS tiliae COMMAND rm -Rf /tmp/installdir)
+ADD_CUSTOM_COMMAND(TARGET "publish" COMMAND mkdir -p /tmp/installdir)
 ADD_CUSTOM_COMMAND(TARGET "publish" COMMAND make install DESTDIR=/tmp/installdir)
 
 FIND_PROGRAM (FPM fpm)
-ADD_CUSTOM_COMMAND (TARGET "publish" COMMAND ${FPM} -f -s dir -t deb -n tiliae -v ${PROJECT_VERSION} -C /tmp/installdir/ -p tiliae_VERSION_ARCH.deb -d 'libmxml1 >= 2.8' usr/lib)
-ADD_CUSTOM_COMMAND (TARGET "publish" COMMAND ${FPM} -f -s dir -t deb -n tiliae-dev -v ${PROJECT_VERSION} -C /tmp/installdir/ -p tiliae-dev_VERSION_ARCH.deb -d 'tiliae = ${PROJECT_VERSION}' usr/include)
+ADD_CUSTOM_COMMAND (TARGET "publish" COMMAND ${FPM} -f -s dir -t deb -n libtiliae -v ${PROJECT_VERSION} -C /tmp/installdir/ -p libtiliae_VERSION_ARCH.deb -d 'libmxml1 >= 2.8' usr/lib)
+ADD_CUSTOM_COMMAND (TARGET "publish" COMMAND ${FPM} -f -s dir -t deb -n libtiliae-dev -v ${PROJECT_VERSION} -C /tmp/installdir/ -p libtiliae-dev_VERSION_ARCH.deb -d 'libtiliae = ${PROJECT_VERSION}' usr/include)
 FIND_PROGRAM (DPKGSIG dpkg-sig)
 ADD_CUSTOM_COMMAND (TARGET "publish" COMMAND ${DPKGSIG} -k 9EDE3F68 -s builder *.deb)
 FIND_PROGRAM (SCP scp)
-ADD_CUSTOM_COMMAND (TARGET "publish" COMMAND ${SCP} tiliae_${PROJECT_VERSION}_amd64.deb iwasz@iwasz.pl:/home/iwasz/domains/iwasz.pl/public_html/deb/)
-ADD_CUSTOM_COMMAND (TARGET "publish" COMMAND ${SCP} tiliae-dev_${PROJECT_VERSION}_amd64.deb iwasz@iwasz.pl:/home/iwasz/domains/iwasz.pl/public_html/deb/)
-
-
-
-
+ADD_CUSTOM_COMMAND (TARGET "publish" COMMAND ${SCP} libtiliae_${PROJECT_VERSION}_amd64.deb iwasz@iwasz.pl:/home/iwasz/domains/iwasz.pl/public_html/deb/)
+ADD_CUSTOM_COMMAND (TARGET "publish" COMMAND ${SCP} libtiliae-dev_${PROJECT_VERSION}_amd64.deb iwasz@iwasz.pl:/home/iwasz/domains/iwasz.pl/public_html/deb/)

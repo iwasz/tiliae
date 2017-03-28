@@ -16,6 +16,7 @@
 #include "clang/Tooling/Tooling.h"
 #include <clang/AST/ASTConsumer.h>
 #include <fstream>
+#include <libgen.h>
 #include <utility>
 
 const char *TILIAE_REFLECT_ANNOTATION_STRING = "__tiliae_reflect__";
@@ -396,8 +397,13 @@ R"(/*
 )";
         /* clang-format on */
 
+        std::string fullPath = OptionsParser.getSourcePathList ().front ();
+        char fullPathStr[8192];
+        strncpy (fullPathStr, fullPath.c_str (), 8192);
+        std::string relativePath = basename (fullPathStr);
+
         outputFile << "#include <reflection/Reflection.h>\n";
-        outputFile << "#include \"" << OptionsParser.getSourcePathList ().front () << "\"\n";
+        outputFile << "#include \"" << relativePath << "\"\n";
         outputFile << "\n";
         outputFile << "namespace {\n";
         outputFile << "using namespace Core;\n";

@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_CASE (testClassForType)
 //        cls = Manager::classForName ("VariantMap");
 //        BOOST_REQUIRE (cls);
 //
-        cls = Manager::classForType (typeid (StringList));
+        cls = Manager::classForType (typeid (Core::StringList));
         BOOST_REQUIRE (cls);
 
 //        cls = Manager::classForType (typeid (StringMap *));
@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_CASE (testStringListMethods)
         Variant obj = constr->newInstance ();
 
         BOOST_REQUIRE (!obj.isNone ());
-        BOOST_REQUIRE (ccast <StringList *> (obj));
+        BOOST_REQUIRE (ccast <Core::StringList *> (obj));
 
         Method *get = cls->getMethod ("get", 1);
         Method *add = cls->getMethod ("add", 1);

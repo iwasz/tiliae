@@ -1,6 +1,14 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8 FATAL_ERROR)
 
-project (tiliae)
+if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
+if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0048 NEW)
+endif(COMMAND cmake_policy)
+
+project (tiliae VERSION 0.9)
 
 SET (WITH_PARSER ON CACHE BOOL "Reflection with custom clang parser.")
 SET (WITH_CPPABI ON CACHE BOOL "Reflection with custom clang parser.")

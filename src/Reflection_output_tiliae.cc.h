@@ -13,6 +13,8 @@ using namespace Reflection;
 
 void createReflectionDatabase_tiliae ()
 {
+	Manager::init ();
+	
 	{
 		Class *clazz = new Class ("Object", typeid (Core::Object &), new Reflection::PtrDeleter <Core::Object>);
 		if (!Manager::add (clazz)) {

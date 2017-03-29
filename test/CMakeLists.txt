@@ -45,7 +45,7 @@ IF (BUILD_TEST_HELPERS AND BUILD_TESTS)
         ENDIF ()
 
         AUX_SOURCE_DIRECTORY (testHelpers SOURCES)
-        ADD_LIBRARY (testHelpers ${SOURCES})
+        ADD_LIBRARY (testHelpers STATIC ${SOURCES})
         TARGET_LINK_LIBRARIES (testHelpers tiliae)
 
 IF (WITH_CPPABI)

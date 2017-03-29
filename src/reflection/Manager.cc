@@ -71,7 +71,7 @@ Manager &Manager::instance ()
 void Manager::init ()
 {
         Manager &manager = Manager::instance ();
-
+	
         // 0. Jeśli zainicjowane, spadamy stąd.
         if (manager.initialized) {
                 return;

@@ -143,7 +143,7 @@ void CollectionAnnotation <std::list <T> >::run (std::string const &className)
                 delete clazz;
                 return;
         }
-
+		
         // Konstruktor
         IConstructorPointer *cp = Reflection::ConstructorPointerWrapper2 <std::list <T>, void>::Level1Wrapper::newConstructorPointer ();
         Constructor *constructor = new Constructor (cp);

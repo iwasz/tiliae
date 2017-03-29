@@ -20,8 +20,6 @@
 #ifndef CORE_78954789_PTR_H_
 #define CORE_78954789_PTR_H_
 
-namespace Core {
-
 /**
  * Krótsza nazwa dla std::shared_ptr.
  * Jest to zrobione po to, żeby uprościć korzystaine z shared_ptr, który imho ma
@@ -35,7 +33,11 @@ namespace Core {
  * będzie.
  * \ingroup CoreAPI
  */
-#define Ptr ::std::shared_ptr
+//#define Ptr ::std::shared_ptr
+template <typename T>
+using Ptr = ::std::shared_ptr<T>;
+
+namespace Core {
 
 using std::dynamic_pointer_cast;
 using std::const_pointer_cast;

@@ -512,7 +512,7 @@ ENDIF ()
 
 SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if (ANDROID)
-    add_library (tiliae STATIC ${LIB_SOURCES})	
+    add_library (tiliae STATIC ${LIB_SOURCES})
 else ()
     add_library (tiliae ${LIB_SOURCES})
     TARGET_LINK_LIBRARIES (tiliae ${MXML_LIBRARIES})

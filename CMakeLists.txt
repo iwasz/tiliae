@@ -12,6 +12,7 @@ project (tiliae VERSION 0.9)
 
 SET (WITH_PARSER ON CACHE BOOL "Reflection with custom clang parser.")
 SET (WITH_CPPABI ON CACHE BOOL "Reflection with custom clang parser.")
+SET (BUILD_SHARED_LIBS ON CACHE BOOL "")
 
 IF (WITH_PARSER)
 FUNCTION (TILIAE_PARSE PARSER_PATH SUFFIX INPUT_FILE OUTPUT_FILE)

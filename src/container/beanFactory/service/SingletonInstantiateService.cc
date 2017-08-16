@@ -49,6 +49,7 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
 
         if (isSingleton && !isLazyInit) {
                 Core::Variant v = beanFactory->create (Core::VariantMap (), &ctx);
+                delete beanFactory;
 
                 if (v.isNone ()) {
                         throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + toStr (meta->getId ()) + "].");

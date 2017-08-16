@@ -91,7 +91,6 @@ void createReflectionDatabase_tiliae ()
 			delete clazz;
 		}
 		else {
-			clazz->addMethod (new Method ("setBeanWrapper", createMethodWrapper (&k202::K202::setBeanWrapper)));
 		}
 	}
 	{

@@ -6,13 +6,11 @@
  *  ~~~~~~~~~                                                               *
  ****************************************************************************/
 
-
-#include <boost/lexical_cast.hpp>
 #include "Context.h"
 #include "Exceptions.h"
-#include "core/variant/Cast.h"
-#include "beanWrapper/IBeanWrapper.h"
 #include "beanWrapper/plugins/MethodPlugin.h"
+#include "core/variant/Cast.h"
+#include <boost/lexical_cast.hpp>
 
 namespace k202 {
 
@@ -31,13 +29,11 @@ Core::Variant Context::getParam (unsigned int idx) const
         }
 
         if (paramVector->size () <= idx) {
-                throw RuntimeException (std::string ("RuntimeException : Context::paramList has ") +
-                                boost::lexical_cast <std::string> (paramVector->size ()) +
-                                " elements, but [%" + boost::lexical_cast <std::string> (idx) +
-                                "] requested.");
+                throw RuntimeException (std::string ("RuntimeException : Context::paramList has ") + boost::lexical_cast<std::string> (paramVector->size ())
+                                        + " elements, but [%" + boost::lexical_cast<std::string> (idx) + "] requested.");
         }
 
-        return paramVector->operator [] (idx);
+        return paramVector->operator[] (idx);
 }
 
 /****************************************************************************/
@@ -67,7 +63,7 @@ Core::Variant Context::getArg (const std::string &path, bool conditional) const
         if ((!domain || domain->isNone ()) && (!argsMap || argsMap->empty ())) {
                 // Jeśli conditional, to nie wyjątek, a false
                 if (conditional) {
-                        //return Core::Variant (false);
+                        // return Core::Variant (false);
                         return Core::Variant ();
                 }
                 else {
@@ -123,8 +119,7 @@ void Context::setArg (const std::string &path, const Core::Variant &obj)
 Core::Variant Context::callFunction (const std::string &path, Core::VariantVector &args)
 {
         Core::Variant vh = getArg (path);
-        Ptr <Wrapper::Handler> handler = vcast <Ptr <Wrapper::Handler> > (vh);
+        Ptr<Wrapper::Handler> handler = vcast<Ptr<Wrapper::Handler>> (vh);
         return handler->invoke (&args);
 }
-
 }

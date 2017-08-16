@@ -9,14 +9,14 @@
 #ifndef K202_H_
 #define K202_H_
 
-#include "core/variant/Variant.h"
+#include "Context.h"
+#include "ReflectionParserAnnotation.h"
+#include "beanWrapper/IBeanWrapper.h"
 #include "core/Typedefs.h"
 #include "core/string/String.h"
-#include "Context.h"
+#include "core/variant/Variant.h"
 #include "extension/IExtension.h"
 #include "reflection/Reflection.h"
-#include "beanWrapper/IBeanWrapper.h"
-#include "ReflectionParserAnnotation.h"
 
 namespace k202 {
 
@@ -36,8 +36,7 @@ public:
         /**
          * Create new instance.
          */
-        static Ptr <K202> create (Ptr <Wrapper::IBeanWrapper> b = Ptr <Wrapper::IBeanWrapper> (),
-                                  Ptr <IExtension> ext = Ptr <IExtension> ());
+        static Ptr<K202> create (Ptr<Wrapper::IBeanWrapper> b = Ptr<Wrapper::IBeanWrapper> (), Ptr<IExtension> ext = Ptr<IExtension> ());
 
         /**
          * Return singleton one.
@@ -54,8 +53,7 @@ public:
          * zmienić). Natomiast argsMap przez wartość (nie można zmienić mapy, zmiany
          * są tylko lokalne i widoczne podczas działania skryptu).
          */
-        Core::Variant run (const std::string &sourceCode,
-                           const Core::Variant &domain = Core::Variant (),
+        Core::Variant run (const std::string &sourceCode, const Core::Variant &domain = Core::Variant (),
                            const Core::VariantVector &paramVector = Core::VariantVector (),
                            const Core::VariantMap &argsMap = Core::VariantMap ()) __tiliae_no_reflect__;
 
@@ -66,39 +64,32 @@ public:
          * setAll. Podobnie jest z paramVector, ale na początku idą parametry z
          * obiektu script a następnie z parametru paramVector tej metody.
          */
-        Core::Variant run (Ptr <Script> script,
-                           Core::Variant *domain = NULL,
-                           const Core::VariantVector &paramVector = Core::VariantVector (),
+        Core::Variant run (Ptr<Script> script, Core::Variant *domain = NULL, const Core::VariantVector &paramVector = Core::VariantVector (),
                            const Core::VariantMap &argsMap = Core::VariantMap ()) __tiliae_no_reflect__;
 
         // Tworzy nowy obiekt instrukcji.
-        Ptr <Script> prepare (const std::string &sourceCode,
-                        const Core::Variant &domain = Core::Variant (),
-                        const Core::VariantVector &paramVector = Core::VariantVector (),
-                        const Core::VariantMap &argsMap = Core::VariantMap ()) __tiliae_no_reflect__;
+        Ptr<Script> prepare (const std::string &sourceCode, const Core::Variant &domain = Core::Variant (),
+                             const Core::VariantVector &paramVector = Core::VariantVector (),
+                             const Core::VariantMap &argsMap = Core::VariantMap ()) __tiliae_no_reflect__;
 
-/*--------------------------------------------------------------------------*/
+        /*--------------------------------------------------------------------------*/
 
         Wrapper::IBeanWrapper const *getBeanWrapper () const __tiliae_no_reflect__ { return ctx.getBeanWrapper (); }
         Wrapper::IBeanWrapper *getBeanWrapper () __tiliae_no_reflect__ { return ctx.getBeanWrapper (); }
-        REFLECTION_SETTER (setBeanWrapper) void setBeanWrapper (Wrapper::IBeanWrapper *b) { ctx.setBeanWrapper (b); }
+        void setBeanWrapper (std::unique_ptr<Wrapper::IBeanWrapper> b) __tiliae_no_reflect__ { ctx.setBeanWrapper (std::move (b)); }
 
 private:
-
-        template <typename T>
-        static T createHelper (Ptr <IExtension> ext);
+        template <typename T> static T createHelper (Ptr<IExtension> ext);
 
         K202 () {}
         K202 (const K202 &) {}
 
 private:
-
         Context ctx;
-        Ptr <Compiler> compiler;
+        Ptr<Compiler> compiler;
 
         REFLECTION_END (K202)
 };
-
 }
 
 #endif /* K202_H_ */

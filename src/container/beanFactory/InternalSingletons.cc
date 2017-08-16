@@ -24,6 +24,7 @@ InternalSingletons::~InternalSingletons()
         delete beanWrapperConversionForSingletons;
         delete beanWrapperConversionForPrototypes;
         delete strCon_BW_Proto;
+        delete beanWrapperForMethods;
 }
 
 Core::Variant InternalSingletons::get (std::string const &key) const

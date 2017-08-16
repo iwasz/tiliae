@@ -9,14 +9,11 @@
 #ifndef CONTEXT_K202_H_
 #define CONTEXT_K202_H_
 
-#include "core/variant/Variant.h"
+#include "beanWrapper/IBeanWrapper.h"
+#include "core/Pointer.h"
 #include "core/Typedefs.h"
 #include "core/string/String.h"
-#include "core/Pointer.h"
-
-namespace Wrapper {
-class IBeanWrapper;
-}
+#include "core/variant/Variant.h"
 
 namespace k202 {
 
@@ -27,13 +24,12 @@ namespace k202 {
  */
 class TILIAE_API Context {
 public:
-
-        Context () : paramVector (NULL), argsMap (NULL), domain (NULL), bwrap (NULL) {}
+        Context () : paramVector (NULL), argsMap (NULL), domain (NULL) {}
         virtual ~Context () {}
 
-        Wrapper::IBeanWrapper *getBeanWrapper () { return bwrap; }
-        Wrapper::IBeanWrapper const *getBeanWrapper () const { return bwrap; }
-        void setBeanWrapper (Wrapper::IBeanWrapper *b) { bwrap = b; }
+        Wrapper::IBeanWrapper *getBeanWrapper () { return bwrap.get (); }
+        Wrapper::IBeanWrapper const *getBeanWrapper () const { return bwrap.get (); }
+        void setBeanWrapper (std::unique_ptr<Wrapper::IBeanWrapper> b) { bwrap = std::move (b); }
 
         Core::Variant *getDomain () const { return domain; }
         void setDomain (Core::Variant *domain) { this->domain = domain; }
@@ -55,15 +51,12 @@ public:
         Core::Variant callFunction (const std::string &path, Core::VariantVector &args);
 
 private:
-
         Core::VariantVector *paramVector;
         Core::VariantMap *argsMap;
         Core::Variant *domain;
-        Wrapper::IBeanWrapper *bwrap;
+        std::unique_ptr<Wrapper::IBeanWrapper> bwrap;
         Core::Variant mapAsVariant;
-
 };
-
 }
 
 #endif /* CONTEXT_H_ */

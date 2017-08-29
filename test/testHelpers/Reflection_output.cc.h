@@ -169,7 +169,7 @@ void createReflectionDatabase_testHelpers ()
 		}
 		else {
 			clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <Bar, const std::string &, const std::string &, int, double, char, _Bool, char *>::Level1Wrapper::newConstructorPointer ()));
-			clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <Bar, const std::string &, const std::string &, ::std::shared_ptr<City>>::Level1Wrapper::newConstructorPointer ()));
+			clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <Bar, const std::string &, const std::string &, Ptr<class City>>::Level1Wrapper::newConstructorPointer ()));
 			clazz->addConstructor (new Constructor (Reflection::ConstructorPointerWrapper2 <Bar, const Core::Variant &>::Level1Wrapper::newConstructorPointer ()));
 			clazz->addField (new Field ("city4", Reflection::createFieldWrapper (&Bar::city4)));
 			clazz->addField (new Field ("city5", Reflection::createFieldWrapper (&Bar::city5)));
@@ -470,7 +470,6 @@ void createReflectionDatabase_testHelpers ()
 			delete clazz;
 		}
 		else {
-			clazz->addMethod (new Method ("setBeanWrapper", createMethodWrapper (&k202::K202::setBeanWrapper)));
 		}
 	}
 	{

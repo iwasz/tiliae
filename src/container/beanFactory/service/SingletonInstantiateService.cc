@@ -7,9 +7,10 @@
  ****************************************************************************/
 
 #include "SingletonInstantiateService.h"
+#include "container/beanFactory/BeanFactoryContext.h"
+#include "container/beanFactory/BeanFactoryContext.h"
 #include "container/metaStructure/model/MetaStructure.h"
 #include <cassert>
-#include "container/beanFactory/BeanFactoryContext.h"
 
 namespace Container {
 
@@ -22,7 +23,7 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         }
 
         BeanFactoryVisitorContext *bfCtx = getBVFContext ();
-        BeanFactoryMap *bfMap = bfCtx->getBeanFactoryMap();
+        BeanFactoryMap *bfMap = bfCtx->getBeanFactoryMap ();
         BeanFactory *beanFactory = bfCtx->getCurrentBF ();
         BeanFactoryContainer *container = bfCtx->getBeanFactoryContainer ();
 
@@ -44,12 +45,18 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         // Instancjonowanie
         BeanFactoryContext ctx;
 
-        bool isSingleton = (static_cast <MetaObject::Scope> (beanFactory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
+        bool isSingleton = (static_cast<MetaObject::Scope> (beanFactory->getIntAttribute (Attributes::SCOPE_ARGUMENT)) == MetaObject::SINGLETON);
         bool isLazyInit = beanFactory->getBoolAttribute (Attributes::LAZYINIT_ARGUMENT);
 
         if (isSingleton && !isLazyInit) {
                 Core::Variant v = beanFactory->create (Core::VariantMap (), &ctx);
-                delete beanFactory;
+
+                if (beanFactory->isMarkForDeletion ()) {
+                        delete beanFactory;
+                }
+                else {
+                        bfMap->operator[] (beanFactory->getId ()) = beanFactory;
+                }
 
                 if (v.isNone ()) {
                         throw ContainerException (ctx, "ContainerFactory::fill : error creating singleton [" + toStr (meta->getId ()) + "].");
@@ -62,5 +69,4 @@ bool SingletonInstantiateService::onMetaEnd (MetaObject const *meta)
         bfCtx->setCurrentBF (NULL);
         return true;
 }
-
 }

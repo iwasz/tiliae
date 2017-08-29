@@ -84,6 +84,8 @@ namespace {
                         return std::string (m->getClass ()) + "_" + boost::lexical_cast<std::string> (singetinNumber++);
                 }
 
+                static void mxmlErrorCallback (const char *s);
+
                 /// Tu odkładają się nazwy kolejnych (zagnieżdżonych tagów).
                 Core::StringVector tagStack;
 
@@ -674,6 +676,10 @@ namespace {
 
 /****************************************************************************/
 
+void Impl::mxmlErrorCallback (const char *s) { throw XmlMetaServiceException ("MXmlMetaService::parseFile : XML has errors [" + std::string (s) + "]"); }
+
+/****************************************************************************/
+
 Ptr<MetaContainer> MXmlMetaService::parseFile (Common::DataSource *ds, std::string const &path, Ptr<MetaContainer> container)
 {
         if (!container) {
@@ -689,9 +695,8 @@ Ptr<MetaContainer> MXmlMetaService::parseFile (Common::DataSource *ds, std::stri
         loadDataSource (ds, &xml);
         ds->close ();
 
-        if (!mxmlSAXLoadString (NULL, xml.c_str (), MXML_OPAQUE_CALLBACK, saxHandler, &impl)) {
-                throw XmlMetaServiceException ("MXmlMetaService::parseFile : XML has errors");
-        }
+        mxmlSetErrorCallback (&Impl::mxmlErrorCallback);
+        mxmlSAXLoadString (NULL, xml.c_str (), MXML_OPAQUE_CALLBACK, saxHandler, &impl);
 
         while (!impl.imports.empty ()) {
                 std::string path = impl.imports.front ();

@@ -110,6 +110,8 @@ BOOST_AUTO_TEST_CASE (testGlobalInitMethod)
 
         City *c = vcast<City *> (v);
         BOOST_CHECK_EQUAL (c->getName (), "Warszawa_INIT");
+
+        delete cont;
 }
 
 /**

@@ -32,7 +32,8 @@ BeanFactory::BeanFactory (BeanFactoryContainer *c)
       beanWrapper (NULL),
       outerBeanFactory (NULL),
       innerBeanFactories (NULL),
-      container (c)
+      container (c),
+      markForDeletion (false)
 {
 }
 
@@ -266,7 +267,8 @@ Core::Variant BeanFactory::create (const Core::VariantMap &, Core::DebugContext 
                                 map->erase (id);
 
                                 // Dodaj singleton
-                                delete this;
+                                // delete this;
+                                markForDeletion = true;
                         }
                 }
 
